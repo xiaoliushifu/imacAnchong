@@ -30,4 +30,13 @@
 Route::group(['domain' => 'admin.anchong.net'], function () {
      //首页路由
      Route::get('/','admin\indexController@index');
+     Route::get('/{path}/{path1}/{path2}',function($path,$path1,$path2){
+         return view("admin.$path.$path1.".substr($path2,0,-10));
+     });
+     Route::get('/{path}/{path1}',function($path,$path1){
+         return view("admin.$path.".substr($path1,0,-10));
+     });
+     Route::get('/{path}',function($path){
+         return view("admin.".substr($path,0,-10));
+     });
 });
