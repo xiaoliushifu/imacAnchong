@@ -28,6 +28,8 @@
 
 //后台路由
 Route::group(['domain' => 'admin.anchong.net'], function () {
-     //首页路由
-     Route::get('/','admin\indexController@index');
+    //首页路由
+    Route::get('/','admin\indexController@index');
+	//订单管理路由
+	Route::resource('/order','admin\orderController');
 });

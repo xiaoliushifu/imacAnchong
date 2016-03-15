@@ -67,16 +67,12 @@
 		<li class="treeview">
 			<a href="#">
 				<i class="fa fa-laptop"></i>
-				<span>UI Elements</span>
+				<span>订单管理</span>
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
-				<li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> General</a></li>
-				<li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Icons</a></li>
-				<li><a href="pages/UI/buttons.html"><i class="fa fa-circle-o"></i> Buttons</a></li>
-				<li><a href="pages/UI/sliders.html"><i class="fa fa-circle-o"></i> Sliders</a></li>
-				<li><a href="pages/UI/timeline.html"><i class="fa fa-circle-o"></i> Timeline</a></li>
-				<li><a href="pages/UI/modals.html"><i class="fa fa-circle-o"></i> Modals</a></li>
+				<li><a href="/order"><i class="fa fa-circle-o"></i>订单列表</a></li>
+				<li><a href="/order/create"><i class="fa fa-circle-o"></i>订单添加</a></li>
 			</ul>
 		</li>
 		<li class="treeview">
