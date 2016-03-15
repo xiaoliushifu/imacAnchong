@@ -30,4 +30,8 @@
 Route::group(['domain' => 'admin.anchong.net'], function () {
      //首页路由
      Route::get('/','admin\indexController@index');
+     //用户路由
+     Route::get('/users','admin\users\usersController@index');
+     //用户管理
+     Route::get('/users/man','admin\users\userManController@index');
 });
