@@ -34,4 +34,6 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
      Route::get('/users','admin\users\usersController@index');
      //用户管理
      Route::get('/users/man','admin\users\userManController@index');
+	//订单管理路由
+	Route::resource('/order','admin\orderController');
 });
