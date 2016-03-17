@@ -47,13 +47,21 @@ class CaptchaController extends Controller
         $secretkey='0a01baddfb5b3a18cb5fdc9c8c4ebefa';
         //创建短信验证类
         $alisms = new \App\SMS\AliSms($appkey, $secretkey, '', '');
+        //生成随机的验证码
+        $code = rand(100000,999999);
         //得到结果
-        $result = $alisms->sign('注册验证')->data(['code'=>'55555','product'=>'anchong'])->code('SMS_6135740')->send('18103732106');
+        $result = $alisms->sign('注册验证')->data(['code' => strval($code), 'product' => 'anchong'])->code('SMS_6135740')->send('13462344969');
+        //将返回的json数据转成数组
         $result = json_decode($result,true);
-        if($result['alibaba_aliqin_fc_sms_num_send_response']['result']['success']){
-            echo '发送成功!';
-        }else{
-            print_r($result);
+        //根据返回的json数据信息判断是否发送成功，并输出内容
+        foreach ($result as $key => $value) {
+            if($key == 'error_response'){
+                echo '发送失败，'.$value['sub_msg'].'，请重新发送！';
+            }elseif($key == 'alibaba_aliqin_fc_sms_num_send_response' && $value['result']['success'] == '1'){
+                echo '发送成功！';
+            }else{
+                echo '发送失败，请重新发送！';
+            }
         }
     }
 }

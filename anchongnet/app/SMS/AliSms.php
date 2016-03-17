@@ -94,24 +94,7 @@ class AliSms {
 		if($phone!==''){
 			$this->phone($phone);
 		}
-		$result = $this->_send();
-		//$json = json_decode($result,true);
-        //return $json;
-		// if($json!==null){
-        //     if($json[error_reponse]){
-        //         foreach($json[error_reponse][result] as $v){
-    	// 			$json = $v;
-        //         }
-        //         return $json['sub_msg'];
-        //     }elseif($json[alibaba_aliqin_fc_sms_num_send_response]) {
-        //         foreach($json[alibaba_aliqin_fc_sms_num_send_response][result] as $v){
-    	// 			$json = $v;
-    	// 		}
-        //         return $json['success'];
-        //     }
-		// }else{
-		// 	return ['status'=>0,'info'=>'返回内容解析错误','data'=>$result];
-		// }
+		return $result = $this->_send();
 	}
 
 	public function __construct($param1 = "",$param2 = "",$param3 = "",$param4 = ""){
