@@ -73,7 +73,6 @@
 			<ul class="treeview-menu">
 
 				<li><a href="/order"><i class="fa fa-circle-o"></i>订单列表</a></li>
-				<li><a href="/order/create"><i class="fa fa-circle-o"></i>订单添加</a></li>
 
 			</ul>
 		</li>
