@@ -52,6 +52,7 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
 
 });
 
+
 //验证码类
 Route::get('/captcha/{num}', 'CaptchaController@captcha');
 //手机验证类

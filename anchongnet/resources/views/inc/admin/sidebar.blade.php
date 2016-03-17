@@ -35,11 +35,11 @@
 		<li class="treeview">
 			<a href="#">
 				<i class="fa fa-files-o"></i>
-				<span>Layout Options</span>
+				<span>布局选项</span>
 				<span class="label label-primary pull-right">4</span>
 			</a>
 			<ul class="treeview-menu">
-				<li><a href="/pages/layout/top-nav.blade.php"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
+				<li><a href="/pages/layout/top-nav.blade.php"><i class="fa fa-circle-o"></i> 顶部导航</a></li>
 				<li><a href="/pages/layout/boxed.blade.php"><i class="fa fa-circle-o"></i> Boxed</a></li>
 				<li><a href="/pages/layout/fixed.blade.php"><i class="fa fa-circle-o"></i> Fixed</a></li>
 				<li><a href="/pages/layout/collapsed-sidebar.blade.php"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
@@ -47,7 +47,7 @@
 		</li>
 		<li>
 			<a href="/pages/widgets.blade.php">
-				<i class="fa fa-th"></i> <span>Widgets</span>
+				<i class="fa fa-th"></i> <span>小部件</span>
 				<small class="label pull-right bg-green">new</small>
 			</a>
 		</li>
@@ -79,7 +79,7 @@
 		</li>
 		<li class="treeview">
 			<a href="#">
-				<i class="fa fa-edit"></i> <span>Forms</span>
+				<i class="fa fa-edit"></i> <span>表单</span>
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
@@ -90,7 +90,7 @@
 		</li>
 		<li class="treeview">
 			<a href="#">
-				<i class="fa fa-table"></i> <span>Tables</span>
+				<i class="fa fa-table"></i> <span>表格</span>
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
@@ -100,19 +100,19 @@
 		</li>
 		<li>
 			<a href="/pages/calendar.blade.php">
-				<i class="fa fa-calendar"></i> <span>Calendar</span>
+				<i class="fa fa-calendar"></i> <span>日历</span>
 				<small class="label pull-right bg-red">3</small>
 			</a>
 		</li>
 		<li>
 			<a href="/pages/mailbox/mailbox.blade.php">
-				<i class="fa fa-envelope"></i> <span>Mailbox</span>
+				<i class="fa fa-envelope"></i> <span>邮箱</span>
 				<small class="label pull-right bg-yellow">12</small>
 			</a>
 		</li>
 		<li class="treeview">
 			<a href="#">
-				<i class="fa fa-folder"></i> <span>Examples</span>
+				<i class="fa fa-folder"></i> <span>小示例</span>
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
@@ -129,7 +129,7 @@
 		</li>
 		<li class="treeview">
 			<a href="#">
-				<i class="fa fa-share"></i> <span>Multilevel</span>
+				<i class="fa fa-share"></i> <span>多级</span>
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
