@@ -33,3 +33,9 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
 	//订单管理路由
 	Route::resource('/order','admin\orderController');
 });
+
+Route::group(['middleware' => 'web'], function () {
+    Route::auth();
+
+    Route::get('/home', 'HomeController@index');
+});
