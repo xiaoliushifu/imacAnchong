@@ -11,10 +11,6 @@
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -26,6 +22,16 @@
 |
 */
 
+//接口路由组
+Route::group(['domain' => 'api.anchong.net'], function () {
+    //加上token验证的api
+    Route::group(['middleware' => 'AppPrivate'], function () {
+        Route::get('/index',function(){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>'1']);
+        });
+    });
+
+});
 //后台路由
 Route::group(['domain' => 'admin.anchong.net'], function () {
      //首页路由
@@ -34,8 +40,8 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
      Route::get('/users','admin\users\usersController@index');
      //用户管理
      Route::get('/users/man','admin\users\userManController@index');
-   	//订单管理路由
-   	Route::resource('/order','admin\orderController');
+     //订单管理路由
+   	 Route::resource('/order','admin\orderController');
 
      //视图下两层目录下的模版显示
      Route::get('/{path}/{path1}/{path2}',function($path,$path1,$path2){
@@ -53,7 +59,7 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
 });
 
 
-//验证码类
+//验证码类,需要传入数字
 Route::get('/captcha/{num}', 'CaptchaController@captcha');
-//手机验证类
-Route::get('/smsauth', 'CaptchaController@smsAuth');
+//手机验证类，第一个参数需要用户行为，第二个参数需要电话号码
+Route::get('/smsauth/{action}/{phone}', 'CaptchaController@smsAuth');

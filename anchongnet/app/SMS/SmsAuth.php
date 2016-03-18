@@ -1,37 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use Session,Redirect,Request;
-use Gregwar\Captcha\CaptchaBuilder;
-
+namespace App\SMS;
 /**
-*
-*   该类属于验证码的专用类负责生成验证码
-*
+*   使用方法:为手机短信验证服务
 */
-class CaptchaController extends Controller
-{
-    /**
-    *   验证码的生成
-    */
-    public function captcha($num)
-    {
-       $builder = new CaptchaBuilder;
-       //可以设置图片宽高及字体
-       $builder->build($width = 100, $height = 34, $font = null);
-       //获取验证码的内容
-       $phrase = $builder->getPhrase();
-       //把内容存入session
-       Session::flash('adminmilkcaptcha', $phrase);
-       //生成图片
-       header("Cache-Control: no-cache, must-revalidate");
-       header('Content-Type: image/jpeg');
-       return $builder->output();
-    }
-
+class smsAuth {
     /**
     *   生成手机验证码
     *   短信签名：大鱼测试   活动验证    变更验证    登录验证    注册验证    身份验证
@@ -50,7 +23,7 @@ class CaptchaController extends Controller
         $alisms = new \App\SMS\AliSms($appkey, $secretkey, '', '');
         //生成随机的验证码
         $code = rand(100000,999999);
-        //创建数组
+        //创建短信内容信息数组
         $smsarr=array();
         //判断用户行为
         switch ($action) {
