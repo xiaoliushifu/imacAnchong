@@ -1,6 +1,8 @@
 <?php
 
 namespace App\SMS;
+
+use Redis;
 /**
 *   使用方法:为手机短信验证服务
 */
@@ -27,16 +29,16 @@ class smsAuth {
         $smsarr=array();
         //判断用户行为
         switch ($action) {
-            case '登录验证':
-                $smsarr=['data' => ['code' => strval($code), 'product' => '安虫平台'], 'code' => 'SMS_6135742'];
-                break;
             case '注册验证':
                 $smsarr=['data' => ['code' => strval($code), 'product' => '安虫平台'], 'code' => 'SMS_6135740'];
+                break;
+            case '登录验证':
+                $smsarr=['data' => ['code' => strval($code), 'product' => '安虫平台'], 'code' => 'SMS_6135742'];
                 break;
             case '修改密码':
                 $smsarr=['data' => ['code' => strval($code), 'product' => '安虫平台'], 'code' => 'SMS_6135738'];
                 break;
-            case '身份认证':
+            case '身份验证':
                 $smsarr=['data' => ['code' => strval($code), 'product' => '安虫平台'], 'code' => 'SMS_6135744'];
                 break;
             default:
@@ -50,11 +52,13 @@ class smsAuth {
         //根据返回的json数据信息判断是否发送成功，并输出内容
         foreach ($result as $key => $value) {
             if($key == 'error_response'){
-                return '发送失败，'.$value['sub_msg'].'，请重新发送！';
+                return [false,'发送失败，'.$value['sub_msg'].'，请重新发送！'];
             }elseif($key == 'alibaba_aliqin_fc_sms_num_send_response' && $value['result']['success'] == '1'){
-                return ['发送成功！', $code];
+                $redis = Redis::connection();
+                $redis->set($phone, $code);
+                return [true,'发送成功！'];
             }else{
-                return '发送失败，请重新发送！';
+                return [false,'发送失败，请重新发送！'];
             }
         }
     }

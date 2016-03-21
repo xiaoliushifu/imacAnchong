@@ -26,9 +26,11 @@
 Route::group(['domain' => 'api.anchong.net'], function () {
     //加上token验证的api
     Route::group(['middleware' => 'AppPrivate'], function () {
-        Route::get('/index',function(){
+        Route::post('/index',function(){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>'1']);
         });
+        Route::post('/user/smsauth','Api\User\UserController@smsauth');
+        Route::post('/user/register','Api\User\UserController@register');
     });
 
 });
