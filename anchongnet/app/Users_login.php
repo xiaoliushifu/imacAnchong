@@ -10,7 +10,9 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Redirect;
-
+/*
+*   该模型是操作用户登录表的模块
+*/
 class Users_login extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
                                     CanResetPasswordContract
@@ -38,13 +40,17 @@ class Users_login extends Model implements AuthenticatableContract,
      */
     public  $timestamps=false;
 
-    //添加用户
+    /*
+    *   该方法是添加登录用户账号密码的方法，在注册成功之后会返回用户Token和用户ID还有用户权限
+    */
     public function add($user_data)
     {
+        //将数据存入登录表
         $this->fill($user_data);
         if($this->save()){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['users_rank'=>0,'token'=>$user_data['token'],'guid'=> $user_data['users_id']]]);
         }else{
+            //因为这个是多表插入，为了防止意外，在第一个用户表插入成功后第二个表插入失败时，会去删除第一个表中已插入的数据来确保数据的正确性
             $users=new \App\Users();
             if($users->del($user_data['users_id'])){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>'为了保证您的安全，请重新注册','ResultData'=>""]);

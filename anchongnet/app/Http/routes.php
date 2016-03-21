@@ -26,10 +26,9 @@
 Route::group(['domain' => 'api.anchong.net'], function () {
     //加上token验证的api
     Route::group(['middleware' => 'AppPrivate'], function () {
-        Route::post('/index',function(){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>'1']);
-        });
+        //短信验证码的接口
         Route::post('/user/smsauth','Api\User\UserController@smsauth');
+        //用户注册的接口
         Route::post('/user/register','Api\User\UserController@register');
     });
 
