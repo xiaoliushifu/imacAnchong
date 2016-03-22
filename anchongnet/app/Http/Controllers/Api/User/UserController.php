@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Redis;
 use Validator;
 use Hash;
+use Auth;
 
 /*
 *   该类是手机Api接口的用户相关的控制器
@@ -91,6 +92,35 @@ class UserController extends Controller
         }else {
 
         }
+    }
 
+    /*
+    *   用户登录
+    */
+    public function login(Request $request)
+    {
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        $username=$param['username'];
+        $password=$param['password'];
+        if (Auth::attempt(['username' => $username, 'password' => $password]))
+        {
+            $users_login = new \App\Users_login();
+            $token=md5($username.time());
+            //登录以后通过账号查询用户ID
+            $user_data = $users_login->quer(['users_id'],['username' =>$username])->toArray();
+            //插入新TOKEN
+            if($users_login->addToken(['token'=>$token],$user_data[0]['users_id'])){
+                //创建用户表对象
+                $users=new \App\Users();
+                //通过用户ID查出来用户权限等级
+                $users_rank=$users->quer('users_rank',['users_id'=>$user_data[0]['users_id']]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['users_rank'=>$users_rank[0]['users_rank'],'token'=>$token,'guid'=> $user_data[0]['users_id']]]);
+            }else{
+                return response()->json(['serverTime'=>time(),'当前用户Token已过期','ResultData'=>""]);
+            }
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>'账号密码错误','ResultData'=>""]);
+        }
     }
 }

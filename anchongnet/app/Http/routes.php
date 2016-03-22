@@ -30,6 +30,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/user/smsauth','Api\User\UserController@smsauth');
         //用户注册的接口
         Route::post('/user/register','Api\User\UserController@register');
+        //用户登录的接口
+        Route::post('/user/login','Api\User\UserController@login');
     });
 
 });

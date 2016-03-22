@@ -62,15 +62,17 @@ class Users_login extends Model implements AuthenticatableContract,
 
     }
 
-    //登陆时的显示
-    public function quer($field,$quer_data)
+    /*
+    *   登陆时的显示用户的token和用户id
+    */
+    public function quer($field, $quer_data)
     {
         return $this->select($field)->where($quer_data)->get();
     }
 
     //登陆是更新token
-    public function addToken($user_data,$userid){
-        $user=$this->find($userid);
+    public function addToken($user_data, $users_id){
+        $user=$this->where('users_id', '=', $users_id);
         if($user->update($user_data)){
             return true;
         }else{

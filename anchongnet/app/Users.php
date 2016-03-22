@@ -66,6 +66,20 @@ class Users extends Model implements AuthenticatableContract,
         }else{
             return false;
         }
+    }
 
+    /*
+    *   查询用户等级
+    */
+    public function quer($field,$quer_data)
+    {
+        return $this->select($field)->where($quer_data)->get();
+    }
+    /*
+    *   后台用户数据
+    */
+    public function admin_quer($column)
+    {
+        return $this->select($column)->get();
     }
 }
