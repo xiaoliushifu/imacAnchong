@@ -64,5 +64,3 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
 
 //验证码类,需要传入数字
 Route::get('/captcha/{num}', 'CaptchaController@captcha');
-//手机验证类，第一个参数需要用户行为，第二个参数需要电话号码
-Route::get('/smsauth/{action}/{phone}', 'CaptchaController@smsAuth');

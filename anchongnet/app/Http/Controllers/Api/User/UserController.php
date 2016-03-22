@@ -46,6 +46,7 @@ class UserController extends Controller
         if(isset($param['phone'])){
             $data=$request::all();
             $param=json_decode($data['param'],true);
+            //验证用户传过来的数据是否合法
             $validator = Validator::make($param,
             [
                 'password' => 'required|min:6',
@@ -53,6 +54,7 @@ class UserController extends Controller
                 'phonecode' => 'required',
             ]
             );
+            //如果出错返回出错信息，如果正确执行下面的操作
             if ($validator->fails())
             {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>'账号已注册或密码小于六位','ResultData'=>""]);
@@ -88,9 +90,9 @@ class UserController extends Controller
                 }
             }
         }elseif(isset($param['email'])) {
-
+            //将来邮箱注册的时候预留的接口
         }else {
-
+            //将来用户名注册的时候预留的接口
         }
     }
 
@@ -101,11 +103,14 @@ class UserController extends Controller
     {
         $data=$request::all();
         $param=json_decode($data['param'],true);
+        //提取username和password
         $username=$param['username'];
         $password=$param['password'];
+        //使用laravel集成的验证方法来验证
         if (Auth::attempt(['username' => $username, 'password' => $password]))
         {
             $users_login = new \App\Users_login();
+            //生成随机Token
             $token=md5($username.time());
             //登录以后通过账号查询用户ID
             $user_data = $users_login->quer(['users_id'],['username' =>$username])->toArray();
