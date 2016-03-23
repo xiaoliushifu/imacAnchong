@@ -43,7 +43,7 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
      //用户管理
      Route::get('/users/man','admin\users\userManController@index');
      //订单管理路由
-   	 Route::resource('/order','admin\orderController');
+   	 Route::resource('/order','admin\order\orderController');
 
      //视图下两层目录下的模版显示
      Route::get('/{path}/{path1}/{path2}',function($path,$path1,$path2){

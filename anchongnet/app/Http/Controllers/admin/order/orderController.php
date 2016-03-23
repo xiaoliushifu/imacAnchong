@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\admin\order;
 
 use Illuminate\Http\Request;
 
@@ -43,6 +43,7 @@ class orderController extends Controller
     public function show($id)
     {
         //
+       
     }
 
     /**
