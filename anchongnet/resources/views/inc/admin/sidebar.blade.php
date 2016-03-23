@@ -29,6 +29,7 @@
 			<ul class="treeview-menu">
 				<li class="active"><a href="/users"><i class="fa fa-circle-o"></i> 用户浏览</a></li>
 				<li><a href="/users/man"><i class="fa fa-circle-o"></i> 用户管理</a></li>
+				<li><a href="/users/certification"><i class="fa fa-circle-o"></i> 认证管理</a></li>
 
 			</ul>
 		</li>
