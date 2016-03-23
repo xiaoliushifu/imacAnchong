@@ -118,9 +118,9 @@ class UserController extends Controller
             if($users_login->addToken(['token'=>$token],$user_data[0]['users_id'])){
                 //创建用户表对象
                 $users=new \App\Users();
-                //通过用户ID查出来用户权限等级
-                $users_rank=$users->quer('users_rank',['users_id'=>$user_data[0]['users_id']]);
-                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['users_rank'=>$users_rank[0]['users_rank'],'token'=>$token,'guid'=> $user_data[0]['users_id']]]);
+                //通过用户ID查出来用户权限等级和商家认证
+                $users_info=$users->quer(['users_rank','certification'],['users_id'=>$user_data[0]['users_id']]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['certification'=>$users_info[0]['certification'],'users_rank'=>$users_info[0]['users_rank'],'token'=>$token,'guid'=> $user_data[0]['users_id']]]);
             }else{
                 return response()->json(['serverTime'=>time(),'当前用户Token已过期','ResultData'=>""]);
             }

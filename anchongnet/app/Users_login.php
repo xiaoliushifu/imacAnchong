@@ -48,7 +48,7 @@ class Users_login extends Model implements AuthenticatableContract,
         //将数据存入登录表
         $this->fill($user_data);
         if($this->save()){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['users_rank'=>0,'token'=>$user_data['token'],'guid'=> $user_data['users_id']]]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['certification'=>0,'users_rank'=>1,'token'=>$user_data['token'],'guid'=> $user_data['users_id']]]);
         }else{
             //因为这个是多表插入，为了防止意外，在第一个用户表插入成功后第二个表插入失败时，会去删除第一个表中已插入的数据来确保数据的正确性
             $users=new \App\Users();

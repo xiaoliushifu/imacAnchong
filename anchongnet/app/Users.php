@@ -39,6 +39,7 @@ class Users extends Model implements AuthenticatableContract,
      * @var array
      */
      public  $timestamps=false;
+
      /*
      *   添加用户信息
      */
@@ -75,6 +76,7 @@ class Users extends Model implements AuthenticatableContract,
     {
         return $this->select($field)->where($quer_data)->get();
     }
+
     /*
     *   后台用户数据
     */
