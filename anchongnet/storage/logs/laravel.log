@@ -9901,3 +9901,69 @@ Stack trace:
 [2016-03-30 05:35:56] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Sts\AssumeRoleRequest' not found' in /www/web/anchongnet/app/STS/Appsts.php:35
 Stack trace:
 #0 {main}  
+[2016-03-30 05:49:04] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Http/routes.php:28
+Stack trace:
+#0 {main}  
+[2016-03-30 05:49:55] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Http/routes.php:28
+Stack trace:
+#0 {main}  
+[2016-03-30 05:49:58] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Http/routes.php:28
+Stack trace:
+#0 {main}  
+[2016-03-30 05:50:02] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Http/Controllers/Api/User/UserController.php:13
+Stack trace:
+#0 {main}  
+[2016-03-30 05:50:18] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  
+[2016-03-30 05:50:25] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  
+[2016-03-30 05:50:34] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  
+[2016-03-30 05:50:45] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  
+[2016-03-30 05:51:16] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  
+[2016-03-30 05:51:18] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  
+[2016-03-30 05:51:21] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  
+[2016-03-30 05:51:23] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  
+[2016-03-30 05:51:26] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  
+[2016-03-30 05:51:40] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  
+[2016-03-30 05:51:42] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  
+[2016-03-30 05:51:44] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  
+[2016-03-30 05:51:50] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  
+[2016-03-30 05:52:17] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  
+[2016-03-30 05:52:27] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  
+[2016-03-30 05:52:35] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  
+[2016-03-30 05:52:39] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  
+[2016-03-30 05:54:47] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '<<' (T_SL)' in /www/web/anchongnet/app/Users_login.php:51
+Stack trace:
+#0 {main}  

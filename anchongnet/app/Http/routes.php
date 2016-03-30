@@ -25,10 +25,9 @@
 //接口路由组
 
 Route::group(['domain' => 'api.anchong.net'], function () {
-    //获得用户资料
-    Route::post('/user/getmessage','Api\User\UsermessagesController@show');
+    //加上token验证的api
+    Route::group(['middleware' => 'AppPrivate'], function () {
 
-	Route::group(['middleware' => 'AppPrivate'], function () {
         //短信验证码的接口
         Route::post('/user/smsauth','Api\User\UserController@smsauth');
         //用户注册的接口

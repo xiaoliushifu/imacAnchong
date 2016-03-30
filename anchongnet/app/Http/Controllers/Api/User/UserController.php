@@ -10,7 +10,6 @@ use Redis;
 use Validator;
 use Hash;
 use Auth;
-use APP\STS;
 
 /*
 *   该类是手机Api接口的用户相关的控制器
@@ -150,6 +149,6 @@ class UserController extends Controller
     public function sts()
     {
         $sts=new \App\STS\Appsts();
-        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['sts'=>$sts->stsauth()]]);
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>[$sts->stsauth()]]);
     }
 }
