@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | General Form Elements</title>
+  <title>AdminLTE 2 | Timeline</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.5 -->
@@ -14,16 +14,9 @@
   <link rel="stylesheet" href="/admin/dist/dfonts/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="/admin/dist/css/AdminLTE.min.css">
-  <!-- Bootstrap Color Picker -->
-  <link rel="stylesheet" href="/admin/plugins/colorpicker/bootstrap-colorpicker.min.css">
-  <!-- daterange picker -->
-  <link rel="stylesheet" href="/admin/plugins/daterangepicker/daterangepicker-bs3.css">
-  
-    <link rel="stylesheet" href="/admin/plugins/timepicker/bootstrap-timepicker.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="/admin/dist/css/skins/_all-skins.min.css">
-   <link rel="stylesheet" href="/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -34,11 +27,11 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-@include('Inc.admin.mainHead')
+  @include('inc.admin.mainHead')
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
-  @include('Inc.admin.sidebar')
+    @include('inc.admin.sidebar')
     <!-- /.sidebar -->
   </aside>
 
@@ -47,194 +40,387 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        添加商品
-<!--         <small>Preview</small> -->
+        Timeline
+        <small>example</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-        <li><a href="#">订单管理</a></li>
-        <li class="active">添加商品</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">UI</a></li>
+        <li class="active">Timeline</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
+
+      <!-- row -->
       <div class="row">
-        <!-- left column -->
-        <div class="col-md-6">
-          <!-- general form elements -->
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">请录入商品</h3>
-            </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <form role="form">
-              <div class="box-body">
-                <div class="form-group">
-                  <label for="exampleInputPassword1">商品名称</label>
-                  <input type="goods_name" class="form-control" id="exampleInputPassword1" placeholder="商品名称">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">商品货号</label>
-                  <input type="goods_only" class="form-control" id="exampleInputPassword1" placeholder="商品货号">
-                </div>
-                <div class="form-group">
-                  <label>商品分类</label>
-                  <select class="form-control">
-                    <option>智能一卡通</option>
-                    <option>智能门禁</option>
-                   
-                  </select>
-                  <label>智能门禁</label>
-                  <select class="form-control">
-                    <option>智能门锁</option>
-                    <option>智能门禁</option>
-                  </select>
-                  <label>探测报警</label>
-                  <select class="form-control">
-                    <option>入侵探测</option>
-                 
-                  </select>
+        <div class="col-md-12">
+          <!-- The time line -->
+          <ul class="timeline">
+            <!-- timeline time label -->
+            <li class="time-label">
+                  <span class="bg-red">
+                    10 Feb. 2014
+                  </span>
+            </li>
+            <!-- /.timeline-label -->
+            <!-- timeline item -->
+            <li>
+              <i class="fa fa-envelope bg-blue"></i>
 
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">品牌</label>
-                  <input type="brand_id" class="form-control" id="exampleInputPassword1" placeholder="品牌">
-                </div>
-     
-                    <div class="form-group">
-                      <label>商品颜色</label>
+              <div class="timeline-item">
+                <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
 
-                      <div class="input-group my-colorpicker2">
-                        <input type="text" class="form-control" placeholder="商品颜色">
+                <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
 
-                        <div class="input-group-addon">
-                          <i></i>
-                     </div>
- 
-                    </div>
-                    <!-- /.form group -->
+                <div class="timeline-body">
+                  Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
+                  weebly ning heekya handango imeem plugg dopplr jibjab, movity
+                  jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
+                  quora plaxo ideeli hulu weebly balihoo...
                 </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">品牌价格</label>
-                  <input type="goods_price" class="form-control" id="exampleInputPassword1" placeholder="品牌价格">
+                <div class="timeline-footer">
+                  <a class="btn btn-primary btn-xs">Read more</a>
+                  <a class="btn btn-danger btn-xs">Delete</a>
                 </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">产品尺寸</label>
-                  <input type="goods_size" class="form-control" id="exampleInputPassword1" placeholder="产品尺寸">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">产品数量</label>
-                  <input type="goods_number" class="form-control" id="exampleInputPassword1" placeholder="产品数量">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">产品价格</label>
-                  <input type="shop_price" class="form-control" id="exampleInputPassword1" placeholder="产品价格">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">市场价格</label>
-                  <input type="market_price" class="form-control" id="exampleInputPassword1" placeholder="市场价格">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">商品关键字</label>
-                  <input type="keyword" class="form-control" id="exampleInputPassword1" placeholder="商品关键字">
-                </div>
-                </div>
-                <!-- Main content -->
-                <section class="content">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="box box-info">
-                        <div class="box-header">
-                          <h3 class="box-title">CK Editor
-                            <small>Advanced and full of features</small>
-                          </h3>
-                          <!-- tools box -->
-                          <div class="pull-right box-tools">
-                            <button type="button" class="btn btn-info btn-sm" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                              <i class="fa fa-minus"></i></button>
-                            <button type="button" class="btn btn-info btn-sm" data-widget="remove" data-toggle="tooltip" title="Remove">
-                              <i class="fa fa-times"></i></button>
-                          </div>
-                          <!-- /. tools -->
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body pad">
-                          <form>
-                                <textarea id="editor1" name="editor1" rows="10" cols="80">
-                                                        This is my textarea to be replaced with CKEditor.
-                                </textarea>
-                          </form>
-                        </div>
-                      </div>
-                      <!-- /.box -->
+              </div>
+            </li>
+            <!-- END timeline item -->
+            <!-- timeline item -->
+            <li>
+              <i class="fa fa-user bg-aqua"></i>
 
-                      <div class="box">
-                        <div class="box-header">
-                          <h3 class="box-title">Bootstrap WYSIHTML5
-                            <small>Simple and fast</small>
-                          </h3>
-                          <!-- tools box -->
-                          <div class="pull-right box-tools">
-                            <button type="button" class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                              <i class="fa fa-minus"></i></button>
-                            <button type="button" class="btn btn-default btn-sm" data-widget="remove" data-toggle="tooltip" title="Remove">
-                              <i class="fa fa-times"></i></button>
-                          </div>
-                          <!-- /. tools -->
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body pad">
-                          <form>
-                            <textarea class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- /.col-->
+              <div class="timeline-item">
+                <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
+
+                <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request</h3>
+              </div>
+            </li>
+            <!-- END timeline item -->
+            <!-- timeline item -->
+            <li>
+              <i class="fa fa-comments bg-yellow"></i>
+
+              <div class="timeline-item">
+                <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
+
+                <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
+
+                <div class="timeline-body">
+                  Take me to your leader!
+                  Switzerland is small and neutral!
+                  We are more like Germany, ambitious and misunderstood!
+                </div>
+                <div class="timeline-footer">
+                  <a class="btn btn-warning btn-flat btn-xs">View comment</a>
+                </div>
+              </div>
+            </li>
+            <!-- END timeline item -->
+            <!-- timeline time label -->
+            <li class="time-label">
+                  <span class="bg-green">
+                    3 Jan. 2014
+                  </span>
+            </li>
+            <!-- /.timeline-label -->
+            <!-- timeline item -->
+            <li>
+              <i class="fa fa-camera bg-purple"></i>
+
+              <div class="timeline-item">
+                <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
+
+                <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
+
+                <div class="timeline-body">
+                  <img src="http://placehold.it/150x100" alt="..." class="margin">
+                  <img src="http://placehold.it/150x100" alt="..." class="margin">
+                  <img src="http://placehold.it/150x100" alt="..." class="margin">
+                  <img src="http://placehold.it/150x100" alt="..." class="margin">
+                </div>
+              </div>
+            </li>
+            <!-- END timeline item -->
+            <!-- timeline item -->
+            <li>
+              <i class="fa fa-video-camera bg-maroon"></i>
+
+              <div class="timeline-item">
+                <span class="time"><i class="fa fa-clock-o"></i> 5 days ago</span>
+
+                <h3 class="timeline-header"><a href="#">Mr. Doe</a> shared a video</h3>
+
+                <div class="timeline-body">
+                  <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/tMWkeBIohBs" frameborder="0" allowfullscreen></iframe>
                   </div>
-                  <!-- ./row -->
-                </section>
-            
-                <div class="form-group">
-                  <label for="exampleInputPassword1">商品详情</label>
-                  <input type="goods_desc" class="form-control" id="exampleInputPassword1" placeholder="商品详情">
                 </div>
-                <div class="form-group">
-                  <label for="exampleInputFile">上传商品图片</label>
-                  <input type="file" id="exampleInputFile">
-
-<!--                   <p class="help-block">Example block-level help text here.</p> -->
-                </div>
-             
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox"> 发布
-                  </label>
-                  <label>
-                    <input type="checkbox"> 未发布
-                  </label>
+                <div class="timeline-footer">
+                  <a href="#" class="btn btn-xs bg-maroon">See comments</a>
                 </div>
               </div>
-              <!-- /.box-body -->
+            </li>
+            <!-- END timeline item -->
+            <li>
+              <i class="fa fa-clock-o bg-gray"></i>
+            </li>
+          </ul>
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
 
-              <div class="box-footer">
-                <button type="submit" class="btn btn-primary">确认</button>
-              </div>
-            </form>
+      <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <div class="box-header">
+              <h3 class="box-title"><i class="fa fa-code"></i> Timeline Markup</h3>
+            </div>
+            <div class="box-body">
+                  <pre style="font-weight: 600;">
+&lt;ul class="timeline">
+
+    &lt;!-- timeline time label -->
+    &lt;li class="time-label">
+        &lt;span class="bg-red">
+            10 Feb. 2014
+        &lt;/span>
+    &lt;/li>
+    &lt;!-- /.timeline-label -->
+
+    &lt;!-- timeline item -->
+    &lt;li>
+        &lt;!-- timeline icon -->
+        &lt;i class="fa fa-envelope bg-blue">&lt;/i>
+        &lt;div class="timeline-item">
+            &lt;span class="time">&lt;i class="fa fa-clock-o">&lt;/i> 12:05&lt;/span>
+
+            &lt;h3 class="timeline-header">&lt;a href="#">Support Team&lt;/a> ...&lt;/h3>
+
+            &lt;div class="timeline-body">
+                ...
+                Content goes here
+            &lt;/div>
+
+            &lt;div class="timeline-footer">
+                &lt;a class="btn btn-primary btn-xs">...&lt;/a>
+            &lt;/div>
+        &lt;/div>
+    &lt;/li>
+    &lt;!-- END timeline item -->
+
+    ...
+
+&lt;/ul>
+                  </pre>
+            </div>
+            <!-- /.box-body -->
           </div>
           <!-- /.box -->
-          <!-- general form elements disabled -->
-               <!-- /.row -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
- @include('inc.admin.footer')
+
+  @include('inc.admin.footer')
 
   <!-- Control Sidebar -->
-@include('inc.admin.controlsidebar')
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Create the tabs -->
+    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+      <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+
+      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <!-- Home tab content -->
+      <div class="tab-pane" id="control-sidebar-home-tab">
+        <h3 class="control-sidebar-heading">Recent Activity</h3>
+        <ul class="control-sidebar-menu">
+          <li>
+            <a href="javascript::;">
+              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+
+                <p>Will be 23 on April 24th</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript::;">
+              <i class="menu-icon fa fa-user bg-yellow"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
+
+                <p>New phone +1(800)555-1234</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript::;">
+              <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
+
+                <p>nora@example.com</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript::;">
+              <i class="menu-icon fa fa-file-code-o bg-green"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
+
+                <p>Execution time 5 seconds</p>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <!-- /.control-sidebar-menu -->
+
+        <h3 class="control-sidebar-heading">Tasks Progress</h3>
+        <ul class="control-sidebar-menu">
+          <li>
+            <a href="javascript::;">
+              <h4 class="control-sidebar-subheading">
+                Custom Template Design
+                <span class="label label-danger pull-right">70%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript::;">
+              <h4 class="control-sidebar-subheading">
+                Update Resume
+                <span class="label label-success pull-right">95%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-success" style="width: 95%"></div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript::;">
+              <h4 class="control-sidebar-subheading">
+                Laravel Integration
+                <span class="label label-warning pull-right">50%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript::;">
+              <h4 class="control-sidebar-subheading">
+                Back End Framework
+                <span class="label label-primary pull-right">68%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <!-- /.control-sidebar-menu -->
+
+      </div>
+      <!-- /.tab-pane -->
+      <!-- Stats tab content -->
+      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+      <!-- /.tab-pane -->
+      <!-- Settings tab content -->
+      <div class="tab-pane" id="control-sidebar-settings-tab">
+        <form method="post">
+          <h3 class="control-sidebar-heading">General Settings</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Report panel usage
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              Some information about this general settings option
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Allow mail redirect
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              Other sets of options are available
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Expose author name in posts
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              Allow the user to show his name in blog posts
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <h3 class="control-sidebar-heading">Chat Settings</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Show me as online
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Turn off notifications
+              <input type="checkbox" class="pull-right">
+            </label>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Delete chat history
+              <a href="javascript::;" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+            </label>
+          </div>
+          <!-- /.form-group -->
+        </form>
+      </div>
+      <!-- /.tab-pane -->
+    </div>
+  </aside>
   <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
@@ -252,21 +438,5 @@
 <script src="/admin/dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/admin/dist/js/demo.js"></script>
-<!-- bootstrap color picker -->
-<script src="/admin/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
-<script src="/admin/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
-<script src="/admin/plugins/daterangepicker/daterangepicker.js"></script>
-
-
-  <script>
-    $(function () {
-      //Initialize Select2 Elements
-      //Colorpicker
-      $(".my-colorpicker1").colorpicker();
-      //color picker with addon
-      $(".my-colorpicker2").colorpicker();
-
-    });
- </script>
 </body>
 </html>

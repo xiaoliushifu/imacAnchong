@@ -9,7 +9,9 @@
         "laravel/framework": "5.2.*",
         "barryvdh/laravel-debugbar": "^2.2",
         "gregwar/captcha": "1.*",
-        "predis/predis":"~1.0.1"
+        "predis/predis":"~1.0.1",
+        "qiniu/php-sdk": "^7.0",
+        "aliyuncs/oss-sdk-php": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

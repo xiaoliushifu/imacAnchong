@@ -73,102 +73,19 @@
 								</tr>
 								</thead>
 								<tbody>
+								@foreach($user_data as $userdata)
 								<tr>
-									<td>1</td>
-									<td>16800818638
-									</td>
-									<td>97155639@qq.com</td>
-									<td>20160315</td>
-									<td>否</td>
+									<td>{{ $userdata['users_id'] }}</td>
+									<td>{{ $userdata['phone'] }}</td>
+									<td>{{ $userdata['email'] }}</td>
+									<td>{{ date('Y-m-d H:i:s', $userdata['ctime']) }}</td>
+									<td>@if($userdata['certification'] == 0)
+											否
+										@elseif($userdata['certification'] == 1)
+											是
+										@endif</td>
 								</tr>
-								<tr>
-									<td>2</td>
-									<td>16800818638
-									</td>
-									<td>97155639@qq.com</td>
-									<td>20160315</td>
-									<td>否</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>16800818638
-									</td>
-									<td>97155639@qq.com</td>
-									<td>20160315</td>
-									<td>否</td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td>16800818638
-									</td>
-									<td>97155639@qq.com</td>
-									<td>20160315</td>
-									<td>否</td>
-								</tr>
-								<tr>
-									<td>5</td>
-									<td>16800818638
-									</td>
-									<td>97155639@qq.com</td>
-									<td>20160315</td>
-									<td>否</td>
-								</tr>
-								<tr>
-									<td>6</td>
-									<td>16800818638
-									</td>
-									<td>97155639@qq.com</td>
-									<td>20160315</td>
-									<td>否</td>
-								</tr>
-								<tr>
-									<td>7</td>
-									<td>16800818638
-									</td>
-									<td>97155639@qq.com</td>
-									<td>20160315</td>
-									<td>否</td>
-								</tr>
-								<tr>
-									<td>8</td>
-									<td>16800818638
-									</td>
-									<td>97155639@qq.com</td>
-									<td>20160315</td>
-									<td>是</td>
-								</tr>
-								<tr>
-									<td>9</td>
-									<td>16800818638
-									</td>
-									<td>97155639@qq.com</td>
-									<td>20160315</td>
-									<td>否</td>
-								</tr>
-								<tr>
-									<td>10</td>
-									<td>16800818638
-									</td>
-									<td>97155639@qq.com</td>
-									<td>20160315</td>
-									<td>是</td>
-								</tr>
-								<tr>
-									<td>11</td>
-									<td>16800818638
-									</td>
-									<td>97155639@qq.com</td>
-									<td>20160315</td>
-									<td>否</td>
-								</tr>
-								<tr>
-									<td>12</td>
-									<td>16800818638
-									</td>
-									<td>97155639@qq.com</td>
-									<td>20160315</td>
-									<td>否</td>
-								</tr>							
+								@endforeach
 								</tfoot>
 							</table>
 						</div>

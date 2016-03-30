@@ -23,17 +23,32 @@
 */
 
 //接口路由组
+
 Route::group(['domain' => 'api.anchong.net'], function () {
-    //加上token验证的api
-    Route::group(['middleware' => 'AppPrivate'], function () {
-        Route::post('/index',function(){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>'1']);
-        });
+    //获得用户资料
+    Route::post('/user/getmessage','Api\User\UsermessagesController@show');
+
+	Route::group(['middleware' => 'AppPrivate'], function () {
+        //短信验证码的接口
         Route::post('/user/smsauth','Api\User\UserController@smsauth');
+        //用户注册的接口
         Route::post('/user/register','Api\User\UserController@register');
+        //用户登录的接口
+        Route::post('/user/login','Api\User\UserController@login');
+        //获得用户资料
+        Route::post('/user/getmessage','Api\User\UsermessagesController@show');
+        //修改用户资料
+        Route::post('/user/setmessage','Api\User\UsermessagesController@update');
+        //设置头像
+        Route::post('/user/sethead','Api\User\UsermessagesController@setUserHead');
+        //用户进行个体认证的路由
+    	Route::post('/individual','Api\User\IndividualController@index');
+
+
     });
 
 });
+
 //后台路由
 Route::group(['domain' => 'admin.anchong.net'], function () {
      //首页路由
@@ -42,10 +57,8 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
      Route::get('/users','admin\users\usersController@index');
      //用户管理
      Route::get('/users/man','admin\users\userManController@index');
-    //用户认证
-     Route::get('/users/certification','admin\users\certificationController@index');
      //订单管理路由
-   	 Route::resource('/order','admin\order\orderController');
+   	 Route::resource('/order','admin\orderController');
 
      //视图下两层目录下的模版显示
      Route::get('/{path}/{path1}/{path2}',function($path,$path1,$path2){
@@ -65,5 +78,3 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
 
 //验证码类,需要传入数字
 Route::get('/captcha/{num}', 'CaptchaController@captcha');
-//手机验证类，第一个参数需要用户行为，第二个参数需要电话号码
-Route::get('/smsauth/{action}/{phone}', 'CaptchaController@smsAuth');
