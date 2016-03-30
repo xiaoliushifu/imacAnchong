@@ -10,6 +10,7 @@ use Redis;
 use Validator;
 use Hash;
 use Auth;
+use APP\STS;
 
 /*
 *   该类是手机Api接口的用户相关的控制器
@@ -114,25 +115,41 @@ class UserController extends Controller
         $username=$param['username'];
         $password=$param['password'];
         //使用laravel集成的验证方法来验证
-        if (Auth::attempt(['username' => $username, 'password' => $password]))
+        $validator = Validator::make($param,
+        [
+            'username' => 'unique:anchong_users_login,username',
+        ]
+        );
+        //如果不出错返回未注册，如果出错执行下面的操作
+        if (!$validator->fails())
         {
-            $users_login = new \App\Users_login();
-            //生成随机Token
-            $token=md5($username.time());
-            //登录以后通过账号查询用户ID
-            $user_data = $users_login->quer(['users_id'],['username' =>$username])->toArray();
-            //插入新TOKEN
-            if($users_login->addToken(['token'=>$token],$user_data[0]['users_id'])){
-                //创建用户表对象
-                $users=new \App\Users();
-                //通过用户ID查出来用户权限等级和商家认证
-                $users_info=$users->quer(['users_rank','certification'],['users_id'=>$user_data[0]['users_id']]);
-                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['certification'=>$users_info[0]['certification'],'users_rank'=>$users_info[0]['users_rank'],'token'=>$token,'guid'=> $user_data[0]['users_id']]]);
-            }else{
-                return response()->json(['serverTime'=>time(),'ServerNo'=>6,'ResultData'=>['Message'=>'当前Token已过期']]);
-            }
+            return response()->json(['serverTime'=>time(),'ServerNo'=>7,'ResultData'=>['Message'=>'账号未注册']]);
         }else{
-            return response()->json(['serverTime'=>time(),'ServerNo'=>4,'ResultData'=>['Message'=>'账号密码错误']]);
+            if (Auth::attempt(['username' => $username, 'password' => $password]))
+            {
+                $users_login = new \App\Users_login();
+                //生成随机Token
+                $token=md5($username.time());
+                //登录以后通过账号查询用户ID
+                $user_data = $users_login->quer(['users_id'],['username' =>$username])->toArray();
+                //插入新TOKEN
+                if($users_login->addToken(['token'=>$token],$user_data[0]['users_id'])){
+                    //创建用户表对象
+                    $users=new \App\Users();
+                    //通过用户ID查出来用户权限等级和商家认证
+                    $users_info=$users->quer(['users_rank','certification'],['users_id'=>$user_data[0]['users_id']]);
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['certification'=>$users_info[0]['certification'],'users_rank'=>$users_info[0]['users_rank'],'token'=>$token,'guid'=> $user_data[0]['users_id']]]);
+                }else{
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>6,'ResultData'=>['Message'=>'当前Token已过期']]);
+                }
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>4,'ResultData'=>['Message'=>'账号密码错误']]);
+            }
         }
+    }
+    public function sts()
+    {
+        $sts=new \App\STS\Appsts();
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['sts'=>$sts->stsauth()]]);
     }
 }

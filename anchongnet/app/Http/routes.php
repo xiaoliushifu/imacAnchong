@@ -43,6 +43,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/user/sethead','Api\User\UsermessagesController@setUserHead');
         //用户进行个体认证的路由
     	Route::post('/individual','Api\User\IndividualController@index');
+        //上传的sts认证
+        Route::post('/user/sts','Api\User\UserController@sts');
 
 
     });
