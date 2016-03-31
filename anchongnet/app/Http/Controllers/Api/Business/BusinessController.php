@@ -40,11 +40,14 @@ class BusinessController extends Controller
         }else{
             //创建插入方法
             $business=new \App\Business();
+            $uesrs=new \App\Users();
             $business_data=[
                 'users_id' => $param['uid'],
                 'title' => $param['title'],
                 'type' => $param['type'],
-                'ctime' => $data['time'],
+                'created_at' => strtotime($data['time']),
+                'content' => $param['content'],
+                'tag' => $param['tag'],
             ];
         }
 
@@ -56,12 +59,17 @@ class BusinessController extends Controller
     */
     public function typetag()
     {
+        //创建类型的orm模型
         $business_type=new \App\business_type();
+        //创建标签的orm模型
         $business_tag=new \App\business_tag();
+        //取出所有类型
         $business_type_data=$business_type->quer(['id','title'])->toArray();
         foreach ($business_type_data as $value) {
             foreach ($value as $value_data) {
+                //因为取出的是数组所以要判断是否为id
                 if(is_numeric($value_data)){
+                    //取出所有标签
                     $business_tag_data=$business_tag->quer('title',$value_data)->toArray();
                     foreach ($business_tag_data as $business_tag_value) {
                         foreach ($business_tag_value as $business_tag_value1) {
@@ -69,11 +77,17 @@ class BusinessController extends Controller
                         }
                     }
                 }else {
+                    //通过拼接和组合将数据变成合格的json
                     $typetag_array[]=['type'=>$value_data,'tag'=>$business_tag_data_value];
                     $business_tag_data_value="";
                 }
             }
         }
-        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$typetag_array]);
+        //假如没有查出数据
+        if(empty($typetag_array)){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$typetag_array]);
+        }
     }
 }

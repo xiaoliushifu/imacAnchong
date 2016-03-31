@@ -89,18 +89,4 @@ class Business extends Model implements AuthenticatableContract,
     public function querPhone($phone){
         return $this->select('phone')->where('phone',$phone)->get()->toArray();
     }
-    //更新用户视频
-    public function addcourse($user_data,$userid){
-        $user=$this->find($userid);
-        if($user->update($user_data)){
-            return true;
-        }else{
-            return false;
-        }
-    }
-	/*----按照名字进行匹配搜索----*/
-	public function scopeKeyActive($query,$keyActive)
-    {
-        return $query->where('active', '=', "{$keyActive}");
-    }
 }

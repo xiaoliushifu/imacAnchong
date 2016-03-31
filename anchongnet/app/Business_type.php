@@ -42,7 +42,7 @@ class Business_type extends Model implements AuthenticatableContract,
     public  $timestamps=false;
 
     /*
-    *   登陆时的显示用户的token和用户id
+    *   查询Business_type数据表中的数据
     */
     public function quer($field)
     {
