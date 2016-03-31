@@ -46,7 +46,7 @@ class Business_img extends Model implements AuthenticatableContract,
     */
     public function add($data)
     {
-        //将数据存入登录表
+        //将数据存入商机表
         $this->fill($data);
         if($this->save()){
             return true;
