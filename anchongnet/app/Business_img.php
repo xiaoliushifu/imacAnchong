@@ -13,7 +13,7 @@ use Redirect;
 /*
 *   该模型是操作用户登录表的模块
 */
-class Business extends Model implements AuthenticatableContract,
+class Business_img extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
                                     CanResetPasswordContract
 {
@@ -24,7 +24,7 @@ class Business extends Model implements AuthenticatableContract,
      *
      * @var string
      */
-    protected $table = 'anchong_business';
+    protected $table = 'anchong_business_img';
 
     /**
      * The attributes that are mass assignable.
@@ -32,7 +32,7 @@ class Business extends Model implements AuthenticatableContract,
      * @var array
      */
      //不允许被赋值
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -42,29 +42,22 @@ class Business extends Model implements AuthenticatableContract,
     public  $timestamps=false;
 
     /*
-    *   该方法是添加商机信息
+    *   该方法是添加发布信息带的图片
     */
-    public function add($user_data)
+    public function add($data)
     {
-       //将用户发布的商机信息添加入数据表
-       $this->fill($user_data);
-       if($this->save()){
-           return $this->id;
-       }else{
-           return;
-       }
-    }
-    /*
-    *   因为是多表插入防止插入出错
-    */
-    public function del($data)
-    {
-        //通过传过来的userid来确定用户的位置
-        $user=$this->find($data);
-        if($user->delete()){
+        //将数据存入登录表
+        $this->fill($data);
+        if($this->save()){
             return true;
         }else{
-            return false;
+            //因为这个是多表插入，为了防止意外，在第一个用户表插入成功后第二个表插入失败时，会去删除第一个表中已插入的数据来确保数据的正确性
+            $business=new \App\Business();
+            if($business->del($data['id'])){
+                return false;
+            }else{
+                return false;
+            }
         }
     }
 }

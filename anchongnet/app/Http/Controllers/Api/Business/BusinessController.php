@@ -25,12 +25,11 @@ class BusinessController extends Controller
         //验证用户传过来的数据是否合法
         $validator = Validator::make($param,
             [
-                'uid' => 'required',
                 'type' => 'required',
                 'title' => 'required|max:126',
                 'content' => 'required|min:4',
                 'tag' => 'required',
-                'pic' => 'required|array'
+                'pic' => 'required'
             ]
         );
         //如果出错返回出错信息，如果正确执行下面的操作
@@ -38,20 +37,51 @@ class BusinessController extends Controller
         {
             return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'标题长度不能超过60个字，工程简介不能低于4个字']]);
         }else{
-            //创建插入方法
-            $business=new \App\Business();
-            $uesrs=new \App\Users();
-            $business_data=[
-                'users_id' => $param['uid'],
-                'title' => $param['title'],
-                'type' => $param['type'],
-                'created_at' => strtotime($data['time']),
-                'content' => $param['content'],
-                'tag' => $param['tag'],
-            ];
+            //创建用户表通过电话查询出用户电话
+            $users=new \App\Users();
+            $users_phone=$users->quer('phone',['users_id'=>$data['guid']])->toArray();
+            //判断用户数据表中是否有电话联系方式
+            if($users_phone[0]['phone']){
+                $users_message=new \App\Usermessages();
+                $users_contact=$users_message->quer('contact',['users_id'=>$data['guid']])->toArray();
+                //判断用户信息表中是否有联系人姓名
+                if($users_contact[0]['contact']){
+                    $business_data=[
+                        'users_id' => $data['guid'],
+                        'title' => $param['title'],
+                        'type' => $param['type'],
+                        'created_at' => strtotime($data['time']),
+                        'content' => $param['content'],
+                        'tag' => $param['tag'],
+                        'phone' => $users_phone[0]['phone'],
+                        'contact' => $users_contact[0]['contact']
+                    ];
+                    //创建插入方法
+                    $business=new \App\Business();
+                    $id=$business->add($business_data);
+                    //插入成功继续插图片，插入失败则返回错误信息
+                    if(!empty($id)){
+                        $ture=false;
+                        foreach ($param['pic'] as $pic) {
+                            $business_img=new \App\Business_img();
+                            $ture=$business_img->add(['id'=>$id,'img'=> $pic]);
+                        }
+                        //orm模型操作数据库会返回true或false,如果操作失败则返回错误信息
+                        if($ture){
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'发布信息成功']]);
+                        }else{
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请重新发布信息']]);
+                        }
+                    }else{
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请重新发布信息']]);
+                    }
+                }else{
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请完善个人信息中的联系方式']]);
+                }
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请完善个人信息中的联系方式']]);
+            }
         }
-
-
     }
 
     /*

@@ -14,4 +14,12 @@ class Usermessages extends Model
     {
         return $query->where('users_id', '=', $id);
     }
+    /*
+    *   查询联系人姓名
+    */
+    public function quer($field,$quer_data)
+    {
+        return $this->select($field)->where($quer_data)->get();
+    }
+
 }

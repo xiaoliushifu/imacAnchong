@@ -52,7 +52,6 @@ class Users extends Model implements AuthenticatableContract,
         }else{
             return;
         }
-
     }
 
     /*
