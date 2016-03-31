@@ -28,6 +28,9 @@ Route::group(['domain' => 'api.anchong.net'], function () {
     //加上token验证的api
     Route::group(['middleware' => 'AppPrivate'], function () {
 
+        /*
+        *   用户模块
+        */
         //短信验证码的接口
         Route::post('/user/smsauth','Api\User\UserController@smsauth');
         //用户注册的接口
@@ -44,6 +47,16 @@ Route::group(['domain' => 'api.anchong.net'], function () {
     	Route::post('/individual','Api\User\IndividualController@index');
         //上传的sts认证
         Route::post('/user/sts','Api\User\UserController@sts');
+        //上传回调
+        Route::post('/user/callback','Api\User\UserController@callback');
+
+        /*
+        *   商机模块
+        */
+        //商机发布
+        Route::post('/business/release','Api\Business\BusinessController@release');
+        //发布类别和标签
+        Route::post('/business/typetag','Api\Business\BusinessController@typetag');
 
 
     });

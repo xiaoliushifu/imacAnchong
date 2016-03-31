@@ -13,7 +13,7 @@ use Redirect;
 /*
 *   该模型是操作用户登录表的模块
 */
-class Users_login extends Model implements AuthenticatableContract,
+class Business extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
                                     CanResetPasswordContract
 {
@@ -24,14 +24,15 @@ class Users_login extends Model implements AuthenticatableContract,
      *
      * @var string
      */
-    protected $table = 'anchong_users_login';
+    protected $table = 'anchong_business';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $guarded = ['user_id'];
+     //不允许被赋值
+    protected $guarded = ['id'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -87,5 +88,19 @@ class Users_login extends Model implements AuthenticatableContract,
     //查看手机是否已注册
     public function querPhone($phone){
         return $this->select('phone')->where('phone',$phone)->get()->toArray();
+    }
+    //更新用户视频
+    public function addcourse($user_data,$userid){
+        $user=$this->find($userid);
+        if($user->update($user_data)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+	/*----按照名字进行匹配搜索----*/
+	public function scopeKeyActive($query,$keyActive)
+    {
+        return $query->where('active', '=', "{$keyActive}");
     }
 }

@@ -3,7 +3,11 @@ namespace App\STS;
 include_once 'aliyun-php-sdk-core/Config.php';
 include_once 'aliyun-php-sdk-core/Profile/DefaultProfile.php';
 use Sts\Request\V20150401 as Sts;
-    class Appsts{
+
+/*
+*   该类是为服务器端的OSS上传的sts凭证，通过这个类可以生成OSS的上传凭证
+*/
+class Appsts{
         public function read_file($fname)
         {
             $content = '';

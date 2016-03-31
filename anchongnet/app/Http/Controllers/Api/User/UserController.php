@@ -115,9 +115,9 @@ class UserController extends Controller
         $password=$param['password'];
         //使用laravel集成的验证方法来验证
         $validator = Validator::make($param,
-        [
-            'username' => 'unique:anchong_users_login,username',
-        ]
+            [
+                'username' => 'unique:anchong_users_login,username',
+            ]
         );
         //如果不出错返回未注册，如果出错执行下面的操作
         if (!$validator->fails())
@@ -146,9 +146,26 @@ class UserController extends Controller
             }
         }
     }
+    /*
+    *   该方法是为APP提供上传的sts验证
+    */
     public function sts()
     {
+        //调用sts的定义类
         $sts=new \App\STS\Appsts();
+        //返回sts验证
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>[$sts->stsauth()]]);
+    }
+    /*
+    *   阿里回调接收
+    */
+    public function callback(Request $request)
+    {
+        $data=$request::all();
+        $param1="";
+        foreach ($data as $key => $value) {
+          $param1 .= $key.'=>'.$value.',';
+        }
+        file_put_contents ( '/www/web/anchongnet/xxx.txt', $param1 );
     }
 }
