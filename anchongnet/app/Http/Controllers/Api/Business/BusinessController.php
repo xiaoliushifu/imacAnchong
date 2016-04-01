@@ -29,7 +29,7 @@ class BusinessController extends Controller
                 'title' => 'required|max:126',
                 'content' => 'required|min:4',
                 'tag' => 'required',
-                'pic' => 'required'
+                'pic' => 'array',
             ]
         );
         //如果出错返回出错信息，如果正确执行下面的操作
@@ -59,21 +59,25 @@ class BusinessController extends Controller
                     //创建插入方法
                     $business=new \App\Business();
                     $id=$business->add($business_data);
-                    //插入成功继续插图片，插入失败则返回错误信息
-                    if(!empty($id)){
-                        $ture=false;
-                        foreach ($param['pic'] as $pic) {
-                            $business_img=new \App\Business_img();
-                            $ture=$business_img->add(['id'=>$id,'img'=> $pic]);
-                        }
-                        //orm模型操作数据库会返回true或false,如果操作失败则返回错误信息
-                        if($ture){
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'发布信息成功']]);
+                    if($param['pic']){
+                        //插入成功继续插图片，插入失败则返回错误信息
+                        if(!empty($id)){
+                            $ture=false;
+                            foreach ($param['pic'] as $pic) {
+                                $business_img=new \App\Business_img();
+                                $ture=$business_img->add(['id'=>$id,'img'=> $pic]);
+                            }
+                            //orm模型操作数据库会返回true或false,如果操作失败则返回错误信息
+                            if($ture){
+                                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'发布信息成功']]);
+                            }else{
+                                return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请重新发布信息']]);
+                            }
                         }else{
                             return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请重新发布信息']]);
                         }
                     }else{
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请重新发布信息']]);
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'发布信息成功']]);
                     }
                 }else{
                     return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请完善个人信息中的联系方式']]);
