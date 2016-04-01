@@ -50,7 +50,7 @@ class BusinessController extends Controller
                         'users_id' => $data['guid'],
                         'title' => $param['title'],
                         'type' => $param['type'],
-                        'created_at' => strtotime($data['time']),
+                        'created_at' => date('Y-m-d H:i:s',$data['time']),
                         'content' => $param['content'],
                         'tag' => $param['tag'],
                         'phone' => $users_phone[0]['phone'],
