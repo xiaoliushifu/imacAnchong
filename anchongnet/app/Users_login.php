@@ -70,7 +70,9 @@ class Users_login extends Model implements AuthenticatableContract,
         return $this->select($field)->where($quer_data)->get();
     }
 
-    //登陆是更新token
+    /*
+    *   登陆是更新token
+    */
     public function addToken($user_data, $users_id){
         $user=$this->where('users_id', '=', $users_id);
         if($user->update($user_data)){
@@ -80,12 +82,11 @@ class Users_login extends Model implements AuthenticatableContract,
         }
 
     }
-    //获得token
+    /*
+    *   获得用户token
+    */
     public function querToken($guid){
         return $this->select('token')->where('users_id',$guid)->get()->toArray();
     }
-    //查看手机是否已注册
-    public function querPhone($phone){
-        return $this->select('phone')->where('phone',$phone)->get()->toArray();
-    }
+
 }

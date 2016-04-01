@@ -135,6 +135,7 @@ class BusinessController extends Controller
         $business=new \App\Business();
         $businessinfo=array('id','phone','contact','title','content','tag','created_at');
         $businessinfo_data=$business->quer($businessinfo,$param['type'],(($param['page']-1)*$limit),$limit);
+        $list=null;
         if($businessinfo_data){
             //创建图片查询的orm模型
             $business_img=new \App\Business_img();

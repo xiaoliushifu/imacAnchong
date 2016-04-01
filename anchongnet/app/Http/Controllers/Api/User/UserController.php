@@ -166,6 +166,5 @@ class UserController extends Controller
         foreach ($data as $key => $value) {
           $param1 .= $key.'=>'.$value.',';
         }
-        file_put_contents ( '/www/web/anchongnet/xxx.txt', $param1 );
     }
 }
