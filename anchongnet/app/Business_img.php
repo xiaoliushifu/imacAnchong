@@ -60,4 +60,12 @@ class Business_img extends Model implements AuthenticatableContract,
             }
         }
     }
+
+    /*
+    *   该方法是商机图片表的查询
+    */
+    public function quer($field,$id)
+    {
+        return $this->select($field)->where('id',$id)->get()->toArray();
+    }
 }

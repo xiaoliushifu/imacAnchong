@@ -57,6 +57,9 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/business/release','Api\Business\BusinessController@release');
         //发布类别和标签
         Route::post('/business/typetag','Api\Business\BusinessController@typetag');
+        //商机查看
+        Route::post('/business/businessinfo','Api\Business\BusinessController@businessinfo');
+
 
 
     });

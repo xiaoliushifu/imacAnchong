@@ -67,4 +67,11 @@ class Business extends Model implements AuthenticatableContract,
             return false;
         }
     }
+    /*
+    *   查询商机信息，有分页
+    */
+    public function quer($field,$type,$pos,$limit)
+    {
+        return ['total'=>$this->select($field)->where('type',$type)->count(),'list'=>$this->select($field)->where('type',$type)->skip($pos)->take($limit)->get()->toArray()];
+    }
 }

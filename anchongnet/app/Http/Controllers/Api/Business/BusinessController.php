@@ -109,7 +109,7 @@ class BusinessController extends Controller
                 }else {
                     //通过拼接和组合将数据变成合格的json
                     $typetag_array[]=['type'=>$value_data,'tag'=>$business_tag_data_value];
-                    $business_tag_data_value="";
+                    $business_tag_data_value=null;
                 }
             }
         }
@@ -118,6 +118,49 @@ class BusinessController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$typetag_array]);
+        }
+    }
+
+    /*
+    *   该方法提供商机查询
+    */
+    public function businessinfo(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //默认每页数量
+        $limit=20;
+        //创建商机表的orm模型
+        $business=new \App\Business();
+        $businessinfo=array('id','phone','contact','title','content','tag','created_at');
+        $businessinfo_data=$business->quer($businessinfo,$param['type'],(($param['page']-1)*$limit),$limit);
+        if($businessinfo_data){
+            //创建图片查询的orm模型
+            $business_img=new \App\Business_img();
+            //通过数组数据的组合将数据拼凑为{"total":3,"list":[{"id":1,"phone":"","contact":"","title":"","content":"","tag":"","created_at":"2016-02-24 08:02:50","pic":["1","2"]}格式
+            foreach ($businessinfo_data['list'] as $business_data) {
+                $value_1=$business_img->quer('img',$business_data['id']);
+                //判断是否为空,如果是空表明没有图片
+                if(empty($value_1)){
+                    $list[]=$business_data;
+                }else{
+                    //假如不为空表明有图片，开始查询拼凑数据
+                    foreach ($value_1 as $value_2) {
+                        foreach ($value_2 as $value_3) {
+                            $img[]=$value_3;
+                        }
+                    }
+                    //重构数组，加上键值
+                    $img_data=['pic'=>$img];
+                    $list[]=array_merge($business_data,$img_data);
+                    $img=null;
+                }
+            }
+            //返回数据总数和具体数据
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$businessinfo_data['total'],'list'=>$list]]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
         }
     }
 }
