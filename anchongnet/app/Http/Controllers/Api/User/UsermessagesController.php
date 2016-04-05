@@ -146,6 +146,9 @@ class UsermessagesController extends Controller
 			if($param['email']!=null){
 				$this->usermessages->email = $param['email'];
 			}
+			if($param['contact']!=null){
+				$this->usermessages->contact = $param['contact'];
+			}
 			$result=$this->usermessages->save();
 		}else{
 			$user=usermessages::where('users_id', '=', $id)->first();
@@ -158,14 +161,17 @@ class UsermessagesController extends Controller
 			if($param['email']!=null){
 				$user->email = $param['email'];
 			}
+			if($param['contact']!=null){
+				$user->contact = $param['contact'];
+			}
 			$result=$user->save();
 		}
 
 		//返回给客户端数据
 		if($result){
-		    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['isSuccess'=>0,'Message'=>'更新成功']]);
+		    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'更新成功']]);
 		}else{
-			return response()->json(['serverTime'=>time(),'ServerNo'=>3,'ResultData' => ['isSuccess'=>1,'Message'=>'更新失败']]);
+			return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'更新失败']]);
 		}
     }
 
