@@ -83,7 +83,7 @@ class UserController extends Controller
                         $users_login=new \App\Users_login();
                         //假如插入成功
                         if($users_login->add($users_login_data)){
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['certification'=>0,'users_rank'=>1,'token'=>$user_data['token'],'guid'=> $user_data['users_id']]]);
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['certification'=>0,'users_rank'=>1,'token'=>$users_login_data['token'],'guid'=> $users_login_data['users_id']]]);
                         }elseif($users_login->add($users_login_data) == 2){
                             return response()->json(['serverTime'=>time(),'ServerNo'=>3,'ResultData'=>['Message'=>'为了您的安全，请重新注册']]);
                         }else{

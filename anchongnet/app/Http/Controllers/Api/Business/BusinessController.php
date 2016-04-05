@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Request;
 use Validator;
+use Illuminate\Pagination\Paginator;
 
 /*
 *   该控制器包含了商机模块的操作
@@ -139,6 +140,7 @@ class BusinessController extends Controller
         $business=new \App\Business();
         $businessinfo=array('id','phone','contact','title','content','tag','created_at');
         $businessinfo_data=$business->quer($businessinfo,'type',$param['type'],(($param['page']-1)*$limit),$limit);
+        //$businessinfo_data=$business->quer($businessinfo,'type',$param['type'],,$limit);
         $list=null;
         if($businessinfo_data){
             //创建图片查询的orm模型

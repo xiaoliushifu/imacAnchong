@@ -10,6 +10,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Redirect;
+
 /*
 *   该模型是操作用户登录表的模块
 */
@@ -72,6 +73,7 @@ class Business extends Model implements AuthenticatableContract,
     */
     public function quer($field,$column,$type,$pos,$limit)
     {
-        return ['total'=>$this->select($field)->where($column,$type)->count(),'list'=>$this->select($field)->where($column,$type)->skip($pos)->take($limit)->get()->toArray()];
+         return ['total'=>$this->select($field)->where($column,$type)->count(),'list'=>$this->select($field)->where($column,$type)->skip($pos)->take($limit)->orderBy('id', 'DESC')->get()->toArray()];
+
     }
 }
