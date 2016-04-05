@@ -56,19 +56,6 @@ class Business extends Model implements AuthenticatableContract,
        }
     }
     /*
-    *   因为是多表插入防止插入出错
-    */
-    public function del($data)
-    {
-        //通过传过来的userid来确定用户的位置
-        $user=$this->find($data);
-        if($user->delete()){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    /*
     *   查询商机信息，有分页
     */
     public function quer($field,$column,$type,$pos,$limit)

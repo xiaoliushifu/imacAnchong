@@ -10,6 +10,7 @@ use Redis;
 use Validator;
 use Hash;
 use Auth;
+use DB;
 
 /*
 *   该类是手机Api接口的用户相关的控制器
@@ -68,6 +69,8 @@ class UserController extends Controller
                         'phone' => $param['phone'],
                         'ctime' => $data['time'],
                     ];
+                    //开启事务处理
+                    DB::beginTransaction();
                     //向users表中插数据
                     $users=new \App\Users();
                     $usersid=$users->add($users_data);
@@ -83,13 +86,17 @@ class UserController extends Controller
                         $users_login=new \App\Users_login();
                         //假如插入成功
                         if($users_login->add($users_login_data)){
+                            //假如成功就提交
+                            DB::commit();
                             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['certification'=>0,'users_rank'=>1,'token'=>$users_login_data['token'],'guid'=> $users_login_data['users_id']]]);
-                        }elseif($users_login->add($users_login_data) == 2){
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>3,'ResultData'=>['Message'=>'为了您的安全，请重新注册']]);
                         }else{
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>3,'ResultData'=>['Message'=>'服务器内部错误，请联系管理员并换账号注册']]);
+                            //假如失败就回滚
+                            DB::rollback();
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>3,'ResultData'=>['Message'=>'为了您的安全，请重新注册']]);
                         }
                     }else{
+                        //假如失败就回滚
+                        DB::rollback();
                         return response()->json(['serverTime'=>time(),'ServerNo'=>3,'ResultData'=>['Message'=>'为了您的安全，请重新注册']]);
                     }
                 }else{

@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Request;
 use Validator;
 use Illuminate\Pagination\Paginator;
+use DB;
 
 /*
 *   该控制器包含了商机模块的操作
@@ -57,6 +58,8 @@ class BusinessController extends Controller
                         'phone' => $users_phone[0]['phone'],
                         'contact' => $users_contact[0]['contact']
                     ];
+                    //开启事务处理
+                    DB::beginTransaction();
                     //创建插入方法
                     $business=new \App\Business();
                     $id=$business->add($business_data);
@@ -70,14 +73,21 @@ class BusinessController extends Controller
                             }
                             //orm模型操作数据库会返回true或false,如果操作失败则返回错误信息
                             if($ture){
+                                //假如成功就提交
+                                DB::commit();
                                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'发布信息成功']]);
                             }else{
+                                //假如失败就回滚
+                                DB::rollback();
                                 return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请重新发布信息']]);
                             }
                         }else{
+
                             return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请重新发布信息']]);
                         }
                     }else{
+                        //假如成功就提交
+                        DB::commit();
                         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'发布信息成功']]);
                     }
                 }else{

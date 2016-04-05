@@ -51,13 +51,7 @@ class Business_img extends Model implements AuthenticatableContract,
         if($this->save()){
             return true;
         }else{
-            //因为这个是多表插入，为了防止意外，在第一个用户表插入成功后第二个表插入失败时，会去删除第一个表中已插入的数据来确保数据的正确性
-            $business=new \App\Business();
-            if($business->del($data['id'])){
-                return false;
-            }else{
-                return false;
-            }
+            return false;
         }
     }
 
