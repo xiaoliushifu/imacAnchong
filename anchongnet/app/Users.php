@@ -11,7 +11,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Redirect;
 /*
-*   该模型是操作用户表的，改模型里面提供了插入用户数据和删除修改数据的方法
+*   该模型是操作用户表的，改模型里面提供了插入用户数据和删除修改数据的方�?
 */
 class Users extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
@@ -45,18 +45,17 @@ class Users extends Model implements AuthenticatableContract,
      */
      public function add($user_data)
      {
-        //将用户信息添加入用户表
+        //将用户信息添加入用户�?
         $this->fill($user_data);
         if($this->save()){
             return $this->id;
         }else{
             return;
         }
-
     }
 
     /*
-    *   因为这个是多表插入，为了防止意外，在第一个用户表插入成功后第二个表插入失败时，会去删除第一个表中用户的信息，确保数据的正确性
+    *   因为这个是多表插入，为了防止意外，在第一个用户表插入成功后第二个表插入失败时，会去删除第一个表中用户的信息，确保数据的正确�?
     */
     public function del($user_data)
     {
@@ -78,10 +77,22 @@ class Users extends Model implements AuthenticatableContract,
     }
 
     /*
-    *   后台用户数据
-    */
-    public function admin_quer($column)
+	* 根据条件进行用户搜索
+	*/
+	public function scopePhone($query,$keyPhone)
     {
-        return $this->select($column)->get();
+		return $query->where('phone', 'like', "%{$keyPhone}%");
     }
+	public function scopeLevel($query,$keyLevel)
+	{
+		return $query->where('users_rank', '=', $keyLevel);
+	}
+	/*
+	 * 根据用户id获取用户
+	*/
+	public function scopeIds($query,$id){
+		return $query->where('users_id','=',$id);
+	}
+
+
 }
