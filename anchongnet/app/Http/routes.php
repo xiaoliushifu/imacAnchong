@@ -70,7 +70,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
 Route::group(['domain' => 'admin.anchong.net'], function () {
      //首页路由
      Route::get('/','admin\indexController@index');
-     //用户路由
+     //��户路由
     Route::resource('/users','admin\userController');
      //认证路由
 	Route::resource('/cert','admin\certController');
