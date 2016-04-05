@@ -59,8 +59,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/business/typetag','Api\Business\BusinessController@typetag');
         //商机查看
         Route::post('/business/businessinfo','Api\Business\BusinessController@businessinfo');
-
-
+        //个人发布商机查看
+        Route::post('/business/mybusinessinfo','Api\Business\BusinessController@mybusinessinfo');
 
     });
 
