@@ -94,9 +94,9 @@ class BusinessController extends Controller
     public function typetag()
     {
         //创建类型的orm模型
-        $business_type=new \App\business_type();
+        $business_type=new \App\Business_type();
         //创建标签的orm模型
-        $business_tag=new \App\business_tag();
+        $business_tag=new \App\Business_tag();
         //取出所有类型
         $business_type_data=$business_type->quer(['id','title'])->toArray();
         foreach ($business_type_data as $value) {
