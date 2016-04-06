@@ -26,14 +26,21 @@
 	<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
+	<style>
+	th{text-align:center;}
+	.f-ib{display:inline-block;}
+	#example1{margin-top:10px;}
+	.radio{position:relative; top:-3px; margin-right:4px;}
+	.status{position:relative; top:2px;}
+	</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-	@include('inc.admin.mainHead')
+	<?php echo $__env->make('inc.admin.mainHead', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 		<!-- Left side column. contains the logo and sidebar -->
 	<aside class="main-sidebar">
 		<!-- sidebar: style can be found in sidebar.less -->
-		@include('inc.admin.sidebar')
+		<?php echo $__env->make('inc.admin.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 		<!-- /.sidebar -->
 	</aside>
 
@@ -42,10 +49,9 @@
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
 			<h1>
-				用户管理
-				<small>我们的商户</small>
+				用户浏览
+				<small>我们的客户源</small>
 			</h1>
-
 			<ol class="breadcrumb">
 				<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
 				<li><a href="#">Tables</a></li>
@@ -58,114 +64,69 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="box">
-<!-- 						<div class="box-header"> -->
-<!-- 							<h3 class="box-title">Data Table With Full Features</h3> -->
-<!-- 						</div> -->
-						<!-- /.box-header -->
 						<div class="box-body">
+						    <form action="/cert" method="get" class="form-horizontal form-inline f-ib">
+						      <input type="number" name="id"  placeholder="用户ID" class="form-control input-sm" value="<?php echo e($datacol['args']['id']); ?>">&nbsp;
+						      <div class="radio f-ib">
+						        审核状态：							
+							      <input type="radio" name="auth_status" id="status1" class="status" value="1">
+								  <label for="status1">待审核</label>&nbsp;&nbsp;
+							      <input type="radio" name="auth_status" id="status2" class="status" value="2">
+								  <label for="status2">未通过</label>&nbsp;&nbsp;
+								  <input type="radio" name="auth_status" id="status3" class="status" value="3">
+								  <label for="status3">已通过</label>
+						      </div>
+						      <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
+						    </form>
+		                    <a href="/cert" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
 							<table id="example1" class="table table-bordered table-striped">
-								<thead>
 								<tr>
-									<th>ID</th>
-									<th>普通用户</th>
-									<th>商家认证个体</th>
-									<th>商家认证企业</th>
+									<th>用户ID</th>
+									<th>认证名称</th>
+									<th>资质名称</th>
+									<th>资质说明</th>
+									<th>资质证件</th>
+									<th>认证状态</th>
+									<th>操作</th>
 								</tr>
-								</thead>
-								<tbody>
+								<?php foreach($datacol['datas'] as $data): ?>
 								<tr>
-									<td>1</td>
-									<td>兄弟连
-									</td>
-									<td>兄弟会</td>
-									<td>兄弟会技术研发部</td>
-								
+								  <td align="center"><?php echo e($data['users_id']); ?></td>
+								  <td align="center"><?php echo e($data['auth_name']); ?></td>
+								  <td align="center"><?php echo e($data['qua_name']); ?></td>
+								  <td align="center"><?php echo e($data['explanation']); ?></td>
+								  <td align="center"><img src="<?php echo e($data['credentials']); ?>" width="80"></td>
+								  <td align="center">
+								  <?php
+								  switch($data['auth_status']){
+									  case 1:
+									  echo "待审核";
+									  break;
+									  case 2:
+									  echo "审核未通过";
+									  break;
+									  case 3:
+									  echo "审核已通过";
+									  break;
+								  }
+								  ?>
+								  </td>
+								  <td align="center">
+								  <?php
+								  switch($data['auth_status']){
+									  case 1:
+									  echo "<button type='button' data-id='{$data['id']}' class='check-success btn btn-success btn-xs' onclick=\"return confirm('确定要通过吗？')\">通过</button>&nbsp;&nbsp;<button type='button' data-id='{$data['id']}'  class='check-failed btn btn-danger btn-xs' onclick=\"return confirm('确定审核不通过吗？')\">不通过</button>";
+									  break;
+								  }
+								  ?>
+								  </td>
+								</tr>  
+								<?php endforeach; ?>
+								<tr>
+								  <td colspan="7" align="center">
+									<?php echo $datacol['datas']->appends($datacol['args'])->render(); ?>
+								  </td>
 								</tr>
-								<tr>
-									<td>2</td>
-									<td>兄弟连
-									</td>
-									<td>兄弟会</td>
-									<td>兄弟会技术研发部</td>
-									
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>兄弟连
-									</td>
-									<td>兄弟会</td>
-									<td>兄弟会技术研发部</td>
-								
-								</tr>
-								<tr>
-									<td>4</td>
-									<td>兄弟连
-									</td>
-									<td>兄弟会</td>
-									<td>兄弟会技术研发部</td>								
-								</tr>
-								<tr>
-									<td>5</td>
-									<td>兄弟连
-									</td>
-									<td>兄弟会</td>
-									<td>兄弟会技术研发部</td>									
-								</tr>
-								<tr>
-									<td>6</td>
-									<td>兄弟连
-									</td>
-									<td>兄弟会</td>
-									<td>兄弟会技术研发部</td>
-								</tr>
-								<tr>
-									<td>7</td>
-									<td>兄弟连
-									</td>
-									<td>兄弟会</td>
-									<td>兄弟会技术研发部</td>
-									
-								</tr>
-								<tr>
-									<td>8</td>
-									<td>兄弟连
-									</td>
-									<td>兄弟会</td>
-									<td>兄弟会技术研发部</td>									
-								</tr>
-								<tr>
-									<td>9</td>
-									<td>兄弟连
-									</td>
-									<td>兄弟会</td>
-									<td>兄弟会技术研发部</td>
-
-								</tr>
-								<tr>
-									<td>10</td>
-									<td>兄弟连
-									</td>
-									<td>兄弟会</td>
-									<td>兄弟会技术研发部</td>
-									
-								</tr>
-								<tr>
-									<td>11</td>
-									<td>兄弟连
-									</td>
-									<td>兄弟会</td>
-									<td>兄弟会技术研发部</td>
-									
-								</tr>
-								<tr>
-									<td>12</td>
-									<td>兄弟连
-									</td>
-									<td>兄弟会</td>
-									<td>兄弟会技术研发部</td>
-									
-								</tr>							
-								</tfoot>
 							</table>
 						</div>
 						<!-- /.box-body -->
@@ -179,13 +140,7 @@
 		<!-- /.content -->
 	</div>
 	<!-- /.content-wrapper -->
-	<footer class="main-footer">
-		<div class="pull-right hidden-xs">
-			<b>Version</b> 2.3.2
-		</div>
-		<strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
-		reserved.
-	</footer>
+	<?php echo $__env->make('inc.admin.footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
 	<!-- Control Sidebar -->
 	<aside class="control-sidebar control-sidebar-dark">
@@ -377,40 +332,51 @@
 		</div>
 	</aside>
 	<!-- /.control-sidebar -->
-	<!-- Add the sidebar's background. This div must be placed
-			 immediately after the control sidebar -->
-	<div class="control-sidebar-bg"></div>
+	<!-- Add the sidebar's background. This div must be placedimmediately after the control sidebar -->
 </div>
 <!-- ./wrapper -->
-
 <!-- jQuery 2.2.0 -->
 <script src="/admin/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
 <script src="/admin/bootstrap/js/bootstrap.min.js"></script>
-<!-- DataTables -->
-<script src="/admin/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/admin/plugins/datatables/dataTables.bootstrap.min.js"></script>
-<!-- SlimScroll -->
-<script src="/admin/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
 <script src="/admin/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="/admin/dist/js/demo.js"></script>
-<!-- page script -->
+<?php
+if(isset($datacol['args']['auth_status'])){
+	switch ($datacol['args']['auth_status']){
+		case 1:
+		echo '<script>$(function(){$("#status1").attr("checked",true)});</script>';
+		break;
+		case 2:
+		echo '<script>$(function(){$("#status2").attr("checked",true)});</script>';
+		break;
+		case 3:
+		echo '<script>$(function(){$("#status3").attr("checked",true)});</script>';
+		break;
+		default:
+		echo '<script>$(function(){$("#status1").attr("checked",false);$("#status2").attr("checked",false);$("#status3").attr("checked",false)});</script>';
+	}
+}
+?>
 <script>
-	$(function () {
-		$("#example1").DataTable();
-		$('#example2').DataTable({
-			"paging": true,
-			"lengthChange": false,
-			"searching": false,
-			"ordering": true,
-			"info": true,
-			"autoWidth": false
+$(function(){
+    $("body").on("click",'.check-success',function(){
+		var id=parseInt($(this).attr("data-id"));
+	    $.get("/check",{"id":id,"certified":"yes"},function(data,status){
+			alert(data);
+			setTimeout(function(){location.reload()},1000);
 		});
-	});
+	})
+	$("body").on("click",'.check-failed',function(){
+		var id=parseInt($(this).attr("data-id"));
+	    $.get("/check",{"id":id,"certified":"no"},function(data,status){
+			alert(data);
+			setTimeout(function(){location.reload()},1000); 
+		});
+	})
+})
 </script>
 </body>
 </html>

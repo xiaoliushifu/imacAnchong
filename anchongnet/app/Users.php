@@ -11,7 +11,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Redirect;
 /*
-*   该模型是操作用户表的，改模型里面提供了插入用户数据和删除修改数据的方法
+*   该模型是操作用户表的，改模型里面提供了插入用户数据和删除修改数据的方��?
 */
 class Users extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
@@ -45,7 +45,7 @@ class Users extends Model implements AuthenticatableContract,
      */
      public function add($user_data)
      {
-        //将用户信息添加入用户表
+        //将用户信息添加入用户��?
         $this->fill($user_data);
         if($this->save()){
             return $this->id;
@@ -53,7 +53,7 @@ class Users extends Model implements AuthenticatableContract,
             return;
         }
     }
-    
+
     /*
     *   查询用户等级
     */
@@ -62,4 +62,22 @@ class Users extends Model implements AuthenticatableContract,
         return $this->select($field)->where($quer_data)->get();
     }
 
+
+    /*
+	* 根据条件进行用户搜索
+	*/
+	public function scopePhone($query,$keyPhone)
+    {
+		return $query->where('phone', 'like', "%{$keyPhone}%");
+    }
+	public function scopeLevel($query,$keyLevel)
+	{
+		return $query->where('users_rank', '=', $keyLevel);
+	}
+	/*
+	 * 根据用户id获取用户
+	*/
+	public function scopeIds($query,$id){
+		return $query->where('users_id','=',$id);
+	}
 }

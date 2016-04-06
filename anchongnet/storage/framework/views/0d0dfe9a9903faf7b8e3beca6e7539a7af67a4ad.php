@@ -26,6 +26,13 @@
 	<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
+	<style>
+	th{text-align:center;}
+	.f-ib{display:inline-block;}
+	#example1{margin-top:10px;}
+	.radio{position:relative; top:-3px; margin-right:4px;}
+	.level{position:relative; top:2px;}
+	</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -57,36 +64,53 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="box">
-<!-- 						<div class="box-header"> -->
-<!-- 							<h3 class="box-title">Data Table With Full Features</h3> -->
-<!-- 						</div> -->
-						<!-- /.box-header -->
 						<div class="box-body">
+						    <form action="/users" method="get" class="form-horizontal form-inline f-ib">
+						      <input type="number" name="phone"  placeholder="手机号码" class="form-control input-sm" value="<?php echo e($datacol['args']['phone']); ?>">&nbsp;
+						      <div class="radio f-ib">
+						        会员等级：							
+							      <input type="radio" name="users_rank" id="level0" class="level" value="1">
+								  <label for="level0">普通会员</label>&nbsp;&nbsp;
+							      <input type="radio" name="users_rank" id="level1" class="level" value="2">
+								  <label for="level1">商家</label>
+						      </div>
+						      <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
+						    </form>
+		                    <a href="/users" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
 							<table id="example1" class="table table-bordered table-striped">
-								<thead>
 								<tr>
 									<th>ID</th>
 									<th>电话</th>
 									<th>邮箱</th>
-									<th>注册时间</th>
-									<th>商家认证(是\否)</th>
+									<th>用户等级</th>
 								</tr>
-								</thead>
-								<tbody>
-								<?php foreach($user_data as $userdata): ?>
+								<?php foreach($datacol['datas'] as $data): ?>
 								<tr>
-									<td><?php echo e($userdata['users_id']); ?></td>
-									<td><?php echo e($userdata['phone']); ?></td>
-									<td><?php echo e($userdata['email']); ?></td>
-									<td><?php echo e(date('Y-m-d H:i:s', $userdata['ctime'])); ?></td>
-									<td><?php if($userdata['certification'] == 0): ?>
-											否
-										<?php elseif($userdata['certification'] == 1): ?>
-											是
-										<?php endif; ?></td>
-								</tr>
+								  <td align="center"><?php echo e($data['users_id']); ?></td>
+								  <td align="center"><?php echo e($data['phone']); ?></td>
+								  <td align="center"><?php echo e($data['email']); ?></td>
+								  <td align="center">
+								  <?php 
+								  switch ($data['users_rank']){
+									  case 1:
+									  echo $data['id'];
+									  echo "普通会员";
+									  break;
+									  case 2:
+									  echo "商户";
+									  break;
+									  case 3:
+									  echo "管理员";
+									  break;
+								  }?>
+								  </td>
+								</tr>  
 								<?php endforeach; ?>
-								</tfoot>
+								<tr>
+								  <td colspan="4" align="center">
+									<?php echo $datacol['datas']->appends($datacol['args'])->render(); ?>
+								  </td>
+								</tr>
 							</table>
 						</div>
 						<!-- /.box-body -->
@@ -292,40 +316,30 @@
 		</div>
 	</aside>
 	<!-- /.control-sidebar -->
-	<!-- Add the sidebar's background. This div must be placed
-			 immediately after the control sidebar -->
-	<div class="control-sidebar-bg"></div>
+	<!-- Add the sidebar's background. This div must be placedimmediately after the control sidebar -->
 </div>
 <!-- ./wrapper -->
-
 <!-- jQuery 2.2.0 -->
 <script src="/admin/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
 <script src="/admin/bootstrap/js/bootstrap.min.js"></script>
-<!-- DataTables -->
-<script src="/admin/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/admin/plugins/datatables/dataTables.bootstrap.min.js"></script>
-<!-- SlimScroll -->
-<script src="/admin/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
 <script src="/admin/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="/admin/dist/js/demo.js"></script>
-<!-- page script -->
-<script>
-	$(function () {
-		$("#example1").DataTable();
-		$('#example2').DataTable({
-			"paging": true,
-			"lengthChange": false,
-			"searching": false,
-			"ordering": true,
-			"info": true,
-			"autoWidth": false
-		});
-	});
-</script>
+<?php
+if(isset($datacol['args']['users_rank'])){
+	switch ($datacol['args']['users_rank']){
+		case 1:
+		echo '<script>$(function(){$("#level0").attr("checked",true)});</script>';
+		break;
+		case 2:
+		echo '<script>$(function(){$("#level1").attr("checked",true)});</script>';
+		break;
+		default:
+		echo '<script>$(function(){$("#level0").attr("checked",false);$("#level1").attr("checked",false)});</script>';
+	}
+}
+?>
 </body>
 </html>

@@ -61,6 +61,5 @@ class Business extends Model implements AuthenticatableContract,
     public function quer($field,$column,$type,$pos,$limit)
     {
          return ['total'=>$this->select($field)->where($column,$type)->count(),'list'=>$this->select($field)->where($column,$type)->skip($pos)->take($limit)->orderBy('id', 'DESC')->get()->toArray()];
-
     }
 }

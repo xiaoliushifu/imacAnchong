@@ -4,18 +4,20 @@ namespace App\Http\Controllers\Api\User;
 
 use Illuminate\Http\Request;
 use App\Usermessages;
+use App\Users;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use OSS\OssClient;
 use OSS\Core\OssException;
 
-
 class UsermessagesController extends Controller
 {
 	private $usermessages;
+	private $user;
 	public function __construct(){
 		$this->usermessages=new usermessages();
+		$this->user=new Users();
 	}
     /**
      * Display a listing of the resource.
@@ -58,6 +60,21 @@ class UsermessagesController extends Controller
     {
 		//通过guid获取用户实例
 		$id=$request['guid'];
+		$person=Users::Ids($id)->first();
+		switch($person->certification){
+			case 0:
+			$status="未提交认证";
+			break;
+			case 1:
+			$status="认证待审核";
+			break;
+			case 2:
+			$status="审核未通过";
+			break;
+			case 3:
+			$status="审核已通过";
+			break;
+		};
         $data=Usermessages::Message($id)->take(1)->get();
 
 		if(count($data)==0){
@@ -72,6 +89,7 @@ class UsermessagesController extends Controller
 					'qq'=>"",
 					'email'=>"",
 					'headpic'=>"",
+					'authStatus'=>$status,
 				],
 			]);
 		}else{
@@ -87,6 +105,7 @@ class UsermessagesController extends Controller
 					'qq'=>$user->qq,
 					'email'=>$user->email,
 					'headpic'=>$user->headpic,
+					'authStatus'=>$status,
 				],
 			]);
 		}
@@ -116,37 +135,43 @@ class UsermessagesController extends Controller
 
 		$param=json_decode($request['param'],true);
 		if(count($data)==0){
-				//向数据库插入内容
-				$this->usermessages->users_id = $id;
-				if($param['nickname']!=null){
-					$this->usermessages->nickname = $param['nickname'];
-				}
-				if($param['qq']!=null){
-					$this->usermessages->qq = $param['qq'];
-				}
-				if($param['email']!=null){
-					$this->usermessages->email = $param['email'];
-				}
-				$result=$this->usermessages->save();
-			}else{
-				$user=usermessages::where('users_id', '=', $id)->first();
-				if($param['nickname']!=null){
-					$user->nickname = $param['nickname'];
-				}
-				if($param['qq']!=null){
-					$user->qq = $param['qq'];
-				}
-				if($param['email']!=null){
-					$user->email = $param['email'];
-				}
-				$result=$user->save();
+			//向数据库插入内容
+			$this->usermessages->users_id = $id;
+			if($param['nickname']!=null){
+				$this->usermessages->nickname = $param['nickname'];
 			}
+			if($param['qq']!=null){
+				$this->usermessages->qq = $param['qq'];
+			}
+			if($param['email']!=null){
+				$this->usermessages->email = $param['email'];
+			}
+			if($param['contact']!=null){
+				$this->usermessages->contact = $param['contact'];
+			}
+			$result=$this->usermessages->save();
+		}else{
+			$user=usermessages::where('users_id', '=', $id)->first();
+			if($param['nickname']!=null){
+				$user->nickname = $param['nickname'];
+			}
+			if($param['qq']!=null){
+				$user->qq = $param['qq'];
+			}
+			if($param['email']!=null){
+				$user->email = $param['email'];
+			}
+			if($param['contact']!=null){
+				$user->contact = $param['contact'];
+			}
+			$result=$user->save();
+		}
 
 		//返回给客户端数据
 		if($result){
-		    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['isSuccess'=>0,'Message'=>'更新成功']]);
+		    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'更新成功']]);
 		}else{
-			return response()->json(['serverTime'=>time(),'ServerNo'=>3,'ResultData' => ['isSuccess'=>1,'Message'=>'更新失败']]);
+			return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'更新失败']]);
 		}
     }
 
@@ -182,7 +207,7 @@ class UsermessagesController extends Controller
 
 		$filePath = $request['headpic'];
 		try {
-			//实例化一个$ossClient对象
+			//实例化一�?ossClient对象
 			$ossClient = new OssClient($accessKeyId, $accessKeySecret, $endpoint);
 			//上传文件
 			$ossClient->uploadFile($bucket, $object, $filePath);

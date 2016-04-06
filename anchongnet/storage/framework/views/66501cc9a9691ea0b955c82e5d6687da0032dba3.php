@@ -27,9 +27,8 @@
 				<i class="fa fa-user"></i> <span>用户管理</span> <i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
-				<li class="active"><a href="/users"><i class="fa fa-circle-o"></i> 用户浏览</a></li>
-				<li><a href="/users/man"><i class="fa fa-circle-o"></i> 用户管理</a></li>
-
+				<li><a href="/users"><i class="fa fa-circle-o"></i> 用户浏览</a></li>
+				<li><a href="/cert"><i class="fa fa-circle-o"></i> 用户认证</a></li>
 			</ul>
 		</li>
 		<li class="treeview">
@@ -73,7 +72,6 @@
 			<ul class="treeview-menu">
 
 				<li><a href="/order"><i class="fa fa-circle-o"></i>订单列表</a></li>
-				<li><a href="/order/create"><i class="fa fa-circle-o"></i>订单添加</a></li>
 
 			</ul>
 		</li>
