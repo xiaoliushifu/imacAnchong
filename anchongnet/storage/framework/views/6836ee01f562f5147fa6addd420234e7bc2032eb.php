@@ -49,7 +49,7 @@
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
 			<h1>
-				用户浏览
+				用户认证
 				<small>我们的客户源</small>
 			</h1>
 			<ol class="breadcrumb">
@@ -83,19 +83,14 @@
 								<tr>
 									<th>用户ID</th>
 									<th>认证名称</th>
-									<th>资质名称</th>
-									<th>资质说明</th>
-									<th>资质证件</th>
 									<th>认证状态</th>
+									<th>查看资质</th>
 									<th>操作</th>
 								</tr>
 								<?php foreach($datacol['datas'] as $data): ?>
 								<tr>
 								  <td align="center"><?php echo e($data['users_id']); ?></td>
 								  <td align="center"><?php echo e($data['auth_name']); ?></td>
-								  <td align="center"><?php echo e($data['qua_name']); ?></td>
-								  <td align="center"><?php echo e($data['explanation']); ?></td>
-								  <td align="center"><img src="<?php echo e($data['credentials']); ?>" width="80"></td>
 								  <td align="center">
 								  <?php
 								  switch($data['auth_status']){
@@ -112,10 +107,13 @@
 								  ?>
 								  </td>
 								  <td align="center">
+								      <button type="button" class="view btn btn-default btn-xs" data-auth="<?php echo e($data['auth_name']); ?>" data-id="<?php echo e($data['users_id']); ?>" data-toggle="modal" data-target="#myModal">查看</button>
+								  </td>
+								  <td align="center">
 								  <?php
 								  switch($data['auth_status']){
 									  case 1:
-									  echo "<button type='button' data-id='{$data['id']}' class='check-success btn btn-success btn-xs' onclick=\"return confirm('确定要通过吗？')\">通过</button>&nbsp;&nbsp;<button type='button' data-id='{$data['id']}'  class='check-failed btn btn-danger btn-xs' onclick=\"return confirm('确定审核不通过吗？')\">不通过</button>";
+									  echo "<button type='button' data-id='{$data['id']}' class='check-success btn btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button' data-id='{$data['id']}'  class='check-failed btn btn-danger btn-xs'>不通过</button>";
 									  break;
 								  }
 								  ?>
@@ -123,7 +121,7 @@
 								</tr>  
 								<?php endforeach; ?>
 								<tr>
-								  <td colspan="7" align="center">
+								  <td colspan="5" align="center">
 									<?php echo $datacol['datas']->appends($datacol['args'])->render(); ?>
 								  </td>
 								</tr>
@@ -140,6 +138,33 @@
 		<!-- /.content -->
 	</div>
 	<!-- /.content-wrapper -->
+	
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+		  </div>
+		  <div class="modal-body">
+			<table class="table">
+			  <tr>
+			    <th>资质名称</th>
+				<th>简介</th>
+				<th>上传证件</th>
+			  </tr>
+			  <tbody id="qua">
+			  
+			  </tbody>
+			</table>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
 	<?php echo $__env->make('inc.admin.footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
 	<!-- Control Sidebar -->
@@ -363,17 +388,34 @@ if(isset($datacol['args']['auth_status'])){
 <script>
 $(function(){
     $("body").on("click",'.check-success',function(){
-		var id=parseInt($(this).attr("data-id"));
-	    $.get("/check",{"id":id,"certified":"yes"},function(data,status){
-			alert(data);
-			setTimeout(function(){location.reload()},1000);
-		});
+		if(confirm('确定要通过吗？')){
+			var id=parseInt($(this).attr("data-id"));
+			$.get("/check",{"id":id,"certified":"yes"},function(data,status){
+				alert(data);
+				setTimeout(function(){location.reload()},1000);
+			});
+		}
 	})
 	$("body").on("click",'.check-failed',function(){
-		var id=parseInt($(this).attr("data-id"));
-	    $.get("/check",{"id":id,"certified":"no"},function(data,status){
-			alert(data);
-			setTimeout(function(){location.reload()},1000); 
+		if(confirm('确定审核不通过吗？')){
+			var id=parseInt($(this).attr("data-id"));
+			$.get("/check",{"id":id,"certified":"no"},function(data,status){
+				alert(data);
+				setTimeout(function(){location.reload()},1000); 
+			});
+		}
+	})
+	$(".view").click(function(){
+	    var id=parseInt($(this).attr("data-id"));
+		var auth=$(this).attr("data-auth");
+		$("#myModalLabel").text(auth);
+		$.get("/cert/"+id,function(data,status){
+			$("#qua").empty();
+			var con="";
+			for(var i=0;i<data.length;i++){
+				con+="<tr><td align='center'>"+data[i].qua_name+"</td><td align='center'>"+data[i].explanation+"</td><td align='center'><img src="+data[i].credentials+" width='50'></td></tr>";
+			}
+			$("#qua").append(con);
 		});
 	})
 })

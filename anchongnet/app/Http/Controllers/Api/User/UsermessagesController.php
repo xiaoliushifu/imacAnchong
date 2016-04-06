@@ -66,7 +66,7 @@ class UsermessagesController extends Controller
 			$status="未提交认证";
 			break;
 			case 1:
-			$status="认证待审核";
+			$status="资质待审核";
 			break;
 			case 2:
 			$status="审核未通过";

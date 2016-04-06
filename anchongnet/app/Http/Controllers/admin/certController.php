@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use Request as Requester;
 use App\Auth;
+use App\Qua;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Pagination\Paginator;
@@ -12,8 +13,10 @@ use Illuminate\Pagination\Paginator;
 class certController extends Controller
 {
 	private $auth;
+	private $qua;
 	public function __construct(){
 		$this->auth=new Auth();
+		$this->qua=new Qua();
 	}
     /**
      * Display a listing of the resource.
@@ -67,7 +70,7 @@ class certController extends Controller
      */
     public function show($id)
     {
-		$auth=Auth::Users($id)->get();
+		/*$auth=Auth::Users($id)->get();
 		$auth_name=$auth[0]['auth_name'];
 		$auth_con=[];
 		$auth_obj=[];
@@ -80,7 +83,9 @@ class certController extends Controller
 		return response()->json([
 		    'auth_name' => $auth_name,
 			'auth_con' => $auth_con
-		]);
+		]);*/
+		$data=Qua::Ids($id)->get();
+		return $data;
     }
 
     /**
