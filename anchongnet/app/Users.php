@@ -53,21 +53,7 @@ class Users extends Model implements AuthenticatableContract,
             return;
         }
     }
-
-    /*
-    *   因为这个是多表插入，为了防止意外，在第一个用户表插入成功后第二个表插入失败时，会去删除第一个表中用户的信息，确保数据的正确性
-    */
-    public function del($user_data)
-    {
-        //通过传过来的userid来确定用户的位置
-        $user=$this->find($user_data);
-        if($user->delete('phone')){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
+    
     /*
     *   查询用户等级
     */
