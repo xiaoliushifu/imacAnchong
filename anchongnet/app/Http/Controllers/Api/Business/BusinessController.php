@@ -31,12 +31,13 @@ class BusinessController extends Controller
                 'content' => 'required|min:4',
                 'tag' => 'required',
                 'pic' => 'array',
+                'area' => 'required',
             ]
         );
         //如果出错返回出错信息，如果正确执行下面的操作
         if ($validator->fails())
         {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'标题长度不能超过60个字，工程简介不能低于4个字']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请填写完整区域，并且标题长度不能超过60个字，工程简介不能低于4个字']]);
         }else{
             //创建用户表通过电话查询出用户电话
             $users=new \App\Users();
@@ -47,6 +48,10 @@ class BusinessController extends Controller
                 $users_contact=$users_message->quer('contact',['users_id'=>$data['guid']])->toArray();
                 //判断用户信息表中是否有联系人姓名
                 if($users_contact[0]['contact']){
+                    $area=explode(' ',$param['area']);
+                    if(empty($area)){
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请填写完整区域']]);
+                    }
                     $business_data=[
                         'users_id' => $data['guid'],
                         'title' => $param['title'],
@@ -55,7 +60,10 @@ class BusinessController extends Controller
                         'content' => $param['content'],
                         'tag' => $param['tag'],
                         'phone' => $users_phone[0]['phone'],
-                        'contact' => $users_contact[0]['contact']
+                        'contact' => $users_contact[0]['contact'],
+                        'province' => $area[0],
+                        'city' => $area[1],
+                        'area'  => $area[2],
                     ];
                     //创建插入方法
                     $business=new \App\Business();
@@ -138,10 +146,8 @@ class BusinessController extends Controller
         $limit=20;
         //创建商机表的orm模型
         $business=new \App\Business();
-        $businessinfo=array('id','phone','contact','title','content','tag','created_at');
+        $businessinfo=array('id','phone','contact','title','content','tag','created_at','province','city','area','business_status');
         $businessinfo_data=$business->quer($businessinfo,'type',$param['type'],(($param['page']-1)*$limit),$limit);
-        //$businessinfo_data=$business->quer($businessinfo,'type',$param['type'],,$limit);
-        $list=null;
         if($businessinfo_data){
             //创建图片查询的orm模型
             $business_img=new \App\Business_img();
@@ -182,7 +188,7 @@ class BusinessController extends Controller
         $limit=20;
         //创建商机表的orm模型
         $business=new \App\Business();
-        $businessinfo=array('id','phone','contact','title','content','tag','created_at');
+        $businessinfo=array('id','phone','contact','title','content','tag','created_at','province','city','area','business_status');
         $businessinfo_data=$business->quer($businessinfo,'users_id',$data['guid'],(($param['page']-1)*$limit),$limit);
         $list=null;
         if($businessinfo_data){
