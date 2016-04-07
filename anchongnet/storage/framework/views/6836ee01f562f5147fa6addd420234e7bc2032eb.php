@@ -155,7 +155,6 @@
 				<th>上传证件</th>
 			  </tr>
 			  <tbody id="qua">
-			  
 			  </tbody>
 			</table>
 		  </div>
@@ -413,7 +412,7 @@ $(function(){
 			$("#qua").empty();
 			var con="";
 			for(var i=0;i<data.length;i++){
-				con+="<tr><td align='center'>"+data[i].qua_name+"</td><td align='center'>"+data[i].explanation+"</td><td align='center'><img src="+data[i].credentials+" width='50'></td></tr>";
+				con+="<tr><td align='center'>"+data[i].qua_name+"</td><td align='center'>"+data[i].explanation+"</td><td align='center'><a href="+data[i].credentials+" target='_blank'><img src="+data[i].credentials+" width='50'></a></td></tr>";
 			}
 			$("#qua").append(con);
 		});

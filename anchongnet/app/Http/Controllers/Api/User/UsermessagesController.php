@@ -91,6 +91,7 @@ class UsermessagesController extends Controller
 					'email'=>"",
 					'headpic'=>"",
 					'authStatus'=>$status,
+					'authNum'=>$person->certification,
 				],
 			]);
 		}else{
@@ -107,6 +108,7 @@ class UsermessagesController extends Controller
 					'email'=>$user->email,
 					'headpic'=>$user->headpic,
 					'authStatus'=>$status,
+					'authNum'=>$person->certification,
 				],
 			]);
 		}
