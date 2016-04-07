@@ -47,7 +47,7 @@ class BusinessController extends Controller
                 $users_message=new \App\Usermessages();
                 $users_contact=$users_message->quer('contact',['users_id'=>$data['guid']])->toArray();
                 //判断用户信息表中是否有联系人姓名
-                if($users_contact[0]['contact']){
+                if($users_contact){
                     $tags_arr=explode(' ',$param['tags']);
                     $tags="";
                     if(!empty($tags_arr)){
@@ -62,7 +62,8 @@ class BusinessController extends Controller
                         'created_at' => date('Y-m-d H:i:s',$data['time']),
                         'content' => $param['content'],
                         'tag' => $param['tag'],
-                        'tags' => $tags,
+                        'tags' => $param['tags'],
+                        'tags_match' => $tags,
                         'phone' => $users_phone[0]['phone'],
                         'contact' => $users_contact[0]['contact'],
                     ];
@@ -199,9 +200,9 @@ class BusinessController extends Controller
             $sql='type ='.$param['type']." and tag='".$param['tag']."'";
         }elseif(empty($param['tag']) && !empty($param['search'])){
             //自定义检索
-            $sql="MATCH(tags) AGAINST('".bin2hex($param['search'])."') and type =".$param['type'];
+            $sql="MATCH(tags_match) AGAINST('".bin2hex($param['search'])."') and type =".$param['type'];
         }elseif(!empty($param['tag']) && !empty($param['search'])){
-            $sql="MATCH(tags) AGAINST('".bin2hex($param['search'])."') and type =".$param['type']." and tag ='".$param['tag']."'";
+            $sql="MATCH(tags_match) AGAINST('".bin2hex($param['search'])."') and type =".$param['type']." and tag ='".$param['tag']."'";
         }
         $businessinfo_data=$business->quer($businessinfo,$sql,(($param['page']-1)*$limit),$limit);
         $list=null;
