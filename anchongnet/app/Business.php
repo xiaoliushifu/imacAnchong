@@ -58,8 +58,8 @@ class Business extends Model implements AuthenticatableContract,
     /*
     *   查询商机信息，有分页
     */
-    public function quer($field,$column,$type,$pos,$limit)
+    public function quer($field,$type,$pos,$limit)
     {
-         return ['total'=>$this->select($field)->where($column,$type)->count(),'list'=>$this->select($field)->where($column,$type)->skip($pos)->take($limit)->orderBy('id', 'DESC')->get()->toArray()];
+         return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('id', 'DESC')->get()->toArray()];
     }
 }

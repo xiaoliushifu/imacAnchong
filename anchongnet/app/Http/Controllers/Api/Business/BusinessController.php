@@ -32,13 +32,12 @@ class BusinessController extends Controller
                 'content' => 'required|min:4',
                 'tag' => 'required',
                 'pic' => 'array',
-                'area' => 'required',
             ]
         );
         //如果出错返回出错信息，如果正确执行下面的操作
         if ($validator->fails())
         {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请填写完整区域，并且标题长度不能超过60个字，工程简介不能低于4个字']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请填写完整，并且标题长度不能超过60个字，工程简介不能低于4个字']]);
         }else{
             //创建用户表通过电话查询出用户电话
             $users=new \App\Users();
@@ -49,9 +48,12 @@ class BusinessController extends Controller
                 $users_contact=$users_message->quer('contact',['users_id'=>$data['guid']])->toArray();
                 //判断用户信息表中是否有联系人姓名
                 if($users_contact[0]['contact']){
-                    $area=explode(' ',$param['area']);
-                    if(empty($area)){
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请填写完整区域']]);
+                    $tags_arr=explode(' ',$param['tags']);
+                    $tags="";
+                    if(!empty($tags_arr)){
+                        foreach ($tags_arr as $tag_arr) {
+                            $tags.=bin2hex($tag_arr)." ";
+                        }
                     }
                     $business_data=[
                         'users_id' => $data['guid'],
@@ -60,11 +62,9 @@ class BusinessController extends Controller
                         'created_at' => date('Y-m-d H:i:s',$data['time']),
                         'content' => $param['content'],
                         'tag' => $param['tag'],
+                        'tags' => $tags,
                         'phone' => $users_phone[0]['phone'],
                         'contact' => $users_contact[0]['contact'],
-                        'province' => $area[0],
-                        'city' => $area[1],
-                        'area'  => $area[2],
                     ];
                     //开启事务处理
                     DB::beginTransaction();
@@ -123,7 +123,7 @@ class BusinessController extends Controller
                 //因为取出的是数组所以要判断是否为id
                 if(is_numeric($value_data)){
                     //取出所有标签
-                    $business_tag_data=$business_tag->quer('title',$value_data)->toArray();
+                    $business_tag_data=$business_tag->quer('tag',$value_data)->toArray();
                     foreach ($business_tag_data as $business_tag_value) {
                         foreach ($business_tag_value as $business_tag_value1) {
                             $business_tag_data_value[]=$business_tag_value1;
@@ -145,6 +145,40 @@ class BusinessController extends Controller
     }
 
     /*
+    *   该方法提供商机检索标签
+    */
+    public function search(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建标签的orm模型
+        $business_tag=new \App\Business_tag();
+        //查询分类标签
+        $business_tag_tag=$business_tag->search_quer('tag',$param['type'])->toArray();
+        //便利将关联数组转为索引数组
+        foreach ($business_tag_tag as $value1) {
+            foreach ($value1 as $key => $value) {
+                $result_tag[]=$value;
+            }
+        }
+        //查询地域标签
+        $business_tag_area=$business_tag->search_quer('tag',0)->toArray();
+        //便利将关联数组转为索引数组
+        foreach ($business_tag_area as $value2) {
+            foreach ($value2 as $value3) {
+                $result_area[]=$value3;
+            }
+        }
+        //假如有数据就返回，否则返回查询失败
+        if(empty($business_tag_tag) || empty($business_tag_area)){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['tag'=>$result_tag,'area'=>$result_area]]);
+        }
+    }
+
+    /*
     *   该方法提供商机查询
     */
     public function businessinfo(Request $request)
@@ -156,8 +190,20 @@ class BusinessController extends Controller
         $limit=20;
         //创建商机表的orm模型
         $business=new \App\Business();
-        $businessinfo=array('id','phone','contact','title','content','tag','created_at','province','city','area','business_status');
-        $businessinfo_data=$business->quer($businessinfo,'type',$param['type'],(($param['page']-1)*$limit),$limit);
+        $businessinfo=array('id','phone','contact','title','content','tag','tags','created_at');
+        if(empty($param['tag']) && empty($param['search'])){
+            //假如没有检索则sql语句为
+            $sql='type ='.$param['type'];
+        }elseif(!empty($param['tag']) && empty($param['search'])){
+            //根据标签检索
+            $sql='type ='.$param['type']." and tag='".$param['tag']."'";
+        }elseif(empty($param['tag']) && !empty($param['search'])){
+            //自定义检索
+            $sql="MATCH(tags) AGAINST('".bin2hex($param['search'])."') and type =".$param['type'];
+        }elseif(!empty($param['tag']) && !empty($param['search'])){
+            $sql="MATCH(tags) AGAINST('".bin2hex($param['search'])."') and type =".$param['type']." and tag ='".$param['tag']."'";
+        }
+        $businessinfo_data=$business->quer($businessinfo,$sql,(($param['page']-1)*$limit),$limit);
         $list=null;
         if($businessinfo_data){
             //创建图片查询的orm模型
@@ -187,6 +233,7 @@ class BusinessController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
         }
     }
+
     /*
     *   该方法提供个人发布商机查询
     */
@@ -199,8 +246,8 @@ class BusinessController extends Controller
         $limit=20;
         //创建商机表的orm模型
         $business=new \App\Business();
-        $businessinfo=array('id','phone','contact','title','content','tag','created_at','province','city','area','business_status');
-        $businessinfo_data=$business->quer($businessinfo,'users_id',$data['guid'],(($param['page']-1)*$limit),$limit);
+        $businessinfo=array('id','phone','contact','title','content','tag','tags','created_at');
+        $businessinfo_data=$business->quer($businessinfo,'users_id='.$data['guid'],(($param['page']-1)*$limit),$limit);
         $list=null;
         if($businessinfo_data){
             //创建图片查询的orm模型

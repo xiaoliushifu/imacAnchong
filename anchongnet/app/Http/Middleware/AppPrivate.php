@@ -23,7 +23,7 @@ class AppPrivate
                  if($request['signature'] == $signature){
                      return $next($request);
                  }
-                 return response()->json(['serverTime'=>time(),'ServerNo'=>5,'ResultData'=>['Message'=>'签名错误']]);
+                 return response()->json(['serverTime'=>time(),'ServerNo'=>5,'ResultData'=>['Message'=>'登陆超时，请重新登陆']]);
          }else{
              //登陆后的中间件
              $encode=new \App\Encode\Encode();
@@ -34,7 +34,7 @@ class AppPrivate
              if($request['signature'] == $signature){
                  return $next($request);
              }
-             return response()->json(['serverTime'=>time(),'ServerNo'=>5,'ResultData'=>['Message'=>'签名错误']]);
+             return response()->json(['serverTime'=>time(),'ServerNo'=>5,'ResultData'=>['Message'=>'登陆超时，请重新登陆']]);
          }
      }
 }

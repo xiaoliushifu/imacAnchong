@@ -57,6 +57,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/business/release','Api\Business\BusinessController@release');
         //发布类别和标签
         Route::post('/business/typetag','Api\Business\BusinessController@typetag');
+        //商机检索标签
+        Route::post('/business/search','Api\Business\BusinessController@search');
         //商机查看
         Route::post('/business/businessinfo','Api\Business\BusinessController@businessinfo');
         //个人发布商机查看
@@ -70,24 +72,24 @@ Route::group(['domain' => 'api.anchong.net'], function () {
 Route::group(['domain' => 'admin.anchong.net'], function () {
      //首页路由
      Route::get('/','admin\indexController@index');
-     //��户路由
+     //用户路由
     Route::resource('/users','admin\userController');
      //认证路由
 	Route::resource('/cert','admin\certController');
      //订单管理路由
    	 Route::resource('/order','admin\orderController');
-       //������֤·��
+       //检查
 	Route::get('/check','admin\CheckController@check');
 
-     //视图下两层目录下的模版显��?
+     //视图下两层目录下的模版显视
      Route::get('/{path}/{path1}/{path2}',function($path,$path1,$path2){
          return view("admin.$path.$path1.".substr($path2,0,-10));
      });
-     //视图下一层目录下的模版显��?
+     //视图下一层目录下的模版显视
      Route::get('/{path}/{path1}',function($path,$path1){
          return view("admin.$path.".substr($path1,0,-10));
      });
-     //视图根目录下的模版显��?
+     //视图根目录下的模版显视
      Route::get('/{path}',function($path){
          return view("admin.".substr($path,0,-10));
      });
@@ -95,5 +97,5 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
 });
 
 
-//验证码类,需要传入数��?
+//验证码类,需要传入数字
 Route::get('/captcha/{num}', 'CaptchaController@captcha');
