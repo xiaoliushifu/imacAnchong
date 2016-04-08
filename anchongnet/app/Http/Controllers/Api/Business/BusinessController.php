@@ -179,7 +179,7 @@ class BusinessController extends Controller
             }
         }
         //假如有数据就返回，否则返回查询失败
-        if(empty($business_tag_tag) || empty($business_tag_area)){
+        if(empty($business_tag_tag) && empty($business_tag_area)){
             return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['tag'=>$result_tag,'area'=>$result_area]]);
@@ -255,7 +255,7 @@ class BusinessController extends Controller
         //创建商机表的orm模型
         $business=new \App\Business();
         $businessinfo=array('id','phone','contact','title','content','tag','tags','created_at');
-        $businessinfo_data=$business->quer($businessinfo,'users_id='.$data['guid'],(($param['page']-1)*$limit),$limit);
+        $businessinfo_data=$business->quer($businessinfo,'users_id='.$data['guid']." and type =".$param['type'],(($param['page']-1)*$limit),$limit);
         $list=null;
         if($businessinfo_data){
             //创建图片查询的orm模型

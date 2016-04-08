@@ -7,6 +7,7 @@ use App\Usermessages;
 use App\Users;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Validator;
 
 use OSS\OssClient;
 use OSS\Core\OssException;
@@ -90,6 +91,7 @@ class UsermessagesController extends Controller
 					'email'=>"",
 					'headpic'=>"",
 					'authStatus'=>$status,
+					'authNum'=>$person->certification,
 				],
 			]);
 		}else{
@@ -106,6 +108,7 @@ class UsermessagesController extends Controller
 					'email'=>$user->email,
 					'headpic'=>$user->headpic,
 					'authStatus'=>$status,
+					'authNum'=>$person->certification,
 				],
 			]);
 		}
@@ -128,50 +131,65 @@ class UsermessagesController extends Controller
      */
     public function update(Request $request)
     {
-
 		//通过guid获取用户实例
 		$id=$request['guid'];
         $data=Usermessages::Message($id)->take(1)->get();
 
 		$param=json_decode($request['param'],true);
-		if(count($data)==0){
-			//向数据库插入内容
-			$this->usermessages->users_id = $id;
-			if($param['nickname']!=null){
-				$this->usermessages->nickname = $param['nickname'];
+		$validator = Validator::make($param,
+            [
+                'qq' => 'digits_between:5,11',
+                'email' => 'email|unique:anchong_usermessages',
+            ]
+        );
+		if ($validator->fails()){
+			$messages = $validator->errors();
+			if ($messages->has('qq')) {
+				//如果验证失败,返回验证失败的信息
+			    return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'qq格式不正确']]);
+			}else if($messages->has('email')){
+				return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'email格式不正确或该邮箱已经被注册']]);
 			}
-			if($param['qq']!=null){
-				$this->usermessages->qq = $param['qq'];
-			}
-			if($param['email']!=null){
-				$this->usermessages->email = $param['email'];
-			}
-			if($param['contact']!=null){
-				$this->usermessages->contact = $param['contact'];
-			}
-			$result=$this->usermessages->save();
 		}else{
-			$user=usermessages::where('users_id', '=', $id)->first();
-			if($param['nickname']!=null){
-				$user->nickname = $param['nickname'];
+			if(count($data)==0){
+				//向数据库插入内容
+				$this->usermessages->users_id = $id;
+				if($param['nickname']!=null){
+					$this->usermessages->nickname = $param['nickname'];
+				}
+				if($param['qq']!=null){
+					$this->usermessages->qq = $param['qq'];
+				}
+				if($param['email']!=null){
+					$this->usermessages->email = $param['email'];
+				}
+				if($param['contact']!=null){
+					$this->usermessages->contact = $param['contact'];
+				}
+				$result=$this->usermessages->save();
+			}else{
+				$user=usermessages::where('users_id', '=', $id)->first();
+				if($param['nickname']!=null){
+					$user->nickname = $param['nickname'];
+				}
+				if($param['qq']!=null){
+					$user->qq = $param['qq'];
+				}
+				if($param['email']!=null){
+					$user->email = $param['email'];
+				}
+				if($param['contact']!=null){
+					$user->contact = $param['contact'];
+				}
+				$result=$user->save();
 			}
-			if($param['qq']!=null){
-				$user->qq = $param['qq'];
-			}
-			if($param['email']!=null){
-				$user->email = $param['email'];
-			}
-			if($param['contact']!=null){
-				$user->contact = $param['contact'];
-			}
-			$result=$user->save();
-		}
 
-		//返回给客户端数据
-		if($result){
-		    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'更新成功']]);
-		}else{
-			return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'更新失败']]);
+			//返回给客户端数据
+			if($result){
+				return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'更新成功']]);
+			}else{
+				return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'更新失败']]);
+			}
 		}
     }
 
