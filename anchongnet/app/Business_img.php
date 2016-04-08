@@ -62,4 +62,16 @@ class Business_img extends Model implements AuthenticatableContract,
     {
         return $this->select($field)->where('id',$id)->get()->toArray();
     }
+
+    /*
+    *   删除商机时将图片一起删除
+    */
+    public function delimg($id)
+    {
+        if($this->where('id', '=', $id)->delete()){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

@@ -55,11 +55,38 @@ class Business extends Model implements AuthenticatableContract,
            return;
        }
     }
+
     /*
     *   查询商机信息，有分页
     */
     public function quer($field,$type,$pos,$limit)
     {
-         return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('id', 'DESC')->get()->toArray()];
+         return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get()->toArray()];
+    }
+
+    /*
+    *   该方法是更新商机信息
+    */
+    public function businessupdate($column,$type,$data)
+    {
+        $id=$this->where($column,'=',$type);
+        if($id->update($data)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /*
+    *   删除商机信息
+    */
+    public function businessdel($id)
+    {
+        $del=$this->find($id);
+        if($del->delete()){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

@@ -253,7 +253,7 @@ class BusinessController extends Controller
         if($businessinfo_data){
             //创建图片查询的orm模型
             $business_img=new \App\Business_img();
-            //通过数组数据的组合将数据拼凑为{"total":3,"list":[{"id":1,"phone":"","contact":"","title":"","content":"","tag":"","created_at":"2016-02-24 08:02:50","pic":["1","2"]}格式
+            //通过数组数据的组合将数据拼凑为{"total":3,"list":[{"id":1,"phone":"","contact":"","title":"","content":"","tag":"","created_at":"2016-02-24 08:02:50","pic":["1","2"]}}格式
             foreach ($businessinfo_data['list'] as $business_data) {
                 $value_1=$business_img->quer('img',$business_data['id']);
                 //判断是否为空,如果是空表明没有图片
@@ -276,6 +276,53 @@ class BusinessController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$businessinfo_data['total'],'list'=>$list]]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
+        }
+    }
+
+    /*
+    *   对个人发布的商机做操作
+    */
+    public function businessaction(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $business=new \App\Business();
+        //判断用户行为，1为更新时间
+        if($param['action'] == "1"){
+            //更新时间
+            $result=$business->businessupdate('id',$param['id'],['created_at' => date('Y-m-d H:i:s',$data['time'])]);
+            if($result){
+                //成功返回操作成功
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'操作成功']]);
+            }else{
+                //失败返回操作失败
+                return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'操作失败']]);
+            }
+        //判断用户行为，2为删除
+        }elseif($param['action'] == "2") {
+            //开启事务处理
+            DB::beginTransaction();
+            $delresult=$business->businessdel($param['id']);
+            if($delresult){
+                $business_img=new \App\Business_img();
+                //删除图片的方法
+                $delresults=$business_img->delimg($param['id']);
+                if($delresults){
+                    //假如成功就提交
+                    DB::commit();
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'操作成功']]);
+                }else{
+                    //假如失败就回滚
+                    DB::rollback();
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'操作失败']]);
+                }
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'操作失败']]);
+            }
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'非法操作']]);
         }
     }
 }
