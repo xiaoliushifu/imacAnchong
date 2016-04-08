@@ -72,9 +72,9 @@ class BusinessController extends Controller
                     //创建插入方法
                     $business=new \App\Business();
                     $id=$business->add($business_data);
-                    if($param['pic']){
-                        //插入成功继续插图片，插入失败则返回错误信息
-                        if(!empty($id)){
+                    //插入成功继续插图片，插入失败则返回错误信息
+                    if(!empty($id)){
+                        if($param['pic']){
                             $ture=false;
                             foreach ($param['pic'] as $pic) {
                                 $business_img=new \App\Business_img();
@@ -91,13 +91,14 @@ class BusinessController extends Controller
                                 return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请重新发布信息']]);
                             }
                         }else{
-
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请重新发布信息']]);
+                            //假如成功就提交
+                            DB::commit();
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'发布信息成功']]);
                         }
                     }else{
-                        //假如成功就提交
-                        DB::commit();
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'发布信息成功']]);
+                        //假如失败就回滚
+                        DB::rollback();
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请重新发布信息']]);
                     }
                 }else{
                     return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请完善个人信息中的联系方式']]);
@@ -292,7 +293,7 @@ class BusinessController extends Controller
         //判断用户行为，1为更新时间
         if($param['action'] == "1"){
             //更新时间
-            $result=$business->businessupdate('id',$param['id'],['created_at' => date('Y-m-d H:i:s',$data['time'])]);
+            $result=$business->businessupdate($param['id'],['created_at' => date('Y-m-d H:i:s',$data['time'])]);
             if($result){
                 //成功返回操作成功
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'操作成功']]);
@@ -323,6 +324,91 @@ class BusinessController extends Controller
             }
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'非法操作']]);
+        }
+    }
+
+    /*
+    *   对个人发布的商机做修改
+    */
+    public function businessedit(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //验证用户传过来的数据是否合法
+        $validator = Validator::make($param,
+            [
+                'type' => 'required',
+                'title' => 'required|max:126',
+                'content' => 'required|min:4',
+                'tag' => 'required',
+                'pic' => 'array',
+            ]
+        );
+        //如果出错返回出错信息，如果正确执行下面的操作
+        if ($validator->fails())
+        {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请填写完整，并且标题长度不能超过60个字，工程简介不能低于4个字']]);
+        }else{
+            $tags_arr=explode(' ',$param['tags']);
+            $tags="";
+            if(!empty($tags_arr)){
+                foreach ($tags_arr as $tag_arr) {
+                    $tags.=bin2hex($tag_arr)." ";
+                }
+            }
+            //需要更新的数据
+            $business_data=[
+                'title' => $param['title'],
+                'created_at' => date('Y-m-d H:i:s',$data['time']),
+                'content' => $param['content'],
+                'tag' => $param['tag'],
+                'tags' => $param['tags'],
+                'tags_match' => $tags,
+            ];
+            //开启事务处理
+            DB::beginTransaction();
+            //创建插入方法
+            $business=new \App\Business();
+            $updateresult=$business->businessupdate($param['id'],$business_data);
+            //假如更新成功就继续更新图片
+            if($updateresult){
+                if($param['pic']){
+                    $ture=false;
+                    $business_imgs=new \App\Business_img();
+                    //删除图片的方法
+                    $delresults=$business_imgs->delimg($param['id']);
+                    if($delresults){
+                        foreach ($param['pic'] as $pic) {
+                            $business_img=new \App\Business_img();
+                            $ture=$business_img->add(['id'=>$param['id'],'img'=> $pic]);
+                        }
+                        //orm模型操作数据库会返回true或false,如果操作失败则返回错误信息
+                        if($ture){
+                            //假如成功就提交
+                            DB::commit();
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'修改信息成功']]);
+                        }else{
+                            //假如失败就回滚
+                            DB::rollback();
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'修改信息失败，请重新修改']]);
+                        }
+                    }else{
+                        //假如失败就回滚
+                        DB::rollback();
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'修改信息失败，请重新修改']]);
+                    }
+                }else{
+                    //假如成功就提交
+                    DB::commit();
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'修改信息成功']]);
+                }
+            }else{
+                //假如失败就回滚
+                DB::rollback();
+                return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'修改信息失败，请重新修改']]);
+            }
+
         }
     }
 }

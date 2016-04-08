@@ -65,6 +65,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/business/mybusinessinfo','Api\Business\BusinessController@mybusinessinfo');
         //个人商机操作
         Route::post('/business/businessaction','Api\Business\BusinessController@businessaction');
+        //个人商机修改
+        Route::post('/business/businessedit','Api\Business\BusinessController@businessedit');
 
     });
 

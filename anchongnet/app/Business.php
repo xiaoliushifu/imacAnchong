@@ -67,9 +67,9 @@ class Business extends Model implements AuthenticatableContract,
     /*
     *   该方法是更新商机信息
     */
-    public function businessupdate($column,$type,$data)
+    public function businessupdate($id,$data)
     {
-        $id=$this->where($column,'=',$type);
+        $id=$this->find($id);
         if($id->update($data)){
             return true;
         }else{
