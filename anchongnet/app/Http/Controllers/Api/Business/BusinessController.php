@@ -79,6 +79,12 @@ class BusinessController extends Controller
                             foreach ($param['pic'] as $pic) {
                                 $business_img=new \App\Business_img();
                                 $ture=$business_img->add(['id'=>$id,'img'=> $pic]);
+                                //假如有一张图片插入失败就返回错误
+                                if(!$ture){
+                                    //假如失败就回滚
+                                    DB::rollback();
+                                    return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'修改信息失败，请重新修改']]);
+                                }
                             }
                             //orm模型操作数据库会返回true或false,如果操作失败则返回错误信息
                             if($ture){
@@ -382,6 +388,12 @@ class BusinessController extends Controller
                         foreach ($param['pic'] as $pic) {
                             $business_img=new \App\Business_img();
                             $ture=$business_img->add(['id'=>$param['id'],'img'=> $pic]);
+                            //假如有一张图片插入失败就返回错误
+                            if(!$ture){
+                                //假如失败就回滚
+                                DB::rollback();
+                                return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'修改信息失败，请重新修改4']]);
+                            }
                         }
                         //orm模型操作数据库会返回true或false,如果操作失败则返回错误信息
                         if($ture){
@@ -391,12 +403,12 @@ class BusinessController extends Controller
                         }else{
                             //假如失败就回滚
                             DB::rollback();
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'修改信息失败，请重新修改']]);
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'修改信息失败，请重新修改3']]);
                         }
                     }else{
                         //假如失败就回滚
                         DB::rollback();
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'修改信息失败，请重新修改']]);
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'修改信息失败，请重新修改2']]);
                     }
                 }else{
                     //假如成功就提交
@@ -406,7 +418,7 @@ class BusinessController extends Controller
             }else{
                 //假如失败就回滚
                 DB::rollback();
-                return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'修改信息失败，请重新修改']]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'修改信息失败，请重新修改1']]);
             }
 
         }

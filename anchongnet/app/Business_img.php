@@ -68,10 +68,15 @@ class Business_img extends Model implements AuthenticatableContract,
     */
     public function delimg($id)
     {
-        if($this->where('id', '=', $id)->delete()){
-            return true;
+        $data=$this->where('id', '=', $id)->get()->toArray();
+        if($data){
+            if($this->where('id', '=', $id)->delete()){
+                return true;
+            }else{
+                return false;
+            }
         }else{
-            return false;
+            return true;
         }
     }
 }
