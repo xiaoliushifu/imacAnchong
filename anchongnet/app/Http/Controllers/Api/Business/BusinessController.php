@@ -8,7 +8,6 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Request;
 use Validator;
-use Illuminate\Pagination\Paginator;
 use DB;
 
 /*
@@ -71,14 +70,14 @@ class BusinessController extends Controller
                     DB::beginTransaction();
                     //创建插入方法
                     $business=new \App\Business();
-                    $id=$business->add($business_data);
+                    $id=$business->add($business_data);``
                     //插入成功继续插图片，插入失败则返回错误信息
                     if(!empty($id)){
                         if($param['pic']){
                             $ture=false;
                             foreach ($param['pic'] as $pic) {
                                 $business_img=new \App\Business_img();
-                                $ture=$business_img->add(['id'=>$id,'img'=> $pic]);
+                                $ture=$business_img->add(['bid'=>$id,'img'=> $pic]);
                                 //假如有一张图片插入失败就返回错误
                                 if(!$ture){
                                     //假如失败就回滚
@@ -198,7 +197,7 @@ class BusinessController extends Controller
         $limit=20;
         //创建商机表的orm模型
         $business=new \App\Business();
-        $businessinfo=array('id','phone','contact','title','content','tag','tags','created_at');
+        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at');
         if(empty($param['tag']) && empty($param['search'])){
             //假如没有检索则sql语句为
             $sql='type ='.$param['type'];
@@ -216,9 +215,9 @@ class BusinessController extends Controller
         if($businessinfo_data){
             //创建图片查询的orm模型
             $business_img=new \App\Business_img();
-            //通过数组数据的组合将数据拼凑为{"total":3,"list":[{"id":1,"phone":"","contact":"","title":"","content":"","tag":"","created_at":"2016-02-24 08:02:50","pic":["1","2"]}格式
+            //通过数组数据的组合将数据拼凑为{"total":3,"list":[{"bid":1,"phone":"","contact":"","title":"","content":"","tag":"","created_at":"2016-02-24 08:02:50","pic":["1","2"]}格式
             foreach ($businessinfo_data['list'] as $business_data) {
-                $value_1=$business_img->quer('img',$business_data['id']);
+                $value_1=$business_img->quer('img',$business_data['bid']);
                 //判断是否为空,如果是空表明没有图片
                 if(empty($value_1)){
                     $list[]=$business_data;
@@ -235,8 +234,18 @@ class BusinessController extends Controller
                     $img=null;
                 }
             }
+            $showphone=0;
+            if($data['guid'] == 0){
+                $showphone=0;
+            }else{
+                $users=new \App\Users();
+                $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
+                if($users_auth[0]['certification'] == 3){
+                    $showphone=1;
+                }
+            }
             //返回数据总数和具体数据
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$businessinfo_data['total'],'list'=>$list]]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$businessinfo_data['total'],'showphone'=>$showphone,'list'=>$list]]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
         }
@@ -254,15 +263,15 @@ class BusinessController extends Controller
         $limit=20;
         //创建商机表的orm模型
         $business=new \App\Business();
-        $businessinfo=array('id','phone','contact','title','content','tag','tags','created_at');
+        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at');
         $businessinfo_data=$business->quer($businessinfo,'users_id='.$data['guid']." and type =".$param['type'],(($param['page']-1)*$limit),$limit);
         $list=null;
         if($businessinfo_data){
             //创建图片查询的orm模型
             $business_img=new \App\Business_img();
-            //通过数组数据的组合将数据拼凑为{"total":3,"list":[{"id":1,"phone":"","contact":"","title":"","content":"","tag":"","created_at":"2016-02-24 08:02:50","pic":["1","2"]}}格式
+            //通过数组数据的组合将数据拼凑为{"total":3,"list":[{"bid":1,"phone":"","contact":"","title":"","content":"","tag":"","created_at":"2016-02-24 08:02:50","pic":["1","2"]}}格式
             foreach ($businessinfo_data['list'] as $business_data) {
-                $value_1=$business_img->quer('img',$business_data['id']);
+                $value_1=$business_img->quer('img',$business_data['bid']);
                 //判断是否为空,如果是空表明没有图片
                 if(empty($value_1)){
                     $list[]=$business_data;
@@ -299,10 +308,16 @@ class BusinessController extends Controller
         //判断用户行为，1为更新时间
         if($param['action'] == "1"){
             //更新时间
-            $result=$business->businessupdate($param['id'],['created_at' => date('Y-m-d H:i:s',$data['time'])]);
+            $result=$business->businessupdate($param['bid'],['created_at' => date('Y-m-d H:i:s',$data['time'])]);
             if($result){
-                //成功返回操作成功
-                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'操作成功']]);
+                $update_time=$business->quertime('updated_at','bid = '.$param['bid'])->toArray();
+                if($update_time){
+                    //成功返回操作成功
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$update_time[0]['updated_at']]);
+                }else {
+                    //失败返回操作失败
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'操作失败1']]);
+                }
             }else{
                 //失败返回操作失败
                 return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'操作失败']]);
@@ -311,11 +326,11 @@ class BusinessController extends Controller
         }elseif($param['action'] == "2") {
             //开启事务处理
             DB::beginTransaction();
-            $delresult=$business->businessdel($param['id']);
+            $delresult=$business->businessdel($param['bid']);
             if($delresult){
                 $business_img=new \App\Business_img();
                 //删除图片的方法
-                $delresults=$business_img->delimg($param['id']);
+                $delresults=$business_img->delimg($param['bid']);
                 if($delresults){
                     //假如成功就提交
                     DB::commit();
@@ -376,18 +391,18 @@ class BusinessController extends Controller
             DB::beginTransaction();
             //创建插入方法
             $business=new \App\Business();
-            $updateresult=$business->businessupdate($param['id'],$business_data);
+            $updateresult=$business->businessupdate($param['bid'],$business_data);
             //假如更新成功就继续更新图片
             if($updateresult){
                 if($param['pic']){
                     $ture=false;
                     $business_imgs=new \App\Business_img();
                     //删除图片的方法
-                    $delresults=$business_imgs->delimg($param['id']);
+                    $delresults=$business_imgs->delimg($param['bid']);
                     if($delresults){
                         foreach ($param['pic'] as $pic) {
                             $business_img=new \App\Business_img();
-                            $ture=$business_img->add(['id'=>$param['id'],'img'=> $pic]);
+                            $ture=$business_img->add(['bid'=>$param['bid'],'img'=> $pic]);
                             //假如有一张图片插入失败就返回错误
                             if(!$ture){
                                 //假如失败就回滚

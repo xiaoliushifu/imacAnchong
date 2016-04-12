@@ -25,9 +25,27 @@ class UserController extends Controller
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
         $param=json_decode($data['param'],true);
+        //判断用户行为
+        switch ($param['action']) {
+            case 1:
+                $action="注册验证";
+                break;
+            case 2:
+                $action="变更验证";
+                break;
+            case 3:
+                $action="登录验证";
+                break;
+            case 4:
+                $action="身份验证";
+                break;
+            default:
+                return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData'=>['Message'=>'短信行为异常']]);;
+                break;
+        }
         //new一个短信的对象
         $smsauth=new \App\SMS\smsAuth();
-        $result=$smsauth->smsAuth('注册验证',$param['phone']);
+        $result=$smsauth->smsAuth($action,$param['phone']);
         //判断短信是否发送成功并且插入Redis
         if($result[0]){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result[1]]);
@@ -62,8 +80,8 @@ class UserController extends Controller
             }else{
                 //从Redis里面取出验证码
                 $redis = Redis::connection();
-                if($redis->get($param['phone']) == $param['phonecode']){
-                    $redis->del($param['phone']);
+                if($redis->get($param['phone'].'注册验证') == $param['phonecode']){
+                    $redis->del($param['phone'].'注册验证');
                     //像users表中插的数据
                     $users_data=[
                         'phone' => $param['phone'],
@@ -153,6 +171,7 @@ class UserController extends Controller
             }
         }
     }
+
     /*
     *   该方法是为APP提供上传的sts验证
     */
@@ -163,6 +182,7 @@ class UserController extends Controller
         //返回sts验证
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>[$sts->stsauth()]]);
     }
+
     /*
     *   阿里回调接收
     */
@@ -172,6 +192,43 @@ class UserController extends Controller
         $param1="";
         foreach ($data as $key => $value) {
           $param1 .= $key.'=>'.$value.',';
+        }
+    }
+
+    /*
+    *   找回密码
+    */
+    public function forgetpassword(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        $validator = Validator::make($param,
+            [
+                'password' => 'required|min:6',
+            ]
+        );
+        if ($validator->fails())
+        {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'密码小于六位']]);
+        }else{
+            //redis的验证码
+            $redis = Redis::connection();
+            if($redis->get($param['phone'].'变更验证') == $param['phonecode']){
+                $redis->del($param['phone'].'变更验证');
+                $password_data=[
+                    'password' => Hash::make($param['password'])
+                ];
+                $users_login=new \App\Users_login();
+                $result=$users_login->updatepassword($param['phone'],$password_data);
+                if($result){
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'密码修改成功']]);
+                }else{
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'密码修改失败']]);
+                }
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData'=>['Message'=>'手机验证错误']]);
+            }
         }
     }
 }

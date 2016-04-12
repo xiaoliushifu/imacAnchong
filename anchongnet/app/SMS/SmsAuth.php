@@ -32,11 +32,11 @@ class smsAuth {
             case '注册验证':
                 $smsarr=['data' => ['code' => strval($code), 'product' => '安虫平台'], 'code' => 'SMS_6135740'];
                 break;
+            case '变更验证':
+                $smsarr=['data' => ['code' => strval($code), 'product' => '安虫平台'], 'code' => 'SMS_6135738'];
+                break;
             case '登录验证':
                 $smsarr=['data' => ['code' => strval($code), 'product' => '安虫平台'], 'code' => 'SMS_6135742'];
-                break;
-            case '修改密码':
-                $smsarr=['data' => ['code' => strval($code), 'product' => '安虫平台'], 'code' => 'SMS_6135738'];
                 break;
             case '身份验证':
                 $smsarr=['data' => ['code' => strval($code), 'product' => '安虫平台'], 'code' => 'SMS_6135744'];
@@ -55,7 +55,7 @@ class smsAuth {
                 return [false,'发送失败，'.$value['sub_msg'].'，请重新发送！'];
             }elseif($key == 'alibaba_aliqin_fc_sms_num_send_response' && $value['result']['success'] == '1'){
                 $redis = Redis::connection();
-                $redis->set($phone, $code);
+                $redis->set($phone.$action, $code);
                 return [true,1];
             }else{
                 return [false,'发送失败，请重新发送！'];

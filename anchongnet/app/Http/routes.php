@@ -37,6 +37,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/user/register','Api\User\UserController@register');
         //用户登录的接口
         Route::post('/user/login','Api\User\UserController@login');
+        //用户修改密码的接口
+        Route::post('/user/forgetpassword','Api\User\UserController@forgetpassword');
         //获得用户资料
         Route::post('/user/getmessage','Api\User\UsermessagesController@show');
         //修改用户资料
@@ -74,30 +76,38 @@ Route::group(['domain' => 'api.anchong.net'], function () {
 
 //后台路由
 Route::group(['domain' => 'admin.anchong.net'], function () {
-     //首页路由
-     Route::get('/','admin\indexController@index');
-     //用户路由
-    Route::resource('/users','admin\userController');
-     //认证路由
-	Route::resource('/cert','admin\certController');
-     //订单管理路由
-   	 Route::resource('/order','admin\orderController');
-       //检查
-	Route::get('/check','admin\CheckController@check');
+    //验证码类,需要传入数字
+    Route::get('/captcha/{num}', 'CaptchaController@captcha');
+    //登录检查
+    Route::any('/checklogin','admin\indexController@checklogin');
+    //加中间件的路由组
+    Route::group(['middleware' => 'LoginAuthen'], function () {
+        //首页路由
+        Route::get('/','admin\indexController@index');
+        //用户路由
+        Route::resource('/users','admin\userController');
+        //后台登出
+        Route::get('/logout','admin\indexController@logout');
+         //认证路由
+    	Route::resource('/cert','admin\certController');
+        //订单管理路由
+       	Route::resource('/order','admin\orderController');
+           //检查
+    	Route::get('/check','admin\CheckController@check');
 
-     //视图下两层目录下的模版显视
-     Route::get('/{path}/{path1}/{path2}',function($path,$path1,$path2){
-         return view("admin.$path.$path1.".substr($path2,0,-10));
-     });
-     //视图下一层目录下的模版显视
-     Route::get('/{path}/{path1}',function($path,$path1){
-         return view("admin.$path.".substr($path1,0,-10));
-     });
-     //视图根目录下的模版显视
-     Route::get('/{path}',function($path){
-         return view("admin.".substr($path,0,-10));
-     });
-
+         //视图下两层目录下的模版显视
+         Route::get('/{path}/{path1}/{path2}',function($path,$path1,$path2){
+             return view("admin.$path.$path1.".substr($path2,0,-10));
+         });
+         //视图下一层目录下的模版显视
+         Route::get('/{path}/{path1}',function($path,$path1){
+             return view("admin.$path.".substr($path1,0,-10));
+         });
+         //视图根目录下的模版显视
+         Route::get('/{path}',function($path){
+             return view("admin.".substr($path,0,-10));
+         });
+    });
 });
 
 

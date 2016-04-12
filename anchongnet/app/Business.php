@@ -33,7 +33,7 @@ class Business extends Model implements AuthenticatableContract,
      * @var array
      */
      //不允许被赋值
-    protected $guarded = ['id'];
+    protected $guarded = ['bid'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -69,7 +69,7 @@ class Business extends Model implements AuthenticatableContract,
     */
     public function businessupdate($id,$data)
     {
-        $id=$this->find($id);
+        $id=$this->where('bid','=',$id);
         if($id->update($data)){
             return true;
         }else{
@@ -82,11 +82,19 @@ class Business extends Model implements AuthenticatableContract,
     */
     public function businessdel($id)
     {
-        $del=$this->find($id);
+        $del=$this->where('bid','=',$id);
         if($del->delete()){
             return true;
         }else{
             return false;
         }
+    }
+
+    /*
+    *   商机时间查询
+    */
+    public function quertime($field,$type)
+    {
+        return $this->select($field)->whereRaw($type)->get();
     }
 }

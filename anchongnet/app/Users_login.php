@@ -31,7 +31,7 @@ class Users_login extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $guarded = ['user_id'];
+    protected $guarded = ['id'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -74,6 +74,7 @@ class Users_login extends Model implements AuthenticatableContract,
         }
 
     }
+
     /*
     *   获得用户token
     */
@@ -81,4 +82,16 @@ class Users_login extends Model implements AuthenticatableContract,
         return $this->select('token')->where('users_id',$guid)->get()->toArray();
     }
 
+    /*
+    *   该方法是更新密码
+    */
+    public function updatepassword($phone,$data)
+    {
+        $id=$this->where('username','=',$phone);
+        if($id->update($data)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

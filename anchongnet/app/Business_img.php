@@ -60,7 +60,7 @@ class Business_img extends Model implements AuthenticatableContract,
     */
     public function quer($field,$id)
     {
-        return $this->select($field)->where('id',$id)->get()->toArray();
+        return $this->select($field)->where('bid',$id)->get()->toArray();
     }
 
     /*
@@ -68,9 +68,9 @@ class Business_img extends Model implements AuthenticatableContract,
     */
     public function delimg($id)
     {
-        $data=$this->where('id', '=', $id)->get()->toArray();
+        $data=$this->where('bid', '=', $id)->get()->toArray();
         if($data){
-            if($this->where('id', '=', $id)->delete()){
+            if($this->where('bid', '=', $id)->delete()){
                 return true;
             }else{
                 return false;
