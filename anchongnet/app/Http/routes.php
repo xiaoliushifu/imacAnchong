@@ -70,6 +70,13 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         //个人商机修改
         Route::post('/business/businessedit','Api\Business\BusinessController@businessedit');
 
+        /*
+        *   商品模块
+        */
+        //商品一级分类
+        Route::post('/goods/catone','Api\Category\CategoryController@catone');
+        //商品详细分类信息
+        Route::post('/goods/catinfo','Api\Category\CategoryController@catinfo');
     });
 
 });
