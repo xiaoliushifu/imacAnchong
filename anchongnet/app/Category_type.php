@@ -12,7 +12,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Redirect;
 
 /*
-*   该模型是操作用户登录表的模块
+*   该模型是操作三级分类的模块
 */
 class Category_type extends Model implements AuthenticatableContract,
                                     AuthorizableContract,

@@ -77,8 +77,9 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/goods/catone','Api\Category\CategoryController@catone');
         //商品详细分类信息
         Route::post('/goods/catinfo','Api\Category\CategoryController@catinfo');
+        //商品列表
+        Route::post('/goods/goodslist','Api\Goods\GoodsController@goodslist');
     });
-
 });
 
 //后台路由

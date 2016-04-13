@@ -53,22 +53,23 @@ class CategoryController extends Controller
         //定义两个变量来存储最后的结果
         $catarr=null;
         $catresults=null;
+        $twocat=null;
         //通过便利将一级分类下的二级和三级分类全部查出来并处理数据格式
         foreach ($resultarr as $variable) {
             foreach ($variable as $value) {
                 //判断查出来的数据是否为ID
                 if(is_numeric($value)){
+                    $twocat['cat_id']=$value;
                     //使用二级分类的id进行三级分类的查询
-                    $cattow=$category_type->quer('cat_name','parent_id = '.$value)->toArray();
+                    $cattow=$category_type->quer(['cid','cat_name'],'parent_id = '.$value)->toArray();
                     foreach ($cattow as $cat3) {
-                        foreach ($cat3 as $catresult) {
-                            //进行数据组装
-                            $catarr[]=$catresult;
-                        }
+                        //组装数组
+                        $catarr[]=$cat3;
                     }
                 }else{
+                    $twocat['catname']=$value;
                     //进行数据组装
-                    $catresults[]=['name'=>$value,'list'=>$catarr];
+                    $catresults[]=['name'=>$twocat,'list'=>$catarr];
                     $catarr=null;
                 }
             }
