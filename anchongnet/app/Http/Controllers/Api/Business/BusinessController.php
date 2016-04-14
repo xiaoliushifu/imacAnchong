@@ -70,7 +70,7 @@ class BusinessController extends Controller
                     DB::beginTransaction();
                     //创建插入方法
                     $business=new \App\Business();
-                    $id=$business->add($business_data);``
+                    $id=$business->add($business_data);
                     //插入成功继续插图片，插入失败则返回错误信息
                     if(!empty($id)){
                         if($param['pic']){

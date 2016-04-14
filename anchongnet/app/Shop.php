@@ -24,4 +24,12 @@ class Shop extends Model
     {
         return $query->where('sid', '=', $keySid);
     }
+
+    /*
+    *   查询商铺信息
+    */
+    public function quer($field,$type)
+    {
+        return $this->select($field)->whereRaw($type)->get();
+    }
 }

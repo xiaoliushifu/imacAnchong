@@ -59,15 +59,15 @@ class CategoryController extends Controller
             foreach ($variable as $value) {
                 //判断查出来的数据是否为ID
                 if(is_numeric($value)){
-                    $twocat['cat_id']=$value;
+                    $twocat['cid']=$value;
                     //使用二级分类的id进行三级分类的查询
-                    $cattow=$category_type->quer(['cid','cat_name'],'parent_id = '.$value)->toArray();
+                    $cattow=$category_type->quer(['cid','cat_name','pic'],'parent_id = '.$value)->toArray();
                     foreach ($cattow as $cat3) {
                         //组装数组
                         $catarr[]=$cat3;
                     }
                 }else{
-                    $twocat['catname']=$value;
+                    $twocat['cat_name']=$value;
                     //进行数据组装
                     $catresults[]=['name'=>$twocat,'list'=>$catarr];
                     $catarr=null;

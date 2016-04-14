@@ -81,6 +81,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/goods/catinfo','Api\Category\CategoryController@catinfo');
         //商品列表
         Route::post('/goods/goodslist','Api\Goods\GoodsController@goodslist');
+        //商品详情
+        Route::post('/goods/goodsinfo','Api\Goods\GoodsController@goodsinfo');
     });
 });
 
