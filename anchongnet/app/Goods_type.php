@@ -45,8 +45,8 @@ class Goods_type extends Model implements AuthenticatableContract,
     /*
     *   分类查询
     */
-    public function quer($field,$type)
+    public function quer($field,$type,$pos,$limit)
     {
-        return $this->select($field)->whereRaw($type)->get();
+        return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get()];
     }
 }

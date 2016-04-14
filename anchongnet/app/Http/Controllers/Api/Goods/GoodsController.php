@@ -33,14 +33,16 @@ class GoodsController extends Controller
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
         $param=json_decode($data['param'],true);
+        //默认每页数量
+        $limit=20;
         //创建ORM模型
         $goods_type=new \App\Goods_type();
         //需要查的字段
         $goods_data=['gid','title','price','sname','pic'];
         //查询商品列表的信息
-        $result=$goods_type->quer($goods_data,'cid = '.$param['cid']);
+        $result=$goods_type->quer($goods_data,'cid = '.$param['cid'],(($param['page']-1)*$limit),$limit);
         //将结果转成数组
-        $results=$result->toArray();
+        $results=$result['list']->toArray();
         //判断是否取出结果
         if(!empty($results)){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
