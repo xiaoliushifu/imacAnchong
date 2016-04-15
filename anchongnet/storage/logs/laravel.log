@@ -21100,3 +21100,9 @@ Stack trace:
 [2016-04-14 09:02:41] local.ERROR: Debugbar exception: filemtime(): stat failed for /Users/FanXiao2/www/web/anchongnet/vendor/barryvdh/laravel-debugbar/src/Resources/laravel-debugbar.css  
 [2016-04-14 09:02:47] local.ERROR: Debugbar exception: filemtime(): stat failed for /Users/FanXiao2/www/web/anchongnet/vendor/barryvdh/laravel-debugbar/src/Resources/laravel-debugbar.css  
 [2016-04-14 09:02:49] local.ERROR: Debugbar exception: filemtime(): stat failed for /Users/FanXiao2/www/web/anchongnet/vendor/barryvdh/laravel-debugbar/src/Resources/laravel-debugbar.css  
+[2016-04-15 02:40:37] local.ERROR: Debugbar exception: filemtime(): stat failed for /Users/FanXiao2/www/web/anchongnet/vendor/barryvdh/laravel-debugbar/src/Resources/laravel-debugbar.css  
+[2016-04-15 02:40:38] local.ERROR: Debugbar exception: filemtime(): stat failed for /Users/FanXiao2/www/web/anchongnet/vendor/barryvdh/laravel-debugbar/src/Resources/laravel-debugbar.css  
+[2016-04-15 02:40:38] local.ERROR: Debugbar exception: filemtime(): stat failed for /Users/FanXiao2/www/web/anchongnet/vendor/barryvdh/laravel-debugbar/src/Resources/laravel-debugbar.css  
+[2016-04-15 02:40:39] local.ERROR: Debugbar exception: filemtime(): stat failed for /Users/FanXiao2/www/web/anchongnet/vendor/barryvdh/laravel-debugbar/src/Resources/laravel-debugbar.css  
+[2016-04-15 02:40:39] local.ERROR: Debugbar exception: filemtime(): stat failed for /Users/FanXiao2/www/web/anchongnet/vendor/barryvdh/laravel-debugbar/src/Resources/laravel-debugbar.css  
+[2016-04-15 02:40:39] local.ERROR: Debugbar exception: filemtime(): stat failed for /Users/FanXiao2/www/web/anchongnet/vendor/barryvdh/laravel-debugbar/src/Resources/laravel-debugbar.css  
