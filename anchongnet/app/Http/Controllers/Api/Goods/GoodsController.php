@@ -75,7 +75,7 @@ class GoodsController extends Controller
         $goods_specifications=new \App\Goods_specifications();
         $goods_thumb=new \App\Goods_thumb();
         //需要查的字段
-        $goods_data=['goods_name','sid','pic','parameter','data'];
+        $goods_data=['goods_id','goods_name','sid','pic','parameter','data'];
         //查询商品列表的信息
         $picresult=$goods_thumb->quer('img_url','gid = '.$param['gid'])->toArray();
         $results=$goods_specifications->quer($goods_data,'gid = '.$param['gid'])->toArray();
@@ -104,6 +104,26 @@ class GoodsController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'商品信息获取失败，请刷新']]);
+        }
+    }
+
+    /*
+    *   商品规格信息
+    */
+    public function goodsformat(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $goods_specifications=new \App\Goods_specifications();
+        $goods_data=['gid','goods_img','goods_price','vip_price','goods_name'];
+        $result=$goods_specifications->quer($goods_data,'goods_id = '.$param['goods_id']);
+        $results=$result->toArray();
+        if(!empty($results)){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'规格信息获取失败，请刷新']]);
         }
     }
 }

@@ -11,7 +11,7 @@ use Validator;
 use DB;
 
 /*
-*   该控制器是操作分类，为API接口提供分类数据
+*   该控制器是操作商品分类，为API接口提供商品分类数据
 */
 class CategoryController extends Controller
 {
