@@ -12,9 +12,9 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Redirect;
 
 /*
-*   该模型是操作一级二级分类表的模块
+*   该模型是操作货品表的模块
 */
-class Category extends Model implements AuthenticatableContract,
+class Goods_specifications extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
                                     CanResetPasswordContract
 {
@@ -25,7 +25,7 @@ class Category extends Model implements AuthenticatableContract,
      *
      * @var string
      */
-    protected $table = 'anchong_goods_cat';
+    protected $table = 'anchong_goods_specifications';
 
     /**
      * The attributes that are mass assignable.
@@ -33,7 +33,7 @@ class Category extends Model implements AuthenticatableContract,
      * @var array
      */
      //不允许被赋值
-    protected $guarded = ['cat_id'];
+    protected $guarded = ['gid'];
 
     /**
      * The attributes excluded from the model's JSON form.

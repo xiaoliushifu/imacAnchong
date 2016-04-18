@@ -34,21 +34,20 @@
 		<li class="treeview">
 			<a href="#">
 				<i class="fa fa-files-o"></i>
-				<span>布局选项</span>
-				<span class="label label-primary pull-right">4</span>
+				<span>商铺管理</span>
 			</a>
 			<ul class="treeview-menu">
-				<li><a href="/pages/layout/top-nav.blade.php"><i class="fa fa-circle-o"></i> 顶部导航</a></li>
-				<li><a href="/pages/layout/boxed.blade.php"><i class="fa fa-circle-o"></i> Boxed</a></li>
-				<li><a href="/pages/layout/fixed.blade.php"><i class="fa fa-circle-o"></i> Fixed</a></li>
-				<li><a href="/pages/layout/collapsed-sidebar.blade.php"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+				<li><a href="/shop"><i class="fa fa-circle-o"></i> 商铺列表</a></li>
 			</ul>
 		</li>
 		<li>
-			<a href="/pages/widgets.blade.php">
-				<i class="fa fa-th"></i> <span>小部件</span>
-				<small class="label pull-right bg-green">new</small>
+			<a href="javascript:">
+				<i class="fa fa-th"></i> <span>标签管理</span>
 			</a>
+			<ul class="treeview-menu">
+				<li><a href="/tag"><i class="fa fa-circle-o"></i> 标签列表</a></li>
+				<li><a href="/tag/create"><i class="fa fa-circle-o"></i> 添加标签</a></li>
+			</ul>
 		</li>
 		<li class="treeview">
 			<a href="#">

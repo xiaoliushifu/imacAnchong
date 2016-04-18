@@ -73,12 +73,19 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         /*
         *   商品模块
         */
+        //商铺路由
+        Route::resource('/shop','Api\Shop\ShopController');
         //商品一级分类
         Route::post('/goods/catone','Api\Category\CategoryController@catone');
         //商品详细分类信息
         Route::post('/goods/catinfo','Api\Category\CategoryController@catinfo');
+        //商品列表
+        Route::post('/goods/goodslist','Api\Goods\GoodsController@goodslist');
+        //商品详情
+        Route::post('/goods/goodsinfo','Api\Goods\GoodsController@goodsinfo');
+        //商品规格
+        Route::post('/goods/goodsformat','Api\Goods\GoodsController@goodsformat');
     });
-
 });
 
 //后台路由
@@ -99,8 +106,14 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
     	Route::resource('/cert','admin\certController');
         //订单管理路由
        	Route::resource('/order','admin\orderController');
-           //检查
+        //检查
     	Route::get('/check','admin\CheckController@check');
+		//商铺路由
+        Route::resource('/shop','admin\shopController');
+        //商铺审核路由
+        Route::get("/checkShop",'admin\checkShopController@index');
+		//标签管理路由
+        Route::resource('/tag','admin\tagController');
 
          //视图下两层目录下的模版显视
          Route::get('/{path}/{path1}/{path2}',function($path,$path1,$path2){

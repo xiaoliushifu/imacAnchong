@@ -12,7 +12,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Redirect;
 
 /*
-*   该模型是操作用户登录表的模块
+*   该模型是操作商机表的模块
 */
 class Business extends Model implements AuthenticatableContract,
                                     AuthorizableContract,

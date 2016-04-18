@@ -11,7 +11,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Redirect;
 /*
-*   该模型是操作用户登录表的模块
+*   该模型是操作标签的模块
 */
 class Business_tag extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
