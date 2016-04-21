@@ -85,6 +85,20 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/goods/goodsinfo','Api\Goods\GoodsController@goodsinfo');
         //商品规格
         Route::post('/goods/goodsformat','Api\Goods\GoodsController@goodsformat');
+        //商品发布
+        Route::post('/goods/goodsrelease','Api\Goods\GoodsController@goodsrelease');
+
+        /*
+        *   购物车模块
+        */
+        //购物车添加
+        Route::post('/cart/cartadd','Api\Cart\CartController@cartadd');
+        //购物车查看
+        Route::post('/cart/cartinfo','Api\Cart\CartController@cartinfo');
+        //购物车物品数量加减
+        Route::post('/cart/cartnum','Api\Cart\CartController@cartnum');
+        //购物车物品删除
+        Route::post('/cart/cartdel','Api\Cart\CartController@cartdel');
     });
 });
 
