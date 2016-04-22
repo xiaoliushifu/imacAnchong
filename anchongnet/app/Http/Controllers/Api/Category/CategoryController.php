@@ -26,7 +26,7 @@ class CategoryController extends Controller
         //创建ORM模型
         $category=new \App\Category();
         //进行数据查询
-        $result=$category->quer(['cat_id','cat_name'],'parent_id = 0');
+        $result=$category->quer(['cat_id','cat_name'],'parent_id = 0 and is_show = 1');
         //为了判断将数据转成数组格式
         $resultarr=$result->toArray();
         //判断后如果不为空返回集合格式的数据，否则返回错误
@@ -49,7 +49,7 @@ class CategoryController extends Controller
         $category=new \App\Category();
         $category_type=new \App\Category_type();
         //将二级分类信息查询出来
-        $resultarr=$category->quer(['cat_id','cat_name'],'parent_id = '.$param['cat_id'])->toArray();
+        $resultarr=$category->quer(['cat_id','cat_name'],'parent_id = '.$param['cat_id'].' and is_show = 1')->toArray();
         //定义两个变量来存储最后的结果
         $catarr=null;
         $catresults=null;

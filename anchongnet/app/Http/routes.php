@@ -99,6 +99,15 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/cart/cartnum','Api\Cart\CartController@cartnum');
         //购物车物品删除
         Route::post('/cart/cartdel','Api\Cart\CartController@cartdel');
+
+
+        /*
+        *   订单模块
+        */
+        //订单添加
+        Route::post('/order/ordercreate','Api\Order\OrderController@ordercreate');
+        //订单查看
+        Route::post('/order/orderinfo','Api\Order\OrderController@orderinfo');
     });
 });
 

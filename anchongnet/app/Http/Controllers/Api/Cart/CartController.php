@@ -25,19 +25,32 @@ class CartController extends Controller
         $param=json_decode($data['param'],true);
         //创建购物车的ORM模型
         $cart=new \App\Cart();
-        //用户传过来的数据
-        $cart_data=[
-            'users_id' => $data['guid'],
-            'goods_name' => $param['goods_name'],
-            'goods_num' => $param['goods_num'],
-            'goods_price' => $param['goods_price'],
-            'goods_type' => $param['goods_type'],
-            'gid' => $param['gid'],
-            'created_at' => date('Y-m-d H:i:s',$data['time']),
-            'sid' => $param['sid'],
-            'sname' => $param['sname'],
-        ];
-        $result=$cart->add($cart_data);
+        //判断商品是否在购物车
+        $gid_num=$cart->quer(['goods_num','cart_id'],'users_id = '.$data['guid'].' and gid ='.$param['gid'])->toArray();
+        //看是否有数据如果存在就合并
+        if(!empty($gid_num)){
+            //商品数量
+            $goodsnum=[
+                'goods_num' => $param['goods_num']+$gid_num[0]['goods_num'],
+            ];
+            //更新商品数量
+            $result=$cart->cartupdate($gid_num[0]['cart_id'],$goodsnum);
+        }else{
+            //用户传过来的数据
+            $cart_data=[
+                'users_id' => $data['guid'],
+                'goods_name' => $param['goods_name'],
+                'goods_num' => $param['goods_num'],
+                'goods_price' => $param['goods_price'],
+                'goods_type' => $param['goods_type'],
+                'img' => $param['img'],
+                'gid' => $param['gid'],
+                'created_at' => date('Y-m-d H:i:s',$data['time']),
+                'sid' => $param['sid'],
+                'sname' => $param['sname'],
+            ];
+            $result=$cart->add($cart_data);
+        }
         //看是否插入成功
         if($result){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'购物车添加成功！']]);
@@ -57,9 +70,13 @@ class CartController extends Controller
         //创建购物车的ORM模型
         $cart=new \App\Cart();
         //定义查询的数组
-        $cart_data=['cart_id','goods_name','goods_num','goods_price','goods_type','gid','sid','sname'];
+        $cart_data=['cart_id','goods_name','goods_num','goods_price','img','goods_type','gid','sid','sname'];
         //得到结果
         $results=$cart->quer($cart_data,'users_id = '.$data['guid'])->toArray();
+        //假如购物车无数据
+        if(empty($results)){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$results]);
+        }
         //下面装商铺的数组
         $shoparr=null;
         //下面装商品的数组
