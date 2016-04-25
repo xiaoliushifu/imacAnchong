@@ -44,7 +44,7 @@ class Orderinfo extends Model implements AuthenticatableContract,
     public  $timestamps=false;
 
     /*
-    *   购物车显示
+    *   订单查询
     */
     public function quer($field,$type)
     {
@@ -52,11 +52,11 @@ class Orderinfo extends Model implements AuthenticatableContract,
     }
 
     /*
-    *   该方法是购物车添加
+    *   该方法是订单详细信息添加
     */
     public function add($cart_data)
     {
-       //将购物车数据添加入数据表
+       //将订单数据添加入数据表
        $this->fill($cart_data);
        if($this->save()){
            return true;
@@ -66,9 +66,9 @@ class Orderinfo extends Model implements AuthenticatableContract,
     }
 
     /*
-    *   该方法是购物车商品数量信息
+    *   该方法是订单详细信息更新
     */
-    public function cartupdate($id,$data)
+    public function orderinfoupdate($id,$data)
     {
         $cartnum=$this->find($id);
         if($cartnum->update($data)){
@@ -79,9 +79,9 @@ class Orderinfo extends Model implements AuthenticatableContract,
     }
 
     /*
-    *   该方法是购物车删除
+    *   该方法是订单详细信息删除
     */
-    public function cartdel($data)
+    public function orderinfodel($data)
     {
         return $this->destroy($data);
     }

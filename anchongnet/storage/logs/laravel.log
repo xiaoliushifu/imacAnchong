@@ -21033,3 +21033,6 @@ Stack trace:
 #69 /www/web/anchongnet/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(99): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
 #70 /www/web/anchongnet/public/index.php(54): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
 #71 {main}  
+[2016-04-25 06:51:22] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected ')', expecting ']'' in /www/web/anchongnet/app/Http/Controllers/Api/Order/OrderController.php:177
+Stack trace:
+#0 {main}  

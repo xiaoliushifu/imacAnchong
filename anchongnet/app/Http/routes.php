@@ -51,6 +51,20 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/user/sts','Api\User\UserController@sts');
         //上传回调
         Route::post('/user/callback','Api\User\UserController@callback');
+        //用户收货地址列表
+        Route::post('/user/address','Api\User\UserAddressController@show');
+        //用户添加收货地址
+        Route::post('/user/storeaddress','Api\User\UserAddressController@store');
+        //用户进入修改收货地址界面的方法
+        Route::post('/user/editaddress','Api\User\UserAddressController@edit');
+        //用户修改收货地址
+        Route::post('/user/updateaddress','Api\User\UserAddressController@update');
+        //获取用户默认收货地址
+        Route::post('/user/getdefaultaddress','Api\User\UserAddressController@getdefault');
+        //用户设置默认收货地址
+        Route::post('/user/setdefaultaddress','Api\User\UserAddressController@setdefault');
+        //用户删除收货地址
+        Route::post('/user/deladdress','Api\User\UserAddressController@del');
 
         /*
         *   商机模块
@@ -108,11 +122,13 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/order/ordercreate','Api\Order\OrderController@ordercreate');
         //订单查看
         Route::post('/order/orderinfo','Api\Order\OrderController@orderinfo');
+        //订单操作
+        Route::post('/order/orderoperation','Api\Order\OrderController@orderoperation');
     });
 });
 
 //后台路由
-Route::group(['domain' => 'admin.anchong.net'], function () {
+Route::group(['domain' => 'admin.anchong.com'], function () {
     //验证码类,需要传入数字
     Route::get('/captcha/{num}', 'CaptchaController@captcha');
     //登录检查
@@ -129,7 +145,7 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
     	Route::resource('/cert','admin\certController');
         //订单管理路由
        	Route::resource('/order','admin\orderController');
-        //检查
+        //认证检查
     	Route::get('/check','admin\CheckController@check');
 		//商铺路由
         Route::resource('/shop','admin\shopController');
@@ -137,22 +153,40 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         Route::get("/checkShop",'admin\checkShopController@index');
 		//标签管理路由
         Route::resource('/tag','admin\tagController');
+        //分类管理路由
+        Route::resource('/goodcate','admin\goodCateController');
+        //子分类管理路由
+        Route::resource('/goodcatetype','admin\goodCatTypeController');
+        //获取商品一级或二级分类路由
+        Route::get('/getlevel','admin\goodCateController@getLevel');
+        //获取商品所有二级分类路由
+        Route::get('/getlevel2','admin\goodCateController@getLevel2');
+        //获取特定父级分类的商品三级分类路由
+        Route::get('/getlevel3','admin\goodCatTypeController@getLevel');
+        //获取同一个父级分类下的子分类的路由
+        Route::get('/getsiblingslevel','admin\goodCatTypeController@getSiblingsLevel');
 
-         //视图下两层目录下的模版显视
-         Route::get('/{path}/{path1}/{path2}',function($path,$path1,$path2){
-             return view("admin.$path.$path1.".substr($path2,0,-10));
-         });
-         //视图下一层目录下的模版显视
-         Route::get('/{path}/{path1}',function($path,$path1){
-             return view("admin.$path.".substr($path1,0,-10));
-         });
-         //视图根目录下的模版显视
-         Route::get('/{path}',function($path){
-             return view("admin.".substr($path,0,-10));
-         });
+        //商品管理路由
+        Route::resource('/good','admin\goodController');
+        //库存管理路由
+        Route::resource('/stock','admin\stockController');
+        //获取指定货品库存路由
+        Route::get('/getStock','admin\stockController@getStock');
+
+        //视图下两层目录下的模版显视
+        Route::get('/{path}/{path1}/{path2}',function($path,$path1,$path2){
+            return view("admin.$path.$path1.".substr($path2,0,-10));
+        });
+        //视图下一层目录下的模版显视
+        Route::get('/{path}/{path1}',function($path,$path1){
+            return view("admin.$path.".substr($path1,0,-10));
+        });
+        //视图根目录下的模版显视
+        Route::get('/{path}',function($path){
+            return view("admin.".substr($path,0,-10));
+        });
     });
 });
-
 
 //验证码类,需要传入数字
 Route::get('/captcha/{num}', 'CaptchaController@captcha');

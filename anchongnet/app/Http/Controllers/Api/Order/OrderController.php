@@ -158,7 +158,25 @@ class OrderController extends Controller
         if(!empty($result)){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }else{
-            response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>"订单查询失败"]);
+            response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单查询失败']]);
+        }
+    }
+
+    /*
+    *   该方法提供订单操作
+    */
+    public function orderoperation(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $order=new \App\Order();
+        $result=$order->orderupdate($param['order_id'],['state' => $param['action']]);
+        if($result){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'操作成功']]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'操作失败']]);
         }
     }
 }

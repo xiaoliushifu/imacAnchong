@@ -131,7 +131,7 @@ class CartController extends Controller
     }
 
     /*
-    *   对购物车物品做
+    *   对购物车物品做删除
     */
     public function cartdel(Request $request)
     {
