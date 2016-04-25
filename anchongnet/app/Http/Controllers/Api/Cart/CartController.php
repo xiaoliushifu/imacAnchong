@@ -67,7 +67,8 @@ class CartController extends Controller
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
         $param=json_decode($data['param'],true);
-        //创建购物车的ORM模型
+        //创建购物车和商铺的ORM模型
+        $shop=new \App\Shop();
         $cart=new \App\Cart();
         //定义查询的数组
         $cart_data=['cart_id','goods_name','goods_num','goods_price','img','goods_type','gid','sid','sname'];
@@ -93,8 +94,10 @@ class CartController extends Controller
                     $goodsarr[]=$goods;
                 }
             }
+            //查出运费和需要运费的价格
+            $freight=$shop->quer(['free_price','freight'],'sid ='.$sid)->toArray();
             //将数据拼装到一个数组中
-            $cartarr[]=['sid'=>$sid,'sname' => $sname,'goods'=>$goodsarr];
+            $cartarr[]=['sid'=>$sid,'free_price'=>$freight[0]['free_price'],'freight'=>$freight[0]['freight'],'sname' => $sname,'goods'=>$goodsarr];
             $goodsarr=null;
         }
         if(!empty($cartarr)){

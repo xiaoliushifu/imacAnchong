@@ -34,33 +34,56 @@ class OrderController extends Controller
                 'users_id' => $data['guid'],
                 'sid' => $orderarr['sid'],
                 'sname' => $orderarr['sname'],
+                'address' => $param['address'],
+                'name' => $param['name'],
+                'phone' => $param['phone'],
+                'total_price' => $orderarr['total_price'],
                 'created_at' => date('Y-m-d H:i:s',$data['time'])
             ];
-            //创建购物车的ORM模型
+            //创建订单的ORM模型
             $order=new \App\Order();
             //插入数据
             $result=$order->add($order_data);
             //如果成功
             if($result){
                 foreach ($orderarr['goods'] as $goodsinfo) {
-                    $orderinfo_data=[
-                        'order_num' =>$order_num,
-                        'goods_name' => $goodsinfo['goods_name'],
-                        'goods_num' => $goodsinfo['goods_num'],
-                        'goods_price' => $goodsinfo['goods_price'],
-                        'goods_type' => $goodsinfo['goods_type'],
-                        'pic' => $goodsinfo['pic']
-                    ];
-                    //创建购物车的ORM模型
-                    $orderinfo=new \App\Orderinfo();
-                    //插入数据
-                    $order_result=$orderinfo->add($orderinfo_data);
-                    if($order_result){
-                        $true=true;
+                    //创建货品表的ORM模型来查询货品数量
+                    $goods_specifications=new \App\Goods_specifications();
+                    $goods_num=$goods_specifications->quer('goods_num','gid ='.$goodsinfo['gid'])->toArray();
+                    //判断总库存是否足够
+                    if($goods_num[0]['goods_num'] >= $goodsinfo['goods_num']){
+                        $goodsnum=$goods_num[0]['goods_num']-$goodsinfo['goods_num'];
+                        //订单生产时更新库存
+                        $goodsnum_result=$goods_specifications->specupdate($goodsinfo['gid'],['goods_num' => $goodsnum]);
+                        if($goodsnum_result){
+                            $orderinfo_data=[
+                                'order_num' =>$order_num,
+                                'goods_name' => $goodsinfo['goods_name'],
+                                'goods_num' => $goodsinfo['goods_num'],
+                                'goods_price' => $goodsinfo['goods_price'],
+                                'goods_type' => $goodsinfo['goods_type'],
+                                'pic' => $goodsinfo['pic']
+                            ];
+                            //创建购物车的ORM模型
+                            $orderinfo=new \App\Orderinfo();
+                            //插入数据
+                            $order_result=$orderinfo->add($orderinfo_data);
+                            if($order_result){
+                                $true=true;
+                            }else{
+                                //假如失败就回滚
+                                DB::rollback();
+                                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
+                            }
+                        }else{
+                            //假如失败就回滚
+                            DB::rollback();
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
+                        }
                     }else{
                         //假如失败就回滚
                         DB::rollback();
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'库存不足，剩余库存'.$goods_num[0]['goods_num']]]);
                     }
                 }
             }else{
@@ -114,7 +137,7 @@ class OrderController extends Controller
                 break;
         }
         //定于查询数据
-        $order_data=['order_id','order_num','sid','sname','state','created_at'];
+        $order_data=['order_id','order_num','sid','sname','state','created_at','total_price','name','phone','address'];
         $orderinfo_data=['goods_name','goods_num','goods_price','goods_type','pic'];
         //查询该用户的订单数据
         $order_result=$order->quer($order_data,$sql)->toArray();

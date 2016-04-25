@@ -34,6 +34,8 @@ class Goods_specifications extends Model implements AuthenticatableContract,
      */
      //不允许被赋值
     protected $guarded = ['gid'];
+    //定义主键
+    protected $primaryKey = 'gid';
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -76,5 +78,18 @@ class Goods_specifications extends Model implements AuthenticatableContract,
        }else{
            return false;
        }
+    }
+
+    /*
+    *   该方法是更新货品库存信息
+    */
+    public function specupdate($id,$data)
+    {
+        $cartnum=$this->find($id);
+        if($cartnum->update($data)){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

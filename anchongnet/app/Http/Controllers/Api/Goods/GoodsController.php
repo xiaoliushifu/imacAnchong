@@ -167,14 +167,38 @@ class GoodsController extends Controller
         $goods_specifications=new \App\Goods_specifications();
         $goods_thumb=new \App\Goods_thumb();
         //需要查的字段
-        $goods_data=['goods_id','market_price','vip_price','goods_name','sid','pic','parameter','data'];
+        $goods_data=['goods_id','market_price','vip_price','goods_name','sid'];
         //查询商品列表的信息
-        $picresult=$goods_thumb->quer('img_url','gid = '.$param['gid'])->toArray();
+        $picresult=$goods_thumb->quer(['img_url','img_type'],'gid = '.$param['gid'])->toArray();
         $results=$goods_specifications->quer($goods_data,'gid = '.$param['gid'])->toArray();
+        //轮播图数组
         $picarr=null;
-        foreach ($picresult as $pic1) {
-            foreach ($pic1 as $pic2) {
-                $picarr[]=$pic2;
+        //商品详情图片数组
+        $detailpic=null;
+        //商品相关参数图片数组
+        $parameterpic=null;
+        //商品相关资料图片数组
+        $datapic=null;
+        foreach ($picresult as $thumb) {
+            switch ($thumb['img_type']) {
+                //1商品图片
+                case 1:
+                    $picarr[]=$thumb['img_url'];
+                    break;
+                //2商品详情图片
+                case 2:
+                    $detailpic[]=$thumb['img_url'];
+                    break;
+                //3商品相关参数图片
+                case 3:
+                    $parameterpic[]=$thumb['img_url'];
+                    break;
+                //4商品相关资料图片
+                case 4:
+                    $datapic[]=$thumb['img_url'];
+                    break;
+                default:
+                    break;
             }
         }
         $result=null;
@@ -193,6 +217,9 @@ class GoodsController extends Controller
                 }
             }
             $result['goodspic']=$picarr;
+            $result['detailpic']=$detailpic;
+            $result['parameterpic']=$parameterpic;
+            $result['datapic']=$datapic;
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'商品信息获取失败，请刷新']]);
