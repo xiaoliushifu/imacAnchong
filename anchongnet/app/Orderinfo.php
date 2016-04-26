@@ -81,8 +81,12 @@ class Orderinfo extends Model implements AuthenticatableContract,
     /*
     *   该方法是订单详细信息删除
     */
-    public function orderinfodel($data)
+    public function orderinfodel($num)
     {
-        return $this->destroy($data);
+        if($this->where('order_num', '=', $num)->delete()){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

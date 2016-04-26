@@ -10,6 +10,7 @@ use Request;
 use Validator;
 use DB;
 use Illuminate\Support\Collection;
+
 /*
 *   该控制器包含了商品模块的操作
 */

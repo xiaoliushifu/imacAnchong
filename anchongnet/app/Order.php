@@ -46,9 +46,9 @@ class Order extends Model implements AuthenticatableContract,
     /*
     *   订单显示查询
     */
-    public function quer($field,$type)
+    public function quer($field,$type,$pos,$limit)
     {
-        return $this->select($field)->whereRaw($type)->orderBy('created_at', 'DESC')->get();
+         return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get()->toArray()];
     }
 
     /*

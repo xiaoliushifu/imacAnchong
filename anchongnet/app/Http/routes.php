@@ -128,7 +128,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
 });
 
 //后台路由
-Route::group(['domain' => 'admin.anchong.com'], function () {
+Route::group(['domain' => 'admin.anchong.net'], function () {
     //验证码类,需要传入数字
     Route::get('/captcha/{num}', 'CaptchaController@captcha');
     //登录检查
