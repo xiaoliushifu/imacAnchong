@@ -28,6 +28,15 @@ class OrderController extends Controller
         DB::beginTransaction();
         //遍历传过来的订单数据
         foreach ($param['list'] as $orderarr) {
+            //查出该店铺客服联系方式
+            $customer=new \App\Shop();
+            $customers=$customer->quer('customer',"sid =".$orderarr['sid'])->toArray();
+            //如果店铺客服为空，则指定一个值不能让他报错
+            if(empty($customers)){
+                //假如失败就回滚
+                DB::rollback();
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
+            }
             $order_num=rand(10,99).substr($data['guid'],0,1).time();
             $order_data=[
                 'order_num' => $order_num,
@@ -39,8 +48,9 @@ class OrderController extends Controller
                 'phone' => $param['phone'],
                 'total_price' => $orderarr['total_price'],
                 'created_at' => date('Y-m-d H:i:s',$data['time']),
-                'freight' => $param['freight'],
+                'freight' => $orderarr['freight'],
                 'invoice' => $param['invoice'],
+                'customer' => $customers[0]['customer'],
             ];
             //创建订单的ORM模型
             $order=new \App\Order();
@@ -153,7 +163,7 @@ class OrderController extends Controller
                 break;
         }
         //定于查询数据
-        $order_data=['order_id','order_num','sid','sname','state','created_at','total_price','name','phone','address','freight','invoice'];
+        $order_data=['order_id','order_num','sid','sname','state','created_at','total_price','name','phone','address','freight','invoice','customer'];
         $orderinfo_data=['goods_name','goods_num','goods_price','goods_type','img'];
         //查询该用户的订单数据
         $order_result=$order->quer($order_data,$sql,(($param['page']-1)*$limit),$limit);
