@@ -12,9 +12,9 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Redirect;
 
 /*
-*   该模型是操作货品表的模块
+*   该模型是操作商品属性表的模块
 */
-class Goods extends Model implements AuthenticatableContract,
+class Goods_attribute extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
                                     CanResetPasswordContract
 {
@@ -25,7 +25,7 @@ class Goods extends Model implements AuthenticatableContract,
      *
      * @var string
      */
-    protected $table = 'anchong_goods';
+    protected $table = 'anchong_goods_attribute';
 
     /**
      * The attributes that are mass assignable.
@@ -33,8 +33,9 @@ class Goods extends Model implements AuthenticatableContract,
      * @var array
      */
      //不允许被赋值
-    protected $guarded = ['goods_id'];
-
+    protected $guarded = ['atid'];
+    //定义主键名称
+    protected $primaryKey = 'atid';
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -43,24 +44,10 @@ class Goods extends Model implements AuthenticatableContract,
     public  $timestamps=false;
 
     /*
-    *   商品查询
+    *   属性查询
     */
     public function quer($field,$type)
     {
         return $this->select($field)->whereRaw($type)->get();
-    }
-
-    /*
-    *   该方法是商品添加
-    */
-    public function add($goods_data)
-    {
-       //将货品添加入数据表
-       $this->fill($goods_data);
-       if($this->save()){
-           return $this->id;
-       }else{
-           return;
-       }
     }
 }

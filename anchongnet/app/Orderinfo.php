@@ -66,19 +66,6 @@ class Orderinfo extends Model implements AuthenticatableContract,
     }
 
     /*
-    *   该方法是订单详细信息更新
-    */
-    public function orderinfoupdate($id,$data)
-    {
-        $cartnum=$this->find($id);
-        if($cartnum->update($data)){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    /*
     *   该方法是订单详细信息删除
     */
     public function orderinfodel($num)

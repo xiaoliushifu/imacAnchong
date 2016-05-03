@@ -99,6 +99,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/goods/goodsinfo','Api\Goods\GoodsController@goodsinfo');
         //商品规格
         Route::post('/goods/goodsformat','Api\Goods\GoodsController@goodsformat');
+        //货品详情
+        Route::post('/goods/goodsshow','Api\Goods\GoodsController@goodsshow');
         //商品发布
         Route::post('/goods/goodsrelease','Api\Goods\GoodsController@goodsrelease');
 
@@ -145,6 +147,9 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
     	Route::resource('/cert','admin\certController');
         //订单管理路由
        	Route::resource('/order','admin\orderController');
+        //获取同一个订单的订单信息的路由
+        Route::get('/getsiblingsorder','admin\orderinfoController@getSiblingsOrder');
+
         //认证检查
     	Route::get('/check','admin\CheckController@check');
 		//商铺路由
@@ -168,10 +173,20 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
 
         //商品管理路由
         Route::resource('/good','admin\goodController');
+        Route::resource('/commodity','admin\commodityController');
+        //获取同一分类下的商品的路由
+        Route::get('/getsibilingscommodity','admin\commodityController@getSiblings');
+
+        //商品缩略图管理路由
+        Route::resource('/thumb','admin\thumbController');
+        Route::get('/getgoodthumb','admin\thumbController@getGoodThumb');
+
         //库存管理路由
         Route::resource('/stock','admin\stockController');
         //获取指定货品库存路由
         Route::get('/getStock','admin\stockController@getStock');
+        //更新货品的库存总数
+        Route::get('/getotal','admin\stockController@getTotal');
 
         //视图下两层目录下的模版显视
         Route::get('/{path}/{path1}/{path2}',function($path,$path1,$path2){

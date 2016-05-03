@@ -53,10 +53,10 @@ class Goods_type extends Model implements AuthenticatableContract,
     /*
     *   该方法是商品分类添加
     */
-    public function add($user_data)
+    public function add($goods_data)
     {
        //将用户发布的商机信息添加入数据表
-       $this->fill($user_data);
+       $this->fill($goods_data);
        if($this->save()){
            return true;
        }else{
