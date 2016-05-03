@@ -49,18 +49,4 @@ class Goods_type extends Model implements AuthenticatableContract,
     {
         return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get()];
     }
-
-    /*
-    *   该方法是商品分类添加
-    */
-    public function add($user_data)
-    {
-       //将用户发布的商机信息添加入数据表
-       $this->fill($user_data);
-       if($this->save()){
-           return true;
-       }else{
-           return false;
-       }
-    }
 }

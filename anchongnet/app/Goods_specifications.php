@@ -49,4 +49,32 @@ class Goods_specifications extends Model implements AuthenticatableContract,
     {
         return $this->select($field)->whereRaw($type)->get();
     }
+
+    /*
+    *   该方法是商品添加
+    */
+    public function add($user_data)
+    {
+       //将数据信息添加入数据表
+       $this->fill($user_data);
+       if($this->save()){
+           return $this->id;
+       }else{
+           return;
+       }
+    }
+
+    /*
+    *   该方法是商品图片添加
+    */
+    public function addimg($pic,$id)
+    {
+       //将数据添加入数据表
+       $img=$this->where('gid','=',$id);
+       if($img->update($pic)){
+           return true;
+       }else{
+           return false;
+       }
+    }
 }
