@@ -148,6 +148,7 @@ class GoodsController extends Controller
                 $showprice=0;
             }else{
                 $users=new \App\Users();
+                //查询用户是否认证
                 $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
                 if($users_auth[0]['certification'] == 3){
                     $showprice=1;

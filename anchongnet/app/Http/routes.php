@@ -89,12 +89,12 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         */
         //商铺路由
         Route::resource('/shop','Api\Shop\ShopController');
-        //商品一级分类
-        Route::post('/goods/catone','Api\Category\CategoryController@catone');
         //商品详细分类信息
         Route::post('/goods/catinfo','Api\Category\CategoryController@catinfo');
         //商品列表
         Route::post('/goods/goodslist','Api\Goods\GoodsController@goodslist');
+        //提供商品标签的检索
+        Route::post('/goods/tag','Api\Goods\GoodsController@goodslist');
         //商品详情
         Route::post('/goods/goodsinfo','Api\Goods\GoodsController@goodsinfo');
         //商品规格
