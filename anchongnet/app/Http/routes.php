@@ -103,6 +103,10 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/goods/goodsshow','Api\Goods\GoodsController@goodsshow');
         //商品发布
         Route::post('/goods/goodsrelease','Api\Goods\GoodsController@goodsrelease');
+        //商品检索标签
+        Route::post('/goods/goodstag','Api\Goods\GoodsController@goodstsg');
+        //商品检索
+        Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
 
         /*
         *   购物车模块

@@ -162,6 +162,75 @@ class GoodsController extends Controller
     }
 
     /*
+    *   商品筛选标签显示
+    */
+    public function goodstag(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $goods_tag=new \App\Goods_tag();
+        $result=$goods_tag->quer('tag','cat_id='.$param['cat_id'])->toArray();
+        if(!empty($result)){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'该分类没有检索标签']]);
+        }
+    }
+
+    /*
+    *   商品筛选
+    */
+    public function goodssearch(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //默认每页数量
+        $limit=20;
+        //创建ORM模型
+        $goods_type=new \App\Goods_type();
+        //判断要查询的列表
+        if(empty($param['tags']) && empty($param['search'])){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"无商品"]]);
+        }elseif(!empty($param['tags']) && empty($param['search'])){
+            //根据标签检索
+            $sql="cid =".$param['cid']." and MATCH(tags) AGAINST('".bin2hex($param['tags'])."')";
+        }elseif(empty($param['tags']) && !empty($param['search'])){
+            //自定义检索
+            $sql="cid =".$param['cid']." and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
+        }elseif(!empty($param['tags']) && !empty($param['search'])){
+            $sql="cid =".$param['cid']." and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
+        }
+        //要查询的字段
+        $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
+        $result=$goods_type->searchquer($goods_data,$sql,(($param['page']-1)*$limit),$limit);
+        $results=$result['list']->toArray();
+        //判断是否需要查询会员价
+        if(!empty($results)){
+            //判断是否有权限查看会员价，也就是判断是否审核通过
+            $showprice=0;
+            if($data['guid'] == 0){
+                $showprice=0;
+            }else{
+                $users=new \App\Users();
+                //查询用户是否认证
+                $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
+                if($users_auth[0]['certification'] == 3){
+                    $showprice=1;
+                }
+            }
+        }else{
+            //如果结果为空则返回0
+            $showprice=0;
+        }
+        //将用户权限传过去
+        $result['showprice']=$showprice;
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+    }
+
+    /*
     *   商品详细信息
     */
     public function goodsinfo(Request $request)
