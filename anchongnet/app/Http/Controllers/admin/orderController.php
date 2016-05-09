@@ -3,17 +3,35 @@
 namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
+use Request as Requester;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Order;
+use App\Orderinfo;
 
 class orderController extends Controller
 {
+    private $order;
+    private $orderinfo;
+    public function __construct()
+    {
+        $this->order=new Order();
+        $this->orderinfo=new Orderinfo();
+    }
+
     /**
 	 * 后台订单管理列表 
 	 */
     public function index(){
-        return view('admin.order.order_list');
+        $keyNum=Requester::input('keyNum');
+        if($keyNum==""){
+            $datas=$this->order->paginate(8);
+        }else{
+            $datas = $this->order->Num($keyNum)->paginate(8);
+        }
+        $args=array("keyNum"=>$keyNum);
+        return view('admin/order/index',array("datacol"=>compact("args","datas")));
     }
 
     /**
@@ -21,7 +39,7 @@ class orderController extends Controller
      */
     public function create()
     {
-        return view("Admin.order.order_add");
+
     }
 
     /**
@@ -30,7 +48,7 @@ class orderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(App\Http\Requests $request)
+    public function store(Request $request)
     {
     }
 
@@ -62,8 +80,16 @@ class orderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(App\Http\Requests $request, $id)
+    public function update(Request $request, $id)
     {
+        $data=$this->order->find($id);
+        if($request->iSend==true){
+            $data->state=$request->status;
+            $data->save();
+            return "提交成功";
+        }else{
+
+        }
     }
 
     /**

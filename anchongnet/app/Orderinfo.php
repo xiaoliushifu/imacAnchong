@@ -66,6 +66,19 @@ class Orderinfo extends Model implements AuthenticatableContract,
     }
 
     /*
+    *   该方法是订单详细信息更新
+    */
+    public function orderinfoupdate($id,$data)
+    {
+        $cartnum=$this->find($id);
+        if($cartnum->update($data)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /*
     *   该方法是订单详细信息删除
     */
     public function orderinfodel($num)
@@ -75,5 +88,16 @@ class Orderinfo extends Model implements AuthenticatableContract,
         }else{
             return false;
         }
+    }
+
+    /*
+     * 查找相同订单编号的订单信息
+     * */
+    /*
+	* 根据条件进行收货地址搜索
+	*/
+    public function scopeNum($query,$keyNum)
+    {
+        return $query->where('order_num', '=', $keyNum);
     }
 }

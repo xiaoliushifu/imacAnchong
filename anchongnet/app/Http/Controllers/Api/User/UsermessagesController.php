@@ -163,12 +163,9 @@ class UsermessagesController extends Controller
 				if($param['email']!=null){
 					$this->usermessages->email = $param['email'];
 				}
-<<<<<<< HEAD
 				if($param['contact']!=null){
 					$this->usermessages->contact = $param['contact'];
 				}
-=======
->>>>>>> origin/lichaohui
 				$result=$this->usermessages->save();
 			}else{
 				$user=usermessages::where('users_id', '=', $id)->first();
@@ -181,12 +178,9 @@ class UsermessagesController extends Controller
 				if($param['email']!=null){
 					$user->email = $param['email'];
 				}
-<<<<<<< HEAD
 				if($param['contact']!=null){
 					$user->contact = $param['contact'];
 				}
-=======
->>>>>>> origin/lichaohui
 				$result=$user->save();
 			}
 

@@ -53,10 +53,8 @@ class CartController extends Controller
         }
         //看是否插入成功
         if($result){
-            //如果成功就返回添加购物车成功
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'购物车添加成功！']]);
         }else{
-            //如果失败就返回错误信息
             return response()->json(['serverTime'=>time(),'ServerNo'=>11,'ResultData'=>['Message'=>'购物车添加失败！']]);
         }
     }

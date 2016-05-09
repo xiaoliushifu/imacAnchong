@@ -79,8 +79,6 @@ class Goods_specifications extends Model implements AuthenticatableContract,
            return false;
        }
     }
-<<<<<<< HEAD
-=======
 
     /*
     *   该方法是更新货品库存信息
@@ -94,5 +92,4 @@ class Goods_specifications extends Model implements AuthenticatableContract,
             return false;
         }
     }
->>>>>>> origin/renqingbin
 }

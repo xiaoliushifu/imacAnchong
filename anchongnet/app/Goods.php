@@ -12,11 +12,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Redirect;
 
 /*
-<<<<<<< HEAD
-*   该模型是操作货品图片表的模块
-=======
 *   该模型是操作货品表的模块
->>>>>>> origin/renqingbin
 */
 class Goods extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
@@ -47,11 +43,7 @@ class Goods extends Model implements AuthenticatableContract,
     public  $timestamps=false;
 
     /*
-<<<<<<< HEAD
     *   分类查询
-=======
-    *   商品查询
->>>>>>> origin/renqingbin
     */
     public function quer($field,$type)
     {
@@ -61,17 +53,10 @@ class Goods extends Model implements AuthenticatableContract,
     /*
     *   该方法是商品添加
     */
-<<<<<<< HEAD
-    public function add($user_data)
-    {
-       //将用户发布的商机信息添加入数据表
-       $this->fill($user_data);
-=======
     public function add($goods_data)
     {
        //将货品添加入数据表
        $this->fill($goods_data);
->>>>>>> origin/renqingbin
        if($this->save()){
            return $this->id;
        }else{

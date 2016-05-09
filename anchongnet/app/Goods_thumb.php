@@ -49,18 +49,4 @@ class Goods_thumb extends Model implements AuthenticatableContract,
     {
         return $this->select($field)->whereRaw($type)->get();
     }
-
-    /*
-    *   该方法是商品添加
-    */
-    public function add($goods_data)
-    {
-       //将用户发布的商机信息添加入数据表
-       $this->fill($goods_data);
-       if($this->save()){
-           return true;
-       }else{
-           return false;
-       }
-    }
 }

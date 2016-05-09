@@ -66,14 +66,6 @@ class GoodsController extends Controller
                         'data' => $spec['data'],
                         'goods_img' => $spec['img'][0],
                     ];
-<<<<<<< HEAD
-                    $goods_specifications=new \App\Goods_specifications();
-                    $goods_specifications_id=$goods_specifications->add($goods_specifications_data);
-                    if(!empty($goods_specifications_id)){
-                        $goods_type_data=[
-                            'gid' => $goods_specifications_id,
-                            'title' => $spec['goods_name'],
-=======
                     //创建货品表的ORM模型
                     $goods_specifications=new \App\Goods_specifications();
                     //对货品表进行数据的插入
@@ -83,7 +75,6 @@ class GoodsController extends Controller
                         $goods_type_data=[
                             'gid' => $goods_specifications_id,
                             'title' => $param['titless'].' '.$spec['goods_name'],
->>>>>>> origin/renqingbin
                             'price' => $spec['market_price'],
                             'sname' => $param['sname'],
                             'vip_price'=>$spec['vip_price'],
@@ -91,10 +82,7 @@ class GoodsController extends Controller
                             'created_at' => date('Y-m-d H:i:s',$data['time']),
                             'pic' => $spec['img'][0],
                         ];
-<<<<<<< HEAD
-=======
                         //创建商品分类表
->>>>>>> origin/renqingbin
                         $goods_type=new \App\Goods_type();
                         $goods_type_result=$goods_type->add($goods_type_data);
                         if($goods_type_result){
