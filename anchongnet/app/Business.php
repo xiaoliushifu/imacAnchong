@@ -45,10 +45,10 @@ class Business extends Model implements AuthenticatableContract,
     /*
     *   该方法是添加商机信息
     */
-    public function add($user_data)
+    public function add($data)
     {
        //将用户发布的商机信息添加入数据表
-       $this->fill($user_data);
+       $this->fill($data);
        if($this->save()){
            return $this->id;
        }else{

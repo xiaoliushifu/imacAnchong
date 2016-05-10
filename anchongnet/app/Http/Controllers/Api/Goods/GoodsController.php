@@ -285,7 +285,7 @@ class GoodsController extends Controller
             $shopid=$results[0]['sid'];
             $shop=new \App\Shop();
             //查询商铺图片和名字
-            $shopresult=$shop->quer(['name','img'],'sid = '.$shopid)->toArray();
+            $shopresult=$shop->quer(['name','img','customer'],'sid = '.$shopid)->toArray();
             foreach ($results as $goods1) {
                 foreach ($goods1 as $key=>$goods2) {
                     $result[$key]=$goods2;
@@ -296,11 +296,15 @@ class GoodsController extends Controller
                     $result[$key]=$shop2;
                 }
             }
+            //创建收藏ORM模型
+            $collection=new \App\Collection();
+            $collresult=$collection->quer('users_id='.$data['guid'].' and coll_id ='.$param['gid']);
             //进行数据拼接
             $result['goodspic']=$picarr;
             $result['detailpic']=$detailpic;
             $result['parameterpic']=$parameterpic;
             $result['datapic']=$datapic;
+            $result['collection']=$collresult;
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'商品信息获取失败，请刷新']]);

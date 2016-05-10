@@ -85,4 +85,12 @@ class Cart extends Model implements AuthenticatableContract,
     {
         return $this->destroy($data);
     }
+
+    /*
+    *   购物车数量
+    */
+    public function cartamount($type)
+    {
+        return $this->whereRaw($type)->count();
+    }
 }

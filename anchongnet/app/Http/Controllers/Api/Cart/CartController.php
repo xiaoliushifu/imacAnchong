@@ -151,4 +151,18 @@ class CartController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>11,'ResultData'=>['Message'=>'商品删除失败']]);
         }
     }
+
+    /*
+    *   购物车数量统计
+    */
+    public function cartamount(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $cart=new \App\Cart();
+        $amount=$cart->cartamount('users_id ='.$data['guid']);
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['cartamount'=>$amount]]);
+    }
 }
