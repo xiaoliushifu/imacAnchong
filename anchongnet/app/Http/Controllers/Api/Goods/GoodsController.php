@@ -137,7 +137,7 @@ class GoodsController extends Controller
         //需要查的字段
         $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
         //查询商品列表的信息
-        $result=$goods_type->quer($goods_data,'cid = '.$param['cid'],(($param['page']-1)*$limit),$limit);
+        $result=$goods_type->quer($goods_data,'cid = '.$param['cid'].' and added = 1',(($param['page']-1)*$limit),$limit);
         //将结果转成数组
         $results=$result['list']->toArray();
         //判断是否取出结果
@@ -196,12 +196,12 @@ class GoodsController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"无商品"]]);
         }elseif(!empty($param['tags']) && empty($param['search'])){
             //根据标签检索
-            $sql="cid =".$param['cid']." and MATCH(tags) AGAINST('".bin2hex($param['tags'])."')";
+            $sql="cid =".$param['cid']."added = 1 and MATCH(tags) AGAINST('".bin2hex($param['tags'])."')";
         }elseif(empty($param['tags']) && !empty($param['search'])){
             //自定义检索
-            $sql="cid =".$param['cid']." and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
+            $sql="cid =".$param['cid']."added = 1 and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
         }elseif(!empty($param['tags']) && !empty($param['search'])){
-            $sql="cid =".$param['cid']." and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
+            $sql="cid =".$param['cid']."added = 1 and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
         }
         //要查询的字段
         $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];

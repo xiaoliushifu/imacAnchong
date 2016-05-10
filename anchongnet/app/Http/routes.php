@@ -137,7 +137,11 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         *   商铺模块
         */
         //商铺查看
-        Route::post('/shops/shops','Api\Shop\ShopsController@ordercreate');
+        Route::post('/shops/goodsshow','Api\Shop\ShopsController@goodsshow');
+        //商铺操作
+        Route::post('/shops/goodsaction','Api\Shop\ShopsController@goodsaction');
+        //商铺查看
+        Route::post('/shops/shopsorder','Api\Shop\ShopsController@shopsorder');
 
         /*
         *   收藏模块

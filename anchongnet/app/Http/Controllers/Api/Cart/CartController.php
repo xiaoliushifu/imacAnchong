@@ -73,7 +73,7 @@ class CartController extends Controller
         $shop=new \App\Shop();
         $cart=new \App\Cart();
         //定义查询的数组
-        $cart_data=['cart_id','goods_name','goods_num','goods_price','img','goods_type','gid','sid','sname'];
+        $cart_data=['cart_id','goods_name','goods_num','goods_price','img','goods_type','gid','sid','sname','goods_id'];
         //得到结果
         $results=$cart->quer($cart_data,'users_id = '.$data['guid'])->toArray();
         //假如购物车无数据

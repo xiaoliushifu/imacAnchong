@@ -81,7 +81,7 @@ class Goods_specifications extends Model implements AuthenticatableContract,
     }
 
     /*
-    *   该方法是更新货品库存信息
+    *   该方法是更新货品信息
     */
     public function specupdate($id,$data)
     {
@@ -91,5 +91,21 @@ class Goods_specifications extends Model implements AuthenticatableContract,
         }else{
             return false;
         }
+    }
+
+    /*
+    *   分页查询
+    */
+    public function limitquer($field,$type,$pos,$limit)
+    {
+        return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('updated_at', 'DESC')->get()];
+    }
+
+    /*
+    *   货品删除
+    */
+    public function del($data)
+    {
+        return $this->destroy($data);
     }
 }

@@ -63,4 +63,16 @@ class Goods_thumb extends Model implements AuthenticatableContract,
            return false;
        }
     }
+
+    /*
+    *   该方法是图片删除
+    */
+    public function del($num)
+    {
+        if($this->where('gid', '=', $num)->delete()){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
