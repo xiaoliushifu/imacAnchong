@@ -85,7 +85,7 @@ class certController extends Controller
 			'auth_con' => $auth_con
 		]);*/
 		$data=Qua::Ids($id)->get();
-		return $data;
+        return $data;
     }
 
     /**

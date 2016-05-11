@@ -29,6 +29,8 @@
 			<ul class="treeview-menu">
 				<li><a href="/tag"><i class="fa fa-circle-o"></i> 标签列表</a></li>
 				<li><a href="/tag/create"><i class="fa fa-circle-o"></i> 添加标签</a></li>
+				<li><a href="/catag"><i class="fa fa-circle-o"></i> 分类标签列表</a></li>
+				<li><a href="/catag/create"><i class="fa fa-circle-o"></i> 添加分类标签</a></li>
 			</ul>
 		</li>
 		<li class="treeview" id="treegood">
@@ -52,7 +54,6 @@
 			</a>
 			<ul class="treeview-menu">
 				<li><a href="/order"><i class="fa fa-circle-o"></i>订单列表</a></li>
-
 			</ul>
 		</li>
 		<li class="treeview" id="treecate">
@@ -63,8 +64,6 @@
 			<ul class="treeview-menu">
 				<li><a href="/goodcate"><i class="fa fa-circle-o"></i>商品分类列表</a></li>
 				<li><a href="/goodcate/create"><i class="fa fa-circle-o"></i>添加商品分类</a></li>
-				<li><a href="/goodcatetype"><i class="fa fa-circle-o"></i>子分类列表</a></li>
-				<li><a href="/goodcatetype/create"><i class="fa fa-circle-o"></i>添加子分类</a></li>
 			</ul>
 		</li>
 	</ul>

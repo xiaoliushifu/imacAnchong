@@ -106,10 +106,7 @@
         </section>
         <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
-    <input type="hidden" id="activeFlag" value="treegood">
-    @include('inc.admin.footer')
-            <!-- Modal -->
+    <!-- Modal -->
     <div class="modal fade" id="myView" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -177,7 +174,7 @@
             </div>
         </div>
     </div>
-            <!-- Modal -->
+    <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -197,122 +194,117 @@
                             </ul>
                         </div>
                     @endif
-                        <h5 class="text-center">基本信息</h5>
-                        <form role="form" class="form-horizontal" action="" method="post" id="updateform">
-                            <input type="hidden" name="sid" id="sid" value="{{$sid}}">
-                            <input type="hidden" name="_method" value="PUT">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">商品分类</label>
-                                <div class="col-sm-10">
-                                    <div class="row">
-                                        <div class="col-xs-4">
-                                            <select class="form-control" id="mainselect" name="mainselect" required>
-                                            </select>
-                                        </div>
-                                        <div class="col-xs-4">
-                                            <select class="form-control" id="midselect" name="midselect" required>
-                                            </select>
-                                        </div>
-                                        <div class="col-xs-4">
-                                            <select class="form-control" id="backselect" name="backselect" required>
-                                            </select>
-                                        </div>
-                                    </div><!--end row-->
-                                </div><!--end col-sm-10-->
-                            </div><!--end form-group-->
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="name">商品名称</label>
-                                <div class="col-sm-6">
-                                    <select class="form-control" id="name" name="name" required>
-                                    </select>
-                                </div>
-                            </div><!--end form-group-->
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="spetag">货品标签</label>
-                                <div class="col-sm-6">
-                                    <input type="text" name="spetag" id="spetag" class="form-control" required placeholder="如：黄色32码" value="{{ old('spetag') }}"/>
-                                </div>
-                            </div><!--end form-group-->
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="marketprice">市场价</label>
-                                <div class="col-sm-6">
-                                    <input type="text" name="marketprice" id="marketprice" class="form-control" required value="{{ old('marketprice') }}" />
-                                </div>
-                            </div><!--end form-group-->
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="costprice">成本价</label>
-                                <div class="col-sm-6">
-                                    <input type="text" name="costpirce" id="costprice" class="form-control" value="{{ old('costpirce') }}" />
-                                </div>
-                            </div><!--end form-group-->
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="viprice">会员价</label>
-                                <div class="col-sm-6">
-                                    <input type="text" name="viprice" id="viprice" class="form-control" required value="{{ old('viprice') }}" />
-                                </div>
-                            </div><!--end form-group-->
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="description">描述</label>
-                                <div class="col-sm-6">
-                                    <textarea name="description" id="description" class="form-control" rows="5">{{ old('description') }}</textarea>
-                                </div>
-                            </div><!--end form-group-->
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="keyword">关键字</label>
-                                <div class="col-sm-6">
-                                    <input type="text" name="keyword" id="keyword" class="form-control" placeholder="多个关键字之间请用逗号隔开" value="{{ old('keyword') }}" />
-                                </div>
-                            </div><!--end form-group-->
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">是否上架</label>
-                                <div class="col-sm-6">
-                                    <label class="radio-inline">
-                                        <input type="radio" name="status" value="1" id="onsale" />上架
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="status" value="0" id="notonsale" />暂不
-                                    </label>
-                                </div>
-                            </div><!--end form-group-->
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="numbering">商品编号</label>
-                                <div class="col-sm-6">
-                                    <input type="text" name="numbering" id="numbering" class="form-control" value="{{ old('numbering') }}" required />
-                                </div>
-                            </div><!--end form-group-->
-                            <div class="form-group text-center">
-                                <label class="col-sm-2 control-label"></label>
-                                <div class="col-sm-3">
-                                    <button type="submit" class="btn btn-info">保存</button>
-                                </div>
-                            </div><!--end form-group text-center-->
-                        </form>
-                        <hr>
-                        <h5 class="text-center">库存信息</h5>
-                        <form>
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    <table class="table text-center">
-                                        <thead>
-                                        <tr>
-                                            <th class="text-center col-sm-1">区域</th>
-                                            <th class="text-center col-sm-1">库存数</th>
-                                            <th class="text-center col-sm-1">操作</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody id="stocktr">
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div style="clear:both"></div>
+                    <h5 class="text-center">基本信息</h5>
+                    <form role="form" class="form-horizontal" action="" method="post" id="updateform">
+                        <input type="hidden" name="sid" id="sid" value="{{$sid}}">
+                        <input type="hidden" name="_method" value="PUT">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">商品分类</label>
+                            <div class="col-sm-10">
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <select class="form-control" id="mainselect" name="mainselect" required>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <select class="form-control" id="midselect" name="midselect" required>
+                                        </select>
+                                    </div>
+                                </div><!--end row-->
+                            </div><!--end col-sm-10-->
+                        </div><!--end form-group-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="name">商品名称</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" id="name" name="name" required>
+                                </select>
                             </div>
-                        </form>
-                        <hr>
-                        <h5 class="text-center">商品图片信息</h5>
-                        <form role="form" class="form-horizontal" action="" id="formToUpdate" method="post" enctype="multipart/form-data">
-                            <div id="method"></div>
-                            <input type="hidden" name="imgtype" id="imgtype">
-                            <input type="hidden" name="gid" id="gid">
+                        </div><!--end form-group-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="spetag">货品标签</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="spetag" id="spetag" class="form-control" required placeholder="如：黄色32码" value="{{ old('spetag') }}"/>
+                            </div>
+                        </div><!--end form-group-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="marketprice">市场价</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="marketprice" id="marketprice" class="form-control" required value="{{ old('marketprice') }}" />
+                            </div>
+                        </div><!--end form-group-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="costprice">成本价</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="costpirce" id="costprice" class="form-control" value="{{ old('costpirce') }}" />
+                            </div>
+                        </div><!--end form-group-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="viprice">会员价</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="viprice" id="viprice" class="form-control" required value="{{ old('viprice') }}" />
+                            </div>
+                        </div><!--end form-group-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="description">描述</label>
+                            <div class="col-sm-6">
+                                <textarea name="description" id="description" class="form-control" rows="5">{{ old('description') }}</textarea>
+                            </div>
+                        </div><!--end form-group-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="keyword">关键字</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="keyword" id="keyword" class="form-control" placeholder="多个关键字之间请用空格隔开" value="{{ old('keyword') }}" />
+                            </div>
+                        </div><!--end form-group-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">是否上架</label>
+                            <div class="col-sm-6">
+                                <label class="radio-inline">
+                                    <input type="radio" name="status" value="1" id="onsale" />上架
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="status" value="0" id="notonsale" />暂不
+                                </label>
+                            </div>
+                        </div><!--end form-group-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="numbering">商品编号</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="numbering" id="numbering" class="form-control" value="{{ old('numbering') }}" required />
+                            </div>
+                        </div><!--end form-group-->
+                        <div class="form-group text-center">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-3">
+                                <button type="submit" class="btn btn-info">保存</button>
+                            </div>
+                        </div><!--end form-group text-center-->
+                    </form>
+                    <hr>
+                    <h5 class="text-center">库存信息</h5>
+                    <form>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <table class="table text-center">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center col-sm-1">区域</th>
+                                        <th class="text-center col-sm-1">库存数</th>
+                                        <th class="text-center col-sm-1">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="stocktr">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="clear:both"></div>
+                        </div>
+                    </form>
+                    <hr>
+                    <h5 class="text-center">商品图片信息</h5>
+                    <form role="form" class="form-horizontal" action="" id="formToUpdate" method="post" enctype="multipart/form-data">
+                        <div id="method"></div>
+                        <input type="hidden" name="gid" id="gid">
                         <div class="gal form-group">
                             <label for="pic" class="col-sm-2 control-label">商品图片<br><i>最多可上传五张</i></label>
                             <ul class="gallerys col-sm-10 list-inline">
@@ -320,45 +312,9 @@
                                     <div class="gallery text-center">
                                         <img src="" class="img">
                                     </div>
-                                    <input type="file" name="pic[]" class="pic" data-type="1">
+                                    <input type="file" name="file" class="pic">
                                 </li>
                                 <button type="button" class="goodpic addpic btn btn-default" title="继续添加图片" id="addforgood">+</button>
-                            </ul>
-                        </div>
-                        <div class="gal form-group">
-                            <label for="pic" class="col-sm-2 control-label">详情图片<br><i>至少上传一张</i></label>
-                            <ul class="gallerys col-sm-10 list-inline">
-                                <li class="template hidden">
-                                    <div class="gallery text-center">
-                                        <img src="" class="img">
-                                    </div>
-                                    <input type="file" name="detailpic[]" class="pic" data-type="2">
-                                </li>
-                                <button type="button" class="addpic btn btn-default" title="继续添加图片" id="addfordetail">+</button>
-                            </ul>
-                        </div>
-                        <div class="gal form-group">
-                            <label for="pic" class="col-sm-2 control-label">相关参数图片<br><i>至少上传一张</i></label>
-                            <ul class="gallerys col-sm-10 list-inline">
-                                <li class="template hidden">
-                                    <div class="gallery text-center">
-                                        <img src="" class="img">
-                                    </div>
-                                    <input type="file" name="parampic[]" class="pic" data-type="3">
-                                </li>
-                                <button type="button" class="addpic btn btn-default" title="继续添加图片" id="addforparam">+</button>
-                            </ul>
-                        </div>
-                        <div class="gal form-group">
-                            <label for="pic" class="col-sm-2 control-label">相关资料图片<br><i>至少上传一张</i></label>
-                            <ul class="gallerys col-sm-10 list-inline">
-                                <li class="template hidden">
-                                    <div class="gallery text-center">
-                                        <img src="" class="img">
-                                    </div>
-                                    <input type="file" name="datapic[]" class="pic" data-type="4">
-                                </li>
-                                <button type="button" class="addpic btn btn-default" title="继续添加图片" id="addfordata">+</button>
                             </ul>
                         </div>
                     </form>
@@ -366,10 +322,10 @@
             </div>
         </div>
     </div>
+    <input type="hidden" id="activeFlag" value="treegood">
+    @include('inc.admin.footer')
 </div>
 <!-- ./wrapper -->
-<!-- jQuery 2.2.0 -->
-<script src="/admin/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
 <script src="/admin/bootstrap/js/bootstrap.min.js"></script>
 <!-- FastClick -->

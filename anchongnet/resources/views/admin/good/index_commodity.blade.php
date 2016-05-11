@@ -69,8 +69,8 @@
                             <a href="/commodity" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
                             <table id="example1" class="table table-bordered table-striped">
                                 <tr>
-                                    <th>商品名称</th>
-                                    <th>描述</th>
+                                    <th width="20%">商品名称</th>
+                                    <th width="60%">描述</th>
                                     <th>操作</th>
                                 </tr>
                                 @foreach ($datacol['datas'] as $data)
@@ -102,10 +102,7 @@
         </section>
         <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
-    <input type="hidden" id="activeFlag" value="treegood">
-    @include('inc.admin.footer')
-            <!-- Modal -->
+    <!-- Modal -->
     <div class="modal fade" id="myView" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -116,19 +113,18 @@
                     <h4 class="modal-title" id="myModalLabel"></h4>
                 </div>
                 <div class="modal-body">
-                    <table class="table">
+                    <table class="table" id="viewtable">
                         <tr>
                             <th>货品标签</th>
                             <th>货品编号</th>
                             <th>货品图片</th>
                         </tr>
-
                     </table>
                 </div>
             </div>
         </div>
     </div>
-            <!-- Modal -->
+    <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -139,6 +135,7 @@
                     <h4 class="modal-title" id="myModalLabel">商品编辑</h4>
                 </div>
                 <div class="modal-body">
+                    <h5 class="text-center">基本信息</h5>
                     <form action="" method="post" class="form-horizontal" id="updataForm">
                         <input type="hidden" name="_method" value="PUT">
                         <div class="form-group">
@@ -151,10 +148,6 @@
                                     </div>
                                     <div class="col-xs-4">
                                         <select class="form-control" id="midselect" name="midselect" required>
-                                        </select>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <select class="form-control" id="backselect" name="backselect" required>
                                         </select>
                                     </div>
                                 </div><!--end row-->
@@ -179,10 +172,73 @@
                             </div>
                         </div>
                     </form>
+                    <hr>
+                    <h5 class="text-center">属性信息</h5>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <table class="table text-center">
+                                <thead>
+                                <tr>
+                                    <th class="text-center col-sm-1">属性名</th>
+                                    <th class="text-center col-sm-2">属性值</th>
+                                    <th class="text-center col-sm-1">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="stock">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <hr>
+                    <h5 class="text-center">图片信息</h5>
+                    <form role="form" class="form-horizontal" action="" id="formToUpdate" method="post" enctype="multipart/form-data">
+                        <div id="method"></div>
+                        <input type="hidden" name="gid" id="gid">
+                        <div class="gal form-group">
+                            <label class="col-sm-2 control-label">详情图片</label>
+                            <ul class="gallerys col-sm-10 list-inline">
+                                <li class="template hidden">
+                                    <div class="gallery text-center">
+                                        <img src="" class="img">
+                                    </div>
+                                    <input type="file" name="file" class="pic" data-type="1">
+                                </li>
+                                <button type="button" class="addpic btn btn-default" title="继续添加图片" id="addfordetail">+</button>
+                            </ul>
+                        </div>
+                        <div class="gal form-group">
+                            <label class="col-sm-2 control-label">相关参数图片</label>
+                            <ul class="gallerys col-sm-10 list-inline">
+                                <li class="template hidden">
+                                    <div class="gallery text-center">
+                                        <img src="" class="img">
+                                    </div>
+                                    <input type="file" name="file" class="pic" data-type="2">
+                                </li>
+                                <button type="button" class="addpic btn btn-default" title="继续添加图片" id="addforparam">+</button>
+                            </ul>
+                        </div>
+                        <div class="gal form-group">
+                            <label class="col-sm-2 control-label">相关资料图片</label>
+                            <ul class="gallerys col-sm-10 list-inline">
+                                <li class="template hidden">
+                                    <div class="gallery text-center">
+                                        <img src="" class="img">
+                                    </div>
+                                    <input type="file" name="file" class="pic" data-type="3">
+                                </li>
+                                <button type="button" class="addpic btn btn-default" title="继续添加图片" id="addfordata">+</button>
+                            </ul>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+    <input type="hidden" id="activeFlag" value="treegood">
+    <!-- /.content-wrapper -->
+    @include('inc.admin.footer')
 </div>
 <!-- ./wrapper -->
 <!-- Bootstrap 3.3.5 -->

@@ -2,6 +2,7 @@
  * Created by lengxue on 2016/4/20.
  */
 $(function(){
+    /*-------------------------------------------基本信息---------------------------------------------*/
     var opt;
     var one0=0;
     var defaultopt="<option value=''>请选择</option>";
@@ -17,8 +18,8 @@ $(function(){
         var val=$(this).val();
         $("#midselect").empty();
         $("#midselect").append(defaultopt);
-        $("#backselect").empty();
-        $("#backselect").append(defaultopt);
+        $("#name").empty();
+        $("#name").append(defaultopt);
         if(val==""){
 
         }else{
@@ -38,27 +39,13 @@ $(function(){
 
     $("#midselect").change(function(){
         var val=$(this).val();
-        $("#backselect").empty();
-        $("#backselect").append(defaultopt);
-        $.get("/getlevel3",{pid:parseInt(val)},function(data,status){
-            if(data.length==0){
-                $("#backselect").empty();
-                $("#backselect").append(nullopt);
-            }else{
-                for(var i=0;i<data.length;i++){
-                    opt="<option  value="+data[i].cid+">"+data[i].cat_name+"</option>";
-                    $("#backselect").append(opt);
-                }
-            }
-        });
-    });
-
-    $("body").on("change",'#backselect',function(){
-        var val=$(this).val();
+        var sid=$("#sid").val();
         $("#name").empty();
-        var shopid=$("#sid").val();
-        $.get("/getsibilingscommodity",{pid:parseInt(val),sid:shopid},function(data,status){
+        $("#name").append(defaultopt);
+        $("#checks").empty();
+        $.get("/getsibilingscommodity",{pid:parseInt(val),sid:sid},function(data,status){
             if(data.length==0){
+                $("#name").empty();
                 $("#name").append(nullopt);
             }else{
                 for(var i=0;i<data.length;i++){
@@ -66,60 +53,32 @@ $(function(){
                     $("#name").append(opt);
                 }
             }
+        });
+        $.get("/getsiblingstag",{cid:val},function(data,status){
+            for(var i=0;i<data.length;i++){
+                var lab='<label><input type="checkbox" name="tag[]" value='+data[i].tag+'>'+data[i].tag+'</label>';
+                $("#checks").append(lab);
+            }
         })
     });
 
-    $("#sub").click(function(){
-        var gname=$("#name").find("option:selected").text();
-        $("#goodname").val(gname);
-    });
-
-    $("body").on("click",'.gallery',function(){
-        $(this).siblings(".pic").click();
-    });
-
-    $("body").on("change",'.pic',function(){
-        var objUrl = getObjectURL(this.files[0]) ;
-        console.log("objUrl = "+objUrl) ;
-        if (objUrl) {
-            $(this).siblings(".gallery").find(".img").attr("src",objUrl);
-            if($(this).parents("li").hasClass("first")){
-            }else{
-                $(this).siblings(".gallery").before('<button type="button" class="delpic btn btn-xs btn-danger" title="删除">x</button>');
+    $("#name").change(function(){
+        var val=$(this).val();
+        var li;
+		var optioner;
+        $.get("/getsiblingsattr",{gid:parseInt(val)},function(data,status){
+            for(var i=0;i<data.length;i++){
+			    $("#selectforattr").attr("id","");
+                li='<li> <label class="col-sm-2 control-label">'+data[i].name+'</label> <div class="col-sm-3"> <select class="form-control" name="attr[]" required id="selectforattr"> </select> </div> </li> <div class="clearfix"><br><br></div>';
+                $("#attrs").append(li);
+                var arr=data[i].value.split(" ");
+                for(var j=0;j<arr.length;j++){
+					optioner='<option value='+arr[j]+'>'+arr[j]+'</option>';
+					$("#selectforattr").append(optioner);
+                }
             }
-        }
+        });
     });
-
-    $("body").on("click",'.delpic',function(){
-        $(this).parent().remove();
-    });
-
-    //建立一個可存取到該file的url
-    function getObjectURL(file) {
-        var url = null ;
-        if (window.createObjectURL!=undefined) { // basic
-            url = window.createObjectURL(file) ;
-        } else if (window.URL!=undefined) { // mozilla(firefox)
-            url = window.URL.createObjectURL(file) ;
-        } else if (window.webkitURL!=undefined) { // webkit or chrome
-            url = window.webkitURL.createObjectURL(file) ;
-        }
-        return url ;
-    }
-
-    $(".addpic").click(function(){
-        if($(this).hasClass("goodpic")){
-            var len=$(this).parentsUntil(".gal").find("li").length;
-            if(len<6){
-                $(this).before($(this).siblings(".template").clone().attr("class",""));
-            }else{
-                alert("最多只能添加五张图片！");
-            }
-        }else{
-            $(this).before($(this).siblings(".template").clone().attr("class",""));
-        }
-    });
-
 
     $("body").on("click",'.addcuspro',function(){
         var len=$(".line").length;
@@ -134,3 +93,17 @@ $(function(){
         }
     });
 });
+
+$('#test').diyUpload({
+    url:'/thumb',
+    success:function( data ) {
+        console.info( data.message );
+        var len=$("#img").find("li").length;
+        var lis='<li> <input type="hidden" name="pic['+len+'][url]" value="'+data.url+'"> </li>';
+        $("#img").append(lis);
+    },
+    error:function( err ) {
+        console.info( err );
+    },
+});
+

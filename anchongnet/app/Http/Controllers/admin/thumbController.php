@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\GoodThumb;
+use App\Goods_type;
+use App\GoodSpecification;
 
 use OSS\OssClient;
 use OSS\Core\OssException;
@@ -15,6 +17,8 @@ use DB;
 class thumbController extends Controller
 {
     private $thumb;
+    private $good;
+    private $goodType;
     private $accessKeyId;
     private $accessKeySecret ;
     private $endpoint;
@@ -26,6 +30,8 @@ class thumbController extends Controller
     public function __construct()
     {
         $this->thumb=new GoodThumb();
+        $this->goodType=new Goods_type();
+        $this->good=new GoodSpecification();
         $this->accessKeyId="HJjYLnySPG4TBdFp";
         $this->accessKeySecret="Ifv0SNWwch5sgFcrM1bDthqyy4BmOa";
         $this->endpoint="oss-cn-hangzhou.aliyuncs.com";
@@ -60,44 +66,25 @@ class thumbController extends Controller
      */
     public function store(Request $request)
     {
-        switch($request->imgtype){
-            case 1:
-                $fileType=$_FILES['pic']['type'];
-                $dir="goods/img/goods/";
-                $filePath = $request['pic'][0];
-                break;
-            case 2:
-                $fileType=$_FILES['detailpic']['type'];
-                $dir="goods/img/detail/";
-                $filePath = $request['detailpic'][0];
-                break;
-            case 3:
-                $fileType=$_FILES['parampic']['type'];
-                $dir="goods/img/param/";
-                $filePath = $request['parampic'][0];
-                break;
-            case 4:
-                $fileType=$_FILES['datapic']['type'];
-                $dir="goods/img/data/";
-                $filePath = $request['datapic'][0];
-                break;
-        }
+        $fileType=$_FILES['file']['type'];
+        $dir="goods/img/goods/";
+        $filePath = $request['file'];
         //设置上传到阿里云oss的对象的键名
-        switch ($fileType[0]){
+        switch ($fileType){
             case "image/png":
-                $object=$dir.time().".png";
+                $object=$dir.time().rand(100000,999999).".png";
                 break;
             case "image/jpeg":
-                $object=$dir.time().".jpg";
+                $object=$dir.time().rand(100000,999999).".jpg";
                 break;
             case "image/jpg":
-                $object=$dir.time().".jpg";
+                $object=$dir.time().rand(100000,999999).".jpg";
                 break;
             case "image/gif":
-                $object=$dir.time().".gif";
+                $object=$dir.time().rand(100000,999999).".gif";
                 break;
             default:
-                $object=$dir.time().".jpg";
+                $object=$dir.time().rand(100000,999999).".jpg";
         }
 
         try {
@@ -109,22 +96,13 @@ class thumbController extends Controller
             $signedUrl = $ossClient->signUrl($this->bucket, $object);
             $pos = strpos($signedUrl, "?");
             $url = substr($signedUrl, 0, $pos);
-            $tid = DB::table('anchong_goods_thumb')->insertGetId(
-                [
-                    'gid'=>$request->gid,
-                    'img_url'=>$url,
-                    'thumb_url'=>$url,
-                    'img_type'=>$request->imgtype
-                ]
-            );
             $message="上传成功";
             $isSuccess=true;
         }catch (OssException $e) {
-            $tid=null;
             $message="上传失败，请稍后再试";
             $isSuccess=false;
         }
-        return response()->json(['message' => $message, 'isSuccess' => $isSuccess,'id'=>$tid]);
+        return response()->json(['message' => $message, 'isSuccess' => $isSuccess,'url'=>$url]);
     }
 
     /**
@@ -158,44 +136,25 @@ class thumbController extends Controller
      */
     public function update(Request $request, $id)
     {
-        switch($request->imgtype){
-            case 1:
-                $fileType=$_FILES['pic']['type'];
-                $dir="goods/img/goods/";
-                $filePath = $request['pic'][0];
-                break;
-            case 2:
-                $fileType=$_FILES['detailpic']['type'];
-                $dir="goods/img/detail/";
-                $filePath = $request['detailpic'][0];
-                break;
-            case 3:
-                $fileType=$_FILES['parampic']['type'];
-                $dir="goods/img/param/";
-                $filePath = $request['parampic'][0];
-                break;
-            case 4:
-                $fileType=$_FILES['datapic']['type'];
-                $dir="goods/img/data/";
-                $filePath = $request['datapic'][0];
-                break;
-        }
+        $fileType=$_FILES['file']['type'];
+        $dir="goods/img/goods/";
+        $filePath = $request['file'];
         //设置上传到阿里云oss的对象的键名
-        switch ($fileType[0]){
+        switch ($fileType){
             case "image/png":
-                $object=$dir.time().".png";
+                $object=$dir.time().rand(100000,999999).".png";
                 break;
             case "image/jpeg":
-                $object=$dir.time().".jpg";
+                $object=$dir.time().rand(100000,999999).".jpg";
                 break;
             case "image/jpg":
-                $object=$dir.time().".jpg";
+                $object=$dir.time().rand(100000,999999).".jpg";
                 break;
             case "image/gif":
-                $object=$dir.time().".gif";
+                $object=$dir.time().rand(100000,999999).".gif";
                 break;
             default:
-                $object=$dir.time().".jpg";
+                $object=$dir.time().rand(100000,999999).".jpg";
         }
 
         try {
@@ -211,6 +170,17 @@ class thumbController extends Controller
             $data->thumb_url=$url;
             $data->img_url=$url;
             $data->save();
+            if($request->isfirst=="first"){
+                DB::beginTransaction();
+                $gdata=$this->good->find($request->gid);
+                $gdata->goods_img=$url;
+                $gdata->save();
+
+                $gtdata=$this->goodType->Gid($request->gid);
+                $gtdata->pic=$url;
+                $gtdata->save();
+                DB::commit();
+            }
             $message="更新成功";
             $isSuccess=true;
         }catch (OssException $e) {

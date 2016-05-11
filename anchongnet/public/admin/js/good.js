@@ -17,7 +17,7 @@ $(function(){
             $("#goodsnumbering").text(data.goods_numbering);
         });
         var cid=$(this).attr("data-cid");
-        $.get("/goodcatetype/"+cid,function(data,status){
+        $.get("/goodcate/"+cid,function(data,status){
             $("#cat").text(data.cat_name);
         });
         $.get("/getStock",{gid:id},function(data,status){
@@ -48,7 +48,6 @@ $(function(){
     });
 
     $(".edit").click(function(){
-        $("#backselect").empty();
         $("#midselect").empty();
         var cid=$(this).attr("data-cid");
         var id=$(this).attr("data-id");
@@ -56,40 +55,26 @@ $(function(){
         var sid=$("#sid").val();
         var opt;
         var firstPid;
-        var secondPid;
         $("#updateform").attr("action","/good/"+id);
         $("#gid").val(id);
-        $.get("/getsiblingslevel",{cid:cid},function(data,status){
+        $.get("/getsiblingscat",{cid:cid},function(data,status){
             for(var i=0;i<data.length;i++){
-                opt="<option  value="+data[i].cid+">"+data[i].cat_name+"</option>";
-                $("#backselect").append(opt);
+                opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
+                $("#midselect").append(opt);
             }
-            $("#backselect option[value="+cid+"]").attr("selected",true);
-            firstPid=data[0].cat_id;
-            secondPid=data[0].parent_id;
+            $("#midselect option[value="+cid+"]").attr("selected",true);
+            firstPid=data[0].parent_id;
             $("#mainselect option[value="+firstPid+"]").attr("selected",true);
-
-            $.get("/getlevel",{pid:firstPid},function(data,status){
-                for(var j=0;j<data.length;j++){
-                    opt="<option  value="+data[j].cat_id+">"+data[j].cat_name+"</option>";
-                    $("#midselect").append(opt);
-                }
-                $("#midselect option[value="+secondPid+"]").attr("selected",true);
-            });
         });
 
         $("#name").empty();
         $.get("/getsibilingscommodity",{pid:cid,sid:sid},function(data,status){
-            if(data.length==0){
-                $("#name").append(nullopt);
-            }else{
-                for(var i=0;i<data.length;i++){
-                    opt="<option  value="+data[i].goods_id+">"+data[i].title+"</option>";
-                    $("#name").append(opt);
-                }
-                $("#name option[value="+gid+"]").attr("selected",true);
+            for(var i=0;i<data.length;i++){
+                opt="<option  value="+data[i].goods_id+">"+data[i].title+"</option>";
+                $("#name").append(opt);
             }
-        })
+            $("#name option[value="+gid+"]").attr("selected",true);
+        });
 
         $.get("/good/"+id+"/edit",function(data,status){
             $("#spetag").val(data.goods_name);
@@ -119,25 +104,12 @@ $(function(){
             $(".notem").remove();
             var gallery;
             for(var i=0;i<data.length;i++){
-                switch(parseInt(data[i].img_type)){
-                    case 1:
-                        gallery='<li class="notem"> <div class="gallery text-center"> <img src="'+data[i].thumb_url+'" class="img"> </div> <input type="file" name="pic[]" class="pic" data-id="'+data[i].tid+'" data-type="'+data[i].img_type+'"> </li>';
-                        $("#addforgood").before(gallery);
-                        break;
-                    case 2:
-                        gallery='<li class="notem"> <div class="gallery text-center"> <img src="'+data[i].thumb_url+'" class="img"> </div> <input type="file" name="detailpic[]" class="pic" data-id="'+data[i].tid+'" data-type="'+data[i].img_type+'"> </li>';
-                        $("#addfordetail").before(gallery);
-                        break;
-                    case 3:
-                        gallery='<li class="notem"> <div class="gallery text-center"> <img src="'+data[i].thumb_url+'" class="img"> </div> <input type="file" name="parampic[]" class="pic" data-id="'+data[i].tid+'" data-type="'+data[i].img_type+'"> </li>';
-                        $("#addforparam").before(gallery);
-                        break;
-                    case 4:
-                        gallery='<li class="notem"> <div class="gallery text-center"> <img src="'+data[i].thumb_url+'" class="img"> </div> <input type="file" name="datapic[]" class="pic" data-id="'+data[i].tid+'" data-type="'+data[i].img_type+'"> </li>';
-                        $("#addfordata").before(gallery);
-                        break;
-                    default:
+                if(i==0){
+                    gallery='<li class="notem"> <div class="gallery text-center"> <img src="'+data[i].thumb_url+'" class="img"> </div> <input type="file" name="file" class="pic" data-id="'+data[i].tid+'" data-gid="'+data[i].gid+'" isfirst="first"> </li>';
+                }else{
+                    gallery='<li class="notem"> <div class="gallery text-center"> <img src="'+data[i].thumb_url+'" class="img"> </div> <input type="file" name="file" class="pic" data-id="'+data[i].tid+'" data-gid="'+data[i].gid+'"> </li>';
                 }
+                $("#addforgood").before(gallery);
             }
             for(var i=0;i<$(".gallerys").length;i++){
                 $(".gallerys").eq(i).find(".notem").eq(0).addClass("first");
@@ -213,7 +185,6 @@ $(function(){
                         success:function(result){
                             alert(result);
                             $.get('/getotal',{gid:gid},function(data,status){
-
                             });
                         }
                     });
@@ -224,10 +195,13 @@ $(function(){
     });
 
     var nullopt="<option value=''>无数据，请重选上级分类</option>";
+    var defaultopt="<option value=''>请选择</option>";
     $("body").on("change",'#mainselect',function(){
         var val=$(this).val();
         $("#midselect").empty();
-        $("#backselect").empty();
+        $("#midselect").append(defaultopt);
+        $("#name").empty();
+        $("#name").append(defaultopt);
         $.get("/getlevel",{pid:parseInt(val)},function(data,status){
             if(data.length==0){
                 $("#midselect").append(nullopt);
@@ -240,27 +214,14 @@ $(function(){
         });
     });
 
-    $("body").on("change",'#midselect',function(){
+    $("#midselect").change(function(){
         var val=$(this).val();
-        $("#backselect").empty();
-        $.get("/getlevel3",{pid:parseInt(val)},function(data,status){
-            if(data.length==0){
-                $("#backselect").append(nullopt);
-            }else{
-                for(var i=0;i<data.length;i++){
-                    opt="<option  value="+data[i].cid+">"+data[i].cat_name+"</option>";
-                    $("#backselect").append(opt);
-                }
-            }
-        })
-    });
-
-    $("body").on("change",'#backselect',function(){
-        var val=$(this).val();
-        $("#name").empty();
         var sid=$("#sid").val();
+        $("#name").empty();
+        $("#name").append(defaultopt);
         $.get("/getsibilingscommodity",{pid:parseInt(val),sid:sid},function(data,status){
             if(data.length==0){
+                $("#name").empty();
                 $("#name").append(nullopt);
             }else{
                 for(var i=0;i<data.length;i++){
@@ -268,7 +229,7 @@ $(function(){
                     $("#name").append(opt);
                 }
             }
-        })
+        });
     });
 
     $("body").on("click",'.gallery',function(){
@@ -277,8 +238,8 @@ $(function(){
 
     $("body").on("change",'.pic',function(){
         var id=$(this).attr("data-id");
-        var imgtype=$(this).attr("data-type");
-        $("#imgtype").val(imgtype);
+        var isfirst=$(this).attr("isfirst");
+        var gid=$(this).attr("data-gid");
         if(id==undefined){
             $("#method").empty();
             var objUrl = getObjectURL(this.files[0]) ;
@@ -296,6 +257,7 @@ $(function(){
                 $("#formToUpdate").ajaxSubmit({
                     type: 'post',
                     url: '/thumb',
+                    data:{gid:gid},
                     success: function (data) {
                         alert(data.message);
                         if(data.isSuccess==true){
@@ -317,6 +279,7 @@ $(function(){
                     $("#formToUpdate").ajaxSubmit({
                         type:'post',
                         url:'/thumb/'+id,
+                        data:{isfirst:isfirst,gid:gid},
                         success:function(data){
                             alert(data.message);
                             if(data.isSuccess==true){

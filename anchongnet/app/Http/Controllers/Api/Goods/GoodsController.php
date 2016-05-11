@@ -137,7 +137,7 @@ class GoodsController extends Controller
         //需要查的字段
         $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
         //查询商品列表的信息
-        $result=$goods_type->quer($goods_data,'cid = '.$param['cid'],(($param['page']-1)*$limit),$limit);
+        $result=$goods_type->quer($goods_data,'cid = '.$param['cid'].' and added = 1',(($param['page']-1)*$limit),$limit);
         //将结果转成数组
         $results=$result['list']->toArray();
         //判断是否取出结果
@@ -148,6 +148,7 @@ class GoodsController extends Controller
                 $showprice=0;
             }else{
                 $users=new \App\Users();
+                //查询用户是否认证
                 $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
                 if($users_auth[0]['certification'] == 3){
                     $showprice=1;
@@ -158,6 +159,75 @@ class GoodsController extends Controller
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'商品信息获取失败，请刷新']]);
         }
+    }
+
+    /*
+    *   商品筛选标签显示
+    */
+    public function goodstag(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $goods_tag=new \App\Goods_tag();
+        $result=$goods_tag->quer('tag','cat_id='.$param['cat_id'])->toArray();
+        if(!empty($result)){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'该分类没有检索标签']]);
+        }
+    }
+
+    /*
+    *   商品筛选
+    */
+    public function goodssearch(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //默认每页数量
+        $limit=20;
+        //创建ORM模型
+        $goods_type=new \App\Goods_type();
+        //判断要查询的列表
+        if(empty($param['tags']) && empty($param['search'])){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"无商品"]]);
+        }elseif(!empty($param['tags']) && empty($param['search'])){
+            //根据标签检索
+            $sql="cid =".$param['cid']."added = 1 and MATCH(tags) AGAINST('".bin2hex($param['tags'])."')";
+        }elseif(empty($param['tags']) && !empty($param['search'])){
+            //自定义检索
+            $sql="cid =".$param['cid']."added = 1 and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
+        }elseif(!empty($param['tags']) && !empty($param['search'])){
+            $sql="cid =".$param['cid']."added = 1 and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
+        }
+        //要查询的字段
+        $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
+        $result=$goods_type->searchquer($goods_data,$sql,(($param['page']-1)*$limit),$limit);
+        $results=$result['list']->toArray();
+        //判断是否需要查询会员价
+        if(!empty($results)){
+            //判断是否有权限查看会员价，也就是判断是否审核通过
+            $showprice=0;
+            if($data['guid'] == 0){
+                $showprice=0;
+            }else{
+                $users=new \App\Users();
+                //查询用户是否认证
+                $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
+                if($users_auth[0]['certification'] == 3){
+                    $showprice=1;
+                }
+            }
+        }else{
+            //如果结果为空则返回0
+            $showprice=0;
+        }
+        //将用户权限传过去
+        $result['showprice']=$showprice;
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
     }
 
     /*
@@ -215,7 +285,7 @@ class GoodsController extends Controller
             $shopid=$results[0]['sid'];
             $shop=new \App\Shop();
             //查询商铺图片和名字
-            $shopresult=$shop->quer(['name','img'],'sid = '.$shopid)->toArray();
+            $shopresult=$shop->quer(['name','img','customer'],'sid = '.$shopid)->toArray();
             foreach ($results as $goods1) {
                 foreach ($goods1 as $key=>$goods2) {
                     $result[$key]=$goods2;
@@ -226,11 +296,15 @@ class GoodsController extends Controller
                     $result[$key]=$shop2;
                 }
             }
+            //创建收藏ORM模型
+            $collection=new \App\Collection();
+            $collresult=$collection->quer('users_id='.$data['guid'].' and coll_id ='.$param['gid']);
             //进行数据拼接
             $result['goodspic']=$picarr;
             $result['detailpic']=$detailpic;
             $result['parameterpic']=$parameterpic;
             $result['datapic']=$datapic;
+            $result['collection']=$collresult;
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'商品信息获取失败，请刷新']]);

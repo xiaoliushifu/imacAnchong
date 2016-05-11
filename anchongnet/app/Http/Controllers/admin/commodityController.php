@@ -10,12 +10,14 @@ use App\Http\Controllers\Controller;
 use App\Good;
 use App\Shop;
 use Auth;
+use DB;
 
 class commodityController extends Controller
 {
     private $good;
     private $uid;
     private $sid;
+    private $gid;
     public function __construct()
     {
         $this->good=new Good();
@@ -23,6 +25,8 @@ class commodityController extends Controller
         $this->uid=Auth::user()['users_id'];
         //通过用户获取商铺id
         $this->sid=Shop::Uid($this->uid)->sid;
+        //初始化gid属性为空
+        $this->gid="";
     }
 
     /**
@@ -49,7 +53,7 @@ class commodityController extends Controller
      */
     public function create()
     {
-        return view("admin/good/create_commodity")->with('sid', $this->sid);
+        return view("admin/good/create_commodity",array('sid'=>$this->sid,'gid'=>$this->gid));
     }
 
     /**
@@ -58,15 +62,51 @@ class commodityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(\App\Http\Requests\CommodityRequest $request)
     {
-        //向goods表中插入数据
-        $this->good->sid=$this->sid;
-        $this->good->type=$request->backselect;
-        $this->good->title=$request->name;
-        $this->good->desc=$request->description;
-        $this->good->save();
-        return redirect()->back();
+        /*
+         * 因为要向多个表中插入数据，
+         * 所以需要开启事务处理
+         * */
+        DB::beginTransaction();
+        //向goods表中插入数据并获取刚插入数据的主键
+        $gid = DB::table('anchong_goods')->insertGetId(
+            [
+                'title'=>$request->name,
+                'sid'=>$this->sid,
+                'desc'=>$request->description,
+                'type'=>$request->midselect
+            ]
+        );
+
+        //通过一个for循环向属性表中插入数据
+        for($i=0;$i<count($request->attrname);$i++){
+            DB::table('anchong_goods_attribute')->insertGetId(
+                [
+                    'goods_id'=>$gid,
+                    'name'=>$request->attrname[$i],
+                    'value'=>$request->attrvalue[$i]
+                ]
+            );
+        };
+
+        //通过一个for循环向图片表中插入数据
+        for($i=0;$i<count($request->pic);$i++){
+            DB::table('anchong_goods_img')->insertGetId(
+                [
+                    'goods_id'=>$gid,
+                    'url'=>$request->pic[$i]['url'],
+                    'thumb_url'=>$request->pic[$i]['url'],
+                    'type'=>$request->pic[$i]['imgtype']
+                ]
+            );
+        }
+
+        //将对象的gid属性设置为刚插入的那条数据的主键并返回给页面
+        $this->gid=$gid;
+        //提交事务
+        DB::commit();
+        return view("admin/good/create_commodity",array('sid'=>$this->sid,'gid'=>$this->gid,'mes'=>"添加成功！"));
     }
 
     /**

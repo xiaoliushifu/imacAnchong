@@ -8,6 +8,7 @@ use App\Users;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Validator;
+use App\Order;
 
 use OSS\OssClient;
 use OSS\Core\OssException;
@@ -16,9 +17,11 @@ class UsermessagesController extends Controller
 {
 	private $usermessages;
 	private $user;
+	private $order;
 	public function __construct(){
 		$this->usermessages=new usermessages();
 		$this->user=new Users();
+		$this->order=new Order();
 	}
     /**
      * Display a listing of the resource.
@@ -92,10 +95,18 @@ class UsermessagesController extends Controller
 					'headpic'=>"",
 					'authStatus'=>$status,
 					'authNum'=>$person->certification,
+					'waitforcash'=>0,
+					'waitforsend'=>0,
+					'waitforreceive'=>0,
+					'aftermarket'=>0
 				],
 			]);
 		}else{
 			$user=Usermessages::where('users_id', '=', $id)->first();
+			$waitforcash=count($this->order->US($id,1)->get());
+			$waitforsend=count($this->order->US($id,2)->get());
+			$waitforreceive=count($this->order->US($id,3)->get());
+			$aftermarket=count($this->order->US($id,7)->get());
 	        return response()->json(
 			[
 				'serverTime'=>time(),
@@ -109,6 +120,10 @@ class UsermessagesController extends Controller
 					'headpic'=>$user->headpic,
 					'authStatus'=>$status,
 					'authNum'=>$person->certification,
+					'waitforcash'=>$waitforcash,
+					'waitforsend'=>$waitforsend,
+					'waitforreceive'=>$waitforreceive,
+					'aftermarket'=>$aftermarket
 				],
 			]);
 		}

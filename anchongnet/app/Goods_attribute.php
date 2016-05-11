@@ -36,6 +36,8 @@ class Goods_attribute extends Model implements AuthenticatableContract,
     protected $guarded = ['atid'];
     //定义主键名称
     protected $primaryKey = 'atid';
+    //可以批量赋值的属性
+    protected $fillable=['goods_id','name','value'];
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -49,5 +51,11 @@ class Goods_attribute extends Model implements AuthenticatableContract,
     public function quer($field,$type)
     {
         return $this->select($field)->whereRaw($type)->get();
+    }
+    /*
+     * 根据条件进行属性查询
+     * */
+    public function scopeGood($query,$keyGood){
+        return $query->where('goods_id', '=', $keyGood);
     }
 }

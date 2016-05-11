@@ -12,13 +12,13 @@
     <link rel="stylesheet" href="/admin/dist/dfonts/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="/admin/dist/dfonts/ionicons.min.css">
-    <!-- DataTables -->
-    <link rel="stylesheet" href="/admin/plugins/datatables/dataTables.bootstrap.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="/admin/dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="/admin/dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/admin/css/diyUpload.css">
+    <link rel="stylesheet" href="/admin/css/webuploader.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -27,13 +27,9 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-        .pic{position: relative; top: 7px; visibility: hidden;}
-        .gal{margin-top: 20px;}
-        .gallerys li{width:10%; min-width: 80px; position: relative;}
-        .delpic{position: absolute; right: 0; top: -5px;}
-        .gallery{width: 80px; height: 80px; background: url("/admin/image/catetypecreate/add.jpg") center center no-repeat; border: solid #ddd 1px;  cursor: pointer; display:table-cell; vertical-align: middle;}
-        .gallery img{max-width: 100%; max-height: 100%;}
-        .addpic{margin-top: -100px;}
+        *{margin: 0;padding: 0;}
+        #box{top:7px;}
+        li{list-style: none;}
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -67,7 +63,13 @@
                                     </ul>
                                 </div>
                             <?php endif; ?>
-                            <form role="form" class="form-horizontal" action="/good" method="post" enctype="multipart/form-data">
+                            <h4 class="text-center">基本信息</h4>
+                            <?php
+                                if(isset($mes)){
+                                    echo "<div class='alert alert-info' role='alert'>$mes</div>";
+                                };
+                            ?>
+                            <form role="form" class="form-horizontal" action="/good" method="post">
                                 <input type="hidden" name="sid" id="sid" value="<?php echo e($sid); ?>">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">商品分类</label>
@@ -83,29 +85,26 @@
                                                     <option value="">请选择</option>
                                                 </select>
                                             </div>
-                                            <div class="col-xs-3">
-                                                <select class="form-control" id="backselect" name="backselect" required>
-                                                    <option value="">请选择</option>
-                                                </select>
-                                            </div>
                                         </div><!--end row-->
                                     </div><!--end col-sm-10-->
                                 </div><!--end form-group-->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">选择分类标签</label>
+                                    <div class="col-sm-3">
+                                        <div class="checkbox" id="checks">
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="name">选择商品</label>
                                     <div class="col-sm-3">
                                         <select class="form-control" id="name" name="name" required>
                                             <option value="">请选择</option>
                                         </select>
-                                        <input type="hidden" name="goodname" id="goodname" value="">
                                     </div>
                                 </div><!--end form-group-->
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="spetag">货品标签</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" name="spetag" id="spetag" class="form-control" required placeholder="如：黄色32码" value="<?php echo e(old('spetag')); ?>" />
-                                    </div>
-                                </div><!--end form-group-->
+                                <ul class="form-group" id="attrs">
+                                </ul>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="marketprice">市场价</label>
                                     <div class="col-sm-3">
@@ -148,8 +147,14 @@
                                     </div>
                                 </div><!--end form-group-->
                                 <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="numbering">商品编号</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" name="numbering" id="numbering" class="form-control" value="<?php echo e(old('numbering')); ?>" required />
+                                    </div>
+                                </div><!--end form-group-->
+                                <div class="form-group">
                                     <label class="col-sm-2 control-label">库存</label>
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-6">
                                         <table class="table text-center">
                                             <thead>
                                             <tr>
@@ -159,108 +164,38 @@
                                             </tr>
                                             </thead>
                                             <tbody id="stock">
-                                                <tr class="line">
-                                                    <td>
-                                                        <input type="text" name="stock[region][]" class="form-control" required />
-                                                    </td>
-                                                    <td>
-                                                        <input type="number" min="0" name="stock[num][]" class="form-control" required />
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="addcuspro btn-sm btn-link" title="添加">
-                                                            <span class="glyphicon glyphicon-plus"></span>
-                                                        </button>
-                                                        <button type="button" class="delcuspro btn-sm btn-link" title="删除">
-                                                            <span class="glyphicon glyphicon-minus"></span>
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                            <tr class="line">
+                                                <td>
+                                                    <input type="text" name="stock[region][]" class="form-control" required />
+                                                </td>
+                                                <td>
+                                                    <input type="number" min="0" name="stock[num][]" class="form-control" required />
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="addcuspro btn-sm btn-link" title="添加">
+                                                        <span class="glyphicon glyphicon-plus"></span>
+                                                    </button>
+                                                    <button type="button" class="delcuspro btn-sm btn-link" title="删除">
+                                                        <span class="glyphicon glyphicon-minus"></span>
+                                                    </button>
+                                                </td>
+                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
+                                <ul class="form-group hidden" id="img">
+                                </ul>
                                 <div class="gal form-group">
-                                    <label for="pic" class="col-sm-2 control-label">商品图片<br><i>最多可上传五张</i></label>
-                                    <ul class="gallerys col-sm-10 list-inline">
-                                        <li class="template hidden">
-                                            <div class="gallery text-center">
-                                                <img src="" class="img">
-                                            </div>
-                                            <input type="file" name="pic[]" class="pic">
-                                        </li>
-                                        <li class="first">
-                                            <div class="gallery text-center">
-                                                <img src="" class="img">
-                                            </div>
-                                            <input type="file" name="pic[]" class="pic" required>
-                                        </li>
-                                        <button type="button" class="goodpic addpic btn btn-default" title="继续添加图片">+</button>
-                                    </ul>
-                                </div>
-                                <div class="gal form-group">
-                                    <label for="pic" class="col-sm-2 control-label">详情图片<br><i>至少上传一张</i></label>
-                                    <ul class="gallerys col-sm-10 list-inline">
-                                        <li class="template hidden">
-                                            <div class="gallery text-center">
-                                                <img src="" class="img">
-                                            </div>
-                                            <input type="file" name="detailpic[]" class="pic">
-                                        </li>
-                                        <li class="first">
-                                            <div class="gallery text-center">
-                                                <img src="" class="img">
-                                            </div>
-                                            <input type="file" name="detailpic[]" class="pic" required>
-                                        </li>
-                                        <button type="button" class="addpic btn btn-default" title="继续添加图片">+</button>
-                                    </ul>
-                                </div>
-                                <div class="gal form-group">
-                                    <label for="pic" class="col-sm-2 control-label">相关参数图片<br><i>至少上传一张</i></label>
-                                    <ul class="gallerys col-sm-10 list-inline">
-                                        <li class="template hidden">
-                                            <div class="gallery text-center">
-                                                <img src="" class="img">
-                                            </div>
-                                            <input type="file" name="parampic[]" class="pic">
-                                        </li>
-                                        <li class="first">
-                                            <div class="gallery text-center">
-                                                <img src="" class="img">
-                                            </div>
-                                            <input type="file" name="parampic[]" class="pic" required>
-                                        </li>
-                                        <button type="button" class="addpic btn btn-default" title="继续添加图片">+</button>
-                                    </ul>
-                                </div>
-                                <div class="gal form-group">
-                                    <label for="pic" class="col-sm-2 control-label">相关资料图片<br><i>至少上传一张</i></label>
-                                    <ul class="gallerys col-sm-10 list-inline">
-                                        <li class="template hidden">
-                                            <div class="gallery text-center">
-                                                <img src="" class="img">
-                                            </div>
-                                            <input type="file" name="datapic[]" class="pic">
-                                        </li>
-                                        <li class="first">
-                                            <div class="gallery text-center">
-                                                <img src="" class="img">
-                                            </div>
-                                            <input type="file" name="datapic[]" class="pic" required>
-                                        </li>
-                                        <button type="button" class="addpic btn btn-default" title="继续添加图片">+</button>
-                                    </ul>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="numbering">商品编号</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" name="numbering" id="numbering" class="form-control" value="<?php echo e(old('numbering')); ?>" required />
+                                    <label for="pic" class="col-sm-2 control-label text-right">商品图片<br><i>最多可上传五张</i></label>
+                                    <div id="box" class="col-sm-10">
+                                        <div id="test"></div>
                                     </div>
-                                </div><!--end form-group-->
+                                </div>
                                 <div class="form-group text-center">
                                     <label class="col-sm-2 control-label"></label>
                                     <div class="col-sm-3">
-                                        <button type="submit" class="btn btn-info" id="sub">添加货品</button>
+                                        <button type="submit" class="btn btn-info" id="sub">保存</button>
                                     </div>
                                 </div><!--end form-group text-center-->
                             </form>
@@ -275,16 +210,17 @@
         </section>
         <!-- /.content -->
     </div>
-    <input type="hidden" id="activeFlag" value="treegood">
     <!-- /.content-wrapper -->
+    <input type="hidden" id="activeFlag" value="treegood">
     <?php echo $__env->make('inc.admin.footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 </div>
+<!-- ./wrapper -->
 <!-- Bootstrap 3.3.5 -->
 <script src="/admin/bootstrap/js/bootstrap.min.js"></script>
-<!-- FastClick -->
-<script src="/admin/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
+<script src="/admin/js/webuploader.html5only.min.js"></script>
+<script src="/admin/js/diyUpload.js"></script>
 <script src="/admin/js/creategood.js"></script>
 </body>
 </html>

@@ -28,7 +28,7 @@ class orderController extends Controller
         if($keyNum==""){
             $datas=$this->order->paginate(8);
         }else{
-            $datas = $this->order->Num($keyNum)->paginate(8);
+            $datas = Order::num($keyNum)->paginate(8);
         }
         $args=array("keyNum"=>$keyNum);
         return view('admin/order/index',array("datacol"=>compact("args","datas")));

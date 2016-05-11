@@ -37,6 +37,17 @@ class goodCateController extends Controller
     }
 
     /*
+     * 获取某个二级分类的所有兄弟分类的方法
+     * 即获取同一个一级分类下的所有二级分类的方法
+     * */
+    public function getSiblings(Request $request){
+        $cid=$request['cid'];
+        $pid=$this->cat->find($cid)->parent_id;
+        $datas=$this->cat->Level($pid)->get();
+        return $datas;
+    }
+
+    /*
      * 获取指定一级或二级分类的方法
      * */
     public function getLevel(Request $request){
@@ -46,7 +57,7 @@ class goodCateController extends Controller
     }
 
     /*
-     * 获取二级分类的方法
+     * 获取所有二级分类的方法
      * */
     public function getLevel2(){
         $datas = GoodCat::Level2()->get();
@@ -92,7 +103,8 @@ class goodCateController extends Controller
      */
     public function show($id)
     {
-
+        $data=$this->cat->find($id);
+        return $data;
     }
 
     /**
