@@ -26,7 +26,7 @@ class ShopsController extends Controller
         //创建ORM模型
         $goods_specifications=new \App\Goods_specifications();
         //定义查询的字段
-        $goods_specifications_data=['gid','goods_img','title','goods_price','vip_price','sales','goods_num'];
+        $goods_specifications_data=['gid','goods_img','title','goods_price','vip_price','sales','goods_num','goods_id'];
         $result=$goods_specifications->limitquer($goods_specifications_data,'sid ='.$param['sid'].' and added ='.$param['added'],(($param['page']-1)*$limit),$limit);
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
     }

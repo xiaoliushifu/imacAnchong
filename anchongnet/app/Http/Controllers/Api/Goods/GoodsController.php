@@ -298,7 +298,7 @@ class GoodsController extends Controller
             }
             //创建收藏ORM模型
             $collection=new \App\Collection();
-            $collresult=$collection->quer('users_id='.$data['guid'].' and coll_id ='.$param['gid']' and coll_type = 1');
+            $collresult=$collection->quer('users_id='.$data['guid'].' and coll_id ='.$param['gid'].' and coll_type = 1');
             //进行数据拼接
             $result['goodspic']=$picarr;
             $result['detailpic']=$detailpic;
