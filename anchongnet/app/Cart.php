@@ -89,8 +89,8 @@ class Cart extends Model implements AuthenticatableContract,
     /*
     *   购物车数量
     */
-    public function cartamount($type)
+    public function cartamount($field,$type)
     {
-        return $this->whereRaw($type)->count();
+        return $this->select($field)->whereRaw($type)->get();
     }
 }

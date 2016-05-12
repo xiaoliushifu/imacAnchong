@@ -136,12 +136,20 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         /*
         *   商铺模块
         */
-        //商铺查看
+        //商铺商品查看
         Route::post('/shops/goodsshow','Api\Shop\ShopsController@goodsshow');
-        //商铺操作
+        //商铺商品操作
         Route::post('/shops/goodsaction','Api\Shop\ShopsController@goodsaction');
-        //商铺查看
+        //商铺订单查看
         Route::post('/shops/shopsorder','Api\Shop\ShopsController@shopsorder');
+        //商铺订单操作
+        Route::post('/shops/shopsoperation','Api\Shop\ShopsController@shopsoperation');
+        //商铺地址添加操作
+        Route::post('/shops/addressadd','Api\Shop\ShopsController@addressadd');
+        //我的店铺
+        Route::post('/shops/myshops','Api\Shop\ShopsController@myshops');
+        //店铺全部商品
+        Route::post('/shops/shopsgoods','Api\Shop\ShopsController@shopsgoods');
 
         /*
         *   收藏模块

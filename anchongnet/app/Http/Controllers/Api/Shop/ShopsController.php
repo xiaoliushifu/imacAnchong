@@ -6,6 +6,7 @@ use Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB;
+use Validator;
 
 /*
 *   该控制器包含了商铺模块的操作
@@ -145,4 +146,195 @@ class ShopsController extends Controller
             response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'订单查询失败']]);
         }
     }
+
+    /*
+    *   该方法提供订单操作
+    */
+    public function shopsoperation(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $order=new \App\Order();
+        //开启事务处理
+        DB::beginTransaction();
+        if($param['action'] == 2){
+            //创建ORM模型
+            $goods_logistics=new \App\Goods_logistics();
+            $goods_logistics_data=[
+                'order_id' => $param['order_id'],
+                'logisticsnum' => $param['logistcsnum'],
+                'company' => $param['company'],
+            ];
+            $logisrestult=$goods_logistics->add($goods_logistics_data);
+            //假如物流添加成功
+            if($logisrestult){
+                //进行订单操作
+                $result=$order->orderupdate($param['order_id'],['state' => 3]);
+            }else{
+                //假如失败就回滚
+                DB::rollback();
+                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'发货失败']]);
+            }
+        }elseif($param['action'] == 3){
+            //进行订单操作
+            $result=$order->orderupdate($param['order_id'],['state' => $param['action']]);
+        }elseif($param['action'] == 6){
+            //进行订单操作
+            $result=$order->orderupdate($param['order_id'],['state' => $param['action']]);
+        }
+        if($result){
+            //假如成功就提交
+            DB::commit();
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'操作成功']]);
+        }else{
+            //假如失败就回滚
+            DB::rollback();
+            return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'操作失败']]);
+        }
+    }
+
+    /*
+    *   该方法商家地址添加
+    */
+    public function addressadd(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //验证用户传过来的数据是否合法
+        $validator = Validator::make($param,
+            [
+                'sid' => 'required',
+                'contact' => 'required|max:10',
+                'phone' => 'required',
+                'code' => 'required',
+                'region' => 'required',
+            ]
+        );
+        if ($validator->fails())
+        {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'请填写完整的地址，并且名字不能超过10个字符！']]);
+        }else{
+            //创建订单的ORM模型
+            $shops_address=new \App\Shops_address();
+            //要插入的数据
+            $shops_address_data=[
+                'sid' => $param['sid'],
+                'contact' => $param['contact'],
+                'phone' => $param['phone'],
+                'code' => $param['code'],
+                'region' => $param['region'],
+                'street' => $param['street'],
+                'detail' => $param['detail'],
+            ];
+            //插入数据
+            $result=$shops_address->add($shops_address_data);
+            if($result){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'添加地址成功']]);
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'添加地址失败']]);
+            }
+        }
+    }
+
+
+        /*
+        *   我的店铺
+        */
+        public function myshops(Request $request)
+        {
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            //创建订单的ORM模型
+            $shop=new \App\Shop();
+            $collection=new \App\Collection();
+            //关注数量
+            $num=$collection->quer('coll_id ='.$param['sid'].' and coll_type = 2');
+            //商铺内容
+            $result=$shop->quer(['name','img'],'sid ='.$param['sid'])->toArray();
+            //是否关注
+            $collresult=$collection->quer('users_id='.$data['guid'].' and coll_id ='.$param['sid'].' and coll_type = 2');
+            //判断是否为空
+            if(!empty($result)){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['shops'=>$result,'collect'=>$num,'collresult'=>$collresult]]);
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'获取商铺信息失败，请检查网络并刷新']]);
+            }
+        }
+
+        /*
+        *   店铺全部商品
+        */
+        public function shopsgoods(Request $request)
+        {
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            //默认每页数量
+            $limit=20;
+            //创建ORM模型
+            $goods_type=new \App\Goods_type();
+            //需要查的字段
+            $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
+            switch ($param['action']) {
+                //全部
+                case 0:
+                    $sql='sid = '.$param['sid'].' and added = 1';
+                    $condition='created_at';
+                    $sort='DESC';
+                    break;
+                //销量排序
+                case 1:
+                    $sql='sid = '.$param['sid'].' and added = 1';
+                    $condition='sales';
+                    $sort='DESC';
+                    break;
+                //新品排序
+                case 2:
+                    $sql='sid = '.$param['sid'].' and added = 1';
+                    $condition='created_at';
+                    $sort='DESC';
+                    break;
+                //价格排序升序
+                case 3:
+                    $sql='sid = '.$param['sid'].' and added = 1';
+                    $condition='price';
+                    $sort='DESC';
+                    break;
+                //价格排序降序
+                case 4:
+                    $sql='sid = '.$param['sid'].' and added = 1';
+                    $condition='price';
+                    $sort='ASC';
+                        break;
+                default:
+                    break;
+            }
+            //查询商品列表的信息
+            $result=$goods_type->condquer($goods_data,$sql,(($param['page']-1)*$limit),$limit,$condition,$sort);
+            //将结果转成数组
+            $results=$result['list']->toArray();
+            //判断是否取出结果
+            if(!empty($results)){
+                //判断是否有权限查看会员价，也就是判断是否审核通过
+                $showprice=0;
+                if($data['guid'] == 0){
+                    $showprice=0;
+                }else{
+                    $users=new \App\Users();
+                    //查询用户是否认证
+                    $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
+                    if($users_auth[0]['certification'] == 3){
+                        $showprice=1;
+                    }
+                }
+                $result['showprice']=$showprice;
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>[]]);
+            }
+        }
 }
