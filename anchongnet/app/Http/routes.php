@@ -65,6 +65,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/user/setdefaultaddress','Api\User\UserAddressController@setdefault');
         //用户删除收货地址
         Route::post('/user/deladdress','Api\User\UserAddressController@del');
+        //获取分类和品牌的路由
+        Route::any('/catbrand','Api\Shop\CatbrandController@index');
 
         /*
         *   商机模块
@@ -107,6 +109,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/goods/goodstag','Api\Goods\GoodsController@goodstsg');
         //商品检索
         Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
+        
 
         /*
         *   购物车模块
@@ -136,12 +139,21 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         /*
         *   商铺模块
         */
+        Route::resource('/shop','Api\Shop\ShopController');
         //商铺查看
         Route::post('/shops/goodsshow','Api\Shop\ShopsController@goodsshow');
         //商铺操作
         Route::post('/shops/goodsaction','Api\Shop\ShopsController@goodsaction');
         //商铺查看
         Route::post('/shops/shopsorder','Api\Shop\ShopsController@shopsorder');
+		//商铺订单操作
+        Route::post('/shops/shopsoperation','Api\Shop\ShopsController@shopsoperation');
+        //商铺地址添加操作
+        Route::post('/shops/addressadd','Api\Shop\ShopsController@addressadd');
+        //我的店铺
+        Route::post('/shops/myshops','Api\Shop\ShopsController@myshops');
+        //店铺全部商品
+        Route::post('/shops/shopsgoods','Api\Shop\ShopsController@shopsgoods');
 
         /*
         *   收藏模块
@@ -221,6 +233,9 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         //获取同一个商品的所有属性信息的路由
         Route::get('/getsiblingsattr','admin\attrController@getSiblings');
     });
+    //获取商品参数html代码
+        Route::get('/getparam','admin\uEditorController@getParam');
+        Route::get('/getpackage','admin\uEditorController@getPackage');
 });
 
 //验证码类,需要传入数字

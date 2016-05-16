@@ -28,6 +28,7 @@
     <![endif]-->
     <style>
         *{margin: 0;padding: 0;}
+        .add,.minus{margin-top:4px;}
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -69,27 +70,71 @@
                             <form role="form" class="form-horizontal" action="/commodity" method="post">
                                 <input type="hidden" name="sid" id="sid" value="<?php echo e($sid); ?>">
                                 <input type="hidden" name="gid" id="gid" value="<?php echo e($gid); ?>">
-                                <div class="form-group">
+                                <div class="catemplate hidden form-group">
                                     <label class="col-sm-2 control-label">商品分类</label>
                                     <div class="col-sm-10">
                                         <div class="row">
                                             <div class="col-xs-3">
-                                                <select class="form-control" id="mainselect" name="mainselect" required>
+                                                <select class="mainselect form-control" name="mainselect">
                                                     <option value="">请选择</option>
                                                 </select>
                                             </div>
                                             <div class="col-xs-3">
-                                                <select class="form-control" id="midselect" name="midselect" required>
+                                                <select class="midselect form-control" name="midselect[]">
                                                     <option value="">请选择</option>
                                                 </select>
+                                            </div>
+                                            <div class="add col-xs-1">
+                                                <button type="button" class="btn btn-xs glyphicon glyphicon-plus" title="添加分类"></button>
+                                            </div>
+                                            <div class="minus col-xs-1">
+                                                <button type="button" class="btn btn-xs glyphicon glyphicon-minus" title="删除分类"></button>
                                             </div>
                                         </div><!--end row-->
                                     </div><!--end col-sm-10-->
                                 </div><!--end form-group-->
                                 <div class="form-group">
+                                    <label class="col-sm-2 control-label">商品分类</label>
+                                    <div class="col-sm-10">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <select class="mainselect form-control" name="mainselect" required>
+                                                    <option value="">请选择</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <select class="midselect form-control" name="midselect[]" required>
+                                                    <option value="">请选择</option>
+                                                </select>
+                                            </div>
+                                            <div class="add col-xs-1">
+                                                <button type="button" class="btn btn-xs glyphicon glyphicon-plus" title="添加分类"></button>
+                                            </div>
+                                            <div class="minus col-xs-1">
+                                                <button type="button" class="btn btn-xs glyphicon glyphicon-minus" title="删除分类"></button>
+                                            </div>
+                                        </div><!--end row-->
+                                    </div><!--end col-sm-10-->
+                                </div><!--end form-group-->
+                                <div id="catarea">
+
+                                </div>
+                                <div class="form-group">
                                     <label class="col-sm-2 control-label" for="name">商品名称</label>
                                     <div class="col-sm-3">
                                         <input type="text" name="name" id="name" class="form-control" required value="<?php echo e(old('name')); ?>" />
+                                    </div>
+                                </div><!--end form-group-->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="description">副标题</label>
+                                    <div class="col-sm-3">
+                                        <textarea name="description" id="description" class="form-control" rows="5"><?php echo e(old('description')); ?></textarea>
+                                    </div>
+                                </div><!--end form-group-->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="keyword">关键字</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" name="keyword" id="keyword" class="form-control" placeholder="多个关键字之间请用空格隔开" value="<?php echo e(old('keyword')); ?>" />
                                     </div>
                                 </div><!--end form-group-->
                                 <div class="form-group">
@@ -135,26 +180,33 @@
                                 </div>
                                 <br><br>
                                 <div class="gal form-group">
-                                    <label class="col-sm-2 control-label text-right">相关参数图片<br></label>
-                                    <div id="parambox" class="col-sm-10">
-                                        <div id="param"></div>
+                                    <label class="col-sm-2 control-label text-right">技术参数<br></label>
+                                    <div class="col-sm-8">
+                                        <?php echo $__env->make('UEditor::head', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                        <!-- 加载编辑器的容器 -->
+                                        <script id="container" name="param" type="text/plain"></script>
                                     </div>
-                                    <div class="clearfix"></div>
                                 </div>
                                 <br><br>
                                 <div class="gal form-group">
-                                    <label class="col-sm-2 control-label text-right">相关资料图片<br></label>
-                                    <div id="databox" class="col-sm-10">
-                                        <div id="data"></div>
+                                    <label class="col-sm-2 control-label text-right">包装清单<br></label>
+                                    <div class="col-sm-8">
+                                        <?php echo $__env->make('UEditor::head', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                                <!-- 加载编辑器的容器 -->
+                                        <script id="container1" name="data" type="text/plain"></script>
+                                        <!-- 实例化编辑器 -->
+                                        <script>
+                                            UE.getEditor('container');
+                                            UE.getEditor('container1');
+                                        </script>
                                     </div>
-                                    <div class="clearfix"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="description">描述</label>
+                                    <label class="col-sm-2 control-label text-right">备注<br></label>
                                     <div class="col-sm-3">
-                                        <textarea name="description" id="description" class="form-control" rows="5"><?php echo e(old('description')); ?></textarea>
+                                        <textarea name="remark" id="remark" class="form-control" rows="5"><?php echo e(old('remark')); ?></textarea>
                                     </div>
-                                </div><!--end form-group-->
+                                </div>
                                 <div class="form-group text-center">
                                     <label class="col-sm-2 control-label"></label>
                                     <div class="col-sm-3">

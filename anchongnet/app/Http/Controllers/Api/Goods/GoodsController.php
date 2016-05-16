@@ -137,7 +137,7 @@ class GoodsController extends Controller
         //需要查的字段
         $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
         //查询商品列表的信息
-        $result=$goods_type->quer($goods_data,'cid = '.$param['cid'].' and added = 1',(($param['page']-1)*$limit),$limit);
+        $result=$goods_type->quer($goods_data,"MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1",(($param['page']-1)*$limit),$limit);
         //将结果转成数组
         $results=$result['list']->toArray();
         //判断是否取出结果
@@ -196,12 +196,12 @@ class GoodsController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"无商品"]]);
         }elseif(!empty($param['tags']) && empty($param['search'])){
             //根据标签检索
-            $sql="cid =".$param['cid']."added = 1 and MATCH(tags) AGAINST('".bin2hex($param['tags'])."')";
+            $sql="MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1 and MATCH(tags) AGAINST('".bin2hex($param['tags'])."')";
         }elseif(empty($param['tags']) && !empty($param['search'])){
             //自定义检索
-            $sql="cid =".$param['cid']."added = 1 and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
+            $sql="MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1 and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
         }elseif(!empty($param['tags']) && !empty($param['search'])){
-            $sql="cid =".$param['cid']."added = 1 and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
+            $sql="MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1 and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
         }
         //要查询的字段
         $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
@@ -240,41 +240,16 @@ class GoodsController extends Controller
         $param=json_decode($data['param'],true);
         //创建ORM模型
         $goods_specifications=new \App\Goods_specifications();
+        $goods=new \App\Goods();
         $goods_thumb=new \App\Goods_thumb();
-        $goods_img=new \App\Goods_img();
         //需要查的字段
         $goods_data=['goods_id','market_price','vip_price','goods_name','sid'];
         //查询商品列表的信息
+        $goodsresult=$goods->quer('images','goods_id ='.$param['goods_id'])->toArray();
         $picresult=$goods_thumb->quer('img_url','gid = '.$param['gid'])->toArray();
-        $imgresult=$goods_img->quer(['url','type'],'goods_id = '.$param['goods_id'])->toArray();
         $results=$goods_specifications->quer($goods_data,'gid = '.$param['gid'])->toArray();
         //轮播图数组
         $picarr=null;
-        //商品详情图片数组
-        $detailpic=null;
-        //商品相关参数图片数组
-        $parameterpic=null;
-        //商品相关资料图片数组
-        $datapic=null;
-        //遍历详情图和参数图等
-        foreach ($imgresult as $thumb) {
-            switch ($thumb['type']) {
-                //1商品详情图片
-                case 1:
-                    $detailpic[]=$thumb['url'];
-                    break;
-                //2商品相关参数图片
-                case 2:
-                    $parameterpic[]=$thumb['url'];
-                    break;
-                //3商品相关资料图片
-                case 3:
-                    $datapic[]=$thumb['url'];
-                    break;
-                default:
-                    break;
-            }
-        }
         //遍历轮播图
         foreach ($picresult as $pic) {
             $picarr[]= $pic['img_url'];
@@ -298,12 +273,12 @@ class GoodsController extends Controller
             }
             //创建收藏ORM模型
             $collection=new \App\Collection();
-            $collresult=$collection->quer('users_id='.$data['guid'].' and coll_id ='.$param['gid']);
+            $collresult=$collection->quer('users_id='.$data['guid'].' and coll_id ='.$param['gid'].' and coll_type = 1');
             //进行数据拼接
             $result['goodspic']=$picarr;
-            $result['detailpic']=$detailpic;
-            $result['parameterpic']=$parameterpic;
-            $result['datapic']=$datapic;
+            $result['detailpic']=$goodsresult[0]['images'];
+            $result['parameterpic']="http://admin.anchong.net/getparam?gid=".$param['goods_id'];
+            $result['datapic']="http://admin.anchong.net/getpackage?gid=".$param['goods_id'];
             $result['collection']=$collresult;
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }else{

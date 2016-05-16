@@ -101,6 +101,13 @@
                                         <select class="form-control" id="name" name="name" required>
                                             <option value="">请选择</option>
                                         </select>
+                                        <input type="hidden" name="commodityname" id="commodityname">
+                                    </div>
+                                </div><!--end form-group-->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="keyword">关键字</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" name="keyword" id="keyword" class="form-control" readonly />
                                     </div>
                                 </div><!--end form-group-->
                                 <ul class="form-group" id="attrs">
@@ -124,30 +131,18 @@
                                     </div>
                                 </div><!--end form-group-->
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="description">描述</label>
-                                    <div class="col-sm-3">
-                                        <textarea name="description" id="description" class="form-control" rows="5"><?php echo e(old('description')); ?></textarea>
-                                    </div>
-                                </div><!--end form-group-->
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="keyword">关键字</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" name="keyword" id="keyword" class="form-control" placeholder="多个关键字之间请用空格隔开" value="<?php echo e(old('keyword')); ?>" />
-                                    </div>
-                                </div><!--end form-group-->
-                                <div class="form-group">
                                     <label class="col-sm-2 control-label">是否上架</label>
                                     <div class="col-sm-3">
                                         <label class="radio-inline">
-                                            <input type="radio" name="status" value="1" />上架
+                                            <input type="radio" name="status" value="1" checked />上架
                                         </label>
                                         <label class="radio-inline">
-                                            <input type="radio" name="status" value="0" checked />暂不
+                                            <input type="radio" name="status" value="0"/>暂不
                                         </label>
                                     </div>
                                 </div><!--end form-group-->
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="numbering">商品编号</label>
+                                    <label class="col-sm-2 control-label" for="numbering">货品编号</label>
                                     <div class="col-sm-3">
                                         <input type="text" name="numbering" id="numbering" class="form-control" value="<?php echo e(old('numbering')); ?>" required />
                                     </div>

@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Validator;
 use App\Order;
+use App\Shop;
 
 use OSS\OssClient;
 use OSS\Core\OssException;
@@ -18,10 +19,12 @@ class UsermessagesController extends Controller
 	private $usermessages;
 	private $user;
 	private $order;
+	private $shop;
 	public function __construct(){
 		$this->usermessages=new usermessages();
 		$this->user=new Users();
 		$this->order=new Order();
+		$this->shop=new Shop();
 	}
     /**
      * Display a listing of the resource.
@@ -64,6 +67,12 @@ class UsermessagesController extends Controller
     {
 		//通过guid获取用户实例
 		$id=$request['guid'];
+		$shop=$this->shop->User($id)->get();
+		if(count($shop)==0){
+			$audit=0;
+		}else{
+			$audit=$shop[0]['audit'];
+		};
 		$person=Users::Ids($id)->first();
 		switch($person->certification){
 			case 0:
@@ -98,7 +107,11 @@ class UsermessagesController extends Controller
 					'waitforcash'=>0,
 					'waitforsend'=>0,
 					'waitforreceive'=>0,
-					'aftermarket'=>0
+					'aftermarket'=>0,
+					'shopstatus'=>'',
+					'shopname'=>'',
+					'shoplogo'=>'',
+					'shopid'=>''
 				],
 			]);
 		}else{
@@ -107,25 +120,39 @@ class UsermessagesController extends Controller
 			$waitforsend=count($this->order->US($id,2)->get());
 			$waitforreceive=count($this->order->US($id,3)->get());
 			$aftermarket=count($this->order->US($id,7)->get());
-	        return response()->json(
-			[
-				'serverTime'=>time(),
-				'ServerNo'=>0,
-				'ResultData'=>[
-					'contact' => $user->contact,
-					'nickname'=>$user->nickname,
-					'account'=>$user->account,
-					'qq'=>$user->qq,
-					'email'=>$user->email,
-					'headpic'=>$user->headpic,
-					'authStatus'=>$status,
-					'authNum'=>$person->certification,
-					'waitforcash'=>$waitforcash,
-					'waitforsend'=>$waitforsend,
-					'waitforreceive'=>$waitforreceive,
-					'aftermarket'=>$aftermarket
-				],
-			]);
+			if($audit==2){
+				$shopname=$shop[0]['name'];
+				$shoplogo=$shop[0]['img'];
+				$shopid=$shop[0]['sid'];
+			}else{
+				$shopname="";
+				$shoplogo="";
+				$shopid="";
+			}
+			return response()->json(
+				[
+					'serverTime'=>time(),
+					'ServerNo'=>0,
+					'ResultData'=>[
+						'contact' => $user->contact,
+						'nickname'=>$user->nickname,
+						'account'=>$user->account,
+						'qq'=>$user->qq,
+						'email'=>$user->email,
+						'headpic'=>$user->headpic,
+						'authStatus'=>$status,
+						'authNum'=>$person->certification,
+						'waitforcash'=>$waitforcash,
+						'waitforsend'=>$waitforsend,
+						'waitforreceive'=>$waitforreceive,
+						'aftermarket'=>$aftermarket,
+						'shopstatus'=>$audit,
+						'shopname'=>$shopname,
+						'shoplogo'=>$shoplogo,
+						'shopid'=>$shopid,
+					],
+				]
+			);
 		}
 
     }
@@ -181,6 +208,7 @@ class UsermessagesController extends Controller
 				if($param['contact']!=null){
 					$this->usermessages->contact = $param['contact'];
 				}
+
 				$result=$this->usermessages->save();
 			}else{
 				$user=usermessages::where('users_id', '=', $id)->first();
@@ -260,10 +288,9 @@ class UsermessagesController extends Controller
 			}
 			//返回数据
 			return response()->json(["serverTime"=>time(),"ServerNo"=>0,"ResultData" => [
-				    'isSuccesss'=>0,
 					'Message'=>'上传成功',
 					'headPicUrl' => $url
-				]]);
+			]]);
 		} catch (OssException $e) {
 			print $e->getMessage();
 		}

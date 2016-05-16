@@ -9,28 +9,44 @@ $(function(){
     $.get("/getlevel",{pid:one0},function(data,status){
         for(var i=0;i<data.length;i++){
             opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
-            $("#mainselect").append(opt);
+            $(".mainselect").append(opt);
         }
     });
 
-    $("#mainselect").change(function(){
+    $("body").on("change",".mainselect",function(){
         var val=$(this).val();
-        $("#midselect").empty();
-        $("#midselect").append(defaultopt);
+        $(".waitforopt").removeClass("waitforopt");
+        $(this).parent().siblings("div").find(".midselect").empty().addClass("waitforopt");
+        $(this).parent().siblings("div").find(".midselect").append(defaultopt);
         if(val==""){
-
         }else{
             $.get("/getlevel",{pid:parseInt(val)},function(data,status){
                 if(data.length==0){
-                    $("#midselect").empty();
-                    $("#midselect").append(nullopt);
+                    $(".waitforopt").find(".midselect").empty();
+                    $(".waitforopt").append(nullopt);
                 }else{
                     for(var i=0;i<data.length;i++){
                         opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
-                        $("#midselect").append(opt);
+                        $(".waitforopt").append(opt);
                     }
                 }
             });
+        }
+    });
+
+    /*----添加分类----*/
+    $("body").on("click",".add button",function(){
+        var tem=$(".catemplate").clone().removeClass("hidden").removeClass("catemplate");
+        $("#catarea").append(tem);
+    });
+
+    /*----删除分类----*/
+    $("body").on("click",".minus button",function(){
+        var len=$(".mainselect").length;
+        if(len<3){
+            alert("不能删除仅有的分类信息！");
+        }else{
+            $(this).parents(".form-group").remove();
         }
     });
 
@@ -59,40 +75,6 @@ $('#detail').diyUpload({
         console.info( data.message );
         var len=$("#img").find("li").length;
         var lis='<li> <input type="hidden" name="pic['+len+'][url]" value="'+data.url+'"> <input type="hidden" name="pic['+len+'][imgtype]" value="1"> </li>';
-        $("#img").append(lis);
-    },
-    error:function( err ) {
-        console.info( err );
-    },
-});
-$('#param').diyUpload({
-    url:'/img',
-    formData:{
-        gid:$("#gid").val(),
-        imgtype:2
-    },
-    success:function( data ) {
-        console.info( data.message );
-        var len=$("#img").find("li").length;
-        var lis='<li> <input type="hidden" name="pic['+len+'][url]" value="'+data.url+'"> <input type="hidden" name="pic['+len+'][imgtype]" value="2"> </li>';
-        $("#img").append(lis);
-    },
-    error:function( err ) {
-        console.info( err );
-    },
-    buttonText : '点击选择图片',
-    chunked:true,
-});
-$('#data').diyUpload({
-    url:'/img',
-    formData:{
-        gid:$("#gid").val(),
-        imgtype:3
-    },
-    success:function( data ) {
-        console.info( data.message );
-        var len=$("#img").find("li").length;
-        var lis='<li> <input type="hidden" name="pic['+len+'][url]" value="'+data.url+'"> <input type="hidden" name="pic['+len+'][imgtype]" value="3"> </li>';
         $("#img").append(lis);
     },
     error:function( err ) {

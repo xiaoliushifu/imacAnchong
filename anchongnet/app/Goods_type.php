@@ -34,6 +34,7 @@ class Goods_type extends Model implements AuthenticatableContract,
      */
      //不允许被赋值
     protected $guarded = ['catid'];
+	protected $primaryKey = 'cat_id';
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -48,6 +49,14 @@ class Goods_type extends Model implements AuthenticatableContract,
     public function quer($field,$type,$pos,$limit)
     {
         return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get()];
+    }
+
+    /*
+    *   分类条件查询
+    */
+    public function condquer($field,$type,$pos,$limit,$condition,$sort)
+    {
+        return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy($condition, $sort)->get()];
     }
 
     /*

@@ -77,11 +77,6 @@ class goodController extends Controller
     public function store(\App\Http\Requests\GoodCreateRequest $request)
     {
         DB::beginTransaction();
-        if($request->status==1){
-            $goods_create_time=date("Y:m:d H:i:s");
-        }else{
-            $goods_create_time=date("0000:00:00 00:00:00");
-        }
 
         //将所有属性通过一个for循环拼合起来
         $spetag="";
@@ -97,9 +92,9 @@ class goodController extends Controller
                 'market_price'=>$request->marketprice,
                 'goods_price'=>$request->costpirce,
                 'vip_price'=>$request->viprice,
-                'goods_desc'=>$request->description,
-                'goods_create_time'=>$goods_create_time,
+                'added'=>$request->status,
                 'goods_numbering'=>$request->numbering,
+                'title'=>$request->commodityname." ".trim($spetag),
                 'sid'=>$this->sid,
             ]
         );
@@ -117,6 +112,9 @@ class goodController extends Controller
             $tags.=bin2hex($request->tag[$j])." ";
         }
 
+        //将二级分类转码之后插入数据库，为将来分词索引做准备
+        $cid=bin2hex($request->midselect);
+
         $gtid = DB::table('anchong_goods_type')->insertGetId(
             [
                 'gid' => $gid,
@@ -125,7 +123,7 @@ class goodController extends Controller
                 'price'=>$request->marketprice,
                 'sname'=>'安虫',
                 'vip_price'=>$request->viprice,
-                'cid'=>$request->midselect,
+                'cid'=>$cid,
                 'keyword'=>$keywords,
                 'tags'=>$tags,
             ]

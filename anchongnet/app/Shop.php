@@ -27,6 +27,10 @@ class Shop extends Model
     public function scopeUid($query,$keyUid){
         return $query->where('users_id','=',$keyUid)->first();
     }
+
+    public function scopeUser($query,$keyUser){
+        return $query->where('users_id','=',$keyUser);
+    }
     
     /*
     *   查询商铺信息

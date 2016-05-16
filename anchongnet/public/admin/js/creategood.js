@@ -43,20 +43,21 @@ $(function(){
         $("#name").empty();
         $("#name").append(defaultopt);
         $("#checks").empty();
+        $("#attrs").empty();
         $.get("/getsibilingscommodity",{pid:parseInt(val),sid:sid},function(data,status){
             if(data.length==0){
                 $("#name").empty();
                 $("#name").append(nullopt);
             }else{
-                for(var i=0;i<data.length;i++){
-                    opt="<option  value="+data[i].goods_id+">"+data[i].title+"</option>";
-                    $("#name").append(opt);
-                }
+                 for(var i=0;i<data.length;i++){
+                     opt="<option  value="+data[i].goods_id+">"+data[i].title+"</option>";
+                     $("#name").append(opt);
+                 }
             }
         });
         $.get("/getsiblingstag",{cid:val},function(data,status){
             for(var i=0;i<data.length;i++){
-                var lab='<label><input type="checkbox" name="tag[]" value='+data[i].tag+'>'+data[i].tag+'</label>';
+                var lab='<label><input type="checkbox" name="tag[]" value='+data[i].tag+'>'+data[i].tag+'</label>&nbsp;&nbsp;&nbsp;';
                 $("#checks").append(lab);
             }
         })
@@ -66,6 +67,9 @@ $(function(){
         var val=$(this).val();
         var li;
 		var optioner;
+        var txt=$("#name option:selected").text();
+        $("#attrs").empty();
+        $("#commodityname").val(txt);
         $.get("/getsiblingsattr",{gid:parseInt(val)},function(data,status){
             for(var i=0;i<data.length;i++){
 			    $("#selectforattr").attr("id","");
@@ -77,6 +81,9 @@ $(function(){
 					$("#selectforattr").append(optioner);
                 }
             }
+        });
+        $.get("/commodity/"+val,function(data,status){
+           $("#keyword").val(data.keyword);
         });
     });
 

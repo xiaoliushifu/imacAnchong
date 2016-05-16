@@ -96,9 +96,9 @@ class Goods_specifications extends Model implements AuthenticatableContract,
     /*
     *   分页查询
     */
-    public function limitquer($field,$type,$pos,$limit)
+    public function limitquer($field,$type)
     {
-        return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('updated_at', 'DESC')->get()];
+        return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->orderBy('updated_at', 'DESC')->get()];
     }
 
     /*

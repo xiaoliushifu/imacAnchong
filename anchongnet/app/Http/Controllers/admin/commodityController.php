@@ -12,12 +12,21 @@ use App\Shop;
 use Auth;
 use DB;
 
+use OSS\OssClient;
+use OSS\Core\OssException;
+
 class commodityController extends Controller
 {
     private $good;
     private $uid;
     private $sid;
     private $gid;
+
+    private $accessKeyId;
+    private $accessKeySecret ;
+    private $endpoint;
+    private $bucket;
+
     public function __construct()
     {
         $this->good=new Good();
@@ -27,6 +36,11 @@ class commodityController extends Controller
         $this->sid=Shop::Uid($this->uid)->sid;
         //初始化gid属性为空
         $this->gid="";
+
+        $this->accessKeyId="HJjYLnySPG4TBdFp";
+        $this->accessKeySecret="Ifv0SNWwch5sgFcrM1bDthqyy4BmOa";
+        $this->endpoint="oss-cn-hangzhou.aliyuncs.com";
+        $this->bucket="anchongres";
     }
 
     /**
@@ -69,13 +83,32 @@ class commodityController extends Controller
          * 所以需要开启事务处理
          * */
         DB::beginTransaction();
+
+        //将关键字转码之后再插入数据库，为将来分词索引做准备
+        $keywords_arr=explode(' ',$request->keyword);
+        $keywords="";
+        foreach ($keywords_arr as $keyword_arr) {
+            $keywords.=bin2hex($keyword_arr)." ";
+        };
+
+        //遍历商品分类的数组，挨个进行转码，为将来分词索引做准备
+        $type="";
+        for($i=0;$i<count($request['midselect']);$i++){
+            $type.=bin2hex($request['midselect'][$i])." ";
+        };
+
         //向goods表中插入数据并获取刚插入数据的主键
         $gid = DB::table('anchong_goods')->insertGetId(
             [
                 'title'=>$request->name,
                 'sid'=>$this->sid,
                 'desc'=>$request->description,
-                'type'=>$request->midselect
+                'type'=>trim($type),
+                'remark'=>$request->remark,
+                'keyword'=>$keywords,
+                'images'=>$request->pic[0]['url'],
+                'param'=>$request->param,
+                'package'=>$request->data,
             ]
         );
 
@@ -89,18 +122,6 @@ class commodityController extends Controller
                 ]
             );
         };
-
-        //通过一个for循环向图片表中插入数据
-        for($i=0;$i<count($request->pic);$i++){
-            DB::table('anchong_goods_img')->insertGetId(
-                [
-                    'goods_id'=>$gid,
-                    'url'=>$request->pic[$i]['url'],
-                    'thumb_url'=>$request->pic[$i]['url'],
-                    'type'=>$request->pic[$i]['imgtype']
-                ]
-            );
-        }
 
         //将对象的gid属性设置为刚插入的那条数据的主键并返回给页面
         $this->gid=$gid;
@@ -118,6 +139,22 @@ class commodityController extends Controller
     public function show($id)
     {
         $data=$this->good->find($id);
+
+        $keywords=rtrim($data['keyword']);
+        $arr=explode(" ",$keywords);
+        $str="";
+        for($i=0;$i<count($arr);$i++){
+            $str.=pack("H*",$arr[$i])." ";
+        }
+        $data['keyword']=$str;
+
+        $arr0=explode(" ",$data['type']);
+        $type="";
+        for($j=0;$j<count($arr0);$j++){
+            $type.=pack("H*",$arr0[$j])." ";
+        };
+        $data['type']=$type;
+
         return $data;
     }
 
@@ -130,6 +167,21 @@ class commodityController extends Controller
     public function edit($id)
     {
         $data=$this->good->find($id);
+
+        $keywords=rtrim($data['keyword']);
+        $arr=explode(" ",$keywords);
+        $str="";
+        for($i=0;$i<count($arr);$i++){
+            $str.=pack("H*",$arr[$i])." ";
+        }
+        $data['keyword']=$str;
+
+        $arr0=explode(" ",$data['type']);
+        $type="";
+        for($j=0;$j<count($arr0);$j++){
+            $type.=pack("H*",$arr0[$j])." ";
+        };
+        $data['type']=$type;
         return $data;
     }
 
@@ -143,9 +195,26 @@ class commodityController extends Controller
     public function update(Request $request, $id)
     {
         $data=$this->good->find($id);
-        $data->type=$request->backselect;
         $data->title=$request->title;
         $data->desc=$request->description;
+        $data->remark=$request->remark;
+        $data->param=$request->param;
+        $data->package=$request->data;
+        //将关键字转码之后再插入数据库，为将来分词索引做准备
+        $keywords_arr=explode(' ',$request->keyword);
+        $keywords="";
+        foreach ($keywords_arr as $keyword_arr) {
+            $keywords.=bin2hex($keyword_arr)." ";
+        };
+
+        //遍历商品分类的数组，挨个进行转码，为将来分词索引做准备
+        $type="";
+        for($i=0;$i<count($request['midselect']);$i++){
+            $type.=bin2hex($request['midselect'][$i])." ";
+        };
+
+        $data->keyword=ltrim($keywords);
+        $data->type=trim($type);
         $result=$data->save();
         if($result){
             return redirect()->back();
@@ -169,7 +238,59 @@ class commodityController extends Controller
      * 获取同一个分类下的商品的方法
      * */
     public function getSiblings(Request $request){
-        $data=Good::Type($request['pid'],$request['sid'])->get();
+        $type=bin2hex($request['pid']);
+        $data=Good::Type($type,$request['sid'])->get();
         return $data;
+    }
+
+    /*
+     * 更新图片方法
+     * */
+    public function updateImg(Request $request)
+    {
+        $fileType=$_FILES['file']['type'];
+        $filePath = $request['file'];
+        $dir="goods/img/detail/";
+        //设置上传到阿里云oss的对象的键名
+        switch ($fileType){
+            case "image/png":
+                $object=$dir.time().rand(100000,999999).".png";
+                break;
+            case "image/jpeg":
+                $object=$dir.time().rand(100000,999999).".jpg";
+                break;
+            case "image/jpg":
+                $object=$dir.time().rand(100000,999999).".jpg";
+                break;
+            case "image/gif":
+                $object=$dir.time().rand(100000,999999).".gif";
+                break;
+            default:
+                $object=$dir.time().rand(100000,999999).".jpg";
+        }
+
+        try {
+            //实例化一个ossClient对象
+            $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
+            //上传文件
+            $ossClient->uploadFile($this->bucket, $object, $filePath);
+            //获取到上传文件的路径
+            $signedUrl = $ossClient->signUrl($this->bucket, $object);
+            $pos = strpos($signedUrl, "?");
+            $url = substr($signedUrl, 0, $pos);
+
+            //将商品详情图片替换掉
+            $data=$this->good->find($request['gid']);
+            $data->images=$url;
+            $data->save();
+
+            $message="上传成功";
+            $isSuccess=true;
+        }catch (OssException $e) {
+            $message="上传失败，请稍后再试";
+            $isSuccess=false;
+            $url="";
+        }
+        return response()->json(['message' => $message, 'isSuccess' => $isSuccess,'url'=>$url]);
     }
 }

@@ -34,10 +34,9 @@
         .pic{position: relative; top: 7px; visibility: hidden;}
         .gal{margin-top: 20px;}
         .gallerys li{width:10%; min-width: 80px; position: relative;}
-        .delpic{position: absolute; right: 0; top: -5px;}
         .gallery{width: 80px; height: 80px; background: url("/admin/image/catetypecreate/add.jpg") center center no-repeat; border: solid #ddd 1px;  cursor: pointer; display:table-cell; vertical-align: middle;}
         .gallery img{max-width: 100%; max-height: 100%;}
-        .addpic{margin-top: -100px;}
+         .add,.minus{margin-top:4px;}
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -79,7 +78,7 @@
                                         <td align="center">{{$data['desc']}}</td>
                                         <td align="center">
                                             <button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['goods_id']}}" data-toggle="modal" data-target="#myView">查看下属货品</button>
-                                            <button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['goods_id']}}" data-tid="{{$data['type']}}" data-toggle="modal" data-target="#myModal">编辑</button>
+                                            <button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['goods_id']}}"  data-toggle="modal" data-target="#myModal">编辑</button>
                                             <button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['goods_id']}}">删除</button>
                                             </form>
                                         </td>
@@ -136,33 +135,79 @@
                 </div>
                 <div class="modal-body">
                     <h5 class="text-center">基本信息</h5>
+                    <div class="catemplate hidden form-group">
+                        <label class="col-sm-2 control-label">商品分类</label>
+                        <div class="col-sm-10">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <select class="mainselect form-control" name="mainselect" required>
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-4">
+                                    <select class="midselect form-control" name="midselect[]" required>
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                                <div class="add col-xs-1">
+                                    <button type="button" class="btn btn-xs glyphicon glyphicon-plus" title="添加分类"></button>
+                                </div>
+                                <div class="minus col-xs-1">
+                                    <button type="button" class="btn btn-xs glyphicon glyphicon-minus" title="删除分类"></button>
+                                </div>
+                            </div><!--end row-->
+                        </div><!--end col-sm-10-->
+                    </div><!--end form-group-->
                     <form action="" method="post" class="form-horizontal" id="updataForm">
                         <input type="hidden" name="_method" value="PUT">
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">商品分类</label>
-                            <div class="col-sm-9">
-                                <div class="row">
-                                    <div class="col-xs-4">
-                                        <select class="form-control" id="mainselect" name="mainselect" required>
-                                        </select>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <select class="form-control" id="midselect" name="midselect" required>
-                                        </select>
-                                    </div>
-                                </div><!--end row-->
-                            </div><!--end col-sm-10-->
-                        </div><!--end form-group-->
-                        <div class="form-group">
+                        <input type="hidden" name="flag" id="flag">
+                        <div id="catarea">
+
+                        </div>
+                        <div class="form-name form-group">
                             <label for="title" class="col-sm-2 control-label">商品名称</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="title" id="title" placeholder="Name" required>
+                                <input type="text" class="form-control" name="title" id="title" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="keyword">关键字</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="keyword" id="keyword" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="description" class="col-sm-2 control-label">描述</label>
                             <div class="col-sm-9">
                                 <textarea name="description" id="description" class="form-control" rows="5"></textarea>
+                            </div>
+                        </div>
+                        <div class="gal form-group">
+                            <label class="col-sm-2 control-label">技术参数</label>
+                            <div class="gallerys col-sm-9">
+                                @include('UEditor::head')
+                                        <!-- 加载编辑器的容器 -->
+                                <script id="container" name="param" type="text/plain">
+                                </script>
+                            </div>
+                        </div>
+                        <div class="gal form-group">
+                            <label class="col-sm-2 control-label">包装清单</label>
+                            <div class="gallerys col-sm-9">
+                                @include('UEditor::head')
+                                        <!-- 加载编辑器的容器 -->
+                                <script id="container1" name="data" type="text/plain"></script>
+                                <!-- 实例化编辑器 -->
+                                <script>
+                                    UE.getEditor('container');
+                                    UE.getEditor('container1');
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label text-right">备注<br></label>
+                            <div class="col-sm-9">
+                                <textarea name="remark" id="remark" class="form-control" rows="5"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -197,39 +242,12 @@
                         <input type="hidden" name="gid" id="gid">
                         <div class="gal form-group">
                             <label class="col-sm-2 control-label">详情图片</label>
-                            <ul class="gallerys col-sm-10 list-inline">
-                                <li class="template hidden">
-                                    <div class="gallery text-center">
-                                        <img src="" class="img">
-                                    </div>
-                                    <input type="file" name="file" class="pic" data-type="1">
-                                </li>
-                                <button type="button" class="addpic btn btn-default" title="继续添加图片" id="addfordetail">+</button>
-                            </ul>
-                        </div>
-                        <div class="gal form-group">
-                            <label class="col-sm-2 control-label">相关参数图片</label>
-                            <ul class="gallerys col-sm-10 list-inline">
-                                <li class="template hidden">
-                                    <div class="gallery text-center">
-                                        <img src="" class="img">
-                                    </div>
-                                    <input type="file" name="file" class="pic" data-type="2">
-                                </li>
-                                <button type="button" class="addpic btn btn-default" title="继续添加图片" id="addforparam">+</button>
-                            </ul>
-                        </div>
-                        <div class="gal form-group">
-                            <label class="col-sm-2 control-label">相关资料图片</label>
-                            <ul class="gallerys col-sm-10 list-inline">
-                                <li class="template hidden">
-                                    <div class="gallery text-center">
-                                        <img src="" class="img">
-                                    </div>
-                                    <input type="file" name="file" class="pic" data-type="3">
-                                </li>
-                                <button type="button" class="addpic btn btn-default" title="继续添加图片" id="addfordata">+</button>
-                            </ul>
+                            <div class="gallerys col-sm-10 list-inline">
+                                <div class="gallery text-center">
+                                    <img src="" class="img" id="img">
+                                </div>
+                                <input type="file" name="file" class="pic">
+                            </div>
                         </div>
                     </form>
                 </div>

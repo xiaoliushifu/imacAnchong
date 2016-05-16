@@ -27,9 +27,9 @@ class checkShopController extends Controller
     public function index(Request $request){
         $sid=$request['sid'];
         if($request['certified']=="yes"){
-            DB::table('anchong_shops')->where('sid', $sid)->update(['audit' => 3]);
-        }else{
             DB::table('anchong_shops')->where('sid', $sid)->update(['audit' => 2]);
+        }else{
+            DB::table('anchong_shops')->where('sid', $sid)->update(['audit' => 3]);
         };
         return "设置成功";
     }

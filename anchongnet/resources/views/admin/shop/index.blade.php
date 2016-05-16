@@ -63,10 +63,10 @@
 									<input type="radio" name="audit" id="audit1" class="audit" value="1">待审核
 								</label>
 								<label class="radio-inline">
-									<input type="radio" name="audit" id="audit2" class="audit" value="2">审核未通过
+									<input type="radio" name="audit" id="audit2" class="audit" value="2">审核已通过
 								</label>
 								<label class="radio-inline">
-									<input type="radio" name="audit" id="audit3" class="audit" value="3">审核已通过
+									<input type="radio" name="audit" id="audit3" class="audit" value="3">审核未通过
 								</label>
 						      <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 						    </form>
@@ -102,10 +102,10 @@
 									    echo "<button type='button' data-id='{$data['sid']}' class='check-success btn btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button' data-id='{$data['sid']}'  class='check-failed btn btn-danger btn-xs'>不通过</button>";
 									    break;
 									    case 2:
-									    echo "审核未通过";
+									    echo "审核已通过";
 									    break;
 									    case 3:
-									    echo "审核已通过";
+									    echo "审核未通过";
 									    break;
 								    }?>
 								    </td>
