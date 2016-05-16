@@ -33,7 +33,8 @@ class Goods_type extends Model implements AuthenticatableContract,
      * @var array
      */
      //不允许被赋值
-    protected $guarded = ['catid'];
+    protected $guarded = ['cat_id'];
+    protected $primaryKey = 'cat_id';
 
     /**
      * The attributes excluded from the model's JSON form.

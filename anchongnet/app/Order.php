@@ -51,6 +51,15 @@ class Order extends Model implements AuthenticatableContract,
          return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get()->toArray()];
     }
 
+
+    /*
+    *   订单显示查询不分页
+    */
+    public function quernopage($field,$type)
+    {
+         return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->orderBy('created_at', 'DESC')->get()->toArray()];
+    }
+
     /*
     *   该方法是订单添加
     */
@@ -84,5 +93,21 @@ class Order extends Model implements AuthenticatableContract,
     public function orderdel($data)
     {
         return $this->destroy($data);
+    }
+
+    /*
+	*  根据条件进行收货地址搜索
+	*/
+    public function scopeNum($query,$keyNum)
+    {
+        return $query->where('order_num', '=', $keyNum);
+    }
+
+    /*
+     *  搜索指定用户的指定状态的订单
+     */
+    public function scopeUS($query,$keyUser,$keyStatus)
+    {
+        return $query->where(['users_id'=>$keyUser,'state'=>$keyStatus]);
     }
 }

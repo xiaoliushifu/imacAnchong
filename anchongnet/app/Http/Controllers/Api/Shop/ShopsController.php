@@ -21,13 +21,13 @@ class ShopsController extends Controller
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
         $param=json_decode($data['param'],true);
-        //默认每页数量
+        //默认每页数量(目前把分页取消了)
         $limit=10;
         //创建ORM模型
         $goods_specifications=new \App\Goods_specifications();
         //定义查询的字段
         $goods_specifications_data=['gid','goods_img','title','goods_price','vip_price','sales','goods_num','goods_id'];
-        $result=$goods_specifications->limitquer($goods_specifications_data,'sid ='.$param['sid'].' and added ='.$param['added'],(($param['page']-1)*$limit),$limit);
+        $result=$goods_specifications->limitquer($goods_specifications_data,'sid ='.$param['sid'].' and added ='.$param['added']);
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
     }
 
@@ -125,7 +125,7 @@ class ShopsController extends Controller
         $order_data=['order_id','order_num','state','created_at','total_price','name','phone','address','invoice','customer','tname'];
         $orderinfo_data=['goods_name','goods_num','goods_price','goods_type','img'];
         //查询该用户的订单数据
-        $order_result=$order->quer($order_data,$sql,(($param['page']-1)*$limit),$limit);
+        $order_result=$order->quernopage($order_data,$sql);
         if($order_result['total'] == 0){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$order_result]);
         }
