@@ -45,7 +45,7 @@ class OrderController extends Controller
                 DB::rollback();
                 return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
             }
-            $order_num=rand(10,99).substr($data['guid'],0,1).time();
+            $order_num=rand(10000,99999).substr($data['guid'],0,1).time();
             $order_data=[
                 'order_num' => $order_num,
                 'users_id' => $data['guid'],
@@ -72,6 +72,12 @@ class OrderController extends Controller
                     //创建货品表的ORM模型来查询货品数量
                     $goods_specifications=new \App\Goods_specifications();
                     $goods_num=$goods_specifications->quer(['title','goods_num','added'],'gid ='.$goodsinfo['gid'])->toArray();
+                    //判断商品是否以删除
+                    if(empty($goods_num)){
+                        //假如失败就回滚
+                        DB::rollback();
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>$goodsinfo['goods_name'].'商品已下架']]);
+                    }
                     //判断商品是否下架
                     if($goods_num[0]['added'] == 1){
                     //判断总库存是否足够
