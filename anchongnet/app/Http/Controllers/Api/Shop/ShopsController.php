@@ -337,4 +337,27 @@ class ShopsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>[]]);
             }
         }
+
+        /*
+        *   店铺全部商品
+        */
+        public function logistcompany(Request $request)
+        {
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            //创建ORM模型
+            $shops_logistics=new \App\Shops_logistics();
+            $result=$shops_logistics->quer('name')->toArray();
+            //定义结果数组为空
+            $results=null;
+            foreach ($result as $resultarr) {
+                $results[]=$resultarr['name'];
+            }
+            if(!empty($result)){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$results]);
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'获取快递公司数据失败']]);
+            }
+        }
 }

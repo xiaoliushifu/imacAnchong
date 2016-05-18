@@ -150,6 +150,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/shops/myshops','Api\Shop\ShopsController@myshops');
         //店铺全部商品
         Route::post('/shops/shopsgoods','Api\Shop\ShopsController@shopsgoods');
+        //商铺发货快递公司
+        Route::post('/shops/logistcompany','Api\Shop\ShopsController@logistcompany');
 
         /*
         *   收藏模块
