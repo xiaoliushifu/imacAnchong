@@ -254,7 +254,7 @@ class ShopsController extends Controller
             //关注数量
             $num=$collection->quer('coll_id ='.$param['sid'].' and coll_type = 2');
             //商铺内容
-            $result=$shop->quer(['name','img'],'sid ='.$param['sid'])->toArray();
+            $result=$shop->quer(['name','img','banner'],'sid ='.$param['sid'])->toArray();
             //是否关注
             $collresult=$collection->quer('users_id='.$data['guid'].' and coll_id ='.$param['sid'].' and coll_type = 2');
             //判断是否为空
@@ -262,6 +262,42 @@ class ShopsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['shops'=>$result,'collect'=>$num,'collresult'=>$collresult]]);
             }else{
                 return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'获取商铺信息失败，请检查网络并刷新']]);
+            }
+        }
+
+
+        /*
+        *   我的店铺信息修改
+        */
+        public function shopsedit(Request $request)
+        {
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            //创建订单的ORM模型
+            $shop=new \App\Shop();
+            $true=false;
+            //判断用户要修改的内容
+            if($param['name']){
+                //修改商铺名称
+                $true=$shop->shopsupdate($param['sid'],['name'=>$param['name']]);
+            }
+            if($param['img']){
+                //修改商铺图片
+                $true=$shop->shopsupdate($param['sid'],['img'=>$param['img']]);
+            }
+            if($param['introduction']){
+                //修改商铺描述
+                $true=$shop->shopsupdate($param['sid'],['introduction'=>$param['introduction']]);
+            }
+            if($param['banner']){
+                //修改商铺背景图片
+                $true=$shop->shopsupdate($param['sid'],['banner'=>$param['banner']]);
+            }
+            if($true){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'修改成功']]);
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'修改失败']]);
             }
         }
 

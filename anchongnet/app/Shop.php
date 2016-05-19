@@ -8,6 +8,11 @@ class Shop extends Model
 {
     protected $table = 'anchong_shops';
     protected $fillable = ['users_id', 'name', 'mainbrand','authorization','category','introduction','premises','img','audit'];
+    //不允许被赋值
+   protected $guarded = ['sid'];
+   //定义主键名称
+   protected $primaryKey = 'sid';
+   public  $timestamps=false;
 
     /*
 	* 根据条件进行商铺搜索
@@ -27,12 +32,25 @@ class Shop extends Model
     public function scopeUid($query,$keyUid){
         return $query->where('users_id','=',$keyUid)->first();
     }
-    
+
     /*
     *   查询商铺信息
     */
     public function quer($field,$type)
     {
         return $this->select($field)->whereRaw($type)->get();
+    }
+
+    /*
+    *   商铺更新信息
+    */
+    public function shopsupdate($id,$data)
+    {
+        $cartnum=$this->find($id);
+        if($cartnum->update($data)){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
