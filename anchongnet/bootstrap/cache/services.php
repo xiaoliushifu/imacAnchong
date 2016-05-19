@@ -27,6 +27,8 @@
     23 => 'App\\Providers\\AuthServiceProvider',
     24 => 'App\\Providers\\EventServiceProvider',
     25 => 'App\\Providers\\RouteServiceProvider',
+    26 => 'Intervention\\Image\\ImageServiceProvider',
+    27 => 'Stevenyangecho\\UEditor\\UEditorServiceProvider',
   ),
   'eager' => 
   array (
@@ -44,6 +46,8 @@
     11 => 'App\\Providers\\AuthServiceProvider',
     12 => 'App\\Providers\\EventServiceProvider',
     13 => 'App\\Providers\\RouteServiceProvider',
+    14 => 'Intervention\\Image\\ImageServiceProvider',
+    15 => 'Stevenyangecho\\UEditor\\UEditorServiceProvider',
   ),
   'deferred' => 
   array (

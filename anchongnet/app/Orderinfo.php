@@ -76,4 +76,12 @@ class Orderinfo extends Model implements AuthenticatableContract,
             return false;
         }
     }
+
+    /*
+    * 根据条件进行收货地址搜索
+    */
+    public function scopeNum($query,$keyNum)
+    {
+        return $query->where('order_num', '=', $keyNum);
+    }
 }

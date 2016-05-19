@@ -11,7 +11,9 @@
         "gregwar/captcha": "1.*",
         "predis/predis":"~1.0.1",
         "qiniu/php-sdk": "^7.0",
-        "aliyuncs/oss-sdk-php": "^2.0"
+        "aliyuncs/oss-sdk-php": "^2.0",
+		"intervention/image": "^2.3",
+        "stevenyangecho/laravel-u-editor": "~1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -52,6 +54,13 @@
         ]
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+		"secure-http": false
+    },
+	"repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
     }
 }

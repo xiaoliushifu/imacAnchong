@@ -152,6 +152,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/shops/shopsedit','Api\Shop\ShopsController@shopsedit');
         //店铺全部商品
         Route::post('/shops/shopsgoods','Api\Shop\ShopsController@shopsgoods');
+        //店铺新商品
+        Route::post('/shops/newgoods','Api\Shop\ShopsController@newgoods');
         //商铺发货快递公司
         Route::post('/shops/logistcompany','Api\Shop\ShopsController@logistcompany');
 
@@ -170,7 +172,7 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
     //验证码类,需要传入数字
     Route::get('/captcha/{num}', 'CaptchaController@captcha');
     //登录检查
-    Route::post('/checklogin','admin\indexController@checklogin');
+    Route::any('/checklogin','admin\indexController@checklogin');
     //加中间件的路由组
     Route::group(['middleware' => 'LoginAuthen'], function () {
         //首页路由
@@ -187,35 +189,46 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         Route::get('/getsiblingsorder','admin\orderinfoController@getSiblingsOrder');
 
         //认证检查
-    	Route::get('/check','admin\CheckController@check');
-		//商铺路由
+        Route::get('/check','admin\CheckController@check');
+        //商铺路由
         Route::resource('/shop','admin\shopController');
+        //物流管理
+        Route::resource('/logis','admin\logisController');
+        //获取商铺的主营品牌
+        Route::get('/getbrand','admin\shopController@getbrand');
+        //获取商铺的主营类别
+        Route::get('/getcat','admin\shopController@getcat');
         //商铺审核路由
         Route::get("/checkShop",'admin\checkShopController@index');
 		//标签管理路由
         Route::resource('/tag','admin\tagController');
+        //分类标签管理路由
+        Route::resource('/catag','admin\caTagController');
+        //获取同一个分类的所有标签的路由
+        Route::get('/getsiblingstag','admin\caTagController@getSiblings');
         //分类管理路由
         Route::resource('/goodcate','admin\goodCateController');
-        //子分类管理路由
-        Route::resource('/goodcatetype','admin\goodCatTypeController');
         //获取商品一级或二级分类路由
         Route::get('/getlevel','admin\goodCateController@getLevel');
         //获取商品所有二级分类路由
         Route::get('/getlevel2','admin\goodCateController@getLevel2');
-        //获取特定父级分类的商品三级分类路由
-        Route::get('/getlevel3','admin\goodCatTypeController@getLevel');
-        //获取同一个父级分类下的子分类的路由
-        Route::get('/getsiblingslevel','admin\goodCatTypeController@getSiblingsLevel');
+        //获取同一个一级分类下的所有二级分类的路由
+        Route::get('/getsiblingscat','admin\goodCateController@getSiblings');
 
         //商品管理路由
         Route::resource('/good','admin\goodController');
         Route::resource('/commodity','admin\commodityController');
         //获取同一分类下的商品的路由
         Route::get('/getsibilingscommodity','admin\commodityController@getSiblings');
+        //获取同一商品下的所有货品的路由
+        Route::get('/getsiblingsgood','admin\goodController@getSiblings');
 
-        //商品缩略图管理路由
+        //商品图片管理路由
         Route::resource('/thumb','admin\thumbController');
         Route::get('/getgoodthumb','admin\thumbController@getGoodThumb');
+        Route::resource('/img','admin\ImgController');
+        //替换商品详情图片的路由
+        Route::post('/updataimg','admin\commodityController@updateImg');
 
         //库存管理路由
         Route::resource('/stock','admin\stockController');
@@ -224,18 +237,10 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         //更新货品的库存总数
         Route::get('/getotal','admin\stockController@getTotal');
 
-        //视图下两层目录下的模版显视
-        Route::get('/{path}/{path1}/{path2}',function($path,$path1,$path2){
-            return view("admin.$path.$path1.".substr($path2,0,-10));
-        });
-        //视图下一层目录下的模版显视
-        Route::get('/{path}/{path1}',function($path,$path1){
-            return view("admin.$path.".substr($path1,0,-10));
-        });
-        //视图根目录下的模版显视
-        Route::get('/{path}',function($path){
-            return view("admin.".substr($path,0,-10));
-        });
+        //商品属性路由
+        Route::resource('/attr','admin\attrController');
+        //获取同一个商品的所有属性信息的路由
+        Route::get('/getsiblingsattr','admin\attrController@getSiblings');
     });
 });
 

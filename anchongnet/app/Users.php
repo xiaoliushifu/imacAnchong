@@ -45,7 +45,7 @@ class Users extends Model implements AuthenticatableContract,
      */
      public function add($user_data)
      {
-        //将用户信息添加入用户��?
+        //将用户信息添加入用户表
         $this->fill($user_data);
         if($this->save()){
             return $this->id;
