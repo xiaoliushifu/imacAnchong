@@ -205,7 +205,7 @@ class GoodsController extends Controller
         }
         //要查询的字段
         $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
-        $result=$goods_type->searchquer($goods_data,$sql,(($param['page']-1)*$limit),$limit);
+        $result=$goods_type->quer($goods_data,$sql,(($param['page']-1)*$limit),$limit);
         $results=$result['list']->toArray();
         //判断是否需要查询会员价
         if(!empty($results)){
@@ -284,6 +284,50 @@ class GoodsController extends Controller
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'商品信息获取失败，请刷新']]);
         }
+    }
+
+    /*
+    *   相关商品信息
+    */
+    public function correlation(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //默认每页数量
+        $limit=20;
+        //创建ORM模型
+        $goods_type=new \App\Goods_type();
+        //查询货品关键字
+        $goodskeyword=$goods_type->searchquer('keyword','gid ='.$param['gid'])->toArray();
+        //判断货品是否有关键字
+        if(empty($goodskeyword['0']['keyword'])){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>[]]);
+        }else{
+            //将关键字拆分
+            $keyarr=explode(' ',$goodskeyword['0']['keyword']);
+            //定义查询内容
+            $goods_data=['gid','title','price','pic','goods_id'];
+            $result=$goods_type->condquer($goods_data,"MATCH(keyword) AGAINST('".$keyarr[0]."') and added =1",(($param['page']-1)*$limit),$limit,'sales','DESC');
+            if(!empty($result['list']->toArray())){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'获取相关商品失败，请刷新']]);
+            }
+        }
+    }
+
+    /*
+    *   配套商品信息
+    */
+    public function correlation(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $goods_type=new \App\Goods_type();
+
     }
 
     /*

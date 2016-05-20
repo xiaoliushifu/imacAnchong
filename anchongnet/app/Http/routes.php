@@ -69,6 +69,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         /*
         *   商机模块
         */
+        //商机首页
+        Route::post('/business/businessindex','Api\Business\BusinessController@businessindex');
         //商机发布
         Route::post('/business/release','Api\Business\BusinessController@release');
         //发布类别和标签
@@ -97,6 +99,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/goods/tag','Api\Goods\GoodsController@goodslist');
         //商品详情
         Route::post('/goods/goodsinfo','Api\Goods\GoodsController@goodsinfo');
+        //商品推荐
+        Route::post('/goods/correlation','Api\Goods\GoodsController@correlation');
         //商品规格
         Route::post('/goods/goodsformat','Api\Goods\GoodsController@goodsformat');
         //货品详情

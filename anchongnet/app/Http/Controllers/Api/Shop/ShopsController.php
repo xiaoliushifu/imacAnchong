@@ -240,30 +240,37 @@ class ShopsController extends Controller
     }
 
 
-        /*
-        *   我的店铺
-        */
-        public function myshops(Request $request)
-        {
-            //获得app端传过来的json格式的数据转换成数组格式
-            $data=$request::all();
-            $param=json_decode($data['param'],true);
-            //创建订单的ORM模型
-            $shop=new \App\Shop();
-            $collection=new \App\Collection();
-            //关注数量
-            $num=$collection->quer('coll_id ='.$param['sid'].' and coll_type = 2');
-            //商铺内容
-            $result=$shop->quer(['name','img','banner'],'sid ='.$param['sid'])->toArray();
-            //是否关注
-            $collresult=$collection->quer('users_id='.$data['guid'].' and coll_id ='.$param['sid'].' and coll_type = 2');
-            //判断是否为空
-            if(!empty($result)){
-                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['shops'=>$result,'collect'=>$num,'collresult'=>$collresult]]);
-            }else{
-                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'获取商铺信息失败，请检查网络并刷新']]);
-            }
-        }
+    /*
+    *   我的店铺
+    */
+    public function myshops(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+       $data=$request::all();
+       $param=json_decode($data['param'],true);
+       //结果数组
+       $results=null;
+       //创建订单的ORM模型
+       $shop=new \App\Shop();
+       $collection=new \App\Collection();
+       //关注数量
+       $num=$collection->quer('coll_id ='.$param['sid'].' and coll_type = 2');
+       //商铺内容
+       $result=$shop->quer(['name','img','banner','introduction','customer'],'sid ='.$param['sid'])->toArray();
+       foreach ($result as $value) {
+           $results['shops']=$value;
+       }
+       //是否关注
+       $collresult=$collection->quer('users_id='.$data['guid'].' and coll_id ='.$param['sid'].' and coll_type = 2');
+       $results['collect']=$num;
+       $results['collresult']=$collresult;
+       //判断是否为空
+       if(!empty($result)){
+           return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$results]);
+       }else{
+           return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'获取商铺信息失败，请检查网络并刷新']]);
+       }
+   }
 
 
         /*

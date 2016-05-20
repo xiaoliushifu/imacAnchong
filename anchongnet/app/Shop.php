@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Shop extends Model
 {
     protected $table = 'anchong_shops';
-    protected $fillable = ['users_id', 'name', 'mainbrand','authorization','category','introduction','premises','img','audit'];
+    protected $fillable = ['users_id', 'name', 'mainbrand','authorization','category','introduction','premises','img','audit','banner'];
     //不允许被赋值
     protected $guarded = ['sid'];
     //定义主键名称
