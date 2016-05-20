@@ -196,12 +196,21 @@ class GoodsController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"无商品"]]);
         }elseif(!empty($param['tags']) && empty($param['search'])){
             //根据标签检索
+<<<<<<< HEAD
             $sql="MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1 and MATCH(tags) AGAINST('".bin2hex($param['tags'])."')";
         }elseif(empty($param['tags']) && !empty($param['search'])){
             //自定义检索
             $sql="MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1 and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
         }elseif(!empty($param['tags']) && !empty($param['search'])){
             $sql="MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1 and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
+=======
+            $sql="cid =".$param['cid']." and MATCH(tags) AGAINST('".bin2hex($param['tags'])."')";
+        }elseif(empty($param['tags']) && !empty($param['search'])){
+            //自定义检索
+            $sql="cid =".$param['cid']." and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
+        }elseif(!empty($param['tags']) && !empty($param['search'])){
+            $sql="cid =".$param['cid']." and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
+>>>>>>> renqingbin
         }
         //要查询的字段
         $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
@@ -273,12 +282,21 @@ class GoodsController extends Controller
             }
             //创建收藏ORM模型
             $collection=new \App\Collection();
+<<<<<<< HEAD
             $collresult=$collection->quer('users_id='.$data['guid'].' and coll_id ='.$param['gid'].' and coll_type = 1');
             //进行数据拼接
             $result['goodspic']=$picarr;
             $result['detailpic']=$goodsresult[0]['images'];
             $result['parameterpic']="http://admin.anchong.net/getparam?gid=".$param['goods_id'];
             $result['datapic']="http://admin.anchong.net/getpackage?gid=".$param['goods_id'];
+=======
+            $collresult=$collection->quer('users_id='.$data['guid'].' and coll_id ='.$param['gid']);
+            //进行数据拼接
+            $result['goodspic']=$picarr;
+            $result['detailpic']=$detailpic;
+            $result['parameterpic']=$parameterpic;
+            $result['datapic']=$datapic;
+>>>>>>> renqingbin
             $result['collection']=$collresult;
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }else{

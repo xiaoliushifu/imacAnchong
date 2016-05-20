@@ -109,7 +109,10 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/goods/goodstag','Api\Goods\GoodsController@goodstsg');
         //商品检索
         Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
+<<<<<<< HEAD
         
+=======
+>>>>>>> renqingbin
 
         /*
         *   购物车模块
@@ -139,6 +142,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         /*
         *   商铺模块
         */
+<<<<<<< HEAD
         Route::resource('/shop','Api\Shop\ShopController');
         //商铺查看
         Route::post('/shops/goodsshow','Api\Shop\ShopsController@goodsshow');
@@ -154,6 +158,10 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/shops/myshops','Api\Shop\ShopsController@myshops');
         //店铺全部商品
         Route::post('/shops/shopsgoods','Api\Shop\ShopsController@shopsgoods');
+=======
+        //商铺查看
+        Route::post('/shops/shops','Api\Shop\ShopsController@ordercreate');
+>>>>>>> renqingbin
 
         /*
         *   收藏模块
@@ -170,7 +178,7 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
     //验证码类,需要传入数字
     Route::get('/captcha/{num}', 'CaptchaController@captcha');
     //登录检查
-    Route::any('/checklogin','admin\indexController@checklogin');
+    Route::post('/checklogin','admin\indexController@checklogin');
     //加中间件的路由组
     Route::group(['middleware' => 'LoginAuthen'], function () {
         //首页路由

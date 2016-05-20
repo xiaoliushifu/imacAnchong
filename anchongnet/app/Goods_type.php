@@ -80,6 +80,7 @@ class Goods_type extends Model implements AuthenticatableContract,
     {
         return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get()];
     }
+<<<<<<< HEAD
 
     /*
     *   该方法是货品信息删除
@@ -88,4 +89,6 @@ class Goods_type extends Model implements AuthenticatableContract,
     {
         return $this->where('gid', '=', $num)->delete();
     }
+=======
+>>>>>>> renqingbin
 }
