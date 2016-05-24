@@ -26,7 +26,7 @@ class ShopsController extends Controller
         //创建ORM模型
         $goods_specifications=new \App\Goods_specifications();
         //定义查询的字段
-        $goods_specifications_data=['gid','goods_img','title','goods_price','vip_price','sales','goods_num','goods_id'];
+        $goods_specifications_data=['gid','goods_img','title','market_price','vip_price','sales','goods_num','goods_id'];
         $result=$goods_specifications->limitquer($goods_specifications_data,'sid ='.$param['sid'].' and added ='.$param['added']);
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
     }
@@ -92,7 +92,7 @@ class ShopsController extends Controller
         if(!empty($result)){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }else{
-            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'该分类没有检索标签']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'该分类没有检索标签']]);
         }
     }
 
@@ -118,7 +118,7 @@ class ShopsController extends Controller
             $sql="sid=".$param['sid']." and added = 1 and MATCH(keyword) AGAINST('".bin2hex($param['search'])."') and MATCH(cid) AGAINST('".bin2hex($param['cat_id'])."')";
         }
         //定义查询的字段
-        $goods_specifications_data=['gid','goods_img','title','goods_price','vip_price','sales','goods_num','goods_id'];
+        $goods_specifications_data=['gid','goods_img','title','market_price','vip_price','sales','goods_num','goods_id'];
         //不分页查询
         $result=$goods_specifications->limitquer($goods_specifications_data,$sql);
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
@@ -211,7 +211,7 @@ class ShopsController extends Controller
                 $sql='sid ='.$param['sid'].' and state in(4,5)';
                 break;
             default:
-                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'用户行为异常']]);;
+                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'用户行为异常']]);;
                 break;
         }
         //定于查询数据
@@ -346,16 +346,14 @@ class ShopsController extends Controller
        //创建订单的ORM模型
        $shop=new \App\Shop();
        $collection=new \App\Collection();
-       //关注数量
-       $num=$collection->quer('coll_id ='.$param['sid'].' and coll_type = 2');
        //商铺内容
-       $result=$shop->quer(['name','img','banner','introduction','customer'],'sid ='.$param['sid'])->toArray();
+       $result=$shop->quer(['name','img','banner','introduction','customer','collect'],'sid ='.$param['sid'])->toArray();
        foreach ($result as $value) {
            $results['shops']=$value;
        }
        //是否关注
        $collresult=$collection->quer('users_id='.$data['guid'].' and coll_id ='.$param['sid'].' and coll_type = 2');
-       $results['collect']=$num;
+       $results['collect']=$results['shops']['collect'];
        $results['collresult']=$collresult;
        //判断是否为空
        if(!empty($result)){
@@ -480,7 +478,7 @@ class ShopsController extends Controller
                 $result['showprice']=$showprice;
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
             }else{
-                return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>[]]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>[]]);
             }
         }
 
@@ -523,7 +521,7 @@ class ShopsController extends Controller
                 $result['showprice']=$showprice;
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
             }else{
-                return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>[]]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>[]]);
             }
 
         }
@@ -547,7 +545,7 @@ class ShopsController extends Controller
             if(!empty($result)){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$results]);
             }else{
-                return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'获取快递公司数据失败']]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'获取快递公司数据失败']]);
             }
         }
 }

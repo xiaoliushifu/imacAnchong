@@ -23,6 +23,14 @@ class Collection extends Model
     }
 
     /*
+    *   收藏查询内容
+    */
+    public function querinfo($field,$type)
+    {
+        return $this->select($field)->whereRaw($type)->get();
+    }
+
+    /*
     *   添加收藏
     */
     public function add($data)

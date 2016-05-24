@@ -174,11 +174,20 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/collect/addcollect','Api\Collect\CollectController@addcollect');
         //取消收藏
         Route::post('/collect/delcollect','Api\Collect\CollectController@delcollect');
+        //查询收藏的货品
+        Route::post('/collect/goodscollect','Api\Collect\CollectController@goodscollect');
+        //查询收藏的商铺
+        Route::post('/collect/shopscollect','Api\Collect\CollectController@shopscollect');
+
+
         /*
         *   社区模块
         */
         //发布聊聊
         Route::post('/community/release','Api\Community\CommunityController@release');
+        //发布评论
+        Route::post('/community/comment','Api\Community\CommunityController@comment');
+
     });
 });
 

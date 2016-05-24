@@ -21,7 +21,7 @@ class Community_img extends Model
     */
     public function add($data)
     {
-        //将数据存入商机表
+        //将数据存入表中
         $this->fill($data);
         if($this->save()){
             return true;

@@ -24,7 +24,7 @@ class Community_release extends Model
        //将用户发布的商机信息添加入数据表
        $this->fill($data);
        if($this->save()){
-           return $this->id;
+           return $this->chat_id;
        }else{
            return;
        }

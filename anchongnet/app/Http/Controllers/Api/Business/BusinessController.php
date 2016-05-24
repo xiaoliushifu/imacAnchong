@@ -82,7 +82,7 @@ class BusinessController extends Controller
                                 if(!$ture){
                                     //假如失败就回滚
                                     DB::rollback();
-                                    return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'修改信息失败，请重新修改']]);
+                                    return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'发布商机失败，请重新发布']]);
                                 }
                             }
                             //orm模型操作数据库会返回true或false,如果操作失败则返回错误信息

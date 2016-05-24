@@ -373,7 +373,7 @@ class GoodsController extends Controller
         $title=$goods->quer('title','goods_id ='.$param['goods_id'])->toArray();
         $goods_specifications=new \App\Goods_specifications();
         //定义查询的字段
-        $goods_specifications_data=['gid','goods_img','goods_name','goods_price','vip_price'];
+        $goods_specifications_data=['gid','goods_img','goods_name','market_price','vip_price'];
         //查询数据
         $results=$goods_specifications->quer($goods_specifications_data,'goods_id = '.$param['goods_id'])->toArray();
         //对查出来的数据进行遍历
