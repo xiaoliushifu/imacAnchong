@@ -14,7 +14,7 @@ use Validator;
 class ShopsController extends Controller
 {
     /*
-    *   商铺查看
+    *   商铺货品查看
     */
     public function goodsshow(Request $request)
     {
@@ -28,6 +28,99 @@ class ShopsController extends Controller
         //定义查询的字段
         $goods_specifications_data=['gid','goods_img','title','goods_price','vip_price','sales','goods_num','goods_id'];
         $result=$goods_specifications->limitquer($goods_specifications_data,'sid ='.$param['sid'].' and added ='.$param['added']);
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+    }
+
+    /*
+    *   货品筛选分类显示
+    */
+    public function goodstype()
+    {
+        //创建ORM模型
+        $category=new \App\Category();
+        //将一级分类信息查询出来
+        $resultone=$category->quer(['cat_id','cat_name','parent_id'],'is_show = 1')->toArray();
+        //定义装结果的数组
+        $result=null;
+        $catone=null;
+        $cattwo=null;
+        $catthree=null;
+        $catfour=null;
+        $catfive=null;
+        $catsix=null;
+        $catseven=null;
+        $cateight=null;
+        foreach ($resultone as $onearr) {
+            //判断用户行为
+            switch ($onearr['parent_id']) {
+                //0为全部订单
+                case 1:
+                    $catone[]=$onearr;
+                    break;
+                case 2:
+                    $cattwo[]=$onearr;
+                    break;
+                case 3:
+                    $catthree[]=$onearr;
+                    break;
+                case 4:
+                    $catfour[]=$onearr;
+                    break;
+                case 5:
+                    $catfive[]=$onearr;
+                    break;
+                case 6:
+                    $catsix[]=$onearr;
+                    break;
+                case 7:
+                    $catseven[]=$onearr;
+                    break;
+                case 8:
+                    $cateight[]=$onearr;
+                    break;
+
+            }
+        }
+        $result[]=['parent_name'=>'智能门禁','list'=>$catone];
+        $result[]=['parent_name'=>'视频监控','list'=>$cattwo];
+        $result[]=['parent_name'=>'探测报警','list'=>$catthree];
+        $result[]=['parent_name'=>'巡更巡检','list'=>$catfour];
+        $result[]=['parent_name'=>'停车管理','list'=>$catfive];
+        $result[]=['parent_name'=>'楼宇对讲','list'=>$catsix];
+        $result[]=['parent_name'=>'智能消费','list'=>$catseven];
+        $result[]=['parent_name'=>'安防配套','list'=>$cateight];
+        if(!empty($result)){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'该分类没有检索标签']]);
+        }
+    }
+
+    /*
+    *   商铺货品筛选
+    */
+    public function goodsfilter(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //默认每页数量(目前把分页取消了)
+        $limit=10;
+        //创建ORM模型
+        $goods_specifications=new \App\Goods_specifications();
+        if(empty($param['cat_id']) && empty($param['search'])){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>"无商品"]]);
+        }elseif(!empty($param['cat_id']) && empty($param['search'])){
+            $sql="sid=".$param['sid']." and added = 1 and MATCH(cid) AGAINST('".bin2hex($param['cat_id'])."')";
+        }elseif(empty($param['tags']) && !empty($param['search'])) {
+            $sql="sid=".$param['sid']." and added = 1 and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
+        }elseif(!empty($param['tags']) && !empty($param['search'])) {
+            $sql="sid=".$param['sid']." and added = 1 and MATCH(keyword) AGAINST('".bin2hex($param['search'])."') and MATCH(cid) AGAINST('".bin2hex($param['cat_id'])."')";
+        }
+        //定义查询的字段
+        $goods_specifications_data=['gid','goods_img','title','goods_price','vip_price','sales','goods_num','goods_id'];
+        //不分页查询
+        $result=$goods_specifications->limitquer($goods_specifications_data,$sql);
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
     }
 
@@ -281,6 +374,16 @@ class ShopsController extends Controller
             //获得app端传过来的json格式的数据转换成数组格式
             $data=$request::all();
             $param=json_decode($data['param'],true);
+            $validator = Validator::make($param,
+                [
+                    'name' => 'max:126',
+                ]
+            );
+            //如果出错返回出错信息，如果正确执行下面的操作
+            if ($validator->fails())
+            {
+                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'商铺名字过长']]);
+            }
             //创建订单的ORM模型
             $shop=new \App\Shop();
             $true=false;

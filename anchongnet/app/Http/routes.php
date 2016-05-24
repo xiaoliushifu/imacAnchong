@@ -101,6 +101,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/goods/goodsinfo','Api\Goods\GoodsController@goodsinfo');
         //商品推荐
         Route::post('/goods/correlation','Api\Goods\GoodsController@correlation');
+        //商品配套
+        Route::post('/goods/supporting','Api\Goods\GoodsController@supporting');
         //商品规格
         Route::post('/goods/goodsformat','Api\Goods\GoodsController@goodsformat');
         //货品详情
@@ -144,6 +146,10 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/shops/goodsshow','Api\Shop\ShopsController@goodsshow');
         //商铺商品操作
         Route::post('/shops/goodsaction','Api\Shop\ShopsController@goodsaction');
+        //商铺商品筛选分类
+        Route::post('/shops/goodstype','Api\Shop\ShopsController@goodstype');
+        //商铺商品筛选
+        Route::post('/shops/goodsfilter','Api\Shop\ShopsController@goodsfilter');
         //商铺订单查看
         Route::post('/shops/shopsorder','Api\Shop\ShopsController@shopsorder');
         //商铺订单操作
@@ -168,6 +174,11 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/collect/addcollect','Api\Collect\CollectController@addcollect');
         //取消收藏
         Route::post('/collect/delcollect','Api\Collect\CollectController@delcollect');
+        /*
+        *   社区模块
+        */
+        //发布聊聊
+        Route::post('/community/release','Api\Community\CommunityController@release');
     });
 });
 

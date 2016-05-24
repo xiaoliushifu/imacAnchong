@@ -295,7 +295,7 @@ class GoodsController extends Controller
         $data=$request::all();
         $param=json_decode($data['param'],true);
         //默认每页数量
-        $limit=20;
+        $limit=24;
         //创建ORM模型
         $goods_type=new \App\Goods_type();
         //查询货品关键字
@@ -312,7 +312,8 @@ class GoodsController extends Controller
             if(!empty($result['list']->toArray())){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
             }else{
-                return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'获取相关商品失败，请刷新']]);
+                $result=$goods_type->condquer($goods_data,"added =1",(($param['page']-1)*$limit),$limit,'sales','DESC');
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
             }
         }
     }
@@ -320,13 +321,17 @@ class GoodsController extends Controller
     /*
     *   配套商品信息
     */
-    public function correlation(Request $request)
+    public function supporting(Request $request)
     {
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
         $param=json_decode($data['param'],true);
         //创建ORM模型
-        $goods_type=new \App\Goods_type();
+        $goodssupporting=new \App\GoodSupporting();
+        $goods_data=['gid','title','price','img','goods_id'];
+        $result=$goodssupporting->quer($goods_data,'assoc_gid = '.$param['goods_id'])->toArray();
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+
 
     }
 
