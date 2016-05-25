@@ -29,4 +29,28 @@ class Community_release extends Model
            return;
        }
    }
+
+   /*
+   *   查询聊聊的评论信息
+   */
+   public function quer($field,$type,$pos,$limit)
+   {
+        return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get()->toArray()];
+   }
+
+   /*
+   *   查询聊聊的信息
+   */
+   public function simplequer($field,$type)
+   {
+        return $this->select($field)->whereRaw($type)->get();
+   }
+
+   /*
+   *   删除聊聊信息
+   */
+   public function communitydel($id)
+   {
+       return $this->destroy($id);
+   }
 }

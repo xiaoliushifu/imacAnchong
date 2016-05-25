@@ -29,4 +29,30 @@ class Community_comment extends Model
             return false;
         }
     }
+
+    /*
+    *   查询聊聊的评论信息
+    */
+    public function simplequer($field,$type)
+    {
+         return $this->select($field)->whereRaw($type)->get();
+    }
+
+    /*
+    *   删除评论
+    */
+    public function delcomment($id)
+    {
+        $data=$this->where('chat_id', '=', $id)->count();
+        if($data > 0){
+            if($this->where('chat_id', '=', $id)->delete()){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return true;
+        }
+    }
+
 }

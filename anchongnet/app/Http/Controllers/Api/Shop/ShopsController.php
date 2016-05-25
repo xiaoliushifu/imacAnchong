@@ -423,39 +423,76 @@ class ShopsController extends Controller
             $goods_type=new \App\Goods_type();
             //需要查的字段
             $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
-            switch ($param['action']) {
-                //全部
-                case 0:
-                    $sql='sid = '.$param['sid'].' and added = 1';
-                    $condition='created_at';
-                    $sort='DESC';
-                    break;
-                //销量排序
-                case 1:
-                    $sql='sid = '.$param['sid'].' and added = 1';
-                    $condition='sales';
-                    $sort='DESC';
-                    break;
-                //新品排序
-                case 2:
-                    $sql='sid = '.$param['sid'].' and added = 1';
-                    $condition='created_at';
-                    $sort='DESC';
-                    break;
-                //价格排序升序
-                case 3:
-                    $sql='sid = '.$param['sid'].' and added = 1';
-                    $condition='price';
-                    $sort='DESC';
-                    break;
-                //价格排序降序
-                case 4:
-                    $sql='sid = '.$param['sid'].' and added = 1';
-                    $condition='price';
-                    $sort='ASC';
+            if(empty($param['cid'])){
+                switch ($param['action']) {
+                    //全部
+                    case 0:
+                        $sql='sid = '.$param['sid'].' and added = 1';
+                        $condition='created_at';
+                        $sort='DESC';
                         break;
-                default:
-                    break;
+                    //销量排序
+                    case 1:
+                        $sql='sid = '.$param['sid'].' and added = 1';
+                        $condition='sales';
+                        $sort='DESC';
+                        break;
+                    //新品排序
+                    case 2:
+                        $sql='sid = '.$param['sid'].' and added = 1';
+                        $condition='created_at';
+                        $sort='DESC';
+                        break;
+                    //价格排序升序
+                    case 3:
+                        $sql='sid = '.$param['sid'].' and added = 1';
+                        $condition='price';
+                        $sort='DESC';
+                        break;
+                    //价格排序降序
+                    case 4:
+                        $sql='sid = '.$param['sid'].' and added = 1';
+                        $condition='price';
+                        $sort='ASC';
+                            break;
+                    default:
+                        break;
+                }
+            }else{
+                switch ($param['action']) {
+                    //全部
+                    case 0:
+                        $sql='sid = '.$param['sid'].' and added = 1';
+                        $condition='created_at';
+                        $sort='DESC';
+                        break;
+                    //销量排序
+                    case 1:
+                        $sql="sid = ".$param['sid']." and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1";
+                        $condition='sales';
+                        $sort='DESC';
+                        break;
+                    //新品排序
+                    case 2:
+                        $sql="sid = ".$param['sid']." and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1";
+                        $condition='created_at';
+                        $sort='DESC';
+                        break;
+                    //价格排序升序
+                    case 3:
+                        $sql="sid = ".$param['sid']." and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1";
+                        $condition='price';
+                        $sort='DESC';
+                        break;
+                    //价格排序降序
+                    case 4:
+                        $sql="sid = ".$param['sid']." and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1";
+                        $condition='price';
+                        $sort='ASC';
+                            break;
+                    default:
+                        break;
+                }
             }
             //查询商品列表的信息
             $result=$goods_type->condquer($goods_data,$sql,(($param['page']-1)*$limit),$limit,$condition,$sort);

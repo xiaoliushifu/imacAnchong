@@ -29,4 +29,29 @@ class Community_img extends Model
             return false;
         }
     }
+
+    /*
+    *   该方法是聊聊图片表的查询
+    */
+    public function quer($field,$id)
+    {
+        return $this->select($field)->where('chat_id',$id)->get()->toArray();
+    }
+
+    /*
+    *   删除商机时将图片一起删除
+    */
+    public function delimg($id)
+    {
+        $data=$this->where('chat_id', '=', $id)->count();
+        if($data > 0){
+            if($this->where('chat_id', '=', $id)->delete()){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return true;
+        }
+    }
 }
