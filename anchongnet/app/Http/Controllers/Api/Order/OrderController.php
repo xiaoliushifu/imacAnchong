@@ -72,15 +72,12 @@ class OrderController extends Controller
                     //创建货品表的ORM模型来查询货品数量
                     $goods_specifications=new \App\Goods_specifications();
                     $goods_num=$goods_specifications->quer(['title','goods_num','added'],'gid ='.$goodsinfo['gid'])->toArray();
-<<<<<<< HEAD
-=======
                     //判断商品是否以删除
                     if(empty($goods_num)){
                         //假如失败就回滚
                         DB::rollback();
                         return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>$goodsinfo['goods_name'].'商品已下架']]);
                     }
->>>>>>> origin/renqingbin
                     //判断商品是否下架
                     if($goods_num[0]['added'] == 1){
                     //判断总库存是否足够

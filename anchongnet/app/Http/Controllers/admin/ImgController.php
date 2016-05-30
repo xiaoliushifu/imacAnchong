@@ -143,7 +143,6 @@ class ImgController extends Controller
     {
         $fileType=$_FILES['file']['type'];
         $filePath = $request['file'];
-<<<<<<< HEAD
         switch($request->imgtype){
             case 1:
                 $dir="goods/img/detail/";
@@ -155,9 +154,7 @@ class ImgController extends Controller
                 $dir="goods/img/data/";
                 break;
         }
-=======
         $dir="goods/img/detail/";
->>>>>>> origin/renqingbin
         //设置上传到阿里云oss的对象的键名
         switch ($fileType){
             case "image/png":

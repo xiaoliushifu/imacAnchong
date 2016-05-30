@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "hash": "339dd962d3fe7d124e7c338f2c3d6af1",
-=======
     "hash": "5355f16f6e63e094844ac9109dfc04e8",
->>>>>>> origin/renqingbin
     "content-hash": "4100ecd99436512cd839d12602e9d172",
     "packages": [
         {
@@ -575,18 +571,6 @@
         },
         {
             "name": "laravel/framework",
-<<<<<<< HEAD
-            "version": "v5.2.31",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/framework.git",
-                "reference": "2fa2797604bf54b06faf7bb139a9fc0d66826fea"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/laravel/framework/2fa2797604bf54b06faf7bb139a9fc0d66826fea.zip",
-                "reference": "2fa2797604bf54b06faf7bb139a9fc0d66826fea",
-=======
             "version": "v5.2.32",
             "source": {
                 "type": "git",
@@ -597,7 +581,6 @@
                 "type": "zip",
                 "url": "https://packagist.phpcomposer.com/files/laravel/framework/f688217113f70b01d0e127da9035195415812bef.zip",
                 "reference": "f688217113f70b01d0e127da9035195415812bef",
->>>>>>> origin/renqingbin
                 "shasum": ""
             },
             "require": {
@@ -713,11 +696,7 @@
                 "framework",
                 "laravel"
             ],
-<<<<<<< HEAD
-            "time": "2016-04-27 13:02:09"
-=======
             "time": "2016-05-17 13:24:40"
->>>>>>> origin/renqingbin
         },
         {
             "name": "league/flysystem",
@@ -2471,11 +2450,7 @@
         },
         {
             "name": "illuminate/contracts",
-<<<<<<< HEAD
-            "version": "v5.2.28",
-=======
             "version": "v5.2.31",
->>>>>>> origin/renqingbin
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -2517,18 +2492,6 @@
         },
         {
             "name": "illuminate/support",
-<<<<<<< HEAD
-            "version": "v5.2.28",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/illuminate/support.git",
-                "reference": "e4aa03c5f26db752e838354a7d71b85e6138f4ec"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/illuminate/support/e4aa03c5f26db752e838354a7d71b85e6138f4ec.zip",
-                "reference": "e4aa03c5f26db752e838354a7d71b85e6138f4ec",
-=======
             "version": "v5.2.31",
             "source": {
                 "type": "git",
@@ -2539,7 +2502,6 @@
                 "type": "zip",
                 "url": "https://packagist.phpcomposer.com/files/illuminate/support/cb5b004610baabe6b4bf532e6e4ff9eaca5eb25b.zip",
                 "reference": "cb5b004610baabe6b4bf532e6e4ff9eaca5eb25b",
->>>>>>> origin/renqingbin
                 "shasum": ""
             },
             "require": {
@@ -2582,11 +2544,7 @@
             ],
             "description": "The Illuminate Support package.",
             "homepage": "http://laravel.com",
-<<<<<<< HEAD
-            "time": "2016-03-30 18:18:45"
-=======
             "time": "2016-04-21 13:28:36"
->>>>>>> origin/renqingbin
         },
         {
             "name": "mockery/mockery",
@@ -3253,18 +3211,6 @@
         },
         {
             "name": "sebastian/environment",
-<<<<<<< HEAD
-            "version": "1.3.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "2292b116f43c272ff4328083096114f84ea46a56"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/environment/2292b116f43c272ff4328083096114f84ea46a56.zip",
-                "reference": "2292b116f43c272ff4328083096114f84ea46a56",
-=======
             "version": "1.3.7",
             "source": {
                 "type": "git",
@@ -3275,7 +3221,6 @@
                 "type": "zip",
                 "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/environment/4e8f0da10ac5802913afc151413bc8c53b6c2716.zip",
                 "reference": "4e8f0da10ac5802913afc151413bc8c53b6c2716",
->>>>>>> origin/renqingbin
                 "shasum": ""
             },
             "require": {
@@ -3312,11 +3257,7 @@
                 "environment",
                 "hhvm"
             ],
-<<<<<<< HEAD
-            "time": "2016-05-04 07:59:13"
-=======
             "time": "2016-05-17 03:18:57"
->>>>>>> origin/renqingbin
         },
         {
             "name": "sebastian/exporter",

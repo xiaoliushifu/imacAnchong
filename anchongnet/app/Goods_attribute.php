@@ -38,10 +38,6 @@ class Goods_attribute extends Model implements AuthenticatableContract,
     protected $primaryKey = 'atid';
     //可以批量赋值的属性
     protected $fillable=['goods_id','name','value'];
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/renqingbin
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -56,16 +52,10 @@ class Goods_attribute extends Model implements AuthenticatableContract,
     {
         return $this->select($field)->whereRaw($type)->get();
     }
-<<<<<<< HEAD
-    /*
-     * 根据条件进行属性查询
-     * */
-=======
-    
+
     /*
      *  根据条件进行属性查询
      */
->>>>>>> origin/renqingbin
     public function scopeGood($query,$keyGood){
         return $query->where('goods_id', '=', $keyGood);
     }

@@ -182,11 +182,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-<<<<<<< HEAD
-                    <h4 class="modal-title" id="myModalLabel">商品编辑</h4>
-=======
                     <h4 class="modal-title" id="myModalLabel">货品编辑</h4>
->>>>>>> origin/renqingbin
                 </div>
                 <div class="modal-body">
                     @if (count($errors) > 0)
@@ -293,11 +289,8 @@
                                     <thead>
                                     <tr>
                                         <th class="text-center col-sm-1">区域</th>
-<<<<<<< HEAD
-=======
                                         <th class="text-center col-sm-1">货位</th>
                                         <th class="text-center col-sm-1">货架</th>
->>>>>>> origin/renqingbin
                                         <th class="text-center col-sm-1">库存数</th>
                                         <th class="text-center col-sm-1">操作</th>
                                     </tr>

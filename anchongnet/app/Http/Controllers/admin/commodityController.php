@@ -107,13 +107,8 @@ class commodityController extends Controller
                 'remark'=>$request->remark,
                 'keyword'=>$keywords,
                 'images'=>$request->pic[0]['url'],
-<<<<<<< HEAD
-                'param'=>$request->param,
-                'package'=>$request->data,
-=======
                 'param'=>'<style>img{max-width:100%;}</style>'.$request->param,
                 'package'=>'<style>img{max-width:100%;}</style>'.$request->data,
->>>>>>> origin/renqingbin
             ]
         );
 
@@ -203,13 +198,8 @@ class commodityController extends Controller
         $data->title=$request->title;
         $data->desc=$request->description;
         $data->remark=$request->remark;
-<<<<<<< HEAD
-        $data->param=$request->param;
-        $data->package=$request->data;
-=======
         $data->param='<style>img{max-width:100%;}</style>'.$request->param;
         $data->package='<style>img{max-width:100%;}</style>'.$request->data;
->>>>>>> origin/renqingbin
         //将关键字转码之后再插入数据库，为将来分词索引做准备
         $keywords_arr=explode(' ',$request->keyword);
         $keywords="";

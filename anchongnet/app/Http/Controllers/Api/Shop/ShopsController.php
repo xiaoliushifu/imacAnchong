@@ -5,16 +5,8 @@ namespace App\Http\Controllers\Api\Shop;
 use Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-<<<<<<< HEAD
-<<<<<<< HEAD
 use DB;
 use Validator;
-=======
->>>>>>> renqingbin
-=======
-use DB;
-use Validator;
->>>>>>> origin/renqingbin
 
 /*
 *   该控制器包含了商铺模块的操作
@@ -24,29 +16,17 @@ class ShopsController extends Controller
     /*
     *   商铺货品查看
     */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function goodsshow(Request $request)
-=======
     public function shopsshow(Request $request)
->>>>>>> renqingbin
-=======
     public function goodsshow(Request $request)
->>>>>>> origin/renqingbin
     {
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
         $param=json_decode($data['param'],true);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> origin/renqingbin
         //默认每页数量(目前把分页取消了)
         $limit=10;
         //创建ORM模型
         $goods_specifications=new \App\Goods_specifications();
         //定义查询的字段
-<<<<<<< HEAD
         $goods_specifications_data=['gid','goods_img','title','goods_price','vip_price','sales','goods_num','goods_id'];
         $result=$goods_specifications->limitquer($goods_specifications_data,'sid ='.$param['sid'].' and added ='.$param['added']);
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
@@ -358,11 +338,7 @@ class ShopsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>[]]);
             }
         }
-=======
-        
     }
->>>>>>> renqingbin
-=======
         $goods_specifications_data=['gid','goods_img','title','market_price','vip_price','sales','goods_num','goods_id'];
         $result=$goods_specifications->limitquer($goods_specifications_data,'sid ='.$param['sid'].' and added ='.$param['added']);
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
@@ -922,5 +898,4 @@ class ShopsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'获取快递公司数据失败']]);
             }
         }
->>>>>>> origin/renqingbin
 }

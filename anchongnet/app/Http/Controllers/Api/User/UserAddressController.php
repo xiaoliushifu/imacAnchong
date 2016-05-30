@@ -79,11 +79,6 @@ class UserAddressController extends Controller
      * */
     public function getdefault(Request $request){
         $uid=$request['guid'];
-<<<<<<< HEAD
-        $data=Address::UserDefault($uid);
-        if(count($data)>0){
-=======
-
         $data=Address::UserDefault($uid);
         if($data!=null){
             /*return response()->json(
@@ -97,38 +92,25 @@ class UserAddressController extends Controller
                         'address'=>$data->address,
                     ]
                 ]*/
->>>>>>> origin/renqingbin
             return response()->json(
                 [
                     "serverTime"=>time(),
                     "ServerNo"=>0,
-<<<<<<< HEAD
-                    "ResultData" => $data
-                ]
-            );
-        }else{
-            $first=$this->address->User($request['guid'])->first();
-=======
                     "ResultData" => $data,
                 ]
             );
         }else{
             $first=Address::User($request['guid'])->first();
->>>>>>> origin/renqingbin
             return response()->json(
                 [
                     "serverTime"=>time(),
                     "ServerNo"=>0,
-<<<<<<< HEAD
-                    "ResultData" => $first
-=======
                     "ResultData" =>[
                         'add_name' => $first->add_name,
                         'phone'=>$first->phone,
                         'region'=>$first->region,
                         'address'=>$first->address,
                     ]
->>>>>>> origin/renqingbin
                 ]
             );
         }

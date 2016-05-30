@@ -105,7 +105,7 @@
 									    break;
 								    }?>
 								    </td>
-								</tr>  
+								</tr>
 								@endforeach
 								<tr>
 								  <td colspan="7" align="center">
@@ -124,8 +124,6 @@
 		</section>
 		<!-- /.content -->
 	</div>
-<<<<<<< HEAD
-=======
 
 	<!-- Modal -->
 	<div class="modal fade" id="myView" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

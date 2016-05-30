@@ -32,18 +32,10 @@ class Shop extends Model
     public function scopeUid($query,$keyUid){
         return $query->where('users_id','=',$keyUid)->first();
     }
-<<<<<<< HEAD
-
-    public function scopeUser($query,$keyUser){
-        return $query->where('users_id','=',$keyUser);
-    }
-    
-=======
     public function scopeUser($query,$keyUser){
         return $query->where('users_id','=',$keyUser);
     }
 
->>>>>>> origin/renqingbin
     /*
     *   查询商铺信息
     */

@@ -163,22 +163,12 @@ class CartController extends Controller
         $param=json_decode($data['param'],true);
         //创建ORM模型
         $cart=new \App\Cart();
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> origin/renqingbin
         $amount=$cart->cartamount('goods_num','users_id ='.$data['guid'])->toArray();
         $cartnum=0;
         foreach($amount as $goods_num) {
             $cartnum += $goods_num['goods_num'];
         }
-        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['cartamount'=>$cartnum]]);
-<<<<<<< HEAD
-=======
         $amount=$cart->cartamount('users_id ='.$data['guid']);
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['cartamount'=>$amount]]);
->>>>>>> renqingbin
-=======
->>>>>>> origin/renqingbin
     }
 }

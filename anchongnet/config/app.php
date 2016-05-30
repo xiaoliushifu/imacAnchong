@@ -156,13 +156,8 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-<<<<<<< HEAD
-         Stevenyangecho\UEditor\UEditorServiceProvider::class,
-
-=======
         Intervention\Image\ImageServiceProvider::class,
         Stevenyangecho\UEditor\UEditorServiceProvider::class,
->>>>>>> origin/renqingbin
     ],
 
     /*

@@ -20,11 +20,8 @@ class GoodSpecification extends Model
     {
         return $query->where('goods_name', 'like', "%{$keyName}%");
     }
-<<<<<<< HEAD
-=======
     public function scopeGood($query,$keyGood)
     {
         return $query->where('goods_id', '=', $keyGood);
     }
->>>>>>> origin/renqingbin
 }

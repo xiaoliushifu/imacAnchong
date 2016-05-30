@@ -115,10 +115,6 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/goods/goodstag','Api\Goods\GoodsController@goodstag');
         //商品检索
         Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
-<<<<<<< HEAD
-        
-=======
->>>>>>> renqingbin
 
         /*
         *   购物车模块
@@ -148,17 +144,6 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         /*
         *   商铺模块
         */
-<<<<<<< HEAD
-<<<<<<< HEAD
-        Route::resource('/shop','Api\Shop\ShopController');
-        //商铺查看
-        Route::post('/shops/goodsshow','Api\Shop\ShopsController@goodsshow');
-        //商铺操作
-        Route::post('/shops/goodsaction','Api\Shop\ShopsController@goodsaction');
-        //商铺查看
-        Route::post('/shops/shopsorder','Api\Shop\ShopsController@shopsorder');
-		//商铺订单操作
-=======
         //商铺商品查看
         Route::post('/shops/goodsshow','Api\Shop\ShopsController@goodsshow');
         //商铺商品操作
@@ -170,20 +155,13 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         //商铺订单查看
         Route::post('/shops/shopsorder','Api\Shop\ShopsController@shopsorder');
         //商铺订单操作
->>>>>>> origin/renqingbin
         Route::post('/shops/shopsoperation','Api\Shop\ShopsController@shopsoperation');
         //商铺地址添加操作
         Route::post('/shops/addressadd','Api\Shop\ShopsController@addressadd');
         //我的店铺
         Route::post('/shops/myshops','Api\Shop\ShopsController@myshops');
-<<<<<<< HEAD
-        //店铺全部商品
-        Route::post('/shops/shopsgoods','Api\Shop\ShopsController@shopsgoods');
-=======
         //商铺查看
         Route::post('/shops/shops','Api\Shop\ShopsController@ordercreate');
->>>>>>> renqingbin
-=======
         //我的店铺信息修改
         Route::post('/shops/shopsedit','Api\Shop\ShopsController@shopsedit');
         //店铺全部商品
@@ -192,7 +170,6 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/shops/newgoods','Api\Shop\ShopsController@newgoods');
         //商铺发货快递公司
         Route::post('/shops/logistcompany','Api\Shop\ShopsController@logistcompany');
->>>>>>> origin/renqingbin
 
         /*
         *   收藏模块
@@ -285,12 +262,8 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         Route::resource('/thumb','admin\thumbController');
         Route::get('/getgoodthumb','admin\thumbController@getGoodThumb');
         Route::resource('/img','admin\ImgController');
-<<<<<<< HEAD
-        Route::get('/getgoodimg','admin\ImgController@getGoodImg');
-=======
         //替换商品详情图片的路由
         Route::post('/updataimg','admin\commodityController@updateImg');
->>>>>>> origin/renqingbin
 
         //库存管理路由
         Route::resource('/stock','admin\stockController');

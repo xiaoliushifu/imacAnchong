@@ -113,9 +113,6 @@ class goodController extends Controller
         }
 
         //将二级分类转码之后插入数据库，为将来分词索引做准备
-<<<<<<< HEAD
-        $cid=bin2hex($request->midselect);
-=======
         //$cid=bin2hex($request->midselect);
 
         //将标签转码之后插入数据库，为将来分词索引做准备
@@ -125,17 +122,11 @@ class goodController extends Controller
             $cid.=bin2hex($cids[$j])." ";
         }
 
->>>>>>> origin/renqingbin
-
         $gtid = DB::table('anchong_goods_type')->insertGetId(
             [
                 'gid' => $gid,
                 'goods_id'=>$request->name,
-<<<<<<< HEAD
-                'title'=>trim($request->goodname." ".$spetag),
-=======
                 'title'=>trim($request->commodityname." ".$spetag),
->>>>>>> origin/renqingbin
                 'price'=>$request->marketprice,
                 'sname'=>'安虫',
                 'vip_price'=>$request->viprice,
@@ -154,11 +145,8 @@ class goodController extends Controller
                 [
                     'gid' => $gid,
                     'region' => $request['stock']['region'][$m],
-<<<<<<< HEAD
-=======
                     'location' => $request['stock']['location'][$m],
                     'shelf' => $request['stock']['shelf'][$m],
->>>>>>> origin/renqingbin
                     'region_num'=>$request['stock']['num'][$m]
                 ]
             );
@@ -190,10 +178,7 @@ class goodController extends Controller
                 ]
             );
         }
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/renqingbin
         //提交事务
         DB::commit();
 

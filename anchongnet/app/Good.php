@@ -19,10 +19,6 @@ class Good extends Model
     }
 
     public function scopeType($query,$keyType,$keySid){
-<<<<<<< HEAD
-         return $query->where('type', 'like', "%{$keyType}%")->where('sid','=',$keySid);    
-=======
         return $query->where('type', 'like', "%{$keyType}%")->where('sid','=',$keySid);
->>>>>>> origin/renqingbin
     }
 }

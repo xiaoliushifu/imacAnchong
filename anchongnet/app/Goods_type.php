@@ -33,13 +33,8 @@ class Goods_type extends Model implements AuthenticatableContract,
      * @var array
      */
      //不允许被赋值
-<<<<<<< HEAD
-    protected $guarded = ['catid'];
-	protected $primaryKey = 'cat_id';
-=======
     protected $guarded = ['cat_id'];
     protected $primaryKey = 'cat_id';
->>>>>>> origin/renqingbin
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -101,8 +96,6 @@ class Goods_type extends Model implements AuthenticatableContract,
     {
         return $query->where('gid', '=', $keyGid)->first();
     }
-<<<<<<< HEAD
-
     /*
     *   该方法是货品信息删除
     */
@@ -110,6 +103,4 @@ class Goods_type extends Model implements AuthenticatableContract,
     {
         return $this->where('gid', '=', $num)->delete();
     }
-=======
->>>>>>> renqingbin
 }
