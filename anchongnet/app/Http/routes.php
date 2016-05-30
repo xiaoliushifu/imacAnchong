@@ -110,7 +110,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         //商品发布
         Route::post('/goods/goodsrelease','Api\Goods\GoodsController@goodsrelease');
         //商品检索标签
-        Route::post('/goods/goodstag','Api\Goods\GoodsController@goodstsg');
+        Route::post('/goods/goodstag','Api\Goods\GoodsController@goodstag');
         //商品检索
         Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
 
