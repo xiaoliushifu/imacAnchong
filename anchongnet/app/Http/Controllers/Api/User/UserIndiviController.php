@@ -23,8 +23,13 @@ class UserIndiviController extends Controller
 		$this->auth=new Auth();
 		$this->user=new Users();
 		$this->qua=new Qua();
+<<<<<<< HEAD
 	} 
 	 
+=======
+	}
+
+>>>>>>> origin/renqingbin
 	/*
 	 * 商户认证的方法
 	 */
@@ -51,11 +56,20 @@ class UserIndiviController extends Controller
 			if($wait){
 				return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'您有待审核的资质，暂时无法提交']]);
 			}else{
+<<<<<<< HEAD
 				//先开启事务处理
 				DB::beginTransaction();
 				//通过一个for循环将用户上传的资质全部插入到数据库中
 				for($i=0;$i<count($param['qua_name']);$i++){	
     				//向认证表中插入数据	
+=======
+
+				//先开启事务处理
+				DB::beginTransaction();
+				//通过一个for循环将用户上传的资质全部插入到数据库中
+				for($i=0;$i<count($param['qua_name']);$i++){
+    				//向认证表中插入数据
+>>>>>>> origin/renqingbin
 					$result=Auth::create(array(
 						'users_id'  => $id,
 						'auth_name' => $param['auth_name'],
@@ -73,6 +87,10 @@ class UserIndiviController extends Controller
 				DB::commit();
 				//返回给客户端数据
 				return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'认证提交成功，请等待审核！！']]);
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/renqingbin
 			}
 		}
 	}

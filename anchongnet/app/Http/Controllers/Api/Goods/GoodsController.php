@@ -197,6 +197,7 @@ class GoodsController extends Controller
         }elseif(!empty($param['tags']) && empty($param['search'])){
             //根据标签检索
 <<<<<<< HEAD
+<<<<<<< HEAD
             $sql="MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1 and MATCH(tags) AGAINST('".bin2hex($param['tags'])."')";
         }elseif(empty($param['tags']) && !empty($param['search'])){
             //自定义检索
@@ -205,16 +206,23 @@ class GoodsController extends Controller
             $sql="MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1 and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
 =======
             $sql="cid =".$param['cid']." and MATCH(tags) AGAINST('".bin2hex($param['tags'])."')";
+=======
+            $sql="MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1 and MATCH(tags) AGAINST('".bin2hex($param['tags'])."')";
+>>>>>>> origin/renqingbin
         }elseif(empty($param['tags']) && !empty($param['search'])){
             //自定义检索
-            $sql="cid =".$param['cid']." and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
+            $sql="MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1 and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
         }elseif(!empty($param['tags']) && !empty($param['search'])){
+<<<<<<< HEAD
             $sql="cid =".$param['cid']." and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
 >>>>>>> renqingbin
+=======
+            $sql="MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1 and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
+>>>>>>> origin/renqingbin
         }
         //要查询的字段
         $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
-        $result=$goods_type->searchquer($goods_data,$sql,(($param['page']-1)*$limit),$limit);
+        $result=$goods_type->quer($goods_data,$sql,(($param['page']-1)*$limit),$limit);
         $results=$result['list']->toArray();
         //判断是否需要查询会员价
         if(!empty($results)){
@@ -283,6 +291,7 @@ class GoodsController extends Controller
             //创建收藏ORM模型
             $collection=new \App\Collection();
 <<<<<<< HEAD
+<<<<<<< HEAD
             $collresult=$collection->quer('users_id='.$data['guid'].' and coll_id ='.$param['gid'].' and coll_type = 1');
             //进行数据拼接
             $result['goodspic']=$picarr;
@@ -297,11 +306,68 @@ class GoodsController extends Controller
             $result['parameterpic']=$parameterpic;
             $result['datapic']=$datapic;
 >>>>>>> renqingbin
+=======
+            $collresult=$collection->quer('users_id='.$data['guid'].' and coll_id ='.$param['gid'].' and coll_type = 1');
+            //进行数据拼接
+            $result['goodspic']=$picarr;
+            $result['detailpic']=$goodsresult[0]['images'];
+            $result['parameterpic']="http://admin.anchong.net/getparam?gid=".$param['goods_id'];
+            $result['datapic']="http://admin.anchong.net/getpackage?gid=".$param['goods_id'];
+>>>>>>> origin/renqingbin
             $result['collection']=$collresult;
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'商品信息获取失败，请刷新']]);
         }
+    }
+
+    /*
+    *   相关商品信息
+    */
+    public function correlation(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //默认每页数量
+        $limit=24;
+        //创建ORM模型
+        $goods_type=new \App\Goods_type();
+        //查询货品关键字
+        $goodskeyword=$goods_type->searchquer('keyword','gid ='.$param['gid'])->toArray();
+        //判断货品是否有关键字
+        if(empty($goodskeyword['0']['keyword'])){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>[]]);
+        }else{
+            //将关键字拆分
+            $keyarr=explode(' ',$goodskeyword['0']['keyword']);
+            //定义查询内容
+            $goods_data=['gid','title','price','pic','goods_id'];
+            $result=$goods_type->condquer($goods_data,"MATCH(keyword) AGAINST('".$keyarr[0]."') and added =1",(($param['page']-1)*$limit),$limit,'sales','DESC');
+            if(!empty($result['list']->toArray())){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+            }else{
+                $result=$goods_type->condquer($goods_data,"added =1",(($param['page']-1)*$limit),$limit,'sales','DESC');
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+            }
+        }
+    }
+
+    /*
+    *   配套商品信息
+    */
+    public function supporting(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $goodssupporting=new \App\GoodSupporting();
+        $goods_data=['gid','title','price','img','goods_id'];
+        $result=$goodssupporting->quer($goods_data,'assoc_gid = '.$param['goods_id'])->toArray();
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+
+
     }
 
     /*
@@ -342,7 +408,7 @@ class GoodsController extends Controller
         $title=$goods->quer('title','goods_id ='.$param['goods_id'])->toArray();
         $goods_specifications=new \App\Goods_specifications();
         //定义查询的字段
-        $goods_specifications_data=['gid','goods_img','goods_name','goods_price','vip_price'];
+        $goods_specifications_data=['gid','goods_img','goods_name','market_price','vip_price'];
         //查询数据
         $results=$goods_specifications->quer($goods_specifications_data,'goods_id = '.$param['goods_id'])->toArray();
         //对查出来的数据进行遍历

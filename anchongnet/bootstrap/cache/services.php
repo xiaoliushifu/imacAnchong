@@ -27,7 +27,12 @@
     23 => 'App\\Providers\\AuthServiceProvider',
     24 => 'App\\Providers\\EventServiceProvider',
     25 => 'App\\Providers\\RouteServiceProvider',
+<<<<<<< HEAD
     26 => 'Stevenyangecho\\UEditor\\UEditorServiceProvider',
+=======
+    26 => 'Intervention\\Image\\ImageServiceProvider',
+    27 => 'Stevenyangecho\\UEditor\\UEditorServiceProvider',
+>>>>>>> origin/renqingbin
   ),
   'eager' => 
   array (
@@ -45,7 +50,12 @@
     11 => 'App\\Providers\\AuthServiceProvider',
     12 => 'App\\Providers\\EventServiceProvider',
     13 => 'App\\Providers\\RouteServiceProvider',
+<<<<<<< HEAD
     14 => 'Stevenyangecho\\UEditor\\UEditorServiceProvider',
+=======
+    14 => 'Intervention\\Image\\ImageServiceProvider',
+    15 => 'Stevenyangecho\\UEditor\\UEditorServiceProvider',
+>>>>>>> origin/renqingbin
   ),
   'deferred' => 
   array (

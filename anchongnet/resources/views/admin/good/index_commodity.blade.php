@@ -77,10 +77,15 @@
                                         <td align="center">{{$data['title']}}</td>
                                         <td align="center">{{$data['desc']}}</td>
                                         <td align="center">
+<<<<<<< HEAD
                                             <button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['goods_id']}}" data-toggle="modal" data-target="#myView">查看下属货品</button>
                                             <button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['goods_id']}}"  data-toggle="modal" data-target="#myModal">编辑</button>
                                             <button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['goods_id']}}">删除</button>
                                             </form>
+=======
+                                            <button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['goods_id']}}"  data-toggle="modal" data-target="#myModal">编辑</button>
+                                            <button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['goods_id']}}">删除</button>
+>>>>>>> origin/renqingbin
                                         </td>
                                     </tr>
                                 @endforeach
@@ -102,6 +107,7 @@
         <!-- /.content -->
     </div>
     <!-- Modal -->
+<<<<<<< HEAD
     <div class="modal fade" id="myView" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -124,6 +130,8 @@
         </div>
     </div>
     <!-- Modal -->
+=======
+>>>>>>> origin/renqingbin
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

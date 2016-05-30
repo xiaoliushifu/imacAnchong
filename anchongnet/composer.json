@@ -55,7 +55,11 @@
     },
     "config": {
         "preferred-install": "dist",
+<<<<<<< HEAD
 		"secure-http": false  
+=======
+		"secure-http": false
+>>>>>>> origin/renqingbin
     },
 	"repositories": {
         "packagist": {

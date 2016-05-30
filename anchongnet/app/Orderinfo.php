@@ -91,11 +91,16 @@ class Orderinfo extends Model implements AuthenticatableContract,
     }
 
     /*
+<<<<<<< HEAD
      * 查找相同订单编号的订单信息
      * */
     /*
 	* 根据条件进行收货地址搜索
 	*/
+=======
+    * 根据条件进行收货地址搜索
+    */
+>>>>>>> origin/renqingbin
     public function scopeNum($query,$keyNum)
     {
         return $query->where('order_num', '=', $keyNum);

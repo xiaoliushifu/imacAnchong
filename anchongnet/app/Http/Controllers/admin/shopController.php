@@ -7,10 +7,14 @@ use Request as Requester;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Shop;
+use App\Mainbrand;
+use App\ShopCat;
 
 class shopController extends Controller
 {
     private $shop;
+    private $mb;
+    private $shopcat;
 
     /**
      * shopController constructor.
@@ -19,6 +23,8 @@ class shopController extends Controller
     public function __construct()
     {
         $this->shop = new Shop();
+        $this->mb=new Mainbrand();
+        $this->shopcat=new ShopCat();
     }
 
     /**
@@ -108,5 +114,25 @@ class shopController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /*
+     * 根据店铺id获取店铺的主营品牌
+     * */
+    public function getbrand(Request $request)
+    {
+        $sid=$request['sid'];
+        $datas=$this->mb->Shop($sid)->get();
+        return $datas;
+    }
+
+    /*
+     * 根据店铺id查找店铺的主营类别
+     * */
+    public function getcat(Request $request)
+    {
+        $sid=$request['sid'];
+        $datas=$this->shopcat->Shop($sid)->get();
+        return $datas;
     }
 }

@@ -102,6 +102,10 @@
                                             <option value="">请选择</option>
                                         </select>
                                         <input type="hidden" name="commodityname" id="commodityname">
+<<<<<<< HEAD
+=======
+                                        <input type="hidden" name="type" id="type">
+>>>>>>> origin/renqingbin
                                     </div>
                                 </div><!--end form-group-->
                                 <div class="form-group">
@@ -149,11 +153,20 @@
                                 </div><!--end form-group-->
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">库存</label>
+<<<<<<< HEAD
                                     <div class="col-sm-6">
+=======
+                                    <div class="col-sm-8">
+>>>>>>> origin/renqingbin
                                         <table class="table text-center">
                                             <thead>
                                             <tr>
                                                 <th class="text-center col-sm-1">区域</th>
+<<<<<<< HEAD
+=======
+                                                <th class="text-center col-sm-1">货位</th>
+                                                <th class="text-center col-sm-1">货架</th>
+>>>>>>> origin/renqingbin
                                                 <th class="text-center col-sm-1">库存数</th>
                                                 <th class="text-center col-sm-1">操作</th>
                                             </tr>
@@ -164,6 +177,15 @@
                                                     <input type="text" name="stock[region][]" class="form-control" required />
                                                 </td>
                                                 <td>
+<<<<<<< HEAD
+=======
+                                                    <input type="text" name="stock[location][]" class="form-control" required />
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="stock[shelf][]" class="form-control" required />
+                                                </td>
+                                                <td>
+>>>>>>> origin/renqingbin
                                                     <input type="number" min="0" name="stock[num][]" class="form-control" required />
                                                 </td>
                                                 <td>

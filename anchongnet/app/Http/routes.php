@@ -71,6 +71,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         /*
         *   商机模块
         */
+        //商机首页
+        Route::post('/business/businessindex','Api\Business\BusinessController@businessindex');
         //商机发布
         Route::post('/business/release','Api\Business\BusinessController@release');
         //发布类别和标签
@@ -99,6 +101,10 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/goods/tag','Api\Goods\GoodsController@goodslist');
         //商品详情
         Route::post('/goods/goodsinfo','Api\Goods\GoodsController@goodsinfo');
+        //商品推荐
+        Route::post('/goods/correlation','Api\Goods\GoodsController@correlation');
+        //商品配套
+        Route::post('/goods/supporting','Api\Goods\GoodsController@supporting');
         //商品规格
         Route::post('/goods/goodsformat','Api\Goods\GoodsController@goodsformat');
         //货品详情
@@ -106,7 +112,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         //商品发布
         Route::post('/goods/goodsrelease','Api\Goods\GoodsController@goodsrelease');
         //商品检索标签
-        Route::post('/goods/goodstag','Api\Goods\GoodsController@goodstsg');
+        Route::post('/goods/goodstag','Api\Goods\GoodsController@goodstag');
         //商品检索
         Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
 <<<<<<< HEAD
@@ -143,6 +149,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         *   商铺模块
         */
 <<<<<<< HEAD
+<<<<<<< HEAD
         Route::resource('/shop','Api\Shop\ShopController');
         //商铺查看
         Route::post('/shops/goodsshow','Api\Shop\ShopsController@goodsshow');
@@ -151,17 +158,41 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         //商铺查看
         Route::post('/shops/shopsorder','Api\Shop\ShopsController@shopsorder');
 		//商铺订单操作
+=======
+        //商铺商品查看
+        Route::post('/shops/goodsshow','Api\Shop\ShopsController@goodsshow');
+        //商铺商品操作
+        Route::post('/shops/goodsaction','Api\Shop\ShopsController@goodsaction');
+        //商铺商品筛选分类
+        Route::post('/shops/goodstype','Api\Shop\ShopsController@goodstype');
+        //商铺商品筛选
+        Route::post('/shops/goodsfilter','Api\Shop\ShopsController@goodsfilter');
+        //商铺订单查看
+        Route::post('/shops/shopsorder','Api\Shop\ShopsController@shopsorder');
+        //商铺订单操作
+>>>>>>> origin/renqingbin
         Route::post('/shops/shopsoperation','Api\Shop\ShopsController@shopsoperation');
         //商铺地址添加操作
         Route::post('/shops/addressadd','Api\Shop\ShopsController@addressadd');
         //我的店铺
         Route::post('/shops/myshops','Api\Shop\ShopsController@myshops');
+<<<<<<< HEAD
         //店铺全部商品
         Route::post('/shops/shopsgoods','Api\Shop\ShopsController@shopsgoods');
 =======
         //商铺查看
         Route::post('/shops/shops','Api\Shop\ShopsController@ordercreate');
 >>>>>>> renqingbin
+=======
+        //我的店铺信息修改
+        Route::post('/shops/shopsedit','Api\Shop\ShopsController@shopsedit');
+        //店铺全部商品
+        Route::post('/shops/shopsgoods','Api\Shop\ShopsController@shopsgoods');
+        //店铺新商品
+        Route::post('/shops/newgoods','Api\Shop\ShopsController@newgoods');
+        //商铺发货快递公司
+        Route::post('/shops/logistcompany','Api\Shop\ShopsController@logistcompany');
+>>>>>>> origin/renqingbin
 
         /*
         *   收藏模块
@@ -170,6 +201,27 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/collect/addcollect','Api\Collect\CollectController@addcollect');
         //取消收藏
         Route::post('/collect/delcollect','Api\Collect\CollectController@delcollect');
+        //查询收藏的货品
+        Route::post('/collect/goodscollect','Api\Collect\CollectController@goodscollect');
+        //查询收藏的商铺
+        Route::post('/collect/shopscollect','Api\Collect\CollectController@shopscollect');
+
+
+        /*
+        *   社区模块
+        */
+        //发布聊聊
+        Route::post('/community/release','Api\Community\CommunityController@release');
+        //发布评论
+        Route::post('/community/comment','Api\Community\CommunityController@comment');
+        //聊聊首页显示
+        Route::post('/community/communityshow','Api\Community\CommunityController@communityshow');
+        //我的聊聊显示
+        Route::post('/community/mycommunity','Api\Community\CommunityController@mycommunity');
+        //聊聊详情
+        Route::post('/community/communityinfo','Api\Community\CommunityController@communityinfo');
+        //删除聊聊
+        Route::post('/community/communitydel','Api\Community\CommunityController@communitydel');
     });
 });
 
@@ -178,7 +230,7 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
     //验证码类,需要传入数字
     Route::get('/captcha/{num}', 'CaptchaController@captcha');
     //登录检查
-    Route::post('/checklogin','admin\indexController@checklogin');
+    Route::any('/checklogin','admin\indexController@checklogin');
     //加中间件的路由组
     Route::group(['middleware' => 'LoginAuthen'], function () {
         //首页路由
@@ -195,9 +247,15 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         Route::get('/getsiblingsorder','admin\orderinfoController@getSiblingsOrder');
 
         //认证检查
-    	Route::get('/check','admin\CheckController@check');
-		//商铺路由
+        Route::get('/check','admin\CheckController@check');
+        //商铺路由
         Route::resource('/shop','admin\shopController');
+        //物流管理
+        Route::resource('/logis','admin\logisController');
+        //获取商铺的主营品牌
+        Route::get('/getbrand','admin\shopController@getbrand');
+        //获取商铺的主营类别
+        Route::get('/getcat','admin\shopController@getcat');
         //商铺审核路由
         Route::get("/checkShop",'admin\checkShopController@index');
         //标签管理路由
@@ -227,7 +285,12 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         Route::resource('/thumb','admin\thumbController');
         Route::get('/getgoodthumb','admin\thumbController@getGoodThumb');
         Route::resource('/img','admin\ImgController');
+<<<<<<< HEAD
         Route::get('/getgoodimg','admin\ImgController@getGoodImg');
+=======
+        //替换商品详情图片的路由
+        Route::post('/updataimg','admin\commodityController@updateImg');
+>>>>>>> origin/renqingbin
 
         //库存管理路由
         Route::resource('/stock','admin\stockController');

@@ -55,6 +55,11 @@ class stockController extends Controller
             [
                 'gid' => $request->gid,
                 'region'=>$request->region,
+<<<<<<< HEAD
+=======
+                'location'=>$request->location,
+                'shelf'=>$request->shelf,
+>>>>>>> origin/renqingbin
                 'region_num'=>$request->regionum,
             ]
         );
@@ -111,6 +116,11 @@ class stockController extends Controller
         //修改库存信息
         $data=$this->stock->find($id);
         $data->region=$request->region;
+<<<<<<< HEAD
+=======
+        $data->location=$request->location;
+        $data->shelf=$request->shelf;
+>>>>>>> origin/renqingbin
         $data->region_num=$request->regionum;
         $result=$data->save();
 

@@ -82,7 +82,7 @@ class BusinessController extends Controller
                                 if(!$ture){
                                     //假如失败就回滚
                                     DB::rollback();
-                                    return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'修改信息失败，请重新修改']]);
+                                    return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'发布商机失败，请重新发布']]);
                                 }
                             }
                             //orm模型操作数据库会返回true或false,如果操作失败则返回错误信息
@@ -211,6 +211,60 @@ class BusinessController extends Controller
             $sql="MATCH(tags_match) AGAINST('".bin2hex($param['search'])."') and type =".$param['type']." and tag ='".$param['tag']."'";
         }
         $businessinfo_data=$business->quer($businessinfo,$sql,(($param['page']-1)*$limit),$limit);
+        $list=null;
+        if($businessinfo_data){
+            //创建图片查询的orm模型
+            $business_img=new \App\Business_img();
+            //通过数组数据的组合将数据拼凑为{"total":3,"list":[{"bid":1,"phone":"","contact":"","title":"","content":"","tag":"","created_at":"2016-02-24 08:02:50","pic":["1","2"]}格式
+            foreach ($businessinfo_data['list'] as $business_data) {
+                $value_1=$business_img->quer('img',$business_data['bid']);
+                //判断是否为空,如果是空表明没有图片
+                if(empty($value_1)){
+                    $list[]=$business_data;
+                }else{
+                    //假如不为空表明有图片，开始查询拼凑数据
+                    foreach ($value_1 as $value_2) {
+                        foreach ($value_2 as $value_3) {
+                            $img[]=$value_3;
+                        }
+                    }
+                    //重构数组，加上键值
+                    $img_data=['pic'=>$img];
+                    $list[]=array_merge($business_data,$img_data);
+                    $img=null;
+                }
+            }
+            $showphone=0;
+            if($data['guid'] == 0){
+                $showphone=0;
+            }else{
+                $users=new \App\Users();
+                $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
+                if($users_auth[0]['certification'] == 3){
+                    $showphone=1;
+                }
+            }
+            //返回数据总数和具体数据
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$businessinfo_data['total'],'showphone'=>$showphone,'list'=>$list]]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
+        }
+    }
+
+    /*
+    *   该方法提供商机首页
+    */
+    public function businessindex(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //默认每页数量
+        $limit=10;
+        //创建商机表的orm模型
+        $business=new \App\Business();
+        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at');
+        $businessinfo_data=$business->quer($businessinfo,'business_status = 1',0,$limit);
         $list=null;
         if($businessinfo_data){
             //创建图片查询的orm模型

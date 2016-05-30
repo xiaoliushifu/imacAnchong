@@ -95,7 +95,11 @@ $(function(){
             $("#stocktr").empty();
             var line;
             for(var k=0;k<data.length;k++){
+<<<<<<< HEAD
                 line='<tr class="line"> <td> <input type="text" class="region form-control" value="'+data[k].region+'" /> </td> <td> <input type="number" min="0" class="regionum form-control" value="'+data[k].region_num+'" /> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" data-id="'+data[k].stock_id+'" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除" data-id="'+data[k].stock_id+'"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
+=======
+                line='<tr class="line"> <td> <input type="text" class="region form-control" value="'+data[k].region+'" /> </td> <td><input type="text" class="location form-control" value="'+data[k].location+'"></td> <td><input type="text" class="shelf form-control" value="'+data[k].shelf+'"> </td> <td> <input type="number" min="0" class="regionum form-control" value="'+data[k].region_num+'" /> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" data-id="'+data[k].stock_id+'" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除" data-id="'+data[k].stock_id+'"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
+>>>>>>> origin/renqingbin
                 $("#stocktr").append(line);
             }
         });
@@ -125,13 +129,22 @@ $(function(){
 
     $("body").on("click",'.addcuspro',function(){
         var len=$(".line").length;
+<<<<<<< HEAD
         var line='<tr class="line"> <td> <input type="text" class="region form-control" /> </td> <td> <input type="number" min="0" class="regionum form-control" /> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
+=======
+        var line='<tr class="line"> <td> <input type="text" class="region form-control" /> </td> <td> <input type="text" class="location form-control" /></td><td><input type="text" class="shelf form-control"></td> <td> <input type="number" min="0" class="regionum form-control" /> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
+>>>>>>> origin/renqingbin
         $("#stocktr").append(line);
     });
 
     $("body").on("click",'.savestock',function(){
         var region=$(this).parentsUntil("#stocktr").find(".region").val();
         var regionum=$(this).parentsUntil("#stocktr").find(".regionum").val();
+<<<<<<< HEAD
+=======
+        var location=$(this).parentsUntil("#stocktr").find(".location").val();
+        var shelf=$(this).parentsUntil("#stocktr").find(".shelf").val();
+>>>>>>> origin/renqingbin
         if(region==""){
             alert("库存区域不能为空！");
             $(this).parentsUntil("#stocktr").find(".region").focus();
@@ -149,7 +162,11 @@ $(function(){
                 $.ajax({
                     url: "/stock",
                     type:'POST',
+<<<<<<< HEAD
                     data:{gid:gid,region:region,regionum:regionum},
+=======
+                    data:{gid:gid,region:region,location:location,shelf:shelf,regionum:regionum},
+>>>>>>> origin/renqingbin
                     success:function( response ){
                         alert(response.message);
                         $("#save").attr("data-id",response.id);
@@ -160,7 +177,11 @@ $(function(){
                 $.ajax({
                     url: "/stock/"+id,
                     type:'PUT',
+<<<<<<< HEAD
                     data:{gid:gid,region:region,regionum:regionum},
+=======
+                    data:{gid:gid,region:region,location:location,shelf:shelf,regionum:regionum},
+>>>>>>> origin/renqingbin
                     success:function( response ){
                         alert(response.message);
                     }
@@ -249,7 +270,10 @@ $(function(){
             if (objUrl) {
                 $(".isEdit").removeClass("isEdit");
                 $(this).siblings(".gallery").find(".img").addClass("isEdit");
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/renqingbin
                 if($(this).parents("li").hasClass("first")){
                 }else{
                     $(this).siblings(".gallery").before('<button type="button" class="delpic btn btn-xs btn-danger" title="删除">x</button>');

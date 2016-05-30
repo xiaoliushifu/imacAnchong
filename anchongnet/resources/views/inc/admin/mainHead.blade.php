@@ -37,7 +37,7 @@
 					</ul>
 				</li>
 				<!-- User Account: style can be found in dropdown.less -->
-					@include('inc.admin.usermain')
+				@include('inc.admin.usermain')
 				<!-- Control Sidebar Toggle Button -->
 			</ul>
 		</div>

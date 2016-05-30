@@ -96,7 +96,11 @@ class Order extends Model implements AuthenticatableContract,
     }
 
     /*
+<<<<<<< HEAD
 	* 根据条件进行收货地址搜索
+=======
+	*  根据条件进行收货地址搜索
+>>>>>>> origin/renqingbin
 	*/
     public function scopeNum($query,$keyNum)
     {
@@ -104,8 +108,13 @@ class Order extends Model implements AuthenticatableContract,
     }
 
     /*
+<<<<<<< HEAD
      * 搜索指定用户的指定状态的订单
      * */
+=======
+     *  搜索指定用户的指定状态的订单
+     */
+>>>>>>> origin/renqingbin
     public function scopeUS($query,$keyUser,$keyStatus)
     {
         return $query->where(['users_id'=>$keyUser,'state'=>$keyStatus]);

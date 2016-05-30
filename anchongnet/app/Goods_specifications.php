@@ -94,7 +94,11 @@ class Goods_specifications extends Model implements AuthenticatableContract,
     }
 
     /*
+<<<<<<< HEAD
     *   分页查询
+=======
+    *   不分页查询
+>>>>>>> origin/renqingbin
     */
     public function limitquer($field,$type)
     {

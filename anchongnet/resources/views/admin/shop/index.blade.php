@@ -74,26 +74,22 @@
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
 									<th>名称</th>
-									<th>主营品牌</th>
-									<th>品牌授权书</th>
-									<th>主营类别</th>
 									<th>店铺简介</th>
 									<th>经营地</th>
 									<th>店铺缩略图</th>
+									<th>查看</th>
 									<th>审核</th>
 								</tr>
 								@foreach ($datacol['datas'] as $data)
 								<tr>
 								    <td align="center">{{$data['name']}}</td>
-								    <td align="center">{{$data['mainbrand']}}</td>
-								    <td align="center">
-										<img src="{{$data['authorization']}}" width="50">
-									</td>
-									<td align="center">{{$data['category']}}</td>
 									<td align="center">{{$data['introduction']}}</td>
 									<td align="center">{{$data['premises']}}</td>
 									<td align="center">
 										<img src="{{$data['img']}}" width="50">
+									</td>
+									<td align="center">
+										<button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['sid']}}" data-toggle="modal" data-target="#myView">查看详情</button>
 									</td>
 								    <td align="center">
 								    <?php
@@ -112,7 +108,7 @@
 								</tr>  
 								@endforeach
 								<tr>
-								  <td colspan="8" align="center">
+								  <td colspan="7" align="center">
 									<?php echo $datacol['datas']->appends($datacol['args'])->render(); ?>
 								  </td>
 								</tr>
@@ -128,6 +124,31 @@
 		</section>
 		<!-- /.content -->
 	</div>
+<<<<<<< HEAD
+=======
+
+	<!-- Modal -->
+	<div class="modal fade" id="myView" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel"></h4>
+				</div>
+				<div class="modal-body">
+					<dl class="dl-horizontal">
+						<dt id="cat">主营类别：</dt>
+					</dl>
+					<div id="brands">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+>>>>>>> origin/renqingbin
 	<!-- /.content-wrapper -->
 	<input type="hidden" id="activeFlag" value="treeshop">
 	@include('inc.admin.footer')
@@ -156,27 +177,6 @@ if(isset($datacol['args']['audit'])){
 	}
 }
 ?>
-<script>
-	$(function(){
-		$("body").on("click",'.check-success',function(){
-			if(confirm('确定要通过吗？')){
-				var id=parseInt($(this).attr("data-id"));
-				$.get("/checkShop",{"sid":id,"certified":"yes"},function(data,status){
-					alert(data);
-					setTimeout(function(){location.reload()},1000);
-				});
-			}
-		})
-		$("body").on("click",'.check-failed',function(){
-			if(confirm('确定审核不通过吗？')){
-				var id=parseInt($(this).attr("data-id"));
-				$.get("/checkShop",{"sid":id,"certified":"no"},function(data,status){
-					alert(data);
-					setTimeout(function(){location.reload()},1000);
-				});
-			}
-		})
-	})
-</script>
+<script src="/admin/js/shop.js"></script>
 </body>
 </html>

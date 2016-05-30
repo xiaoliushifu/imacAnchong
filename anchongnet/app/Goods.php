@@ -34,7 +34,7 @@ class Goods extends Model implements AuthenticatableContract,
      */
      //不允许被赋值
     protected $guarded = ['goods_id'];
-
+    protected $primaryKey = 'goods_id';
     /**
      * The attributes excluded from the model's JSON form.
      *
