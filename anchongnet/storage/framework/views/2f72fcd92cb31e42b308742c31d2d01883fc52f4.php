@@ -37,7 +37,7 @@
 					</ul>
 				</li>
 				<!-- User Account: style can be found in dropdown.less -->
-					<?php echo $__env->make('inc.admin.usermain', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+				<?php echo $__env->make('inc.admin.usermain', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 				<!-- Control Sidebar Toggle Button -->
 			</ul>
 		</div>

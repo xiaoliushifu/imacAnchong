@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>标签列表</title>
+	<title>物流列表</title>
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<!-- Bootstrap 3.3.5 -->
@@ -30,6 +30,7 @@
 	th{text-align:center;}
 	.f-ib{display:inline-block;}
 	#example1{margin-top:10px;}
+	.radio-inline{position:relative; top:-4px;}
 	</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -46,63 +47,31 @@
 	<div class="content-wrapper">
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
-			<h1>标签浏览</h1>
+			<h1>物流列表</h1>
 		</section>
-
 		<!-- Main content -->
 		<section class="content">
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-body">
-						    <form action="/tag" method="get" class="form-horizontal form-inline f-ib">
-								标签类型：
-								<select class="form-control" name="type">
-									<option value="" id="check">请选择</option>
-									<option value="0" id="type0">区域标签</option>
-									<option value="1" id="type1">发布工程</option>
-									<option value="2" id="type2">承接工程</option>
-									<option value="3" id="type3">发布人才</option>
-									<option value="4" id="type4">招聘人才</option>
-								</select>
-						      <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
-						    </form>
-		                    <a href="/tag" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
-									<th>标签类型</th>
-									<th>标签名称</th>
+									<th>物流公司</th>
+									<th>操作</th>
 								</tr>
 								<?php foreach($datacol['datas'] as $data): ?>
 								<tr>
+								    <td align="center"><?php echo e($data['name']); ?></td>
 								    <td align="center">
-								    <?php
-								    switch ($data['type_id']){
-										case 0:
-											echo "区域标签";
-											break;
-									    case 1:
-											echo "发布工程";
-											break;
-									    case 2:
-											echo "承接工程";
-											break;
-									    case 3:
-											echo "发布人才";
-											break;
-										case 4:
-											echo "招聘人才";
-											break;
-										default:
-											echo "区域标签";
-								    }?>
-								    </td>
-									<td align="center"><?php echo e($data['tag']); ?></td>
+										<button type="button" class="edit btn btn-primary btn-xs" data-id="<?php echo e($data['l_id']); ?>" data-toggle="modal" data-target="#myView">编辑</button>
+										<button type="button" class="del btn btn-danger btn-xs" data-id="<?php echo e($data['l_id']); ?>">删除</button>
+									</td>
 								</tr>  
 								<?php endforeach; ?>
 								<tr>
 								  <td colspan="2" align="center">
-									<?php echo $datacol['datas']->appends($datacol['args'])->render(); ?>
+									<?php echo $datacol['datas']->render(); ?>
 								  </td>
 								</tr>
 							</table>
@@ -117,8 +86,40 @@
 		</section>
 		<!-- /.content -->
 	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="myView" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">编辑物流</h4>
+				</div>
+				<div class="modal-body">
+					<form role="form" class="form-horizontal" action="" method="post" id="updateform">
+						<input type="hidden" name="_method" value="PUT">
+						<div class="form-group">
+							<label class="col-sm-3 control-label" for="name">物流名称</label>
+							<div class="col-sm-6">
+								<input type="text" name="name" id="name" class="form-control">
+							</div>
+						</div><!--end form-group-->
+						<div class="form-group">
+							<label class="col-sm-3 control-label"></label>
+							<div class="col-sm-6">
+								<button type="submit" class="btn btn-primary">保存</button>
+							</div>
+						</div><!--end form-group-->
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- /.content-wrapper -->
-	<input type="hidden" id="activeFlag" value="treetag">
+	<input type="hidden" id="activeFlag" value="treeshop">
 	<?php echo $__env->make('inc.admin.footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 </div>
 <!-- ./wrapper -->
@@ -128,29 +129,7 @@
 <script src="/admin/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
-<?php
-if(isset($datacol['args']['type'])){
-	switch ($datacol['args']['type']){
-		case "":
-			echo '<script>$(function(){$("#check").attr("selected",true)})</script>';
-			break;
-		case 0:
-			echo '<script>$(function(){$("#type0").attr("selected",true)});</script>';
-			break;
-		case 1:
-			echo '<script>$(function(){$("#type1").attr("selected",true)});</script>';
-			break;
-		case 2:
-		    echo '<script>$(function(){$("#type2").attr("selected",true)});</script>';
-		    break;
-		case 3:
-			echo '<script>$(function(){$("#type3").attr("selected",true)});</script>';
-			break;
-		case 4:
-			echo '<script>$(function(){$("#type4").attr("selected",true)});</script>';
-			break;
-	}
-}
-?>
+<script src="/admin/js/jquery.form.js"></script>
+<script src="/admin/js/logis.js"></script>
 </body>
 </html>

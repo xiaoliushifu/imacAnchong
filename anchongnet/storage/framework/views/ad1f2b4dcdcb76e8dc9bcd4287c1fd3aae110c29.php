@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>标签列表</title>
+	<title>商铺列表</title>
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<!-- Bootstrap 3.3.5 -->
@@ -30,6 +30,7 @@
 	th{text-align:center;}
 	.f-ib{display:inline-block;}
 	#example1{margin-top:10px;}
+	.radio-inline{position:relative; top:-4px;}
 	</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -46,7 +47,7 @@
 	<div class="content-wrapper">
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
-			<h1>标签浏览</h1>
+			<h1>店铺浏览</h1>
 		</section>
 
 		<!-- Main content -->
@@ -55,53 +56,59 @@
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-body">
-						    <form action="/tag" method="get" class="form-horizontal form-inline f-ib">
-								标签类型：
-								<select class="form-control" name="type">
-									<option value="" id="check">请选择</option>
-									<option value="0" id="type0">区域标签</option>
-									<option value="1" id="type1">发布工程</option>
-									<option value="2" id="type2">承接工程</option>
-									<option value="3" id="type3">发布人才</option>
-									<option value="4" id="type4">招聘人才</option>
-								</select>
+						    <form action="/shop" method="get" class="form-horizontal form-inline f-ib">
+						      <input type="text" name="name"  placeholder="店铺名称" class="form-control input-sm" value="<?php echo e($datacol['args']['name']); ?>">&nbsp;
+						        审核状态：
+								<label class="radio-inline">
+									<input type="radio" name="audit" id="audit1" class="audit" value="1">待审核
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="audit" id="audit2" class="audit" value="2">审核已通过
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="audit" id="audit3" class="audit" value="3">审核未通过
+								</label>
 						      <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 						    </form>
-		                    <a href="/tag" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
+		                    <a href="/shop" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
-									<th>标签类型</th>
-									<th>标签名称</th>
+									<th>名称</th>
+									<th>店铺简介</th>
+									<th>经营地</th>
+									<th>店铺缩略图</th>
+									<th>查看</th>
+									<th>审核</th>
 								</tr>
 								<?php foreach($datacol['datas'] as $data): ?>
 								<tr>
+								    <td align="center"><?php echo e($data['name']); ?></td>
+									<td align="center"><?php echo e($data['introduction']); ?></td>
+									<td align="center"><?php echo e($data['premises']); ?></td>
+									<td align="center">
+										<img src="<?php echo e($data['img']); ?>" width="50">
+									</td>
+									<td align="center">
+										<button type="button" class="view f-ib btn btn-primary btn-xs" data-id="<?php echo e($data['sid']); ?>" data-toggle="modal" data-target="#myView">查看详情</button>
+									</td>
 								    <td align="center">
 								    <?php
-								    switch ($data['type_id']){
-										case 0:
-											echo "区域标签";
-											break;
+								    switch ($data['audit']){
 									    case 1:
-											echo "发布工程";
-											break;
+									    echo "<button type='button' data-id='{$data['sid']}' class='check-success btn btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button' data-id='{$data['sid']}'  class='check-failed btn btn-danger btn-xs'>不通过</button>";
+									    break;
 									    case 2:
-											echo "承接工程";
-											break;
+									    echo "审核已通过";
+									    break;
 									    case 3:
-											echo "发布人才";
-											break;
-										case 4:
-											echo "招聘人才";
-											break;
-										default:
-											echo "区域标签";
+									    echo "审核未通过";
+									    break;
 								    }?>
 								    </td>
-									<td align="center"><?php echo e($data['tag']); ?></td>
-								</tr>  
+								</tr>
 								<?php endforeach; ?>
 								<tr>
-								  <td colspan="2" align="center">
+								  <td colspan="7" align="center">
 									<?php echo $datacol['datas']->appends($datacol['args'])->render(); ?>
 								  </td>
 								</tr>
@@ -117,8 +124,31 @@
 		</section>
 		<!-- /.content -->
 	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="myView" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel"></h4>
+				</div>
+				<div class="modal-body">
+					<dl class="dl-horizontal">
+						<dt id="cat">主营类别：</dt>
+					</dl>
+					<div id="brands">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+>>>>>>> origin/renqingbin
 	<!-- /.content-wrapper -->
-	<input type="hidden" id="activeFlag" value="treetag">
+	<input type="hidden" id="activeFlag" value="treeshop">
 	<?php echo $__env->make('inc.admin.footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 </div>
 <!-- ./wrapper -->
@@ -129,28 +159,22 @@
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
 <?php
-if(isset($datacol['args']['type'])){
-	switch ($datacol['args']['type']){
-		case "":
-			echo '<script>$(function(){$("#check").attr("selected",true)})</script>';
-			break;
-		case 0:
-			echo '<script>$(function(){$("#type0").attr("selected",true)});</script>';
-			break;
+if(isset($datacol['args']['audit'])){
+	switch ($datacol['args']['audit']){
 		case 1:
-			echo '<script>$(function(){$("#type1").attr("selected",true)});</script>';
+			echo '<script>$(function(){$("#audit1").attr("checked",true)});</script>';
 			break;
 		case 2:
-		    echo '<script>$(function(){$("#type2").attr("selected",true)});</script>';
+		    echo '<script>$(function(){$("#audit2").attr("checked",true)});</script>';
 		    break;
 		case 3:
-			echo '<script>$(function(){$("#type3").attr("selected",true)});</script>';
+			echo '<script>$(function(){$("#audit3").attr("checked",true)});</script>';
 			break;
-		case 4:
-			echo '<script>$(function(){$("#type4").attr("selected",true)});</script>';
-			break;
+		default:
+		    echo '<script>$(function(){$("#audit1").attr("checked",false);$("#audit2").attr("checked",false)});$("#audit3").attr("checked",false)});</script>';
 	}
 }
 ?>
+<script src="/admin/js/shop.js"></script>
 </body>
 </html>

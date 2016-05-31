@@ -401,7 +401,6 @@ class BusinessController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'非法操作']]);
         }
     }
-
     /*
     *   对个人发布的商机做修改
     */

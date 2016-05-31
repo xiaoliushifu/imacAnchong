@@ -18,6 +18,8 @@
 			</a>
 			<ul class="treeview-menu">
 				<li><a href="/shop"><i class="fa fa-circle-o"></i> 商铺列表</a></li>
+				<li><a href="/logis"><i class="fa fa-circle-o"></i> 物流列表</a></li>
+				<li><a href="/logis/create"><i class="fa fa-circle-o"></i> 添加物流</a></li>
 			</ul>
 		</li>
 		<li class="treeview" id="treetag">

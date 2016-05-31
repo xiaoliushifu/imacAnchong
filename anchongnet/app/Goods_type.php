@@ -96,11 +96,4 @@ class Goods_type extends Model implements AuthenticatableContract,
     {
         return $query->where('gid', '=', $keyGid)->first();
     }
-    /*
-    *   该方法是货品信息删除
-    */
-    public function del($num)
-    {
-        return $this->where('gid', '=', $num)->delete();
-    }
 }
