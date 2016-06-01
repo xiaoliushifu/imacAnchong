@@ -30,7 +30,7 @@ class indexController extends Controller
                 $users=new \App\Users();
                 $rank=$users->quer('users_rank',['users_id'=>Auth::user()['users_id']])->toArray();
                 //判断会员的权限是否是管理员
-                if($rank[0]['users_rank'] == 3){
+                if($rank[0]['users_rank'] == 3 || $rank[0]['users_rank']==2){
                     return Redirect::intended('/');
                 }else{
                     //假如会员权限不够就清除登录状态并退出
