@@ -14,7 +14,7 @@ use Validator;
 class CommunityController extends Controller
 {
     /*
-    *   该方法提供了商机发布的功能
+    *   该方法提供了聊聊发布的功能
     */
     public function release(Request $request)
     {
@@ -160,6 +160,59 @@ class CommunityController extends Controller
     }
 
     /*
+    *   聊聊评论回复
+    */
+    public function reply(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //验证用户传过来的数据是否合法
+        $validator = Validator::make($param,
+            [
+                'content' => 'required|max:126',
+            ]
+        );
+        //如果出错返回出错信息，如果正确执行下面的操作
+        if ($validator->fails())
+        {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'评论不能超过126个字']]);
+        }else{
+            //创建用户表通过电话查询出用户电话
+            $users_message=new \App\Usermessages();
+            $users_nickname=$users_message->quer(['nickname','headpic'],['users_id'=>$data['guid']])->toArray();
+            //判断用户信息表中是否有联系人姓名
+            if(!empty($users_nickname)){
+                if(empty($users_nickname[0]['headpic'])){
+                    $headpic="";
+                }else{
+                    $headpic=$users_nickname[0]['headpic'];
+                }
+                //定义插入数据库的数据
+                $community_data=[
+                    'name' => $users_nickname[0]['nickname'],
+                    'content' => $param['content'],
+                    'created_at' => date('Y-m-d H:i:s',$data['time']),
+                    'headpic' => $headpic,
+                    'comid' => $param['comid'],
+                    'chat_id' =>$param['chat_id'],
+                    'comname' =>$param['name'],
+                ];
+                //创建ORM模型
+                $community_reply=new \App\Community_reply();
+                $ture=$community_reply->add($community_data);
+                if($ture){
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'回复成功']]);
+                }else{
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'回复失败']]);
+                }
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
+            }
+        }
+    }
+
+    /*
     *   聊聊显示
     */
     public function communityshow(Request $request)
@@ -272,13 +325,10 @@ class CommunityController extends Controller
         //创建ORM模型
         $community_release=new \App\Community_release();
         $community_img=new \App\Community_img();
-        $community_comment=new \App\Community_comment();
         //定义需要的数据
         $community_release_data=['chat_id','headpic','name','created_at','title','tags','content'];
-        $community_comment_data=['comid','name','headpic','content','created_at'];
         //查询聊聊内容
         $community_release_result=$community_release->simplequer($community_release_data,'chat_id ='.$param['chat_id'])->toArray();
-        $community_comment_result=$community_comment->simplequer($community_comment_data,'chat_id = '.$param['chat_id']);
         //定义结果
         $list=null;
         $img=null;
@@ -291,7 +341,6 @@ class CommunityController extends Controller
             }
             //判断是否有图片
             if(empty($community_img_result)){
-                $list['comment']=$community_comment_result;
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$list]);
             }else{
                 //假如不为空表明有图片，开始查询拼凑数据
@@ -302,7 +351,6 @@ class CommunityController extends Controller
                 }
                 //重构数组，加上键值
                 $list['pic']=$img;
-                $list['comment']=$community_comment_result;
             }
             if(!empty($list)){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$list]);
@@ -315,7 +363,62 @@ class CommunityController extends Controller
     }
 
     /*
-    *   该方法提供聊聊详情查询
+    *   该方法提供聊聊详情评论查看
+    */
+    public function communitycom(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //默认每页数量
+        $limit=10;
+        //创建ORM模型
+        $community_comment=new \App\Community_comment();
+        $community_reply=new \App\Community_reply();
+        $community_comment_data=['comid','name','headpic','content','created_at'];
+        //定义评论数组
+        $commentlist=null;
+        $community_comment_results=$community_comment->quer($community_comment_data,'chat_id = '.$param['chat_id'],(($param['page']-1)*$limit),$limit);
+        if($community_comment_results['total'] > 0 ){
+            foreach ($community_comment_results['list'] as $commentarr) {
+                //查询评论回复
+                $community_reply_result=$community_reply->quer(['reid','name','content','comname'],"comid = ".$commentarr['comid'],0,2)->toArray();
+                //在评论内容数组中添加回复内容
+                $commentarr['reply']=$community_reply_result;
+                //组合数组
+                $commentlist[]=$commentarr;
+            }
+        }
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_comment_results['total'],'list'=>$commentlist]]);
+    }
+    /*
+    *   该方法提供聊聊评论详情查询
+    */
+    public function commentinfo(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $community_comment=new \App\Community_comment();
+        $community_reply=new \App\Community_reply();
+        $community_comment_data=['comid','name','headpic','content','created_at'];
+        $community_reply_data=['reid','name','content','headpic','created_at','comname'];
+        //查询评论
+        $community_comment_results=$community_comment->simplequer($community_comment_data,'comid = '.$param['comid'])->toArray();
+        $community_reply_result=$community_reply->simplequer($community_reply_data,'comid = '.$param['comid'])->toArray();
+        foreach ($community_comment_results as $result) {
+            $result['reply']=$community_reply_result;
+        }
+        if(!empty($result) && !empty($community_reply_result)){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>"查看详情失败，请刷新"]]);
+        }
+    }
+
+    /*
+    *   该方法提供聊聊删除
     */
     public function communitydel(Request $request)
     {
@@ -326,6 +429,7 @@ class CommunityController extends Controller
         $community_release=new \App\Community_release();
         $community_img=new \App\Community_img();
         $community_comment=new \App\Community_comment();
+        $community_reply=new \App\community_reply();
         //开启事务处理
         DB::beginTransaction();
         $community_release_result=$community_release->communitydel($param['chat_id']);
@@ -334,9 +438,16 @@ class CommunityController extends Controller
             if($community_img_result){
                 $community_comment_result=$community_comment->delcomment($param['chat_id']);
                 if($community_comment_result){
-                    //假如成功就提交
-                    DB::commit();
-                    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'删除成功']]);
+                    $community_comment_reply=$community_reply->delcomment($param['chat_id']);
+                    if($community_comment_reply){
+                        //假如成功就提交
+                        DB::commit();
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'删除成功']]);
+                    }else{
+                        //假如失败就回滚
+                        DB::rollback();
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'删除失败']]);
+                    }
                 }else{
                     //假如失败就回滚
                     DB::rollback();

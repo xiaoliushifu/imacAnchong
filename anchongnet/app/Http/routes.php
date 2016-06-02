@@ -187,12 +187,18 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/community/release','Api\Community\CommunityController@release');
         //发布评论
         Route::post('/community/comment','Api\Community\CommunityController@comment');
+        //回复评论
+        Route::post('/community/reply','Api\Community\CommunityController@reply');
         //聊聊首页显示
         Route::post('/community/communityshow','Api\Community\CommunityController@communityshow');
         //我的聊聊显示
         Route::post('/community/mycommunity','Api\Community\CommunityController@mycommunity');
         //聊聊详情
         Route::post('/community/communityinfo','Api\Community\CommunityController@communityinfo');
+        //聊聊详情
+        Route::post('/community/communitycom','Api\Community\CommunityController@communitycom');
+        //评论详情
+        Route::post('/community/commentinfo','Api\Community\CommunityController@commentinfo');
         //删除聊聊
         Route::post('/community/communitydel','Api\Community\CommunityController@communitydel');
     });

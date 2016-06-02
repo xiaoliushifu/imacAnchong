@@ -31,7 +31,7 @@ class Community_release extends Model
    }
 
    /*
-   *   查询聊聊的评论信息
+   *   查询聊聊的信息
    */
    public function quer($field,$type,$pos,$limit)
    {

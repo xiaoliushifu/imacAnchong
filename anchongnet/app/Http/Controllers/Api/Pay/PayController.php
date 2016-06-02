@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\\Api\Pay;
 
-use Illuminate\Http\Request;
-
+use Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use DB;
 
 /*
 *   支付控制器
@@ -43,6 +43,5 @@ class PayController extends Controller
             'img' => $param['img']
         ];
         $results=$Auth->add($foreach);
-
     }
 }
