@@ -259,7 +259,7 @@ class CommunityController extends Controller
             //返回数据总数和具体数据
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_release_result['total'],'list'=>$list]]);
         }else{
-            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>"查询失败"]]);
         }
     }
 
@@ -310,7 +310,7 @@ class CommunityController extends Controller
             //返回数据总数和具体数据
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_release_result['total'],'list'=>$list]]);
         }else{
-            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>"查询失败"]]);
         }
     }
 
@@ -414,6 +414,90 @@ class CommunityController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>"查看详情失败，请刷新"]]);
+        }
+    }
+
+    /*
+    *   我收藏的聊聊
+    */
+    public function mycollect(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        $limit=10;
+        //创建的orm模型
+        $community_release=new \App\Community_release();
+        $community_collect=new \App\Community_collect();
+        //查询数据
+        $community_release_data=['chat_id','title','name','content','created_at','tags','headpic','comnum'];
+        //定义结果数组
+        $list=null;
+        //查询收藏的聊聊id和数量
+        $community_collect_result=$community_collect->quer('chat_id','users_id ='.$data['guid'],(($param['page']-1)*$limit),$limit);
+        if($community_collect_result['total'] == 0){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>[]]);
+        }
+        //遍历查到的收藏的聊聊数量
+        foreach ($community_collect_result['list'] as $collectarr) {
+            $community_release_result=$community_release->simplequer($community_release_data,'chat_id='.$collectarr['chat_id'])->toArray();
+            if($community_release_result){
+                $list[]=$community_release_result[0];
+            }
+        }
+        if($list){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_collect_result['total'],'list'=>$list]]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>"查询失败，请刷新"]]);
+        }
+    }
+
+    /*
+    *   该方法提供收藏聊聊
+    */
+    public function addcollect(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $community_collect=new \App\Community_collect();
+        $community_data=[
+            'chat_id' => $param['chat_id'],
+            'users_id' => $data['guid'],
+            'created_at' => date('Y-m-d H:i:s',$data['time'])
+        ];
+        //查询是否已收藏
+        $count=$community_collect->countquer('users_id ='.$data['guid'].' and chat_id = '.$param['chat_id']);
+        //判断聊聊是否收藏
+        if($count > 0){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'该聊聊已收藏']]);
+        }else{
+            //收藏聊聊
+            $result=$community_collect->add($community_data);
+            if($result){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'收藏成功']]);
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'收藏失败']]);
+            }
+        }
+    }
+
+    /*
+    *   该方法提供聊聊取消收藏
+    */
+    public function delcollect(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $community_collect=new \App\Community_collect();
+        $result=$community_collect->del('users_id ='.$data['guid'].' and chat_id = '.$param['chat_id']);
+        if($result){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'取消成功']]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'取消失败']]);
         }
     }
 

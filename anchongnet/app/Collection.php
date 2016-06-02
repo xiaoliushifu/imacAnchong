@@ -43,6 +43,7 @@ class Collection extends Model
             return false;
         }
     }
+
     /*
     *   取消收藏
     */
