@@ -197,7 +197,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/community/mycollect','Api\Community\CommunityController@mycollect');
         //聊聊详情
         Route::post('/community/communityinfo','Api\Community\CommunityController@communityinfo');
-        //聊聊详情
+        //聊聊详情评论
         Route::post('/community/communitycom','Api\Community\CommunityController@communitycom');
         //评论详情
         Route::post('/community/commentinfo','Api\Community\CommunityController@commentinfo');
@@ -279,7 +279,6 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         Route::get('/getStock','admin\stockController@getStock');
         //更新货品的库存总数
         Route::get('/getotal','admin\stockController@getTotal');
-
         //商品属性路由
         Route::resource('/attr','admin\attrController');
         //获取同一个商品的所有属性信息的路由

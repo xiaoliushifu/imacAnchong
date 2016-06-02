@@ -228,9 +228,9 @@ class CommunityController extends Controller
         $community_release_data=['chat_id','title','name','content','created_at','tags','headpic','comnum'];
         //判断是否是筛选
         if(empty($param['tags'])){
-            $sql="auth =1";
+            $sql="auth = 1";
         }else{
-            $sql="MATCH(tags_match) AGAINST('".bin2hex($param['tags'])."') and auth=1";
+            $sql="MATCH(tags_match) AGAINST('".bin2hex($param['tags'])."') and auth = 1";
         }
         $community_release_result=$community_release->quer($community_release_data,$sql,(($param['page']-1)*$limit),$limit);
         //定义结果列表数组
@@ -279,9 +279,9 @@ class CommunityController extends Controller
         $community_release_data=['chat_id','title','name','content','created_at','tags','headpic','comnum'];
         //判断是否是筛选
         if(empty($param['tags'])){
-            $sql="users_id =".$data['guid']." and auth =1";
+            $sql="users_id =".$data['guid']." and auth = 1";
         }else{
-            $sql="users_id =".$data['guid']." and MATCH(tags_match) AGAINST('".bin2hex($param['tags'])."') and auth=1";
+            $sql="users_id =".$data['guid']." and MATCH(tags_match) AGAINST('".bin2hex($param['tags'])."') and auth= 1";
         }
         $community_release_result=$community_release->quer($community_release_data,$sql,(($param['page']-1)*$limit),$limit);
         //定义结果列表数组

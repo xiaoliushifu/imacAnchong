@@ -558,7 +558,7 @@ class ShopsController extends Controller
                 $result['showprice']=$showprice;
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
             }else{
-                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>[]]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>[]]);
             }
 
         }
