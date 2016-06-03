@@ -207,6 +207,12 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/community/delcollect','Api\Community\CommunityController@delcollect');
         //删除聊聊
         Route::post('/community/communitydel','Api\Community\CommunityController@communitydel');
+
+        /*
+        *   支付模块
+        */
+        //支付宝
+
     });
 });
 
@@ -216,6 +222,11 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
     Route::get('/captcha/{num}', 'CaptchaController@captcha');
     //登录检查
     Route::any('/checklogin','admin\indexController@checklogin');
+    Route::get('/pay/alipay','Api\Pay\PayController@alipay');
+    //支付后跳转页面
+    Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
+    //支付后跳转页面
+    Route::any('pay/webreturn','Api\Pay\PayController@webreturn');
     //加中间件的路由组
     Route::group(['middleware' => 'LoginAuthen'], function () {
         //首页路由

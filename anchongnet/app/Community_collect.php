@@ -21,7 +21,7 @@ class Community_collect extends Model
     */
     public function quer($field,$type,$pos,$limit)
     {
-         return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get()];
+         return $this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get();
     }
 
 

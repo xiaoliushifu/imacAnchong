@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\\Api\Pay;
+namespace App\Http\Controllers\Api\Pay;
 
 use Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB;
+use Omnipay;
+use Input;
+use Log;
 
 /*
 *   支付控制器
@@ -15,33 +18,74 @@ class PayController extends Controller
     /*
     *   该方法是支付宝的支付接口
     */
-    public function alipayindex(Request $request)
+    public function alipay()
     {
-        $data=$request::all();
-        $param=json_decode($data,true);
-        //分页限制
-        $limit=20;
-        //创建ORM模型
-        $Auth=new Auth();
-        $auth_data=['action','price','goods_name','img','detail','pic'];
-        $result=$Auth->quer($auth_data,$sql,$limit);
-        if($result){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
-        }elseif($result['action']){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result['action']]);
-        }elseif($result['list']){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>16,'ResultData'=>['Message'=>"支付失败"]])
-        }
-        $list=trim($this->request);
-        $list += $limit * $param['page'] - 1;
-        $foreach=[
-            'price' => $param['price'],
-            'goods_name' => $param['goods_name'],
-            'goods_id' => $param['goods_id'],
-            'gid' => $param['gid'],
-            'title' => $param['title'],
-            'img' => $param['img']
-        ];
-        $results=$Auth->add($foreach);
+            // 创建支付单。
+        $alipay = app('alipay.web');
+        $alipay->setOutTradeNo('5534534534534');
+        $alipay->setTotalFee('0.01');
+        $alipay->setSubject('安虫测试付款单');
+        $alipay->setBody('goods_description');
+
+        //$alipay->setQrPayMode('4'); //该设置为可选，添加该参数设置，支持二维码支付。
+
+        // 跳转到支付页面。
+        return redirect()->to($alipay->getPayLink());
     }
+
+    /*
+    *   异步通知
+    */
+   public function webnotify()
+   {
+       // 验证请求。
+       if (! app('alipay.web')->verify()) {
+           Log::notice('Alipay notify post data verification fail.', [
+               'data' => Request::instance()->getContent()
+           ]);
+           return 'fail';
+       }
+
+       // 判断通知类型。
+       switch (Input::get('trade_status')) {
+           case 'TRADE_SUCCESS':
+           case 'TRADE_FINISHED':
+               // TODO: 支付成功，取得订单号进行其它相关操作。
+               Log::debug('Alipay notify post data verification success.', [
+                   'out_trade_no' => Input::get('out_trade_no'),
+                   'trade_no' => Input::get('trade_no')
+               ]);
+               break;
+       }
+
+       return 'success';
+   }
+
+   /*
+    *   同步通知
+    */
+   public function webreturn()
+   {
+       // 验证请求。
+       if (! app('alipay.web')->verify()) {
+           Log::notice('Alipay return query data verification fail.', [
+               'data' => Request::getQueryString()
+           ]);
+           return view('test');
+       }
+
+       // 判断通知类型。
+       switch (Input::get('trade_status')) {
+           case 'TRADE_SUCCESS':
+           case 'TRADE_FINISHED':
+               // TODO: 支付成功，取得订单号进行其它相关操作。
+               Log::debug('Alipay notify get data verification success.', [
+                   'out_trade_no' => Input::get('out_trade_no'),
+                   'trade_no' => Input::get('trade_no')
+               ]);
+               break;
+       }
+
+       return view('test');
+   }
 }

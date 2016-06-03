@@ -325,13 +325,21 @@ class CommunityController extends Controller
         //创建ORM模型
         $community_release=new \App\Community_release();
         $community_img=new \App\Community_img();
+        $community_collect=new \App\Community_collect();
         //定义需要的数据
         $community_release_data=['chat_id','headpic','name','created_at','title','tags','content'];
         //查询聊聊内容
         $community_release_result=$community_release->simplequer($community_release_data,'chat_id ='.$param['chat_id'])->toArray();
+        //查询是否已收藏
+        $count=$community_collect->countquer('users_id ='.$data['guid'].' and chat_id = '.$param['chat_id']);
         //定义结果
         $list=null;
         $img=null;
+        if($count>0){
+            $list['collresult']=1;
+        }else{
+            $list['collresult']=0;
+        }
         //判断是否查到该条聊聊
         if(!empty($community_release_result)){
             $community_img_result=$community_img->quer('img',$param['chat_id']);
@@ -433,20 +441,42 @@ class CommunityController extends Controller
         $community_release_data=['chat_id','title','name','content','created_at','tags','headpic','comnum'];
         //定义结果数组
         $list=null;
+        $results=null;
+        $total=0;
         //查询收藏的聊聊id和数量
-        $community_collect_result=$community_collect->quer('chat_id','users_id ='.$data['guid'],(($param['page']-1)*$limit),$limit);
-        if($community_collect_result['total'] == 0){
+        $community_collect_result=$community_collect->quer('chat_id','users_id ='.$data['guid'],(($param['page']-1)*$limit),$limit)->toArray();
+        if(empty($community_collect_result)){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>[]]);
         }
         //遍历查到的收藏的聊聊数量
-        foreach ($community_collect_result['list'] as $collectarr) {
+        foreach ($community_collect_result as $collectarr) {
             $community_release_result=$community_release->simplequer($community_release_data,'chat_id='.$collectarr['chat_id'])->toArray();
             if($community_release_result){
-                $list[]=$community_release_result[0];
+                //创建图片查询的orm模型
+                $community_img=new \App\Community_img();
+                $value_1=$community_img->quer('img',$community_release_result[0]['chat_id']);
+                //判断是否为空,如果是空表明没有图片
+                if(empty($value_1)){
+                    $list[]=$community_release_result[0];
+                }else{
+                    //假如不为空表明有图片，开始查询拼凑数据
+                    foreach ($value_1 as $value_2) {
+                        foreach ($value_2 as $value_3) {
+                            $img[]=$value_3;
+                        }
+                    }
+                    //重构数组，加上键值
+                    $img_data=['pic'=>$img];
+                    $list[]=array_merge($community_release_result[0],$img_data);
+                    $img=null;
+                }
+                $result[]=$list;
+                $total+=1;
+                $list=null;
             }
         }
-        if($list){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_collect_result['total'],'list'=>$list]]);
+        if($result){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$total,'list'=>$result]]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>"查询失败，请刷新"]]);
         }
