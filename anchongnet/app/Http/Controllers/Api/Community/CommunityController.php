@@ -446,7 +446,7 @@ class CommunityController extends Controller
         //查询收藏的聊聊id和数量
         $community_collect_result=$community_collect->quer('chat_id','users_id ='.$data['guid'],(($param['page']-1)*$limit),$limit)->toArray();
         if(empty($community_collect_result)){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>[]]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$total,'list'=>[]]]);
         }
         //遍历查到的收藏的聊聊数量
         foreach ($community_collect_result as $collectarr) {
@@ -543,7 +543,7 @@ class CommunityController extends Controller
         $community_release=new \App\Community_release();
         $community_img=new \App\Community_img();
         $community_comment=new \App\Community_comment();
-        $community_reply=new \App\community_reply();
+        $community_reply=new \App\Community_reply();
         //开启事务处理
         DB::beginTransaction();
         $community_release_result=$community_release->communitydel($param['chat_id']);

@@ -59,5 +59,4 @@ class Community_collect extends Model
             return false;
         }
     }
-
 }

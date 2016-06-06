@@ -212,7 +212,21 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         *   支付模块
         */
         //支付宝
+        Route::get('/pay/alipay','Api\Pay\PayController@alipay');
+        //支付后跳转页面
+        Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
+        //支付后跳转页面
+        Route::any('pay/webreturn','Api\Pay\PayController@webreturn');
 
+        /*
+        *   广告模块
+        */
+        //商机广告
+        Route::post('/advert/businessadvert','Api\Advert\AdvertController@businessadvert');
+        //商品广告
+        Route::post('/advert/goodsadvert','Api\Advert\AdvertController@goodsadvert');
+        //聊聊广告
+        Route::post('/advert/comunityadvert','Api\Advert\AdvertController@communityadvert');
     });
 });
 
@@ -222,11 +236,6 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
     Route::get('/captcha/{num}', 'CaptchaController@captcha');
     //登录检查
     Route::any('/checklogin','admin\indexController@checklogin');
-    Route::get('/pay/alipay','Api\Pay\PayController@alipay');
-    //支付后跳转页面
-    Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
-    //支付后跳转页面
-    Route::any('pay/webreturn','Api\Pay\PayController@webreturn');
     //加中间件的路由组
     Route::group(['middleware' => 'LoginAuthen'], function () {
         //首页路由
