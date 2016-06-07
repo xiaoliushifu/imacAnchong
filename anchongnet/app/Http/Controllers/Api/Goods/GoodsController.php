@@ -157,7 +157,7 @@ class GoodsController extends Controller
             $result['showprice']=$showprice;
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }else{
-            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'商品信息获取失败，请刷新']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'暂无商品，敬请期待']]);
         }
     }
 
@@ -358,7 +358,7 @@ class GoodsController extends Controller
         //定义一个商品属性的空数组
         $goodsvalue=null;
         foreach ($results as $attribute) {
-            $type_arr=explode(' ',$attribute['value']);
+            $type_arr=explode(' ',trim($attribute['value']));
             $goodsvalue[]=['name'=>$attribute['name'],'value'=>$type_arr];
         }
         if(!empty($goodsvalue)){
@@ -394,6 +394,6 @@ class GoodsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$value]);
             }
         }
-        return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'该商品已售罄']]);
+        return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'商品无库存，联系客服']]);
     }
 }

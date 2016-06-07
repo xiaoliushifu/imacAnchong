@@ -13,7 +13,8 @@
         "qiniu/php-sdk": "^7.0",
         "aliyuncs/oss-sdk-php": "^2.0",
 		"intervention/image": "^2.3",
-        "stevenyangecho/laravel-u-editor": "~1.1"
+        "stevenyangecho/laravel-u-editor": "~1.1",
+        "latrell/alipay":"dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -191,14 +191,46 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/community/release','Api\Community\CommunityController@release');
         //发布评论
         Route::post('/community/comment','Api\Community\CommunityController@comment');
+        //回复评论
+        Route::post('/community/reply','Api\Community\CommunityController@reply');
         //聊聊首页显示
         Route::post('/community/communityshow','Api\Community\CommunityController@communityshow');
         //我的聊聊显示
         Route::post('/community/mycommunity','Api\Community\CommunityController@mycommunity');
+        //我收藏的聊聊
+        Route::post('/community/mycollect','Api\Community\CommunityController@mycollect');
         //聊聊详情
         Route::post('/community/communityinfo','Api\Community\CommunityController@communityinfo');
+        //聊聊详情评论
+        Route::post('/community/communitycom','Api\Community\CommunityController@communitycom');
+        //评论详情
+        Route::post('/community/commentinfo','Api\Community\CommunityController@commentinfo');
+        //收藏聊聊
+        Route::post('/community/addcollect','Api\Community\CommunityController@addcollect');
+        //取消收藏聊聊
+        Route::post('/community/delcollect','Api\Community\CommunityController@delcollect');
         //删除聊聊
         Route::post('/community/communitydel','Api\Community\CommunityController@communitydel');
+
+        /*
+        *   支付模块
+        */
+        //支付宝
+        Route::get('/pay/alipay','Api\Pay\PayController@alipay');
+        //支付后跳转页面
+        Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
+        //支付后跳转页面
+        Route::any('pay/webreturn','Api\Pay\PayController@webreturn');
+
+        /*
+        *   广告模块
+        */
+        //商机广告
+        Route::post('/advert/businessadvert','Api\Advert\AdvertController@businessadvert');
+        //商品广告
+        Route::post('/advert/goodsadvert','Api\Advert\AdvertController@goodsadvert');
+        //聊聊广告
+        Route::post('/advert/comunityadvert','Api\Advert\AdvertController@communityadvert');
     });
 });
 
@@ -271,7 +303,6 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         Route::get('/getStock','admin\stockController@getStock');
         //更新货品的库存总数
         Route::get('/getotal','admin\stockController@getTotal');
-
         //商品属性路由
         Route::resource('/attr','admin\attrController');
         //获取同一个商品的所有属性信息的路由

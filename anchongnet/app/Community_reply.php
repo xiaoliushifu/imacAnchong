@@ -5,16 +5,16 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /*
-*   该模型是操作聊聊评论表的模块
+*   该模型是操作聊聊评论回复表的模块
 */
-class Community_comment extends Model
+class Community_reply extends Model
 {
-    protected $table = 'anchong_community_comment';
+    protected $table = 'anchong_community_reply';
     public $timestamps = false;
     //不允许被赋值
-    protected $guarded = ['comid'];
+    protected $guarded = ['reid'];
     //定义主键
-    protected $primaryKey = 'comid';
+    protected $primaryKey = 'reid';
 
     /*
     *   该方法是添加聊聊评论信息
@@ -31,24 +31,23 @@ class Community_comment extends Model
     }
 
     /*
-    *   查询聊聊评论的信息带分页
+    *   查询聊聊回复的信息限制查询
     */
     public function quer($field,$type,$pos,$limit)
     {
-         return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get()->toArray()];
+         return $this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get();
     }
 
-
     /*
-    *   查询聊聊的评论信息
+    *   简单查询聊聊的评论回复信息
     */
     public function simplequer($field,$type)
     {
-         return $this->select($field)->whereRaw($type)->get();
+         return $this->select($field)->whereRaw($type)->orderBy('created_at', 'DESC')->get();
     }
 
     /*
-    *   删除评论
+    *   删除评论回复
     */
     public function delcomment($id)
     {

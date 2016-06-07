@@ -5,29 +5,32 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /*
-*   该模快是操作收藏表的
+*   该模型是操作聊聊收藏表的模块
 */
-class Collection extends Model
+class Community_collect extends Model
 {
-    protected $table = 'anchong_collection';
-    protected $primaryKey = 'rec_id';
-    protected $guarded = ['rec_id'];
+    protected $table = 'anchong_community_collect';
     public $timestamps = false;
-
-    /*
-    *   收藏查询
-    */
-    public function quer($type)
-    {
-        return $this->whereRaw($type)->count();
-    }
+    //不允许被赋值
+    protected $guarded = ['collect_id'];
+    //定义主键
+    protected $primaryKey = 'collect_id';
 
     /*
     *   收藏查询内容
     */
-    public function querinfo($field,$type)
+    public function quer($field,$type,$pos,$limit)
     {
-        return $this->select($field)->whereRaw($type)->get();
+         return $this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get();
+    }
+
+
+    /*
+    *   收藏查询
+    */
+    public function countquer($type)
+    {
+        return $this->whereRaw($type)->count();
     }
 
     /*
