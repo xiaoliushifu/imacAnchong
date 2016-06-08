@@ -54,7 +54,6 @@ class AdvertController extends Controller
             }
         }
         //热门工程
-        //热门招标查询
         $businessinfo_data_all=$business->simplequer($businessinfo,'recommend = 1 and type in (1,2)',0,3);
         $list_all=null;
         if($businessinfo_data_all){

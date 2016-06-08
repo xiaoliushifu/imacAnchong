@@ -331,8 +331,6 @@ class GoodsController extends Controller
         $goods_data=['gid','title','price','img','goods_id'];
         $result=$goodssupporting->quer($goods_data,'assoc_gid = '.$param['goods_id'])->toArray();
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
-
-
     }
 
     /*
@@ -348,9 +346,16 @@ class GoodsController extends Controller
         $results=$Goods_attribute->quer(['name','value'],'goods_id ='.$param['goods_id'])->toArray();
         //定义一个商品属性的空数组
         $goodsvalue=null;
+        $typearr=null;
         foreach ($results as $attribute) {
             $type_arr=explode(' ',trim($attribute['value']));
-            $goodsvalue[]=['name'=>$attribute['name'],'value'=>$type_arr];
+            foreach($type_arr as $type_arrs){
+                if($type_arrs){
+                    $typearr[]=$type_arrs;
+                }
+            }
+            $goodsvalue[]=['name'=>$attribute['name'],'value'=>$typearr];
+            $typearr=null;
         }
         if(!empty($goodsvalue)){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$goodsvalue]);
