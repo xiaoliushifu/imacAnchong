@@ -252,19 +252,21 @@ class BusinessController extends Controller
     }
 
     /*
-    *   该方法提供商机首页
+    *   该方法提供热门招标项目查询
     */
-    public function businessindex(Request $request)
+    public function businesshot(Request $request)
     {
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
         $param=json_decode($data['param'],true);
         //默认每页数量
-        $limit=10;
+        $limit=20;
         //创建商机表的orm模型
         $business=new \App\Business();
         $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at');
-        $businessinfo_data=$business->quer($businessinfo,'business_status = 1',0,$limit);
+        //假如没有检索则sql语句为
+        $sql='recommend = 1 and type = 1';
+        $businessinfo_data=$business->quer($businessinfo,$sql,(($param['page']-1)*$limit),$limit);
         $list=null;
         if($businessinfo_data){
             //创建图片查询的orm模型
@@ -300,6 +302,174 @@ class BusinessController extends Controller
             }
             //返回数据总数和具体数据
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$businessinfo_data['total'],'showphone'=>$showphone,'list'=>$list]]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
+        }
+    }
+
+    /*
+    *   该方法提供热门工程项目查询
+    */
+    public function hotproject(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //默认每页数量
+        $limit=20;
+        //创建商机表的orm模型
+        $business=new \App\Business();
+        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at');
+        //假如没有检索则sql语句为
+        $sql='recommend = 1 and type in(1,2)';
+        $businessinfo_data=$business->quer($businessinfo,$sql,(($param['page']-1)*$limit),$limit);
+        $list=null;
+        if($businessinfo_data){
+            //创建图片查询的orm模型
+            $business_img=new \App\Business_img();
+            //通过数组数据的组合将数据拼凑为{"total":3,"list":[{"bid":1,"phone":"","contact":"","title":"","content":"","tag":"","created_at":"2016-02-24 08:02:50","pic":["1","2"]}格式
+            foreach ($businessinfo_data['list'] as $business_data) {
+                $value_1=$business_img->quer('img',$business_data['bid']);
+                //判断是否为空,如果是空表明没有图片
+                if(empty($value_1)){
+                    $list[]=$business_data;
+                }else{
+                    //假如不为空表明有图片，开始查询拼凑数据
+                    foreach ($value_1 as $value_2) {
+                        foreach ($value_2 as $value_3) {
+                            $img[]=$value_3;
+                        }
+                    }
+                    //重构数组，加上键值
+                    $img_data=['pic'=>$img];
+                    $list[]=array_merge($business_data,$img_data);
+                    $img=null;
+                }
+            }
+            $showphone=0;
+            if($data['guid'] == 0){
+                $showphone=0;
+            }else{
+                $users=new \App\Users();
+                $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
+                if($users_auth[0]['certification'] == 3){
+                    $showphone=1;
+                }
+            }
+            //返回数据总数和具体数据
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$businessinfo_data['total'],'showphone'=>$showphone,'list'=>$list]]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
+        }
+    }
+
+    /*
+    *   该方法提供最新招标项目查询
+    */
+    public function recent(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //默认每页数量
+        $limit=20;
+        //创建商机表的orm模型
+        $business=new \App\Business();
+        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at');
+        //假如没有检索则sql语句为
+        $sql='recommend = 1 and type in(1,2)';
+        //根据标签检索
+        $sql=" tag = '".$param['tag']."'";
+        $businessinfo_data=$business->quer($businessinfo,$sql,(($param['page']-1)*$limit),$limit);
+        $list=null;
+        if($businessinfo_data){
+            //创建图片查询的orm模型
+            $business_img=new \App\Business_img();
+            //通过数组数据的组合将数据拼凑为{"total":3,"list":[{"bid":1,"phone":"","contact":"","title":"","content":"","tag":"","created_at":"2016-02-24 08:02:50","pic":["1","2"]}格式
+            foreach ($businessinfo_data['list'] as $business_data) {
+                $value_1=$business_img->quer('img',$business_data['bid']);
+                //判断是否为空,如果是空表明没有图片
+                if(empty($value_1)){
+                    $list[]=$business_data;
+                }else{
+                    //假如不为空表明有图片，开始查询拼凑数据
+                    foreach ($value_1 as $value_2) {
+                        foreach ($value_2 as $value_3) {
+                            $img[]=$value_3;
+                        }
+                    }
+                    //重构数组，加上键值
+                    $img_data=['pic'=>$img];
+                    $list[]=array_merge($business_data,$img_data);
+                    $img=null;
+                }
+            }
+            $showphone=0;
+            if($data['guid'] == 0){
+                $showphone=0;
+            }else{
+                $users=new \App\Users();
+                $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
+                if($users_auth[0]['certification'] == 3){
+                    $showphone=1;
+                }
+            }
+            //返回数据总数和具体数据
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$businessinfo_data['total'],'showphone'=>$showphone,'list'=>$list]]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
+        }
+    }
+
+
+    /*
+    *   该方法提供商机首页
+    */
+    public function businessindex(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建商机表的orm模型
+        $business=new \App\Business();
+        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at');
+        //单个商机查询
+        $businessinfo_data=$business->quertime($businessinfo,'bid='.$param['bid'])->toArray();
+        $list=null;
+        if($businessinfo_data){
+            //创建图片查询的orm模型
+            $business_img=new \App\Business_img();
+            //通过数组数据的组合将数据拼凑
+            foreach ($businessinfo_data as $business_data) {
+                $value_1=$business_img->quer('img',$business_data['bid']);
+                //判断是否为空,如果是空表明没有图片
+                if(empty($value_1)){
+                    $list['data']=$business_data;
+                }else{
+                    //假如不为空表明有图片，开始查询拼凑数据
+                    foreach ($value_1 as $value_2) {
+                        foreach ($value_2 as $value_3) {
+                            $img[]=$value_3;
+                        }
+                    }
+                    //重构数组，加上键值
+                    $img_data=['pic'=>$img];
+                    $list['data']=array_merge($business_data,$img_data);
+                }
+            }
+            $showphone=0;
+            if($data['guid'] == 0){
+                $showphone=0;
+            }else{
+                $users=new \App\Users();
+                $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
+                if($users_auth[0]['certification'] == 3){
+                    $showphone=1;
+                }
+            }
+            $list['showphone']=$showphone;
+            //返回数据总数和具体数据
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$list]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
         }

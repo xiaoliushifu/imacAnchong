@@ -97,4 +97,12 @@ class Business extends Model implements AuthenticatableContract,
     {
         return $this->select($field)->whereRaw($type)->get();
     }
+
+    /*
+    *   查询商机信息无总数统计
+    */
+    public function simplequer($field,$type,$pos,$limit)
+    {
+         return $this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get()->toArray();
+    }
 }
