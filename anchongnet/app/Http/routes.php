@@ -223,15 +223,15 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
         //支付后跳转页面
         Route::any('pay/webreturn','Api\Pay\PayController@webreturn');
-
+        
         /*
         *   广告模块
         */
-        //商机广告
+        //商机首页广告
         Route::post('/advert/businessadvert','Api\Advert\AdvertController@businessadvert');
-        //商品广告
+        //商城首页广告
         Route::post('/advert/goodsadvert','Api\Advert\AdvertController@goodsadvert');
-        //聊聊广告
+        //聊聊首页广告
         Route::post('/advert/comunityadvert','Api\Advert\AdvertController@communityadvert');
     });
 });

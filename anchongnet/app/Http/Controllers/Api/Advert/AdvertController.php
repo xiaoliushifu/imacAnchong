@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 class AdvertController extends Controller
 {
     /*
-    *   该方法是广告轮播图的功能
+    *   该方法是商机的首页
     */
     public function businessadvert(Request $request)
     {
@@ -90,7 +90,7 @@ class AdvertController extends Controller
             }
         }
         //判断结果是否为空
-        if(!empty($ad_result_pic && $list && $ad_result_area && $list_all)){
+        if(!empty($ad_result_pic) && !empty($list) && !empty($ad_result_area) && !empty($list_all)){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['pic'=>$ad_result_pic,'recommend'=>$list,'recent'=>$ad_result_area,'hotproject'=>$list_all,'showphone'=>$showphone]]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>16,'ResultData'=>['Message'=>'加载失败，请刷新']]);
@@ -98,7 +98,7 @@ class AdvertController extends Controller
     }
 
     /*
-    *   该方法是广告轮播图的功能
+    *   该方法是商城的首页
     */
     public function goodsadvert(Request $request)
     {
@@ -107,17 +107,17 @@ class AdvertController extends Controller
         $param=json_decode($data['param'],true);
         //创建ORM模型
         $ad=new \App\Ad();
-        $ad_result=$ad->quer('ad_code','position_id = 3 and media_type = 0 and enabled = 1',0,4)->toArray();
-        //定义图片数组
-        $pic=null;
-        //遍历数组组合
-        foreach ($ad_result as $results) {
-            //将图片放入数组
-            $pic[]=$results['ad_code'];
-        }
+        //查询轮播图
+        $ad_result_pic=$ad->quer('ad_code','position_id = 3 and media_type = 0 and enabled = 1',0,4)->toArray();
+        //查询最新单品
+        $ad_result_new=$ad->simplequer(['ad_code','ad_name','ad_link'],'position_id = 5 and media_type = 0 and enabled = 1')->toArray();
+        //查询促销单品
+        $ad_result_sales=$ad->simplequer(['ad_code','ad_name','ad_link'],'position_id = 6 and media_type = 0 and enabled = 1')->toArray();
+        //查询热卖派对
+        $ad_result_hot=$ad->simplequer(['ad_code','ad_name','ad_link'],'position_id = 7 and media_type = 0 and enabled = 1')->toArray();
         //判断结果是否为空
-        if(!empty($pic)){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$pic]);
+        if(!empty($ad_result_pic) && !empty($ad_result_new) && !empty($ad_result_sales) && !empty($ad_result_hot)){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['pic'=>$ad_result_pic,'newgoods'=>$ad_result_new,'sales'=>$ad_result_sales,'hot'=>$ad_result_hot]]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>16,'ResultData'=>['Message'=>'加载失败，请刷新']]);
         }

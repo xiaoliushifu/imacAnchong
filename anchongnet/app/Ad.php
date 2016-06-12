@@ -23,4 +23,12 @@ class Ad extends Model
     {
          return $this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get();
     }
+
+    /*
+    *   收藏查询内容
+    */
+    public function simplequer($field,$type)
+    {
+         return $this->select($field)->whereRaw($type)->orderBy('ad_id', 'ASC')->get();
+    }
 }
