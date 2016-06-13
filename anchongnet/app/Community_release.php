@@ -53,4 +53,20 @@ class Community_release extends Model
    {
        return $this->destroy($id);
    }
+
+   /*
+    * 获取指定用户的发布信息
+    */
+    public function scopeUser($query,$keyUid)
+    {
+        return $query->where('users_id','=',$keyUid);
+    }
+    
+    /*
+     * 获取指定用户发布的指定类型的信息
+     */
+    public function scopeTag($query,$keyUid,$keyTag)
+    {
+        return $query->where('users_id','=',$keyUid)->where('tags','=',$keyTag);
+    }
 }

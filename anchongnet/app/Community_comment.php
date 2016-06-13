@@ -64,4 +64,11 @@ class Community_comment extends Model
         }
     }
 
+    /*
+     * 获取指定聊聊的评论
+     */
+    public function scopeChat($query,$keyChat)
+    {
+        return $query->where('chat_id','=',$keyChat);
+    }
 }

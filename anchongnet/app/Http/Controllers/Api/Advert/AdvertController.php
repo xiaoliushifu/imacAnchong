@@ -107,17 +107,117 @@ class AdvertController extends Controller
         $param=json_decode($data['param'],true);
         //创建ORM模型
         $ad=new \App\Ad();
+        $ad_position=new \App\Ad_position();
+        $goods_type=new \App\Goods_type();
         //查询轮播图
         $ad_result_pic=$ad->quer('ad_code','position_id = 3 and media_type = 0 and enabled = 1',0,4)->toArray();
-        //查询最新单品
-        $ad_result_new=$ad->simplequer(['ad_code','ad_name','ad_link'],'position_id = 5 and media_type = 0 and enabled = 1')->toArray();
-        //查询促销单品
-        $ad_result_sales=$ad->simplequer(['ad_code','ad_name','ad_link'],'position_id = 6 and media_type = 0 and enabled = 1')->toArray();
-        //查询热卖派对
-        $ad_result_hot=$ad->simplequer(['ad_code','ad_name','ad_link'],'position_id = 7 and media_type = 0 and enabled = 1')->toArray();
+        //查询商城广告模块
+        $ad_result=$ad->simplequer(['position_id','ad_code','ad_name','ad_link'],'site_ad = 2 and enabled = 1')->toArray();
+        //查询模块定义名称
+        $ad_name=$ad_position->simplequer(['position_id','position_desc'],'site_ad = 2')->toArray();
+        //需要查的字段
+        $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
+        //设置随机偏移量
+        $num=rand(10,99);
+        //推荐商品
+        $goods_result=$goods_type->simplequer($goods_data,"added = 1",$num,10)->toArray();
+        //定义结果数组
+        $list=null;
+        $ad_one=null;
+        $ad_two=null;
+        $ad_three=null;
+        $ad_four=null;
+        $ad_five=null;
+        $ad_six=null;
+        $ad_one_list=null;
+        $ad_two_list=null;
+        $ad_three_list=null;
+        $ad_four_list=null;
+        $ad_five_list=null;
+        $ad_six_list=null;
+        //遍历数据数组分门别类
+        foreach ($ad_result as $ad_result_arr) {
+            switch ($ad_result_arr['position_id']) {
+                //第一块的广告
+                case '5':
+                    $ad_one_list[]=$ad_result_arr;
+                    break;
+                //第二块的广告
+                case '6':
+                    $ad_two_list[]=$ad_result_arr;
+                    break;
+                //第三块的广告
+                case '7':
+                    $ad_three_list[]=$ad_result_arr;
+                    break;
+                //第四块的广告
+                case '8':
+                    $ad_four_list[]=$ad_result_arr;
+                    break;
+                //第五块的广告
+                case '9':
+                    $ad_five_list[]=$ad_result_arr;
+                    break;
+                //第六块的广告
+                case '10':
+                    $ad_six_list[]=$ad_result_arr;
+                    break;
+                default:
+                    break;
+            }
+        }
+        //遍历标题数组
+        foreach ($ad_name as $ad_name_arr) {
+            switch ($ad_name_arr['position_id']) {
+                //第一块的广告
+                case '5':
+                    $ad_one['name']=$ad_name_arr['position_desc'];
+                    $ad_one['list']=$ad_one_list;
+                    break;
+                //第二块的广告
+                case '6':
+                    $ad_two['name']=$ad_name_arr['position_desc'];
+                    $ad_two['list']=$ad_two_list;
+                    break;
+                //第三块的广告
+                case '7':
+                    $ad_three['name']=$ad_name_arr['position_desc'];
+                    $ad_three['list']=$ad_three_list;
+                    break;
+                //第四块的广告
+                case '8':
+                    $ad_four['name']=$ad_name_arr['position_desc'];
+                    $ad_four['list']=$ad_four_list;
+                    break;
+                //第五块的广告
+                case '9':
+                    $ad_five['name']=$ad_name_arr['position_desc'];
+                    $ad_five['list']=$ad_five_list;
+                    break;
+                //第六块的广告
+                case '10':
+                    $ad_six['name']=$ad_name_arr['position_desc'];
+                    $ad_six['list']=$ad_six_list;
+                    break;
+                default:
+                    break;
+            }
+        }
         //判断结果是否为空
-        if(!empty($ad_result_pic) && !empty($ad_result_new) && !empty($ad_result_sales) && !empty($ad_result_hot)){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['pic'=>$ad_result_pic,'newgoods'=>$ad_result_new,'sales'=>$ad_result_sales,'hot'=>$ad_result_hot]]);
+        if(!empty($ad_result_pic) && !empty($ad_one) && !empty($ad_one) && !empty($ad_three) && !empty($ad_four) && !empty($ad_five) && !empty($ad_six)){
+            //判断是否有权限查看会员价，也就是判断是否审核通过
+            $showprice=0;
+            if($data['guid'] == 0){
+                $showprice=0;
+            }else{
+                $users=new \App\Users();
+                //查询用户是否认证
+                $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
+                if($users_auth[0]['certification'] == 3){
+                    $showprice=1;
+                }
+            }
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['pic'=>$ad_result_pic,'one'=>$ad_one,'two'=>$ad_two,'three'=>$ad_three,'four'=>$ad_four,'five'=>$ad_five,'six'=>$ad_six,'goods'=>$goods_result,'showprice'=>$showprice]]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>16,'ResultData'=>['Message'=>'加载失败，请刷新']]);
         }

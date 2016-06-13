@@ -70,4 +70,12 @@ class Business_img extends Model
             return true;
         }
     }
+
+    /*
+     *  获取指定商机的图片
+     */
+    public function scopeBus($query,$keyBid)
+    {
+        return $query->where('bid','=',$keyBid);
+    }
 }

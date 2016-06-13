@@ -12,7 +12,6 @@ class Shops_logistics extends Model
     protected $table = 'anchong_shops_logistics';
     protected $primaryKey = 'l_id';
     protected $guarded = ['l_id'];
-    protected $fillable=['name','num'];
     public $timestamps = false;
 
     /*

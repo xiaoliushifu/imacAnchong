@@ -16,6 +16,7 @@ class Business extends Model
      * @var string
      */
     protected $table = 'anchong_business';
+    protected $primaryKey = 'bid';
 
     /**
      * The attributes that are mass assignable.
@@ -30,7 +31,7 @@ class Business extends Model
      *
      * @var array
      */
-    public  $timestamps=false;
+    public  $timestamps=true;
 
     /*
     *   该方法是添加商机信息
@@ -94,5 +95,21 @@ class Business extends Model
     public function simplequer($field,$type,$pos,$limit)
     {
          return $this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get()->toArray();
+    }
+
+    /*
+     * 获取指定用户发布的商机
+     * */
+    public function scopeUser($query,$keyUid)
+    {
+        return $query->where('users_id','=',$keyUid);
+    }
+
+    /*
+     * 获取指定类型的商机
+     * */
+    public function scopeType($query,$keyType)
+    {
+        return $query->where('type','=',$keyType);
     }
 }

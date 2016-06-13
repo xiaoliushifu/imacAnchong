@@ -86,4 +86,12 @@ class Goods_type extends Model
     {
         return $query->where('gid', '=', $keyGid)->first();
     }
+
+    /*
+    *   简单条件查询
+    */
+    public function simplequer($field,$type,$pos,$limit)
+    {
+        return $this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get();
+    }
 }

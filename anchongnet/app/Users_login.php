@@ -85,4 +85,10 @@ class Users_login extends Model
             return false;
         }
     }
+
+    //通过用户id获取记录
+    public function scopeUid($query,$keyUid)
+    {
+        return $query->where('users_id', '=', $keyUid)->first();
+    }
 }

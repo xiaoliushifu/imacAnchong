@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /*
-*   该模型是操作聊聊收藏表的模块
+*   该模型是操作广告表的模块
 */
 class Ad extends Model
 {
