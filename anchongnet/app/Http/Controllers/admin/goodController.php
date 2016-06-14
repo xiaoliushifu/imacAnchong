@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Request as Requester;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+
+use OSS\OssClient;
+use OSS\Core\OssException;
 use DB;
 use Auth;
 
@@ -22,6 +25,11 @@ class goodController extends Controller
     private $stock;
     private $goods_type;
 
+    private $accessKeyId;
+    private $accessKeySecret ;
+    private $endpoint;
+    private $bucket;
+
     private $uid;
     private $sid;
 
@@ -34,6 +42,12 @@ class goodController extends Controller
         $this->goodThumb=new GoodThumb();
         $this->stock=new Stock();
         $this->goods_type=new Goods_type();
+
+        $this->accessKeyId=env('ALIOSS_ACCESSKEYId');
+        $this->accessKeySecret=env('ALIOSS_ACCESSKEYSECRET');
+        $this->endpoint=env('ALIOSS_ENDPOINT');
+        $this->bucket=env('ALIOSS_BUCKET');
+
         //通过Auth获取当前登录用户的id
         $this->uid=Auth::user()['users_id'];
         //通过用户获取商铺id
@@ -49,9 +63,9 @@ class goodController extends Controller
     {
         $keyName=Requester::input('keyName');
         if($keyName==""){
-            $datas=$this->goodSpecification->paginate(8);
+            $datas=$this->goodSpecification->where('sid','=',$this->sid)->orderBy("gid","desc")->paginate(8);
         }else{
-            $datas = GoodSpecification::Name($keyName)->paginate(8);
+            $datas = GoodSpecification::Name($keyName,$this->sid)->orderBy("gid","desc")->paginate(8);
         }
         $args=array("keyName"=>$keyName);
         $sid=$this->sid;
@@ -84,20 +98,12 @@ class goodController extends Controller
             $spetag.=$request->attr[$i]." ";
         }
 
-        $gid = DB::table('anchong_goods_specifications')->insertGetId(
-            [
-                'cat_id' => $request->midselect,
-                'goods_id'=>$request->name,
-                'goods_name'=>trim($spetag),
-                'market_price'=>$request->marketprice,
-                'goods_price'=>$request->costpirce,
-                'vip_price'=>$request->viprice,
-                'added'=>$request->status,
-                'goods_numbering'=>$request->numbering,
-                'title'=>$request->commodityname." ".trim($spetag),
-                'sid'=>$this->sid,
-            ]
-        );
+        //将商品分类转码之后插入数据库，为将来分词索引做准备
+        $cids=explode(' ',rtrim($request->type));
+        $cid="";
+        for($j=0;$j<count($cids);$j++){
+            $cid.=bin2hex($cids[$j])." ";
+        }
 
         //将关键字转码之后再插入数据库，为将来分词索引做准备
         $keywords_arr=explode(' ',$request->keyword);
@@ -105,6 +111,23 @@ class goodController extends Controller
         foreach ($keywords_arr as $keyword_arr) {
             $keywords.=bin2hex($keyword_arr)." ";
         }
+
+        $gid = DB::table('anchong_goods_specifications')->insertGetId(
+            [
+                'cat_id' => $request->midselect,
+                'cid'=>$cid,
+                'goods_id'=>$request->name,
+                'goods_name'=>trim($spetag),
+                'market_price'=>$request->marketprice,
+                'goods_price'=>$request->costpirce,
+                'vip_price'=>$request->viprice,
+                'added'=>$request->status,
+                'goods_numbering'=>$request->numbering,
+                'title'=>trim($spetag)."-".$request->commodityname,
+                'sid'=>$this->sid,
+                'keyword'=>$keywords,
+            ]
+        );
 
         //将标签转码之后插入数据库，为将来分词索引做准备
         $tags="";
@@ -115,23 +138,16 @@ class goodController extends Controller
         //将二级分类转码之后插入数据库，为将来分词索引做准备
         //$cid=bin2hex($request->midselect);
 
-        //将标签转码之后插入数据库，为将来分词索引做准备
-        $cids=explode(' ',rtrim($request->type));
-        $cid="";
-        for($j=0;$j<count($cids);$j++){
-            $cid.=bin2hex($cids[$j])." ";
-        }
-
-
         $gtid = DB::table('anchong_goods_type')->insertGetId(
             [
                 'gid' => $gid,
                 'goods_id'=>$request->name,
-                'title'=>trim($request->commodityname." ".$spetag),
+                'title'=>trim($spetag."-".$request->commodityname),
                 'price'=>$request->marketprice,
                 'sname'=>'安虫',
                 'vip_price'=>$request->viprice,
                 'cid'=>$cid,
+                'sid'=>$this->sid,
                 'keyword'=>$keywords,
                 'tags'=>$tags,
             ]
@@ -261,5 +277,60 @@ class goodController extends Controller
     {
         $datas=$this->goodSpecification->Good($request->good)->get();
         return $datas;
+    }
+
+    /*
+     * 编辑货品时候添加图片
+     * */
+    public function addpic(Request $request)
+    {
+        $fileType=$_FILES['file']['type'];
+        $dir="goods/img/goods/";
+        $filePath = $request['file'];
+        //设置上传到阿里云oss的对象的键名
+        switch ($fileType){
+            case "image/png":
+                $object=$dir.time().rand(100000,999999).".png";
+                break;
+            case "image/jpeg":
+                $object=$dir.time().rand(100000,999999).".jpg";
+                break;
+            case "image/jpg":
+                $object=$dir.time().rand(100000,999999).".jpg";
+                break;
+            case "image/gif":
+                $object=$dir.time().rand(100000,999999).".gif";
+                break;
+            default:
+                $object=$dir.time().rand(100000,999999).".jpg";
+        }
+
+        try {
+            //实例化一个ossClient对象
+            $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
+            //上传文件
+            $ossClient->uploadFile($this->bucket, $object, $filePath);
+            //获取到上传文件的路径
+            $signedUrl = $ossClient->signUrl($this->bucket, $object);
+            $pos = strpos($signedUrl, "?");
+            $url = substr($signedUrl, 0, $pos);
+
+            $tid=DB::table('anchong_goods_thumb')->insertGetId(
+                [
+                    'gid' => $request['gid'],
+                    'img_url' => $url,
+                    'thumb_url'=>$url
+                ]
+            );
+
+            $message="上传成功";
+            $isSuccess=true;
+        }catch (OssException $e) {
+            $message="上传失败，请稍后再试";
+            $isSuccess=false;
+            $url='';
+            $tid='';
+        }
+        return response()->json(['message' => $message, 'isSuccess' => $isSuccess,'url'=>$url,'tid'=>$tid]);
     }
 }

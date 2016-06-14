@@ -143,7 +143,17 @@ class ImgController extends Controller
     {
         $fileType=$_FILES['file']['type'];
         $filePath = $request['file'];
-        $dir="goods/img/detail/";
+        switch($request->imgtype){
+            case 1:
+                $dir="goods/img/detail/";
+                break;
+            case 2:
+                $dir="goods/img/param/";
+                break;
+            case 3:
+                $dir="goods/img/data/";
+                break;
+        }
         //设置上传到阿里云oss的对象的键名
         switch ($fileType){
             case "image/png":

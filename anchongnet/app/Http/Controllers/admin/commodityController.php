@@ -20,7 +20,6 @@ class commodityController extends Controller
     private $good;
     private $uid;
     private $sid;
-    private $gid;
 
     private $accessKeyId;
     private $accessKeySecret ;
@@ -34,8 +33,6 @@ class commodityController extends Controller
         $this->uid=Auth::user()['users_id'];
         //通过用户获取商铺id
         $this->sid=Shop::Uid($this->uid)->sid;
-        //初始化gid属性为空
-        $this->gid="";
 
         $this->accessKeyId="HJjYLnySPG4TBdFp";
         $this->accessKeySecret="Ifv0SNWwch5sgFcrM1bDthqyy4BmOa";
@@ -52,12 +49,12 @@ class commodityController extends Controller
     {
         $keyName=Requester::input('keyName');
         if($keyName==""){
-            $datas=$this->good->paginate(8);
+            $datas=$this->good->where('sid','=',$this->sid)->orderBy("goods_id","desc")->paginate(8);
         }else{
-            $datas = Good::Name($keyName)->paginate(8);
+            $datas = Good::Name($keyName,$this->sid)->orderBy("goods_id","desc")->paginate(8);
         }
         $args=array("keyName"=>$keyName);
-        return view('admin/good/index_commodity',array("datacol"=>compact("args","datas")));
+        return view('admin/good/index_commodity',array("datacol"=>compact("args","datas"),"sid"=>$this->sid));
     }
 
     /**
@@ -67,7 +64,7 @@ class commodityController extends Controller
      */
     public function create()
     {
-        return view("admin/good/create_commodity",array('sid'=>$this->sid,'gid'=>$this->gid));
+        return view("admin/good/create_commodity",array('sid'=>$this->sid));
     }
 
     /**
@@ -123,11 +120,24 @@ class commodityController extends Controller
             );
         };
 
-        //将对象的gid属性设置为刚插入的那条数据的主键并返回给页面
-        $this->gid=$gid;
+        //通过循环向配套商品表中插入数据
+        for($i=0;$i<count($request->supname)-1;$i++){
+            DB::table('anchong_goods_supporting')->insertGetId(
+                [
+                    'goods_id'=>$request->supname[$i+1],
+                    'gid'=>$request->gid[$i],
+                    'title'=>$request->title[$i],
+                    'price'=>$request->price[$i],
+                    'img'=>$request->img[$i],
+                    'assoc_gid'=>$gid,
+                    'goods_name'=>$request->goodsname[$i+1]
+                ]
+            );
+        }
+
         //提交事务
         DB::commit();
-        return view("admin/good/create_commodity",array('sid'=>$this->sid,'gid'=>$this->gid,'mes'=>"添加成功！"));
+        return view("admin/good/create_commodity",array('sid'=>$this->sid,'mes'=>"添加成功！"));
     }
 
     /**

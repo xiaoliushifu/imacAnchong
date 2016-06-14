@@ -17,6 +17,7 @@ $(function(){
         var val=$(this).val();
         $(".waitforopt").removeClass("waitforopt");
         $(this).parent().siblings("div").find(".midselect").empty().addClass("waitforopt");
+        $(this).parent().siblings("div").find(".name").empty();
         $(this).parent().siblings("div").find(".midselect").append(defaultopt);
         if(val==""){
         }else{
@@ -62,13 +63,62 @@ $(function(){
             $(this).parents(".line").remove();
         }
     });
+
+    //添加配套商品的时候选择二级分类获取对应的分类下的商品
+    $("body").on("change",".midforsup",function(){
+        var val=$(this).val();
+        var sid=$("#sid").val();
+        $("#checked").attr("id","");
+        $(this).parentsUntil(".form-group").find(".supname").attr("id","checked");
+        $(this).parentsUntil(".form-group").find(".supname").empty().append(defaultopt);
+        $.get("/getsibilingscommodity",{pid:parseInt(val),sid:sid},function(data,status){
+            if(data.length==0){
+                $("#checked").empty();
+                $("#checked").append(nullopt);
+            }else{
+                for(var i=0;i<data.length;i++){
+                    opt="<option  value="+data[i].goods_id+">"+data[i].title+"</option>";
+                    $("#checked").append(opt);
+                }
+            }
+        });
+    });
+
+    //添加配套商品的时候获取选中商品的第一条货品
+    $("body").on("change",".supname",function(){
+        var txt=$(this).find("option:selected").text();
+        $(this).siblings(".goodsname").val(txt);
+        var val=$(this).val();
+        $(this).siblings(".supval").empty();
+        $(".waitforspe").removeClass("waitforspe");
+        $(this).addClass("waitforspe");
+        $.get('/getsiblingsgood',{'good':val},function(data,status){
+            var spe;
+            if(data.length==0){
+                spe='<input type="hidden" name="gid[]" value=" "><input type="hidden" name="title[]" value=" "><input type="hidden" name="price[]" value=" "><input type="hidden" name="img[]" value=" ">';
+            }else{
+                spe='<input type="hidden" name="gid[]" value='+data[0].gid+'><input type="hidden" name="title[]" value="'+data[0].title+'"><input type="hidden" name="price[]" value='+data[0].goods_price+'><input type="hidden" name="img[]" value='+data[0].goods_img+'>';
+            }
+            $(".waitforspe").siblings(".supval").append(spe);
+        })
+    });
+
+    //添加配套商品
+    $("body").on("click",".addsup",function(){
+        var suptem=$(".suptemp").clone().removeClass("hidden").removeClass("suptemp");
+        $("#img").before(suptem);
+    });
+
+    //删除配套商品
+    $("body").on("click",".minusup",function(){
+        $(this).parents(".form-group").remove();
+    })
 });
 
 /*商品图片添加*/
 $('#detail').diyUpload({
     url:'/img',
     formData:{
-        gid:$("#gid").val(),
         imgtype:1
     },
     success:function( data ) {

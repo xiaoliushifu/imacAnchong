@@ -112,7 +112,7 @@ class attrController extends Controller
 
     /*
      * 获取同一个商品的所有属性信息
-     */
+     * */
     public function getSiblings(Request $request)
     {
         $gid=$request->gid;

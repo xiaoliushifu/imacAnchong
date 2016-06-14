@@ -7,14 +7,14 @@ use App\Http\Controllers\Controller;
 use Session,Redirect,Request;
 use Gregwar\Captcha\CaptchaBuilder;
 
-/**
+/*
 *
 *   该类属于验证码的专用类负责生成验证码
 *
 */
 class CaptchaController extends Controller
 {
-    /**
+    /*
     *   验证码的生成
     */
     public function captcha($num)

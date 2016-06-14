@@ -28,7 +28,7 @@
     <![endif]-->
     <style>
         *{margin: 0;padding: 0;}
-        .add,.minus{margin-top:4px;}
+        .add,.minus,.addsup,.minusup{margin-top:4px;}
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -69,7 +69,6 @@
                             ?>
                             <form role="form" class="form-horizontal" action="/commodity" method="post">
                                 <input type="hidden" name="sid" id="sid" value="{{$sid}}">
-                                <input type="hidden" name="gid" id="gid" value="{{$gid}}">
                                 <div class="catemplate hidden form-group">
                                     <label class="col-sm-2 control-label">商品分类</label>
                                     <div class="col-sm-10">
@@ -169,6 +168,63 @@
                                         </table>
                                     </div>
                                 </div>
+                                <div class="form-group hidden suptemp">
+                                    <label class="col-sm-2 control-label">添加配套商品</label>
+                                    <div class="col-sm-10">
+                                        <div class="row">
+                                            <div class="col-xs-2">
+                                                <select class="form-control mainselect">
+                                                    <option value="">请选择</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <select class="form-control midselect midforsup">
+                                                    <option value="">请选择</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <select class="form-control supname" name="supname[]">
+                                                    <option value="">请选择</option>
+                                                </select>
+                                                <input type="hidden" name="goodsname[]" class="goodsname">
+                                                <div class="supval"></div>
+                                            </div>
+                                            <div class="addsup col-xs-1">
+                                                <button type="button" class="btn btn-xs glyphicon glyphicon-plus" title="添加配套商品"></button>
+                                            </div>
+                                            <div class="minusup col-xs-1">
+                                                <button type="button" class="btn btn-xs glyphicon glyphicon-minus" title="删除"></button>
+                                            </div>
+                                        </div><!--end row-->
+                                    </div><!--end col-sm-10-->
+                                </div><!--end form-group-->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">添加配套商品</label>
+                                    <div class="col-sm-10">
+                                        <div class="row">
+                                            <div class="col-xs-2">
+                                                <select class="form-control mainselect">
+                                                    <option value="">请选择</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <select class="form-control midselect midforsup">
+                                                    <option value="">请选择</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <select class="form-control supname" name="supname[]">
+                                                    <option value="">请选择</option>
+                                                </select>
+                                                <input type="hidden" name="goodsname[]" class="goodsname">
+                                                <div class="supval"></div>
+                                            </div>
+                                            <div class="addsup col-xs-1">
+                                                <button type="button" class="btn btn-xs glyphicon glyphicon-plus" title="添加配套商品"></button>
+                                            </div>
+                                        </div><!--end row-->
+                                    </div><!--end col-sm-10-->
+                                </div><!--end form-group-->
                                 <ul class="form-group hidden" id="img">
                                 </ul>
                                 <div class="gal form-group">
@@ -184,7 +240,7 @@
                                     <div class="col-sm-8">
                                         @include('UEditor::head')
                                         <!-- 加载编辑器的容器 -->
-                                        <script id="container" name="param" type="text/plain"></script>
+                                        <script id="container" name="param" type="text/plain">{{ old('param') }}</script>
                                     </div>
                                 </div>
                                 <br><br>
@@ -193,7 +249,7 @@
                                     <div class="col-sm-8">
                                         @include('UEditor::head')
                                                 <!-- 加载编辑器的容器 -->
-                                        <script id="container1" name="data" type="text/plain"></script>
+                                        <script id="container1" name="data" type="text/plain">{{ old('data') }}</script>
                                         <!-- 实例化编辑器 -->
                                         <script>
                                             UE.getEditor('container');

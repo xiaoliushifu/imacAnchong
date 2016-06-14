@@ -19,7 +19,6 @@
     <link rel="stylesheet" href="/admin/dist/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="/admin/css/diyUpload.css">
     <link rel="stylesheet" href="/admin/css/webuploader.css">
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -92,6 +91,7 @@
                                     <label class="col-sm-2 control-label">选择分类标签</label>
                                     <div class="col-sm-3">
                                         <div class="checkbox" id="checks">
+
                                         </div>
                                     </div>
                                 </div>

@@ -223,7 +223,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
         //支付后跳转页面
         Route::any('pay/webreturn','Api\Pay\PayController@webreturn');
-        
+
         /*
         *   广告模块
         */
@@ -254,6 +254,10 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
     	Route::resource('/cert','admin\certController');
         //订单管理路由
        	Route::resource('/order','admin\orderController');
+        //订单发货路由
+        Route::post('/ordership','admin\orderController@orderShip');
+        //订单审核路由
+        Route::post('/checkorder','admin\orderController@checkorder');
         //获取同一个订单的订单信息的路由
         Route::get('/getsiblingsorder','admin\orderinfoController@getSiblingsOrder');
 
@@ -263,14 +267,18 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         Route::resource('/shop','admin\shopController');
         //物流管理
         Route::resource('/logis','admin\logisController');
+        //获取所有物流
+        Route::get('/getlogis','admin\logisController@getAll');
         //获取商铺的主营品牌
         Route::get('/getbrand','admin\shopController@getbrand');
         //获取商铺的主营类别
         Route::get('/getcat','admin\shopController@getcat');
         //商铺审核路由
         Route::get("/checkShop",'admin\checkShopController@index');
-		//标签管理路由
+        //标签管理路由
         Route::resource('/tag','admin\tagController');
+        //获取所有标签路由
+        Route::get('/getag','admin\tagController@geTag');
         //分类标签管理路由
         Route::resource('/catag','admin\caTagController');
         //获取同一个分类的所有标签的路由
@@ -291,11 +299,18 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         Route::get('/getsibilingscommodity','admin\commodityController@getSiblings');
         //获取同一商品下的所有货品的路由
         Route::get('/getsiblingsgood','admin\goodController@getSiblings');
+        //获取商品的配套商品的路由
+        Route::get('/getsupcom','admin\goodSupportingController@getSupcom');
+        //配套商品管理路由
+        Route::resource('/goodsupporting','admin\goodSupportingController');
 
         //商品图片管理路由
         Route::resource('/thumb','admin\thumbController');
         Route::get('/getgoodthumb','admin\thumbController@getGoodThumb');
         Route::resource('/img','admin\ImgController');
+        Route::get('/getgoodimg','admin\ImgController@getGoodImg');
+        //编辑货品时添加货品图片的路由
+        Route::post('/addgoodpic','admin\goodController@addpic');
         //替换商品详情图片的路由
         Route::post('/updataimg','admin\commodityController@updateImg');
 
@@ -305,11 +320,33 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         Route::get('/getStock','admin\stockController@getStock');
         //更新货品的库存总数
         Route::get('/getotal','admin\stockController@getTotal');
+
         //商品属性路由
         Route::resource('/attr','admin\attrController');
         //获取同一个商品的所有属性信息的路由
         Route::get('/getsiblingsattr','admin\attrController@getSiblings');
+
+        //社区路由
+        Route::resource('/release','admin\releaseController');
+        //评论路由
+        Route::resource('/comment','admin\commentController');
+        //回复评论路由
+        Route::resource('/reply','admin\replyController');
+
+        //商机管理
+        Route::resource('/business','admin\businessController');
+        //商机图片
+        Route::resource('/businessimg','admin\busimgController');
+        //获取指定商机的商机图片
+        Route::get('/busimg','admin\busimgController@getImg');
+        //删除指定商机图片
+        Route::get('/delimg','admin\busimgController@delpic');
+        //编辑商机的时候添加商机图片
+        Route::post('/addbusimg','admin\businessController@addpic');
     });
+    //获取商品参数html代码
+    Route::get('/getparam','admin\uEditorController@getParam');
+    Route::get('/getpackage','admin\uEditorController@getPackage');
 });
 
 //验证码类,需要传入数字

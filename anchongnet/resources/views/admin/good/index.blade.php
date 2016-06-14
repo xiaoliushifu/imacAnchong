@@ -147,13 +147,11 @@
                             <td align="left" id="desc"></td>
                         </tr>
                         <tr>
-                            <td align="right">关键字</td>
-                            <td align="left" id="keywords"></td>
-                        </tr>
-                        <tr>
                             <td align="right">产品图片</td>
                             <td align="left">
-                                <img src="" width="100" id="goodpic">
+                                <a href="" id="goodpic" target="_blank">
+                                    <img src="" width="100">
+                                </a>
                             </td>
                         </tr>
                         <tr>
@@ -248,12 +246,6 @@
                             <label class="col-sm-2 control-label" for="description">描述</label>
                             <div class="col-sm-6">
                                 <textarea name="description" id="description" class="form-control" rows="5">{{ old('description') }}</textarea>
-                            </div>
-                        </div><!--end form-group-->
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="keyword">关键字</label>
-                            <div class="col-sm-6">
-                                <input type="text" name="keyword" id="keyword" class="form-control" placeholder="多个关键字之间请用空格隔开" value="{{ old('keyword') }}" />
                             </div>
                         </div><!--end form-group-->
                         <div class="form-group">

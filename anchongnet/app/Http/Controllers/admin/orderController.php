@@ -9,15 +9,28 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Order;
 use App\Orderinfo;
+use DB;
+use Auth;
+use App\Shop;
+use App\Goods_logistics;
 
 class orderController extends Controller
 {
     private $order;
     private $orderinfo;
+    private $uid;
+    private $sid;
+    private $gl;
     public function __construct()
     {
         $this->order=new Order();
         $this->orderinfo=new Orderinfo();
+        $this->gl=new Goods_logistics();
+
+        //通过Auth获取当前登录用户的id
+        $this->uid=Auth::user()['users_id'];
+        //通过用户获取商铺id
+        $this->sid=Shop::Uid($this->uid)->sid;
     }
 
     /**
@@ -26,9 +39,9 @@ class orderController extends Controller
     public function index(){
         $keyNum=Requester::input('keyNum');
         if($keyNum==""){
-            $datas=$this->order->paginate(8);
+            $datas=$this->order->where("sid","=",$this->sid)->orderBy("order_id","desc")->paginate(8);
         }else{
-            $datas = Order::num($keyNum)->paginate(8);
+            $datas = Order::num($keyNum,$this->sid)->orderBy("order_id","desc")->paginate(8);
         }
         $args=array("keyNum"=>$keyNum);
         return view('admin/order/index',array("datacol"=>compact("args","datas")));
@@ -100,5 +113,47 @@ class orderController extends Controller
      */
     public function destroy($id)
     {
+    }
+
+    /*
+     * 审核订单的方法
+     * */
+    public function checkorder(Request $request)
+    {
+        $id=$request->oid;
+        $data=$this->order->find($id);
+
+        if($request->isPass==="yes"){
+            $data->state=5;
+        }else{
+            $data->state=3;
+        }
+        $data->save();
+
+        return "设置成功";
+    }
+
+    /*
+     * 订单发货的方法
+     * */
+    public function orderShip(Request $request)
+    {
+        $data=$this->order->find($request['orderid']);
+        $data->state=3;
+        $data->save();
+
+        $datainfo=$this->orderinfo->Num($request['ordernum'])->first();
+        if($datainfo){
+            $datainfo->state=3;
+            $datainfo->save();
+        }
+
+        if($request['ship']=="logistics"){
+            $this->gl->logisticsnum=$request['lognum'];
+            $this->gl->order_id=$request['orderid'];
+            $this->gl->company=$request['logistics'];
+            $this->gl->save();
+        }
+        return "发货成功";
     }
 }

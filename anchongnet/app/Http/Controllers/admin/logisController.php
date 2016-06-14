@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\admin;
 
-use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Shops_logistics;
@@ -105,5 +103,11 @@ class logisController extends Controller
         $data=$this->logis->find($id);
         $data->delete();
         return "删除成功";
+    }
+
+    //获取所有物流的方法
+    public function getAll(){
+        $datas=$this->logis->get();
+        return $datas;
     }
 }

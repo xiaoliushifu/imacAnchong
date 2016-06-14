@@ -11,8 +11,8 @@ $(function(){
             $("#cost").text(data.goods_price);
             $("#vip").text(data.vip_price);
             $("#desc").text(data.goods_desc);
-            $("#keywords").text(data.keyword);
-            $("#goodpic").attr("src",data.goods_img);
+            $("#goodpic").attr("href",data.goods_img);
+            $("#goodpic img").attr("src",data.goods_img);
             $("#added").text(data.goods_create_time);
             $("#goodsnumbering").text(data.goods_numbering);
         });
@@ -82,7 +82,6 @@ $(function(){
             $("#costprice").val(data.goods_price);
             $("#viprice").val(data.vip_price);
             $("#description").val(data.goods_desc);
-            $("#keyword").val(data.keyword);
             if(data.goods_create_time=="0000-00-00 00:00:00"){
                 $("#notonsale").attr("checked",true);
             }else{
@@ -238,6 +237,7 @@ $(function(){
         $(this).siblings(".pic").click();
     });
 
+    //编辑货品图片
     $("body").on("change",'.pic',function(){
         var id=$(this).attr("data-id");
         var isfirst=$(this).attr("isfirst");
@@ -257,13 +257,13 @@ $(function(){
                 }
                 $("#formToUpdate").ajaxSubmit({
                     type: 'post',
-                    url: '/thumb',
+                    url: '/addgoodpic',
                     data:{gid:gid},
                     success: function (data) {
                         alert(data.message);
                         if(data.isSuccess==true){
                             $(".isEdit").attr("src", objUrl);
-                            $(".isAdd").attr("data-id",data.id);
+                            $(".isAdd").attr("data-id",data.tid);
                         }
                     },
                 });

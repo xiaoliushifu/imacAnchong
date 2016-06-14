@@ -110,4 +110,13 @@ class tagController extends Controller
     {
         //
     }
+
+    /*
+     * 异步获取所有标签的接口
+     * */
+    public function geTag()
+    {
+        $datas=$this->tag->get();
+        return $datas;
+    }
 }

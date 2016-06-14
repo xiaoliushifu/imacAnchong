@@ -1,7 +1,9 @@
 <section class="sidebar">
 	<!-- sidebar menu: : style can be found in sidebar.less -->
+
 	<ul class="sidebar-menu">
-			<li class="treeview" id="treeuser">
+		@if(Auth::user()['user_rank']==3)
+		<li class="treeview" id="treeuser">
 			<a href="#">
 				<i class="fa fa-user"></i> <span>用户管理</span> <i class="fa fa-angle-left pull-right"></i>
 			</a>
@@ -35,6 +37,17 @@
 				<li><a href="/catag/create"><i class="fa fa-circle-o"></i> 添加分类标签</a></li>
 			</ul>
 		</li>
+		<li class="treeview" id="treecate">
+			<a href="#">
+				<i class="fa fa-edit"></i> <span>商品分类管理</span>
+				<i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="treeview-menu">
+				<li><a href="/goodcate"><i class="fa fa-circle-o"></i>商品分类列表</a></li>
+				<li><a href="/goodcate/create"><i class="fa fa-circle-o"></i>添加商品分类</a></li>
+			</ul>
+		</li>
+		@endif
 		<li class="treeview" id="treegood">
 			<a href="#">
 				<i class="fa fa-pie-chart"></i>
@@ -58,14 +71,37 @@
 				<li><a href="/order"><i class="fa fa-circle-o"></i>订单列表</a></li>
 			</ul>
 		</li>
-		<li class="treeview" id="treecate">
+		<li class="treeview" id="treerelease">
 			<a href="#">
-				<i class="fa fa-edit"></i> <span>商品分类管理</span>
+				<i class="fa fa-laptop"></i>
+				<span>我的社区</span>
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
-				<li><a href="/goodcate"><i class="fa fa-circle-o"></i>商品分类列表</a></li>
-				<li><a href="/goodcate/create"><i class="fa fa-circle-o"></i>添加商品分类</a></li>
+				<li><a href="/release"><i class="fa fa-circle-o"></i>我的发布</a></li>
+				<li><a href="/release/create"><i class="fa fa-circle-o"></i>添加发布</a></li>
+			</ul>
+		</li>
+		<li class="treeview" id="treebusiness">
+			<a href="#">
+				<i class="fa fa-laptop"></i>
+				<span>商机管理</span>
+				<i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="treeview-menu">
+				<li><a href="/business"><i class="fa fa-circle-o"></i>我的商机</a></li>
+				<li><a href="/business/create"><i class="fa fa-circle-o"></i>发布商机</a></li>
+			</ul>
+		</li>
+		<li class="treeview" id="treeadvert">
+			<a href="#">
+				<i class="fa fa-laptop"></i>
+				<span>广告管理</span>
+				<i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="treeview-menu">
+				<li><a href="/business"><i class="fa fa-circle-o"></i>商机广告</a></li>
+				<li><a href="/business/create"><i class="fa fa-circle-o"></i>商城广告</a></li>
 			</ul>
 		</li>
 	</ul>

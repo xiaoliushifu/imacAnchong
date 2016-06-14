@@ -56,10 +56,6 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="box">
-<!-- 						<div class="box-header"> -->
-<!-- 							<h3 class="box-title">Data Table With Full Features</h3> -->
-<!-- 						</div> -->
-						<!-- /.box-header -->
 						<div class="box-body">
 							<form action="/order" method="get" class="form-horizontal form-inline f-ib">
 								<input type="text" name="keyNum" value="{{$datacol['args']['keyNum']}}" class="form-control" placeholder="订单编号">
@@ -115,9 +111,9 @@
 										<td align="center">
 											<button type="button" class="view f-ib btn btn-default btn-xs" data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myView">查看详情</button>
 											@if ($data['state'] == 2)
-												<button type='button' class='send f-ib btn btn-primary btn-xs' data-id="{{$data['order_id']}}">发货</button>
+												<button type='button' class='f-ib shipbtn btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#mySend">发货</button>
 											@elseif ($data['state']==4)
-												<button type='button' class='check f-ib btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}">审核</button>
+												<button type='button' class='check f-ib btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myCheck">审核</button>
 											@else
 											@endif
 										</td>
@@ -153,12 +149,69 @@
 				</div>
 				<div class="modal-body" id="mbody">
 					<dl class="dl-horizontal">
-						<dt>订单编号</dt>
-						<dd>1</dd>
-						<dt>商品数量</dt>
-						<dd>2</dd>
 					</dl>
 					<hr>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="myCheck" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="cbody">
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" id="pass">通过</button>
+					<button type="button" class="btn btn-danger" id="fail">不通过</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="mySend" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">&nbsp;</h4>
+				</div>
+				<div class="modal-body">
+					<form action="/ordership" method="post" class="form-group form-inline" id="goform">
+						<input type="hidden" name="orderid" id="orderid">
+						<input type="hidden" name="ordernum" id="ordernum">
+						<p>
+							<label>发货方式：</label>
+							<label class="radio-inline">
+								<input type="radio" name="ship" id="inlineRadio1" value="hand" checked> 手动发货
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="ship" id="inlineRadio2" value="logistics"> 物流发货
+							</label>
+						</p>
+						<div class="hidden" id="logistics">
+							<p>
+								<label>选择物流：</label>
+								<select class="form-control" name="logistics" id="logs">
+								</select>
+							</p>
+							<p>
+								<label for="lognum">物流单号：</label>
+								<input type="number" name="lognum" id="lognum" class="form-control" required value=" ">
+							</p>
+						</div>
+						<p class="text-center">
+							<button type="button" class="btn btn-sm btn-primary" id="go">发货</button>
+						</p>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -177,6 +230,7 @@
 <script src="/admin/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
+<script src="/admin/js/jquery.form.js"></script>
 <script src="/admin/js/order.js"></script>
 </body>
 </html>

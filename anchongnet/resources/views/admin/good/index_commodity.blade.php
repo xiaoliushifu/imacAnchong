@@ -37,6 +37,9 @@
         .gallery{width: 80px; height: 80px; background: url("/admin/image/catetypecreate/add.jpg") center center no-repeat; border: solid #ddd 1px;  cursor: pointer; display:table-cell; vertical-align: middle;}
         .gallery img{max-width: 100%; max-height: 100%;}
          .add,.minus{margin-top:4px;}
+        .delsup{margin-left:10px;}
+        .addsup{margin-right:16px;}
+        .save,.delone{margin-top: 5px;}
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -137,6 +140,7 @@
                     <form action="" method="post" class="form-horizontal" id="updataForm">
                         <input type="hidden" name="_method" value="PUT">
                         <input type="hidden" name="flag" id="flag">
+                        <input type="hidden" name="sid" id="sid" value="{{$sid}}">
                         <div id="catarea">
 
                         </div>
@@ -226,6 +230,37 @@
                             </div>
                         </div>
                     </form>
+                    <hr>
+                    <h5 class="text-center">配套商品信息 <button type="button" class="addsup btn btn-primary btn-xs glyphicon glyphicon-plus pull-right" title="添加配套商品"></button></h5>
+                    <ul class="list-group" id="sups">
+                    </ul>
+                    <div id="futuresups"></div>
+                    <div class="form-group hidden suptemp">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <select class="form-control mainselect">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-3">
+                                <select class="form-control midselect midforsup">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-3">
+                                <select class="form-control supname" name="supname" required>
+                                    <option value="">请选择</option>
+                                </select>
+                                <input type="hidden" name="goodsname" class="goodsname">
+                                <div class="supval"></div>
+                            </div>
+                            <div class="col-xs-3">
+                                <button type="button" class="save btn btn-xs btn-primary glyphicon glyphicon-save" title="保存"></button>
+                                <button type="button" class="delone btn btn-xs btn-warning glyphicon glyphicon-minus" title="删除"></button>
+                            </div>
+                        </div><!--end row-->
+                    </div><!--end form-group-->
+                    <div class="clearfix"></div>
                 </div>
             </div>
         </div>
