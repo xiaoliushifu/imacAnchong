@@ -2,11 +2,13 @@
  * Created by lengxue on 2016/4/24.
  */
 $(function(){
+    //通过类ID查看货品的缩影信息
     $(".view").click(function(){
+        //
         $("#myModalLabel").text($(this).attr("data-name"));
+        $("#goodname").text($(this).attr("data-name"));
         var id=$(this).attr("data-id");
         $.get("/good/"+id,function(data,status){
-            $("#goodname").text(data.goods_name);
             $("#market").text(data.market_price);
             $("#cost").text(data.goods_price);
             $("#vip").text(data.vip_price);
@@ -49,26 +51,34 @@ $(function(){
 
     $(".edit").click(function(){
         $("#midselect").empty();
-        var cid=$(this).attr("data-cid");
+        var cid=$(this).attr("data-cid").trim().split(" ");
         var id=$(this).attr("data-id");
         var gid=$(this).attr("data-gid");
         var sid=$("#sid").val();
         var opt;
+        var opts;
         var firstPid;
+
         $("#updateform").attr("action","/good/"+id);
         $("#gid").val(id);
-        $.get("/getsiblingscat",{cid:cid},function(data,status){
-            for(var i=0;i<data.length;i++){
-                opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
-                $("#midselect").append(opt);
-            }
-            $("#midselect option[value="+cid+"]").attr("selected",true);
-            firstPid=data[0].parent_id;
-            $("#mainselect option[value="+firstPid+"]").attr("selected",true);
-        });
+        for(var c=0;c<cid.length;c++){
+            alert(String.fromCharCode(cid[c]));
+            $.get("/getsiblingscat",{cid:cid[c]},function(data,status){
+                for(var i=0;i<data.length;i++){
+                    opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
+                    opts='<label class="col-sm-2 control-label">商品分类</label><div class="col-sm-10"><div class="row"><div class="col-xs-4"><select class="form-control" id="mainselect" name="mainselect" required></select></div><div class="col-xs-4"><select class="form-control" id="midselect" name="midselect" required></select><input type="hidden" name="midhidden" id="midhidden" value=""></div></div></div>';
+                    $("#goodscat").append(opts);
+                    $("#midselect").append(opt);
+                }
+                $("#midselect option[value="+cid[c]+"]").attr("selected",true);
+                $("#midhidden").val(cid[c]);
+                firstPid=data[0].parent_id;
+                $("#mainselect option[value="+firstPid+"]").attr("selected",true);
+            });
+        }
 
         $("#name").empty();
-        $.get("/getsibilingscommodity",{pid:cid,sid:sid},function(data,status){
+        $.get("/getsibilingscommodity",{pid:cid[1],sid:sid},function(data,status){
             for(var i=0;i<data.length;i++){
                 opt="<option  value="+data[i].goods_id+">"+data[i].title+"</option>";
                 $("#name").append(opt);

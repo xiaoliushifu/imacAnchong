@@ -376,10 +376,13 @@ class BusinessController extends Controller
         //创建商机表的orm模型
         $business=new \App\Business();
         $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at');
-        //假如没有检索则sql语句为
-        $sql='recommend = 1 and type in(1,2)';
-        //根据标签检索
-        $sql=" tag = '".$param['tag']."'";
+        if(!empty($param['tag'])){
+            //根据标签检索
+            $sql=" tag = '".$param['tag']."' and type in(1,2)";
+        }else{
+            //假如没有检索则sql语句为
+            $sql="type in(1,2)";
+        }
         $businessinfo_data=$business->quer($businessinfo,$sql,(($param['page']-1)*$limit),$limit);
         $list=null;
         if($businessinfo_data){

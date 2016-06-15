@@ -229,10 +229,12 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         */
         //商机首页广告
         Route::post('/advert/businessadvert','Api\Advert\AdvertController@businessadvert');
+        //商机首页资讯
+        Route::post('/advert/information','Api\Advert\AdvertController@information');
         //商城首页广告
         Route::post('/advert/goodsadvert','Api\Advert\AdvertController@goodsadvert');
         //聊聊首页广告
-        Route::post('/advert/comunityadvert','Api\Advert\AdvertController@communityadvert');
+        Route::post('/advert/projectadvert','Api\Advert\AdvertController@projectadvert');
     });
 });
 

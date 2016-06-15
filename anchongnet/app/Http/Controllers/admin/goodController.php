@@ -101,8 +101,10 @@ class goodController extends Controller
         //将商品分类转码之后插入数据库，为将来分词索引做准备
         $cids=explode(' ',rtrim($request->type));
         $cid="";
+        $catid="";
         for($j=0;$j<count($cids);$j++){
             $cid.=bin2hex($cids[$j])." ";
+            $catid.=$cids[$j]." ";
         }
 
         //将关键字转码之后再插入数据库，为将来分词索引做准备
@@ -114,7 +116,8 @@ class goodController extends Controller
 
         $gid = DB::table('anchong_goods_specifications')->insertGetId(
             [
-                'cat_id' => $request->midselect,
+                //'cat_id' => $request->midselect,
+                'cat_id' =>$catid,
                 'cid'=>$cid,
                 'goods_id'=>$request->name,
                 'goods_name'=>trim($spetag),

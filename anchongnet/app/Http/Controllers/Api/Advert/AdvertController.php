@@ -22,9 +22,11 @@ class AdvertController extends Controller
         //创建ORM模型
         $ad=new \App\Ad();
         $business=new \App\Business();
+        $information=new \App\Information();
         $businessinfo=['bid','phone','contact','title','content','tag','tags','created_at'];
         //轮播图查询
         $ad_result_pic=$ad->quer(['ad_code','ad_name','ad_link'],'position_id = 2 and media_type = 0 and enabled = 1',0,5)->toArray();
+        $ad_infor_result=$information->firstquer(['infor_id','title','img'],'added =1');
         //最新招标项目
         $ad_result_area=$ad->quer(['ad_code','ad_name'],'position_id = 4 and media_type = 0 and enabled = 1',0,4)->toArray();
         //热门招标查询
@@ -91,7 +93,7 @@ class AdvertController extends Controller
         }
         //判断结果是否为空
         if(!empty($ad_result_pic) && !empty($list) && !empty($ad_result_area) && !empty($list_all)){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['pic'=>$ad_result_pic,'recommend'=>$list,'recent'=>$ad_result_area,'hotproject'=>$list_all,'showphone'=>$showphone]]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['pic'=>$ad_result_pic,'information'=>$ad_infor_result,'informationurl'=>'http//www.anchong.net/information/','recommend'=>$list,'recent'=>$ad_result_area,'hotproject'=>$list_all,'showphone'=>$showphone]]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>16,'ResultData'=>['Message'=>'加载失败，请刷新']]);
         }
@@ -110,7 +112,7 @@ class AdvertController extends Controller
         $ad_position=new \App\Ad_position();
         $goods_type=new \App\Goods_type();
         //查询轮播图
-        $ad_result_pic=$ad->quer('ad_code','position_id = 3 and media_type = 0 and enabled = 1',0,4)->toArray();
+        $ad_result_pic=$ad->quer(['ad_code','ad_name','ad_link'],'position_id = 3 and media_type = 0 and enabled = 1',0,4)->toArray();
         //查询商城广告模块
         $ad_result=$ad->simplequer(['position_id','ad_code','ad_name','ad_link'],'site_ad = 2 and enabled = 1')->toArray();
         //查询模块定义名称
@@ -224,25 +226,66 @@ class AdvertController extends Controller
     }
 
     /*
-    *   该方法是广告轮播图的功能
+    *   更多资讯
     */
-    public function communityadvert()
+    public function information(Request $request)
     {
         //获得APP端传过来的json格式数据转换成数组格式
         $data=$request::all();
-        $param=json_decode($data['param'],ture);
-        //创建ORM模型
-        $ad_result=$ad->quer('ad_code','position_id = 3 and media_type = 0',0,4)->toArray();
-        //定义图片数组
-        $pic=null;
-        //遍历数组组合
-        foreach ($ad_result as $results) {
-            //将图片放入数组
-            $pic[]=$results['ad_code'];
+        $param=json_decode($data['param'],true);
+        //默认每页数量
+        $limit=20;
+        //创建ORM方法
+        $information=new \App\Information();
+        $infor_result=$information->quer(['infor_id','title','img'],'added =1',(($param['page']-1)*$limit),$limit);
+        //定义结果数组
+        $list=null;
+        $list['total']=$infor_result['total'];
+        $list['list']=$infor_result['list'];
+        $list['url']='http//www.anchong.net/information/';
+        if($infor_result['total']>0){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$list]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>16,'ResultData'=>['Message'=>'加载失败，请刷新']]);
         }
+    }
+
+    /*
+    *   该方法是商机内部的轮播图
+    */
+    public function projectadvert(Request $request)
+    {
+        //获得APP端传过来的json格式数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $ad=new \App\Ad();
+        //定义sql语句
+        $sql=null;
+        //匹配是哪个轮播图
+        switch ($param['type']) {
+            //第一块的广告
+            case '1':
+                $sql='position_id = 11 and enabled = 1';
+                break;
+            //第二块的广告
+            case '2':
+                $sql='position_id = 12 and enabled = 1';
+                break;
+            //第三块的广告
+            case '3':
+                $sql='position_id = 13 and enabled = 1';
+                break;
+            //默认的内容
+            default:
+                return response()->json(['serverTime'=>time(),'ServerNo'=>16,'ResultData'=>['Message'=>'非法操作']]);
+                break;
+        }
+        //创建ORM模型
+        $ad_result=$ad->quer(['ad_code','ad_name','ad_link'],$sql,0,6)->toArray();
         //判断结果是否为空
-        if(!empty($pic)){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$pic]);
+        if(!empty($ad_result)){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$ad_result]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>16,'ResultData'=>['Message'=>'加载失败，请刷新']]);
         }
