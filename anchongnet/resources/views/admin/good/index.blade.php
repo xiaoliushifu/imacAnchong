@@ -83,7 +83,7 @@
                                         <td align="center">{{$data['goods_numbering']}}</td>
                                         <td align="center">
                                             <button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['gid']}}" data-cid="{{$data['cat_id']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myView" data-name="{{$data['goods_name']}}">查看详情</button>
-                                            <button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['gid']}}" data-cid="{{$data['cid']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myModal">编辑</button>
+                                            <button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['gid']}}" data-cid="{{$data['cat_id']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myModal">编辑</button>
                                             <button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['gid']}}">删除</button>
                                             <button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['gid']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal">广告</button>
 
@@ -212,9 +212,10 @@
                     <form role="form" class="form-horizontal" action="" method="post" id="updateform">
                         <input type="hidden" name="sid" id="sid" value="{{$sid}}">
                         <input type="hidden" name="_method" value="PUT">
-                        <div class="form-group" id="goodscat">
+                        <div id="goodscat">
+                        <!-- <div class="form-group">
                             <label class="col-sm-2 control-label">商品分类</label>
-                            <!-- <div class="col-sm-10">
+                            <div class="col-sm-10">
                                 <div class="row">
                                     <div class="col-xs-4">
                                         <select class="form-control" id="mainselect" name="mainselect" required>
@@ -226,7 +227,8 @@
                                         <input type="hidden" name="midhidden" id="midhidden" value="">
                                     </div>
                                 </div>
-                            </div>-->
+                            </div>
+                        </div> -->
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="name">商品名称</label>

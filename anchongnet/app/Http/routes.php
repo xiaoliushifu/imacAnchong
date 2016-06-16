@@ -101,6 +101,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/goods/catinfo','Api\Category\CategoryController@catinfo');
         //商品列表
         Route::post('/goods/goodslist','Api\Goods\GoodsController@goodslist');
+        //商品列表所有商品
+        Route::post('/goods/goodsall','Api\Goods\GoodsController@goodsall');
         //提供商品标签的检索
         Route::post('/goods/tag','Api\Goods\GoodsController@goodslist');
         //商品详情
@@ -168,6 +170,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/shops/shopsedit','Api\Shop\ShopsController@shopsedit');
         //店铺全部商品
         Route::post('/shops/shopsgoods','Api\Shop\ShopsController@shopsgoods');
+        //店铺首页商品
+        Route::post('/shops/shopsindex','Api\Shop\ShopsController@shopsindex');
         //店铺新商品
         Route::post('/shops/newgoods','Api\Shop\ShopsController@newgoods');
         //商铺发货快递公司
@@ -289,10 +293,14 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         Route::resource('/goodcate','admin\goodCateController');
         //获取商品一级或二级分类路由
         Route::get('/getlevel','admin\goodCateController@getLevel');
+        //获取商品一级或二级分类路由
+        Route::get('/newgetlevel','admin\goodCateController@newgetLevel');
         //获取商品所有二级分类路由
         Route::get('/getlevel2','admin\goodCateController@getLevel2');
         //获取同一个一级分类下的所有二级分类的路由
         Route::get('/getsiblingscat','admin\goodCateController@getSiblings');
+        //获取同一个一级分类下的所有二级分类的路由
+        Route::get('/newgetsiblingscat','admin\goodCateController@newgetSiblings');
 
         //商品管理路由
         Route::resource('/good','admin\goodController');

@@ -117,7 +117,7 @@ class goodController extends Controller
         $gid = DB::table('anchong_goods_specifications')->insertGetId(
             [
                 //'cat_id' => $request->midselect,
-                'cat_id' =>$catid,
+                'cat_id'=>$catid,
                 'cid'=>$cid,
                 'goods_id'=>$request->name,
                 'goods_name'=>trim($spetag),
@@ -153,12 +153,13 @@ class goodController extends Controller
                 'sid'=>$this->sid,
                 'keyword'=>$keywords,
                 'tags'=>$tags,
+                'other_id'=>$request->mainselect,
             ]
         );
 
         /*
          * 向仓库表中插入
-         * */
+         */
         $total=0;
         for($m=0;$m<count($request['stock']['region']);$m++){
             DB::table('anchong_goods_stock')->insert(
@@ -178,7 +179,7 @@ class goodController extends Controller
 
         /*
          * 通过一个for循环向缩略图表中插入数据
-         * */
+         */
         for($i=0;$i<count($request['pic']);$i++){
             if($i==0){
                 //如果是第一张，就像货品表和商品类型表中插入图片地址

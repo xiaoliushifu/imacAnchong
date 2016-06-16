@@ -162,6 +162,45 @@ class GoodsController extends Controller
     }
 
     /*
+    *   商品列表该分类下所有商品查看
+    */
+    public function goodsall(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //默认每页数量
+        $limit=20;
+        //创建ORM模型
+        $goods_type=new \App\Goods_type();
+        //需要查的字段
+        $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
+        //查询商品列表的信息
+        $result=$goods_type->quer($goods_data,"other_id =".$param['other_id']." and added = 1",(($param['page']-1)*$limit),$limit);
+        //将结果转成数组
+        $results=$result['list']->toArray();
+        //判断是否取出结果
+        if(!empty($results)){
+            //判断是否有权限查看会员价，也就是判断是否审核通过
+            $showprice=0;
+            if($data['guid'] == 0){
+                $showprice=0;
+            }else{
+                $users=new \App\Users();
+                //查询用户是否认证
+                $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
+                if($users_auth[0]['certification'] == 3){
+                    $showprice=1;
+                }
+            }
+            $result['showprice']=$showprice;
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'请求失败，请刷新']]);
+        }
+    }
+
+    /*
     *   商品筛选标签显示
     */
     public function goodstag(Request $request)
