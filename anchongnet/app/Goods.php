@@ -2,13 +2,23 @@
 
 namespace App;
 
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Redirect;
 
 /*
 *   该模型是操作货品表的模块
 */
-class Goods extends Model
+class Goods extends Model implements AuthenticatableContract,
+                                    AuthorizableContract,
+                                    CanResetPasswordContract
 {
+    use Authenticatable, Authorizable, CanResetPassword;
 
     /**
      * The database table used by the model.
@@ -24,7 +34,7 @@ class Goods extends Model
      */
      //不允许被赋值
     protected $guarded = ['goods_id'];
-    protected $primaryKey = 'goods_id';
+
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -33,7 +43,7 @@ class Goods extends Model
     public  $timestamps=false;
 
     /*
-    *   商品查询
+    *   分类查询
     */
     public function quer($field,$type)
     {

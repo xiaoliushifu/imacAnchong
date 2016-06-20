@@ -2,13 +2,23 @@
 
 namespace App;
 
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Redirect;
 
 /*
 *   该模型是操作订单详细信息表的模块
 */
-class Orderinfo extends Model
+class Orderinfo extends Model implements AuthenticatableContract,
+                                    AuthorizableContract,
+                                    CanResetPasswordContract
 {
+    use Authenticatable, Authorizable, CanResetPassword;
 
     /**
      * The database table used by the model.
@@ -56,6 +66,19 @@ class Orderinfo extends Model
     }
 
     /*
+    *   该方法是订单详细信息更新
+    */
+    public function orderinfoupdate($id,$data)
+    {
+        $cartnum=$this->find($id);
+        if($cartnum->update($data)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /*
     *   该方法是订单详细信息删除
     */
     public function orderinfodel($num)
@@ -68,8 +91,11 @@ class Orderinfo extends Model
     }
 
     /*
-    * 根据条件进行收货地址搜索
-    */
+     * 查找相同订单编号的订单信息
+     * */
+    /*
+	* 根据条件进行收货地址搜索
+	*/
     public function scopeNum($query,$keyNum)
     {
         return $query->where('order_num', '=', $keyNum);

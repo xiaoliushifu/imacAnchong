@@ -16,12 +16,12 @@ class GoodSpecification extends Model
     /*
      * 根据条件进行商品查询
      * */
-    public function scopeName($query,$keyName)
+    public function scopeName($query,$keyName,$keySid)
     {
-        return $query->where('goods_name', 'like', "%{$keyName}%");
+        return $query->where('goods_name', 'like', "%{$keyName}%")->where('sid','=',$keySid);
     }
-    public function scopeGood($query,$keyGood)
+    public function scopeGood($query,$keyGood,$keySid)
     {
-        return $query->where('goods_id', '=', $keyGood);
+        return $query->where('goods_id', '=', $keyGood)->where('sid','=',$keySid);
     }
 }

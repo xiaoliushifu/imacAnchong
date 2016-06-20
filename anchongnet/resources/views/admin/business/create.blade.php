@@ -71,28 +71,25 @@
                             <form role="form" class="form-horizontal" action="/business" method="post">
                                 <input type="hidden" name="uid" value="{{Auth::user()['users_id']}}">
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="title">标题</label>
+                                    <label class="col-sm-2 control-label glyphicon " for="title">标题</label>
                                     <div class="col-sm-9">
                                         <input type="text" name="title" id="title" class="form-control" required value="{{ old('title') }}"/>
                                     </div>
                                 </div><!--end form-group-->
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="content">内容</label>
+                                    <label class="col-sm-2 control-label" for="etype">发布类别</label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" rows="5" id="content" required value="{{ old('content') }}" name="content"></textarea>
+                                        <select name="type" class="form-control" id="etype" required>
+                                            <option value="1">发布工程</option>
+                                            <option value="2">承接工程</option>
+                                            <option value="3">发布人才</option>
+                                            <option value="4">招聘人才</option>
+                                            <option value="5">找商品</option>
+                                        </select>
                                     </div>
-                                </div><!--end form-group-->
-                                <ul class="form-group hidden" id="img">
-                                </ul>
-                                <div class="gal form-group">
-                                    <label class="col-sm-2 control-label text-right">商机详情图片<br></label>
-                                    <div id="detailbox" class="col-sm-10">
-                                        <div id="detail"></div>
-                                    </div>
-                                    <div class="clearfix"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="tag">标签</label>
+                                    <label class="col-sm-2 control-label" for="tag">工程类型</label>
                                     <div class="col-sm-9">
                                         <select name="tag" id="tag" class="form-control" required>
 
@@ -112,22 +109,25 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="etype">类型</label>
-                                    <div class="col-sm-9">
-                                        <select name="type" class="form-control" id="etype" required>
-                                            <option value="1">发布工程</option>
-                                            <option value="2">承接工程</option>
-                                            <option value="3">发布人才</option>
-                                            <option value="4">招聘人才</option>
-                                            <option value="5">找商品</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label class="col-sm-2 control-label" for="area">区域</label>
                                     <div class="col-sm-9">
                                         <input type="text" id="area" class="form-control" name="area" value="{{ old('area') }}">
                                     </div>
+                                </div>
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="content">内容</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" rows="5" id="content" required value="{{ old('content') }}" name="content"></textarea>
+                                    </div>
+                                </div><!--end form-group-->
+                                <ul class="form-group hidden" id="img">
+                                </ul>
+                                <div class="gal form-group">
+                                    <label class="col-sm-2 control-label text-right">商机详情图片<br></label>
+                                    <div id="detailbox" class="col-sm-10">
+                                        <div id="detail"></div>
+                                    </div>
+                                    <div class="clearfix"></div>
                                 </div>
                                 <div class="form-group text-center">
                                     <label class="col-sm-3 control-label"></label>

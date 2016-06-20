@@ -2,13 +2,22 @@
 
 namespace App;
 
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Redirect;
 /*
 *   该模型是操作用户表的，改模型里面提供了插入用户数据和删除修改数据的方��?
 */
-class Users extends Model
+class Users extends Model implements AuthenticatableContract,
+                                    AuthorizableContract,
+                                    CanResetPasswordContract
 {
+    use Authenticatable, Authorizable, CanResetPassword;
 
     /**
      * The database table used by the model.
@@ -36,7 +45,7 @@ class Users extends Model
      */
      public function add($user_data)
      {
-        //将用户信息添加入用户表
+        //将用户信息添加入用户��?
         $this->fill($user_data);
         if($this->save()){
             return $this->id;

@@ -22,8 +22,6 @@
 |
 */
 
-//接口路由组
-
 Route::group(['domain' => 'api.anchong.net'], function () {
     //加上token验证的api
     Route::group(['middleware' => 'AppPrivate'], function () {
@@ -101,7 +99,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/goods/catinfo','Api\Category\CategoryController@catinfo');
         //商品列表
         Route::post('/goods/goodslist','Api\Goods\GoodsController@goodslist');
-        //商品列表所有商品
+		//商品列表所有商品
         Route::post('/goods/goodsall','Api\Goods\GoodsController@goodsall');
         //提供商品标签的检索
         Route::post('/goods/tag','Api\Goods\GoodsController@goodslist');
@@ -170,7 +168,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/shops/shopsedit','Api\Shop\ShopsController@shopsedit');
         //店铺全部商品
         Route::post('/shops/shopsgoods','Api\Shop\ShopsController@shopsgoods');
-        //店铺首页商品
+		//店铺首页商品
         Route::post('/shops/shopsindex','Api\Shop\ShopsController@shopsindex');
         //店铺新商品
         Route::post('/shops/newgoods','Api\Shop\ShopsController@newgoods');
@@ -338,11 +336,25 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
 
         //社区路由
         Route::resource('/release','admin\releaseController');
+        //社区图片上传路由
+        Route::resource('/releaseimg','admin\releaseImgController');
+        //获取指定发布图片的路由
+        Route::get('/relimg','admin\releaseImgController@getImg');
+        //编辑发布的时候添加发布图片
+        Route::post('/addrelimg','admin\releaseController@addpic');
+        //删除指定商机图片
+        Route::get('/delrelimg','admin\releaseImgController@delpic');
+         
         //评论路由
         Route::resource('/comment','admin\commentController');
         //回复评论路由
         Route::resource('/reply','admin\replyController');
-
+		
+         //资讯管理
+	Route::resource('/news','admin\informationController');
+	//资讯创建
+	Route::resource('/news/create','admin\informationController@create');
+		
         //商机管理
         Route::resource('/business','admin\businessController');
         //商机图片

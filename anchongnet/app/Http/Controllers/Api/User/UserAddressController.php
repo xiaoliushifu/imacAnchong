@@ -79,39 +79,22 @@ class UserAddressController extends Controller
      * */
     public function getdefault(Request $request){
         $uid=$request['guid'];
-
         $data=Address::UserDefault($uid);
-        if($data!=null){
-            /*return response()->json(
-                [
-                    "serverTime"=>time(),
-                    "ServerNo"=>0,
-                    "ResultData" => [
-                        'add_name' => $data->add_name,
-                        'phone'=>$data->phone,
-                        'region'=>$data->region,
-                        'address'=>$data->address,
-                    ]
-                ]*/
+        if(count($data)>0){
             return response()->json(
                 [
                     "serverTime"=>time(),
                     "ServerNo"=>0,
-                    "ResultData" => $data,
+                    "ResultData" => $data
                 ]
             );
         }else{
-            $first=Address::User($request['guid'])->first();
+            $first=$this->address->User($request['guid'])->first();
             return response()->json(
                 [
                     "serverTime"=>time(),
                     "ServerNo"=>0,
-                    "ResultData" =>[
-                        'add_name' => $first->add_name,
-                        'phone'=>$first->phone,
-                        'region'=>$first->region,
-                        'address'=>$first->address,
-                    ]
+                    "ResultData" => $first
                 ]
             );
         }

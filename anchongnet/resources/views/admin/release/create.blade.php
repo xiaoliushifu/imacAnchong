@@ -3,22 +3,19 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>添加标签</title>
+    <title>添加发布</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="/admin/bootstrap/css/bootstrap.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="/admin/dist/dfonts/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="/admin/dist/dfonts/ionicons.min.css">
-    <!-- DataTables -->
-    <link rel="stylesheet" href="/admin/plugins/datatables/dataTables.bootstrap.css">
+
     <!-- Theme style -->
     <link rel="stylesheet" href="/admin/dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="/admin/dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/admin/css/diyUpload.css">
+    <link rel="stylesheet" href="/admin/css/webuploader.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -27,8 +24,8 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-        .f-ib{display:inline-block;}
-        #example1{margin-top:10px;}
+        *{margin: 0;padding: 0;}
+        .add,.minus,.addsup,.minusup{margin-top:4px;}
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -70,17 +67,18 @@
                                     <label for="title">标题：</label>
                                     <input type="text" name="title" class="form-control" id="title" placeholder="标题" required>
                                 </div>
+                                <ul class="form-group hidden" id="img">
+                                </ul>
+                                <div class="gal form-group">
+                                    <div id="detailbox">
+                                        <div id="detail"></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
                                 <div class="form-group">
                                     <label for="conent">内容：</label>
-                                    @include('UEditor::head')
-                                            <!-- 加载编辑器的容器 -->
-                                    <script id="container" name="content" type="text/plain"></script>
-                                    <!-- 实例化编辑器 -->
-                                    <script>
-                                        UE.getEditor('container');
-                                    </script>
+                                    <textarea class="form-control" name="content" id="content" rows="5" required></textarea>
                                 </div>
-                                <div class="clearfix"></div>
                                 <button type="button" class="btn btn-default" id="add">添加</button>
                             </form>
                         </div>
@@ -101,11 +99,11 @@
 <!-- ./wrapper -->
 <!-- Bootstrap 3.3.5 -->
 <script src="/admin/bootstrap/js/bootstrap.min.js"></script>
-<!-- FastClick -->
-<script src="/admin/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
 <script src="/admin/js/jquery.form.js"></script>
+<script src="/admin/js/webuploader.html5only.min.js"></script>
+<script src="/admin/js/diyUpload.js"></script>
 <script src="/admin/js/createrelease.js"></script>
 </body>
 </html>

@@ -85,22 +85,6 @@
                                             <button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['gid']}}" data-cid="{{$data['cat_id']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myView" data-name="{{$data['goods_name']}}">查看详情</button>
                                             <button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['gid']}}" data-cid="{{$data['cat_id']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myModal">编辑</button>
                                             <button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['gid']}}">删除</button>
-                                            <button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['gid']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal">广告</button>
-
-                                            <!-- Split button -->
-                                            <!-- <div class="btn-group">
-                                              <button type="button" class="btn btn-warning btn-xs" data-id="{{$data['gid']}}" data-gid="{{$data['goods_id']}}">广告</button>
-                                              <button type="button" class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-id="{{$data['gid']}}" data-gid="{{$data['goods_id']}}">
-                                                <span class="caret"></span>
-                                                <span class="sr-only">Toggle Dropdown</span>
-                                              </button>
-                                              <ul class="dropdown-menu">
-                                                <li><a href="#">广告推送</a></li>
-                                                <li role="separator" class="divider"></li>
-                                                <li><a href="#">Separated link</a></li>
-                                              </ul>
-                                            </div> -->
-
                                             </form>
                                         </td>
                                     </tr>
@@ -212,8 +196,7 @@
                     <form role="form" class="form-horizontal" action="" method="post" id="updateform">
                         <input type="hidden" name="sid" id="sid" value="{{$sid}}">
                         <input type="hidden" name="_method" value="PUT">
-                        <div id="goodscat">
-                        <!-- <div class="form-group">
+                        <div class="form-group">
                             <label class="col-sm-2 control-label">商品分类</label>
                             <div class="col-sm-10">
                                 <div class="row">
@@ -224,12 +207,10 @@
                                     <div class="col-xs-4">
                                         <select class="form-control" id="midselect" name="midselect" required>
                                         </select>
-                                        <input type="hidden" name="midhidden" id="midhidden" value="">
                                     </div>
-                                </div>
-                            </div>
-                        </div> -->
-                        </div>
+                                </div><!--end row-->
+                            </div><!--end col-sm-10-->
+                        </div><!--end form-group-->
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="name">商品名称</label>
                             <div class="col-sm-6">

@@ -18,7 +18,7 @@ return [
 */
     'core' => [
         'route' => [
-           // 'middleware' => 'auth',
+            'middleware' => 'auth',
         ],
 
         'mode'=>'local',//上传方式,local 为本地   qiniu 为七牛
@@ -40,7 +40,7 @@ return [
     'upload' => [
         "imageActionName" => "uploadimage", /* 执行上传图片的action名称 */
         "imageFieldName" => "upfile", /* 提交的图片表单名称 */
-        "imageMaxSize" => 2048000, /* 上传大小限制，单位B */
+        "imageMaxSize" => 20480000, /* 上传大小限制，单位B */
         "imageAllowFiles" => [".png", ".jpg", ".jpeg", ".gif", ".bmp"], /* 上传图片格式显示 */
         "imageCompressEnable" => true, /* 是否压缩图片,默认是true */
         "imageCompressBorder" => 1600, /* 图片压缩最长边限制 */
@@ -64,7 +64,7 @@ return [
         "scrawlActionName" => "uploadscrawl", /* 执行上传涂鸦的action名称 */
         "scrawlFieldName" => "upfile", /* 提交的图片表单名称 */
         "scrawlPathFormat" => "/uploads/ueditor/php/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
-        "scrawlMaxSize" => 2048000, /* 上传大小限制，单位B */
+        "scrawlMaxSize" => 20480000, /* 上传大小限制，单位B */
         "scrawlUrlPrefix" => "", /* 图片访问路径前缀 */
         "scrawlInsertAlign" => "none",
 
@@ -80,7 +80,7 @@ return [
         "catcherFieldName" => "source", /* 提交的图片列表表单名称 */
         "catcherPathFormat" => "/uploads/ueditor/php/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
         "catcherUrlPrefix" => "", /* 图片访问路径前缀 */
-        "catcherMaxSize" => 2048000, /* 上传大小限制，单位B */
+        "catcherMaxSize" => 20480000, /* 上传大小限制，单位B */
         "catcherAllowFiles" => [".png", ".jpg", ".jpeg", ".gif", ".bmp"], /* 抓取图片格式显示 */
 
         /* 上传视频配置 */

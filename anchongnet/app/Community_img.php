@@ -54,4 +54,12 @@ class Community_img extends Model
             return true;
         }
     }
+
+    /*
+     * 获取指定发布的图片
+     * */
+    public function scopeChat($query,$keyChat)
+    {
+        return $query->where('chat_id','=',$keyChat);
+    }
 }

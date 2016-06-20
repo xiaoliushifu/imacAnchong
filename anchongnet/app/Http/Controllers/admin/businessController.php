@@ -80,6 +80,7 @@ class businessController extends Controller
                 'tag'=>$request['tag'],
                 'phone'=>$request['phone'],
                 'contact'=>$request['contact'],
+                'created_at'=>date("Y-m-d H:i:s",time()),
                 'type'=>$request['type'],
                 'business_status'=>1,
                 'tags'=>$request['area'],

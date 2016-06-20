@@ -31,6 +31,13 @@
 	.f-ib{display:inline-block;}
 	#example1{margin-top:10px;}
 	img{max-width: 100%; max-height: 500px;}
+	.pic{position: relative; top: 7px; visibility: hidden;}
+	.gal{margin-top: 20px;}
+	.gallerys li{width:10%; min-width: 80px; position: relative;}
+	.delpic{position: absolute; right: 0; top: -5px;}
+	.gallery{width: 80px; height: 80px; background: url("/admin/image/catetypecreate/add.jpg") center center no-repeat; border: solid #ddd 1px;  cursor: pointer; display:table-cell; vertical-align: middle;}
+	.gallery img{max-width: 100%; max-height: 100%;}
+	.addpic{margin-top: -100px;}
 	</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -129,13 +136,7 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="content">内容</label>
 							<div class="col-sm-9">
-								@include('UEditor::head')
-										<!-- 加载编辑器的容器 -->
-								<script id="content" name="content" type="text/plain"></script>
-								<!-- 实例化编辑器 -->
-								<script>
-									UE.getEditor('content');
-								</script>
+								<textarea name="content" id="content" class="form-control" rows="5"></textarea>
 							</div>
 						</div><!--end form-group-->
 						<div class="form-group text-center">
@@ -144,6 +145,24 @@
 								<button type="button" class="btn btn-info" id="save">保存</button>
 							</div>
 						</div><!--end form-group text-center-->
+					</form>
+					<hr>
+					<h5 class="text-center">图片信息</h5>
+					<form role="form" class="form-horizontal" action="" id="formToUpdate" method="post" enctype="multipart/form-data">
+						<div id="method"></div>
+						<input type="hidden" name="cid" id="cid">
+						<div class="gal form-group">
+							<label for="pic" class="col-sm-2 control-label">图片</label>
+							<ul class="gallerys col-sm-10 list-inline">
+								<li class="template hidden">
+									<div class="gallery text-center">
+										<img src="" class="img">
+									</div>
+									<input type="file" name="file" class="pic">
+								</li>
+								<button type="button" class="goodpic addpic btn btn-default" title="继续添加图片" id="addforgood">+</button>
+							</ul>
+						</div>
 					</form>
 				</div>
 			</div>

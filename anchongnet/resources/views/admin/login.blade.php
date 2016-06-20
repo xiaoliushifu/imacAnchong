@@ -43,7 +43,7 @@
       <div class="row cl">
         <div class="formControls col-8 col-offset-3">
           <input class="input-text size-L" type="text" name="captchapic" placeholder="验证码" onfocus="javascript:this.value=''" onclick="if(this.value=='验证码:'){this.value='';}" value="验证码:" style="width:150px;" required="required">
-          <img src="{{ URL('/captcha/1') }}" id="captchapic" onclick="javascript:captcha();">  <font color="red">{{ Session::get('admincaptcha') }}</font> </div>
+          <img src="/admin/image/captcha.png" id="captchapic" onclick="javascript:captcha();">  <font color="red">{{ Session::get('admincaptcha') }}</font> </div>
       </div>
       <div class="row">
         <div class="formControls col-8 col-offset-3">

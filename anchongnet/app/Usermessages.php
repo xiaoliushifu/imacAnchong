@@ -9,7 +9,7 @@ class Usermessages extends Model
     protected $table = 'anchong_usermessages';
     protected $guard='users_id';
     protected $fillable = ['contact', 'account', 'qq','email','nickname','headpic'];
-     //通过条件
+     //ͨ��id��ȡָ����¼
     public function scopeMessage($query,$id)
     {
         return $query->where('users_id', '=', $id);
