@@ -84,6 +84,8 @@ $(function(){
             });
         }
 
+
+
         $("#name").empty();
         $.get("/getsibilingscommodity",{pid:cid[1],sid:sid},function(data,status,c){
             for(var i=0;i<data.length;i++){
@@ -348,5 +350,67 @@ $(function(){
         }else{
             $(this).before($(this).siblings(".template").clone().attr("class",""));
         }
+    });
+
+    $(".advert").click(function(){
+        $("#advert-goodsname").text($(this).attr("data-name"));
+        $("#advert-goodsnum").text($(this).attr("data-num"));
+        $("#advert-goods_id").val($(this).attr("data-gid"));
+        $("#advert-gid").val($(this).attr("data-id"));
+    });
+
+    $(".newgoodspic1").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate1").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:13,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert(data.message);
+                if(data.isSuccess==true){
+                    $(".img1").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic2").change(function(){
+        $("#formToUpdate2").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:14},
+            success: function (data) {
+                alert(data.message);
+                if(data.isSuccess==true){
+                    $(".img2").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic3").change(function(){
+        $("#formToUpdate3").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:15},
+            success: function (data) {
+                alert(data.message);
+                if(data.isSuccess==true){
+                    $(".img3").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic4").change(function(){
+        $("#formToUpdate4").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:16},
+            success: function (data) {
+                alert(data.message);
+                if(data.isSuccess==true){
+                    $(".img4").attr("src", data.url);
+                }
+            }
+        });
     });
 });

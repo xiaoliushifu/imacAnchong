@@ -365,6 +365,12 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         Route::get('/delimg','admin\busimgController@delpic');
         //编辑商机的时候添加商机图片
         Route::post('/addbusimg','admin\businessController@addpic');
+
+        /*
+        *   后台广告
+        */
+        //编辑商机的时候添加图片
+        Route::post('/advert/addpic','admin\Advert\AdvertController@addpic');
     });
     //获取商品参数html代码
     Route::get('/getparam','admin\uEditorController@getParam');

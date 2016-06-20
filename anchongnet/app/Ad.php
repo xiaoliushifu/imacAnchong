@@ -31,4 +31,17 @@ class Ad extends Model
     {
          return $this->select($field)->whereRaw($type)->orderBy('ad_id', 'ASC')->get();
     }
+
+    /*
+    *   该方法是更新
+    */
+    public function adupdate($id,$data)
+    {
+        $ad=$this->find($id);
+        if($ad->update($data)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

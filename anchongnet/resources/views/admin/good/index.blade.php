@@ -85,6 +85,27 @@
                                             <button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['gid']}}" data-cid="{{$data['cat_id']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myView" data-name="{{$data['goods_name']}}">查看详情</button>
                                             <button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['gid']}}" data-cid="{{$data['cat_id']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myModal">编辑</button>
                                             <button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['gid']}}">删除</button>
+<<<<<<< HEAD
+=======
+                                            <button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['gid']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myAdvert"
+                                            data-name="{{$data['title']}}"
+                                            data-num="{{$data['goods_numbering']}}">广告</button>
+
+                                            <!-- Split button -->
+                                            <!-- <div class="btn-group">
+                                              <button type="button" class="btn btn-warning btn-xs" data-id="{{$data['gid']}}" data-gid="{{$data['goods_id']}}">广告</button>
+                                              <button type="button" class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-id="{{$data['gid']}}" data-gid="{{$data['goods_id']}}">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                              </button>
+                                              <ul class="dropdown-menu">
+                                                <li><a href="#">广告推送</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li><a href="#">Separated link</a></li>
+                                              </ul>
+                                            </div> -->
+
+>>>>>>> fab13be68108fc5f5eb425db0295f02923c9c8aa
                                             </form>
                                         </td>
                                     </tr>
@@ -312,6 +333,65 @@
                             </ul>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myAdvert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tr>
+                            <td align="right" width="25%">商品名称</td>
+                            <td align="left" id="advert-goodsname"></td>
+                        </tr>
+                        <tr>
+                            <td align="right">货品编号</td>
+                            <td align="left" id="advert-goodsnum"></td>
+                        </tr>
+                        <input type="hidden" id="advert-goods_id" value="">
+                        <input type="hidden" id="advert-gid" value="">
+                        <tr>
+                            <td><form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdate1" method="post" enctype="multipart/form-data">
+                                <div id="method"></div>
+                                            <div class="gallery text-center">
+                                                <img src="http://anchongres.oss-cn-hangzhou.aliyuncs.com/business/311462265978.png" style="height:100px;width:100px;" class="img1">
+                                            </div>
+                                            <input type="file" name="file" class="newgoodspic1">
+                            </form></td>
+                            <td><form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdate2" method="post" enctype="multipart/form-data">
+                                <div id="method"></div>
+                                            <div class="gallery text-center">
+                                                <img src="http://anchongres.oss-cn-hangzhou.aliyuncs.com/business/311462265978.png" style="height:100px;width:100px;" class="img2">
+                                            </div>
+                                            <input type="file" name="file" class="newgoodspic2">
+                            </form></td>
+                            <td><form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdate3" method="post" enctype="multipart/form-data">
+                                <div id="method"></div>
+
+                                            <div class="gallery text-center">
+                                                <img src="http://anchongres.oss-cn-hangzhou.aliyuncs.com/business/311462265978.png" style="height:100px;width:100px;" class="img3">
+                                            </div>
+                                            <input type="file" name="file" class="newgoodspic3">
+                            </form></td>
+                            <td><form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdate4" method="post" enctype="multipart/form-data">
+                                <!-- <div id="method"></div> -->
+
+                                            <div class="gallery text-center">
+                                                <img src="http://anchongres.oss-cn-hangzhou.aliyuncs.com/business/311462265978.png" style="height:100px;width:100px;" class="img4">
+                                            </div>
+                                            <input type="file" name="file" class="newgoodspic4">
+                            </form></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
