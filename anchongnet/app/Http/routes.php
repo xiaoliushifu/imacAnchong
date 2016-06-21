@@ -65,6 +65,9 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/user/setdefaultaddress','Api\User\UserAddressController@setdefault');
         //用户删除收货地址
         Route::post('/user/deladdress','Api\User\UserAddressController@del');
+        //获取指定用户资料
+        Route::any('/user/getmessage','Api\User\UsermessagesController@show');
+        Route::any('/catbrand','Api\Shop\CatbrandController@index');
 
         /*
         *   商机模块
@@ -359,6 +362,12 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         */
         //编辑商机的时候添加图片
         Route::post('/advert/addpic','admin\Advert\AdvertController@addpic');
+
+        /*
+        *   后台商品
+        */
+        //后台商品删除
+        Route::post('/goods/goodsdel','admin\Goods\GoodsController@goodsdel');
     });
     //获取商品参数html代码
     Route::get('/getparam','admin\uEditorController@getParam');

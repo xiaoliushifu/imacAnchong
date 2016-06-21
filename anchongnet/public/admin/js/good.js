@@ -113,7 +113,7 @@ $(function(){
             $("#stocktr").empty();
             var line;
             for(var k=0;k<data.length;k++){
-                line='<tr class="line"> <td> <input type="text" class="region form-control" value="'+data[k].region+'" /> </td> <td><input type="text" class="location form-control" value="'+data[k].location+'"></td> <td><input type="text" class="shelf form-control" value="'+data[k].shelf+'"> </td> <td> <input type="number" min="0" class="regionum form-control" value="'+data[k].region_num+'" /> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" data-id="'+data[k].stock_id+'" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除" data-id="'+data[k].stock_id+'"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
+                line='<tr class="line"> <td><input type="text" class="location form-control" value="'+data[k].location+'"></td> <td> <input type="number" min="0" class="regionum form-control" value="'+data[k].region_num+'" /> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" data-id="'+data[k].stock_id+'" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除" data-id="'+data[k].stock_id+'"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
                 $("#stocktr").append(line);
             }
         });
@@ -143,19 +143,14 @@ $(function(){
 
     $("body").on("click",'.addcuspro',function(){
         var len=$(".line").length;
-        var line='<tr class="line"> <td> <input type="text" class="region form-control" /> </td> <td> <input type="text" class="location form-control" /></td><td><input type="text" class="shelf form-control"></td> <td> <input type="number" min="0" class="regionum form-control" /> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
+        var line='<tr class="line"> <td> <input type="text" class="location form-control" /></td><td> <input type="number" min="0" class="regionum form-control" /> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
         $("#stocktr").append(line);
     });
 
     $("body").on("click",'.savestock',function(){
-        var region=$(this).parentsUntil("#stocktr").find(".region").val();
         var regionum=$(this).parentsUntil("#stocktr").find(".regionum").val();
         var location=$(this).parentsUntil("#stocktr").find(".location").val();
-        var shelf=$(this).parentsUntil("#stocktr").find(".shelf").val();
-        if(region==""){
-            alert("库存区域不能为空！");
-            $(this).parentsUntil("#stocktr").find(".region").focus();
-        }else if(regionum==""){
+        if(regionum==""){
             alert("库存数量不能为空！");
             $(this).parentsUntil("#stocktr").find(".regionum").focus();
         }else{
@@ -169,7 +164,7 @@ $(function(){
                 $.ajax({
                     url: "/stock",
                     type:'POST',
-                    data:{gid:gid,region:region,location:location,shelf:shelf,regionum:regionum},
+                    data:{gid:gid,location:location,regionum:regionum},
                     success:function( response ){
                         alert(response.message);
                         $("#save").attr("data-id",response.id);
@@ -180,7 +175,7 @@ $(function(){
                 $.ajax({
                     url: "/stock/"+id,
                     type:'PUT',
-                    data:{gid:gid,region:region,location:location,shelf:shelf,regionum:regionum},
+                    data:{gid:gid,location:location,regionum:regionum},
                     success:function( response ){
                         alert(response.message);
                     }
@@ -351,64 +346,383 @@ $(function(){
             $(this).before($(this).siblings(".template").clone().attr("class",""));
         }
     });
-
+//点击广告
     $(".advert").click(function(){
         $("#advert-goodsname").text($(this).attr("data-name"));
         $("#advert-goodsnum").text($(this).attr("data-num"));
         $("#advert-goods_id").val($(this).attr("data-gid"));
         $("#advert-gid").val($(this).attr("data-id"));
     });
+//点击删除
+    $(".goods_del").click(function(){
+        //货品ID
+        gid=$(this).attr("data-id");
+        //商品ID
+        goods_id=$(this).attr("data-gid");
+        if(confirm('确认要删除吗？')){
+            $.ajax({
+                url: "/goods/goodsdel",
+                type:'POST',
+                data:{action:2,gid:gid,goods_id:goods_id},
+                success:function( response ){
+                    if(response.ServerNo == 0){
+                        alert('删除成功');
+                        location.reload();
+                    }else{
+                        alert('删除失败');
+                    }
+                }
+            });
+    	}
+    });
 
-    $(".newgoodspic1").change(function(){
+//商城轮播图
+    $(".newgoodspic31").change(function(){
         var goods_id=$("#advert-goods_id").attr("value");
         var gid=$("#advert-gid").attr("value");
-        $("#formToUpdate1").ajaxSubmit({
+        $("#formToUpdate31").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:5,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('商城轮播图1'+data.message);
+                if(data.isSuccess==true){
+                    $(".img31").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic32").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate32").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:6,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('商城轮播图2'+data.message);
+                if(data.isSuccess==true){
+                    $(".img32").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic33").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate33").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:7,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('商城轮播图3'+data.message);
+                if(data.isSuccess==true){
+                    $(".img33").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic34").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate34").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:8,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('商城轮播图4'+data.message);
+                if(data.isSuccess==true){
+                    $(".img34").attr("src", data.url);
+                }
+            }
+        });
+    });
+//最新上架
+    $(".newgoodspic51").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate51").ajaxSubmit({
             type: 'post',
             url: '/advert/addpic',
             data:{adid:13,goods_id:goods_id,gid:gid},
             success: function (data) {
-                alert(data.message);
+                alert('最新上架1'+data.message);
                 if(data.isSuccess==true){
-                    $(".img1").attr("src", data.url);
+                    $(".img51").attr("src", data.url);
                 }
             }
         });
     });
-    $(".newgoodspic2").change(function(){
-        $("#formToUpdate2").ajaxSubmit({
+    $(".newgoodspic52").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate52").ajaxSubmit({
             type: 'post',
             url: '/advert/addpic',
-            data:{adid:14},
+            data:{adid:14,goods_id:goods_id,gid:gid},
             success: function (data) {
-                alert(data.message);
+                alert('最新上架2'+data.message);
                 if(data.isSuccess==true){
-                    $(".img2").attr("src", data.url);
+                    $(".img52").attr("src", data.url);
                 }
             }
         });
     });
-    $(".newgoodspic3").change(function(){
-        $("#formToUpdate3").ajaxSubmit({
+    $(".newgoodspic53").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate53").ajaxSubmit({
             type: 'post',
             url: '/advert/addpic',
-            data:{adid:15},
+            data:{adid:15,goods_id:goods_id,gid:gid},
             success: function (data) {
-                alert(data.message);
+                alert('最新上架3'+data.message);
                 if(data.isSuccess==true){
-                    $(".img3").attr("src", data.url);
+                    $(".img53").attr("src", data.url);
                 }
             }
         });
     });
-    $(".newgoodspic4").change(function(){
-        $("#formToUpdate4").ajaxSubmit({
+    $(".newgoodspic54").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate54").ajaxSubmit({
             type: 'post',
             url: '/advert/addpic',
-            data:{adid:16},
+            data:{adid:16,goods_id:goods_id,gid:gid},
             success: function (data) {
-                alert(data.message);
+                alert('最新上架4'+data.message);
                 if(data.isSuccess==true){
-                    $(".img4").attr("src", data.url);
+                    $(".img54").attr("src", data.url);
+                }
+            }
+        });
+    });
+
+//第一块热卖单品
+    $(".newgoodspic71").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate71").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:20,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('第一块热卖单品1'+data.message);
+                if(data.isSuccess==true){
+                    $(".img71").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic72").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate72").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:21,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('第一块热卖单品2'+data.message);
+                if(data.isSuccess==true){
+                    $(".img72").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic73").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate73").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:22,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('第一块热卖单品3'+data.message);
+                if(data.isSuccess==true){
+                    $(".img73").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic74").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate74").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:23,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('第一块热卖单品4'+data.message);
+                if(data.isSuccess==true){
+                    $(".img74").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic75").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate75").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:24,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('第一块热卖单品5'+data.message);
+                if(data.isSuccess==true){
+                    $(".img75").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic76").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate76").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:25,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('第一块热卖单品6'+data.message);
+                if(data.isSuccess==true){
+                    $(".img76").attr("src", data.url);
+                }
+            }
+        });
+    });
+//强力推荐
+    $(".newgoodspic91").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate91").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:27,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('强力推荐1'+data.message);
+                if(data.isSuccess==true){
+                    $(".img91").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic92").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate92").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:28,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('强力推荐2'+data.message);
+                if(data.isSuccess==true){
+                    $(".img92").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic93").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate93").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:29,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('强力推荐3'+data.message);
+                if(data.isSuccess==true){
+                    $(".img93").attr("src", data.url);
+                }
+            }
+        });
+    });
+//第二块热卖单品
+    $(".newgoodspic101").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate101").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:30,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('第二块热卖单品1'+data.message);
+                if(data.isSuccess==true){
+                    $(".img101").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic102").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate102").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:31,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('第二块热卖单品2'+data.message);
+                if(data.isSuccess==true){
+                    $(".img102").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic103").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate103").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:32,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('第二块热卖单品3'+data.message);
+                if(data.isSuccess==true){
+                    $(".img103").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic104").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate104").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:33,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('第二块热卖单品4'+data.message);
+                if(data.isSuccess==true){
+                    $(".img104").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic105").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate105").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:34,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('第二块热卖单品5'+data.message);
+                if(data.isSuccess==true){
+                    $(".img105").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic106").change(function(){
+        var goods_id=$("#advert-goods_id").attr("value");
+        var gid=$("#advert-gid").attr("value");
+        $("#formToUpdate106").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:35,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('第二块热卖单品6'+data.message);
+                if(data.isSuccess==true){
+                    $(".img106").attr("src", data.url);
                 }
             }
         });

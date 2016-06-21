@@ -54,9 +54,7 @@ class stockController extends Controller
         $id = DB::table('anchong_goods_stock')->insertGetId(
             [
                 'gid' => $request->gid,
-                'region'=>$request->region,
                 'location'=>$request->location,
-                'shelf'=>$request->shelf,
                 'region_num'=>$request->regionum,
             ]
         );
@@ -112,9 +110,7 @@ class stockController extends Controller
 
         //修改库存信息
         $data=$this->stock->find($id);
-        $data->region=$request->region;
         $data->location=$request->location;
-        $data->shelf=$request->shelf;
         $data->region_num=$request->regionum;
         $result=$data->save();
 

@@ -18,4 +18,16 @@ class Stock extends Model
     {
         return $query->where('gid', '=', $keyGood);
     }
+
+    /*
+    *   删除货品的库存与区域
+    */
+    public function del($num)
+    {
+        if($this->where('gid', '=', $num)->delete()){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

@@ -18,7 +18,7 @@ class GoodSpecification extends Model
      * */
     public function scopeName($query,$keyName)
     {
-        return $query->where('goods_name', 'like', "%{$keyName}%");
+        return $query->where('goods_numbering', '=', $keyName);
     }
     public function scopeGood($query,$keyGood)
     {

@@ -90,7 +90,7 @@ $(function(){
 
     $("body").on("click",'.addcuspro',function(){
         var len=$(".line").length;
-        var line='<tr class="line"> <td> <input type="text" name="stock[region][]" class="form-control" required /> </td><td> <input type="text" name="stock[location][]" class="form-control" required /> </td> <td> <input type="text" name="stock[shelf][]" class="form-control" required /> </td> <td> <input type="number" min="0" name="stock[num][]" class="form-control" required /> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
+        var line='<tr class="line"> <td> <input type="text" name="stock[location][]" class="form-control" required /> </td> <td> <input type="number" min="0" name="stock[num][]" class="form-control" required /> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
         $("#stock").append(line);
     });
 
@@ -114,4 +114,3 @@ $('#test').diyUpload({
         console.info( err );
     },
 });
-
