@@ -237,6 +237,13 @@ class goodController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+     public function destroy($sid)
+     {
+         $data=$this->gs->find($sid);
+         $data->delete();
+         return "删除成功";
+     }
     public function update(Request $request, $id)
     {
         $data=$this->goodSpecification->find($id);
@@ -282,6 +289,7 @@ class goodController extends Controller
         $datas=$this->goodSpecification->Good($request->good)->get();
         return $datas;
     }
+
 
     /*
      * 编辑货品时候添加图片
@@ -337,4 +345,5 @@ class goodController extends Controller
         }
         return response()->json(['message' => $message, 'isSuccess' => $isSuccess,'url'=>$url,'tid'=>$tid]);
     }
+
 }
