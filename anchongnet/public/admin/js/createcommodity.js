@@ -97,7 +97,7 @@ $(function(){
             if(data.length==0){
                 spe='<input type="hidden" name="gid[]" value=" "><input type="hidden" name="title[]" value=" "><input type="hidden" name="price[]" value=" "><input type="hidden" name="img[]" value=" ">';
             }else{
-                spe='<input type="hidden" name="gid[]" value='+data[0].gid+'><input type="hidden" name="title[]" value="'+data[0].title+'"><input type="hidden" name="price[]" value='+data[0].goods_price+'><input type="hidden" name="img[]" value='+data[0].goods_img+'>';
+                spe='<input type="hidden" name="gid[]" value='+data[0].gid+'><input type="hidden" name="title[]" value="'+data[0].title+'"><input type="hidden" name="price[]" value='+data[0].market_price+'><input type="hidden" name="img[]" value='+data[0].goods_img+'>';
             }
             $(".waitforspe").siblings(".supval").append(spe);
         })

@@ -26,7 +26,7 @@ $(function(){
             $("#stock").empty();
             var dl;
             for(var i=0;i<data.length;i++){
-                dl="<dl class='dl-horizontal'> <dt>"+data[i].region+"</dt> <dd>"+data[i].region_num+"</dd> </dl>";
+                dl="<dl class='dl-horizontal'>  <dd>"+data[i].region_num+"</dd> </dl>";
                 $("#stock").append(dl);
             }
         });

@@ -73,7 +73,7 @@
                                     <th>市场价</th>
                                     <th>会员价</th>
                                     <th>货品编号</th>
-                                    <th>商铺名称</th>
+                                    <th>所属商铺</th>
                                     <th>操作</th>
                                 </tr>
                                 @foreach ($datacol['datas'] as $data)

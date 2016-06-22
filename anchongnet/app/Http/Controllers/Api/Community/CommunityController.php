@@ -470,8 +470,10 @@ class CommunityController extends Controller
                     $list[]=array_merge($community_release_result[0],$img_data);
                     $img=null;
                 }
-                $result[]=$list;
-                $total+=1;
+                foreach ($list as $listarr) {
+                    $result[]=$listarr;
+                    $total+=1;
+                }
                 $list=null;
             }
         }

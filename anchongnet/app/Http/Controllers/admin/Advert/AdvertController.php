@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\admin\Advert;
 
-use Illuminate\Http\Request;
-
+use Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -86,5 +85,24 @@ class AdvertController extends Controller
              return response()->json(['message' => $message, 'isSuccess' => $isSuccess,'url'=>$url,'tid'=>$tid]);
         }
 
+    }
+
+    /*
+    *   该方法是商机热门推广
+    */
+    public function businessadvert(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $param=$request::all();
+        //创建ORM模型
+        $business=new \App\Business();
+        $result=$business->businessupdate($param['bid'],['recommend'=>$param['recommend']]);
+        if($result){
+            return
+            response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'推广成功']]);
+        }else {
+            return
+            response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'推广失败']]);
+        }
     }
 }

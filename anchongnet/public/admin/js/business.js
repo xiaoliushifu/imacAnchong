@@ -173,4 +173,44 @@ $(function(){
             });
         }
     });
+    //推广商机
+    $(".advert").click(function(){
+        //商机ID
+        bid=$(this).attr("data-id");
+        if(confirm('确定要推到热门招标项目吗？')){
+            $.ajax({
+                url: "/advert/businessadvert",
+                type:'POST',
+                data:{bid:bid,recommend:1},
+                success:function( response ){
+                    if(response.ServerNo == 0){
+                        alert('推广成功');
+                        location.reload();
+                    }else{
+                        alert('推广失败');
+                    }
+                }
+            });
+    	}
+    });
+    //推广商机
+    $(".advertcancel").click(function(){
+        //商机ID
+        bid=$(this).attr("data-id");
+        if(confirm('确定要取消推广吗？')){
+            $.ajax({
+                url: "/advert/businessadvert",
+                type:'POST',
+                data:{bid:bid,recommend:0},
+                success:function( response ){
+                    if(response.ServerNo == 0){
+                        alert('取消成功');
+                        location.reload();
+                    }else{
+                        alert('取消失败');
+                    }
+                }
+            });
+        }
+    });
 });

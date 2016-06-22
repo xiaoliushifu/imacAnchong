@@ -360,8 +360,10 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         /*
         *   后台广告
         */
-        //编辑商机的时候添加图片
+        //编辑时候添加图片
         Route::post('/advert/addpic','admin\Advert\AdvertController@addpic');
+        //商机广告
+        Route::post('/advert/businessadvert','admin\Advert\AdvertController@businessadvert');
 
         /*
         *   后台商品
@@ -372,6 +374,7 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
     //获取商品参数html代码
     Route::get('/getparam','admin\uEditorController@getParam');
     Route::get('/getpackage','admin\uEditorController@getPackage');
+
 });
 
 //验证码类,需要传入数字

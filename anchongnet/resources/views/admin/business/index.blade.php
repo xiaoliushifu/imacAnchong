@@ -113,8 +113,12 @@
 										<button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['bid']}}" data-toggle="modal" data-target="#myview">查看详情</button>
 										<button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['bid']}}" data-uid="{{$data['users_id']}}" data-toggle="modal" data-target="#myModal">编辑</button>
 										<button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['bid']}}">删除</button>
+										<button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['bid']}}"  data-toggle="modal"
+										>广告推送</button>
+										<button type="button" class="advertcancel f-ib btn btn-warning btn-xs" data-id="{{$data['bid']}}"  data-toggle="modal"
+										>取消推送</button>
 									</td>
-								</tr>  
+								</tr>
 								@endforeach
 								<tr>
 								  <td colspan="5" align="center">
@@ -287,6 +291,7 @@
 			</div>
 		</div>
 	</div>
+
 	<!-- /.content-wrapper -->
 	<input type="hidden" id="activeFlag" value="treebusiness">
 	@include('inc.admin.footer')
