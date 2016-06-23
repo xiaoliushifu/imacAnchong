@@ -8,8 +8,8 @@ return [
 	'sign_type' => 'MD5',
 
 	// 服务器异步通知页面路径。
-	'notify_url' => 'http://admin.anchong.net/pay/webreturn',
+	'notify_url' => 'http://pay.anchong.net/pay/webreturn',
 
 	// 页面跳转同步通知页面路径。
-	'return_url' => 'http://admin.anchong.net/pay/webnotify',
+	'return_url' => 'http://pay.anchong.net/pay/webnotify',
 ];

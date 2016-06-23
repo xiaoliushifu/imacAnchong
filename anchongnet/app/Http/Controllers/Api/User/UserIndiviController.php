@@ -37,14 +37,14 @@ class UserIndiviController extends Controller
 		//验证用户传过来的数据是否合法
         $validator = Validator::make($param,
             [
-                'auth_name' => 'max:8',
-                'qua_name' => 'required|max:11',
+                'auth_name' => 'max:128',
+                'qua_name' => 'required|max:128',
             ]
         );
 		if ($validator->fails()){
-			//$messages = $validator->errors();
+
 			//如果验证失败,返回验证失败的信息
-			//1return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>$messages->first('auth_name')]]);
+			return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData'=>['Message'=>'请填写完整，认证名称和资质名称不能超过30字']]);
 		}else{
 			//先判断用户是否有待审核的认证
 			$wait=$this->auth->Ids($id)->Status(1)->first();

@@ -54,5 +54,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'AppPrivate'=>\App\Http\Middleware\AppPrivate::class,
         'LoginAuthen'=>\App\Http\Middleware\LoginAuthen::class,
+        'PayAuthen' =>\App\Http\Middleware\PayAuthen::class,
     ];
 }

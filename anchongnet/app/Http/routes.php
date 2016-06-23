@@ -341,6 +341,15 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
 
         //社区路由
         Route::resource('/release','admin\releaseController');
+        //社区图片上传路由
+        Route::resource('/releaseimg','admin\releaseImgController');
+        //获取指定发布图片的路由
+        Route::get('/relimg','admin\releaseImgController@getImg');
+        //编辑发布的时候添加发布图片
+        Route::post('/addrelimg','admin\releaseController@addpic');
+        //删除指定商机图片
+        Route::get('/delrelimg','admin\releaseImgController@delpic');
+
         //评论路由
         Route::resource('/comment','admin\commentController');
         //回复评论路由

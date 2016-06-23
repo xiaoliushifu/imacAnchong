@@ -35,6 +35,7 @@ class AdvertController extends Controller
      */
     public function addpic(Request $request)
     {
+        $request=$request::all();
         $fileType=$_FILES['file']['type'];
         $dir="advert/img/";
         $filePath = $request['file'];
@@ -68,7 +69,7 @@ class AdvertController extends Controller
 
             //创建ORM模型
             $ad=new \App\Ad();
-            $result=$ad->adupdate($request->adid,['ad_name'=>$request->goods_id,'ad_link'=>$request->gid,'ad_code'=>$url]);
+            $result=$ad->adupdate($request['adid'],['ad_name'=>$request['goods_id'],'ad_link'=>$request['gid'],'ad_code'=>$url]);
             $message="上传成功";
             $isSuccess=true;
             if($result){
