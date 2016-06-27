@@ -387,6 +387,12 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         Route::post('/advert/addpic','admin\Advert\AdvertController@addpic');
         //商机广告
         Route::post('/advert/businessadvert','admin\Advert\AdvertController@businessadvert');
+        //发布资讯页面
+        Route::get('/advert/newsshow','admin\Advert\AdvertController@newsshow');
+        //查看资讯页面
+        Route::get('/advert/newsindex','admin\Advert\AdvertController@newsindex');
+        //发布资讯
+        Route::post('/advert/releasenews','admin\Advert\AdvertController@releasenews');
 
         /*
         *   后台商品
@@ -394,10 +400,15 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         //后台商品删除
         Route::post('/goods/goodsdel','admin\Goods\GoodsController@goodsdel');
     });
+});
+
+//前台路由
+Route::group(['domain' => 'www.anchong.net'], function () {
     //获取商品参数html代码
     Route::get('/getparam','admin\uEditorController@getParam');
     Route::get('/getpackage','admin\uEditorController@getPackage');
-
+    //获取虫虫资讯
+    Route::get('/information/{infor_id}','admin\Advert\AdvertController@information');
 });
 
 //验证码类,需要传入数字

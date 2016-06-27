@@ -8,6 +8,8 @@ class Information extends Model
 {
     protected $table = 'anchong_information';
     protected $primaryKey = 'infor_id';
+    //不允许被赋值
+    protected $guarded = [];
     public $timestamps = false;
 
     /*
@@ -24,5 +26,19 @@ class Information extends Model
      public function firstquer($field,$type)
      {
          return $this->select($field)->whereRaw($type)->orderBy('created_at', 'DESC')->first();
+     }
+
+     /*
+     *   该方法是资讯添加
+     */
+     public function add($cart_data)
+     {
+        //将订单数据添加入数据表
+        $this->fill($cart_data);
+        if($this->save()){
+            return true;
+        }else{
+            return false;
+        }
      }
 }

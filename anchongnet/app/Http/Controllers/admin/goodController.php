@@ -63,9 +63,9 @@ class goodController extends Controller
     {
         $keyName=Requester::input('keyName');
         if($keyName==""){
-            $datas=$this->goodSpecification->orderBy("gid","desc")->paginate(8);
+            $datas=$this->goodSpecification->where('sid','=',$this->sid)->orderBy("gid","desc")->paginate(8);
         }else{
-            $datas = GoodSpecification::Name($keyName)->orderBy("gid","desc")->paginate(8);
+            $datas = GoodSpecification::Name($keyName)->where('sid','=',$this->sid)->orderBy("gid","desc")->paginate(8);
         }
         $args=array("keyName"=>$keyName);
         $sid=$this->sid;

@@ -106,4 +106,56 @@ class AdvertController extends Controller
             response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'推广失败']]);
         }
     }
+
+    /*
+    *   发布资讯页面
+    */
+    public function newsshow()
+    {
+        return view("admin/advert/create_news");
+    }
+
+    /*
+    *   查看资讯页面
+    */
+    public function newsindex()
+    {
+        return view("admin/advert/index",array('datacol'=>$data));
+    }
+
+    /*
+    *   发布资讯
+    */
+    public function releasenews(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        //创建订单的ORM模型
+        $information=new \App\Information();
+        //定义传过来的内容
+        $information_data=[
+            'title' => $data['title'],
+            'img' => $data['pic'][0]['url'],
+            'content' => '<style>img{max-width:100%;}</style>'.$data['param'],
+            'created_at' => date('Y-m-d H:i:s',time())
+        ];
+        //进行插入
+        $result=$information->add($information_data);
+        if($result){
+            return view("admin/advert/create_news",array('mes'=>"添加成功！"));
+        }else{
+            return view("admin/advert/create_news",array('mes'=>"添加失败！"));
+        }
+    }
+
+    /*
+    *   资讯查看
+    */
+    public function information($infor_id)
+    {
+        //创建ORM模型
+        $information=new \App\Information();
+        $data=$information->firstquer('content','infor_id ='.$infor_id);
+        return $data['content'];
+    }
 }
