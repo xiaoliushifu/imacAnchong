@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Session,Redirect,Request,Hash,Auth;
+use DB;
 
 class indexController extends Controller
 {
@@ -16,6 +17,14 @@ class indexController extends Controller
     {
         return view('admin.index',['username' => Auth::user()['username']]);
     }
+
+    /*
+    *  后台首页
+    */
+   public function zhuce()
+   {
+       return view('welcome');
+   }
 
     /*
     *   验证登陆
@@ -53,5 +62,40 @@ class indexController extends Controller
         //清除登录状态
         Auth::logout();
         return Redirect::intended('/');
+    }
+
+    /*
+    *   注册
+    */
+    public function userregister(Request $request)
+    {
+        //开启事务处理
+        DB::beginTransaction();
+        $data=$request::all();
+        //清除登录状态
+        $users_login=new \App\Users_login();
+        $users=new \App\Users();
+        $users_data=[
+            'phone' => $data['username'],
+            'ctime' => time(),
+        ];
+        $usersid=$users->add($users_data);
+        $users_login_data=[
+            'users_id' => $usersid,
+            'password' => Hash::make($data['password']),
+            'username' => $data['username'],
+            'token' => md5($data['username']),
+            'user_rank' => 2,
+        ];
+        $result=$users_login->add($users_login_data);
+        if($result){
+            //假如成功就提交
+            DB::commit();
+            return '注册成功';
+        }else{
+            //假如失败就回滚
+            DB::rollback();
+            return '注册失败';
+        }
     }
 }

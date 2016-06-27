@@ -245,8 +245,22 @@ Route::group(['domain' => 'api.anchong.net'], function () {
     });
 });
 
+//支付宝路由
+Route::group(['domain' => 'pay.anchong.net'], function () {
+    //加中间件的路由组
+    Route::group(['middleware' => 'PayAuthen'], function () {
+        //支付后异步回调
+        Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
+    });
+});
+
 //后台路由
 Route::group(['domain' => 'admin.anchong.net'], function () {
+    //注册相关
+    Route::any('/userregister', 'admin\indexController@userregister');
+    Route::any('/zhuce', 'admin\indexController@zhuce');
+    //支付宝
+    Route::get('/pay/alipay','Api\Pay\PayController@alipay');
     //验证码类,需要传入数字
     Route::get('/captcha/{num}', 'CaptchaController@captcha');
     //登录检查

@@ -58,7 +58,7 @@ class Order extends Model
        //将订单数据添加入数据表
        $this->fill($cart_data);
        if($this->save()){
-           return true;
+           return $this->order_id;
        }else{
            return false;
        }
