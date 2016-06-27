@@ -85,8 +85,6 @@
                                             <button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['gid']}}" data-cid="{{$data['cat_id']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myView" data-name="{{$data['goods_name']}}">查看详情</button>
                                             <button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['gid']}}" data-cid="{{$data['cat_id']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myModal">编辑</button>
                                             <button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['gid']}}">删除</button>
-<<<<<<< HEAD
-=======
                                             <button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['gid']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myAdvert"
                                             data-name="{{$data['title']}}"
                                             data-num="{{$data['goods_numbering']}}">广告</button>
@@ -104,8 +102,6 @@
                                                 <li><a href="#">Separated link</a></li>
                                               </ul>
                                             </div> -->
-
->>>>>>> fab13be68108fc5f5eb425db0295f02923c9c8aa
                                             </form>
                                         </td>
                                     </tr>
