@@ -25,6 +25,7 @@ $(function(){
             $("#vcreate").text(data.created_at);
             $("#vupdate").text(data.updated_at);
             $("#varea").text(data.tags);
+            $("#vendtime").text(data.endtime);
         });
 
         $("#vimg").empty();
@@ -49,6 +50,7 @@ $(function(){
             $("#phone").val(data.phone);
             $("#etype").find("option[value="+data.type+"]").attr("selected",true);
             $("#area").val(data.tags);
+            $("#endtime").val(data.endtime);
         });
 
         //获取商机图片

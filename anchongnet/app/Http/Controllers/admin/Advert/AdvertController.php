@@ -120,7 +120,10 @@ class AdvertController extends Controller
     */
     public function newsindex()
     {
-        return view("admin/advert/index",array('datacol'=>$data));
+        //创建订单的ORM模型
+        $information=new \App\Information();
+        $datas=$information->allquer(['title','img'])->paginate(8);
+        return view("admin/advert/index",array('datacol'=>$datas));
     }
 
     /*

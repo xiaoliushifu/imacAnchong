@@ -193,6 +193,10 @@
 							<td align="right">区域</td>
 							<td align="left" id="varea"></td>
 						</tr>
+						<tr>
+							<td align="right">工程结束时间</td>
+							<td align="left" id="vendtime"></td>
+						</tr>
 					</table>
 				</div>
 			</div>
@@ -260,6 +264,12 @@
 							<label class="col-sm-2 control-label" for="area">区域</label>
 							<div class="col-sm-9">
 								<input type="text" id="area" class="form-control" name="area">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="area">工程结束时间</label>
+							<div class="col-sm-9">
+								<input type="text" id="endtime" class="form-control" name="endtime">
 							</div>
 						</div>
 						<div class="form-group text-center">

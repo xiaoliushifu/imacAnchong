@@ -41,4 +41,12 @@ class Information extends Model
             return false;
         }
      }
+
+     /*
+     *   资讯查询内容
+     */
+     public function allquer($field)
+     {
+          return $this->select($field)->orderBy('created_at', 'DESC');
+     }
 }

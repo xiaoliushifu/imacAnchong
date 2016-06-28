@@ -129,6 +129,12 @@
                                         <input type="text" id="area" class="form-control" name="area" value="{{ old('area') }}">
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="area">工程结束时间</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="endtime" class="form-control" name="endtime" value="{{ old('endtime') }}">
+                                    </div>
+                                </div>
                                 <div class="form-group text-center">
                                     <label class="col-sm-3 control-label"></label>
                                     <div class="col-sm-3">
