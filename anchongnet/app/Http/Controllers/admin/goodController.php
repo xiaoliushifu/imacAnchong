@@ -241,7 +241,7 @@ class goodController extends Controller
     {
         $data=$this->goodSpecification->find($id);
         $data->goods_id=$request->name;
-        $data->cat_id=$request->midselect;
+        //$data->cat_id=$request->midselect;
         $data->goods_name=$request->spetag;
         $data->market_price=$request->marketprice;
         $data->goods_price=$request->costpirce;

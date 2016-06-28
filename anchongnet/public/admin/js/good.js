@@ -65,7 +65,7 @@ $(function(){
         $("#gid").val(id);
         for(var c=0;c<cid.length;c++){
 
-            opts='<div class="form-group"><label class="col-sm-2 control-label">商品分类</label><div class="col-sm-10"><div class="row"><div class="col-xs-4"><select class="form-control" id="mainselect'+c+'" name="mainselect'+c+'" required></select></div><div class="col-xs-4"><select class="form-control" id="midselect'+c+'" name="midselect'+c+'" required></select></div></div></div></div>';
+            opts='<div class="form-group"><label class="col-sm-2 control-label">商品分类</label><div class="col-sm-10"><div class="row"><div class="col-xs-4"><select class="form-control" id="mainselect'+c+'" name="mainselect'+c+'"></select></div><div class="col-xs-4"><select class="form-control" id="midselect'+c+'" name="midselect'+c+'"></select></div></div></div></div>';
 
             $("#goodscat").append(opts);
             $.get("/newgetlevel",{pid:one0,id:c},function(data,status){

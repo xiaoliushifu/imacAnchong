@@ -71,12 +71,14 @@
                             <a href="/commodity" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
                             <table id="example1" class="table table-bordered table-striped">
                                 <tr>
+                                    <th width="20%">商品ID</th>
                                     <th width="20%">商品名称</th>
                                     <th width="60%">描述</th>
                                     <th>操作</th>
                                 </tr>
                                 @foreach ($datacol['datas'] as $data)
                                     <tr>
+                                        <td align="center">{{$data['goods_id']}}</td>
                                         <td align="center">{{$data['title']}}</td>
                                         <td align="center">{{$data['desc']}}</td>
                                         <td align="center">
