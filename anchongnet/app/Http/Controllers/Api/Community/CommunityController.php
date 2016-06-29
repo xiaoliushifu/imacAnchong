@@ -118,13 +118,13 @@ class CommunityController extends Controller
         //验证用户传过来的数据是否合法
         $validator = Validator::make($param,
             [
-                'content' => 'required|max:126',
+                'content' => 'required|max:500',
             ]
         );
         //如果出错返回出错信息，如果正确执行下面的操作
         if ($validator->fails())
         {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'评论不能超过126个字']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'评论不能超过500个字']]);
         }else{
             //创建用户表通过电话查询出用户电话
             $users_message=new \App\Usermessages();
@@ -170,13 +170,13 @@ class CommunityController extends Controller
         //验证用户传过来的数据是否合法
         $validator = Validator::make($param,
             [
-                'content' => 'required|max:126',
+                'content' => 'required|max:500',
             ]
         );
         //如果出错返回出错信息，如果正确执行下面的操作
         if ($validator->fails())
         {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'评论不能超过126个字']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'评论不能超过500个字']]);
         }else{
             //创建用户表通过电话查询出用户电话
             $users_message=new \App\Usermessages();

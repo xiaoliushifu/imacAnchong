@@ -77,8 +77,8 @@
 										<img style="height:100px;width:100px;" src="{{$data['img']}}">
 									</td>
 									<td align="center">
-										<button type='button' class='edit f-ib btn btn-primary btn-xs' data-toggle="modal" data-target="#myModal">编辑</button>
-										<button type="button" class="del f-ib btn btn-danger btn-xs" >删除</button>
+										<button type='button' class='edit f-ib btn btn-primary btn-xs' data-toggle="modal" data-id="{{$data['infor_id']}}" data-target="#myModal">编辑</button>
+										<button type="button" class="del f-ib btn btn-danger btn-xs" data_id={{$data['infor_id']}}>删除</button>
 									</td>
 								</tr>
 								@endforeach
@@ -111,13 +111,14 @@
 				</div>
 				<div class="modal-body">
 					<form role="form" class="form-horizontal" action="" method="post" id="updateform">
-						<input type="hidden" name="_method" value="PUT">
+						<input type="hidden" id="infor_id" name="infor_id" value="">
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="title">标题</label>
 							<div class="col-sm-9">
 								<input type="text" name="title" id="title" class="form-control" required/>
 							</div>
 						</div><!--end form-group-->
+						<input type="hidden" id="newsimg" name="newsimg" value="">
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="content">内容</label>
 							<div class="col-sm-9">
@@ -137,6 +138,15 @@
 							</div>
 						</div><!--end form-group text-center-->
 					</form>
+					<div class="form-group">
+						<form role="form" class="form-horizontal" action="" id="formToUpdateimg" method="post" enctype="multipart/form-data">
+						<div id="method"></div>
+							<div class="gallery text-center">
+								<img src="" style="height:100px;width:100px;" id="updateimg">
+								<input type="file" name="file" id="newspic">
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -153,6 +163,6 @@
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
 <script src="/admin/js/jquery.form.js"></script>
-<script src="/admin/js/release.js"></script>
+<script src="/admin/js/news.js"></script>
 </body>
 </html>

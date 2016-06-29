@@ -122,7 +122,7 @@ class AdvertController extends Controller
     {
         //创建订单的ORM模型
         $information=new \App\Information();
-        $datas=$information->allquer(['title','img'])->paginate(8);
+        $datas=$information->allquer(['infor_id','title','img'])->paginate(8);
         return view("admin/advert/index",array('datacol'=>$datas));
     }
 
@@ -160,5 +160,55 @@ class AdvertController extends Controller
         $information=new \App\Information();
         $data=$information->firstquer('content','infor_id ='.$infor_id);
         return $data['content'];
+    }
+
+    /*
+    *   资讯查看
+    */
+    public function inforupdate(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        //创建ORM模型
+        $information=new \App\Information();
+        $information_data=[
+            'title' => $data['title'],
+            'img' => $data['newsimg'],
+            'content' => $data['content'],
+        ];
+        $data=$information->newsupdate($data['infor_id'],$information_data);
+        if($data){
+            return response()->json(['message' => '修改成功']);
+        }else{
+            return response()->json(['message' => '修改失败']);
+        }
+    }
+
+    /*
+    *   单个资讯查看
+    */
+    public function firstinfor($infor_id)
+    {
+        //创建订单的ORM模型
+        $information=new \App\Information();
+        $datas=$information->onequer(['infor_id','title','img','content'],'infor_id ='.$infor_id)->get();
+        return $datas;
+    }
+
+    /*
+    *   删除单个资讯
+    */
+    public function infordel($infor_id)
+    {
+        //创建订单的ORM模型
+        $information=new \App\Information();
+        $result=$information->infordel($infor_id);
+        if($result){
+            return
+            response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'删除成功']]);
+        }else {
+            return
+            response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'删除失败']]);
+        }
     }
 }

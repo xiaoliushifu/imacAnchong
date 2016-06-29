@@ -391,8 +391,14 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         Route::get('/advert/newsshow','admin\Advert\AdvertController@newsshow');
         //查看资讯页面
         Route::get('/advert/newsindex','admin\Advert\AdvertController@newsindex');
+        //单个资讯查看
+        Route::get('/advert/firstinfor/{id}','admin\Advert\AdvertController@firstinfor');
+        //资讯更新
+        Route::post('/advert/inforupdate','admin\Advert\AdvertController@inforupdate');
         //发布资讯
         Route::post('/advert/releasenews','admin\Advert\AdvertController@releasenews');
+        //删除资讯
+        Route::get('/advert/infordel/{num}','admin\Advert\AdvertController@infordel');
 
         /*
         *   后台商品

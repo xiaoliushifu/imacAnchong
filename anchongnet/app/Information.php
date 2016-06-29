@@ -49,4 +49,33 @@ class Information extends Model
      {
           return $this->select($field)->orderBy('created_at', 'DESC');
      }
+
+     /*
+     *   单一资讯查询内容
+     */
+     public function onequer($field,$type)
+     {
+          return $this->select($field)->whereRaw($type)->orderBy('created_at', 'DESC');
+     }
+
+     /*
+     *   更新信息
+     */
+     public function newsupdate($id,$data)
+     {
+         $cartnum=$this->find($id);
+         if($cartnum->update($data)){
+             return true;
+         }else{
+             return false;
+         }
+     }
+
+     /*
+     *   删除聊聊信息
+     */
+     public function infordel($id)
+     {
+         return $this->destroy($id);
+     }
 }

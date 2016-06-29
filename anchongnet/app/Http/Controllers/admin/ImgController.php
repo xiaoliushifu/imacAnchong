@@ -71,6 +71,9 @@ class ImgController extends Controller
             case 3:
                 $dir="goods/img/data/";
                 break;
+            case 4:
+                $dir="information/";
+                break;
         }
         //设置上传到阿里云oss的对象的键名
         switch ($fileType){
