@@ -23,7 +23,7 @@ class AdvertController extends Controller
         $ad=new \App\Ad();
         $business=new \App\Business();
         $information=new \App\Information();
-        $businessinfo=['bid','phone','contact','title','content','tag','tags','created_at'];
+        $businessinfo=['bid','phone','contact','title','content','tag','tags','created_at','endtime'];
         //轮播图查询
         $ad_result_pic=$ad->quer(['ad_code','ad_name','ad_link'],'position_id = 2 and media_type = 0 and enabled = 1',0,5)->toArray();
         $ad_infor_result=$information->firstquer(['infor_id','title','img'],'added =1');

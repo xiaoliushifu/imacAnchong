@@ -118,13 +118,13 @@ class CommunityController extends Controller
         //验证用户传过来的数据是否合法
         $validator = Validator::make($param,
             [
-                'content' => 'required|max:126',
+                'content' => 'required|max:500',
             ]
         );
         //如果出错返回出错信息，如果正确执行下面的操作
         if ($validator->fails())
         {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'评论不能超过126个字']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'评论不能超过500个字']]);
         }else{
             //创建用户表通过电话查询出用户电话
             $users_message=new \App\Usermessages();
@@ -170,13 +170,13 @@ class CommunityController extends Controller
         //验证用户传过来的数据是否合法
         $validator = Validator::make($param,
             [
-                'content' => 'required|max:126',
+                'content' => 'required|max:500',
             ]
         );
         //如果出错返回出错信息，如果正确执行下面的操作
         if ($validator->fails())
         {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'评论不能超过126个字']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'评论不能超过500个字']]);
         }else{
             //创建用户表通过电话查询出用户电话
             $users_message=new \App\Usermessages();
@@ -442,14 +442,13 @@ class CommunityController extends Controller
         //定义结果数组
         $list=null;
         $results=null;
-        $total=0;
         //查询收藏的聊聊id和数量
-        $community_collect_result=$community_collect->quer('chat_id','users_id ='.$data['guid'],(($param['page']-1)*$limit),$limit)->toArray();
-        if(empty($community_collect_result)){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$total,'list'=>[]]]);
+        $community_collect_result=$community_collect->totalquer('chat_id','users_id ='.$data['guid'],(($param['page']-1)*$limit),$limit);
+        if($community_collect_result['total'] == 0){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_collect_result['total'],'list'=>[]]]);
         }
         //遍历查到的收藏的聊聊数量
-        foreach ($community_collect_result as $collectarr) {
+        foreach ($community_collect_result['list'] as $collectarr) {
             $community_release_result=$community_release->simplequer($community_release_data,'chat_id='.$collectarr['chat_id'])->toArray();
             if($community_release_result){
                 //创建图片查询的orm模型
@@ -470,13 +469,14 @@ class CommunityController extends Controller
                     $list[]=array_merge($community_release_result[0],$img_data);
                     $img=null;
                 }
-                $result[]=$list;
-                $total+=1;
+                foreach ($list as $listarr) {
+                    $result[]=$listarr;
+                }
                 $list=null;
             }
         }
         if($result){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$total,'list'=>$result]]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_collect_result['total'],'list'=>$result]]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>"查询失败，请刷新"]]);
         }
@@ -544,6 +544,7 @@ class CommunityController extends Controller
         $community_img=new \App\Community_img();
         $community_comment=new \App\Community_comment();
         $community_reply=new \App\Community_reply();
+        $community_collect=new \App\Community_collect();
         //开启事务处理
         DB::beginTransaction();
         $community_release_result=$community_release->communitydel($param['chat_id']);
@@ -554,9 +555,21 @@ class CommunityController extends Controller
                 if($community_comment_result){
                     $community_comment_reply=$community_reply->delcomment($param['chat_id']);
                     if($community_comment_reply){
-                        //假如成功就提交
-                        DB::commit();
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'删除成功']]);
+                        $countnum=$community_collect->countquer('chat_id = '.$param['chat_id']);
+                        if($countnum > 1){
+                            $result=$community_collect->del('chat_id = '.$param['chat_id']);
+                        }else{
+                            $result=true;
+                        }
+                        if($result){
+                            //假如成功就提交
+                            DB::commit();
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'删除成功']]);
+                        }else{
+                            //假如失败就回滚
+                            DB::rollback();
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'删除失败']]);
+                        }
                     }else{
                         //假如失败就回滚
                         DB::rollback();

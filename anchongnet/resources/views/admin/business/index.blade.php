@@ -19,6 +19,7 @@
 	<!-- AdminLTE Skins. Choose a skin from the css/skins
 			 folder instead of downloading all of them to reduce the load. -->
 	<link rel="stylesheet" href="/admin/dist/css/skins/_all-skins.min.css">
+
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -112,8 +113,12 @@
 										<button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['bid']}}" data-toggle="modal" data-target="#myview">查看详情</button>
 										<button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['bid']}}" data-uid="{{$data['users_id']}}" data-toggle="modal" data-target="#myModal">编辑</button>
 										<button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['bid']}}">删除</button>
+										<button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['bid']}}"  data-toggle="modal"
+										>广告推送</button>
+										<button type="button" class="advertcancel f-ib btn btn-warning btn-xs" data-id="{{$data['bid']}}"  data-toggle="modal"
+										>取消推送</button>
 									</td>
-								</tr>  
+								</tr>
 								@endforeach
 								<tr>
 								  <td colspan="5" align="center">
@@ -188,6 +193,10 @@
 							<td align="right">区域</td>
 							<td align="left" id="varea"></td>
 						</tr>
+						<tr>
+							<td align="right">工程结束时间</td>
+							<td align="left" id="vendtime"></td>
+						</tr>
 					</table>
 				</div>
 			</div>
@@ -257,6 +266,12 @@
 								<input type="text" id="area" class="form-control" name="area">
 							</div>
 						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="area">工程结束时间</label>
+							<div class="col-sm-9">
+								<input type="text" id="endtime" class="form-control" name="endtime">
+							</div>
+						</div>
 						<div class="form-group text-center">
 							<label class="col-sm-3 control-label"></label>
 							<div class="col-sm-3">
@@ -286,6 +301,7 @@
 			</div>
 		</div>
 	</div>
+
 	<!-- /.content-wrapper -->
 	<input type="hidden" id="activeFlag" value="treebusiness">
 	@include('inc.admin.footer')

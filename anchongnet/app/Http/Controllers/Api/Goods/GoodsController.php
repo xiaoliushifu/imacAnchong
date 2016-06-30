@@ -196,7 +196,7 @@ class GoodsController extends Controller
             $result['showprice']=$showprice;
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }else{
-            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'暂无商品，敬请期待']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'请求失败，请刷新']]);
         }
     }
 
@@ -316,8 +316,8 @@ class GoodsController extends Controller
             //进行数据拼接
             $result['goodspic']=$picarr;
             $result['detailpic']=$goodsresult[0]['images'];
-            $result['parameterpic']="http://admin.anchong.net/getparam?gid=".$param['goods_id'];
-            $result['datapic']="http://admin.anchong.net/getpackage?gid=".$param['goods_id'];
+            $result['parameterpic']="http://www.anchong.net/getparam?gid=".$param['goods_id'];
+            $result['datapic']="http://www.anchong.net/getpackage?gid=".$param['goods_id'];
             $result['collection']=$collresult;
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }else{

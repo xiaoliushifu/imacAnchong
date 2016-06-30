@@ -82,27 +82,29 @@
 				<li><a href="/release/create"><i class="fa fa-circle-o"></i>添加发布</a></li>
 			</ul>
 		</li>
-			<li class="treeview" id="treebusiness">
-				<a href="#">
-					<i class="fa fa-laptop"></i>
-					<span>商机管理</span>
-					<i class="fa fa-angle-left pull-right"></i>
-				</a>
-				<ul class="treeview-menu">
-					<li><a href="/business"><i class="fa fa-circle-o"></i>我的商机</a></li>
-					<li><a href="/business/create"><i class="fa fa-circle-o"></i>发布商机</a></li>
-				</ul>
-			</li>
-			<li class="treeview" id="treebusiness">
-				<a href="#">
-					<i class="fa fa-laptop"></i>
-					<span>资讯管理</span>
-					<i class="fa fa-angle-left pull-right"></i>
-				</a>
-				<ul class="treeview-menu">
-					<li><a href="/news"><i class="fa fa-circle-o"></i>我的资讯</a></li>
-					<li><a href="/news/create"><i class="fa fa-circle-o"></i>发布资讯</a></li>
-				</ul>
-			</li>
+		<li class="treeview" id="treebusiness">
+			<a href="#">
+				<i class="fa fa-laptop"></i>
+				<span>商机管理</span>
+				<i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="treeview-menu">
+				<li><a href="/business"><i class="fa fa-circle-o"></i>我的商机</a></li>
+				<li><a href="/business/create"><i class="fa fa-circle-o"></i>发布商机</a></li>
+			</ul>
+		</li>
+		<li class="treeview" id="treeadvert">
+			<a href="#">
+				<i class="fa fa-laptop"></i>
+				<span>广告管理</span>
+				<i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="treeview-menu">
+				<li><a href="#"><i class="fa fa-circle-o"></i>商机广告</a></li>
+				<li><a href="#"><i class="fa fa-circle-o"></i>商城广告</a></li>
+				<li><a href="/advert/newsshow"><i class="fa fa-circle-o"></i>发布资讯</a></li>
+				<li><a href="/advert/newsindex"><i class="fa fa-circle-o"></i>资讯查看</a></li>
+			</ul>
+		</li>
 	</ul>
 </section>

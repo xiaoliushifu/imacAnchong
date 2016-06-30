@@ -65,7 +65,7 @@ class goodController extends Controller
         if($keyName==""){
             $datas=$this->goodSpecification->where('sid','=',$this->sid)->orderBy("gid","desc")->paginate(8);
         }else{
-            $datas = GoodSpecification::Name($keyName,$this->sid)->orderBy("gid","desc")->paginate(8);
+            $datas = GoodSpecification::Name($keyName)->where('sid','=',$this->sid)->orderBy("gid","desc")->paginate(8);
         }
         $args=array("keyName"=>$keyName);
         $sid=$this->sid;
@@ -113,7 +113,8 @@ class goodController extends Controller
         foreach ($keywords_arr as $keyword_arr) {
             $keywords.=bin2hex($keyword_arr)." ";
         }
-
+        $shop=new \App\Shop();
+        $sname=$shop->quer('name','sid ='.$this->sid)->toArray();
         $gid = DB::table('anchong_goods_specifications')->insertGetId(
             [
                 //'cat_id' => $request->midselect,
@@ -124,6 +125,7 @@ class goodController extends Controller
                 'market_price'=>$request->marketprice,
                 'goods_price'=>$request->costpirce,
                 'vip_price'=>$request->viprice,
+                'sname' => $sname[0]['name'],
                 'added'=>$request->status,
                 'goods_numbering'=>$request->numbering,
                 'title'=>trim($spetag)."-".$request->commodityname,
@@ -147,7 +149,7 @@ class goodController extends Controller
                 'goods_id'=>$request->name,
                 'title'=>trim($spetag."-".$request->commodityname),
                 'price'=>$request->marketprice,
-                'sname'=>'安虫',
+                'sname'=>$sname[0]['name'],
                 'vip_price'=>$request->viprice,
                 'cid'=>$cid,
                 'sid'=>$this->sid,
@@ -161,13 +163,11 @@ class goodController extends Controller
          * 向仓库表中插入
          */
         $total=0;
-        for($m=0;$m<count($request['stock']['region']);$m++){
+        for($m=0;$m<count($request['stock']['location']);$m++){
             DB::table('anchong_goods_stock')->insert(
                 [
                     'gid' => $gid,
-                    'region' => $request['stock']['region'][$m],
                     'location' => $request['stock']['location'][$m],
-                    'shelf' => $request['stock']['shelf'][$m],
                     'region_num'=>$request['stock']['num'][$m]
                 ]
             );
@@ -237,18 +237,11 @@ class goodController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
-     public function destroy($sid)
-     {
-         $data=$this->gs->find($sid);
-         $data->delete();
-         return "删除成功";
-     }
     public function update(Request $request, $id)
     {
         $data=$this->goodSpecification->find($id);
         $data->goods_id=$request->name;
-        $data->cat_id=$request->midselect;
+        //$data->cat_id=$request->midselect;
         $data->goods_name=$request->spetag;
         $data->market_price=$request->marketprice;
         $data->goods_price=$request->costpirce;
@@ -289,7 +282,6 @@ class goodController extends Controller
         $datas=$this->goodSpecification->Good($request->good)->get();
         return $datas;
     }
-
 
     /*
      * 编辑货品时候添加图片
@@ -345,5 +337,4 @@ class goodController extends Controller
         }
         return response()->json(['message' => $message, 'isSuccess' => $isSuccess,'url'=>$url,'tid'=>$tid]);
     }
-
 }

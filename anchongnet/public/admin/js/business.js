@@ -25,6 +25,7 @@ $(function(){
             $("#vcreate").text(data.created_at);
             $("#vupdate").text(data.updated_at);
             $("#varea").text(data.tags);
+            $("#vendtime").text(data.endtime);
         });
 
         $("#vimg").empty();
@@ -49,6 +50,7 @@ $(function(){
             $("#phone").val(data.phone);
             $("#etype").find("option[value="+data.type+"]").attr("selected",true);
             $("#area").val(data.tags);
+            $("#endtime").val(data.endtime);
         });
 
         //获取商机图片
@@ -169,6 +171,46 @@ $(function(){
                         }
                     });
                     setTimeout(function(){location.reload()},500);
+                }
+            });
+        }
+    });
+    //推广商机
+    $(".advert").click(function(){
+        //商机ID
+        bid=$(this).attr("data-id");
+        if(confirm('确定要推到热门招标项目吗？')){
+            $.ajax({
+                url: "/advert/businessadvert",
+                type:'POST',
+                data:{bid:bid,recommend:1},
+                success:function( response ){
+                    if(response.ServerNo == 0){
+                        alert('推广成功');
+                        location.reload();
+                    }else{
+                        alert('推广失败');
+                    }
+                }
+            });
+    	}
+    });
+    //推广商机
+    $(".advertcancel").click(function(){
+        //商机ID
+        bid=$(this).attr("data-id");
+        if(confirm('确定要取消推广吗？')){
+            $.ajax({
+                url: "/advert/businessadvert",
+                type:'POST',
+                data:{bid:bid,recommend:0},
+                success:function( response ){
+                    if(response.ServerNo == 0){
+                        alert('取消成功');
+                        location.reload();
+                    }else{
+                        alert('取消失败');
+                    }
                 }
             });
         }
