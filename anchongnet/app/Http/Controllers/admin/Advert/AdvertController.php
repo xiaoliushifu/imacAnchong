@@ -127,6 +127,14 @@ class AdvertController extends Controller
     }
 
     /*
+    *   商机广告
+    */
+    public function busiadvert()
+    {
+        return view("admin/advert/business");
+    }
+
+    /*
     *   发布资讯
     */
     public function releasenews(Request $request)

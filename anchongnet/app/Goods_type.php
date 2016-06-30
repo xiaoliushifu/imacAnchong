@@ -64,6 +64,19 @@ class Goods_type extends Model
     }
 
     /*
+    *   该方法是更新
+    */
+    public function goodsupdate($id,$data)
+    {
+        $id=$this->where('gid','=',$id);
+        if($id->update($data)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /*
     *   检索查询
     */
     public function searchquer($field,$type)

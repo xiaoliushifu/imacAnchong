@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Community_release;
 use Auth;
+use DB;
 
 class releaseController extends Controller
 {
@@ -57,17 +58,64 @@ class releaseController extends Controller
      */
     public function store(\App\Http\Requests\StoreReleaseRequest $request)
     {
-        $this->release->users_id=$request['uid'];
-        $this->release->title=$request['title'];
-        $this->release->name=$request['name'];
-        $this->release->content=$request['content'];
-        $this->release->auth=1;
-        $this->release->headpic=$request['headpic'];
-        $this->release->tags=$request['tag'];
-        $this->release->tags_match=bin2hex($request['tag']);
-        $this->release->comnum=0;
-        $this->release->save();
-        return "发布成功";
+        //开启事务处理
+        DB::beginTransaction();
+        //转换标签
+        $tags_arr=explode(' ',$request['tag']);
+        $tags="";
+        if(!empty($tags_arr)){
+            foreach ($tags_arr as $tag_arr) {
+                $tags.=bin2hex($tag_arr)." ";
+            }
+        }
+        //定义插入数据库的数据
+        $community_data=[
+            'users_id' => $request['uid'],
+            'title' => $request['title'],
+            'name' => $request['name'],
+            'content' => $request['content'],
+            'created_at' => date('Y-m-d H:i:s',time()),
+            'headpic' => $request['headpic'],
+            'tags' => $request['tag'],
+            'tags_match' => $tags,
+        ];
+        //创建ORM模型
+        $community_release=new \App\Community_release();
+        $id=$community_release->add($community_data);
+        //插入社区图片
+        if(!empty($id)){
+            if($request['pic']){
+                $ture=false;
+                foreach ($request['pic'] as $pic) {
+                    $community_img=new \App\Community_img();
+                    $ture=$community_img->add(['chat_id'=>$id,'img'=> $pic]);
+                    //假如有一张图片插入失败就返回错误
+                    if(!$ture){
+                        //假如失败就回滚
+                        DB::rollback();
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'聊聊发布失败,请重新发布']]);
+                    }
+                }
+                //orm模型操作数据库会返回true或false,如果操作失败则返回错误信息
+                if($ture){
+                    //假如成功就提交
+                    DB::commit();
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'聊聊发布成功']]);
+                }else{
+                    //假如失败就回滚
+                    DB::rollback();
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请重新发布聊聊']]);
+                }
+            }else{
+                //假如成功就提交
+                DB::commit();
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'聊聊发布成功']]);
+            }
+        }else{
+            //假如失败就回滚
+            DB::rollback();
+            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请重新发布聊聊']]);
+        }
     }
 
     /**

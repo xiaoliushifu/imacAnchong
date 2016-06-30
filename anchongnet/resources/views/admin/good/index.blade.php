@@ -242,11 +242,12 @@
                                 <select class="form-control" id="name" name="name" required>
                                 </select>
                             </div>
+                            <input type="hidden" id="goodsname" name="goodsname" value="">
                         </div><!--end form-group-->
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="spetag">货品标签</label>
                             <div class="col-sm-6">
-                                <input type="text" name="spetag" id="spetag" class="form-control" required placeholder="如：黄色32码" value="{{ old('spetag') }}"/>
+                                <input type="text" name="spetag" id="spetag" class="form-control" required placeholder="如：黄色32码" value="{{ old('spetag') }}" readonly="true"/>
                             </div>
                         </div><!--end form-group-->
                         <div class="form-group">

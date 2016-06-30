@@ -399,6 +399,8 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         Route::post('/advert/releasenews','admin\Advert\AdvertController@releasenews');
         //删除资讯
         Route::get('/advert/infordel/{num}','admin\Advert\AdvertController@infordel');
+        //查看商机广告页面
+        Route::get('/advert/busiadvert','admin\Advert\AdvertController@busiadvert');
 
         /*
         *   后台商品
