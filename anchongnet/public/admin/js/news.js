@@ -1,4 +1,4 @@
-/**
+/*
  * Created by lengxue on 2016/6/6.
  */
 $(function(){

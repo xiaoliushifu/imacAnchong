@@ -27,7 +27,7 @@ class BusinessController extends Controller
         $validator = Validator::make($param,
             [
                 'type' => 'required',
-                'title' => 'required|max:126',
+                'title' => 'required|max:255',
                 'content' => 'required|min:4',
                 'tag' => 'required',
                 'pic' => 'array',
@@ -37,7 +37,7 @@ class BusinessController extends Controller
         //如果出错返回出错信息，如果正确执行下面的操作
         if ($validator->fails())
         {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请填写完整，并且标题长度不能超过60个字，工程简介不能低于4个字']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请填写完整，并且标题长度不能超过126个字，工程简介不能低于4个字']]);
         }else{
             //创建用户表通过电话查询出用户电话
             $users=new \App\Users();

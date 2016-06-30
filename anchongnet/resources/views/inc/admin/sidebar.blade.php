@@ -100,8 +100,8 @@
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
-				<li><a href="/business"><i class="fa fa-circle-o"></i>商机广告</a></li>
-				<li><a href="/business/create"><i class="fa fa-circle-o"></i>商城广告</a></li>
+				<li><a href="#"><i class="fa fa-circle-o"></i>商机广告</a></li>
+				<li><a href="#"><i class="fa fa-circle-o"></i>商城广告</a></li>
 				<li><a href="/advert/newsshow"><i class="fa fa-circle-o"></i>发布资讯</a></li>
 				<li><a href="/advert/newsindex"><i class="fa fa-circle-o"></i>资讯查看</a></li>
 			</ul>
