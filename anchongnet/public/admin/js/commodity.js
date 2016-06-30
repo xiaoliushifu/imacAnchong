@@ -174,7 +174,7 @@ $(function(){
             if(data.length==0){
                 spe='<input type="hidden" name="gid" value=" " class="gid"><input type="hidden" name="title" value=" " class="title"><input type="hidden" name="price" value=" " class="price"><input type="hidden" name="img" value=" " class="img">';
             }else{
-                spe='<input type="hidden" name="gid" value='+data[0].gid+' class="gid"><input type="hidden" name="title" value="'+data[0].title+'" class="title"><input type="hidden" name="price" value='+data[0].goods_price+' class="price"><input type="hidden" name="img" value='+data[0].goods_img+' class="img">';
+                spe='<input type="hidden" name="gid" value='+data[0].gid+' class="gid"><input type="hidden" name="title" value="'+data[0].title+'" class="title"><input type="hidden" name="price" value='+data[0].market_price+' class="price"><input type="hidden" name="img" value='+data[0].goods_img+' class="img">';
             }
             $(".waitforspe").siblings(".supval").append(spe);
         })

@@ -27,16 +27,17 @@ class BusinessController extends Controller
         $validator = Validator::make($param,
             [
                 'type' => 'required',
-                'title' => 'required|max:126',
+                'title' => 'required|max:255',
                 'content' => 'required|min:4',
                 'tag' => 'required',
                 'pic' => 'array',
+                'endtime' => 'required',
             ]
         );
         //如果出错返回出错信息，如果正确执行下面的操作
         if ($validator->fails())
         {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请填写完整，并且标题长度不能超过60个字，工程简介不能低于4个字']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请填写完整，并且标题长度不能超过126个字，工程简介不能低于4个字']]);
         }else{
             //创建用户表通过电话查询出用户电话
             $users=new \App\Users();
@@ -63,6 +64,7 @@ class BusinessController extends Controller
                         'tag' => $param['tag'],
                         'tags' => $param['tags'],
                         'tags_match' => $tags,
+                        'endtime' => $endtime,
                         'phone' => $users_phone[0]['phone'],
                         'contact' => $users_contact[0]['contact'],
                     ];
@@ -197,7 +199,7 @@ class BusinessController extends Controller
         $limit=20;
         //创建商机表的orm模型
         $business=new \App\Business();
-        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at');
+        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at','endtime');
         if(empty($param['tag']) && empty($param['search'])){
             //假如没有检索则sql语句为
             $sql='type ='.$param['type'];
@@ -263,7 +265,7 @@ class BusinessController extends Controller
         $limit=20;
         //创建商机表的orm模型
         $business=new \App\Business();
-        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at');
+        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at','endtime');
         //假如没有检索则sql语句为
         $sql='recommend = 1 and type = 1';
         $businessinfo_data=$business->quer($businessinfo,$sql,(($param['page']-1)*$limit),$limit);
@@ -319,7 +321,7 @@ class BusinessController extends Controller
         $limit=20;
         //创建商机表的orm模型
         $business=new \App\Business();
-        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at');
+        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at','endtime');
         //假如没有检索则sql语句为
         $sql='recommend = 1 and type in(1,2)';
         $businessinfo_data=$business->quer($businessinfo,$sql,(($param['page']-1)*$limit),$limit);
@@ -375,7 +377,7 @@ class BusinessController extends Controller
         $limit=20;
         //创建商机表的orm模型
         $business=new \App\Business();
-        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at');
+        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at','endtime');
         if(!empty($param['tag'])){
             //根据标签检索
             $sql=" tag = '".$param['tag']."' and type in(1,2)";
@@ -435,7 +437,7 @@ class BusinessController extends Controller
         $param=json_decode($data['param'],true);
         //创建商机表的orm模型
         $business=new \App\Business();
-        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at');
+        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at','endtime');
         //单个商机查询
         $businessinfo_data=$business->quertime($businessinfo,'bid='.$param['bid'])->toArray();
         $list=null;
@@ -490,7 +492,7 @@ class BusinessController extends Controller
         $limit=20;
         //创建商机表的orm模型
         $business=new \App\Business();
-        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at');
+        $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at','endtime');
         $businessinfo_data=$business->quer($businessinfo,'users_id='.$data['guid']." and type =".$param['type'],(($param['page']-1)*$limit),$limit);
         $list=null;
         if($businessinfo_data){
@@ -591,6 +593,7 @@ class BusinessController extends Controller
                 'content' => 'required|min:4',
                 'tag' => 'required',
                 'pic' => 'array',
+                'endtime' => 'required',
             ]
         );
         //如果出错返回出错信息，如果正确执行下面的操作
@@ -613,6 +616,7 @@ class BusinessController extends Controller
                 'tag' => $param['tag'],
                 'tags' => $param['tags'],
                 'tags_match' => $tags,
+                'endtime' => $param['endtime'],
             ];
             //开启事务处理
             DB::beginTransaction();

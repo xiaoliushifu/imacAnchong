@@ -42,9 +42,9 @@ class businessController extends Controller
     {
         $keyType=Requester::input("type");
         if($keyType==""){
-            $datas=$this->business->User($this->uid)->paginate(8);
+            $datas=$this->business->User($this->uid)->orderBy("created_at","desc")->paginate(8);
         }else{
-            $datas=$this->business->User($this->uid)->Type($keyType)->paginate(8);
+            $datas=$this->business->User($this->uid)->Type($keyType)->orderBy("created_at","desc")->paginate(8);
         }
         $args=array("user"=>$this->uid,"type"=>$keyType);
         return view('admin/business/index',array("datacol"=>compact("args","datas")));
@@ -80,11 +80,12 @@ class businessController extends Controller
                 'tag'=>$request['tag'],
                 'phone'=>$request['phone'],
                 'contact'=>$request['contact'],
-                'created_at'=>date("Y-m-d H:i:s",time()),
                 'type'=>$request['type'],
                 'business_status'=>1,
                 'tags'=>$request['area'],
                 'tags_match'=>bin2hex($request['area']),
+                'endtime' => $request['endtime'],
+                'created_at' => date('Y-m-d H:i:s',time()),
             ]
         );
 
@@ -146,6 +147,8 @@ class businessController extends Controller
         $data->type=$request['type'];
         $data->tags=$request['area'];
         $data->tags_match=bin2hex($request['area']);
+        $data->endtime=$request['endtime'];
+        $data->created_at = date('Y-m-d H:i:s',time());
         $data->save();
         return redirect()->back();
     }

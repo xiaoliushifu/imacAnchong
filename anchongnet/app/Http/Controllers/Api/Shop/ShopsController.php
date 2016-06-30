@@ -147,6 +147,7 @@ class ShopsController extends Controller
             $goods_specifications=new \App\Goods_specifications();
             $goods_type=new \App\Goods_type();
             $goods_thumb=new \App\Goods_thumb();
+            $stock=new \App\Stock();
             //开启事务处理
             DB::beginTransaction();
             //删除货品表的数据
@@ -158,9 +159,16 @@ class ShopsController extends Controller
                     //删除该货品的主图
                     $thumbresult=$goods_thumb->del($param['gid']);
                     if($thumbresult){
-                        //假如成功就提交
-                        DB::commit();
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'删除成功']]);
+                        $stockresult=$stock->del($param['gid']);
+                        if($stockresult){
+                            //假如成功就提交
+                            DB::commit();
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'删除成功']]);
+                        }else{
+                            //假如失败就回滚
+                            DB::rollback();
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'商品删除失败']]);
+                            }
                     }else{
                         //假如失败就回滚
                         DB::rollback();

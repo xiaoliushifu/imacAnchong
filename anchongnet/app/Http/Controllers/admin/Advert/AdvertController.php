@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\admin\Advert;
 
-use Illuminate\Http\Request;
-
+use Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -36,6 +35,7 @@ class AdvertController extends Controller
      */
     public function addpic(Request $request)
     {
+        $request=$request::all();
         $fileType=$_FILES['file']['type'];
         $dir="advert/img/";
         $filePath = $request['file'];
@@ -69,7 +69,7 @@ class AdvertController extends Controller
 
             //创建ORM模型
             $ad=new \App\Ad();
-            $result=$ad->adupdate($request->adid,['ad_name'=>$request->goods_id,'ad_link'=>$request->gid,'ad_code'=>$url]);
+            $result=$ad->adupdate($request['adid'],['ad_name'=>$request['goods_id'],'ad_link'=>$request['gid'],'ad_code'=>$url]);
             $message="上传成功";
             $isSuccess=true;
             if($result){
@@ -86,5 +86,129 @@ class AdvertController extends Controller
              return response()->json(['message' => $message, 'isSuccess' => $isSuccess,'url'=>$url,'tid'=>$tid]);
         }
 
+    }
+
+    /*
+    *   该方法是商机热门推广
+    */
+    public function businessadvert(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $param=$request::all();
+        //创建ORM模型
+        $business=new \App\Business();
+        $result=$business->businessupdate($param['bid'],['recommend'=>$param['recommend']]);
+        if($result){
+            return
+            response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'推广成功']]);
+        }else {
+            return
+            response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'推广失败']]);
+        }
+    }
+
+    /*
+    *   发布资讯页面
+    */
+    public function newsshow()
+    {
+        return view("admin/advert/create_news");
+    }
+
+    /*
+    *   查看资讯页面
+    */
+    public function newsindex()
+    {
+        //创建订单的ORM模型
+        $information=new \App\Information();
+        $datas=$information->allquer(['infor_id','title','img'])->paginate(8);
+        return view("admin/advert/index",array('datacol'=>$datas));
+    }
+
+    /*
+    *   发布资讯
+    */
+    public function releasenews(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        //创建订单的ORM模型
+        $information=new \App\Information();
+        //定义传过来的内容
+        $information_data=[
+            'title' => $data['title'],
+            'img' => $data['pic'][0]['url'],
+            'content' => '<style>img{max-width:100%;}</style>'.$data['param'],
+            'created_at' => date('Y-m-d H:i:s',time())
+        ];
+        //进行插入
+        $result=$information->add($information_data);
+        if($result){
+            return view("admin/advert/create_news",array('mes'=>"添加成功！"));
+        }else{
+            return view("admin/advert/create_news",array('mes'=>"添加失败！"));
+        }
+    }
+
+    /*
+    *   资讯查看
+    */
+    public function information($infor_id)
+    {
+        //创建ORM模型
+        $information=new \App\Information();
+        $data=$information->firstquer('content','infor_id ='.$infor_id);
+        return $data['content'];
+    }
+
+    /*
+    *   资讯查看
+    */
+    public function inforupdate(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        //创建ORM模型
+        $information=new \App\Information();
+        $information_data=[
+            'title' => $data['title'],
+            'img' => $data['newsimg'],
+            'content' => $data['content'],
+        ];
+        $data=$information->newsupdate($data['infor_id'],$information_data);
+        if($data){
+            return response()->json(['message' => '修改成功']);
+        }else{
+            return response()->json(['message' => '修改失败']);
+        }
+    }
+
+    /*
+    *   单个资讯查看
+    */
+    public function firstinfor($infor_id)
+    {
+        //创建订单的ORM模型
+        $information=new \App\Information();
+        $datas=$information->onequer(['infor_id','title','img','content'],'infor_id ='.$infor_id)->get();
+        return $datas;
+    }
+
+    /*
+    *   删除单个资讯
+    */
+    public function infordel($infor_id)
+    {
+        //创建订单的ORM模型
+        $information=new \App\Information();
+        $result=$information->infordel($infor_id);
+        if($result){
+            return
+            response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'删除成功']]);
+        }else {
+            return
+            response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'删除失败']]);
+        }
     }
 }

@@ -22,6 +22,8 @@
 |
 */
 
+//接口路由组
+
 Route::group(['domain' => 'api.anchong.net'], function () {
     //加上token验证的api
     Route::group(['middleware' => 'AppPrivate'], function () {
@@ -63,6 +65,9 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/user/setdefaultaddress','Api\User\UserAddressController@setdefault');
         //用户删除收货地址
         Route::post('/user/deladdress','Api\User\UserAddressController@del');
+        //获取指定用户资料
+        Route::any('/user/getmessage','Api\User\UsermessagesController@show');
+        Route::any('/catbrand','Api\Shop\CatbrandController@index');
 
         /*
         *   商机模块
@@ -99,7 +104,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/goods/catinfo','Api\Category\CategoryController@catinfo');
         //商品列表
         Route::post('/goods/goodslist','Api\Goods\GoodsController@goodslist');
-		//商品列表所有商品
+        //商品列表所有商品
         Route::post('/goods/goodsall','Api\Goods\GoodsController@goodsall');
         //提供商品标签的检索
         Route::post('/goods/tag','Api\Goods\GoodsController@goodslist');
@@ -168,7 +173,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/shops/shopsedit','Api\Shop\ShopsController@shopsedit');
         //店铺全部商品
         Route::post('/shops/shopsgoods','Api\Shop\ShopsController@shopsgoods');
-		//店铺首页商品
+        //店铺首页商品
         Route::post('/shops/shopsindex','Api\Shop\ShopsController@shopsindex');
         //店铺新商品
         Route::post('/shops/newgoods','Api\Shop\ShopsController@newgoods');
@@ -240,8 +245,20 @@ Route::group(['domain' => 'api.anchong.net'], function () {
     });
 });
 
+//支付宝路由
+Route::group(['domain' => 'pay.anchong.net'], function () {
+    //加中间件的路由组
+    Route::group(['middleware' => 'PayAuthen'], function () {
+        //支付后异步回调
+        Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
+    });
+});
+
 //后台路由
-Route::group(['domain' => 'admin.anchong.com'], function () {
+Route::group(['domain' => 'admin.anchong.net'], function () {
+	//注册相关
+    Route::any('/userregister', 'admin\indexController@userregister');
+    Route::any('/zhuce', 'admin\indexController@zhuce');
     //验证码类,需要传入数字
     Route::get('/captcha/{num}', 'CaptchaController@captcha');
     //登录检查
@@ -344,17 +361,12 @@ Route::group(['domain' => 'admin.anchong.com'], function () {
         Route::post('/addrelimg','admin\releaseController@addpic');
         //删除指定商机图片
         Route::get('/delrelimg','admin\releaseImgController@delpic');
-         
+
         //评论路由
         Route::resource('/comment','admin\commentController');
         //回复评论路由
         Route::resource('/reply','admin\replyController');
-		
-         //资讯管理
-	Route::resource('/news','admin\informationController');
-	//资讯创建
-	Route::resource('/news/create','admin\informationController@create');
-		
+
         //商机管理
         Route::resource('/business','admin\businessController');
         //商机图片
@@ -366,15 +378,41 @@ Route::group(['domain' => 'admin.anchong.com'], function () {
         //编辑商机的时候添加商机图片
         Route::post('/addbusimg','admin\businessController@addpic');
 
-        /*
+       /*
         *   后台广告
         */
-        //编辑商机的时候添加图片
+        //编辑时候添加图片
         Route::post('/advert/addpic','admin\Advert\AdvertController@addpic');
+        //商机广告
+        Route::post('/advert/businessadvert','admin\Advert\AdvertController@businessadvert');
+        //发布资讯页面
+        Route::get('/advert/newsshow','admin\Advert\AdvertController@newsshow');
+        //查看资讯页面
+        Route::get('/advert/newsindex','admin\Advert\AdvertController@newsindex');
+        //单个资讯查看
+        Route::get('/advert/firstinfor/{id}','admin\Advert\AdvertController@firstinfor');
+        //资讯更新
+        Route::post('/advert/inforupdate','admin\Advert\AdvertController@inforupdate');
+        //发布资讯
+        Route::post('/advert/releasenews','admin\Advert\AdvertController@releasenews');
+        //删除资讯
+        Route::get('/advert/infordel/{num}','admin\Advert\AdvertController@infordel');
+
+        /*
+        *   后台商品
+        */
+        //后台商品删除
+        Route::post('/goods/goodsdel','admin\Goods\GoodsController@goodsdel');
     });
+});
+
+//前台路由
+Route::group(['domain' => 'www.anchong.net'], function () {
     //获取商品参数html代码
     Route::get('/getparam','admin\uEditorController@getParam');
     Route::get('/getpackage','admin\uEditorController@getPackage');
+    //获取虫虫资讯
+    Route::get('/information/{infor_id}','admin\Advert\AdvertController@information');
 });
 
 //验证码类,需要传入数字

@@ -23,8 +23,8 @@ class UserIndiviController extends Controller
 		$this->auth=new Auth();
 		$this->user=new Users();
 		$this->qua=new Qua();
-	} 
-	 
+	}
+
 	/*
 	 * 商户认证的方法
 	 */
@@ -37,25 +37,26 @@ class UserIndiviController extends Controller
 		//验证用户传过来的数据是否合法
         $validator = Validator::make($param,
             [
-                'auth_name' => 'max:8',
-                'qua_name' => 'required|max:11',
+                'auth_name' => 'max:128',
+                'qua_name' => 'required|max:128',
             ]
         );
 		if ($validator->fails()){
-			//$messages = $validator->errors();
+
 			//如果验证失败,返回验证失败的信息
-			//1return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>$messages->first('auth_name')]]);
+			return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData'=>['Message'=>'请填写完整，认证名称和资质名称不能超过30字']]);
 		}else{
 			//先判断用户是否有待审核的认证
 			$wait=$this->auth->Ids($id)->Status(1)->first();
 			if($wait){
 				return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'您有待审核的资质，暂时无法提交']]);
 			}else{
+
 				//先开启事务处理
 				DB::beginTransaction();
 				//通过一个for循环将用户上传的资质全部插入到数据库中
-				for($i=0;$i<count($param['qua_name']);$i++){	
-    				//向认证表中插入数据	
+				for($i=0;$i<count($param['qua_name']);$i++){
+    				//向认证表中插入数据
 					$result=Auth::create(array(
 						'users_id'  => $id,
 						'auth_name' => $param['auth_name'],
@@ -73,6 +74,7 @@ class UserIndiviController extends Controller
 				DB::commit();
 				//返回给客户端数据
 				return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'认证提交成功，请等待审核！！']]);
+
 			}
 		}
 	}

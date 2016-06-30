@@ -29,7 +29,8 @@ class StoreBusinessRequest extends Request
             'tag'=>'required',
             'phone'=>'required',
             'type'=>'required',
-            'area'=>'required'
+            'area'=>'required',
+            'endtime'=>'required',
         ];
     }
 
@@ -41,6 +42,8 @@ class StoreBusinessRequest extends Request
             'tag.required'=>'请选择标签',
             'phone.required'=>'请填写联系电话',
             'type.required'=>'请选择类型',
+            'area.required'=>'请选择区域',
+            'endtime.required'=>'请填写结束时间',
         ];
     }
 }

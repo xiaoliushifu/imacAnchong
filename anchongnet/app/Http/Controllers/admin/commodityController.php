@@ -122,17 +122,19 @@ class commodityController extends Controller
 
         //通过循环向配套商品表中插入数据
         for($i=0;$i<count($request->supname)-1;$i++){
-            DB::table('anchong_goods_supporting')->insertGetId(
-                [
-                    'goods_id'=>$request->supname[$i+1],
-                    'gid'=>$request->gid[$i],
-                    'title'=>$request->title[$i],
-                    'price'=>$request->price[$i],
-                    'img'=>$request->img[$i],
-                    'assoc_gid'=>$gid,
-                    'goods_name'=>$request->goodsname[$i+1]
-                ]
-            );
+            if(!empty($request->title[$i]) && !empty($request->price[$i]) && !empty($request->gid[$i])){
+                DB::table('anchong_goods_supporting')->insertGetId(
+                    [
+                        'goods_id'=>$request->supname[$i+1],
+                        'gid'=>$request->gid[$i],
+                        'title'=>$request->title[$i],
+                        'price'=>$request->price[$i],
+                        'img'=>$request->img[$i],
+                        'assoc_gid'=>$gid,
+                        'goods_name'=>$request->goodsname[$i+1]
+                    ]
+                );
+            }
         }
 
         //提交事务

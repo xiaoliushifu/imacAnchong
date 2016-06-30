@@ -24,6 +24,13 @@ class Community_collect extends Model
          return $this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get();
     }
 
+    /*
+    *   带总数的查询
+    */
+    public function totalquer($field,$type,$pos,$limit)
+    {
+         return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get()->toArray()];
+    }
 
     /*
     *   收藏查询

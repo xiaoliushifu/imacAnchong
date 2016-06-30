@@ -43,5 +43,134 @@ $(function(){
                 setTimeout(function(){location.reload()},1000);
             });
         }
-    })
+    });
+
+    $(".advert").click(function(){
+        $("#advert-shopsname").text($(this).attr("data-name"));
+        $("#advert-sid").val($(this).attr("data-id"));
+    });
+
+//商城轮播图
+    $(".newgoodspic31").change(function(){
+        var goods_id="shop";
+        var gid=$("#advert-sid").attr("value");
+        $("#formToUpdate31").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:5,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('商城轮播图1'+data.message);
+                if(data.isSuccess==true){
+                    $(".img31").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic32").change(function(){
+        var goods_id="shop";
+        var gid=$("#advert-sid").attr("value");
+        $("#formToUpdate32").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:6,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('商城轮播图2'+data.message);
+                if(data.isSuccess==true){
+                    $(".img32").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic33").change(function(){
+        var goods_id="shop";
+        var gid=$("#advert-sid").attr("value");
+        $("#formToUpdate33").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:7,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('商城轮播图3'+data.message);
+                if(data.isSuccess==true){
+                    $(".img33").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic34").change(function(){
+        var goods_id="shop";
+        var gid=$("#advert-sid").attr("value");
+        $("#formToUpdate34").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:8,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('商城轮播图4'+data.message);
+                if(data.isSuccess==true){
+                    $(".img34").attr("src", data.url);
+                }
+            }
+        });
+    });
+//金牌店铺的图片上传
+    $(".newgoodspic61").change(function(){
+        var goods_id="shop";
+        var gid=$("#advert-sid").attr("value");
+        $("#formToUpdate61").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:17,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('金牌店铺图1'+data.message);
+                if(data.isSuccess==true){
+                    $(".img61").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic62").change(function(){
+        var goods_id="shop";
+        var gid=$("#advert-sid").attr("value");
+        $("#formToUpdate62").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:18,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('金牌店铺图2'+data.message);
+                if(data.isSuccess==true){
+                    $(".img62").attr("src", data.url);
+                }
+            }
+        });
+    });
+    $(".newgoodspic63").change(function(){
+        var goods_id="shop";
+        var gid=$("#advert-sid").attr("value");
+        $("#formToUpdate63").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:19,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('金牌店铺图3'+data.message);
+                if(data.isSuccess==true){
+                    $(".img63").attr("src", data.url);
+                }
+            }
+        });
+    });
+    //单个店铺的图片上传
+    $(".newgoodspic81").change(function(){
+        var goods_id="shop";
+        var gid=$("#advert-sid").attr("value");
+        $("#formToUpdate81").ajaxSubmit({
+            type: 'post',
+            url: '/advert/addpic',
+            data:{adid:26,goods_id:goods_id,gid:gid},
+            success: function (data) {
+                alert('单一店铺图'+data.message);
+                if(data.isSuccess==true){
+                    $(".img81").attr("src", data.url);
+                }
+            }
+        });
+    });
 });

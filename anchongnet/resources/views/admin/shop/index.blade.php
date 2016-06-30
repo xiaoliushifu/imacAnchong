@@ -31,6 +31,8 @@
 	.f-ib{display:inline-block;}
 	#example1{margin-top:10px;}
 	.radio-inline{position:relative; top:-4px;}
+	.gallery{width: 80px; height: 80px; background: url("/admin/image/catetypecreate/add.jpg") center center no-repeat; border: solid #ddd 1px;  cursor: pointer; display:table-cell; vertical-align: middle;}
+	.gallery img{max-width: 100%; max-height: 100%;}
 	</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -79,6 +81,7 @@
 									<th>店铺缩略图</th>
 									<th>查看</th>
 									<th>审核</th>
+									<th>广告</th>
 								</tr>
 								@foreach ($datacol['datas'] as $data)
 								<tr>
@@ -105,7 +108,12 @@
 									    break;
 								    }?>
 								    </td>
-								</tr>  
+									<td>
+										<button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['sid']}}" data-toggle="modal" data-target="#myAdvert"
+										data-name="{{$data['name']}}"
+										>广告</button>
+									</td>
+								</tr>
 								@endforeach
 								<tr>
 								  <td colspan="7" align="center">
@@ -150,6 +158,101 @@
 	<input type="hidden" id="activeFlag" value="treeshop">
 	@include('inc.admin.footer')
 </div>
+<div class="modal fade" id="myAdvert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel"></h4>
+			</div>
+			<div class="modal-body">
+				<table class="table">
+					<tr>
+						<td align="right" width="25%">商铺名称</td>
+						<td align="left" id="advert-shopsname"></td>
+					</tr>
+					<input type="hidden" id="advert-sid" value="">
+					<th>
+						<td align="center"><b>商城轮播图</b></td>
+					</th>
+					<tr>
+						<td><form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdate31" method="post" enctype="multipart/form-data">
+							<div id="method"></div>
+										<div class="gallery text-center">
+											<img src="/admin/image/advert/1125-540.jpg" style="height:100px;width:100px;" class="img31">
+										</div>
+										<input type="file" name="file" class="newgoodspic31">
+						</form></td>
+						<td><form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdate32" method="post" enctype="multipart/form-data">
+							<div id="method"></div>
+										<div class="gallery text-center">
+											<img src="/admin/image/advert/1125-540.jpg" style="height:100px;width:100px;" class="img32">
+										</div>
+										<input type="file" name="file" class="newgoodspic32">
+						</form></td>
+						<td><form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdate33" method="post" enctype="multipart/form-data">
+							<div id="method"></div>
+
+										<div class="gallery text-center">
+											<img src="/admin/image/advert/1125-540.jpg" style="height:100px;width:100px;" class="img33">
+										</div>
+										<input type="file" name="file" class="newgoodspic33">
+						</form></td>
+						<td><form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdate34" method="post" enctype="multipart/form-data">
+							<div id="method"></div>
+
+										<div class="gallery text-center">
+											<img src="/admin/image/advert/1125-540.jpg" style="height:100px;width:100px;" class="img34">
+										</div>
+										<input type="file" name="file" class="newgoodspic34">
+						</form></td>
+					</tr>
+					<th>
+						<td align="center"><b>金牌店铺</b></td>
+					</th>
+					<tr>
+						<td><form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdate61" method="post" enctype="multipart/form-data">
+							<div id="method"></div>
+										<div class="gallery text-center">
+											<img src="/admin/image/advert/1125-300.jpg" style="height:100px;width:100px;" class="img61">
+										</div>
+										<input type="file" name="file" class="newgoodspic61">
+						</form></td>
+						<td><form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdate62" method="post" enctype="multipart/form-data">
+							<div id="method"></div>
+										<div class="gallery text-center">
+											<img src="/admin/image/advert/561-300.png" style="height:100px;width:100px;" class="img62">
+										</div>
+										<input type="file" name="file" class="newgoodspic62">
+						</form></td>
+						<td><form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdate63" method="post" enctype="multipart/form-data">
+							<div id="method"></div>
+
+										<div class="gallery text-center">
+											<img src="/admin/image/advert/561-300.png" style="height:100px;width:100px;" class="img63">
+										</div>
+										<input type="file" name="file" class="newgoodspic63">
+						</form></td>
+					</tr>
+					<th>
+						<td align="center"><b>下面的那个单一店铺</b></td>
+					</th>
+					<tr>
+						<td><form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdate81" method="post" enctype="multipart/form-data">
+							<div id="method"></div>
+										<div class="gallery text-center">
+											<img src="/admin/image/advert/1125-300.jpg" style="height:100px;width:100px;" class="img81">
+										</div>
+										<input type="file" name="file" class="newgoodspic81">
+						</form></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
 <!-- ./wrapper -->
 <!-- Bootstrap 3.3.5 -->
 <script src="/admin/bootstrap/js/bootstrap.min.js"></script>
@@ -157,6 +260,7 @@
 <script src="/admin/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
+<script src="/admin/js/jquery.form.js"></script>
 <?php
 if(isset($datacol['args']['audit'])){
 	switch ($datacol['args']['audit']){

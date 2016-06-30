@@ -2,23 +2,13 @@
 
 namespace App;
 
-use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Foundation\Auth\Access\Authorizable;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Redirect;
 
 /*
 *   该模型是操作订单表的模块
 */
-class Order extends Model implements AuthenticatableContract,
-                                    AuthorizableContract,
-                                    CanResetPasswordContract
+class Order extends Model
 {
-    use Authenticatable, Authorizable, CanResetPassword;
 
     /**
      * The database table used by the model.
@@ -68,7 +58,7 @@ class Order extends Model implements AuthenticatableContract,
        //将订单数据添加入数据表
        $this->fill($cart_data);
        if($this->save()){
-           return true;
+           return $this->order_id;
        }else{
            return false;
        }
@@ -96,15 +86,16 @@ class Order extends Model implements AuthenticatableContract,
     }
 
     /*
-	* 根据条件进行收货地址搜索
+	*  根据条件进行收货地址搜索
 	*/
-    public function scopeNum($query,$keyNum,$keySid)
+    public function scopeNum($query,$keyNum)
     {
-        return $query->where('order_num', '=', $keyNum)->where('sid',"=",$keySid);
+        return $query->where('order_num', '=', $keyNum);
     }
+
     /*
-     * 搜索指定用户的指定状态的订单
-     * */
+     *  搜索指定用户的指定状态的订单
+     */
     public function scopeUS($query,$keyUser,$keyStatus)
     {
         return $query->where(['users_id'=>$keyUser,'state'=>$keyStatus]);

@@ -154,24 +154,20 @@
                                         <table class="table text-center">
                                             <thead>
                                             <tr>
-                                                <th class="text-center col-sm-1">区域</th>
+
                                                 <th class="text-center col-sm-1">货位</th>
-                                                <th class="text-center col-sm-1">货架</th>
+
                                                 <th class="text-center col-sm-1">库存数</th>
                                                 <th class="text-center col-sm-1">操作</th>
                                             </tr>
                                             </thead>
                                             <tbody id="stock">
                                             <tr class="line">
-                                                <td>
-                                                    <input type="text" name="stock[region][]" class="form-control" required />
-                                                </td>
+
                                                 <td>
                                                     <input type="text" name="stock[location][]" class="form-control" required />
                                                 </td>
-                                                <td>
-                                                    <input type="text" name="stock[shelf][]" class="form-control" required />
-                                                </td>
+                                                
                                                 <td>
                                                     <input type="number" min="0" name="stock[num][]" class="form-control" required />
                                                 </td>
