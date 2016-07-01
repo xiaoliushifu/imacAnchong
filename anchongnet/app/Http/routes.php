@@ -407,6 +407,12 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         */
         //后台商品删除
         Route::post('/goods/goodsdel','admin\Goods\GoodsController@goodsdel');
+
+        /*
+        *   后台社区
+        */
+        //后台社区编辑获取图片
+        Route::get('/community/imgshow/{num}','admin\releaseController@imgshow');
     });
 });
 

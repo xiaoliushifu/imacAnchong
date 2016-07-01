@@ -169,4 +169,15 @@ class releaseController extends Controller
         $data->delete();
         return "删除成功";
     }
+
+    /*
+    *   社区图片查看
+    */
+    public function imgshow($id)
+    {
+        //创建图片查询的orm模型
+        $community_img=new \App\Community_img();
+        $data=$community_img->quer(['id','img'],$id);
+        return $data;
+    }
 }

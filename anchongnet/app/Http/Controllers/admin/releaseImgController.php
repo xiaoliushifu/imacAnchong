@@ -127,9 +127,8 @@ class releaseImgController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data=$this->coimg->find($id);
-
         $fileType=$_FILES['file']['type'];
+        //$fileType="image/png";
         $dir="business/";
         $filePath = $request['file'];
         //设置上传到阿里云oss的对象的键名
@@ -159,15 +158,21 @@ class releaseImgController extends Controller
             $signedUrl = $ossClient->signUrl($this->bucket, $object);
             $pos = strpos($signedUrl, "?");
             $url = substr($signedUrl, 0, $pos);
-            $data->img=$url;
-            $data->save();
-            $message="更新成功";
-            $isSuccess=true;
+            //创建图片ORM
+            $community_img=new \App\Community_img();
+            $result=$community_img->comupdate($id,['img'=>$url]);
+            if($result){
+                $message="更新成功";
+                $isSuccess=true;
+            }else{
+                $message="更新失败，请稍后再试";
+                $isSuccess=false;
+            }
         }catch (OssException $e) {
             $message="更新失败，请稍后再试";
             $isSuccess=false;
         }
-        return response()->json(['message' => $message, 'isSuccess' => $isSuccess]);
+        return response()->json(['message' => $message, 'isSuccess' => $isSuccess, 'url'=>$url]);
     }
 
     /**
