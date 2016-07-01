@@ -107,13 +107,13 @@
                     <h4 class="modal-title" id="myModalLabel">编辑权限</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" id="myform" action="/permission/addperm" method="post">
+                    <form class="form-horizontal" id="myform" action="" method="post">
                         <input type="hidden" id='hidrid' name="rid" value="">
                         <div class="form-group" id="myper">
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2">
-                                <button type="submit" class="btn btn-primary">保存</button>
+                                <button type="submit" id="ajaxsub" class="btn btn-primary">保存</button>
                             </div>
                         </div>
                     </form>
@@ -151,7 +151,7 @@ $(function(){
 					var con='';
 					//该用户已有的权限
 					for(var i=0;i<data[0].length;i++){
-						con+='<label ><input type="checkbox" name="perms[]" value="'+data[0][i].id+'" checked /> '+data[0][i].label+'</label><br />';
+						con+='<label ><input type="checkbox" name="perms[]" value="'+data[0][i].id+'" checked="checked" /> '+data[0][i].label+'</label><br />';
 					}
 					//其他权限
 					for(var i=0;i<data[1].length;i++){
@@ -162,6 +162,35 @@ $(function(){
 				}
 		})
 	})
+
+
+	/**
+	* 使用ajax提交
+	*/
+	 $("#ajaxsub").click(function(){
+		 //角色id
+		 var rid=$('#hidrid').val();
+		 //接收checkbox的值为字符串
+		 var a=[];
+		 $('input[type="checkbox"]:checked').each(function(k,v){a.push(v.value)});
+		 //组织ajax
+        $.ajax({
+            type: 'post',
+            url: '/permission/addperm',
+            data:{
+                'rid':rid,
+                'perms':a.join()
+                },
+            success: function (data) {
+                alert(data);
+            },
+            error: function(xhr,error){
+                alert(error);
+            }
+        });
+        //阻止浏览器默认行为
+        return false;
+    });
 })
 </script>
 </body>
