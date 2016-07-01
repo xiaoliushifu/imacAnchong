@@ -398,6 +398,8 @@ Route::group(['domain' => 'admin.myanchong.net'], function () {
         //删除资讯
         Route::get('/advert/infordel/{num}','admin\Advert\AdvertController@infordel');
 
+        //权限管理 隐式路由
+        Route::controller('/permission','admin\PermissionController');
         /*
         *   后台商品
         */
