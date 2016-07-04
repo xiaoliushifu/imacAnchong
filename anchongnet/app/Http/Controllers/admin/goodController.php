@@ -172,10 +172,10 @@ class goodController extends Controller
                 ]
             );
             $total=$total+$request['stock']['num'][$m];
-            $gdata=$this->goodSpecification->find($gid);
-            $gdata->goods_num=$total;
-            $gdata->save();
         }
+        $gdata=$this->goodSpecification->find($gid);
+        $gdata->goods_num=$total;
+        $gdata->save();
 
         /*
          * 通过一个for循环向缩略图表中插入数据
@@ -273,11 +273,11 @@ class goodController extends Controller
                 return redirect()->back();
             }else{
                 DB::rollback();
-                return "更新失败，请稍后重试";
+                return redirect()->back();
             }
         }else{
             DB::rollback();
-            return "更新失败，请稍后重试";
+            return redirect()->back();
         }
     }
 

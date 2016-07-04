@@ -121,12 +121,12 @@ class OrderController extends Controller
                                     }else{
                                         //假如失败就回滚
                                         DB::rollback();
-                                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'5订单生成失败']]);
+                                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
                                     }
                                 }else{
                                     //假如失败就回滚
                                     DB::rollback();
-                                    return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'4订单生成失败']]);
+                                    return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
                                 }
                             }else{
                                 //假如失败就回滚
@@ -142,22 +142,22 @@ class OrderController extends Controller
                 }else{
                     //假如失败就回滚
                     DB::rollback();
-                    return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'3订单生成失败']]);
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
                 }
             }else{
                 //假如失败就回滚
                 DB::rollback();
-                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'1订单生成失败']]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
             }
         }
         if($true && $total_price>0){
             //假如成功就提交
             DB::commit();
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['outTradeNo'=>$paynum,'totalFee'=>$total_price,'body'=>$body,'subject'=>"安虫商城订单支付",'notifyURLAlipay'=>'http://pay.anchong.net/pay/webnotify']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['outTradeNo'=>$paynum,'totalFee'=>$total_price,'body'=>$body,'subject'=>"安虫商城订单支付",'notifyURLAlipay'=>'http://pay.anchong.net/pay/mobilenotify']]);
         }else{
             //假如失败就回滚
             DB::rollback();
-            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'2订单生成失败']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
         }
     }
 
@@ -210,11 +210,17 @@ class OrderController extends Controller
         }
         //最终结果
         $result=null;
+        $body=null;
         //查看该用户订单的详细数据精确到商品
         foreach ($order_result['list'] as $order_results) {
             //根据订单号查到该订单的详细数据
             $orderinfo_result=$orderinfo->quer($orderinfo_data,'order_num ='.$order_results['order_num'])->toArray();
+            //为取支付宝订单名
+            foreach ($orderinfo_result as $orderinfo_goodsname) {
+                $body .=$orderinfo_goodsname['goods_name'];
+            }
             //将查询结果组成数组
+            $order_results['body']=$body;
             $order_results['goods']=$orderinfo_result;
             $result[]=$order_results;
             $order_results=null;
@@ -262,6 +268,26 @@ class OrderController extends Controller
             //假如失败就回滚
             DB::rollback();
             return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'操作失败']]);
+        }
+    }
+
+    /*
+    *   该方法提供订单支付
+    */
+    public function orderpay(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $pay=new \App\Pay();
+        //支付单号
+        $paynum=rand(100000,999999).time();
+        $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$param['order_id']]);
+        if($payresult){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['outTradeNo'=>$paynum,'totalFee'=>$param['total_price'],'body'=>$param['body'],'subject'=>"安虫商城订单支付"]]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败']]);
         }
     }
 }
