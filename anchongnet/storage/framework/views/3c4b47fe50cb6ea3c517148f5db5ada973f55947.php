@@ -40,12 +40,12 @@
 
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-@include('inc.admin.mainHead')
+<?php echo $__env->make('inc.admin.mainHead', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
-    @include('inc.admin.sidebar')
+    <?php echo $__env->make('inc.admin.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     <!-- /.sidebar -->
   </aside>
 
@@ -563,7 +563,7 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-@include('inc.admin.footer')
+<?php echo $__env->make('inc.admin.footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

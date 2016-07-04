@@ -24,7 +24,7 @@
 
 //接口路由组
 
-Route::group(['domain' => 'api.anchong.net'], function () {
+Route::group(['domain' => 'api.anchong.com'], function () {
     //加上token验证的api
     Route::group(['middleware' => 'AppPrivate'], function () {
 
