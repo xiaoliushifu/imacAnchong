@@ -12,30 +12,16 @@ use App\Community_img;
 use Auth;
 use DB;
 
-use OSS\OssClient;
-use OSS\Core\OssException;
-
 class releaseController extends Controller
 {
     private $release;
-    private $reimg;
     private $uid;
-    private $accessKeyId;
-    private $accessKeySecret ;
-    private $endpoint;
-    private $bucket;
 
     public function __construct()
     {
         $this->release=new Community_release();
-        $this->reimg=new Community_img();
         //通过Auth获取当前登录用户的id
         $this->uid=Auth::user()['users_id'];
-
-        $this->accessKeyId=env('ALIOSS_ACCESSKEYId');
-        $this->accessKeySecret=env('ALIOSS_ACCESSKEYSECRET');
-        $this->endpoint=env('ALIOSS_ENDPOINT');
-        $this->bucket=env('ALIOSS_BUCKET');
     }
 
     /**
@@ -73,34 +59,64 @@ class releaseController extends Controller
      */
     public function store(\App\Http\Requests\StoreReleaseRequest $request)
     {
+        //开启事务处理
         DB::beginTransaction();
-
-        $id = DB::table('anchong_community_release')->insertGetId(
-            [
-                'users_id' => $request['uid'],
-                'title' => $request['title'],
-                'name'=>$request['name'],
-                'content'=>$request['content'],
-                'auth'=>1,
-                'headpic'=>$request['headpic'],
-                'tags'=>$request['tag'],
-                'tags_match'=>bin2hex($request['tag']),
-                'created_at'=>date("Y-m-d H:i:s",time()),
-                'comnum'=>0
-            ]
-        );
-
-        for($i=0;$i<count($request['pic']);$i++){
-            DB::table('anchong_community_img')->insert(
-                [
-                    'img' => $request['pic'][$i],
-                    'chat_id'=>$id
-                ]
-            );
+        //转换标签
+        $tags_arr=explode(' ',$request['tag']);
+        $tags="";
+        if(!empty($tags_arr)){
+            foreach ($tags_arr as $tag_arr) {
+                $tags.=bin2hex($tag_arr)." ";
+            }
         }
-
-        DB::commit();
-        return "添加成功";
+        //定义插入数据库的数据
+        $community_data=[
+            'users_id' => $request['uid'],
+            'title' => $request['title'],
+            'name' => $request['name'],
+            'content' => $request['content'],
+            'created_at' => date('Y-m-d H:i:s',time()),
+            'headpic' => $request['headpic'],
+            'tags' => $request['tag'],
+            'tags_match' => $tags,
+        ];
+        //创建ORM模型
+        $community_release=new \App\Community_release();
+        $id=$community_release->add($community_data);
+        //插入社区图片
+        if(!empty($id)){
+            if($request['pic']){
+                $ture=false;
+                foreach ($request['pic'] as $pic) {
+                    $community_img=new \App\Community_img();
+                    $ture=$community_img->add(['chat_id'=>$id,'img'=> $pic]);
+                    //假如有一张图片插入失败就返回错误
+                    if(!$ture){
+                        //假如失败就回滚
+                        DB::rollback();
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'聊聊发布失败,请重新发布']]);
+                    }
+                }
+                //orm模型操作数据库会返回true或false,如果操作失败则返回错误信息
+                if($ture){
+                    //假如成功就提交
+                    DB::commit();
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'聊聊发布成功']]);
+                }else{
+                    //假如失败就回滚
+                    DB::rollback();
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请重新发布聊聊']]);
+                }
+            }else{
+                //假如成功就提交
+                DB::commit();
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'聊聊发布成功']]);
+            }
+        }else{
+            //假如失败就回滚
+            DB::rollback();
+            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请重新发布聊聊']]);
+        }
     }
 
     /**
@@ -155,52 +171,14 @@ class releaseController extends Controller
         return "删除成功";
     }
 
-    public function addpic(Request $request)
+    /*
+    *   社区图片查看
+    */
+    public function imgshow($id)
     {
-        $fileType=$_FILES['file']['type'];
-        $dir="business/";
-        $filePath = $request['file'];
-        //设置上传到阿里云oss的对象的键名
-        switch ($fileType){
-            case "image/png":
-                $object=$dir.time().rand(100000,999999).".png";
-                break;
-            case "image/jpeg":
-                $object=$dir.time().rand(100000,999999).".jpg";
-                break;
-            case "image/jpg":
-                $object=$dir.time().rand(100000,999999).".jpg";
-                break;
-            case "image/gif":
-                $object=$dir.time().rand(100000,999999).".gif";
-                break;
-            default:
-                $object=$dir.time().rand(100000,999999).".jpg";
-        }
-
-        try {
-            //实例化一个ossClient对象
-            $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
-            //上传文件
-            $ossClient->uploadFile($this->bucket, $object, $filePath);
-            //获取到上传文件的路径
-            $signedUrl = $ossClient->signUrl($this->bucket, $object);
-            $pos = strpos($signedUrl, "?");
-            $url = substr($signedUrl, 0, $pos);
-
-            //插入数据库并返回主键id
-            $id = DB::table('anchong_community_img')->insertGetId(
-                ['chat_id' => $request['cid'], 'img' => $url]
-            );
-
-            $message="上传成功";
-            $isSuccess=true;
-        }catch (OssException $e) {
-            $message="上传失败，请稍后再试";
-            $isSuccess=false;
-            $url='';
-            $id='';
-        }
-        return response()->json(['message' => $message, 'isSuccess' => $isSuccess,'url'=>$url,'id'=>$id]);
+        //创建图片查询的orm模型
+        $community_img=new \App\Community_img();
+        $data=$community_img->quer(['id','img'],$id);
+        return $data;
     }
 }

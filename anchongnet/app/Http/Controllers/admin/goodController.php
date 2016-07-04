@@ -239,6 +239,7 @@ class goodController extends Controller
      */
     public function update(Request $request, $id)
     {
+        DB::beginTransaction();
         $data=$this->goodSpecification->find($id);
         $data->goods_id=$request->name;
         //$data->cat_id=$request->midselect;
@@ -257,8 +258,25 @@ class goodController extends Controller
         $data->goods_numbering=$request->numbering;
         $result=$data->save();
         if($result){
-            return redirect()->back();
+            //创建orm模型
+            $goods_type=new \App\Goods_type();
+            //修改数据
+            $goods_type_data=[
+                'title' => trim($request->spetag."-".$request->goodsname),
+                'price' => $request->marketprice,
+                'vip_price'=> $request->viprice,
+            ];
+            $results=$goods_type->goodsupdate($id,$goods_type_data);
+            if($results){
+                //假如成功就提交
+                DB::commit();
+                return redirect()->back();
+            }else{
+                DB::rollback();
+                return "更新失败，请稍后重试";
+            }
         }else{
+            DB::rollback();
             return "更新失败，请稍后重试";
         }
     }

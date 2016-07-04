@@ -39,6 +39,19 @@ class Community_img extends Model
     }
 
     /*
+    *   该方法是更新聊聊图片
+    */
+    public function comupdate($id,$data)
+    {
+        $id=$this->where("id","=",$id);
+        if($id->update($data)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /*
     *   删除商机时将图片一起删除
     */
     public function delimg($id)

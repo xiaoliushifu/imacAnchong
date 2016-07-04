@@ -6,7 +6,12 @@ $(function (){
         $("#myform").ajaxSubmit({
             type: 'post',
             success: function (data) {
-                alert(data);
+                if(data.ServerNo == 0){
+                    alert(data.ResultData.Message);
+                    location.reload();
+                }else{
+                    alert(data.ResultData.Message);
+                }
             }
         });
     });
@@ -25,4 +30,3 @@ $(function (){
         }
     });
 });
-

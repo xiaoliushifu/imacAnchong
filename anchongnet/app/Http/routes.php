@@ -251,30 +251,33 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
     Route::group(['middleware' => 'PayAuthen'], function () {
         //支付后异步回调
         Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
+        Route::any('pay/mobilenotify','Api\Pay\PayController@mobilenotify');
     });
 });
 
 //后台路由
 Route::group(['domain' => 'admin.anchong.com'], function () {
-	//注册相关
-    Route::any('/userregister', 'admin\indexController@userregister');
-    Route::any('/zhuce', 'admin\indexController@zhuce');
-    //验证码类,需要传入数字
-    Route::get('/captcha/{num}', 'CaptchaController@captcha');
-    //登录检查
-    Route::any('/checklogin','admin\indexController@checklogin');
-    //加中间件的路由组
-    Route::group(['middleware' => 'LoginAuthen'], function () {
-        //首页路由
+    //注册相关
+        Route::any('/userregister', 'admin\indexController@userregister');
+        Route::any('/zhuce', 'admin\indexController@zhuce');
+        //支付宝
+        Route::get('/pay/alipay','Api\Pay\PayController@alipay');
+        //验证码类,需要传入数字
+        Route::get('/captcha/{num}', 'CaptchaController@captcha');
+        //登录检查
+        Route::any('/checklogin','admin\indexController@checklogin');
+        //加中间件的路由组
+        Route::group(['middleware' => 'LoginAuthen'], function () {
+            //首页路由
         Route::get('/','admin\indexController@index');
-        //用户路由
+            //用户路由
         Route::resource('/users','admin\userController');
-        //后台登出
+            //后台登出
         Route::get('/logout','admin\indexController@logout');
-         //认证路由
-    	Route::resource('/cert','admin\certController');
+             //认证路由
+        Route::resource('/cert','admin\certController');
         //订单管理路由
-       	Route::resource('/order','admin\orderController');
+        Route::resource('/order','admin\orderController');
         //订单发货路由
         Route::post('/ordership','admin\orderController@orderShip');
         //订单审核路由
@@ -397,12 +400,20 @@ Route::group(['domain' => 'admin.anchong.com'], function () {
         Route::post('/advert/releasenews','admin\Advert\AdvertController@releasenews');
         //删除资讯
         Route::get('/advert/infordel/{num}','admin\Advert\AdvertController@infordel');
+        //查看商机广告页面
+        Route::get('/advert/busiadvert','admin\Advert\AdvertController@busiadvert');
 
         /*
         *   后台商品
         */
         //后台商品删除
         Route::post('/goods/goodsdel','admin\Goods\GoodsController@goodsdel');
+
+        /*
+        *   后台社区
+        */
+        //后台社区编辑获取图片
+        Route::get('/community/imgshow/{num}','admin\releaseController@imgshow');
     });
 });
 

@@ -93,6 +93,7 @@ $(function(){
                 $("#name").append(opt);
             }
             $("#name option[value="+gid+"]").attr("selected",true);
+            $("#goodsname").val($("#name option[value="+gid+"]").text());    
         });
 
         $.get("/good/"+id+"/edit",function(data,status){

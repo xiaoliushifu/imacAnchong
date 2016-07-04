@@ -167,7 +167,7 @@
                                                 <td>
                                                     <input type="text" name="stock[location][]" class="form-control" required />
                                                 </td>
-                                                
+
                                                 <td>
                                                     <input type="number" min="0" name="stock[num][]" class="form-control" required />
                                                 </td>

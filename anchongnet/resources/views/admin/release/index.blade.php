@@ -95,7 +95,7 @@
 										<button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['chat_id']}}" data-uid="{{$data['users_id']}}" data-toggle="modal" data-target="#myModal">编辑</button>
 										<button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['chat_id']}}">删除</button>
 									</td>
-								</tr>  
+								</tr>
 								@endforeach
 								<tr>
 								  <td colspan="4" align="center">
@@ -148,22 +148,16 @@
 					</form>
 					<hr>
 					<h5 class="text-center">图片信息</h5>
-					<form role="form" class="form-horizontal" action="" id="formToUpdate" method="post" enctype="multipart/form-data">
 						<div id="method"></div>
 						<input type="hidden" name="cid" id="cid">
 						<div class="gal form-group">
-							<label for="pic" class="col-sm-2 control-label">图片</label>
-							<ul class="gallerys col-sm-10 list-inline">
-								<li class="template hidden">
-									<div class="gallery text-center">
-										<img src="" class="img">
-									</div>
-									<input type="file" name="file" class="pic">
-								</li>
-								<button type="button" class="goodpic addpic btn btn-default" title="继续添加图片" id="addforgood">+</button>
-							</ul>
+							<table class="table">
+								<input type="hidden" id="chat_id" value="">
+
+								<tr id="imgcontent">
+								</tr>
+							</table>
 						</div>
-					</form>
 				</div>
 			</div>
 		</div>
