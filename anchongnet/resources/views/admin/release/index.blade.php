@@ -156,7 +156,6 @@
 								<input type="hidden" id="chat_id" value="">
 
 								<tr id="imgcontent">
-									
 								</tr>
 							</table>
 						</div>

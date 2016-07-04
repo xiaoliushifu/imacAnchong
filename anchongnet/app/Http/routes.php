@@ -251,6 +251,7 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
     Route::group(['middleware' => 'PayAuthen'], function () {
         //支付后异步回调
         Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
+        Route::any('pay/mobilenotify','Api\Pay\PayController@mobilenotify');
     });
 });
 
