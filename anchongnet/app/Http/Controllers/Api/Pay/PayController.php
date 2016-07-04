@@ -57,6 +57,8 @@ class PayController extends Controller
                 $pay=new \App\Pay();
                 $order_id_arr=$pay->quer('order_id','paynum ='.$paynum)->toArray();
                 foreach ($order_id_arr as $order_id) {
+                    //删除多余订单
+                    $paydel=$pay->delorder($order_id);
                     //进行订单操作
                     $result=$order->orderupdate($order_id['order_id'],['state' => 2]);
                     if(!$result){

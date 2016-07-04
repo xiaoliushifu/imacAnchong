@@ -149,6 +149,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/order/orderinfo','Api\Order\OrderController@orderinfo');
         //订单操作
         Route::post('/order/orderoperation','Api\Order\OrderController@orderoperation');
+        //订单付款
+        Route::post('/order/orderpay','Api\Order\OrderController@orderpay');
 
         /*
         *   商铺模块
@@ -247,11 +249,11 @@ Route::group(['domain' => 'api.anchong.net'], function () {
 
 //支付宝路由
 Route::group(['domain' => 'pay.anchong.net'], function () {
+    Route::any('pay/mobilenotify','Api\Pay\PayController@mobilenotify');
     //加中间件的路由组
     Route::group(['middleware' => 'PayAuthen'], function () {
         //支付后异步回调
         Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
-        Route::any('pay/mobilenotify','Api\Pay\PayController@mobilenotify');
     });
 });
 

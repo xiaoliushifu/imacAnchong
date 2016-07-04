@@ -66,4 +66,21 @@ class Pay extends Model
             return false;
         }
     }
+
+    /*
+    *   删除支付订单时
+    */
+    public function delorder($id)
+    {
+        $data=$this->where('order_id', '=', $id)->get()->toArray();
+        if($data){
+            if($this->where('order_id', '=', $id)->delete()){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return true;
+        }
+    }
 }
