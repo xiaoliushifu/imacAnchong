@@ -179,7 +179,7 @@ $(function(){
             url: '/permission/addperm',
             data:{
                 'rid':rid,
-                'perms':a.join()
+                'perms':a.join()                    //如果a是空数组，将向服务器端传递空字符串
                 },
             success: function (data) {
                 alert(data);

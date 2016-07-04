@@ -161,7 +161,8 @@ class PermissionController extends Controller
         $rid=$req->get('rid');
         $data=array();
         foreach($req->get('perms') as $v){
-            $data[] = ['permission_id'=>$v,'role_id'=>$rid];
+            if($v)
+                $data[] = ['permission_id'=>$v,'role_id'=>$rid];
         }
         
         DB::beginTransaction();
@@ -170,7 +171,7 @@ class PermissionController extends Controller
         DB::table('anchong_permission_role')->insert($data);
         DB::commit();
        //给个提示
-       echo "OK";
+       echo "权限分配成功";
     }
     
     /**
@@ -181,10 +182,9 @@ class PermissionController extends Controller
     {
         $uid=$req->get('uid');
         $data=array();
-        //因为ajax暂时无法提交数组形式，所以数组拆分为字符串才可以传输
-        //注意，explode(',','a,b')和explode(',','a,b,')是不同的，
         foreach(explode(',',$req->get('roles')) as $v){
-            $data[] = ['role_id'=>$v,'user_id'=>$uid];
+            if($v)
+                $data[] = ['role_id'=>$v,'user_id'=>$uid];
         }
         DB::beginTransaction();
         //先删除，后插入
