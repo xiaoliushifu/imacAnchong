@@ -160,7 +160,7 @@ class PermissionController extends Controller
     {
         $rid=$req->get('rid');
         $data=array();
-        foreach($req->get('perms') as $v){
+        foreach(explode(',',$req->get('perms')) as $v){
             if($v)
                 $data[] = ['permission_id'=>$v,'role_id'=>$rid];
         }
