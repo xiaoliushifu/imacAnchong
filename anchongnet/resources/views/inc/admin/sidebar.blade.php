@@ -12,6 +12,19 @@
 				<li><a href="/cert"><i class="fa fa-circle-o"></i> 用户认证</a></li>
 			</ul>
 		</li>
+		<li class="treeview" id="treeperm">
+			<a href="#">
+				<i class="fa fa-files-o"></i>
+				<span>权限管理</span>
+				<i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="treeview-menu">
+				<li><a href="/permission"><i class="fa fa-circle-o"></i> 权限分配</a></li>
+				<li><a href="/permission/role"><i class="fa fa-circle-o"></i> 角色设置</a></li>
+				<li><a href="/permission/cp"><i class="fa fa-circle-o"></i> 权限添加</a></li>
+				<li><a href="/permission/cr"><i class="fa fa-circle-o"></i> 角色添加</a></li>
+			</ul>
+		</li>
 		<li class="treeview" id="treeshop">
 			<a href="#">
 				<i class="fa fa-files-o"></i>

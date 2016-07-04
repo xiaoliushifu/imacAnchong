@@ -403,6 +403,8 @@ Route::group(['domain' => 'admin.anchong.com'], function () {
         //查看商机广告页面
         Route::get('/advert/busiadvert','admin\Advert\AdvertController@busiadvert');
 
+        //权限管理 隐式路由
+        Route::controller('/permission','admin\PermissionController');
         /*
         *   后台商品
         */
