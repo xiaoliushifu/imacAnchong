@@ -13,12 +13,11 @@ class Good extends Model
     /*
      * 根据条件进行商品查询
      * */
-    public function scopeName($query,$keyName)
+    public function scopeName($query,$keyName,$keySid)
     {
-        return $query->where('title', 'like', "%{$keyName}%");
+        return $query->where('title', 'like', "%{$keyName}%")->where('sid','=',$keySid);
     }
 
     public function scopeType($query,$keyType,$keySid){
         return $query->where('type', 'like', "%{$keyType}%")->where('sid','=',$keySid);
-    }
-}
+    }}

@@ -148,7 +148,6 @@
 					</form>
 					<hr>
 					<h5 class="text-center">图片信息</h5>
-
 						<div id="method"></div>
 						<input type="hidden" name="cid" id="cid">
 						<div class="gal form-group">
@@ -159,7 +158,6 @@
 								</tr>
 							</table>
 						</div>
-
 				</div>
 			</div>
 		</div>

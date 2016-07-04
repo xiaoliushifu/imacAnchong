@@ -24,7 +24,7 @@ class commentController extends Controller
     public function index(Request $request)
     {
         $chat=$request['chat'];
-        $datas=$this->comment->Chat($chat)->paginate(8);
+        $datas=$this->comment->Chat($chat)->paginate(30);
         return view("admin/release/comment")->with("datas",$datas);
     }
 

@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Validator;
 use App\Order;
 use App\Shop;
+use App\Users_login;
 
 use OSS\OssClient;
 use OSS\Core\OssException;
@@ -20,11 +21,13 @@ class UsermessagesController extends Controller
 	private $user;
 	private $order;
 	private $shop;
+	private $login;
 	public function __construct(){
 		$this->usermessages=new usermessages();
 		$this->user=new Users();
 		$this->order=new Order();
 		$this->shop=new Shop();
+		$this->login=new Users_login();
 	}
     /**
      * Display a listing of the resource.
@@ -268,7 +271,7 @@ class UsermessagesController extends Controller
 
 		$filePath = $request['headpic'];
 		try {
-			//实例化一�?ossClient对象
+			//实例化一个ossClient对象
 			$ossClient = new OssClient($accessKeyId, $accessKeySecret, $endpoint);
 			//上传文件
 			$ossClient->uploadFile($bucket, $object, $filePath);
@@ -286,6 +289,11 @@ class UsermessagesController extends Controller
 				$user->headpic = $url;
 				$user->save();
 			}
+
+			$userlogin=Users_login::Uid($id);
+			$userlogin->headpic=$url;
+			$userlogin->save();
+			
 			//返回数据
 			return response()->json(["serverTime"=>time(),"ServerNo"=>0,"ResultData" => [
 					'Message'=>'上传成功',

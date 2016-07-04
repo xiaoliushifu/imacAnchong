@@ -260,26 +260,26 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
 //后台路由
 Route::group(['domain' => 'admin.anchong.net'], function () {
     //注册相关
-    Route::any('/userregister', 'admin\indexController@userregister');
-    Route::any('/zhuce', 'admin\indexController@zhuce');
-    //支付宝
-    Route::get('/pay/alipay','Api\Pay\PayController@alipay');
-    //验证码类,需要传入数字
-    Route::get('/captcha/{num}', 'CaptchaController@captcha');
-    //登录检查
-    Route::any('/checklogin','admin\indexController@checklogin');
-    //加中间件的路由组
-    Route::group(['middleware' => 'LoginAuthen'], function () {
-        //首页路由
+        Route::any('/userregister', 'admin\indexController@userregister');
+        Route::any('/zhuce', 'admin\indexController@zhuce');
+        //支付宝
+        Route::get('/pay/alipay','Api\Pay\PayController@alipay');
+        //验证码类,需要传入数字
+        Route::get('/captcha/{num}', 'CaptchaController@captcha');
+        //登录检查
+        Route::any('/checklogin','admin\indexController@checklogin');
+        //加中间件的路由组
+        Route::group(['middleware' => 'LoginAuthen'], function () {
+            //首页路由
         Route::get('/','admin\indexController@index');
-        //用户路由
+            //用户路由
         Route::resource('/users','admin\userController');
-        //后台登出
+            //后台登出
         Route::get('/logout','admin\indexController@logout');
-         //认证路由
-    	Route::resource('/cert','admin\certController');
+             //认证路由
+        Route::resource('/cert','admin\certController');
         //订单管理路由
-       	Route::resource('/order','admin\orderController');
+        Route::resource('/order','admin\orderController');
         //订单发货路由
         Route::post('/ordership','admin\orderController@orderShip');
         //订单审核路由
@@ -383,7 +383,7 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         //编辑商机的时候添加商机图片
         Route::post('/addbusimg','admin\businessController@addpic');
 
-        /*
+       /*
         *   后台广告
         */
         //编辑时候添加图片
@@ -405,6 +405,8 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         //查看商机广告页面
         Route::get('/advert/busiadvert','admin\Advert\AdvertController@busiadvert');
 
+        //权限管理 隐式路由
+        Route::controller('/permission','admin\PermissionController');
         /*
         *   后台商品
         */

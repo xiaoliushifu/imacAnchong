@@ -100,6 +100,7 @@ class UserController extends Controller
                             'password' => Hash::make($param['password']),
                             'username' => $param['phone'],
                             'token' => md5($param['phone']),
+                            'user_rank'=>1
                         ];
                         $users_login=new \App\Users_login();
                         //假如插入成功
