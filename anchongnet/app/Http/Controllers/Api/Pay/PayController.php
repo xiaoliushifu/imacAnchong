@@ -22,9 +22,9 @@ class PayController extends Controller
     {
             // 创建支付单。
         $alipay = app('alipay.web');
-        $alipay->setOutTradeNo('6118971466995624');
-        $alipay->setTotalFee('0.01');
-        $alipay->setSubject('安虫测试付1款单');
+        $alipay->setOutTradeNo('61189914669915624');
+        $alipay->setTotalFee('0.02');
+        $alipay->setSubject('安虫测试付2款单');
         $alipay->setBody('goods_description');
 
         //$alipay->setQrPayMode('4'); //该设置为可选，添加该参数设置，支持二维码支付。
