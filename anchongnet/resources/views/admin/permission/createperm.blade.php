@@ -66,17 +66,17 @@
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-body">
-						    <form action="http://www.baidu.com" role="form" method="post" class="form-horizontal  f-ib" id="myform">
+						    <form  role="form" class="form-horizontal  f-ib" id="myform">
 						          <div class="form-group">
                                     <label class="col-sm-4 control-label" for="clabel" title="权限中文名">权限标识</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="label" id="clabel" placeholder="上传图片" class="form-control" value="" required   />
+                                        <input type="text" name="label" id="clabel" placeholder="上传图片" class="form-control" value=""  required />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label" for="cname" title="权限英文名">权限名</label>
                                     <div class="col-sm-8">
-                                        <input type="text" placeholder="post-pic" name="name" id="cname"  value="" required />
+                                        <input type="text" placeholder="post-pic" name="name" id="cname"  value="" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -85,7 +85,7 @@
                                     <textarea class="form-control " name="description" id="cdescription" rows="5" required></textarea>
                                     </div>
                                 </div>
-						        <button  type="submit" class="btn btn-primary btn-info" id="filter">添加</button>
+						        <button  type="submit" class="btn btn-primary btn-info">添加</button>
 						    </form>
 						</div>
 						<!-- /.box-body -->
@@ -122,56 +122,49 @@ $(function(){
 	/**
 	*jquery插件jquery.validate.min.js
 	*用于验证表单
-	*验证规则的触发，是发生submit事件
+	*验证规则的触发，是发生submit事件，绑定的函数要写在submitHandler中
 	*验证规则有两种方式书写，第一种是写在表单项的class属性里，第二种是像代码中的，写到rules里，使用name属性对应
 	*
 	*/
 	 $("#myform").validate({
-		   rules:{
-			   name:{                        //name="name"的表单项的验证规则
-				   nochinese:true,                 //规则名称
-			   },
-		   }
+    	 rules:{
+    		   name:{                        //name="name"的表单项的验证规则
+    			   nochinese:true,                //规则名称
+    			   required:true,
+    		   },
+    		   label:{                        //name="name"的表单项的验证规则
+    			   required:true,
+    		   },
+    		   description:{                        //name="name"的表单项的验证规则
+    			   required:true,
+    		   },
+    	 },
+		 //绑定ajax处理，form参数是DOM对象
+		 submitHandler: function(form) {
+		     $.ajax({
+		    	  type: "POST",
+		    	  url: "/permission/ip",
+		    	  data:{
+		    		  name:$('#cname').val(),
+		    		  label:$('#clabel').val(),
+		    		  description:$('#cdescription').val(),
+		    		  },
+		    	  success:function(data,status){
+		    			if(data=='OK'){
+		    				$('#cname').val(''),
+		    				  $('#clabel').val(''),
+		    				  $('#cdescription').val(''),
+		    				alert('已经添加成功，可以为用户分配权限了');
+		    				//location.href='/permission/cp';
+		    			}
+		    		},
+		    	  error:function(xhr,error,exception){
+		    		  alert(error);  
+		    	  }
+		    	})
+		    	return false;    
+	     },
 	 });
-	/**
-	*执行ajax的提交
-	*
-	*第一种方式，是为提交按钮filter绑定click事件，然后return false
-	*第二种方式，是为form绑定submit事件，也可以达到同样的效果
-	*细分起来,应该是click先执行，然后submit再执行，最后是浏览器默认行为，提交表单
-	*这三件事，前一件事段了(return false)，后面的就不执行了
-	*/
-	 $("#filter").click(function(){
-		$.ajax({
-			  type: "POST",
-			  url: "/permission/ip",
-			  data:{
-				  name:$('#cname').val(),
-				  label:$('#clabel').val(),
-				  description:$('#cdescription').val(),
-				  },
-			  success:function(data,status){
-				  location.href='/permission/cp';
-					if(data=='OK'){
-						$('#cname').val(''),
-						  $('#clabel').val(''),
-						  $('#cdescription').val(''),
-						alert('已经添加成功，可以为用户分配权限了');
-					}
-				},
-			  error:function(xhr,error,exception){
-				  alert(error);  
-			  }
-		})
-		//返回false,阻止浏览器默认行为
-		return false;
-	})
-	
-	//jquery绑定表单的submit事件
-	/* $('#myform').submit(function(){
-		   return false;
-	}); */
-
 })
 </script>
 </body>

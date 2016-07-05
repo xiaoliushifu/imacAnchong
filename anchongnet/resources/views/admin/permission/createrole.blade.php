@@ -66,7 +66,7 @@
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-body">
-						    <form action="" method="post" class="form-horizontal  f-ib" id="myform">
+						    <form  method="post" class="form-horizontal  f-ib" id="myform">
 						          <div class="form-group">
                                     <label class="col-sm-4 control-label" for="clabel" title="角色中文名">角色标识</label>
                                     <div class="col-sm-8">
@@ -85,7 +85,7 @@
                                     <textarea class="form-control " name="description" id="cdescription" rows="5" required></textarea>
                                     </div>
                                 </div>
-						        <button  type="submit" class="btn btn-primary btn-info" id="filter">添加</button>
+						        <button  type="submit" class="btn btn-primary btn-info">添加</button>
 						    </form>
 						</div>
 						<!-- /.box-body -->
@@ -123,41 +123,43 @@ $(function(){
 	*用于验证表单
 	*/
 	 $("#myform").validate({
-		   rules:{
-			   name:{                        //name="name"的表单项的验证规则
-				   nochinese:true,                 //规则名称
-			   },
+    	   //绑定规则
+    	   rules:{
+    	  		   name:{                        //name="name"的表单项的验证规则
+    	  			   nochinese:true,                //规则名称
+    	  			   required:true,
+    	  		   },
+    	  		   label:{
+    	  			   required:true,
+    	  		   },
+    	  		   description:{
+    	  			   required:true,
+    	  		   },
+    	   },
+		   //绑定ajax提交
+		   submitHandler: function(form) {
+			   $.ajax({
+					  type: "POST",
+					  url: "/permission/ir",
+					  data:{                                     //提交参数
+						  name:$('#cname').val(),
+						  label:$('#clabel').val(),
+						  description:$('#cdescription').val(),
+					  },
+					  success:function(data,status){
+							if(data=='OK'){
+								$('#cname').val(''),
+								  $('#clabel').val(''),
+								  $('#cdescription').val(''),
+								alert('已经添加成功，可以为用户分配权限了');
+							}
+					  },
+					  error:function(xhr,error,exception){
+						  alert(error);  
+					  } 
+				})
 		   }
 	 });
-	/**
-	*执行ajax的提交
-	*/
-	//jquery绑定表单的submit事件
-	 $('#myform').submit(function(){
-		 $.ajax({
-			  type: "POST",
-			  url: "/permission/ir",
-			  data:{                                     //提交参数
-				  name:$('#cname').val(),
-				  label:$('#clabel').val(),
-				  description:$('#cdescription').val(),
-			  },
-			  success:function(data,status){
-				  //location.href='/permission/cr';
-					if(data=='OK'){
-						$('#cname').val(''),
-						  $('#clabel').val(''),
-						  $('#cdescription').val(''),
-						alert('已经添加成功，可以为用户分配权限了');
-					}
-			  },
-			  error:function(xhr,error,exception){
-				  alert(error);  
-			  } 
-		})
-		//阻止浏览器的默认行为
-		return false;
-	});
 })
 </script>
 </body>

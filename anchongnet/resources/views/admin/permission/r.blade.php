@@ -165,14 +165,13 @@ $(function(){
 		 //接收checkbox的值为字符串
 		 var a=[];
 		 $('input[type="checkbox"]:checked').each(function(k,v){a.push(v.value)});
-		 console.log(a);
 		 //为哪个form绑定
         $.ajax({
             type: 'post',
             url: '/permission/addrole',
             data:{
                 'uid':uid,
-                'roles':a.join()
+                'roles':a.join()                        //当为某用户清除角色身份时，将是空字符串
                 },
             success: function (data) {
                 alert(data);
