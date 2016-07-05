@@ -34,7 +34,7 @@ class orderController extends Controller
     }
 
     /**
-	 * 后台订单管理列表 
+	 * 后台订单管理列表
 	 */
     public function index(){
         $keyNum=Requester::input('keyNum');

@@ -94,8 +94,12 @@ class orderinfoController extends Controller
 
     public function getSiblingsOrder(Request $request)
     {
-        $num=$request->num;
-        $datas=$this->orderinfo->Num($num)->get();
+        //创建ORM模型
+        $orderinfo=new \App\Orderinfo();
+        //定义查询数据
+        $orderinfo_data=['order_num','goods_name','goods_num','goods_price','goods_type'];
+        //根据订单号查到该订单的详细数据
+        $datas=$orderinfo->quer($orderinfo_data,'order_num ='.$request->num)->toArray();
         return $datas;
     }
 }

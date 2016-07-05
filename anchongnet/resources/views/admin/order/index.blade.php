@@ -42,7 +42,7 @@
 	</aside>
 
 	<!-- Content Wrapper. Contains page content -->
-	<div class="content-wrapper">
+	<div class="content-wrapper" id="pageindex">
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
 			<h1>
@@ -109,7 +109,9 @@
 										<td align="center">{{$data['phone']}}</td>
 										<td align="center">{{$data['address']}}</td>
 										<td align="center">
-											<button type="button" class="view f-ib btn btn-default btn-xs" data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myView">查看详情</button>
+											<button type="button" class="view f-ib btn btn-default btn-xs" data-id="{{$data['order_id']}}"
+											data-num="{{$data['order_num']}}" data-name="{{$data['name']}}" data-phone="{{$data['phone']}}" data-address="{{$data['address']}}" data-price="{{$data['total_price']}}" data-freight="{{$data['freight']}}"
+											data-time="{{$data['created_at']}}" data-sname="{{$data['sname']}}" data-invoice="{{$data['invoice']}}" data-toggle="modal" data-target="#myView">打印订单</button>
 											@if ($data['state'] == 2)
 												<button type='button' class='f-ib shipbtn btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#mySend">发货</button>
 											@elseif ($data['state']==4)
@@ -143,14 +145,68 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
+						<span aria-hidden="true" class="glyphicon glyphicon-paperclip" id="viewclose"></span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel"></h4>
+					<h4 class="modal-title" id="myModalLabel">发货清单</h4>
 				</div>
-				<div class="modal-body" id="mbody">
-					<dl class="dl-horizontal">
-					</dl>
-					<hr>
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+                            <td align="right">订单日期</td>
+                            <td align="left" id="ordertime"></td>
+                        </tr>
+                        <tr>
+                            <td align="right">订单编号</td>
+                            <td align="left" id="ordernum"></td>
+                        </tr>
+						<tr>
+                            <td align="right">商铺名称</td>
+                            <td align="left" id="ordersname"></td>
+                        </tr>
+					</table>
+					<table class="table" id="mbody">
+						<tr>
+							<th width="65%">商品名称</th>
+							<th width="10%">数量</th>
+							<th width="15%">价格</th>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<hr>
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">发票信息</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+                            <td align="left">发票抬头</td>
+                            <td align="left" id="orderinvoice">无发票</td>
+                        </tr>
+					</table>
+				</div>
+			</div>
+			<hr>
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">配送信息</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+                            <td align="right">收货人</td>
+                            <td align="left" id="ordername"></td>
+                        </tr>
+						<tr>
+                            <td align="right">联系方式</td>
+                            <td align="left" id="orderphone"></td>
+                        </tr>
+						<tr>
+                            <td align="right">配送地址</td>
+                            <td align="left" id="orderaddress"></td>
+                        </tr>
+					</table>
 				</div>
 			</div>
 		</div>

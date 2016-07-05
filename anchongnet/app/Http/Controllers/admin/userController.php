@@ -24,18 +24,18 @@ class userController extends Controller
     {
 		$keyPhone=Requester::input("phone");
 		$keyLevel=Requester::input("users_rank");
-		
+
         if($keyPhone=="" && $keyLevel==""){
-		    $datas=$this->user->paginate(8);
+		    $datas=$this->user->orderBy("users_id","desc")->paginate(8);
 		}else if(empty($keyLevel)){
-			$datas = Users::Phone($keyPhone)->paginate(8);
+			$datas = Users::Phone($keyPhone)->orderBy("users_id","desc")->paginate(8);
 		}else if(empty($keyPhone)){
-			$datas = Users::Level($keyLevel)->paginate(8);
+			$datas = Users::Level($keyLevel)->orderBy("users_id","desc")->paginate(8);
 		}else{
-			$datas = Users::Phone($keyPhone)->Level($keyLevel)->paginate(8);
+			$datas = Users::Phone($keyPhone)->Level($keyLevel)->orderBy("users_id","desc")->paginate(8);
 		}
 		$args=array("phone"=>$keyPhone,"users_rank"=>$keyLevel);
-		return view('admin/users/index',array("datacol"=>compact("args","datas")));		
+		return view('admin/users/index',array("datacol"=>compact("args","datas")));
     }
 
     /**
