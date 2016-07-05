@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-
+use App\Permission;
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -26,6 +26,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies($gate);
 
-        //
+       //绑定 “权限验证回调”
+		$permissions = Permission::with('roles')->get();
+        foreach ($permissions as $permission) {
+            $gate->define($permission->name, function($user) use ($permission) {
+                return $user->hasPermission($permission);
+            });
+        }
     }
 }

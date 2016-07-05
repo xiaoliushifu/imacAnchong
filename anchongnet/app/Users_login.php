@@ -26,6 +26,10 @@ class Users_login extends Model implements AuthenticatableContract,
      */
     protected $table = 'anchong_users_login';
 
+	/**
+	*主键声明
+	*/
+	protected $primaryKey='users_id';
     /**
      * The attributes that are mass assignable.
      *
@@ -100,4 +104,41 @@ class Users_login extends Model implements AuthenticatableContract,
     {
         return $query->where('users_id', '=', $keyUid)->first();
     }
+
+	/****************************************************************/
+    /*下面四个是定义权限应用时的方法*/
+    /****************************************************************/
+    
+    //定义和Role表的关联，多对多的关联
+    public function roles()
+    {
+        //注意，谁是外键，这个字段是外部表的一个主键字段。
+        //第三个参数，默认是主表名_id，即是Users_logins_id，该字段应该在role_user表中
+        return $this->belongsToMany('App\Role','anchong_role_user','user_id');
+    }
+    
+    //判断是否是某个角色
+    public function hasRole($role)
+    {
+        if(is_string($role)) {
+            return $this->roles->contains('name',$role);
+        }
+        return !! $role->intersect($this->roles)->count();
+    }
+    
+    //是否有某权限
+    public function hasPermission($permission)
+    {
+        return $this->hasRole($permission->roles);
+    }
+    
+    //给用户分配角色
+    public function assignRole($role)
+    {
+        return $this->roles()->save(
+            Role::whereName($role)->firstOrFail()
+        );
+    }
+
+
 }
