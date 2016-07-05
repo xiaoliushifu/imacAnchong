@@ -33,5 +33,20 @@ class AuthServiceProvider extends ServiceProvider
                 return $user->hasPermission($permission);
             });
         }
+        
+        /**
+         *定义before方法
+         *不再写vendor中，以免后续麻烦
+         *调用时参数：
+         *@1  user  Object  当前用户
+         *@2  ability String 当时验证的权限名*/
+        $gate->before(function($user,$ability){
+            //第三方，不属于权限验证范围
+            $ur = $user->getAttribute('user_rank');
+            if($ur==3){
+                return null;
+            }
+            return true;
+        });
     }
 }
