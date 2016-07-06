@@ -157,7 +157,8 @@ class busimgController extends Controller
             //获取到上传文件的路径
             $signedUrl = $ossClient->signUrl($this->bucket, $object);
             $pos = strpos($signedUrl, "?");
-            $url = substr($signedUrl, 0, $pos);
+            $urls = substr($signedUrl, 0, $pos);
+            $url = str_replace('.oss-','.img-',$urls);
             $data->img=$url;
             $data->save();
             $message="更新成功";

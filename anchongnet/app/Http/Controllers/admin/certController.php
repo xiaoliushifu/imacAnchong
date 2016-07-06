@@ -27,18 +27,18 @@ class certController extends Controller
     {
         $keyId=Requester::input("id");
 		$keyStatus=Requester::input("auth_status");
-		
+
         if($keyId=="" && $keyStatus==""){
-		    $datas=$this->auth->paginate(4);
+		    $datas=$this->auth->orderBy("id","desc")->paginate(4);
 		}else if(empty($keyStatus)){
-			$datas = Auth::Ids($keyId)->paginate(4);
+			$datas = Auth::Ids($keyId)->orderBy("id","desc")->paginate(4);
 		}else if(empty($keyId)){
-			$datas = Auth::Status($keyStatus)->paginate(4);
+			$datas = Auth::Status($keyStatus)->orderBy("id","desc")->paginate(4);
 		}else{
-			$datas = Auth::Ids($keyId)->Status($keyStatus)->paginate(4);
+			$datas = Auth::Ids($keyId)->Status($keyStatus)->orderBy("id","desc")->paginate(4);
 		}
 		$args=array("id"=>$keyId,"auth_status"=>$keyStatus);
-		return view('admin/users/cert',array("datacol"=>compact("args","datas")));	
+		return view('admin/users/cert',array("datacol"=>compact("args","datas")));
     }
 
     /**

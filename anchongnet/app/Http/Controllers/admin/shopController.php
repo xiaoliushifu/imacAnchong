@@ -38,13 +38,13 @@ class shopController extends Controller
         $keyAudit=Requester::input("audit");
 
         if($keyName=="" && $keyAudit==""){
-            $datas=$this->shop->paginate(8);
+            $datas=$this->shop->orderBy("sid","desc")->paginate(8);
         }else if(empty($keyAudit)){
-            $datas = Shop::Name($keyName)->paginate(8);
+            $datas = Shop::Name($keyName)->orderBy("sid","desc")->paginate(8);
         }else if(empty($keyName)){
-            $datas = Shop::Audit($keyAudit)->paginate(8);
+            $datas = Shop::Audit($keyAudit)->orderBy("sid","desc")->paginate(8);
         }else{
-            $datas = Shop::Name($keyName)->Audit($keyAudit)->paginate(8);
+            $datas = Shop::Name($keyName)->Audit($keyAudit)->orderBy("sid","desc")->paginate(8);
         }
         $args=array("name"=>$keyName,"audit"=>$keyAudit);
         return view('admin/shop/index',array("datacol"=>compact("args","datas")));

@@ -289,7 +289,8 @@ class commodityController extends Controller
             //获取到上传文件的路径
             $signedUrl = $ossClient->signUrl($this->bucket, $object);
             $pos = strpos($signedUrl, "?");
-            $url = substr($signedUrl, 0, $pos);
+            $urls = substr($signedUrl, 0, $pos);
+            $url = str_replace('.oss-','.img-',$urls);
 
             //将商品详情图片替换掉
             $data=$this->good->find($request['gid']);
