@@ -11,6 +11,7 @@ use OSS\OssClient;
 use OSS\Core\OssException;
 use DB;
 use Auth;
+use Gate;
 
 use App\GoodSpecification;
 use App\GoodThumb;
@@ -79,6 +80,10 @@ class goodController extends Controller
      */
     public function create()
     {
+		//添加货品权限
+		if(Gate::denies('create-goods')) {
+            return back();
+		}
         return view('admin/good/create',array('sid'=>$this->sid));
     }
 
