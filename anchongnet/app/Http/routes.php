@@ -258,7 +258,7 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
 });
 
 //后台路由
-Route::group(['domain' => 'admin.anchong.com'], function () {
+Route::group(['domain' => 'admin.anchong.net'], function () {
     //注册相关
         Route::any('/userregister', 'admin\indexController@userregister');
         Route::any('/zhuce', 'admin\indexController@zhuce');
@@ -270,156 +270,157 @@ Route::group(['domain' => 'admin.anchong.com'], function () {
         Route::any('/checklogin','admin\indexController@checklogin');
         //加中间件的路由组
         Route::group(['middleware' => 'LoginAuthen'], function () {
-            //首页路由
-        Route::get('/','admin\indexController@index');
-            //用户路由
-        Route::resource('/users','admin\userController');
-            //后台登出
-        Route::get('/logout','admin\indexController@logout');
-             //认证路由
-        Route::resource('/cert','admin\certController');
-        //订单管理路由
-        Route::resource('/order','admin\orderController');
-        //订单发货路由
-        Route::post('/ordership','admin\orderController@orderShip');
-        //订单审核路由
-        Route::post('/checkorder','admin\orderController@checkorder');
-        //获取同一个订单的订单信息的路由
-        Route::get('/getsiblingsorder','admin\orderinfoController@getSiblingsOrder');
+                //首页路由
+            Route::get('/','admin\indexController@index');
+                //用户路由
+            Route::resource('/users','admin\userController');
+                //后台登出
+            Route::get('/logout','admin\indexController@logout');
+                 //认证路由
+            Route::resource('/cert','admin\certController');
+            //订单管理路由
+            Route::resource('/order','admin\orderController');
+            //订单发货路由
+            Route::post('/ordership','admin\orderController@orderShip');
+            //订单审核路由
+            Route::post('/checkorder','admin\orderController@checkorder');
+            //获取同一个订单的订单信息的路由
+            Route::get('/getsiblingsorder','admin\orderinfoController@getSiblingsOrder');
 
-        //认证检查
-        Route::get('/check','admin\CheckController@check');
-        //商铺路由
-        Route::resource('/shop','admin\shopController');
-        //物流管理
-        Route::resource('/logis','admin\logisController');
-        //获取所有物流
-        Route::get('/getlogis','admin\logisController@getAll');
-        //获取商铺的主营品牌
-        Route::get('/getbrand','admin\shopController@getbrand');
-        //获取商铺的主营类别
-        Route::get('/getcat','admin\shopController@getcat');
-        //商铺审核路由
-        Route::get("/checkShop",'admin\checkShopController@index');
-        //标签管理路由
-        Route::resource('/tag','admin\tagController');
-        //获取所有标签路由
-        Route::get('/getag','admin\tagController@geTag');
-        //分类标签管理路由
-        Route::resource('/catag','admin\caTagController');
-        //获取同一个分类的所有标签的路由
-        Route::get('/getsiblingstag','admin\caTagController@getSiblings');
-        //分类管理路由
-        Route::resource('/goodcate','admin\goodCateController');
-        //获取商品一级或二级分类路由
-        Route::get('/getlevel','admin\goodCateController@getLevel');
-        //获取商品一级或二级分类路由
-        Route::get('/newgetlevel','admin\goodCateController@newgetLevel');
-        //获取商品所有二级分类路由
-        Route::get('/getlevel2','admin\goodCateController@getLevel2');
-        //获取同一个一级分类下的所有二级分类的路由
-        Route::get('/getsiblingscat','admin\goodCateController@getSiblings');
-        //获取同一个一级分类下的所有二级分类的路由
-        Route::get('/newgetsiblingscat','admin\goodCateController@newgetSiblings');
+            //认证检查
+            Route::get('/check','admin\CheckController@check');
+            //商铺路由
+            Route::resource('/shop','admin\shopController');
+            //物流管理
+            Route::resource('/logis','admin\logisController');
+            //获取所有物流
+            Route::get('/getlogis','admin\logisController@getAll');
+            //获取商铺的主营品牌
+            Route::get('/getbrand','admin\shopController@getbrand');
+            //获取商铺的主营类别
+            Route::get('/getcat','admin\shopController@getcat');
+            //商铺审核路由
+            Route::get("/checkShop",'admin\checkShopController@index');
+            //标签管理路由
+            Route::resource('/tag','admin\tagController');
+            //获取所有标签路由
+            Route::get('/getag','admin\tagController@geTag');
+            //分类标签管理路由
+            Route::resource('/catag','admin\caTagController');
+            //获取同一个分类的所有标签的路由
+            Route::get('/getsiblingstag','admin\caTagController@getSiblings');
+            //分类管理路由
+            Route::resource('/goodcate','admin\goodCateController');
+            //获取商品一级或二级分类路由
+            Route::get('/getlevel','admin\goodCateController@getLevel');
+            //获取商品一级或二级分类路由
+            Route::get('/newgetlevel','admin\goodCateController@newgetLevel');
+            //获取商品所有二级分类路由
+            Route::get('/getlevel2','admin\goodCateController@getLevel2');
+            //获取同一个一级分类下的所有二级分类的路由
+            Route::get('/getsiblingscat','admin\goodCateController@getSiblings');
+            //获取同一个一级分类下的所有二级分类的路由
+            Route::get('/newgetsiblingscat','admin\goodCateController@newgetSiblings');
 
-        //商品管理路由
-        Route::resource('/good','admin\goodController');
-        Route::resource('/commodity','admin\commodityController');
-        //获取同一分类下的商品的路由
-        Route::get('/getsibilingscommodity','admin\commodityController@getSiblings');
-        //获取同一商品下的所有货品的路由
-        Route::get('/getsiblingsgood','admin\goodController@getSiblings');
-        //获取商品的配套商品的路由
-        Route::get('/getsupcom','admin\goodSupportingController@getSupcom');
-        //配套商品管理路由
-        Route::resource('/goodsupporting','admin\goodSupportingController');
+            //商品管理路由
+            Route::resource('/good','admin\goodController');
+            Route::resource('/commodity','admin\commodityController');
+            //获取同一分类下的商品的路由
+            Route::get('/getsibilingscommodity','admin\commodityController@getSiblings');
+            //获取同一商品下的所有货品的路由
+            Route::get('/getsiblingsgood','admin\goodController@getSiblings');
+            //获取商品的配套商品的路由
+            Route::get('/getsupcom','admin\goodSupportingController@getSupcom');
+            //配套商品管理路由
+            Route::resource('/goodsupporting','admin\goodSupportingController');
 
-        //商品图片管理路由
-        Route::resource('/thumb','admin\thumbController');
-        Route::get('/getgoodthumb','admin\thumbController@getGoodThumb');
-        Route::resource('/img','admin\ImgController');
-        Route::get('/getgoodimg','admin\ImgController@getGoodImg');
-        //编辑货品时添加货品图片的路由
-        Route::post('/addgoodpic','admin\goodController@addpic');
-        //替换商品详情图片的路由
-        Route::post('/updataimg','admin\commodityController@updateImg');
+            //商品图片管理路由
+            Route::resource('/thumb','admin\thumbController');
+            Route::get('/getgoodthumb','admin\thumbController@getGoodThumb');
+            Route::resource('/img','admin\ImgController');
+            Route::get('/getgoodimg','admin\ImgController@getGoodImg');
+            //编辑货品时添加货品图片的路由
+            Route::post('/addgoodpic','admin\goodController@addpic');
+            //替换商品详情图片的路由
+            Route::post('/updataimg','admin\commodityController@updateImg');
 
-        //库存管理路由
-        Route::resource('/stock','admin\stockController');
-        //获取指定货品库存路由
-        Route::get('/getStock','admin\stockController@getStock');
-        //更新货品的库存总数
-        Route::get('/getotal','admin\stockController@getTotal');
+            //库存管理路由
+            Route::resource('/stock','admin\stockController');
+            //获取指定货品库存路由
+            Route::get('/getStock','admin\stockController@getStock');
+            //更新货品的库存总数
+            Route::get('/getotal','admin\stockController@getTotal');
 
-        //商品属性路由
-        Route::resource('/attr','admin\attrController');
-        //获取同一个商品的所有属性信息的路由
-        Route::get('/getsiblingsattr','admin\attrController@getSiblings');
+            //商品属性路由
+            Route::resource('/attr','admin\attrController');
+            //获取同一个商品的所有属性信息的路由
+            Route::get('/getsiblingsattr','admin\attrController@getSiblings');
 
-        //社区路由
-        Route::resource('/release','admin\releaseController');
-        //社区图片上传路由
-        Route::resource('/releaseimg','admin\releaseImgController');
-        //获取指定发布图片的路由
-        Route::get('/relimg','admin\releaseImgController@getImg');
-        //编辑发布的时候添加发布图片
-        Route::post('/addrelimg','admin\releaseController@addpic');
-        //删除指定商机图片
-        Route::get('/delrelimg','admin\releaseImgController@delpic');
+            //社区路由
+            Route::resource('/release','admin\releaseController');
+            //社区图片上传路由
+            Route::resource('/releaseimg','admin\releaseImgController');
+            //获取指定发布图片的路由
+            Route::get('/relimg','admin\releaseImgController@getImg');
+            //编辑发布的时候添加发布图片
+            Route::post('/addrelimg','admin\releaseController@addpic');
+            //删除指定商机图片
+            Route::get('/delrelimg','admin\releaseImgController@delpic');
 
-        //评论路由
-        Route::resource('/comment','admin\commentController');
-        //回复评论路由
-        Route::resource('/reply','admin\replyController');
+            //评论路由
+            Route::resource('/comment','admin\commentController');
+            //回复评论路由
+            Route::resource('/reply','admin\replyController');
 
-        //商机管理
-        Route::resource('/business','admin\businessController');
-        //商机图片
-        Route::resource('/businessimg','admin\busimgController');
-        //获取指定商机的商机图片
-        Route::get('/busimg','admin\busimgController@getImg');
-        //删除指定商机图片
-        Route::get('/delimg','admin\busimgController@delpic');
-        //编辑商机的时候添加商机图片
-        Route::post('/addbusimg','admin\businessController@addpic');
+            //商机管理
+            Route::resource('/business','admin\businessController');
+            //商机图片
+            Route::resource('/businessimg','admin\busimgController');
+            //获取指定商机的商机图片
+            Route::get('/busimg','admin\busimgController@getImg');
+            //删除指定商机图片
+            Route::get('/delimg','admin\busimgController@delpic');
+            //编辑商机的时候添加商机图片
+            Route::post('/addbusimg','admin\businessController@addpic');
 
-       /*
-        *   后台广告
-        */
-        //编辑时候添加图片
-        Route::post('/advert/addpic','admin\Advert\AdvertController@addpic');
-        //商机广告
-        Route::post('/advert/businessadvert','admin\Advert\AdvertController@businessadvert');
-        //发布资讯页面
-        Route::get('/advert/newsshow','admin\Advert\AdvertController@newsshow');
-        //查看资讯页面
-        Route::get('/advert/newsindex','admin\Advert\AdvertController@newsindex');
-        //单个资讯查看
-        Route::get('/advert/firstinfor/{id}','admin\Advert\AdvertController@firstinfor');
-        //资讯更新
-        Route::post('/advert/inforupdate','admin\Advert\AdvertController@inforupdate');
-        //发布资讯
-        Route::post('/advert/releasenews','admin\Advert\AdvertController@releasenews');
-        //删除资讯
-        Route::get('/advert/infordel/{num}','admin\Advert\AdvertController@infordel');
-        //查看商机广告页面
-        Route::get('/advert/busiadvert','admin\Advert\AdvertController@busiadvert');
+           /*
+            *   后台广告
+            */
+            //编辑时候添加图片
+            Route::post('/advert/addpic','admin\Advert\AdvertController@addpic');
+            //商机广告
+            Route::post('/advert/businessadvert','admin\Advert\AdvertController@businessadvert');
+            //发布资讯页面
+            Route::get('/advert/newsshow','admin\Advert\AdvertController@newsshow');
+            //查看资讯页面
+            Route::get('/advert/newsindex','admin\Advert\AdvertController@newsindex');
+            //单个资讯查看
+            Route::get('/advert/firstinfor/{id}','admin\Advert\AdvertController@firstinfor');
+            //资讯更新
+            Route::post('/advert/inforupdate','admin\Advert\AdvertController@inforupdate');
+            //发布资讯
+            Route::post('/advert/releasenews','admin\Advert\AdvertController@releasenews');
+            //删除资讯
+            Route::get('/advert/infordel/{num}','admin\Advert\AdvertController@infordel');
+            //查看商机广告页面
+            Route::get('/advert/busiadvert','admin\Advert\AdvertController@busiadvert');
 
-        //权限管理 隐式路由
-        Route::controller('/permission','admin\PermissionController');
-        /*
-        *   后台商品
-        */
-        //后台商品删除
-        Route::post('/goods/goodsdel','admin\Goods\GoodsController@goodsdel');
+            //权限管理 隐式路由
+            Route::controller('/permission','admin\PermissionController');
+            /*
+            *   后台商品
+            */
+            //后台商品删除
+            Route::post('/goods/goodsdel','admin\Goods\GoodsController@goodsdel');
 
-        /*
-        *   后台社区
-        */
-        //后台社区编辑获取图片
-        Route::get('/community/imgshow/{num}','admin\releaseController@imgshow');
+            /*
+            *   后台社区
+            */
+            //后台社区编辑获取图片
+            Route::get('/community/imgshow/{num}','admin\releaseController@imgshow');
+        });
     });
-});
+
 
 //前台路由
 Route::group(['domain' => 'www.anchong.net'], function () {
