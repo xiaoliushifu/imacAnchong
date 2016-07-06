@@ -258,7 +258,7 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
 });
 
 //后台路由
-    Route::group(['domain'=>'admin.anchong.net'],function (){
+    Route::group(['domain'=>'admin.myanchong.net'],function (){
     //注册相关
         Route::any('/userregister', 'admin\indexController@userregister');
         Route::any('/zhuce', 'admin\indexController@zhuce');
