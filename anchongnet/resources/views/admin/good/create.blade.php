@@ -122,7 +122,12 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="costprice">成本价</label>
                                     <div class="col-sm-3">
+                                    <!-- 成本价权限 -->
+                                    @can('costprice')
                                         <input type="text" name="costpirce" id="costprice" class="form-control" value="{{ old('costpirce') }}" />
+                                    @else
+                                        <input type="text" name="costpirce" id="costprice" class="form-control" value=""  readonly/>
+                                    @endcan
                                     </div>
                                 </div><!--end form-group-->
                                 <div class="form-group">
