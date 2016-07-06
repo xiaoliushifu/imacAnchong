@@ -85,7 +85,8 @@ class releaseImgController extends Controller
             //获取到上传文件的路径
             $signedUrl = $ossClient->signUrl($this->bucket, $object);
             $pos = strpos($signedUrl, "?");
-            $url = substr($signedUrl, 0, $pos);
+            $urls = substr($signedUrl, 0, $pos);
+            $url = str_replace('.oss-','.img-',$urls);
             $message="上传成功";
             $isSuccess=true;
         }catch (OssException $e) {
@@ -157,7 +158,8 @@ class releaseImgController extends Controller
             //获取到上传文件的路径
             $signedUrl = $ossClient->signUrl($this->bucket, $object);
             $pos = strpos($signedUrl, "?");
-            $url = substr($signedUrl, 0, $pos);
+            $urls = substr($signedUrl, 0, $pos);
+            $url = str_replace('.oss-','.img-',$urls);
             //创建图片ORM
             $community_img=new \App\Community_img();
             $result=$community_img->comupdate($id,['img'=>$url]);

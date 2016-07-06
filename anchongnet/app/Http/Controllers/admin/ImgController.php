@@ -101,7 +101,8 @@ class ImgController extends Controller
             //获取到上传文件的路径
             $signedUrl = $ossClient->signUrl($this->bucket, $object);
             $pos = strpos($signedUrl, "?");
-            $url = substr($signedUrl, 0, $pos);
+            $urls = substr($signedUrl, 0, $pos);
+            $url = str_replace('.oss-','.img-',$urls);
 
             $message="上传成功";
             $isSuccess=true;
@@ -183,7 +184,8 @@ class ImgController extends Controller
             //获取到上传文件的路径
             $signedUrl = $ossClient->signUrl($this->bucket, $object);
             $pos = strpos($signedUrl, "?");
-            $url = substr($signedUrl, 0, $pos);
+            $urls = substr($signedUrl, 0, $pos);
+            $url = str_replace('.oss-','.img-',$urls);
 
             //更新数据库
             $data=$this->img->find($id);
