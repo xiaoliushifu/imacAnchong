@@ -160,18 +160,13 @@
 					<h3 align="center" style="margin-top:0px" id="myModalLabel">发货清单</h3>
 				</div>
 				<div class="modal-body">
-					<table class="table1" style="margin-bottom:7px">
+					<table class="table1" style="width:100%;margin-bottom:7px">
 						<tr>
-							<td width="65px" align="left">商铺名称:</td>
-                            <td align="left" id="ordersname"></td>
-                            <td style="padding-left:380px" align="right">订单日期:</td>
-                            <td align="right" id="ordertime"></td>
+                            <td align="left" id="ordersname">商铺名称:</td>     <td style="padding-left:10px" align="right" id="ordertime">订单日期:</td>
                         </tr>
                         <tr>
-							<td align="left">客户名称:</td>
-                            <td align="left" id="ordertname"></td>
-                            <td style="padding-left:380px" align="right">订单编号:</td>
-                            <td align="right" id="ordernum"></td>
+                            <td align="left" id="ordertname">客户名称:</td>
+                            <td style="padding-left:10px" align="right" id="ordernum">订单编号:</td>
                         </tr>
 					</table>
 					<table class="tables" id="mbody">

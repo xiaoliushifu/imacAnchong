@@ -21,13 +21,13 @@ $(function(){
         //标题
         var tl;
         //为html赋值
-        $("#ordertime").text($(this).attr("data-time"));
-        $("#ordernum").text($(this).attr("data-num"));
-        $("#ordersname").text($(this).attr("data-sname"));
+        $("#ordertime").text('订单日期:'+$(this).attr("data-time"));
+        $("#ordernum").text('订单编号:  '+$(this).attr("data-num"));
+        $("#ordersname").text('商铺名称:'+$(this).attr("data-sname"));
         $("#ordername").text($(this).attr("data-name"));
         $("#orderphone").text($(this).attr("data-phone"));
         $("#orderaddress").text($(this).attr("data-address"));
-        $("#ordertname").text($(this).attr("data-tname"));
+        $("#ordertname").text('客户名称:'+$(this).attr("data-tname"));
         if($(this).attr("data-invoice")){
             var invoice=$(this).attr("data-invoice").split("#");
             if(invoice[1] == undefined){
@@ -48,7 +48,7 @@ $(function(){
                 //截取商品的简要名称
                 var gname=data[i].goods_name.split("-");
                 var goodsname=gname[1].split(" ");
-                dl='<tr class="orderinfos"><td align="center" valign="middle">'+(i+1)+'</td><td align="center" valign="middle">'+goodsname[0]+'</td><td align="center" valign="middle">'+data[i].goods_type+'</td><td align="center" valign="middle">'+data[i].goods_num+'</td><td align="center" valign="middle">'+data[i].goods_price+'</td></tr>';
+                dl='<tr class="orderinfos"><td align="center" valign="middle">'+(data.length-i)+'</td><td align="center" valign="middle">'+goodsname[0]+'</td><td align="center" valign="middle">'+data[i].goods_type+'</td><td align="center" valign="middle">'+data[i].goods_num+'</td><td align="center" valign="middle">'+data[i].goods_price+'</td></tr>';
                 $("#mbody").prepend(dl);
             }
             //标题插入
