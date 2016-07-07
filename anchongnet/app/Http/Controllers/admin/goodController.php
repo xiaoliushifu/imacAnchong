@@ -250,7 +250,10 @@ class goodController extends Controller
         //$data->cat_id=$request->midselect;
         $data->goods_name=$request->spetag;
         $data->market_price=$request->marketprice;
-        $data->goods_price=$request->costpirce;
+        //权限验证
+        if(Gate::allows('costprice')){
+            $data->goods_price=$request->costpirce;
+        }
         $data->vip_price=$request->viprice;
         $data->goods_desc=$request->description;
         $data->keyword=$request->keyword;

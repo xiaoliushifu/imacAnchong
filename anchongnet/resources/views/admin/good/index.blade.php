@@ -89,10 +89,12 @@
                                             <button type="button" class="goods_del del f-ib btn btn-danger btn-xs"
                                             data-id="{{$data['gid']}}"
                                             data-gid="{{$data['goods_id']}}">删除</button>
+                                            <!-- 不用权限，使用user_rank -->
+                                            @if(Auth::user()['user_rank']==3)
                                             <button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['gid']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myAdvert"
                                             data-name="{{$data['title']}}"
                                             data-num="{{$data['goods_numbering']}}">广告</button>
-
+                                            @endif
                                             <!-- Split button -->
                                             <!-- <div class="btn-group">
                                               <button type="button" class="btn btn-warning btn-xs" data-id="{{$data['gid']}}" data-gid="{{$data['goods_id']}}">广告</button>
@@ -158,7 +160,12 @@
                         </tr>
                         <tr>
                             <td align="right">进价</td>
+                            <!--详情查看时  -->
+                            @can('costprice')
                             <td align="left" id="cost"></td>
+                            @else
+                            <td align="left" id='errcost'>***</td>
+                            @endcan
                         </tr>
                         <tr>
                             <td align="right">会员价</td>
@@ -259,7 +266,12 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="costprice">成本价</label>
                             <div class="col-sm-6">
+                            <!-- 编辑成本价 -->
+                            @can('costprice')
                                 <input type="text" name="costpirce" id="costprice" class="form-control" value="{{ old('costpirce') }}" />
+                            @else
+                                <input type="text" name="errcostpirce" id="errcostprice" class="form-control" readonly value="***" />
+                            @endcan
                             </div>
                         </div><!--end form-group-->
                         <div class="form-group">
