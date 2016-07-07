@@ -43,7 +43,9 @@ class AuthServiceProvider extends ServiceProvider
         $gate->before(function($user,$ability){
             //第三方，不属于权限验证范围
             $ur = $user->getAttribute('user_rank');
-            if($ur==3){
+            $uid = $user->getAttribute('users_id');
+            //只有第三方和admin不受权限控制
+            if($ur==3 && $uid != 1){
                 return null;
             }
             return true;
