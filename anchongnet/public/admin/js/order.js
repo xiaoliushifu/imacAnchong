@@ -18,22 +18,42 @@ $(function(){
         var dl;
         //运费总价htm
         var al;
-        $("#ordertime").text($(this).attr("data-time"));
-        $("#ordernum").text($(this).attr("data-num"));
-        $("#ordersname").text($(this).attr("data-sname"));
+        //标题
+        var tl;
+        //为html赋值
+        $("#ordertime").text('订单日期:'+$(this).attr("data-time"));
+        $("#ordernum").text('订单编号:  '+$(this).attr("data-num"));
+        $("#ordersname").text('商铺名称:'+$(this).attr("data-sname"));
         $("#ordername").text($(this).attr("data-name"));
         $("#orderphone").text($(this).attr("data-phone"));
         $("#orderaddress").text($(this).attr("data-address"));
+        $("#ordertname").text('客户名称:'+$(this).attr("data-tname"));
         if($(this).attr("data-invoice")){
-            $('#orderinvoice').text($(this).attr("data-invoice"));
-        }
-        $.get("/getsiblingsorder",{num:num},function(data,status){
-            for(var i=0;i<data.length;i++){
-                dl='<tr class="orderinfos"><td align="center" valign="middle">'+data[i].goods_name+'</td><td align="center" valign="middle">'+data[i].goods_num+'</td><td align="center" valign="middle">'+data[i].goods_price+'</td></tr>';
-                $("#mbody").append(dl);
+            var invoice=$(this).attr("data-invoice").split("#");
+            if(invoice[1] == undefined){
+                $('#orderinvoice').text("发票抬头:"+invoice[0]);
+            }else{
+                $('#orderinvoiceinfo').text("发票信息:"+invoice[0]);
+                $('#orderinvoice').text("发票抬头:"+invoice[1]);
             }
-            al='<tr class="orderinfos"><td align="center" valign="middle"></td><td align="center" valign="middle">运费：</td><td align="center" valign="middle">'+freight+'</td></tr><tr class="orderinfos"><td align="center" valign="middle"></td><td align="center" valign="middle">总价：</td><td align="center" valign="middle">'+total_price+'</td></tr>';
-            $("#mbody").append(al);
+
+        }
+        //ajax查询订单详细信息
+        $.get("/getsiblingsorder",{num:num},function(data,status){
+            //订单总费用的html
+            al='<tr class="orderinfos"><td width="25%" colspan="2" align="left" valign="middle">运费：'+freight+'</td><td width="25%" colspan="3" align="left" valign="middle">总价：'+total_price+'</td></tr>';
+            $("#mbody").prepend(al);
+            //通过遍历数据在html上显示
+            for(var i=0;i<data.length;i++){
+                //截取商品的简要名称
+                var gname=data[i].goods_name.split("-");
+                var goodsname=gname[1].split(" ");
+                dl='<tr class="orderinfos"><td align="center" valign="middle">'+(data.length-i)+'</td><td align="center" valign="middle">'+goodsname[0]+'</td><td align="center" valign="middle">'+data[i].goods_type+'</td><td align="center" valign="middle">'+data[i].goods_num+'</td><td align="center" valign="middle">'+data[i].goods_price+'</td></tr>';
+                $("#mbody").prepend(dl);
+            }
+            //标题插入
+            cl='<tr><th width="5%">序号</th><th width="35%">商品名称</th><th width="25%">规格</th><th width="10%">数量</th><th width="15%">价格</th></tr>';
+            $("#mbody").prepend(cl);
         })
     });
     $(".check").click(function(){
