@@ -183,7 +183,7 @@ $(function(){
             $.ajax({
                 url: "/advert/businessadvert",
                 type:'POST',
-                data:{goods_id:'business',gid:bid,recommend:1},
+                data:{goods_id:'business',bid:bid,recommend:1},
                 success:function( response ){
                     if(response.ServerNo == 0){
                         alert('推广成功');
@@ -235,6 +235,7 @@ $(function(){
             }
         });
     });
+    //商机轮播图
     $(".appbusinesspic22").change(function(){
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate22").ajaxSubmit({
@@ -249,6 +250,7 @@ $(function(){
             }
         });
     });
+    //商机轮播图
     $(".appbusinesspic23").change(function(){
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate23").ajaxSubmit({
@@ -263,6 +265,7 @@ $(function(){
             }
         });
     });
+    //商机轮播图
     $(".appbusinesspic24").change(function(){
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate24").ajaxSubmit({

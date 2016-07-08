@@ -34,9 +34,13 @@
 		}
 		.tables td{
 			border: 1px solid #333;
+			font-size: 12px;
 		}
 		.table1 {
 			border: 0px solid #333;
+		}
+		li{
+			list-style:none;
 		}
 	</style>
 </head>
@@ -162,7 +166,8 @@
 				<div class="modal-body">
 					<table class="table1" style="width:100%;margin-bottom:7px">
 						<tr>
-                            <td align="left" id="ordersname">商铺名称:</td>     <td style="padding-left:10px" align="right" id="ordertime">订单日期:</td>
+                            <td align="left" id="ordersname">商铺名称:</td>
+							<td style="padding-left:10px" align="right" id="ordertime">订单日期:</td>
                         </tr>
                         <tr>
                             <td align="left" id="ordertname">客户名称:</td>
@@ -188,6 +193,18 @@
                             <td align="left" id="orderaddress"></td>
                         </tr>
 					</table>
+					<div style="margin-top:30px">
+						<div class="" style="float:right">
+							<li><img style="width:100px;height:100px;" src="/admin/image/code/安虫微信公众号.jpg" alt="安虫微信公众号" /></li>
+							<li align="center"><b>安虫微信公众号</b></li>
+						</div>
+						<div class="" style="float:right">
+							<li><img style="margin-right:50px;width:100px;height:100px;" src="/admin/image/code/安虫APP二维码.jpg" alt="安虫APP二维码" /></li>
+							<li style="margin-right:50px;" align="center"><b>安虫APP二维码</b></li>
+						</div>
+						<div  style="clear:both">
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
