@@ -10,6 +10,7 @@ use OSS\OssClient;
 use OSS\Core\OssException;
 use DB;
 use Auth;
+use Gate;
 
 use App\GoodSpecification;
 use App\GoodThumb;
@@ -25,6 +26,8 @@ class AdvertController extends Controller
     //构造函数
     public function __construct()
     {
+        //只安虫自营才有权限
+        $this->middleware('anchong');
         $this->accessKeyId=env('ALIOSS_ACCESSKEYId');
         $this->accessKeySecret=env('ALIOSS_ACCESSKEYSECRET');
         $this->endpoint=env('ALIOSS_ENDPOINT');
@@ -113,6 +116,9 @@ class AdvertController extends Controller
     */
     public function newsshow()
     {
+        //无权不可到达发布页
+        if(Gate::denies('release-create'))
+            return back();
         return view("admin/advert/create_news");
     }
 
@@ -132,6 +138,9 @@ class AdvertController extends Controller
     */
     public function busiadvert()
     {
+        //无权不可到达发布页
+        if(Gate::denies('busi-advert-create'))
+            return back();
         return view("admin/advert/business");
     }
 
