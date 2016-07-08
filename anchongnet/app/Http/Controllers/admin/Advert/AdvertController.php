@@ -116,6 +116,9 @@ class AdvertController extends Controller
     */
     public function newsshow()
     {
+        //无权不可到达发布页
+        if(Gate::denies('release-create'))
+            return back();
         return view("admin/advert/create_news");
     }
 
