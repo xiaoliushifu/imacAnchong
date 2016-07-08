@@ -10,6 +10,7 @@ use OSS\OssClient;
 use OSS\Core\OssException;
 use DB;
 use Auth;
+use Gate;
 
 use App\GoodSpecification;
 use App\GoodThumb;
@@ -134,6 +135,9 @@ class AdvertController extends Controller
     */
     public function busiadvert()
     {
+        //无权不可到达发布页
+        if(Gate::denies('busi-advert-create'))
+            return back();
         return view("admin/advert/business");
     }
 
