@@ -25,6 +25,8 @@ class AdvertController extends Controller
     //构造函数
     public function __construct()
     {
+        //只安虫自营才有权限
+        $this->middleware('anchong');
         $this->accessKeyId=env('ALIOSS_ACCESSKEYId');
         $this->accessKeySecret=env('ALIOSS_ACCESSKEYSECRET');
         $this->endpoint=env('ALIOSS_ENDPOINT');

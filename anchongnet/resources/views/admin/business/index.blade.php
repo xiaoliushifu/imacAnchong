@@ -113,6 +113,8 @@
 										<button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['bid']}}" data-toggle="modal" data-target="#myview">查看详情</button>
 										<button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['bid']}}" data-uid="{{$data['users_id']}}" data-toggle="modal" data-target="#myModal">编辑</button>
 										<button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['bid']}}">删除</button>
+										<!-- 广告处理屏蔽 -->
+										@if(Auth::user()['user_rank']==3)
 										<button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['bid']}}"  data-toggle="modal"
 										>广告推送</button>
 										<button type="button" class="advertcancel f-ib btn btn-warning btn-xs" data-id="{{$data['bid']}}"  data-toggle="modal"
@@ -120,6 +122,7 @@
 										<button type="button" class="advertpic f-ib btn btn-info btn-xs" data-id="{{$data['bid']}}"  data-toggle="modal"
 										data-target="#myAdvert"
 										>广告轮播图</button>
+										@endif
 									</td>
 								</tr>
 								@endforeach
