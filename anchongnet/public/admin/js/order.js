@@ -48,11 +48,11 @@ $(function(){
                 //截取商品的简要名称
                 var gname=data[i].goods_name.split("-");
                 var goodsname=gname[1].split(" ");
-                dl='<tr class="orderinfos"><td align="center" valign="middle">'+(data.length-i)+'</td><td align="center" valign="middle">'+goodsname[0]+'</td><td align="center" valign="middle">'+data[i].goods_type+'</td><td align="center" valign="middle">'+data[i].goods_num+'</td><td align="center" valign="middle">'+data[i].goods_price+'</td></tr>';
+                dl='<tr class="orderinfos"><td align="center" valign="middle">'+data[i].goods_numbering+'</td><td align="center" valign="middle">'+goodsname[0]+'</td><td align="center" valign="middle">'+data[i].goods_type+'</td><td align="center" valign="middle">'+data[i].goods_num+'</td><td align="center" valign="middle">'+data[i].goods_price+'</td></tr>';
                 $("#mbody").prepend(dl);
             }
             //标题插入
-            cl='<tr><th width="5%">序号</th><th width="35%">商品名称</th><th width="25%">规格</th><th width="10%">数量</th><th width="15%">价格</th></tr>';
+            cl='<tr><th width="11%">序号</th><th width="34%">商品名称</th><th width="24%">规格</th><th width="8%">数量</th><th width="12%">价格</th></tr>';
             $("#mbody").prepend(cl);
         })
     });

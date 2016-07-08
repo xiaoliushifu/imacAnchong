@@ -250,11 +250,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
 //支付宝路由
 Route::group(['domain' => 'pay.anchong.net'], function () {
     Route::any('pay/mobilenotify','Api\Pay\PayController@mobilenotify');
-    //加中间件的路由组
-    Route::group(['middleware' => 'PayAuthen'], function () {
-        //支付后异步回调
-        Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
-    });
+    //支付后异步回调
+    Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
 });
 
 //后台路由
