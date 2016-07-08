@@ -258,7 +258,7 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
 });
 
 //后台路由
-Route::group(['domain' => 'admin.anchong.net'], function () {
+Route::group(['domain' => 'admin.myanchong.net'], function () {
     //注册相关
         Route::any('/userregister', 'admin\indexController@userregister');
         Route::any('/zhuce', 'admin\indexController@zhuce');
@@ -272,12 +272,49 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
         Route::group(['middleware' => 'LoginAuthen'], function () {
                 //首页路由
             Route::get('/','admin\indexController@index');
+            
+            //安虫自营路由组
+            Route::group(['middleware'=>'anchong'],function(){
                 //用户路由
-            Route::resource('/users','admin\userController');
+                Route::resource('/users','admin\userController');
+                //认证路由
+                Route::resource('/cert','admin\certController');
+                //商铺路由
+                Route::resource('/shop','admin\shopController');
+                //物流管理
+                Route::resource('/logis','admin\logisController');
+                //标签管理路由
+                Route::resource('/tag','admin\tagController');
+                //分类标签管理路由
+                Route::resource('/catag','admin\caTagController');
+                //分类管理路由
+                Route::resource('/goodcate','admin\goodCateController');
+                
+                /*
+                 *   后台广告
+                 */
+                //编辑时候添加图片
+                Route::post('/advert/addpic','admin\Advert\AdvertController@addpic');
+                //商机广告
+                Route::post('/advert/businessadvert','admin\Advert\AdvertController@businessadvert');
+                
+                //单个资讯查看
+                Route::get('/advert/firstinfor/{id}','admin\Advert\AdvertController@firstinfor');
+                //资讯更新
+                Route::post('/advert/inforupdate','admin\Advert\AdvertController@inforupdate');
+                //发布资讯
+                Route::post('/advert/releasenews','admin\Advert\AdvertController@releasenews');
+                //删除资讯
+                Route::get('/advert/infordel/{num}','admin\Advert\AdvertController@infordel');
+                //发布资讯页面
+                Route::get('/advert/newsshow','admin\Advert\AdvertController@newsshow');
+                //查看资讯页面
+                Route::get('/advert/newsindex','admin\Advert\AdvertController@newsindex');
+                //查看商机广告页面
+                Route::get('/advert/busiadvert','admin\Advert\AdvertController@busiadvert');
+            });
                 //后台登出
             Route::get('/logout','admin\indexController@logout');
-                 //认证路由
-            Route::resource('/cert','admin\certController');
             //订单管理路由
             Route::resource('/order','admin\orderController');
             //订单发货路由
@@ -289,10 +326,6 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
 
             //认证检查
             Route::get('/check','admin\CheckController@check');
-            //商铺路由
-            Route::resource('/shop','admin\shopController');
-            //物流管理
-            Route::resource('/logis','admin\logisController');
             //获取所有物流
             Route::get('/getlogis','admin\logisController@getAll');
             //获取商铺的主营品牌
@@ -301,16 +334,11 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
             Route::get('/getcat','admin\shopController@getcat');
             //商铺审核路由
             Route::get("/checkShop",'admin\checkShopController@index');
-            //标签管理路由
-            Route::resource('/tag','admin\tagController');
             //获取所有标签路由
             Route::get('/getag','admin\tagController@geTag');
-            //分类标签管理路由
-            Route::resource('/catag','admin\caTagController');
             //获取同一个分类的所有标签的路由
             Route::get('/getsiblingstag','admin\caTagController@getSiblings');
-            //分类管理路由
-            Route::resource('/goodcate','admin\goodCateController');
+            
             //获取商品一级或二级分类路由
             Route::get('/getlevel','admin\goodCateController@getLevel');
             //获取商品一级或二级分类路由
@@ -383,27 +411,8 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
             //编辑商机的时候添加商机图片
             Route::post('/addbusimg','admin\businessController@addpic');
 
-           /*
-            *   后台广告
-            */
-            //编辑时候添加图片
-            Route::post('/advert/addpic','admin\Advert\AdvertController@addpic');
-            //商机广告
-            Route::post('/advert/businessadvert','admin\Advert\AdvertController@businessadvert');
-            //发布资讯页面
-            Route::get('/advert/newsshow','admin\Advert\AdvertController@newsshow');
-            //查看资讯页面
-            Route::get('/advert/newsindex','admin\Advert\AdvertController@newsindex');
-            //单个资讯查看
-            Route::get('/advert/firstinfor/{id}','admin\Advert\AdvertController@firstinfor');
-            //资讯更新
-            Route::post('/advert/inforupdate','admin\Advert\AdvertController@inforupdate');
-            //发布资讯
-            Route::post('/advert/releasenews','admin\Advert\AdvertController@releasenews');
-            //删除资讯
-            Route::get('/advert/infordel/{num}','admin\Advert\AdvertController@infordel');
-            //查看商机广告页面
-            Route::get('/advert/busiadvert','admin\Advert\AdvertController@busiadvert');
+           
+            
 
             //权限管理 隐式路由
             Route::controller('/permission','admin\PermissionController');
