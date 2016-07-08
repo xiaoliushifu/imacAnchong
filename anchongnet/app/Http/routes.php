@@ -250,11 +250,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
 //支付宝路由
 Route::group(['domain' => 'pay.anchong.net'], function () {
     Route::any('pay/mobilenotify','Api\Pay\PayController@mobilenotify');
-    //加中间件的路由组
-    Route::group(['middleware' => 'PayAuthen'], function () {
-        //支付后异步回调
-        Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
-    });
+    //支付后异步回调
+    Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
 });
 
 //后台路由
@@ -272,7 +269,7 @@ Route::group(['domain' => 'admin.myanchong.net'], function () {
         Route::group(['middleware' => 'LoginAuthen'], function () {
                 //首页路由
             Route::get('/','admin\indexController@index');
-            
+
             //安虫自营路由组
             Route::group(['middleware'=>'anchong'],function(){
                 //用户路由
@@ -289,7 +286,7 @@ Route::group(['domain' => 'admin.myanchong.net'], function () {
                 Route::resource('/catag','admin\caTagController');
                 //分类管理路由
                 Route::resource('/goodcate','admin\goodCateController');
-                
+
                 /*
                  *   后台广告
                  */
@@ -297,7 +294,7 @@ Route::group(['domain' => 'admin.myanchong.net'], function () {
                 Route::post('/advert/addpic','admin\Advert\AdvertController@addpic');
                 //商机广告
                 Route::post('/advert/businessadvert','admin\Advert\AdvertController@businessadvert');
-                
+
                 //单个资讯查看
                 Route::get('/advert/firstinfor/{id}','admin\Advert\AdvertController@firstinfor');
                 //资讯更新
@@ -338,7 +335,7 @@ Route::group(['domain' => 'admin.myanchong.net'], function () {
             Route::get('/getag','admin\tagController@geTag');
             //获取同一个分类的所有标签的路由
             Route::get('/getsiblingstag','admin\caTagController@getSiblings');
-            
+
             //获取商品一级或二级分类路由
             Route::get('/getlevel','admin\goodCateController@getLevel');
             //获取商品一级或二级分类路由
@@ -411,8 +408,8 @@ Route::group(['domain' => 'admin.myanchong.net'], function () {
             //编辑商机的时候添加商机图片
             Route::post('/addbusimg','admin\businessController@addpic');
 
-           
-            
+
+
 
             //权限管理 隐式路由
             Route::controller('/permission','admin\PermissionController');
