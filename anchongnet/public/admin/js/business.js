@@ -195,7 +195,7 @@ $(function(){
             });
     	}
     });
-    //推广商机
+    //取消推送按钮 推广商机
     $(".advertcancel").click(function(){
         //商机ID
         bid=$(this).attr("data-id");
@@ -215,7 +215,7 @@ $(function(){
             });
         }
     });
-//点击广告
+//点击“广告轮播图”按钮，出现弹框
     $(".advertpic").click(function(){
         $("#advert-bid").val($(this).attr("data-id"));
     });
