@@ -42,6 +42,7 @@ class AuthServiceProvider extends ServiceProvider
          *@2  ability String 当时验证的权限名*/
         $gate->before(function($user,$ability){
             //第三方，不属于权限验证范围
+            //如果安虫和第三方有区别的操作，比如广告，是通过路由中间件实现
             $ur = $user->getAttribute('user_rank');
             $uid = $user->getAttribute('users_id');
             //只有第三方和admin不受权限控制

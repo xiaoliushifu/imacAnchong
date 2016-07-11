@@ -103,13 +103,15 @@
 								      <button type="button" class="view btn btn-default btn-xs" data-auth="{{$data['auth_name']}}" data-id="{{$data['users_id']}}" data-toggle="modal" data-target="#myModal">查看</button>
 								  </td>
 								  <td align="center">
-								  <?php
-								  switch($data['auth_status']){
-									  case 1:
-									  echo "<button type='button' data-id='{$data['id']}' class='check-success btn btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button' data-id='{$data['id']}'  class='check-failed btn btn-danger btn-xs'>不通过</button>";
-									  break;
-								  }
-								  ?>
+								  {{-- 应用权限判定--}}
+								  @if($data['auth_status']==1)
+								  	  @can('authentication')
+									  <button type='button' data-id="{{$data['id']}}" class='check-success btn btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button' data-id="{{$data['id']}}"   class='check-failed btn btn-danger btn-xs'>不通过</button>
+									  @else
+									  {{--  权限不许时，灰色按钮--}}
+									  <button type='button'  class='btn disabled btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button'  class='btn disabled btn-danger btn-xs'>不通过</button>									  
+									  @endcan
+								  @endif
 								  </td>
 								</tr>  
 								@endforeach
@@ -193,6 +195,8 @@ if(isset($datacol['args']['auth_status'])){
 ?>
 <script>
 $(function(){
+	{{--加上权限判定：是否可点击 “通过”按钮--}}
+	@can('authentication')
     $("body").on("click",'.check-success',function(){
 		if(confirm('确定要通过吗？')){
 			var id=parseInt($(this).attr("data-id"));
@@ -202,6 +206,7 @@ $(function(){
 			});
 		}
 	})
+	{{--加上权限判定：是否可点击 “不通过”按钮--}}
 	$("body").on("click",'.check-failed',function(){
 		if(confirm('确定审核不通过吗？')){
 			var id=parseInt($(this).attr("data-id"));
@@ -211,6 +216,7 @@ $(function(){
 			});
 		}
 	})
+	@endcan
 	$(".view").click(function(){
 	    var id=parseInt($(this).attr("data-id"));
 		var auth=$(this).attr("data-auth");

@@ -276,6 +276,8 @@ Route::group(['domain' => 'admin.myanchong.net'], function () {
                 Route::resource('/users','admin\userController');
                 //认证路由
                 Route::resource('/cert','admin\certController');
+                //认证检查
+                Route::get('/check','admin\CheckController@check');
                 //商铺路由
                 Route::resource('/shop','admin\shopController');
                 //物流管理
@@ -321,8 +323,6 @@ Route::group(['domain' => 'admin.myanchong.net'], function () {
             //获取同一个订单的订单信息的路由
             Route::get('/getsiblingsorder','admin\orderinfoController@getSiblingsOrder');
 
-            //认证检查
-            Route::get('/check','admin\CheckController@check');
             //获取所有物流
             Route::get('/getlogis','admin\logisController@getAll');
             //获取商铺的主营品牌
