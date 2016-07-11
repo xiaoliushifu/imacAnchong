@@ -43,16 +43,19 @@ $(function(){
             //订单总费用的html
             al='<tr class="orderinfos"><td width="25%" colspan="2" align="left" valign="middle">运费：'+freight+'</td><td width="25%" colspan="3" align="left" valign="middle">总价：'+total_price+'</td></tr>';
             $("#mbody").prepend(al);
+            // //定义类型
+            // var goodstype="";
             //通过遍历数据在html上显示
             for(var i=0;i<data.length;i++){
                 //截取商品的简要名称
                 var gname=data[i].goods_name.split("-");
-                var goodsname=gname[1].split(" ");
-                dl='<tr class="orderinfos"><td align="center" valign="middle">'+data[i].goods_numbering+'</td><td align="center" valign="middle">'+goodsname[0]+'</td><td align="center" valign="middle">'+data[i].goods_type+'</td><td align="center" valign="middle">'+data[i].goods_num+'</td><td align="center" valign="middle">'+data[i].goods_price+'</td></tr>';
+                var goodsname=gname[1].trim().split(" ");
+                var goodstype=data[i].goods_name.trim().split(" ");
+                dl='<tr class="orderinfos"><td align="center" valign="middle">'+data[i].goods_numbering+'</td><td align="center" valign="middle">'+goodsname[0]+'</td><td align="center" valign="middle">'+goodstype[(goodstype.length-1)]+'</td><td align="center" valign="middle">'+data[i].goods_num+'</td><td align="center" valign="middle">'+data[i].goods_price+'</td></tr>';
                 $("#mbody").prepend(dl);
             }
             //标题插入
-            cl='<tr><th width="11%">序号</th><th width="34%">商品名称</th><th width="24%">规格</th><th width="8%">数量</th><th width="12%">价格</th></tr>';
+            cl='<tr><th width="11%">序号</th><th width="34%">商品名称</th><th width="24%">型号</th><th width="8%">数量</th><th width="12%">价格</th></tr>';
             $("#mbody").prepend(cl);
         })
     });

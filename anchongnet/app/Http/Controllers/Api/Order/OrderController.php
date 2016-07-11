@@ -76,7 +76,7 @@ class OrderController extends Controller
             $result=$order->add($order_data);
             //如果成功
             if($result){
-                $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$result]);
+                $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$result,'total_price'=>$orderarr['total_price']]);
                 if($payresult){
                     foreach ($orderarr['goods'] as $goodsinfo) {
                         //创建货品表的ORM模型来查询货品数量
@@ -284,7 +284,7 @@ class OrderController extends Controller
         $pay=new \App\Pay();
         //支付单号
         $paynum=rand(100000,999999).time();
-        $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$param['order_id']]);
+        $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$param['order_id'],'total_price'=>$param['total_price']]);
         if($payresult){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['outTradeNo'=>$paynum,'totalFee'=>$param['total_price'],'body'=>$param['body'],'subject'=>"安虫商城订单支付"]]);
         }else{

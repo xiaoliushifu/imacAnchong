@@ -57,6 +57,8 @@ class ShopController extends Controller
         $uid=$request['guid'];
         $param=json_decode($request['param'],true);
         DB::beginTransaction();
+        //图片替换处理
+        $urls = str_replace('.oss-','.img-',$param['logo']);
         //想shops表中插入一条记录并返回其id
         $sid = DB::table('anchong_shops')->insertGetId(
             [
@@ -64,7 +66,7 @@ class ShopController extends Controller
                 'name'=>$param['name'],
                 'introduction'=>$param['introduction'],
                 'premises'=>$param['address'],
-                'img'=>$param['logo'],
+                'img'=>$urls,
                 'audit'=>1,
             ]
         );

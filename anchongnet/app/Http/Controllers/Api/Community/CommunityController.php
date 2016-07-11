@@ -72,8 +72,9 @@ class CommunityController extends Controller
                     if($param['pic']){
                         $ture=false;
                         foreach ($param['pic'] as $pic) {
+                            $urls = str_replace('.oss-','.img-',$pic);
                             $community_img=new \App\Community_img();
-                            $ture=$community_img->add(['chat_id'=>$id,'img'=> $pic]);
+                            $ture=$community_img->add(['chat_id'=>$id,'img'=> $urls]);
                             //假如有一张图片插入失败就返回错误
                             if(!$ture){
                                 //假如失败就回滚
@@ -399,6 +400,7 @@ class CommunityController extends Controller
         }
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_comment_results['total'],'list'=>$commentlist]]);
     }
+    
     /*
     *   该方法提供聊聊评论详情查询
     */

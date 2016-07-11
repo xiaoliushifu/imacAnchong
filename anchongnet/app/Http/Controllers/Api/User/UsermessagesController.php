@@ -278,7 +278,8 @@ class UsermessagesController extends Controller
 			//获取到上传文件的路径
 			$signedUrl = $ossClient->signUrl($bucket, $object);
 			$pos=strpos($signedUrl,"?");
-			$url=substr($signedUrl,0,$pos);
+			$urls = substr($signedUrl, 0, $pos);
+            $url = str_replace('.oss-','.img-',$urls);
 			//将上传的文件的路径保存到数据库中
 			if(count($data)==0){
 				//向数据库插入内容
@@ -293,7 +294,7 @@ class UsermessagesController extends Controller
 			$userlogin=Users_login::Uid($id);
 			$userlogin->headpic=$url;
 			$userlogin->save();
-			
+
 			//返回数据
 			return response()->json(["serverTime"=>time(),"ServerNo"=>0,"ResultData" => [
 					'Message'=>'上传成功',

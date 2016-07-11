@@ -31,7 +31,6 @@ class BusinessController extends Controller
                 'content' => 'required|min:4',
                 'tag' => 'required',
                 'pic' => 'array',
-                'endtime' => 'required',
             ]
         );
         //如果出错返回出错信息，如果正确执行下面的操作
@@ -55,19 +54,35 @@ class BusinessController extends Controller
                             $tags.=bin2hex($tag_arr)." ";
                         }
                     }
-                    $business_data=[
-                        'users_id' => $data['guid'],
-                        'title' => $param['title'],
-                        'type' => $param['type'],
-                        'created_at' => date('Y-m-d H:i:s',$data['time']),
-                        'content' => $param['content'],
-                        'tag' => $param['tag'],
-                        'tags' => $param['tags'],
-                        'tags_match' => $tags,
-                        'endtime' => $endtime,
-                        'phone' => $users_phone[0]['phone'],
-                        'contact' => $users_contact[0]['contact'],
-                    ];
+                    if(empty($param['endtime'])){
+                        $business_data=[
+                            'users_id' => $data['guid'],
+                            'title' => $param['title'],
+                            'type' => $param['type'],
+                            'created_at' => date('Y-m-d H:i:s',$data['time']),
+                            'content' => $param['content'],
+                            'tag' => $param['tag'],
+                            'tags' => $param['tags'],
+                            'tags_match' => $tags,
+                            'phone' => $users_phone[0]['phone'],
+                            'contact' => $users_contact[0]['contact'],
+                        ];
+                    }else{
+                        $business_data=[
+                            'users_id' => $data['guid'],
+                            'title' => $param['title'],
+                            'type' => $param['type'],
+                            'created_at' => date('Y-m-d H:i:s',$data['time']),
+                            'content' => $param['content'],
+                            'tag' => $param['tag'],
+                            'tags' => $param['tags'],
+                            'tags_match' => $tags,
+                            'endtime' => $param['endtime'],
+                            'phone' => $users_phone[0]['phone'],
+                            'contact' => $users_contact[0]['contact'],
+                        ];
+                    }
+
                     //开启事务处理
                     DB::beginTransaction();
                     //创建插入方法
@@ -78,8 +93,9 @@ class BusinessController extends Controller
                         if($param['pic']){
                             $ture=false;
                             foreach ($param['pic'] as $pic) {
+                                $urls = str_replace('.oss-','.img-',$pic);
                                 $business_img=new \App\Business_img();
-                                $ture=$business_img->add(['bid'=>$id,'img'=> $pic]);
+                                $ture=$business_img->add(['bid'=>$id,'img'=> $urls]);
                                 //假如有一张图片插入失败就返回错误
                                 if(!$ture){
                                     //假如失败就回滚
@@ -632,8 +648,9 @@ class BusinessController extends Controller
                     $delresults=$business_imgs->delimg($param['bid']);
                     if($delresults){
                         foreach ($param['pic'] as $pic) {
+                            $urls = str_replace('.oss-','.img-',$pic);
                             $business_img=new \App\Business_img();
-                            $ture=$business_img->add(['bid'=>$param['bid'],'img'=> $pic]);
+                            $ture=$business_img->add(['bid'=>$param['bid'],'img'=> $urls]);
                             //假如有一张图片插入失败就返回错误
                             if(!$ture){
                                 //假如失败就回滚
