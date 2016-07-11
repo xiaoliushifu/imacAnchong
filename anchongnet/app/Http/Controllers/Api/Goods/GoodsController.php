@@ -52,6 +52,8 @@ class GoodsController extends Controller
             //假如插入成功
             if(!empty($goods_id)){
                 foreach ($param['spec'] as $spec) {
+                    //图片替换处理
+                    $urls = str_replace('.oss-','.img-',$spec);
                     $goods_specifications_data=[
                         "goods_name"=> $spec['goods_name'],
                         "market_price"=> $spec['market_price'],
@@ -61,7 +63,7 @@ class GoodsController extends Controller
                         "sid" => $param['sid'],
                         'goods_id' => $goods_id,
                         'cat_id' => $param['cat_id'],
-                        'pic' => $spec['pic'],
+                        'pic' => $urls,
                         'parameter' => $spec['parameter'],
                         'data' => $spec['data'],
                         'goods_img' => $spec['img'][0],
