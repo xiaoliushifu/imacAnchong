@@ -203,7 +203,7 @@ $(function(){
             $.ajax({
                 url: "/advert/businessadvert",
                 type:'POST',
-                data:{goods_id:'business',gid:bid,recommend:0},
+                data:{goods_id:'business',bid:bid,recommend:0},
                 success:function( response ){
                     if(response.ServerNo == 0){
                         alert('取消成功');
@@ -332,7 +332,7 @@ $(function(){
         $("#formToUpdate44").ajaxSubmit({
             type: 'post',
             url: '/advert/addpic',
-            data:{adid:12,goods_id:'河北市',gid:bid},
+            data:{adid:12,goods_id:'河北省',gid:bid},
             success: function (data) {
                 alert('最新招标项目4'+data.message);
                 if(data.isSuccess==true){

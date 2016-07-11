@@ -55,8 +55,12 @@ class PayController extends Controller
                 //创建ORM模型
                 $order=new \App\Order();
                 $pay=new \App\Pay();
-                $order_id_arr=$pay->quer('order_id','paynum ='.$paynum)->toArray();
+                //判断总价防止app攻击
+                $total_price=0;
+                $order_id_arr=$pay->quer(['order_id','total_price'],'paynum ='.$paynum)->toArray();
                 foreach ($order_id_arr as $order_id) {
+                    //对总价进行累加
+                    $total_price +=$order_id['total_price'];
                     //进行订单操作
                     $result=$order->orderupdate($order_id['order_id'],['state' => 2]);
                     if(!$result){
@@ -69,7 +73,7 @@ class PayController extends Controller
                         }
                     }
                 }
-                if($result){
+                if($total_price == Input::get('total_fee')){
                         //假如成功就提交
                         DB::commit();
                         return 'success';
@@ -111,8 +115,12 @@ class PayController extends Controller
                //创建ORM模型
                $order=new \App\Order();
                $pay=new \App\Pay();
-               $order_id_arr=$pay->quer('order_id','paynum ='.$paynum)->toArray();
+               //判断总价防止app攻击
+               $total_price=0;
+               $order_id_arr=$pay->quer(['order_id','total_price'],'paynum ='.$paynum)->toArray();
                foreach ($order_id_arr as $order_id) {
+                   //对总价进行累加
+                   $total_price +=$order_id['total_price'];
                    //进行订单操作
                    $result=$order->orderupdate($order_id['order_id'],['state' => 2]);
                    if(!$result){
@@ -126,9 +134,15 @@ class PayController extends Controller
                    }
                }
 
-            //假如成功就提交
-            DB::commit();
-            return 'success';
+            //假如价格比对成功就提交
+            if($total_price == $data['total_fee']){
+                DB::commit();
+                return 'success';
+            }else{
+                //假如失败就回滚
+                DB::rollback();
+                return 'fail';
+            }
                break;
           case 'TRADE_FINISHED':
               // TODO: 支付成功，取得订单号进行其它相关操作。
@@ -138,8 +152,12 @@ class PayController extends Controller
               //创建ORM模型
               $order=new \App\Order();
               $pay=new \App\Pay();
-              $order_id_arr=$pay->quer('order_id','paynum ='.$paynum)->toArray();
+              //判断总价防止app攻击
+              $total_price=0;
+              $order_id_arr=$pay->quer(['order_id','total_price'],'paynum ='.$paynum)->toArray();
               foreach ($order_id_arr as $order_id) {
+                  //对总价进行累加
+                  $total_price +=$order_id['total_price'];
                   //进行订单操作
                   $result=$order->orderupdate($order_id['order_id'],['state' => 2]);
                   if(!$result){
@@ -153,10 +171,16 @@ class PayController extends Controller
                   }
               }
 
-             //假如成功就提交
-             DB::commit();
-             return 'success';
-             break;
+           //假如价格比对成功就提交
+           if($total_price == $data['total_fee']){
+               DB::commit();
+               return 'success';
+           }else{
+               //假如失败就回滚
+               DB::rollback();
+               return 'fail';
+           }
+              break;
       }
   }
 

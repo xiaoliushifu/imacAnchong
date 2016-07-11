@@ -93,7 +93,7 @@ class AdvertController extends Controller
         }
         //判断结果是否为空
         if(!empty($ad_result_pic) && !empty($list) && !empty($ad_result_area) && !empty($list_all)){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['pic'=>$ad_result_pic,'information'=>$ad_infor_result,'informationurl'=>'http//www.anchong.net/information/','recommend'=>$list,'recent'=>$ad_result_area,'hotproject'=>$list_all,'showphone'=>$showphone]]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['pic'=>$ad_result_pic,'information'=>$ad_infor_result,'informationurl'=>'http://www.anchong.net/information/','recommend'=>$list,'recent'=>$ad_result_area,'hotproject'=>$list_all,'showphone'=>$showphone]]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>16,'ResultData'=>['Message'=>'加载失败，请刷新']]);
         }
@@ -242,7 +242,7 @@ class AdvertController extends Controller
         $list=null;
         $list['total']=$infor_result['total'];
         $list['list']=$infor_result['list'];
-        $list['url']='http//www.anchong.net/information/';
+        $list['url']='http://www.anchong.net/information/';
         if($infor_result['total']>0){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$list]);
         }else{
