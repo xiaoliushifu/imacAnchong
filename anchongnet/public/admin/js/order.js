@@ -101,6 +101,7 @@ $(function(){
         $("#orderid").val(id);
         $("#ordernum").val(num);
     });
+    //在弹出的 发货框 远程获取物流项目
     $("#inlineRadio2").click(function(){
         $("#logs").empty();
         $.get("/getlogis",function(data,status){
@@ -111,9 +112,11 @@ $(function(){
             }
         })
     });
+    //选择“手动发货”时，“物流发货”隐藏
     $("#inlineRadio1").click(function(){
         $("#logistics").addClass("hidden");
     });
+    //弹框中，确认 手动发货还是物流发货
     $("#go").click(function(){
         $("#goform").ajaxSubmit({
             type:'post',

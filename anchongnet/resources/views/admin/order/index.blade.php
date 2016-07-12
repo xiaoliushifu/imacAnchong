@@ -126,10 +126,13 @@
 											data-num="{{$data['order_num']}}" data-name="{{$data['name']}}" data-phone="{{$data['phone']}}" data-address="{{$data['address']}}" data-price="{{$data['total_price']}}" data-freight="{{$data['freight']}}"
 											data-time="{{$data['created_at']}}" data-sname="{{$data['sname']}}" data-tname="{{$data['tname']}}" data-invoice="{{$data['invoice']}}" data-toggle="modal" data-target="#myView">打印订单</button>
 											@if ($data['state'] == 2)
-												<button type='button' class='f-ib shipbtn btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#mySend">发货</button>
+												@can('order-ship')
+													<button type='button' class='f-ib shipbtn btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#mySend">发货</button>
+												@else
+													<button type='button' class='disabled btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#mySend">发货</button>
+												@endcan													
 											@elseif ($data['state']==4)
-												<button type='button' class='check f-ib btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myCheck">审核</button>
-											@else
+													<button type='button' class='check f-ib btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myCheck">审核</button>
 											@endif
 										</td>
 									</tr>
