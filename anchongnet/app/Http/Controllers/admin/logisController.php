@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Shops_logistics;
+use Gate;
 
 class logisController extends Controller
 {
@@ -107,6 +108,11 @@ class logisController extends Controller
 
     //获取所有物流的方法
     public function getAll(){
+        //权限判定
+        if (Gate::denies('order-ship')) {
+            //特殊处理，不返回back();
+            return '{}';    
+        }
         $datas=$this->logis->get();
         return $datas;
     }

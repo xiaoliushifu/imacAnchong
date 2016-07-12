@@ -59,6 +59,7 @@ $(function(){
             $("#mbody").prepend(cl);
         })
     });
+    // 点击 “审核”按钮
     $(".check").click(function(){
         $("#cbody").empty();
         var num=$(this).attr("data-num");
@@ -73,6 +74,7 @@ $(function(){
         $("#pass").attr("data-id",id).attr("data-num",num);
         $("#fail").attr("data-id",id).attr("data-num",num);
     });
+    //审核通过
     $("#pass").click(function(){
         if(confirm("确定要审核通过吗？")){
             var id=$(this).attr("data-id");
@@ -82,6 +84,7 @@ $(function(){
             })
         }
     });
+    //审核不通过
     $("#fail").click(function(){
         if(confirm("确定审核不通过吗？")){
            var id=$(this).attr("data-id");
@@ -101,6 +104,7 @@ $(function(){
         $("#orderid").val(id);
         $("#ordernum").val(num);
     });
+    //在弹出的 发货框 远程获取物流项目
     $("#inlineRadio2").click(function(){
         $("#logs").empty();
         $.get("/getlogis",function(data,status){
@@ -111,9 +115,11 @@ $(function(){
             }
         })
     });
+    //选择“手动发货”时，“物流发货”隐藏
     $("#inlineRadio1").click(function(){
         $("#logistics").addClass("hidden");
     });
+    //弹框中，确认 手动发货还是物流发货
     $("#go").click(function(){
         $("#goform").ajaxSubmit({
             type:'post',

@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Order;
 use App\Orderinfo;
 use DB;
+use Gate;
 use Auth;
 use App\Shop;
 use App\Goods_logistics;
@@ -120,6 +121,10 @@ class orderController extends Controller
      * */
     public function checkorder(Request $request)
     {
+        if (Gate::denies('order-ship')) {
+            //因作为ajax返回，返回空对象
+            return '{}';
+        }
         $id=$request->oid;
         $data=$this->order->find($id);
 
@@ -138,6 +143,10 @@ class orderController extends Controller
      * */
     public function orderShip(Request $request)
     {
+        //权限判定
+        if (Gate::denies('order-ship')) {
+            return back();
+        }
         $data=$this->order->find($request['orderid']);
         $data->state=3;
         $data->save();
