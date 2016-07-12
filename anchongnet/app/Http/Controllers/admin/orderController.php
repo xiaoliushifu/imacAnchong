@@ -132,7 +132,9 @@ class orderController extends Controller
             $datasarr=$this->orderinfo->where('order_num','=',$request->num)->get()->toArray();
             //遍历得到的结果
             foreach ($datasarr as $datas) {
+                //更改货品列表的数量
                 DB::table('anchong_goods_specifications')->where('gid','=',$datas['gid'])->increment('goods_num',$datas['goods_num']);
+                //更改区域表的数量
                 DB::table('anchong_goods_stock')->where('gid','=',$datas['gid'])->increment('region_num',$datas['goods_num']);
             }
             //改变订单状态为已退款

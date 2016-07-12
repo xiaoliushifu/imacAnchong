@@ -45,14 +45,45 @@ $(function(){
         }
     });
 
+    //进入广告页面
     $(".advert").click(function(){
         $("#advert-shopsname").text($(this).attr("data-name"));
         $("#advert-sid").val($(this).attr("data-id"));
     });
 
+    //进行商铺的关闭
+    $(".shopclose").click(function(){
+        //提示用户
+        if(confirm('确定要关闭此店铺吗?')){
+            //获取商铺ID
+            var sid=$(this).attr("data-id");
+            //ajax调用接口
+            $.post('/shop/shopstate',{'sid':sid,state:4},function(data,status){
+                alert(data);
+                location.reload();
+            });
+        }
+    });
+
+    //进行商铺的开启
+    $(".shopopen").click(function(){
+        //提示用户
+        if(confirm('确定要开启此店铺吗?')){
+            //获取商铺ID
+            var sid=$(this).attr("data-id");
+            //ajax调用接口
+            $.post('/shop/shopstate',{'sid':sid,state:2},function(data,status){
+                alert(data);
+                location.reload();
+            });
+        }
+    });
+
 //商城轮播图
     $(".newgoodspic31").change(function(){
+        //获取轮播图类型
         var goods_id="shop";
+        //获得轮播图所绑定的商铺
         var gid=$("#advert-sid").attr("value");
         $("#formToUpdate31").ajaxSubmit({
             type: 'post',

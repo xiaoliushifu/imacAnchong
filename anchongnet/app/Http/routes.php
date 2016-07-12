@@ -311,6 +311,12 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
                 Route::get('/advert/newsindex','admin\Advert\AdvertController@newsindex');
                 //查看商机广告页面
                 Route::get('/advert/busiadvert','admin\Advert\AdvertController@busiadvert');
+
+                /*
+                *   商铺操作与管理
+                */
+                //商铺的开启与关闭
+                Route::post('/shop/shopstate','admin\shopController@shopstate');
             });
                 //后台登出
             Route::get('/logout','admin\indexController@logout');
