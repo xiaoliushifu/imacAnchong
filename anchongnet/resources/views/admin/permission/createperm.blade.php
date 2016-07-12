@@ -154,7 +154,7 @@ $(function(){
 		    				$('#cname').val(''),
 		    				  $('#clabel').val(''),
 		    				  $('#cdescription').val(''),
-		    				alert('已经添加成功，可以为用户分配权限了');
+		    				alert('已经添加成功，可以把这个权限交给角色了');
 		    				//location.href='/permission/cp';
 		    			}
 		    		},

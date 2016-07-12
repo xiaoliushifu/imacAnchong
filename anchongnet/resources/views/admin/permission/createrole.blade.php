@@ -151,7 +151,7 @@ $(function(){
 								$('#cname').val(''),
 								  $('#clabel').val(''),
 								  $('#cdescription').val(''),
-								alert('已经添加成功，可以为用户分配权限了');
+								alert('已经添加成功，可以为这个角色分配权限了');
 							}
 					  },
 					  error:function(xhr,error,exception){
