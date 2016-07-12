@@ -135,4 +135,18 @@ class shopController extends Controller
         $datas=$this->shopcat->Shop($sid)->get();
         return $datas;
     }
+
+    /*
+    *   修改店铺状态
+    */
+    public function shopstate(Request $request)
+    {
+        //得到操作商铺的句柄
+        $data=$this->shop->find($request->sid);
+        //改变商铺状态
+        $data->audit=$request->state;
+        //保存
+        $data->save();
+        return "操作成功";
+    }
 }

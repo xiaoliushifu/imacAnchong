@@ -108,7 +108,9 @@ class tagController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data=$this->tag->find($id);
+        $data->delete();
+        return "删除成功";
     }
 
     /*

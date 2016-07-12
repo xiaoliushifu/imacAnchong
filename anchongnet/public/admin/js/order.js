@@ -44,12 +44,12 @@ $(function(){
             al='<tr class="orderinfos"><td width="25%" colspan="2" align="left" valign="middle">运费：'+freight+'</td><td width="25%" colspan="3" align="left" valign="middle">总价：'+total_price+'</td></tr>';
             $("#mbody").prepend(al);
             // //定义类型
-            // var goodstype="";
             //通过遍历数据在html上显示
             for(var i=0;i<data.length;i++){
                 //截取商品的简要名称
                 var gname=data[i].goods_name.split("-");
                 var goodsname=gname[1].trim().split(" ");
+                //显示商品的型号数组
                 var goodstype=data[i].goods_name.trim().split(" ");
                 dl='<tr class="orderinfos"><td align="center" valign="middle">'+data[i].goods_numbering+'</td><td align="center" valign="middle">'+goodsname[0]+'</td><td align="center" valign="middle">'+goodstype[(goodstype.length-1)]+'</td><td align="center" valign="middle">'+data[i].goods_num+'</td><td align="center" valign="middle">'+data[i].goods_price+'</td></tr>';
                 $("#mbody").prepend(dl);
@@ -74,20 +74,33 @@ $(function(){
         $("#pass").attr("data-id",id).attr("data-num",num);
         $("#fail").attr("data-id",id).attr("data-num",num);
     });
+<<<<<<< HEAD
     //审核通过
+=======
+    //假如点击审核通过执行post
+>>>>>>> fd4157d064d3cd842c233f0c47ab9fe1fb3c7618
     $("#pass").click(function(){
         if(confirm("确定要审核通过吗？")){
+            //订单ID和订单编号
             var id=$(this).attr("data-id");
-            $.post('/checkorder',{'oid':id,'isPass':"yes"},function(data,status){
+            var num=$(this).attr("data-num");
+            //进行ajax请求
+            $.post('/checkorder',{'oid':id,'num':num,'isPass':"yes"},function(data,status){
                 alert(data);
                 location.reload();
             })
         }
     });
+<<<<<<< HEAD
     //审核不通过
+=======
+    //假如点击审核不通过执行post
+>>>>>>> fd4157d064d3cd842c233f0c47ab9fe1fb3c7618
     $("#fail").click(function(){
         if(confirm("确定审核不通过吗？")){
+            //订单ID
            var id=$(this).attr("data-id");
+           //进行ajax请求
            $.post('/checkorder',{'oid':id,'isPass':"no"},function(data,status){
                alert(data);
                location.reload();

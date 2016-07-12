@@ -72,6 +72,7 @@
 								<tr>
 									<th>标签类型</th>
 									<th>标签名称</th>
+									<th>操作</th>
 								</tr>
 								@foreach ($datacol['datas'] as $data)
 								<tr>
@@ -98,7 +99,10 @@
 								    }?>
 								    </td>
 									<td align="center">{{$data['tag']}}</td>
-								</tr>  
+									<td align="center">
+										<button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['id']}}">删除</button>
+									</td>
+								</tr>
 								@endforeach
 								<tr>
 								  <td colspan="2" align="center">
@@ -128,6 +132,8 @@
 <script src="/admin/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
+<!-- 标签管理的js -->
+<script src="/admin/js/tag.js"></script>
 <?php
 if(isset($datacol['args']['type'])){
 	switch ($datacol['args']['type']){

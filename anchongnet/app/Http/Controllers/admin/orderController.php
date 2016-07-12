@@ -121,21 +121,40 @@ class orderController extends Controller
      * */
     public function checkorder(Request $request)
     {
+<<<<<<< HEAD
         if (Gate::denies('order-ship')) {
             //因作为ajax返回，返回空对象
             return '{}';
         }
+=======
+        //获取订单ID
+>>>>>>> fd4157d064d3cd842c233f0c47ab9fe1fb3c7618
         $id=$request->oid;
+        //得到操作订单数据的句柄
         $data=$this->order->find($id);
-
+        //开启事务处理
+        DB::beginTransaction();
+        //判断是否通过退货
         if($request->isPass==="yes"){
+            //若通过退货则改变订单状态并将商品数量还原
+            $datasarr=$this->orderinfo->where('order_num','=',$request->num)->get()->toArray();
+            //遍历得到的结果
+            foreach ($datasarr as $datas) {
+                //更改货品列表的数量
+                DB::table('anchong_goods_specifications')->where('gid','=',$datas['gid'])->increment('goods_num',$datas['goods_num']);
+                //更改区域表的数量
+                DB::table('anchong_goods_stock')->where('gid','=',$datas['gid'])->increment('region_num',$datas['goods_num']);
+            }
+            //改变订单状态为已退款
             $data->state=5;
         }else{
+            //改变订单状态为代发货
             $data->state=3;
         }
         $data->save();
-
-        return "设置成功";
+        //假如成功就提交
+        DB::commit();
+        return "操作成功";
     }
 
     /*

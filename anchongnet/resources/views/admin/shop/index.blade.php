@@ -75,13 +75,13 @@
 		                    <a href="/shop" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
-									<th>名称</th>
-									<th>店铺简介</th>
-									<th>经营地</th>
-									<th>店铺缩略图</th>
-									<th>查看</th>
-									<th>审核</th>
-									<th>广告</th>
+									<th width="13%">名称</th>
+									<th width="20%">店铺简介</th>
+									<th width="18%">经营地</th>
+									<th width="6%">店铺缩略图</th>
+									<th width="6%">店铺查看</th>
+									<th width="10%">审核</th>
+									<th width="20%">操作</th>
 								</tr>
 								@foreach ($datacol['datas'] as $data)
 								<tr>
@@ -106,12 +106,21 @@
 									    case 3:
 									    echo "审核未通过";
 									    break;
+										case 4:
+									    echo "店铺已关闭";
+									    break;
 								    }?>
 								    </td>
 									<td>
 										<button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['sid']}}" data-toggle="modal" data-target="#myAdvert"
 										data-name="{{$data['name']}}"
 										>广告</button>
+										<button type="button" class="shopclose f-ib btn btn-danger btn-xs" data-id="{{$data['sid']}}" data-toggle="modal"
+										>关闭</button>
+										<button type="button" class="shopopen f-ib btn btn-success btn-xs" data-id="{{$data['sid']}}" data-toggle="modal"
+										>开启</button>
+										<button type="button" class="f-ib btn btn-info btn-xs" data-id="{{$data['sid']}}" data-toggle="modal"
+										><a href="/good?sid={{$data['sid']}}"><font color="white">店铺商品管理</font></a></button>
 									</td>
 								</tr>
 								@endforeach

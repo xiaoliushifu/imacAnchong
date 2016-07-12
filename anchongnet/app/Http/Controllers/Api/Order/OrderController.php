@@ -49,7 +49,7 @@ class OrderController extends Controller
             if(empty($customers)){
                 //假如失败就回滚
                 DB::rollback();
-                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'61订单生成失败']]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
             }
             $order_num=rand(10000,99999).substr($data['guid'],0,1).time();
             $total_price += $orderarr['total_price'];
@@ -95,6 +95,7 @@ class OrderController extends Controller
                                 $goodsnum=$goods_num[0]['goods_num']-$goodsinfo['goods_num'];
                                 //订单生产时更新库存
                                 $goodsnum_result=$goods_specifications->specupdate($goodsinfo['gid'],['goods_num' => $goodsnum]);
+                                DB::table('anchong_goods_stock')->where('gid','=',$goodsinfo['gid'])->decrement('region_num',$goodsinfo['goods_num']);
                                 if($goodsnum_result){
                                     $orderinfo_data=[
                                         'order_num' =>$order_num,

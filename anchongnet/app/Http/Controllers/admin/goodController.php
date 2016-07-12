@@ -18,6 +18,7 @@ use App\GoodThumb;
 use App\Stock;
 use App\Goods_type;
 use App\Shop;
+use Input;
 
 class goodController extends Controller
 {
@@ -62,14 +63,18 @@ class goodController extends Controller
      */
     public function index()
     {
+        if(empty(Input::get('sid'))){
+            $sid=$this->sid;
+        }else{
+            $sid=Input::get('sid');
+        }
         $keyName=Requester::input('keyName');
         if($keyName==""){
-            $datas=$this->goodSpecification->where('sid','=',$this->sid)->orderBy("gid","desc")->paginate(8);
+            $datas=$this->goodSpecification->where('sid','=',$sid)->orderBy("gid","desc")->paginate(8);
         }else{
-            $datas = GoodSpecification::Name($keyName)->where('sid','=',$this->sid)->orderBy("gid","desc")->paginate(8);
+            $datas = GoodSpecification::Name($keyName)->where('sid','=',$sid)->orderBy("gid","desc")->paginate(8);
         }
         $args=array("keyName"=>$keyName);
-        $sid=$this->sid;
         return view('admin/good/index',array("datacol"=>compact("args","datas"),"sid"=>$sid));
     }
 
