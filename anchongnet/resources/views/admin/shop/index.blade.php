@@ -119,6 +119,8 @@
 										>关闭</button>
 										<button type="button" class="shopopen f-ib btn btn-success btn-xs" data-id="{{$data['sid']}}" data-toggle="modal"
 										>开启</button>
+										<button type="button" class="f-ib btn btn-info btn-xs" data-id="{{$data['sid']}}" data-toggle="modal"
+										><a href="/good?sid={{$data['sid']}}"><font color="white">店铺商品管理</font></a></button>
 									</td>
 								</tr>
 								@endforeach

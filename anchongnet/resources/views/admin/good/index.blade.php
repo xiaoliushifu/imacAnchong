@@ -95,19 +95,6 @@
                                             data-name="{{$data['title']}}"
                                             data-num="{{$data['goods_numbering']}}">广告</button>
                                             @endif
-                                            <!-- Split button -->
-                                            <!-- <div class="btn-group">
-                                              <button type="button" class="btn btn-warning btn-xs" data-id="{{$data['gid']}}" data-gid="{{$data['goods_id']}}">广告</button>
-                                              <button type="button" class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-id="{{$data['gid']}}" data-gid="{{$data['goods_id']}}">
-                                                <span class="caret"></span>
-                                                <span class="sr-only">Toggle Dropdown</span>
-                                              </button>
-                                              <ul class="dropdown-menu">
-                                                <li><a href="#">广告推送</a></li>
-                                                <li role="separator" class="divider"></li>
-                                                <li><a href="#">Separated link</a></li>
-                                              </ul>
-                                            </div> -->
 
                                             </form>
                                         </td>
@@ -115,7 +102,7 @@
                                 @endforeach
                                 <tr>
                                     <td colspan="5" align="center">
-                                        <?php echo $datacol['datas']->appends($datacol['args'])->render(); ?>
+                                        <?php echo $datacol['datas']->appends($datacol['args'])->setPath("good?sid={$sid}"); ?>
                                     </td>
                                 </tr>
                             </table>
