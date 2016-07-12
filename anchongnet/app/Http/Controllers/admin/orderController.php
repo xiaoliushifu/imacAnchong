@@ -121,6 +121,10 @@ class orderController extends Controller
      * */
     public function checkorder(Request $request)
     {
+        if (Gate::denies('order-ship')) {
+            //因作为ajax返回，返回空对象
+            return '{}';
+        }
         $id=$request->oid;
         $data=$this->order->find($id);
 

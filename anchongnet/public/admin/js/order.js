@@ -59,6 +59,7 @@ $(function(){
             $("#mbody").prepend(cl);
         })
     });
+    // 点击 “审核”按钮
     $(".check").click(function(){
         $("#cbody").empty();
         var num=$(this).attr("data-num");
@@ -73,6 +74,7 @@ $(function(){
         $("#pass").attr("data-id",id).attr("data-num",num);
         $("#fail").attr("data-id",id).attr("data-num",num);
     });
+    //审核通过
     $("#pass").click(function(){
         if(confirm("确定要审核通过吗？")){
             var id=$(this).attr("data-id");
@@ -82,6 +84,7 @@ $(function(){
             })
         }
     });
+    //审核不通过
     $("#fail").click(function(){
         if(confirm("确定审核不通过吗？")){
            var id=$(this).attr("data-id");

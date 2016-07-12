@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Orderinfo;
+use Gate;
 
 class orderinfoController extends Controller
 {
@@ -94,6 +95,10 @@ class orderinfoController extends Controller
 
     public function getSiblingsOrder(Request $request)
     {
+        if (Gate::denies('order-ship')) {
+            //因作为ajax返回，返回空对象
+            return '{}';
+        }
         //创建ORM模型
         $orderinfo=new \App\Orderinfo();
         //定义查询数据
