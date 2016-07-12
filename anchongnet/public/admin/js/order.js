@@ -74,11 +74,7 @@ $(function(){
         $("#pass").attr("data-id",id).attr("data-num",num);
         $("#fail").attr("data-id",id).attr("data-num",num);
     });
-<<<<<<< HEAD
-    //审核通过
-=======
     //假如点击审核通过执行post
->>>>>>> fd4157d064d3cd842c233f0c47ab9fe1fb3c7618
     $("#pass").click(function(){
         if(confirm("确定要审核通过吗？")){
             //订单ID和订单编号
@@ -91,11 +87,7 @@ $(function(){
             })
         }
     });
-<<<<<<< HEAD
-    //审核不通过
-=======
     //假如点击审核不通过执行post
->>>>>>> fd4157d064d3cd842c233f0c47ab9fe1fb3c7618
     $("#fail").click(function(){
         if(confirm("确定审核不通过吗？")){
             //订单ID
