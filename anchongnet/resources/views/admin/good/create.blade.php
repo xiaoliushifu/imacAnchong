@@ -143,7 +143,7 @@
                                             <input type="radio" name="status" value="1" checked />上架
                                         </label>
                                         <label class="radio-inline">
-                                            <input type="radio" name="status" value="0"/>暂不
+                                            <input type="radio" name="status" value="2"/>暂不
                                         </label>
                                     </div>
                                 </div><!--end form-group-->

@@ -280,7 +280,7 @@
                                     <input type="radio" name="status" value="1" id="onsale" />上架
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="status" value="0" id="notonsale" />暂不
+                                    <input type="radio" name="status" value="2" id="notonsale" />暂不
                                 </label>
                             </div>
                         </div><!--end form-group-->

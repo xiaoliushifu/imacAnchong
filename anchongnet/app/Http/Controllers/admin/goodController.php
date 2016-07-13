@@ -165,6 +165,7 @@ class goodController extends Controller
                 'sid'=>$this->sid,
                 'keyword'=>$keywords,
                 'tags'=>$tags,
+                'added'=>$request->status,
                 'other_id'=>$request->mainselect,
             ]
         );
@@ -262,6 +263,8 @@ class goodController extends Controller
         $data->vip_price=$request->viprice;
         $data->goods_desc=$request->description;
         $data->keyword=$request->keyword;
+        //是否上架
+        $data->added=$request->status;
         if($request->status==1){
             $goods_create_time=date("Y:m:d H:i:s");
         }else{
@@ -278,6 +281,7 @@ class goodController extends Controller
                 'title' => trim($request->spetag."-".$request->goodsname),
                 'price' => $request->marketprice,
                 'vip_price'=> $request->viprice,
+                'added'=>$request->status,
             ];
             $results=$goods_type->goodsupdate($id,$goods_type_data);
             if($results){
