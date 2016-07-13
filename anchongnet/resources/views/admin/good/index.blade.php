@@ -89,11 +89,13 @@
                                             <button type="button" class="goods_del del f-ib btn btn-danger btn-xs"
                                             data-id="{{$data['gid']}}"
                                             data-gid="{{$data['goods_id']}}">删除</button>
-                                            <!-- 不用权限，使用user_rank -->
+                                            {{--只安虫自营 某些角色可用--}}
                                             @if(Auth::user()['user_rank']==3)
-                                            <button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['gid']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myAdvert"
-                                            data-name="{{$data['title']}}"
-                                            data-num="{{$data['goods_numbering']}}">广告</button>
+                                                @can('advert-toggle')
+                                            		    <button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['gid']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myAdvert"
+                                            	        data-name="{{$data['title']}}"
+                                                     data-num="{{$data['goods_numbering']}}">广告</button>
+                                                @endcan
                                             @endif
 
                                             </form>
