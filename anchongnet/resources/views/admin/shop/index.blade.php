@@ -98,23 +98,29 @@
 								    <?php
 								    switch ($data['audit']){
 									    case 1:
-									    echo "<button type='button' data-id='{$data['sid']}' class='check-success btn btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button' data-id='{$data['sid']}'  class='check-failed btn btn-danger btn-xs'>不通过</button>";
-									    break;
+									        if (Gate::denies('shop-check')) {
+									            echo "<button type='button'  class='disabled btn btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button'  class='disabled btn btn-danger btn-xs'>不通过</button>";
+									        } else {
+									            echo "<button type='button' data-id='{$data['sid']}' class='check-success btn btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button' data-id='{$data['sid']}'  class='check-failed btn btn-danger btn-xs'>不通过</button>";
+									        }
+									        break;
 									    case 2:
-									    echo "审核已通过";
-									    break;
+        									    echo "审核已通过";
+        									    break;
 									    case 3:
-									    echo "审核未通过";
-									    break;
+									        echo "审核未通过";
+									        break;
 										case 4:
-									    echo "店铺已关闭";
-									    break;
+									        echo "店铺已关闭";
 								    }?>
 								    </td>
 									<td>
-										<button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['sid']}}" data-toggle="modal" data-target="#myAdvert"
-										data-name="{{$data['name']}}"
-										>广告</button>
+										@can('shop-advert')
+        										<button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['sid']}}" data-toggle="modal" data-target="#myAdvert"
+        										data-name="{{$data['name']}}"	>广告</button>
+        									@else
+        										<button type="button" class="disabled  btn btn-warning btn-xs"  data-toggle="modal" data-target="#myAdvert">广告</button>
+										@endcan
 										<button type="button" class="shopclose f-ib btn btn-danger btn-xs" data-id="{{$data['sid']}}" data-toggle="modal"
 										>关闭</button>
 										<button type="button" class="shopopen f-ib btn btn-success btn-xs" data-id="{{$data['sid']}}" data-toggle="modal"

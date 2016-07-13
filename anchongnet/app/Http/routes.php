@@ -255,7 +255,7 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
 });
 
 //后台路由
-Route::group(['domain' => 'admin.admin.com'], function () {
+Route::group(['domain' => 'admin.myanchong.net'], function () {
     //注册相关
         Route::any('/userregister', 'admin\indexController@userregister');
         Route::any('/zhuce', 'admin\indexController@zhuce');
@@ -280,6 +280,8 @@ Route::group(['domain' => 'admin.admin.com'], function () {
                 Route::get('/check','admin\CheckController@check');
                 //商铺路由
                 Route::resource('/shop','admin\shopController');
+                //商铺审核路由
+                Route::get("/checkShop",'admin\checkShopController@index');
                 //物流管理
                 Route::resource('/logis','admin\logisController');
                 //标签管理路由
@@ -335,8 +337,6 @@ Route::group(['domain' => 'admin.admin.com'], function () {
             Route::get('/getbrand','admin\shopController@getbrand');
             //获取商铺的主营类别
             Route::get('/getcat','admin\shopController@getcat');
-            //商铺审核路由
-            Route::get("/checkShop",'admin\checkShopController@index');
             //获取所有标签路由
             Route::get('/getag','admin\tagController@geTag');
             //获取同一个分类的所有标签的路由

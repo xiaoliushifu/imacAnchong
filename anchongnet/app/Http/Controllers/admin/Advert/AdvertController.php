@@ -38,9 +38,10 @@ class AdvertController extends Controller
      */
     public function addpic(Request $request)
     {
-        //各种轮播图的权限判定
-        if(Gate::denies('advert-toggle'))
+        //各种轮播图的权限判定，来自商机或者来自商铺
+        if (Gate::denies('advert-toggle')) {
             return back();
+        }
         $request=$request::all();
         $fileType=$_FILES['file']['type'];
         $dir="advert/img/";
@@ -101,7 +102,7 @@ class AdvertController extends Controller
     public function businessadvert(Request $request)
     {
         //权限判定
-        if(Gate::denies('advert-push'))
+        if(Gate::denies('busi-advert-push'))
             return back();
         //获得app端传过来的json格式的数据转换成数组格式
         $param=$request::all();
