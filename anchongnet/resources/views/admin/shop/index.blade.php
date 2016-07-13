@@ -121,12 +121,18 @@
         									@else
         										<button type="button" class="disabled  btn btn-warning btn-xs"  data-toggle="modal" data-target="#myAdvert">广告</button>
 										@endcan
-										<button type="button" class="shopclose f-ib btn btn-danger btn-xs" data-id="{{$data['sid']}}" data-toggle="modal"
-										>关闭</button>
-										<button type="button" class="shopopen f-ib btn btn-success btn-xs" data-id="{{$data['sid']}}" data-toggle="modal"
-										>开启</button>
-										<button type="button" class="f-ib btn btn-info btn-xs" data-id="{{$data['sid']}}" data-toggle="modal"
-										><a href="/good?sid={{$data['sid']}}"><font color="white">店铺商品管理</font></a></button>
+										{{--商铺开关权限--}}
+										@can('shop-toggle')
+        										<button type="button" class="shopclose f-ib btn btn-danger btn-xs" data-id="{{$data['sid']}}"
+        										 data-toggle="modal">关闭</button>
+        										<button type="button" class="shopopen f-ib btn btn-success btn-xs" data-id="{{$data['sid']}}"
+        										 data-toggle="modal">开启</button>
+        									@endcan
+        									{{---查看指定商铺的货品--}}
+        									@can('create-goods')
+        										<button type="button" class="f-ib btn btn-info btn-xs" data-id="{{$data['sid']}}" data-toggle="modal">
+        										<a href="/good?sid={{$data['sid']}}"><font color="white">店铺商品管理</font></a></button>
+										@endcan
 									</td>
 								</tr>
 								@endforeach

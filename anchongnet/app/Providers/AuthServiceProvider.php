@@ -46,7 +46,7 @@ class AuthServiceProvider extends ServiceProvider
             $ur = $user->getAttribute('user_rank');
             $uid = $user->getAttribute('users_id');
             //只有第三方和admin不受权限控制
-            if($ur==3 && $uid != 1){
+            if ($ur==3 && $uid != 1) {
                 return null;
             }
             return true;

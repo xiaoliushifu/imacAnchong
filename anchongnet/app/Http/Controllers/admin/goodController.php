@@ -63,15 +63,21 @@ class goodController extends Controller
      */
     public function index()
     {
-        if(empty(Input::get('sid'))){
-            $sid=$this->sid;
-        }else{
+        if (Input::has('sid')) {
+            //只允许有 “添加货品”权限的家伙,从商铺管理页而来
+            if (!strpos(Requester::header('referer'),Requester::header('host').'/shop')
+                || Requester::user()['user_rank'] !=3 
+                || Gate::denies('create-goods')) {
+                return back();
+            }
             $sid=Input::get('sid');
+        } else {
+            $sid=$this->sid;
         }
         $keyName=Requester::input('keyName');
-        if($keyName==""){
+        if ($keyName=="") {
             $datas=$this->goodSpecification->where('sid','=',$sid)->orderBy("gid","desc")->paginate(8);
-        }else{
+        } else {
             $datas = GoodSpecification::Name($keyName)->where('sid','=',$sid)->orderBy("gid","desc")->paginate(8);
         }
         $args=array("keyName"=>$keyName);

@@ -133,12 +133,12 @@ class Users_login extends Model implements AuthenticatableContract,
     }
     
     //给用户分配角色
-    public function assignRole($role)
-    {
-        return $this->roles()->save(
-            Role::whereName($role)->firstOrFail()
-        );
-    }
+//     public function assignRole($role)
+//     {
+//         return $this->roles()->save(
+//             Role::whereName($role)->firstOrFail()
+//         );
+//     }
 
 
 }
