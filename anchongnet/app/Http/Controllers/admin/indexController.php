@@ -6,6 +6,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Session,Redirect,Request,Hash,Auth;
 use DB;
+use App\Shop;
+use App\Users_login;
 
 class indexController extends Controller
 {
@@ -15,7 +17,31 @@ class indexController extends Controller
      */
     public function index()
     {
-        return view('admin.index',['username' => Auth::user()['username']]);
+        //通过Auth获取当前登录用户的id
+        $uid=Auth::user()['users_id'];
+        //通过用户获取商铺id
+        $sid=Shop::Uid($uid)->sid;
+        //通过用户id获取上次登录时间
+        $lasttime=Users_login::Uid($uid)->last_login;
+        //转换时间
+        $datetime=date('Y-m-d H:i:s',$lasttime);
+        //定义变量
+        $neworder=0;
+        $newuser=0;
+        $newshop=0;
+        $newauth=0;
+        //创建ORM模型
+        $order=new \App\Order();
+        $users=new \App\Users();
+        $shop=new \App\Shop();
+        $auth=new \App\Auth();
+        //查询相比于上次登录新增的订单数目
+        $ordernum=$order->ordercount('created_at > "'.$datetime.'" and sid ='.$sid);
+        //查询新增的用户人数
+        $newuser=$users->usercount('ctime >'.$lasttime);
+        $newshop=$shop->shopcount('created_at > '.$lasttime);
+        $newauth=$auth->authcount('created_at > "'.$datetime.'"');
+        return view('admin.index',['username' => Auth::user()['username'],"neworder"=>$neworder,'newuser'=>$newuser,'newshop'=>$newshop,'newauth'=>$newauth,'last_time'=>$datetime]);
     }
 
     /*
@@ -40,6 +66,9 @@ class indexController extends Controller
                 $rank=$users->quer('users_rank',['users_id'=>Auth::user()['users_id']])->toArray();
                 //判断会员的权限是否是管理员
                 if($rank[0]['users_rank'] == 3 || $rank[0]['users_rank']==2){
+                    //创建orm
+                    $users_login=new \App\Users_login();
+                    $users_login->addToken(['last_login'=>time()],Auth::user()['users_id']);
                     return Redirect::intended('/');
                 }else{
                     //假如会员权限不够就清除登录状态并退出

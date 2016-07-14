@@ -100,4 +100,12 @@ class Order extends Model
     {
         return $query->where(['users_id'=>$keyUser,'state'=>$keyStatus]);
     }
+
+    /*
+    *   订单数量统计
+    */
+    public function ordercount($type)
+    {
+        return $this->whereRaw($type)->count();
+    }
 }

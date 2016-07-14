@@ -248,6 +248,7 @@ $(function(){
         });
     });
 
+    //当gallery模块点击的时候执行事件转移
     $("body").on("click",'.gallery',function(){
         $(this).siblings(".pic").click();
     });
@@ -349,9 +350,13 @@ $(function(){
     });
 //点击广告
     $(".advert").click(function(){
+        //传递商品名
         $("#advert-goodsname").text($(this).attr("data-name"));
+        //传递货品id
         $("#advert-goodsnum").text($(this).attr("data-num"));
+        //传递商品id
         $("#advert-goods_id").val($(this).attr("data-gid"));
+        //传递货品id
         $("#advert-gid").val($(this).attr("data-id"));
     });
 //点击删除
@@ -360,6 +365,7 @@ $(function(){
         gid=$(this).attr("data-id");
         //商品ID
         goods_id=$(this).attr("data-gid");
+        //提示，避免误操作
         if(confirm('确认要删除吗？')){
             $.ajax({
                 url: "/goods/goodsdel",
@@ -377,14 +383,20 @@ $(function(){
     	}
     });
 
-//商城轮播图
+    //该图片修改模块的表单与图片还有文件inpu的命名根据数据库广告表的id进行设置
+    //商城轮播图
     $(".newgoodspic31").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
+        //进行ajax表单提交
         $("#formToUpdate31").ajaxSubmit({
             type: 'post',
             url: '/advert/addpic',
+            //传递数据adid为该广告在广告表的id
             data:{adid:5,goods_id:goods_id,gid:gid},
+            //假如返回成功则执行函数
             success: function (data) {
                 alert('商城轮播图1'+data.message);
                 if(data.isSuccess==true){
@@ -394,7 +406,9 @@ $(function(){
         });
     });
     $(".newgoodspic32").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate32").ajaxSubmit({
             type: 'post',
@@ -409,7 +423,9 @@ $(function(){
         });
     });
     $(".newgoodspic33").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate33").ajaxSubmit({
             type: 'post',
@@ -424,7 +440,9 @@ $(function(){
         });
     });
     $(".newgoodspic34").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate34").ajaxSubmit({
             type: 'post',
@@ -440,7 +458,9 @@ $(function(){
     });
 //最新上架
     $(".newgoodspic51").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate51").ajaxSubmit({
             type: 'post',
@@ -455,7 +475,9 @@ $(function(){
         });
     });
     $(".newgoodspic52").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate52").ajaxSubmit({
             type: 'post',
@@ -470,7 +492,9 @@ $(function(){
         });
     });
     $(".newgoodspic53").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate53").ajaxSubmit({
             type: 'post',
@@ -485,7 +509,9 @@ $(function(){
         });
     });
     $(".newgoodspic54").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate54").ajaxSubmit({
             type: 'post',
@@ -502,7 +528,9 @@ $(function(){
 
 //第一块热卖单品
     $(".newgoodspic71").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate71").ajaxSubmit({
             type: 'post',
@@ -517,7 +545,9 @@ $(function(){
         });
     });
     $(".newgoodspic72").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate72").ajaxSubmit({
             type: 'post',
@@ -532,7 +562,9 @@ $(function(){
         });
     });
     $(".newgoodspic73").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate73").ajaxSubmit({
             type: 'post',
@@ -547,7 +579,9 @@ $(function(){
         });
     });
     $(".newgoodspic74").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate74").ajaxSubmit({
             type: 'post',
@@ -562,7 +596,9 @@ $(function(){
         });
     });
     $(".newgoodspic75").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate75").ajaxSubmit({
             type: 'post',
@@ -577,7 +613,9 @@ $(function(){
         });
     });
     $(".newgoodspic76").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate76").ajaxSubmit({
             type: 'post',
@@ -593,7 +631,9 @@ $(function(){
     });
 //强力推荐
     $(".newgoodspic91").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate91").ajaxSubmit({
             type: 'post',
@@ -608,7 +648,9 @@ $(function(){
         });
     });
     $(".newgoodspic92").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate92").ajaxSubmit({
             type: 'post',
@@ -623,7 +665,9 @@ $(function(){
         });
     });
     $(".newgoodspic93").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate93").ajaxSubmit({
             type: 'post',
@@ -639,7 +683,9 @@ $(function(){
     });
 //第二块热卖单品
     $(".newgoodspic101").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate101").ajaxSubmit({
             type: 'post',
@@ -654,7 +700,9 @@ $(function(){
         });
     });
     $(".newgoodspic102").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate102").ajaxSubmit({
             type: 'post',
@@ -669,7 +717,9 @@ $(function(){
         });
     });
     $(".newgoodspic103").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate103").ajaxSubmit({
             type: 'post',
@@ -684,7 +734,9 @@ $(function(){
         });
     });
     $(".newgoodspic104").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate104").ajaxSubmit({
             type: 'post',
@@ -699,7 +751,9 @@ $(function(){
         });
     });
     $(".newgoodspic105").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate105").ajaxSubmit({
             type: 'post',
@@ -714,7 +768,9 @@ $(function(){
         });
     });
     $(".newgoodspic106").change(function(){
+        //获取商品ID
         var goods_id=$("#advert-goods_id").attr("value");
+        //获取货品ID
         var gid=$("#advert-gid").attr("value");
         $("#formToUpdate106").ajaxSubmit({
             type: 'post',

@@ -36,7 +36,7 @@ class Shop extends Model
     public function scopeUser($query,$keyUser){
         return $query->where('users_id','=',$keyUser);
     }
-    
+
     /*
     *   查询商铺信息
     */
@@ -44,7 +44,7 @@ class Shop extends Model
     {
         return $this->select($field)->whereRaw($type)->get();
     }
-    
+
     /*
     *   商铺更新信息
     */
@@ -58,4 +58,11 @@ class Shop extends Model
         }
     }
 
+    /*
+    *   店铺数量统计
+    */
+    public function shopcount($type)
+    {
+        return $this->whereRaw($type)->count();
+    }
 }
