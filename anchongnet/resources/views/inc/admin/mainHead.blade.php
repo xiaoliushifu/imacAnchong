@@ -1,6 +1,6 @@
 <header class="main-header">
 	<!-- Logo -->
-	<a href="index2.blade.php" class="logo">
+	<a href="/" class="logo">
 		<!-- mini logo for sidebar mini 50x50 pixels -->
 		<span class="logo-mini"><b>安</b>虫</span>
 		<!-- logo for regular state and mobile devices -->

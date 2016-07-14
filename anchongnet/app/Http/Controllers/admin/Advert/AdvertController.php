@@ -190,7 +190,7 @@ class AdvertController extends Controller
     }
 
     /*
-    *   资讯查看
+    *   资讯修改
     */
     public function inforupdate(Request $request)
     {

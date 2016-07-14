@@ -4,10 +4,15 @@
 $(function(){
     //异步编辑发布
     $(".edit").click(function(){
+        //获取社区ID
         var id=$(this).attr("data-id");
+        //先将编辑的div清空
         $("#imgcontent").empty();
+        //赋值社区ID
         $('#chat_id').val(id);
+        //定义表单的提交地址
         $("#updateform").attr("action","/release/"+id);
+        //ajax获取该社区的内容
         $.get("/release/"+id+"/edit",function(data,status){
             $("#title").val(data.title);
             $('#content').val(data.content);
@@ -25,8 +30,10 @@ $(function(){
             }
         })
     });
+    //编辑模块的保存
     $("#save").click(function(){
         $("#updateform").ajaxSubmit({
+            //使用了restfulapi
             type: 'put',
             success: function (data) {
                 alert(data);
@@ -49,14 +56,17 @@ $(function(){
             });
         }
     });
-
+    //最多六张图片跟上面获取图片是生成的图片div一一对应
     //更新图片1
     $("body").on('change','.newupdateimgs0',function(){
+        //获取图片ID
         var id=$("#communityimgid0").attr("value");
+        //进行表单提交
         $("#formToUpdates0").ajaxSubmit({
             type: 'post',
             url: '/releaseimg/'+id,
             data:{id:id},
+            //假如成功将当前html的图片改为上传的图片
             success: function (data) {
                 alert('第一张图片'+data.message);
                 if(data.isSuccess==true){

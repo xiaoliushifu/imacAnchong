@@ -67,6 +67,7 @@ class ShopController extends Controller
                 'introduction'=>$param['introduction'],
                 'premises'=>$param['address'],
                 'img'=>$urls,
+                'created_at'=>$data['time'],
                 'audit'=>1,
             ]
         );

@@ -2,7 +2,7 @@
  * Created by lengxue on 2016/4/24.
  */
 $(function(){
-
+    //当gallery模块点击的时候执行事件转移
     $("body").on("click",'.gallery',function(){
         $(this).siblings(".pic").click();
     });

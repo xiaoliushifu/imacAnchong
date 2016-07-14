@@ -78,8 +78,8 @@ $(function(){
             });
         }
     });
-
-//商城轮播图
+    //该图片修改模块的表单与图片还有文件inpu的命名根据数据库广告表的id进行设置
+    //商城轮播图
     $(".newgoodspic31").change(function(){
         //获取轮播图类型
         var goods_id="shop";
@@ -87,8 +87,10 @@ $(function(){
         var gid=$("#advert-sid").attr("value");
         $("#formToUpdate31").ajaxSubmit({
             type: 'post',
-            url: '/advert/addpic',
+            url: '/advert/addpic'
+            //传递数据adid为该广告在广告表的id,
             data:{adid:5,goods_id:goods_id,gid:gid},
+            //假如返回成功则执行函数
             success: function (data) {
                 alert('商城轮播图1'+data.message);
                 if(data.isSuccess==true){

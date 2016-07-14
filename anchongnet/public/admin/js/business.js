@@ -14,6 +14,7 @@ $(function(){
     //查看商机详情
     $(".view").click(function(){
         var id=$(this).attr("data-id");
+        //ajax获取商机的字段
         $.get('/business/'+id,function(data,status){
             $("#bustitle").text(data.title);
             $("#vtitle").text(data.title);
@@ -28,20 +29,27 @@ $(function(){
             $("#vendtime").text(data.endtime);
         });
 
+        //先让图片div内容为空避免出现未刷新的重复
         $("#vimg").empty();
+        //获取图片
         $.get('/busimg',{'bid':id},function(data,status){
             var li;
             for(var i=0;i<data.length;i++){
+                //动态生成图片
                 li='<li class="list-group-item"><a href='+data[i].img+' target="_blank"><img src='+data[i].img+' width="100"></a> </li>';
                 $("#vimg").append(li);
             }
         });
     });
-
+    //商机的编辑
     $(".edit").click(function(){
+        //获取商机的ID
         var id=$(this).attr("data-id");
+        //赋予表单提交的地方
         $("#updateform").attr("action",'/business/'+id);
+        //赋予商机id为后面做准备
         $("#bid").val(id);
+        //ajax获取商机的内容
         $.get('/business/'+id,function(data,status){
             $("#title").val(data.title);
             $("#content").val(data.content);
@@ -55,22 +63,27 @@ $(function(){
 
         //获取商机图片
         $.get("/busimg",{goods_id:'business',gid:id},function(data,status) {
+            //首先先将图片div清空避免出现未刷新再次加载
             $(".notem").remove();
             var gallery;
+            //动态根据获得的图片数量生成图片
             for(var i=0;i<data.length;i++){
                 gallery='<li class="notem"> <div class="gallery text-center"> <img src="'+data[i].img+'" class="img"> </div> <input type="file" name="file" class="pic" data-id="'+data[i].id+'"> </li>';
                 $("#addforgood").before(gallery);
             }
+            //生成删除按钮
             for(var j=0;j<($(".notem").length);j++){
                 $(".notem").eq(j).prepend('<button type="button" class="delpic btn btn-xs btn-danger" title="删除">x</button>');
             }
         });
     });
 
+    //当gallery模块点击的时候执行事件转移
     $("body").on("click",'.gallery',function(){
         $(this).siblings(".pic").click();
     });
 
+    //当图片改变的时候执行修改
     $("body").on("change",'.pic',function(){
         var id=$(this).attr("data-id");
         if(id==undefined){
@@ -119,9 +132,12 @@ $(function(){
         }
     });
 
+    //删除图片
     $("body").on("click",'.delpic',function(){
+        //提示确认是否删除
         if(confirm('确定要删除该张图片吗？')){
             var id=$(this).siblings('.pic').attr("data-id");
+            //ajax进行数据库删除
             $.ajax({
                 url: '/businessimg/'+id,
                 type:'DELETE',
@@ -146,23 +162,29 @@ $(function(){
         return url ;
     }
 
+    //单点击添加图片时执行
     $(".addpic").click(function(){
         if($(this).hasClass("goodpic")){
+            //在该元素之前插入内容
             $(this).before($(this).siblings(".template").clone().attr("class",""));
         }else{
+            //在该元素之前插入内容
             $(this).before($(this).siblings(".template").clone().attr("class",""));
         }
     });
 
+    //删除按钮
     $(".del").click(function(){
         if(confirm('确定要删除吗？')){
             var id=$(this).attr("data-id");
+            //ajax进行删除商机
             $.ajax({
                 url: "/business/"+id,
                 type: 'DELETE',
                 success: function(result) {
                     // Do something with the result
                     alert(result);
+                    //商机删除完再执行商机图片删除
                     $.ajax({
                         url: "/delimg",
                         type: 'get',
@@ -179,6 +201,7 @@ $(function(){
     $(".advert").click(function(){
         //商机ID
         bid=$(this).attr("data-id");
+        //显示提示,避免误操作
         if(confirm('确定要推到热门招标项目吗？')){
             $.ajax({
                 url: "/advert/businessadvert",
@@ -199,7 +222,9 @@ $(function(){
     $(".advertcancel").click(function(){
         //商机ID
         bid=$(this).attr("data-id");
+        //显示提示,避免误操作
         if(confirm('确定要取消推广吗？')){
+            //进行ajax提交修改推荐状态
             $.ajax({
                 url: "/advert/businessadvert",
                 type:'POST',
@@ -220,13 +245,18 @@ $(function(){
         $("#advert-bid").val($(this).attr("data-id"));
     });
 
-//商机轮播图
+    //该图片修改模块的表单与图片还有文件inpu的命名根据数据库广告表的id进行设置
+    //商机轮播图
     $(".appbusinesspic21").change(function(){
+        //获取商机ID
         var bid=$("#advert-bid").attr("value");
+        //进行ajax表单提交
         $("#formToUpdate21").ajaxSubmit({
             type: 'post',
             url: '/advert/addpic',
+            //传递数据adid为该广告在广告表的id
             data:{adid:1,goods_id:'business',gid:bid},
+            //假如返回成功则执行函数
             success: function (data) {
                 alert('商机首页轮播图1'+data.message);
                 if(data.isSuccess==true){
@@ -282,7 +312,7 @@ $(function(){
     });
 //最新招标项目
     $(".appbusinesspic41").change(function(){
-
+        //获取商机ID
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate41").ajaxSubmit({
             type: 'post',
@@ -297,7 +327,7 @@ $(function(){
         });
     });
     $(".appbusinesspic42").change(function(){
-
+        //获取商机ID
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate42").ajaxSubmit({
             type: 'post',
@@ -312,7 +342,7 @@ $(function(){
         });
     });
     $(".appbusinesspic43").change(function(){
-
+        //获取商机ID
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate43").ajaxSubmit({
             type: 'post',
@@ -327,7 +357,7 @@ $(function(){
         });
     });
     $(".appbusinesspic44").change(function(){
-
+        //获取商机ID
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate44").ajaxSubmit({
             type: 'post',
@@ -344,7 +374,7 @@ $(function(){
 
 //商机工程轮播图
     $(".appbusinesspic111").change(function(){
-
+        //获取商机ID
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate111").ajaxSubmit({
             type: 'post',
@@ -359,7 +389,7 @@ $(function(){
         });
     });
     $(".appbusinesspic112").change(function(){
-
+        //获取商机ID
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate112").ajaxSubmit({
             type: 'post',
@@ -374,7 +404,7 @@ $(function(){
         });
     });
     $(".appbusinesspic113").change(function(){
-
+        //获取商机ID
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate113").ajaxSubmit({
             type: 'post',
@@ -389,7 +419,7 @@ $(function(){
         });
     });
     $(".appbusinesspic114").change(function(){
-
+        //获取商机ID
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate114").ajaxSubmit({
             type: 'post',
@@ -406,7 +436,7 @@ $(function(){
 
 //商机人才轮播图
     $(".appbusinesspic121").change(function(){
-
+        //获取商机ID
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate121").ajaxSubmit({
             type: 'post',
@@ -421,7 +451,7 @@ $(function(){
         });
     });
     $(".appbusinesspic122").change(function(){
-
+        //获取商机ID
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate122").ajaxSubmit({
             type: 'post',
@@ -436,7 +466,7 @@ $(function(){
         });
     });
     $(".appbusinesspic123").change(function(){
-
+        //获取商机ID
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate123").ajaxSubmit({
             type: 'post',
@@ -451,7 +481,7 @@ $(function(){
         });
     });
     $(".appbusinesspic124").change(function(){
-
+        //获取商机ID
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate124").ajaxSubmit({
             type: 'post',
@@ -467,7 +497,7 @@ $(function(){
     });
 //商机找货轮播图
     $(".appbusinesspic131").change(function(){
-
+        //获取商机ID
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate131").ajaxSubmit({
             type: 'post',
@@ -482,7 +512,7 @@ $(function(){
         });
     });
     $(".appbusinesspic132").change(function(){
-
+        //获取商机ID
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate132").ajaxSubmit({
             type: 'post',
@@ -497,7 +527,7 @@ $(function(){
         });
     });
     $(".appbusinesspic133").change(function(){
-
+        //获取商机ID
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate133").ajaxSubmit({
             type: 'post',
@@ -512,7 +542,7 @@ $(function(){
         });
     });
     $(".appbusinesspic134").change(function(){
-
+        //获取商机ID
         var bid=$("#advert-bid").attr("value");
         $("#formToUpdate134").ajaxSubmit({
             type: 'post',

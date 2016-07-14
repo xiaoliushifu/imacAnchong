@@ -80,4 +80,13 @@ class Users extends Model implements AuthenticatableContract,
 	public function scopeIds($query,$id){
 		return $query->where('users_id','=',$id);
 	}
+
+    /*
+    *   用户数量统计
+    */
+    public function usercount($type)
+    {
+        return $this->whereRaw($type)->count();
+    }
+
 }

@@ -28,8 +28,11 @@ $(function(){
         $("#orderphone").text('联系方式:'+$(this).attr("data-phone"));
         $("#orderaddress").text('配送地址:'+$(this).attr("data-address"));
         $("#ordertname").text('客户名称:'+$(this).attr("data-tname"));
+        //判断是否有发票
         if($(this).attr("data-invoice")){
+            //根据#进行发票信息的分隔
             var invoice=$(this).attr("data-invoice").split("#");
+            //判断是否分隔成功
             if(invoice[1] == undefined){
                 $('#orderinvoice').text("发票抬头:"+invoice[0]);
             }else{
