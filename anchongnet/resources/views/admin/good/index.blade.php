@@ -86,9 +86,11 @@
                                         <td align="center">
                                             <button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['gid']}}" data-cid="{{$data['cat_id']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myView" data-name="{{$data['goods_name']}}">查看详情</button>
                                             <button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['gid']}}" data-cid="{{$data['cat_id']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myModal">编辑</button>
-                                            <button type="button" class="goods_del del f-ib btn btn-danger btn-xs"
-                                            data-id="{{$data['gid']}}"
-                                            data-gid="{{$data['goods_id']}}">删除</button>
+                                            {{--安虫自营 客服可删--}}
+                                            @can('del-good')
+                                                <button type="button" class="goods_del del f-ib btn btn-danger btn-xs"  data-id="{{$data['gid']}}"
+                                                data-gid="{{$data['goods_id']}}">删除</button>
+                                            @endcan
                                             {{--只安虫自营 某些角色可用--}}
                                             @if(Auth::user()['user_rank']==3)
                                                 @can('advert-toggle')
@@ -149,12 +151,7 @@
                         </tr>
                         <tr>
                             <td align="right">进价</td>
-                            <!--详情查看时  -->
-                            @can('costprice')
                             <td align="left" id="cost"></td>
-                            @else
-                            <td align="left" id='errcost'>***</td>
-                            @endcan
                         </tr>
                         <tr>
                             <td align="right">会员价</td>
@@ -211,6 +208,8 @@
                         </div>
                     @endif
                     <h5 class="text-center">基本信息</h5>
+                    {{--只采购可写--}}
+                    @can('update-good')
                     <form role="form" class="form-horizontal" action="" method="post" id="updateform">
                         <input type="hidden" name="sid" id="sid" value="{{$sid}}">
                         <input type="hidden" name="_method" value="PUT">
@@ -255,12 +254,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="costprice">成本价</label>
                             <div class="col-sm-6">
-                            <!-- 编辑成本价 -->
-                            @can('costprice')
                                 <input type="text" name="costpirce" id="costprice" class="form-control" value="{{ old('costpirce') }}" />
-                            @else
-                                <input type="text" name="errcostpirce" id="errcostprice" class="form-control" readonly value="***" />
-                            @endcan
                             </div>
                         </div><!--end form-group-->
                         <div class="form-group">
@@ -299,7 +293,10 @@
                             </div>
                         </div><!--end form-group text-center-->
                     </form>
+                    @endcan
                     <hr>
+                    {{--只仓储才可编辑--}}
+                    @can('stock')
                     <h5 class="text-center">库存信息</h5>
                     <form>
                         <div class="form-group">
@@ -319,7 +316,10 @@
                             <div style="clear:both"></div>
                         </div>
                     </form>
+                    @endcan
                     <hr>
+                    {{--只采购可更改货品图片--}}
+                    @can('update-good')
                     <h5 class="text-center">商品图片信息</h5>
                     <form role="form" class="form-horizontal" action="" id="formToUpdate" method="post" enctype="multipart/form-data">
                         <div id="method"></div>
@@ -337,6 +337,7 @@
                             </ul>
                         </div>
                     </form>
+                    @endcan
                 </div>
             </div>
         </div>

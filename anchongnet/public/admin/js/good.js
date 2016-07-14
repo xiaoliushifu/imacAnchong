@@ -49,6 +49,7 @@ $(function(){
         }
     });
 
+    //货品列表页 点击编辑按钮
     $(".edit").click(function(){
         $("#goodscat").empty();
         $("#midselect").empty();
@@ -109,7 +110,7 @@ $(function(){
             }
             $("#numbering").val(data.goods_numbering);
         });
-
+        //获取货位及库存数
         $.get("/getStock",{gid:id},function(data,status) {
             $("#stocktr").empty();
             var line;
@@ -142,12 +143,14 @@ $(function(){
         });
     });
 
+    //添加一条 仓储记录 input框
     $("body").on("click",'.addcuspro',function(){
         var len=$(".line").length;
         var line='<tr class="line"> <td> <input type="text" class="location form-control" /></td><td> <input type="number" min="0" class="regionum form-control" /> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
         $("#stocktr").append(line);
     });
 
+    //保存一条仓储记录,class=savestock动态生成
     $("body").on("click",'.savestock',function(){
         var regionum=$(this).parentsUntil("#stocktr").find(".regionum").val();
         var location=$(this).parentsUntil("#stocktr").find(".location").val();
@@ -155,12 +158,14 @@ $(function(){
             alert("库存数量不能为空！");
             $(this).parentsUntil("#stocktr").find(".regionum").focus();
         }else{
+        		//只有从数据库获得的仓储记录有data-id属性
             var id=$(this).attr("data-id");
             var gid=$("#gid").val();
             $("#save").attr("id","");
             $(this).attr("id","save");
             $("#del").attr("id","");
             $(this).siblings(".delcuspro").attr("id","del");
+            //新添加的仓储记录 点击 保存 的情况，需要insert
             if(id==undefined){
                 $.ajax({
                     url: "/stock",
@@ -172,6 +177,7 @@ $(function(){
                         $("#del").attr("data-id",response.id);
                     }
                 });
+             //原有仓储记录，update
             }else{
                 $.ajax({
                     url: "/stock/"+id,
@@ -190,6 +196,7 @@ $(function(){
         var id=$(this).attr("data-id");
         if(confirm("你确定要删除该条库存信息吗？")){
             $(this).parents(".line").addClass("waitfordel");
+            //如果数据库中关于该货品的仓储信息，仅有一条时不可删除，而非页面显示仓储条数
             $.get("/getStock",{gid:gid},function(data,status){
                 if(data.length==1){
                     alert("不能删除最后一条库存信息！");
