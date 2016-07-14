@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Session,Redirect,Request,Hash,Auth;
 use DB;
 use App\Shop;
-use App\Users_login;
 
 class indexController extends Controller
 {
@@ -22,7 +21,7 @@ class indexController extends Controller
         //通过用户获取商铺id
         $sid=Shop::Uid($uid)->sid;
         //通过用户id获取上次登录时间
-        $lasttime=Users_login::Uid($uid)->last_login;
+        $lasttime=Auth::user()['last_login'];
         //转换时间
         $datetime=date('Y-m-d H:i:s',$lasttime);
         //定义变量
@@ -36,7 +35,7 @@ class indexController extends Controller
         $shop=new \App\Shop();
         $auth=new \App\Auth();
         //查询相比于上次登录新增的订单数目
-        $ordernum=$order->ordercount('created_at > "'.$datetime.'" and sid ='.$sid);
+        $neworder=$order->ordercount('created_at > "'.$datetime.'" and sid ='.$sid);
         //查询新增的用户人数
         $newuser=$users->usercount('ctime >'.$lasttime);
         $newshop=$shop->shopcount('created_at > '.$lasttime);
@@ -68,7 +67,8 @@ class indexController extends Controller
                 if($rank[0]['users_rank'] == 3 || $rank[0]['users_rank']==2){
                     //创建orm
                     $users_login=new \App\Users_login();
-                    $users_login->addToken(['last_login'=>time()],Auth::user()['users_id']);
+                    $users_login->addToken(['last_login'=>Auth::user()['new_login']],Auth::user()['users_id']);
+                    $users_login->addToken(['new_login'=>time()],Auth::user()['users_id']);
                     return Redirect::intended('/');
                 }else{
                     //假如会员权限不够就清除登录状态并退出
