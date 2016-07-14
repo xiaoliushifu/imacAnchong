@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Stock;
 use App\GoodSpecification;
 use DB;
+use Gate;
 
 class stockController extends Controller
 {
@@ -48,6 +49,10 @@ class stockController extends Controller
      */
     public function store(Request $request)
     {
+        //编辑页，新加仓储权限
+        if (Gate::denies('stock')) {
+            return response()->json(['message' => 'unauthorized']);
+        }
         DB::beginTransaction();
 
         //向库存表插入数据
@@ -106,6 +111,10 @@ class stockController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //更新仓储权限
+        if (Gate::denies('stock')) {
+            return response()->json(['message' => 'unauthorized']);
+        }
         DB::beginTransaction();
 
         //修改库存信息

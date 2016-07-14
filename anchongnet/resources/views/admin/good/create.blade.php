@@ -122,12 +122,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="costprice">成本价</label>
                                     <div class="col-sm-3">
-                                    <!-- 成本价权限 -->
-                                    @can('costprice')
-                                        <input type="text" name="costpirce" id="costprice" class="form-control" value="{{ old('costpirce') }}" />
-                                    @else
-                                        <input type="text" name="costpirce" id="costprice" class="form-control" value=""  readonly/>
-                                    @endcan
+                                    <input type="text" name="costpirce" id="costprice" class="form-control" value="{{ old('costpirce') }}" />
                                     </div>
                                 </div><!--end form-group-->
                                 <div class="form-group">
@@ -168,16 +163,16 @@
                                             </thead>
                                             <tbody id="stock">
                                             <tr class="line">
-
+												{{--用readonly替代required并给value初值，使得仓储在后续编辑中可改--}}
                                                 <td>
-                                                    <input type="text" name="stock[location][]" class="form-control" required />
+                                                    <input type="text" name="stock[location][]" class="form-control"  value=""  readonly/>
                                                 </td>
 
                                                 <td>
-                                                    <input type="number" min="0" name="stock[num][]" class="form-control" required />
+                                                    <input type="number" min="0" name="stock[num][]" class="form-control"  value="0"  readonly/>
                                                 </td>
                                                 <td>
-                                                    <button type="button" class="addcuspro btn-sm btn-link" title="添加">
+                                                    <button type="button" class="addcuspro btn-sm btn-link" title="添加"  disabled >
                                                         <span class="glyphicon glyphicon-plus"></span>
                                                     </button>
                                                     <button type="button" class="delcuspro btn-sm btn-link" title="删除">

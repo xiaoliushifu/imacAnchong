@@ -92,7 +92,7 @@ class goodController extends Controller
     public function create()
     {
 		//添加货品权限
-		if(Gate::denies('create-goods')) {
+		if (Gate::denies('create-goods')) {
             return back();
 		}
         return view('admin/good/create',array('sid'=>$this->sid));
@@ -178,21 +178,23 @@ class goodController extends Controller
 
         /*
          * 向仓库表中插入
+         * 因为采购无仓储权限，只插入一条记录，留待后续仓储更改
          */
-        $total=0;
-        for($m=0;$m<count($request['stock']['location']);$m++){
+//         for($m=0;$m<count($request['stock']['location']);$m++){
             DB::table('anchong_goods_stock')->insert(
                 [
                     'gid' => $gid,
-                    'location' => $request['stock']['location'][$m],
-                    'region_num'=>$request['stock']['num'][$m]
+                    'location' => '',
+//                     'location' => $request['stock']['location'][$m],
+                    'region_num'=>0
+//                     'region_num'=>$request['stock']['num'][$m]
                 ]
             );
-            $total=$total+$request['stock']['num'][$m];
-        }
-        $gdata=$this->goodSpecification->find($gid);
-        $gdata->goods_num=$total;
-        $gdata->save();
+            //$total=$total+$request['stock']['num'][$m];
+//         }
+//         $gdata=$this->goodSpecification->find($gid);
+//         $gdata->goods_num=$total;
+//         $gdata->save();
 
         /*
          * 通过一个for循环向缩略图表中插入数据
@@ -262,10 +264,7 @@ class goodController extends Controller
         //$data->cat_id=$request->midselect;
         $data->goods_name=$request->spetag;
         $data->market_price=$request->marketprice;
-        //权限验证
-        if(Gate::allows('costprice')){
-            $data->goods_price=$request->costpirce;
-        }
+        $data->goods_price=$request->costpirce;
         $data->vip_price=$request->viprice;
         $data->goods_desc=$request->description;
         $data->keyword=$request->keyword;
