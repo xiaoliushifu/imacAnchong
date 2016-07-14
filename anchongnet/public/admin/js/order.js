@@ -24,9 +24,9 @@ $(function(){
         $("#ordertime").text('订单日期:'+$(this).attr("data-time"));
         $("#ordernum").text('订单编号:  '+$(this).attr("data-num"));
         $("#ordersname").text('商铺名称:'+$(this).attr("data-sname"));
-        $("#ordername").text($(this).attr("data-name"));
-        $("#orderphone").text($(this).attr("data-phone"));
-        $("#orderaddress").text($(this).attr("data-address"));
+        $("#ordername").text('收货人:'+$(this).attr("data-name"));
+        $("#orderphone").text('联系方式:'+$(this).attr("data-phone"));
+        $("#orderaddress").text('配送地址:'+$(this).attr("data-address"));
         $("#ordertname").text('客户名称:'+$(this).attr("data-tname"));
         if($(this).attr("data-invoice")){
             var invoice=$(this).attr("data-invoice").split("#");

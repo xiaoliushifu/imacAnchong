@@ -189,14 +189,10 @@
 					</table>
 					<table class="table1" style="margin-top:7px">
 						<tr>
-                            <td align="left">收货人：</td>
                             <td align="left" id="ordername"></td>
-
-                            <td align="right">联系方式：</td>
-                            <td align="left" id="orderphone"></td>
+                            <td align="right" width="150px" id="orderphone"></td>
                         </tr>
 						<tr>
-                            <td align="right">配送地址：</td>
                             <td align="left" id="orderaddress"></td>
                         </tr>
 					</table>
