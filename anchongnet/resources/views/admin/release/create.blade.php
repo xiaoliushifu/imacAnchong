@@ -26,6 +26,16 @@
     <style>
         *{margin: 0;padding: 0;}
         .add,.minus,.addsup,.minusup{margin-top:4px;}
+        /*************************
+	      * 自定义validate插件的验证错误时的样式
+	   ************************/
+	   #myform label.error 
+        { 
+            color:Red; 
+            font-size:13px; 
+            margin-left:5px; 
+            padding-left:16px; 
+        } 
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -79,7 +89,7 @@
                                     <label for="conent">内容：</label>
                                     <textarea class="form-control" name="content" id="content" rows="5" required></textarea>
                                 </div>
-                                <button type="button" class="btn btn-default" id="add">添加</button>
+                                <button type="submit" class="btn btn-default" id="add">添加</button>
                             </form>
                         </div>
                         <!-- /.box-body -->
@@ -101,6 +111,9 @@
 <script src="/admin/bootstrap/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
+{{--引入jquery插件验证表单--}}
+<script src="/admin/plugins/form/jquery.validate.min.js"></script>
+{{--引入jquery插件ajax提交表单--}}
 <script src="/admin/js/jquery.form.js"></script>
 <script src="/admin/js/webuploader.html5only.min.js"></script>
 <script src="/admin/js/diyUpload.js"></script>
