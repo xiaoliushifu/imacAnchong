@@ -94,25 +94,23 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+            		{{--header--}}
+                <div class="modal-header" style="margin-top:50px">
                     <h4 class="modal-title" id="myModalLabel">设置角色</h4>
                 </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" id="myform" action="" method="post">
+                <form class="form-horizontal" id="myform" action="" method="post">
                         <input type="hidden" id='hiduid' name="uid" value="">
-                        <div class="form-group" id="myrole">
+                         {{--body--}}
+                        <div class="modal-body">
+                                <div id="myrole"></div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-2">
-                                <button type="submit" id="ajaxsub" class="btn btn-primary">保存</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                			{{--footer--}}
+                     <div class="modal-footer">
+                     	<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                     	<button type="submit" id="ajaxsub" class="btn btn-primary">保存</button>
+                     </div>
+               </form>
+            </div><!-- modal-content -->
         </div>
     </div>
 	<input type="hidden" id="activeFlag" value="treeperm">
