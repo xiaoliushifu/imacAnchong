@@ -290,4 +290,15 @@ class AdvertController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>16,'ResultData'=>['Message'=>'加载失败，请刷新']]);
         }
     }
+
+    /*
+    *   资讯查看
+    */
+    public function informations($infor_id)
+    {
+        //创建ORM模型
+        $information=new \App\Information();
+        $data=$information->firstquer('content','infor_id ='.$infor_id);
+        return $data['content'];
+    }
 }

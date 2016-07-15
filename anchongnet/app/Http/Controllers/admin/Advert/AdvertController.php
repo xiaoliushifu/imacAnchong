@@ -179,17 +179,6 @@ class AdvertController extends Controller
     }
 
     /*
-    *   资讯查看
-    */
-    public function information($infor_id)
-    {
-        //创建ORM模型
-        $information=new \App\Information();
-        $data=$information->firstquer('content','infor_id ='.$infor_id);
-        return $data['content'];
-    }
-
-    /*
     *   资讯修改
     */
     public function inforupdate(Request $request)

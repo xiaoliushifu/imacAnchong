@@ -440,7 +440,7 @@ Route::group(['domain' => 'www.anchong.net'], function () {
     Route::get('/getparam','admin\uEditorController@getParam');
     Route::get('/getpackage','admin\uEditorController@getPackage');
     //获取虫虫资讯
-    Route::get('/information/{infor_id}','admin\Advert\AdvertController@information');
+    Route::get('/information/{infor_id}','Api\Advert\AdvertController@informations');
 });
 
 //验证码类,需要传入数字
