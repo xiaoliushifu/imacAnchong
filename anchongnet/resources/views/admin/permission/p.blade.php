@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -99,26 +99,25 @@
 	  <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
+        		{{--整个modal内容区--}}
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+            		{{--header--}}
+                <div class="modal-header" style="margin-top:50px">
                     <h4 class="modal-title" id="myModalLabel">编辑权限</h4>
                 </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" id="myform" action="" method="post">
-                        <input type="hidden" id='hidrid' name="rid" value="">
-                        <div class="form-group" id="myper">
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-2">
-                                <button type="submit" id="ajaxsub" class="btn btn-primary">保存</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                <form class="form-horizontal" id="myform" action="" method="post">
+                		<input type="hidden" id='hidrid' name="rid" value="">
+                    {{--body,临时调整使之分三栏显示--}}
+                    <div class="modal-body container" style="width:80%">
+                         <div id="myper"  class="row" ></div>
+                    </div>
+                    {{--footer--}}
+                     <div class="modal-footer">
+                         <button type="button" class="btn btn-default"  data-dismiss="modal">关闭</button>
+                         <button type="submit" id="ajaxsub" class="btn btn-primary text-center">保存</button>
+                     </div>
+                </form>
+            </div><!--modal-content -->
         </div>
     </div>
 </div>
@@ -149,14 +148,14 @@ $(function(){
 			  cache:true,
 			  success:function(data,status){
 					var con='';
-					//该用户已有的权限
+					//该角色已有的权限
 					for(var i=0;i<data[0].length;i++){
-						con+='<label ><input type="checkbox" name="perms[]" value="'+data[0][i].id+'" checked="checked" /> '+data[0][i].label+'</label><br />';
+						con+='<label class="col-md-4 col-xs-3"><input type="checkbox"  name="perms[]" value="'+data[0][i].id+'" checked="checked" /> '+data[0][i].label+'</label>';
 					}
-					//其他权限
+					//该角色还没有的权限
 					for(var i=0;i<data[1].length;i++){
 						if(data[0])
-						con+='<label ><input type="checkbox" name="perms[]" value="'+data[1][i].id+'" /> '+data[1][i].label+'</label> <br />';
+						con+='<label class="col-md-4 col-xs-3"><input type="checkbox" name="perms[]" value="'+data[1][i].id+'" /> '+data[1][i].label+'</label>';
 					}
 					$("#myper").append(con);
 				}
