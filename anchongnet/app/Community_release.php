@@ -47,6 +47,14 @@ class Community_release extends Model
    }
 
    /*
+   *   查询聊聊的信息
+   */
+   public function indexquer($field,$type)
+   {
+        return $this->select($field)->whereRaw($type);
+   }
+
+   /*
    *   删除聊聊信息
    */
    public function communitydel($id)

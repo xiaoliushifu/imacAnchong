@@ -87,7 +87,7 @@ $(function(){
         var gid=$("#advert-sid").attr("value");
         $("#formToUpdate31").ajaxSubmit({
             type: 'post',
-            url: '/advert/addpic'
+            url: '/advert/addpic',
             //传递数据adid为该广告在广告表的id,
             data:{adid:5,goods_id:goods_id,gid:gid},
             //假如返回成功则执行函数

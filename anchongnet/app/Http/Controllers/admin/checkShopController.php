@@ -29,7 +29,7 @@ class checkShopController extends Controller
         if($request['certified']=="yes"){
             DB::table('anchong_shops')->where('sid', $sid)->update(['audit' => 2]);
         }else{
-            DB::table('anchong_shops')->where('sid', $sid)->update(['audit' => 3]);
+            DB::table('anchong_shops')->where('sid', $sid)->delete();
         };
         return "设置成功";
     }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Session,Redirect,Request,Hash,Auth;
 use DB;
 use App\Shop;
+use Illuminate\Pagination\Paginator;
 
 class indexController extends Controller
 {
@@ -21,7 +22,7 @@ class indexController extends Controller
         //通过用户获取商铺id
         $sid=Shop::Uid($uid)->sid;
         //通过用户id获取上次登录时间
-        $lasttime=Auth::user()['last_login'];
+        $lasttime=Auth::user()['last_login']?Auth::user()['last_login']:Auth::user()['new_login'];
         //转换时间
         $datetime=date('Y-m-d H:i:s',$lasttime);
         //定义变量
@@ -34,13 +35,19 @@ class indexController extends Controller
         $users=new \App\Users();
         $shop=new \App\Shop();
         $auth=new \App\Auth();
+        $community_release=new \App\Community_release();
         //查询相比于上次登录新增的订单数目
         $neworder=$order->ordercount('created_at > "'.$datetime.'" and sid ='.$sid);
         //查询新增的用户人数
         $newuser=$users->usercount('ctime >'.$lasttime);
+        //查询新增商铺
         $newshop=$shop->shopcount('created_at > '.$lasttime);
+        //查询新增认证
         $newauth=$auth->authcount('created_at > "'.$datetime.'"');
-        return view('admin.index',['username' => Auth::user()['username'],"neworder"=>$neworder,'newuser'=>$newuser,'newshop'=>$newshop,'newauth'=>$newauth,'last_time'=>$datetime]);
+        //查询聊聊
+        $community_release_result=$community_release->indexquer(['chat_id','title','name','content','created_at','headpic','comnum'],'auth = 1')->orderBy("chat_id","desc")->paginate(5);
+        $args=array("uid"=>$uid);
+        return view('admin.index',['username' => Auth::user()['username'],"neworder"=>$neworder,'newuser'=>$newuser,'newshop'=>$newshop,'newauth'=>$newauth,'last_time'=>$datetime,"datacol"=>$community_release_result]);
     }
 
     /*
