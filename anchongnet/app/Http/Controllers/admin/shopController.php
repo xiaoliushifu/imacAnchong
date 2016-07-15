@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Shop;
 use App\Mainbrand;
 use App\ShopCat;
+use Gate;
 
 class shopController extends Controller
 {
@@ -37,13 +38,13 @@ class shopController extends Controller
         $keyName=Requester::input("name");
         $keyAudit=Requester::input("audit");
 
-        if($keyName=="" && $keyAudit==""){
+        if ($keyName=="" && $keyAudit=="") {
             $datas=$this->shop->orderBy("sid","desc")->paginate(8);
-        }else if(empty($keyAudit)){
+        } elseif (empty($keyAudit)) {
             $datas = Shop::Name($keyName)->orderBy("sid","desc")->paginate(8);
-        }else if(empty($keyName)){
+        } elseif (empty($keyName)) {
             $datas = Shop::Audit($keyAudit)->orderBy("sid","desc")->paginate(8);
-        }else{
+        } else {
             $datas = Shop::Name($keyName)->Audit($keyAudit)->orderBy("sid","desc")->paginate(8);
         }
         $args=array("name"=>$keyName,"audit"=>$keyAudit);
@@ -141,6 +142,10 @@ class shopController extends Controller
     */
     public function shopstate(Request $request)
     {
+        //商铺开关的权限判定
+        if (Gate::denies('shop-toggle')) {
+            return 'unauthorized';
+        }
         //得到操作商铺的句柄
         $data=$this->shop->find($request->sid);
         //改变商铺状态

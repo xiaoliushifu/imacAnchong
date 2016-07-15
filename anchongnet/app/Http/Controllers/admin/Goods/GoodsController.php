@@ -4,8 +4,8 @@ namespace App\Http\Controllers\admin\Goods;
 
 use DB;
 use Request;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Gate;
 
 /*
 *   后台操作商品
@@ -17,6 +17,10 @@ class GoodsController extends Controller
     */
     public function goodsdel(Request $request)
     {
+        //只客服可以删除货品
+        if (Gate::denies('del-good')) {
+            return back();
+        }
         //获得app端传过来的json格式的数据转换成数组格式
         $param=$request::all();
         //创建ORM模型

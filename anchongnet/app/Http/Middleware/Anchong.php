@@ -17,8 +17,9 @@ class Anchong
     public function handle($request, Closure $next)
     {
         //只许安虫自营通过，否则回退
-        if($request->user()['user_rank'] != 3)
+        if ($request->user()['user_rank'] != 3) {
             return back();
+        }
         return $next($request);
     }
 }
