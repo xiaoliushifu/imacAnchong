@@ -97,6 +97,7 @@
             		{{--header--}}
                 <div class="modal-header" style="margin-top:50px">
                     <h4 class="modal-title" id="myModalLabel">设置角色</h4>
+                    <small>名称前打对勾的，代表该用户已分配的角色</small>
                 </div>
                 <form class="form-horizontal" id="myform" action="" method="post">
                         <input type="hidden" id='hiduid' name="uid" value="">

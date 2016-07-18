@@ -104,6 +104,7 @@
             		{{--header--}}
                 <div class="modal-header" style="margin-top:50px">
                     <h4 class="modal-title" id="myModalLabel">编辑权限</h4>
+                    <small>名称前打对勾的，代表该角色已有的权限</small>
                 </div>
                 <form class="form-horizontal" id="myform" action="" method="post">
                 		<input type="hidden" id='hidrid' name="rid" value="">

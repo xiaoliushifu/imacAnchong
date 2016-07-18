@@ -126,7 +126,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="area">区域</label>
                                     <div class="col-sm-9">
-                                        <input type="text" id="area" class="form-control" name="area" value="{{ old('area') }}">
+                                        <input type="text" id="area" class="form-control" name="area" required value="{{ old('area') }}">
                                     </div>
                                 </div>
                                 <div class="form-group">

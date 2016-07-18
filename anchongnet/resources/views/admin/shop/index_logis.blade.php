@@ -64,8 +64,13 @@
 								<tr>
 								    <td align="center">{{$data['name']}}</td>
 								    <td align="center">
+								    @can('logis-del')
 										<button type="button" class="edit btn btn-primary btn-xs" data-id="{{$data['l_id']}}" data-toggle="modal" data-target="#myView">编辑</button>
 										<button type="button" class="del btn btn-danger btn-xs" data-id="{{$data['l_id']}}">删除</button>
+									@else
+										<button type="button" class="btn disabled btn-primary btn-xs" data-toggle="modal" data-target="#myView">编辑</button>
+										<button type="button" class="btn disabled btn-danger btn-xs" >删除</button>
+									@endcan
 									</td>
 								</tr>  
 								@endforeach

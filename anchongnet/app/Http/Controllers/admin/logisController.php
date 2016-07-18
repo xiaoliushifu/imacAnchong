@@ -33,6 +33,10 @@ class logisController extends Controller
      */
     public function create()
     {
+        //“添加物流”权限的判定
+        if (Gate::denies('logis-add')) {
+            return back();
+        }
         return view("admin/shop/create_logis");
     }
 
@@ -44,6 +48,10 @@ class logisController extends Controller
      */
     public function store(\App\Http\Requests\StoreLogisRequest $request)
     {
+        //“添加物流”权限的判定
+        if (Gate::denies('logis-add')) {
+            return back();
+        }
         $this->logis->name=$request->name;
         $result=$this->logis->save();
         if($result){
@@ -86,6 +94,12 @@ class logisController extends Controller
      */
     public function update(\App\Http\Requests\StoreLogisRequest $request, $id)
     {
+        //"物流" 权限判定
+        if (Gate::denies('logis-del')) {
+            //特殊处理，不返回back();
+            return '权限不足';
+        }
+        
         $data=$this->logis->find($id);
         $data->name=$request->name;
         $data->save();
@@ -101,6 +115,11 @@ class logisController extends Controller
      */
     public function destroy($id)
     {
+        //"删除物流" 权限判定
+        if (Gate::denies('logis-del')) {
+            //特殊处理，不返回back();
+            return '权限不足';    
+        }
         $data=$this->logis->find($id);
         $data->delete();
         return "删除成功";

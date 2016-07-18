@@ -4,6 +4,7 @@
 $(function(){
     $(".edit").click(function(){
         var id=$(this).attr("data-id");
+        //确定 保存物流时 提交的url
         $("#updateform").attr("action","/logis/"+id);
         $.get("/logis/"+id,function(data,status){
             $("#name").val(data.name);
