@@ -26,8 +26,8 @@ class AdvertController extends Controller
     //构造函数
     public function __construct()
     {
-        //只安虫自营才有权限
-        $this->middleware('anchong');
+        //广告处理已加入安虫自营路由组，故此处可注之
+//         $this->middleware('anchong');
         $this->accessKeyId=env('ALIOSS_ACCESSKEYId');
         $this->accessKeySecret=env('ALIOSS_ACCESSKEYSECRET');
         $this->endpoint=env('ALIOSS_ENDPOINT');
@@ -179,6 +179,21 @@ class AdvertController extends Controller
     }
 
     /*
+<<<<<<< HEAD
+=======
+    *   资讯查看
+    */
+    public function information($infor_id)
+    {
+        return 'ddd';
+        //创建ORM模型
+        $information=new \App\Information();
+        $data=$information->firstquer('content','infor_id ='.$infor_id);
+        return $data['content'];
+    }
+
+    /*
+>>>>>>> bc38d5546e96ed11c4f8c6a26e21379023750555
     *   资讯修改
     */
     public function inforupdate(Request $request)
