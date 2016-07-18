@@ -76,7 +76,7 @@ class AdvertController extends Controller
                     }
                     //重构数组，加上键值
                     $img_data=['pic'=>$img];
-                    $list_all[]=array_merge($business_data,$img_data);
+                    $list_all[]=array_merge($business_data_all,$img_data);
                     $img=null;
                 }
             }

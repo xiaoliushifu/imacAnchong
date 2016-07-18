@@ -470,7 +470,7 @@ class ShopsController extends Controller
                 switch ($param['action']) {
                     //全部
                     case 0:
-                        $sql='sid = '.$param['sid'].' and added = 1';
+                        $sql="sid = ".$param['sid']." and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1";
                         $condition='created_at';
                         $sort='DESC';
                         break;
@@ -523,7 +523,7 @@ class ShopsController extends Controller
                 $result['showprice']=$showprice;
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
             }else{
-                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>[]]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[],'showprice'=>0]]);
             }
         }
 
@@ -566,7 +566,7 @@ class ShopsController extends Controller
                 $result['showprice']=$showprice;
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
             }else{
-                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>[]]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[],'showprice'=>0]]);
             }
         }
 

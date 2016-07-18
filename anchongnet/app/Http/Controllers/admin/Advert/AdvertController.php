@@ -190,7 +190,7 @@ class AdvertController extends Controller
         $information_data=[
             'title' => $data['title'],
             'img' => $data['newsimg'],
-            'content' => $data['content'],
+            'content' => '<style>img{max-width:100%;}</style>'.$data['content'],
         ];
         $data=$information->newsupdate($data['infor_id'],$information_data);
         if($data){
