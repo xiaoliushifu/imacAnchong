@@ -9,7 +9,7 @@
 			</a>
 			<ul class="treeview-menu">
 				<li><a href="/users"><i class="fa fa-circle-o"></i> 用户浏览</a></li>
-				<li><a href="/cert"><i class="fa fa-circle-o"></i> 用户认证</a></li>
+				<li><a href="/cert"><i class="fa fa-circle-o"></i> 资质认证</a></li>
 			</ul>
 		</li>
 		<!-- 只admin有 权限管理 -->
