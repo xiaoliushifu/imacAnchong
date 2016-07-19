@@ -40,10 +40,16 @@ class goodCateController extends Controller
      * 获取某个二级分类的所有兄弟分类的方法
      * 即获取同一个一级分类下的所有二级分类的方法
      * */
-    public function newgetSiblings(Request $request){
+    public function newgetSiblings(Request $request)
+    {
         $cid=$request['cid'];
         $pid=$this->cat->find($cid)->parent_id;
-        $datas=$this->cat->Level($pid)->get()->toArray();
+        //缓存使用
+        if (!$datas = \Cache::get($pid)) {
+            $datas=$this->cat->Level($pid)->get();
+            \Cache::add($pid,$datas,'60');
+        }
+        $datas = $datas->toArray();
         $result['cnum']=$request['id'];
         $result['datas']=$datas;
         $result['cid']=$cid;
@@ -54,9 +60,14 @@ class goodCateController extends Controller
     /*
      * 获取指定一级或二级分类的方法
      * */
-    public function newgetLevel(Request $request){
+    public function newgetLevel(Request $request)
+    {
         $pid=$request['pid'];
-        $datas = GoodCat::Level($pid)->get();
+        //缓存的使用
+        if (!$datas = \Cache::get($pid)) {
+            $datas = GoodCat::Level($pid)->get();
+            \Cache::add($pid,$datas,'60');
+        }
         $result['cnum']=$request['id'];
         $result['datas']=$datas;
         return $result;
@@ -66,19 +77,29 @@ class goodCateController extends Controller
     * 获取某个二级分类的所有兄弟分类的方法
     * 即获取同一个一级分类下的所有二级分类的方法
     * */
-   public function getSiblings(Request $request){
+   public function getSiblings(Request $request)
+   {
        $cid=$request['cid'];
        $pid=$this->cat->find($cid)->parent_id;
-       $datas=$this->cat->Level($pid)->get();
+       //使用缓存
+       if (!$datas = \Cache::get($pid)) {
+           $datas=$this->cat->Level($pid)->get();
+           \Cache::add($pid,$datas,'60');
+       }
        return $datas;
    }
 
    /*
     * 获取指定一级或二级分类的方法
     * */
-   public function getLevel(Request $request){
+   public function getLevel(Request $request)
+   {
        $pid=$request['pid'];
-       $datas = GoodCat::Level($pid)->get();
+       //使用缓存，获取pid=0-8
+       if (!$datas = \Cache::get($pid)) {
+           $datas = GoodCat::Level($pid)->get();
+           \Cache::add($pid,$datas,'60');
+       }
        return $datas;
    }
 
@@ -86,8 +107,13 @@ class goodCateController extends Controller
     /*
      * 获取所有二级分类的方法
      * */
-    public function getLevel2(){
-        $datas = GoodCat::Level2()->get();
+    public function getLevel2()
+    {
+        //加入缓存
+        if (!$datas = \Cache::get('level2')) {
+            $datas = GoodCat::Level2()->get();
+            \Cache::add('level2',$datas,'60');
+        }
         return $datas;
     }
 
