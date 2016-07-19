@@ -107,6 +107,7 @@
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
+				<li><a href="/releases"><i class="fa fa-circle-o"></i>所有聊聊</a></li>
 				<li><a href="/release"><i class="fa fa-circle-o"></i>我的发布</a></li>
 				<li><a href="/release/create"><i class="fa fa-circle-o"></i>添加发布</a></li>
 			</ul>
@@ -118,6 +119,7 @@
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
+				<li><a href="/businesss"><i class="fa fa-circle-o"></i>所有商机</a></li>
 				<li><a href="/business"><i class="fa fa-circle-o"></i>我的商机</a></li>
 				<li><a href="/business/create"><i class="fa fa-circle-o"></i>发布商机</a></li>
 			</ul>

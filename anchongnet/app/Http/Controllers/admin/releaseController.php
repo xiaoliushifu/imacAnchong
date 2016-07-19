@@ -32,13 +32,38 @@ class releaseController extends Controller
     public function index()
     {
         $keyTag=Requester::input("tag");
+        //判断有无筛选标签
         if($keyTag==""){
-            $datas=$this->release->User($this->uid)->paginate(8);
+            //查出该用户所有聊聊
+            $datas=$this->release->User($this->uid)->orderBy("chat_id","desc")->paginate(8);
         }else{
-            $datas = $this->release->Tag($this->uid,$keyTag)->paginate(8);
+            //根据标签查出该用户所有聊聊
+            $datas = $this->release->Tag($this->uid,$keyTag)->orderBy("chat_id","desc")->paginate(8);
         }
         $args=array("user"=>$this->uid,"tag"=>$keyTag);
-        return view('admin/release/index',array("datacol"=>compact("args","datas")));
+        //返回数据,all代表是否是查询所有聊聊
+        return view('admin/release/index',array("datacol"=>compact("args","datas"),'all'=>"0"));
+    }
+
+    /**
+     * 查看所有的聊聊
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function releases()
+    {
+        $keyTag=Requester::input("tag");
+        //判断有无筛选标签
+        if($keyTag==""){
+            //查出所有聊聊
+            $datas = $this->release->orderBy("chat_id","desc")->paginate(8);
+        }else{
+            //根据标签查出所有聊聊
+            $datas = $this->release->Tags($keyTag)->orderBy("chat_id","desc")->paginate(8);
+        }
+        $args=array("tag"=>$keyTag);
+        //返回数据,all代表是否是查询所有聊聊
+        return view('admin/release/index',array("datacol"=>compact("args","datas"),'all'=>"1"));
     }
 
     /**

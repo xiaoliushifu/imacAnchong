@@ -21,7 +21,7 @@ class Ad extends Model
     */
     public function quer($field,$type,$pos,$limit)
     {
-         return $this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get();
+         return $this->select($field)->whereRaw($type)->skip($pos)->take($limit)->get();
     }
 
     /*

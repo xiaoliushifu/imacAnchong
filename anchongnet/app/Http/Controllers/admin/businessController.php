@@ -41,13 +41,38 @@ class businessController extends Controller
     public function index()
     {
         $keyType=Requester::input("type");
+        //判断有无筛选标签
         if($keyType==""){
+            //查出该用户所有商机
             $datas=$this->business->User($this->uid)->orderBy("created_at","desc")->paginate(8);
         }else{
+            //根据标签查出该用户所有商机
             $datas=$this->business->User($this->uid)->Type($keyType)->orderBy("created_at","desc")->paginate(8);
         }
         $args=array("user"=>$this->uid,"type"=>$keyType);
-        return view('admin/business/index',array("datacol"=>compact("args","datas")));
+        //返回数据,all代表是否是查询所有商机
+        return view('admin/business/index',array("datacol"=>compact("args","datas"),'all'=>"0"));
+    }
+
+    /**
+     * 所有商机查看
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function businesss()
+    {
+        $keyType=Requester::input("type");
+        //判断有无筛选标签
+        if($keyType==""){
+            //查出所有商机
+            $datas=$this->business->orderBy("created_at","desc")->paginate(8);
+        }else{
+            //根据标签查出所有商机
+            $datas=$this->business->Type($keyType)->orderBy("created_at","desc")->paginate(8);
+        }
+        $args=array("user"=>$this->uid,"type"=>$keyType);
+        //返回数据,all代表是否是查询所有商机
+        return view('admin/business/index',array("datacol"=>compact("args","datas"),'all'=>"1"));
     }
 
     /**
