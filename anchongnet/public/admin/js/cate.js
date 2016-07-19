@@ -38,21 +38,14 @@ $(function(){
         });
     });
 
+    //点击查看子分类
     $(".view").click(function(){
         $("#soncate").empty();
         var id=parseInt($(this).attr("data-id"));
         var dt;
-        var url;
-        switch (parseInt($(this).attr("data-pid"))){
-            case 0:
-                url="/getlevel";
-                break;
-            default:
-                url="/getlevel3";
-                break;
-        }
+        //去掉getlevel3
+        var url="/getlevel";
         $.get(url,{pid:id},function(data,status){
-            //alert(data.length);
             for(var i=0;i<data.length;i++){
                 dt="<dt class='son' data-id="+data[i].cat_id+">"+data[i].cat_name+"</dt>";
                 $("#soncate").append(dt);
