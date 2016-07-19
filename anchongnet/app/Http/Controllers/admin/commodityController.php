@@ -191,7 +191,9 @@ class commodityController extends Controller
         $arr0=explode(" ",$data['type']);
         $type="";
         for($j=0;$j<count($arr0);$j++){
-            $type.=pack("H*",$arr0[$j])." ";
+            if($arr0[$j] !== ""){
+                $type.=pack("H*",$arr0[$j])." ";
+            }
         };
         $data['type']=$type;
         return $data;
