@@ -75,4 +75,14 @@ class Community_release extends Model
     public function scopeTag($query,$keyUid,$keyTag)
     {
         return $query->where('users_id','=',$keyUid)->where('tags','=',$keyTag);
-    }}
+    }
+
+    /*
+     * 获取指定用户发布的指定类型的信息无用户区分
+     * */
+    public function scopeTags($query,$keyTag)
+    {
+        return $query->where('tags','=',$keyTag);
+    }
+
+}
