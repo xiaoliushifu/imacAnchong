@@ -68,13 +68,13 @@
 						<div class="box-body">
 						    <form  method="post" class="form-horizontal  f-ib" id="myform">
 						          <div class="form-group">
-                                    <label class="col-sm-4 control-label" for="clabel" title="角色中文名">角色标识</label>
+                                    <label class="col-sm-4 control-label" for="clabel" title="角色中文名">角色中文名</label>
                                     <div class="col-sm-8">
                                         <input type="text" name="label" id="clabel" placeholder="采购" class="form-control" value="" required   />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-4 control-label" for="cname" title="角色英文名">角色名</label>
+                                    <label class="col-sm-4 control-label" for="cname" title="角色英文名">角色英文名</label>
                                     <div class="col-sm-8">
                                         <input type="text" placeholder="post-pic" name="name" id="cname"  value="" required />
                                     </div>
