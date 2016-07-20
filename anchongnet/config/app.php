@@ -149,6 +149,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 	    Barryvdh\Debugbar\ServiceProvider::class,
         Latrell\Alipay\AlipayServiceProvider::class,
+        Overtrue\LaravelWechat\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -207,6 +208,7 @@ return [
 	    'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Image'     => Intervention\Image\Facades\Image::class,
         'Input'     =>Illuminate\Support\Facades\Input::class,
+        'Wechat' => Overtrue\LaravelWechat\Facade::class,
 
     ],
 
