@@ -64,7 +64,7 @@
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
 									<th>ID</th>
-									<th>角色标识</th>
+									<th>角色名</th>
 									<th>角色描述</th>
 									<th>操作</th>
 								</tr>

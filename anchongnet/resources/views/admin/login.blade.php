@@ -43,7 +43,7 @@
       <div class="row cl">
         <div class="formControls col-8 col-offset-3">
           <input class="input-text size-L" type="text" name="captchapic" placeholder="验证码" onfocus="javascript:this.value=''" onclick="if(this.value=='验证码:'){this.value='';}" value="验证码:" style="width:150px;" required="required">
-          <img src="/admin/image/captcha.png" id="captchapic" onclick="javascript:captcha();">  <font color="red">{{ Session::get('admincaptcha') }}</font> </div>
+          <img src="/captcha/110" id="captchapic" onclick="captcha()">  <font color="red">{{ Session::get('admincaptcha') }}</font> </div>
       </div>
       <div class="row">
         <div class="formControls col-8 col-offset-3">
@@ -56,19 +56,10 @@
 </div>
 <!-- <div class="footer">Copyright 你的公司名称 by H-ui.admin.v2.3</div> -->
 <script type="text/javascript" src="/admin/plugins/jquery1/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="/admin/plugins/js/H-ui.js"></script>
 <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?080836300300be57b7f34f4b3e97d911";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
-var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F080836300300be57b7f34f4b3e97d911' type='text/javascript'%3E%3C/script%3E"));
 function captcha() {
-    $url = "{{ URL('/captcha') }}";
+	{{--一个自动生成url的laravel自定义函数--}}
+	$url = "{{ URL('/captcha') }}";
         $url = $url + "/" + Math.random();
         document.getElementById('captchapic').src=$url;
   }

@@ -68,13 +68,13 @@
 						<div class="box-body">
 						    <form  role="form" class="form-horizontal  f-ib" id="myform">
 						          <div class="form-group">
-                                    <label class="col-sm-4 control-label" for="clabel" title="权限中文名">权限标识</label>
+                                    <label class="col-sm-4 control-label" for="clabel" title="权限中文名">权限中文名</label>
                                     <div class="col-sm-8">
                                         <input type="text" name="label" id="clabel" placeholder="上传图片" class="form-control" value=""  required />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-4 control-label" for="cname" title="权限英文名">权限名</label>
+                                    <label class="col-sm-4 control-label" for="cname" title="权限英文名">权限英文名</label>
                                     <div class="col-sm-8">
                                         <input type="text" placeholder="post-pic" name="name" id="cname"  value="" required/>
                                     </div>
