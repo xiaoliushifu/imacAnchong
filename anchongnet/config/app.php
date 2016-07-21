@@ -208,7 +208,7 @@ return [
 	    'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Image'     => Intervention\Image\Facades\Image::class,
         'Input'     =>Illuminate\Support\Facades\Input::class,
-        'Wechat' => Overtrue\LaravelWechat\Facade::class,
+        'Wechat'    => Overtrue\LaravelWechat\Facade::class,
 
     ],
 

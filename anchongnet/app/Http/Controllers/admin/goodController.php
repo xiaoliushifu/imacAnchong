@@ -66,7 +66,7 @@ class goodController extends Controller
         if (Input::has('sid')) {
             //只允许有 “添加货品”权限的家伙,从商铺管理页而来
             if (!strpos(Requester::header('referer'),Requester::header('host').'/shop')
-                || Requester::user()['user_rank'] !=3 
+                || Requester::user()['user_rank'] !=3
                 || Gate::denies('create-goods')) {
                 return back();
             }
@@ -133,7 +133,6 @@ class goodController extends Controller
         $sname=$shop->quer('name','sid ='.$this->sid)->toArray();
         $gid = DB::table('anchong_goods_specifications')->insertGetId(
             [
-                //'cat_id' => $request->midselect,
                 'cat_id'=>$catid,
                 'cid'=>$cid,
                 'goods_id'=>$request->name,
