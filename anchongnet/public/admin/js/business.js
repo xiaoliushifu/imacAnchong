@@ -35,9 +35,12 @@ $(function(){
         $.get('/busimg',{'bid':id},function(data,status){
             var li;
             for(var i=0;i<data.length;i++){
-                //动态生成图片
-                li='<li class="list-group-item"><a href='+data[i].img+' target="_blank"><img src='+data[i].img+' width="100"></a> </li>';
-                $("#vimg").append(li);
+            	//发商机时，不一定有图片上传
+            		if (data[i].img) {
+            			//动态生成图片
+            			li='<li class="list-group-item"><a href='+data[i].img+' target="_blank"><img src='+data[i].img+' width="100"></a> </li>';
+            			$("#vimg").append(li);
+            		}
             }
         });
     });
@@ -62,14 +65,17 @@ $(function(){
         });
 
         //获取商机图片
-        $.get("/busimg",{goods_id:'business',gid:id},function(data,status) {
+        $.get("/busimg",{bid:id},function(data,status) {
             //首先先将图片div清空避免出现未刷新再次加载
             $(".notem").remove();
             var gallery;
             //动态根据获得的图片数量生成图片
             for(var i=0;i<data.length;i++){
-                gallery='<li class="notem"> <div class="gallery text-center"> <img src="'+data[i].img+'" class="img"> </div> <input type="file" name="file" class="pic" data-id="'+data[i].id+'"> </li>';
-                $("#addforgood").before(gallery);
+            		//也许有的商机没有图片
+            		if (data[i].img) {
+            			gallery='<li class="notem"> <div class="gallery text-center"> <img src="'+data[i].img+'" class="img"> </div> <input type="file" name="file" class="pic" data-id="'+data[i].id+'"> </li>';
+            			$("#addforgood").before(gallery);
+            		}
             }
             //生成删除按钮
             for(var j=0;j<($(".notem").length);j++){

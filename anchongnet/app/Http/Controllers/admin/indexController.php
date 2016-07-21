@@ -65,27 +65,27 @@ class indexController extends Controller
     {
         $data=$request::all();
         //判断验证码是否正确
-        if($data['captchapic'] == Session::get('adminmilkcaptcha')){
+        if ($data['captchapic'] == Session::get('adminmilkcaptcha')) {
             //判断用户名密码是否正确
-            if (Auth::attempt(['username' => $data['username'], 'password' => $data['password']])){
+            if (Auth::attempt(['username' => $data['username'], 'password' => $data['password']])) {
                 $users=new \App\Users();
                 $rank=$users->quer('users_rank',['users_id'=>Auth::user()['users_id']])->toArray();
                 //判断会员的权限是否是管理员
-                if($rank[0]['users_rank'] == 3 || $rank[0]['users_rank']==2){
+                if ($rank[0]['users_rank'] == 3 || $rank[0]['users_rank']==2) {
                     //创建orm
                     $users_login=new \App\Users_login();
                     $users_login->addToken(['last_login'=>Auth::user()['new_login']],Auth::user()['users_id']);
                     $users_login->addToken(['new_login'=>time()],Auth::user()['users_id']);
                     return Redirect::intended('/');
-                }else{
+                } else {
                     //假如会员权限不够就清除登录状态并退出
                     Auth::logout();
                     return Redirect::back();
                 }
-            }else{
+            } else {
                 return Redirect::back()->withInput()->with('loginmes','账号或密码错误!');
             }
-        }else{
+        } else {
             return Redirect::back()->withInput()->with('admincaptcha','请填写正确的验证码!');
         }
     }
@@ -124,11 +124,11 @@ class indexController extends Controller
             'user_rank' => 2,
         ];
         $result=$users_login->add($users_login_data);
-        if($result){
+        if ($result) {
             //假如成功就提交
             DB::commit();
             return '注册成功';
-        }else{
+        } else {
             //假如失败就回滚
             DB::rollback();
             return '注册失败';
