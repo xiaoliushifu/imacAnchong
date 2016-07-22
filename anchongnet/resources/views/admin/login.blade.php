@@ -27,6 +27,7 @@
     <form class="form form-horizontal" action="/checklogin" method="post">
      <input type="hidden" name="_token" value="{{ csrf_token() }}">
       <div class="row cl">
+      	<font color="red">{{ Session::get('loginmes') }}{{ Session::get('loginmess') }}</font>
         <label class="form-label col-3"><i class="Hui-iconfont">&#xe60d;</i></label>
         <div class="formControls col-8">
           <input id="" name="username" type="text" placeholder="账户" class="input-text size-L" required="required">
@@ -41,8 +42,7 @@
       <div class="row cl">
         <div class="formControls col-8 col-offset-3">
           <input class="input-text size-L" type="text" name="captchapic" placeholder="验证码" onfocus="javascript:this.value=''" onclick="if(this.value=='验证码:'){this.value='';}" value="验证码:" style="width:150px;" required="required">
-          {{--后台，还是不直接显示吧--}}
-          <img src="/admin/image/captcha.png" id="captchapic" onclick="captcha()"> </div>
+          <img src="/admin/image/captcha.png" id="captchapic" onclick="captcha()">  <font color="red">{{ Session::get('admincaptcha') }}</font> </div>
       </div>
       <div class="row">
         <div class="formControls col-8 col-offset-3">
