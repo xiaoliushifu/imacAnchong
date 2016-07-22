@@ -27,7 +27,7 @@
     <form class="form form-horizontal" action="/checklogin" method="post">
      <input type="hidden" name="_token" value="{{ csrf_token() }}">
       <div class="row cl">
-      	<font color="red">{{ Session::get('loginmes') }}{{ Session::get('loginmess') }}</font>
+      	<font color="red">{{ Session::get('loginmes') }}</font>
         <label class="form-label col-3"><i class="Hui-iconfont">&#xe60d;</i></label>
         <div class="formControls col-8">
           <input id="" name="username" type="text" placeholder="账户" class="input-text size-L" required="required">
