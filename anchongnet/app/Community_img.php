@@ -52,7 +52,7 @@ class Community_img extends Model
     }
 
     /*
-    *   删除商机时将图片一起删除
+    *   删除聊聊时将图片一起删除
     */
     public function delimg($id)
     {

@@ -69,6 +69,7 @@ class Community_release extends Model
     {
         return $query->where('users_id','=',$keyUid);
     }
+    
     /*
      * 获取指定用户发布的指定类型的信息
      * */

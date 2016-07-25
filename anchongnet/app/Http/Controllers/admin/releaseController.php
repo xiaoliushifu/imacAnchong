@@ -191,9 +191,22 @@ class releaseController extends Controller
      */
     public function destroy($id)
     {
+        //开启事务处理
+        DB::beginTransaction();
         $data=$this->release->find($id);
         $data->delete();
-        return "删除成功";
+        //创建图片查询的orm模型
+        $community_img=new \App\Community_img();
+        $result=$community_img->delimg($id);
+        if($result){
+            //假如成功就提交
+            DB::commit();
+            return "删除成功";
+        }else{
+            //假如失败就回滚
+            DB::rollback();
+            return "删除失败";
+        }
     }
 
     /*
