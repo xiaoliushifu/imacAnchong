@@ -25,11 +25,12 @@
     21 => 'Barryvdh\\Debugbar\\ServiceProvider',
     22 => 'Latrell\\Alipay\\AlipayServiceProvider',
     23 => 'Overtrue\\LaravelWechat\\ServiceProvider',
-    24 => 'App\\Providers\\AppServiceProvider',
-    25 => 'App\\Providers\\AuthServiceProvider',
-    26 => 'App\\Providers\\EventServiceProvider',
-    27 => 'App\\Providers\\RouteServiceProvider',
-    28 => 'Stevenyangecho\\UEditor\\UEditorServiceProvider',
+    24 => 'SimpleSoftwareIO\\QrCode\\QrCodeServiceProvider',
+    25 => 'App\\Providers\\AppServiceProvider',
+    26 => 'App\\Providers\\AuthServiceProvider',
+    27 => 'App\\Providers\\EventServiceProvider',
+    28 => 'App\\Providers\\RouteServiceProvider',
+    29 => 'Stevenyangecho\\UEditor\\UEditorServiceProvider',
   ),
   'eager' => 
   array (
@@ -137,6 +138,7 @@
     'validation.presence' => 'Illuminate\\Validation\\ValidationServiceProvider',
     'wechat' => 'Overtrue\\LaravelWechat\\ServiceProvider',
     'EasyWeChat\\Foundation\\Application' => 'Overtrue\\LaravelWechat\\ServiceProvider',
+    'qrcode' => 'SimpleSoftwareIO\\QrCode\\QrCodeServiceProvider',
   ),
   'when' => 
   array (
@@ -177,6 +179,9 @@
     array (
     ),
     'Overtrue\\LaravelWechat\\ServiceProvider' => 
+    array (
+    ),
+    'SimpleSoftwareIO\\QrCode\\QrCodeServiceProvider' => 
     array (
     ),
   ),

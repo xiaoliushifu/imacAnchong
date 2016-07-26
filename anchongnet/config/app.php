@@ -150,6 +150,7 @@ return [
 	    Barryvdh\Debugbar\ServiceProvider::class,
         Latrell\Alipay\AlipayServiceProvider::class,
         Overtrue\LaravelWechat\ServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -209,7 +210,7 @@ return [
         'Image'     => Intervention\Image\Facades\Image::class,
         'Input'     =>Illuminate\Support\Facades\Input::class,
         'Wechat'    => Overtrue\LaravelWechat\Facade::class,
-
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
     ],
 
 ];

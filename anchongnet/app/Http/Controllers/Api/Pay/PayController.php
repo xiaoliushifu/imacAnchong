@@ -9,6 +9,8 @@ use DB;
 use Omnipay;
 use Input;
 use Log;
+use EasyWeChat\Payment\Order;
+use QrCode;
 
 /*
 *   支付控制器
@@ -20,7 +22,7 @@ class PayController extends Controller
     */
     public function alipay()
     {
-            // 创建支付单。
+        // 创建支付单。
         $alipay = app('alipay.web');
         $alipay->setOutTradeNo('9486981467365887');
         $alipay->setTotalFee('10');
@@ -31,6 +33,56 @@ class PayController extends Controller
 
         // 跳转到支付页面。
         return redirect()->to($alipay->getPayLink());
+    }
+
+    /*
+    *   该方法是微信的支付接口
+    */
+    public function wxpay()
+    {
+        $wechat = app('wechat');
+        $attributes = [
+            'trade_type'       => 'NATIVE', // JSAPI，NATIVE，APP...
+            'body'             => 'iPad mini 16G 白色',
+            'detail'           => 'iPad mini 16G 白色',
+            'out_trade_no'     => '2217752501201407033233368017',
+            'total_fee'        => 2,
+            'notify_url'       => 'http://xxx.com/order-notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
+            // ...
+        ];
+        $order = new Order($attributes);
+        $payment=$wechat->payment;
+        $result = $payment->prepare($order);
+        if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
+            $prepayId = $result->prepay_id;
+        }
+        var_dump($result);
+        return QrCode::generate($result->code_url);
+    }
+
+    /*
+    *   该方法是微信的支付接口
+    */
+    public function wxnotify()
+    {
+        $wechat = app('wechat');
+        $attributes = [
+            'trade_type'       => 'NATIVE', // JSAPI，NATIVE，APP...
+            'body'             => 'iPad mini 16G 白色',
+            'detail'           => 'iPad mini 16G 白色',
+            'out_trade_no'     => '2217752501201407033233368017',
+            'total_fee'        => 2,
+            'notify_url'       => 'http://xxx.com/order-notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
+            // ...
+        ];
+        $order = new Order($attributes);
+        $payment=$wechat->payment;
+        $result = $payment->prepare($order);
+        if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
+            $prepayId = $result->prepay_id;
+        }
+        var_dump($result);
+        return QrCode::generate($result->code_url);
     }
 
     /*

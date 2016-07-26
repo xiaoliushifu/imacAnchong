@@ -55,11 +55,11 @@ class GoodsController extends Controller
                     //图片替换处理
                     $urls = str_replace('.oss-','.img-',$spec);
                     $goods_specifications_data=[
-                        "goods_name"=> $spec['goods_name'],
-                        "market_price"=> $spec['market_price'],
-                        "goods_price"=> $spec['goods_price'],
-                        "vip_price"=> $spec['vip_price'],
-                        "goods_num"=> $spec['goods_num'],
+                        "goods_name" => $spec['goods_name'],
+                        "market_price" => $spec['market_price'],
+                        "goods_price" => $spec['goods_price'],
+                        "vip_price" => $spec['vip_price'],
+                        "goods_num" => $spec['goods_num'],
                         "sid" => $param['sid'],
                         'goods_id' => $goods_id,
                         'cat_id' => $param['cat_id'],
@@ -418,20 +418,16 @@ class GoodsController extends Controller
         $data=$request::all();
         $param=json_decode($data['param'],true);
         //创建ORM模型
-        $goods=new \App\Goods();
-        //查询商品名称
-        $title=$goods->quer('title','goods_id ='.$param['goods_id'])->toArray();
         $goods_specifications=new \App\Goods_specifications();
         //定义查询的字段
-        $goods_specifications_data=['gid','goods_img','goods_name','market_price','vip_price'];
+        $goods_specifications_data=['gid','goods_img','goods_name','market_price','vip_price','title'];
         //查询数据
         $results=$goods_specifications->quer($goods_specifications_data,'goods_id = '.$param['goods_id'])->toArray();
         //对查出来的数据进行遍历
         foreach ($results as $value) {
             //将与发过来的规格相同的货品信息发送到客户端
-            // if(trim($value['goods_name']) == trim($param['value'])){
             if(strstr($value['goods_name'],trim($param['value']))){
-                $value['title']=$title[0]['title'].' '.$value['goods_name'];
+
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$value]);
             }
         }

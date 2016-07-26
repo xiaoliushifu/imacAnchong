@@ -259,6 +259,8 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
     Route::any('pay/mobilenotify','Api\Pay\PayController@mobilenotify');
     //支付后异步回调
     Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
+    //支付后异步回调
+    Route::any('pay/wxpay','Api\Pay\PayController@wxpay');
 });
 
 //后台路由

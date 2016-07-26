@@ -15,7 +15,8 @@
 		"intervention/image": "^2.3",
         "stevenyangecho/laravel-u-editor": "~1.1",
         "latrell/alipay":"dev-master",
-        "overtrue/laravel-wechat":"~3.0"
+        "overtrue/laravel-wechat":"~3.0",
+        "simplesoftwareio/simple-qrcode": "~1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

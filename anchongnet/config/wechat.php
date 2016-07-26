@@ -16,10 +16,10 @@ return [
     /**
      * 账号基本信息，请从微信公众平台/开放平台获取
      */
-    'app_id'  => env('WECHAT_APPID', 'your-app-id'),         // AppID
-    'secret'  => env('WECHAT_SECRET', 'your-app-secret'),     // AppSecret
-    'token'   => env('WECHAT_TOKEN', 'your-token'),          // Token
-    'aes_key' => env('WECHAT_AES_KEY', ''),                    // EncodingAESKey
+    'app_id'  => env('WECHAT_APPID', 'wxce43ad4ed78e6980'),         // AppID
+    'secret'  => env('WECHAT_SECRET', 'a92b1fa93f53789935151a206cbad3c9'),     // AppSecret
+    'token'   => env('WECHAT_TOKEN', '7s2jBwhXOma57WG87HQj'),          // Token
+    'aes_key' => env('WECHAT_AES_KEY', '99bfw9bUndwGgOsDPk03WiHoXsEdmbCpvJbF95BrYB9'),                    // EncodingAESKey
 
     /**
      * 日志配置
@@ -28,10 +28,10 @@ return [
      *                 debug/info/notice/warning/error/critical/alert/emergency
      * file：日志文件位置(绝对路径!!!)，要求可写权限
      */
-    'log' => [
-        'level' => env('WECHAT_LOG_LEVEL', 'debug'),
-        'file'  => env('WECHAT_LOG_FILE', storage_path('logs/wechat.log')),
-    ],
+    // 'log' => [
+    //     'level' => env('WECHAT_LOG_LEVEL', 'debug'),
+    //     'file'  => env('WECHAT_LOG_FILE', storage_path('logs/wechat.log')),
+    // ],
 
     /**
      * OAuth 配置
@@ -47,14 +47,14 @@ return [
     /**
      * 微信支付
      */
-    // 'payment' => [
-    //     'merchant_id'        => env('WECHAT_PAYMENT_MERCHANT_ID', 'your-mch-id'),
-    //     'key'                => env('WECHAT_PAYMENT_KEY', 'key-for-signature'),
-    //     'cert_path'          => env('WECHAT_PAYMENT_CERT_PATH', 'path/to/your/cert.pem'), // XXX: 绝对路径！！！！
-    //     'key_path'           => env('WECHAT_PAYMENT_KEY_PATH', 'path/to/your/key'),      // XXX: 绝对路径！！！！
-    //     // 'device_info'     => env('WECHAT_PAYMENT_DEVICE_INFO', ''),
-    //     // 'sub_app_id'      => env('WECHAT_PAYMENT_SUB_APP_ID', ''),
-    //     // 'sub_merchant_id' => env('WECHAT_PAYMENT_SUB_MERCHANT_ID', ''),
-    //     // ...
-    // ],
+    'payment' => [
+        'merchant_id'        => env('WECHAT_PAYMENT_MERCHANT_ID', '1249548001'),
+        'key'                => env('WECHAT_PAYMENT_KEY', 'a2b7d40c9d02ef0e3de12b48dd44516b'),
+        'cert_path'          => env('WECHAT_PAYMENT_CERT_PATH', '../cert/apiclient_cert.pem'), // XXX: 绝对路径！！！！
+        'key_path'           => env('WECHAT_PAYMENT_KEY_PATH', '../cert/apiclient_key.pem'),      // XXX: 绝对路径！！！！
+        // 'device_info'     => env('WECHAT_PAYMENT_DEVICE_INFO', ''),
+        // 'sub_app_id'      => env('WECHAT_PAYMENT_SUB_APP_ID', ''),
+        // 'sub_merchant_id' => env('WECHAT_PAYMENT_SUB_MERCHANT_ID', ''),
+        // ...
+    ],
 ];
