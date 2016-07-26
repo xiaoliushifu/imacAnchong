@@ -116,7 +116,7 @@
 							<div class="col-sm-9">
 								<label class="col-sm-2 control-label" id="feedbacktitle"></label>
 							</div>
-						</div><!--end form-group-->
+						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="content">内容</label>
 							<div class="col-sm-9">
@@ -127,7 +127,6 @@
 					<hr>
 					<h5 class="text-center">图片信息</h5>
 					<div id="method"></div>
-					<input type="hidden" name="cid" id="cid">
 					<div class="gal form-group">
 						<table class="table">
 							<tr id="imgcontent">
