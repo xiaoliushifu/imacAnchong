@@ -36,6 +36,6 @@ class Category extends Model
     */
     public function quer($field,$type)
     {
-        return $this->select($field)->whereRaw($type)->get();
+        return $this->select($field)->whereRaw($type)->orderBy("sort_order","ASC")->get();
     }
 }

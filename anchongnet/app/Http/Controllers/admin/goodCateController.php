@@ -137,6 +137,7 @@ class goodCateController extends Controller
     {
         $this->cat->cat_name=$request['catname'];
         $this->cat->keyword=$request['keyword'];
+        $this->cat->sort_order=$request['sort'];
         $this->cat->cat_desc=$request['description'];
         $this->cat->is_show=$request['ishow'];
         $this->cat->parent_id=$request['parent'];
@@ -185,6 +186,7 @@ class goodCateController extends Controller
         $data->cat_name=$request['catname'];
         $data->keyword=$request['keyword'];
         $data->cat_desc=$request['description'];
+        $data->sort_order=$request['sort'];
         $data->is_show=$request['ishow'];
         $data->parent_id=$request['parent'];
         $result=$data->save();

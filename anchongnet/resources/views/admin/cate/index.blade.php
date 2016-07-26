@@ -169,6 +169,12 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="keyword" class="col-sm-2 control-label">排名</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="sort" id="sort" placeholder="阿拉伯数字，从小到大排">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="description" class="col-sm-2 control-label">描述</label>
                             <div class="col-sm-9">
                                 <textarea name="description" id="description" placeholder="Description" cols="57" rows="5"></textarea>

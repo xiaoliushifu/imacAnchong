@@ -63,6 +63,12 @@
                                     </div>
                                 </div><!--end form-group-->
                                 <div class="form-group">
+                                    <label class="col-sm-2 control-label">排名</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" name="sort" class="form-control" placeholder="阿拉伯数字，小的在前" />
+                                    </div>
+                                </div><!--end form-group-->
+                                <div class="form-group">
                                     <label class="col-sm-2 control-label">分类描述</label>
                                     <div class="col-sm-5">
                                         <textarea name="description" class="form-control"  rows="5"></textarea>

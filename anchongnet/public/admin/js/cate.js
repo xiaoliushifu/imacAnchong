@@ -9,7 +9,7 @@ $(function(){
             $("#catname").val(data.cat_name);
             $("#keyword").val(data.keyword);
             $("#description").val(data.cat_desc);
-
+            $("#sort").val(data.sort_order);
             switch (data.is_show){
                 case 0:
                     document.getElementById("show0").checked=true;
