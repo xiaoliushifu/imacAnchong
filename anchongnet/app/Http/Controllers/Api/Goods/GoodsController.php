@@ -371,7 +371,11 @@ class GoodsController extends Controller
         $goodssupporting=new \App\GoodSupporting();
         $goods_data=['gid','title','price','img','goods_id'];
         $result=$goodssupporting->quer($goods_data,'assoc_gid = '.$param['goods_id'])->toArray();
-        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+        if($result){
+			return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+		}else{
+			return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
+		}
     }
 
     /*

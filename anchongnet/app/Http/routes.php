@@ -245,6 +245,12 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/advert/goodsadvert','Api\Advert\AdvertController@goodsadvert');
         //聊聊首页广告
         Route::post('/advert/projectadvert','Api\Advert\AdvertController@projectadvert');
+
+        /*
+        *   意见反馈模块
+        */
+        //意见反馈提交
+        Route::post('/feedback/release','Api\Feedback\FeedbackController@release');
     });
 });
 
@@ -435,6 +441,16 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
             */
             //后台社区编辑获取图片
             Route::get('/community/imgshow/{num}','admin\releaseController@imgshow');
+
+            /*
+            *   后台意见反馈
+            */
+            //后台意见反馈查看
+            Route::get('/feedback/show','admin\Feedback\FeedbackController@show');
+            //后台意见图片查看
+            Route::get('/feedback/imgshow/{num}','admin\Feedback\FeedbackController@imgshow');
+            //后台意见删除
+            Route::get('/feedback/feedbackdel/{num}','admin\Feedback\FeedbackController@feedbackdel');
         });
     });
 
