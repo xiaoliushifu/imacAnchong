@@ -64,9 +64,8 @@ class goodController extends Controller
     public function index()
     {
         if (Input::has('sid')) {
-            //只允许有 “添加货品”权限的家伙,从商铺管理页而来
-            if (!strpos(Requester::header('referer'),Requester::header('host').'/shop')
-                || Requester::user()['user_rank'] !=3
+            //只允许有 “添加货品”权限的家伙
+            if (Requester::user()['user_rank'] !=3
                 || Gate::denies('create-goods')) {
                 return back();
             }
