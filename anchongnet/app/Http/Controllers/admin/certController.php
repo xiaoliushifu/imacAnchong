@@ -14,7 +14,8 @@ class certController extends Controller
 {
 	private $auth;
 	private $qua;
-	public function __construct(){
+	public function __construct()
+	{
 		$this->auth=new Auth();
 		$this->qua=new Qua();
 	}
@@ -28,13 +29,13 @@ class certController extends Controller
         $keyId=Requester::input("id");
 		$keyStatus=Requester::input("auth_status");
 
-        if($keyId=="" && $keyStatus==""){
+        if ($keyId=="" && $keyStatus=="") {
 		    $datas=$this->auth->orderBy("id","desc")->paginate(8);
-		}else if(empty($keyStatus)){
+		} elseif (empty($keyStatus)) {
 			$datas = Auth::Ids($keyId)->orderBy("id","desc")->paginate(8);
-		}else if(empty($keyId)){
+		} elseif (empty($keyId)) {
 			$datas = Auth::Status($keyStatus)->orderBy("id","desc")->paginate(8);
-		}else{
+		} else {
 			$datas = Auth::Ids($keyId)->Status($keyStatus)->orderBy("id","desc")->paginate(8);
 		}
 		$args=array("id"=>$keyId,"auth_status"=>$keyStatus);
@@ -70,22 +71,7 @@ class certController extends Controller
      */
     public function show($id)
     {
-		/*$auth=Auth::Users($id)->get();
-		$auth_name=$auth[0]['auth_name'];
-		$auth_con=[];
-		$auth_obj=[];
-		for($i=0;$i<count($auth);$i++){
-			$auth_obj['qua_name']=$auth[$i]['qua_name'];
-			$auth_obj['explanation']=$auth[$i]['explanation'];
-			$auth_obj['credentials']=$auth[$i]['credentials'];
-			array_push($auth_con,$auth_obj);
-		}
-		return response()->json([
-		    'auth_name' => $auth_name,
-			'auth_con' => $auth_con
-		]);*/
-		$data=Qua::Ids($id)->get();
-        return $data;
+	   return Qua::Ids($id)->get();
     }
 
     /**

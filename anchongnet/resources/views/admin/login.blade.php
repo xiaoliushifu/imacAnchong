@@ -22,13 +22,12 @@
 <title>后台登录 - 安虫平台</title>
 </head>
 <body>
-<input type="hidden" id="TenantId" name="TenantId" value="" />
 <div class="loginWraper">
   <div id="loginform" class="loginBox">
     <form class="form form-horizontal" action="/checklogin" method="post">
      <input type="hidden" name="_token" value="{{ csrf_token() }}">
       <div class="row cl">
-          <font color="red">{{ Session::get('loginmes') }}{{ Session::get('loginmess') }}</font>
+      	<font color="red">{{ Session::get('loginmes') }}</font>
         <label class="form-label col-3"><i class="Hui-iconfont">&#xe60d;</i></label>
         <div class="formControls col-8">
           <input id="" name="username" type="text" placeholder="账户" class="input-text size-L" required="required">
@@ -54,11 +53,9 @@
     </form>
   </div>
 </div>
-<!-- <div class="footer">Copyright 你的公司名称 by H-ui.admin.v2.3</div> -->
 <script type="text/javascript" src="/admin/plugins/jquery1/1.9.1/jquery.min.js"></script>
 <script>
 function captcha() {
-	{{--一个自动生成url的laravel自定义函数--}}
 	$url = "{{ URL('/captcha') }}";
         $url = $url + "/" + Math.random();
         document.getElementById('captchapic').src=$url;
