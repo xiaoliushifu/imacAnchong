@@ -122,12 +122,6 @@ class goodController extends Controller
             $catid.=$cids[$j]." ";
         }
 
-        //将关键字转码之后再插入数据库，为将来分词索引做准备
-        $keywords_arr=explode(' ',$request->keyword);
-        $keywords="";
-        foreach ($keywords_arr as $keyword_arr) {
-            $keywords.=bin2hex($keyword_arr)." ";
-        }
         $shop=new \App\Shop();
         $sname=$shop->quer('name','sid ='.$this->sid)->toArray();
         $gid = DB::table('anchong_goods_specifications')->insertGetId(
@@ -144,7 +138,6 @@ class goodController extends Controller
                 'goods_numbering'=>$request->numbering,
                 'title'=>trim($spetag)."-".$request->commodityname,
                 'sid'=>$this->sid,
-                'keyword'=>$keywords,
             ]
         );
 
@@ -167,10 +160,23 @@ class goodController extends Controller
                 'vip_price'=>$request->viprice,
                 'cid'=>$cid,
                 'sid'=>$this->sid,
-                'keyword'=>$keywords,
                 'tags'=>$tags,
                 'added'=>$request->status,
                 'other_id'=>$request->mainselect,
+            ]
+        );
+        
+        //将关键字转码之后再插入数据库，为货品关键字搜索做准备
+        //货品关键字只在此添加，以后不得更改，与goods_type表的cat_id关联
+        $keywords_arr=explode(' ',$request->keyword);
+        $keywords="";
+        foreach ($keywords_arr as $keyword_arr) {
+            $keywords.=bin2hex($keyword_arr)." ";
+        }
+       DB::table('anchong_goods_keyword')->insert(
+            [
+                'cat_id' => $gtid,
+                'keyword'=>$keywords,
             ]
         );
 
