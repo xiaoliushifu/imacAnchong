@@ -45,9 +45,9 @@ class PayController extends Controller
             'trade_type'       => 'NATIVE', // JSAPI，NATIVE，APP...
             'body'             => 'iPad mini 16G 白色',
             'detail'           => 'iPad mini 16G 白色',
-            'out_trade_no'     => '2217752501201407033233368017',
-            'total_fee'        => 2,
-            'notify_url'       => 'http://xxx.com/order-notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
+            'out_trade_no'     => '4345791467967488',
+            'total_fee'        => 1000,
+            'notify_url'       => 'http://pay.anchong.net/pay/wxnotify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
             // ...
         ];
         $order = new Order($attributes);
@@ -56,33 +56,69 @@ class PayController extends Controller
         if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
             $prepayId = $result->prepay_id;
         }
-        var_dump($result);
-        return QrCode::generate($result->code_url);
+        $config = $payment->configForAppPayment($prepayId);
+        var_dump($config);
+        return QrCode::size(200)->color(105,80,10)->backgroundColor(205,230,199)->generate($result->code_url);
     }
 
     /*
     *   该方法是微信的支付接口
     */
-    public function wxnotify()
+    public function wxnotify(Request $request)
     {
-        $wechat = app('wechat');
-        $attributes = [
-            'trade_type'       => 'NATIVE', // JSAPI，NATIVE，APP...
-            'body'             => 'iPad mini 16G 白色',
-            'detail'           => 'iPad mini 16G 白色',
-            'out_trade_no'     => '2217752501201407033233368017',
-            'total_fee'        => 2,
-            'notify_url'       => 'http://xxx.com/order-notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
-            // ...
-        ];
-        $order = new Order($attributes);
-        $payment=$wechat->payment;
-        $result = $payment->prepare($order);
-        if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
-            $prepayId = $result->prepay_id;
-        }
-        var_dump($result);
-        return QrCode::generate($result->code_url);
+        //获得app传过来的参数
+        $app = app('wechat');
+        $response = $app->payment->handleNotify(function($notify, $successful){
+            //创建orm模型
+            $pay=new \App\Pay();
+            //开启事务处理
+            DB::beginTransaction();
+            //判断总价防止app攻击
+            $total_price=0;
+            $order_id_arr=$pay->quer(['order_id','total_price'],'paynum ='.$notify->transaction_id)->toArray();
+             foreach ($order_id_arr as $order_id) {
+                 $total_price +=$order_id['total_price'];
+                //创建ORM模型
+                $orders=new \App\Order();
+                // 使用通知里的 "微信支付订单号" 或者 "商户订单号" 去自己的数据库找到订单
+                $order = $orders->find($order_id['order_id']);
+                // 如果订单不存在
+                if (!$order) {
+                    // 告诉微信，我已经处理完了，订单没找到，别再通知我了
+                    return 'Order not exist.';
+                }
+                // 如果订单存在
+                // 检查订单是否已经更新过支付状态
+                if ($order->state == 2) {
+                    // 假设订单字段“支付时间”不为空代表已经支付
+                    // 已经支付成功了就不再更新了
+                    return true;
+                }
+                // 用户是否支付成功
+                if ($successful) {
+                    // 不是已经支付状态则修改为已经支付状态
+                    // 更新支付时间为当前时间
+                    $order->state = 2;
+                } else {
+                    // 用户支付失败
+                    $order->state = 1;
+                }
+                // 保存订单
+                $order->save();
+            }
+            if($total_price == ($notify->total_fee/100)){
+                DB::commit();
+                // 返回处理完成
+                return true;
+            }else{
+                //假如失败就回滚
+                DB::rollback();
+                // 返回处理完成
+                return false;
+            }
+
+        });
+        return $response;
     }
 
     /*

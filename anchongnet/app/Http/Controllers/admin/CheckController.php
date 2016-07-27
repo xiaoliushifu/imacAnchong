@@ -33,7 +33,7 @@ class CheckController extends Controller
 			DB::table('anchong_auth')->where('id', $id)->update(['auth_status' => 3]);
 			DB::table('anchong_users')->where('users_id', $users_id)->update(['certification' => 3]);
 			DB::table('anchong_users')->where('users_id', $users_id)->update(['users_rank' => 2]);
-			DB::table('anchong_users_login')->where('users_id', $users_id)->update(['users_rank' => 2]);
+			DB::table('anchong_users_login')->where('users_id', $users_id)->update(['user_rank' => 2]);
 		} else {
 			//通过事务处理修改认证表和用户表中的认证状态
 			DB::table('anchong_auth')->where('id', $id)->update(['auth_status' => 2]);

@@ -258,9 +258,13 @@ class OrderController extends Controller
                 DB::rollback();
                 return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'删除订单失败']]);
             }
-        }else{
+        }elseif($param['action'] < 8){
             //进行订单操作
             $result=$order->orderupdate($param['order_id'],['state' => $param['action']]);
+        }else{
+            //假如失败就回滚
+            DB::rollback();
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'操作失败']]);
         }
         if($result){
             //假如成功就提交

@@ -210,7 +210,7 @@ return [
         'Image'     => Intervention\Image\Facades\Image::class,
         'Input'     =>Illuminate\Support\Facades\Input::class,
         'Wechat'    => Overtrue\LaravelWechat\Facade::class,
-        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'QrCode'    => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
     ],
 
 ];
