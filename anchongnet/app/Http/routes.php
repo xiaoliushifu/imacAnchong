@@ -26,6 +26,7 @@
 //接口路由组
 
 Route::group(['domain' => 'api.anchong.net'], function () {
+    Route::post('/community/chonggou','Api\Community\CommunityController@chonggou');
     //加上token验证的api
     Route::group(['middleware' => 'AppPrivate'], function () {
 
@@ -268,7 +269,7 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
 //后台路由
 Route::group(['domain' => 'admin.anchong.net'], function () {
     //搜索
-        Route::resource('/search','SearchController');   
+        Route::resource('/search','SearchController');
     //注册相关
         Route::any('/userregister', 'admin\indexController@userregister');
         Route::any('/zhuce', 'admin\indexController@zhuce');

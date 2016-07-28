@@ -51,6 +51,15 @@ class CommunityController extends Controller
                 }else{
                     $headpic=$users_nickname[0]['headpic'];
                 }
+                //定义图片变量
+                $imgs="";
+                //判断是否有图片
+                if($param['pic']){
+                    foreach ($param['pic'] as $pic) {
+                        $urls = str_replace('.oss-','.img-',$pic);
+                        $imgs.=$urls.'#@#';
+                    }
+                }
                 //定义插入数据库的数据
                 $community_data=[
                     'users_id' => $data['guid'],
@@ -61,42 +70,16 @@ class CommunityController extends Controller
                     'headpic' => $headpic,
                     'tags' => $param['tags'],
                     'tags_match' => $tags,
+                    'img' => $imgs,
                 ];
-                //开启事务处理
-                DB::beginTransaction();
                 //创建ORM模型
                 $community_release=new \App\Community_release();
-                $id=$community_release->add($community_data);
+                $result=$community_release->add($community_data);
                 //插入成功继续插图片，插入失败则返回错误信息
-                if(!empty($id)){
-                    if($param['pic']){
-                        $ture=false;
-                        foreach ($param['pic'] as $pic) {
-                            $urls = str_replace('.oss-','.img-',$pic);
-                            $community_img=new \App\Community_img();
-                            $ture=$community_img->add(['chat_id'=>$id,'img'=> $urls]);
-                            //假如有一张图片插入失败就返回错误
-                            if(!$ture){
-                                //假如失败就回滚
-                                DB::rollback();
-                                return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'聊聊发布失败,请重新发布']]);
-                            }
-                        }
-                        //orm模型操作数据库会返回true或false,如果操作失败则返回错误信息
-                        if($ture){
-                            //假如成功就提交
-                            DB::commit();
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'聊聊发布成功']]);
-                        }else{
-                            //假如失败就回滚
-                            DB::rollback();
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请重新发布聊聊']]);
-                        }
-                    }else{
-                        //假如成功就提交
-                        DB::commit();
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'聊聊发布成功']]);
-                    }
+                if($result){
+                    //假如成功就提交
+                    DB::commit();
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'聊聊发布成功']]);
                 }else{
                     //假如失败就回滚
                     DB::rollback();
@@ -226,7 +209,7 @@ class CommunityController extends Controller
         //创建orm模型
         $community_release=new \App\Community_release();
         //查询数据
-        $community_release_data=['chat_id','title','name','content','created_at','tags','headpic','comnum'];
+        $community_release_data=['chat_id','title','name','content','created_at','tags','headpic','comnum','img'];
         //判断是否是筛选
         if(empty($param['tags'])){
             $sql="auth = 1";
@@ -236,26 +219,18 @@ class CommunityController extends Controller
         $community_release_result=$community_release->quer($community_release_data,$sql,(($param['page']-1)*$limit),$limit);
         //定义结果列表数组
         $list=null;
-        if($community_release_result){
-            //创建图片查询的orm模型
-            $community_img=new \App\Community_img();
-            foreach ($community_release_result['list'] as $community_data){
-                $value_1=$community_img->quer('img',$community_data['chat_id']);
-                //判断是否为空,如果是空表明没有图片
-                if(empty($value_1)){
-                    $list[]=$community_data;
-                }else{
-                    //假如不为空表明有图片，开始查询拼凑数据
-                    foreach ($value_1 as $value_2) {
-                        foreach ($value_2 as $value_3) {
-                            $img[]=$value_3;
-                        }
-                    }
-                    //重构数组，加上键值
-                    $img_data=['pic'=>$img];
-                    $list[]=array_merge($community_data,$img_data);
-                    $img=null;
+        //判断是否取出数据
+        if($community_release_result['total']>0){
+            //遍历聊聊数组
+            foreach ($community_release_result['list'] as $release_results) {
+                //进行图片分隔操作
+                $img=trim($release_results['img'],"#@#");
+                //判断是否有图片
+                if(!empty($img)){
+                    $img_arr=explode('#@#',$img);
+                    $release_results['pic']=$img_arr;
                 }
+                $list[]=$release_results;
             }
             //返回数据总数和具体数据
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_release_result['total'],'list'=>$list]]);
@@ -277,7 +252,7 @@ class CommunityController extends Controller
         //创建的orm模型
         $community_release=new \App\Community_release();
         //查询数据
-        $community_release_data=['chat_id','title','name','content','created_at','tags','headpic','comnum'];
+        $community_release_data=['chat_id','title','name','content','created_at','tags','headpic','comnum','img'];
         //判断是否是筛选
         if(empty($param['tags'])){
             $sql="users_id =".$data['guid']." and auth = 1";
@@ -287,26 +262,15 @@ class CommunityController extends Controller
         $community_release_result=$community_release->quer($community_release_data,$sql,(($param['page']-1)*$limit),$limit);
         //定义结果列表数组
         $list=null;
-        if($community_release_result){
-            //创建图片查询的orm模型
-            $community_img=new \App\Community_img();
-            foreach ($community_release_result['list'] as $community_data){
-                $value_1=$community_img->quer('img',$community_data['chat_id']);
-                //判断是否为空,如果是空表明没有图片
-                if(empty($value_1)){
-                    $list[]=$community_data;
-                }else{
-                    //假如不为空表明有图片，开始查询拼凑数据
-                    foreach ($value_1 as $value_2) {
-                        foreach ($value_2 as $value_3) {
-                            $img[]=$value_3;
-                        }
-                    }
-                    //重构数组，加上键值
-                    $img_data=['pic'=>$img];
-                    $list[]=array_merge($community_data,$img_data);
-                    $img=null;
+        if($community_release_result['total']>0){
+            //遍历聊聊数组
+            foreach ($community_release_result['list'] as $release_results) {
+                $img=trim($release_results['img'],"#@#");
+                if(!empty($img)){
+                    $img_arr=explode('#@#',$img);
+                    $release_results['pic']=$img_arr;
                 }
+                $list[]=$release_results;
             }
             //返回数据总数和具体数据
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_release_result['total'],'list'=>$list]]);
@@ -325,10 +289,9 @@ class CommunityController extends Controller
         $param=json_decode($data['param'],true);
         //创建ORM模型
         $community_release=new \App\Community_release();
-        $community_img=new \App\Community_img();
         $community_collect=new \App\Community_collect();
         //定义需要的数据
-        $community_release_data=['chat_id','headpic','name','created_at','title','tags','content'];
+        $community_release_data=['chat_id','headpic','name','created_at','title','tags','content','img'];
         //查询聊聊内容
         $community_release_result=$community_release->simplequer($community_release_data,'chat_id ='.$param['chat_id'])->toArray();
         //查询是否已收藏
@@ -343,23 +306,16 @@ class CommunityController extends Controller
         }
         //判断是否查到该条聊聊
         if(!empty($community_release_result)){
-            $community_img_result=$community_img->quer('img',$param['chat_id']);
             //将数据组合
             foreach ($community_release_result[0] as $key =>$release_result) {
                 $list[$key]=$release_result;
             }
+            //进行图片操作
+            $img=trim($community_release_result[0]['img'],"#@#");
             //判断是否有图片
-            if(empty($community_img_result)){
-                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$list]);
-            }else{
-                //假如不为空表明有图片，开始查询拼凑数据
-                foreach ($community_img_result as $value_2) {
-                    foreach ($value_2 as $value_3) {
-                        $img[]=$value_3;
-                    }
-                }
-                //重构数组，加上键值
-                $list['pic']=$img;
+            if(!empty($img)){
+                $img_arr=explode('#@#',$img);
+                $list['pic']=$img_arr;
             }
             if(!empty($list)){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$list]);
@@ -400,7 +356,7 @@ class CommunityController extends Controller
         }
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_comment_results['total'],'list'=>$commentlist]]);
     }
-    
+
     /*
     *   该方法提供聊聊评论详情查询
     */
@@ -440,43 +396,34 @@ class CommunityController extends Controller
         $community_release=new \App\Community_release();
         $community_collect=new \App\Community_collect();
         //查询数据
-        $community_release_data=['chat_id','title','name','content','created_at','tags','headpic','comnum'];
+        $community_release_data=['chat_id','title','name','content','created_at','tags','headpic','comnum','img'];
         //定义结果数组
-        $list=null;
         $results=null;
         //查询收藏的聊聊id和数量
         $community_collect_result=$community_collect->totalquer('chat_id','users_id ='.$data['guid'],(($param['page']-1)*$limit),$limit);
         if($community_collect_result['total'] == 0){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_collect_result['total'],'list'=>[]]]);
         }
-        //遍历查到的收藏的聊聊数量
-        foreach ($community_collect_result['list'] as $collectarr) {
-            $community_release_result=$community_release->simplequer($community_release_data,'chat_id='.$collectarr['chat_id'])->toArray();
-            if($community_release_result){
-                //创建图片查询的orm模型
-                $community_img=new \App\Community_img();
-                $value_1=$community_img->quer('img',$community_release_result[0]['chat_id']);
-                //判断是否为空,如果是空表明没有图片
-                if(empty($value_1)){
-                    $list[]=$community_release_result[0];
-                }else{
-                    //假如不为空表明有图片，开始查询拼凑数据
-                    foreach ($value_1 as $value_2) {
-                        foreach ($value_2 as $value_3) {
-                            $img[]=$value_3;
-                        }
-                    }
-                    //重构数组，加上键值
-                    $img_data=['pic'=>$img];
-                    $list[]=array_merge($community_release_result[0],$img_data);
-                    $img=null;
-                }
-                foreach ($list as $listarr) {
-                    $result[]=$listarr;
-                }
-                $list=null;
-            }
+        $chatarr=null;
+        //收藏的聊聊数组
+        foreach ($community_collect_result['list'] as $chat_idarr) {
+            $chatarr[]=$chat_idarr['chat_id'];
         }
+        //查询所有收藏聊聊
+        $community_release_result=$community_release->inquer($community_release_data,'chat_id',$chatarr)->toArray();
+        //遍历数组
+        foreach ($community_release_result as $release_results) {
+            //进行图片分隔操作
+            $img=trim($release_results['img'],"#@#");
+            //判断是否有图片
+            if(!empty($img)){
+                $img_arr=explode('#@#',$img);
+                $release_results['pic']=$img_arr;
+            }
+            //将结果数组填充
+            $result[]=$release_results;
+        }
+
         if($result){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_collect_result['total'],'list'=>$result]]);
         }else{
@@ -543,7 +490,6 @@ class CommunityController extends Controller
         $param=json_decode($data['param'],true);
         //创建的orm模型
         $community_release=new \App\Community_release();
-        $community_img=new \App\Community_img();
         $community_comment=new \App\Community_comment();
         $community_reply=new \App\Community_reply();
         $community_collect=new \App\Community_collect();
@@ -551,27 +497,20 @@ class CommunityController extends Controller
         DB::beginTransaction();
         $community_release_result=$community_release->communitydel($param['chat_id']);
         if($community_release_result){
-            $community_img_result=$community_img->delimg($param['chat_id']);
-            if($community_img_result){
-                $community_comment_result=$community_comment->delcomment($param['chat_id']);
-                if($community_comment_result){
-                    $community_comment_reply=$community_reply->delcomment($param['chat_id']);
-                    if($community_comment_reply){
-                        $countnum=$community_collect->countquer('chat_id = '.$param['chat_id']);
-                        if($countnum > 1){
-                            $result=$community_collect->del('chat_id = '.$param['chat_id']);
-                        }else{
-                            $result=true;
-                        }
-                        if($result){
-                            //假如成功就提交
-                            DB::commit();
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'删除成功']]);
-                        }else{
-                            //假如失败就回滚
-                            DB::rollback();
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'删除失败']]);
-                        }
+            $community_comment_result=$community_comment->delcomment($param['chat_id']);
+            if($community_comment_result){
+                $community_comment_reply=$community_reply->delcomment($param['chat_id']);
+                if($community_comment_reply){
+                    $countnum=$community_collect->countquer('chat_id = '.$param['chat_id']);
+                    if($countnum > 1){
+                        $result=$community_collect->del('chat_id = '.$param['chat_id']);
+                    }else{
+                        $result=true;
+                    }
+                    if($result){
+                        //假如成功就提交
+                        DB::commit();
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'删除成功']]);
                     }else{
                         //假如失败就回滚
                         DB::rollback();
@@ -591,4 +530,55 @@ class CommunityController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'删除失败']]);
         }
     }
+
+    /*
+    *   chougou
+    */
+    public function chonggou(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        $limit=10;
+        //开启事务处理
+        DB::beginTransaction();
+        //创建的orm模型
+        $community_release=new \App\Community_release();
+        $community_release_result=$community_release->testquer('auth = 1',(($param['page']-1)*$limit),$limit)->toArray();
+        $result=true;
+        foreach ($community_release_result as $community_releases) {
+            if(!$result){
+                //假如失败就回滚
+                DB::rollback();
+                return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>1]]);
+            }
+            $community_img=new \App\Community_img();
+            $community_img_result=$community_img->quer('img',$community_releases['chat_id']);
+            $imgs="";
+            if(!empty($community_img_result)){
+                foreach ($community_img_result as $community_imgs) {
+                    $imgs.=$community_imgs['img'].'#@#';
+                }
+            }
+            $community_data=[
+                'users_id' => $community_releases['users_id'],
+                'title' => $community_releases['title'],
+                'name' => $community_releases['name'],
+                'content' => $community_releases['content'],
+                'created_at' => $community_releases['created_at'],
+                'headpic' => $community_releases['headpic'],
+                'tags' => $community_releases['tags'],
+                'tags_match' => $community_releases['tags_match'],
+                'img' => $imgs,
+            ];
+            $community_releases=new \App\Community_releases();
+            $result=$community_releases->add($community_data);
+        }
+        if($result){
+            //假如成功就提交
+            DB::commit();
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'聊聊发布成功']]);
+        }
+    }
+
 }

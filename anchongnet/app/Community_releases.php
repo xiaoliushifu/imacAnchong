@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 /*
 *   该模型是操作聊聊表的模块
 */
-class Community_release extends Model
+class Community_releases extends Model
 {
-    protected $table = 'anchong_community_release';
+    protected $table = 'anchong_community_releases';
     public $timestamps = false;
     //不允许被赋值
     protected $guarded = ['chat_id'];
@@ -24,9 +24,9 @@ class Community_release extends Model
        //将用户发布的信息添加入数据表
        $this->fill($data);
        if($this->save()){
-           return $this->chat_id;
+           return true;
        }else{
-           return;
+           return false;
        }
    }
 
@@ -97,7 +97,7 @@ class Community_release extends Model
 
     public function testquer($type,$pos,$limit)
     {
-         return $this->whereRaw($type)->whereRaw($type)->skip($pos)->take($limit)->orderBy('chat_id', 'ASC')->get();
+         return $this->whereRaw($type)->whereRaw($type)->skip($pos)->take($limit)->orderBy('chat_id', 'DESC')->get();
     }
 
 }
