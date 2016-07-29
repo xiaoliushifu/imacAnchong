@@ -153,6 +153,7 @@
 						<div class="gal form-group">
 							<table class="table">
 								<input type="hidden" id="chat_id" value="">
+								<input type="hidden" id="imgdata" value="">
 
 								<tr id="imgcontent">
 								</tr>

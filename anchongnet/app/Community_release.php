@@ -47,6 +47,19 @@ class Community_release extends Model
    }
 
    /*
+   *   该方法是更新聊聊信息
+   */
+   public function communityupdate($id,$data)
+   {
+       $id=$this->where('chat_id','=',$id);
+       if($id->update($data)){
+           return true;
+       }else{
+           return false;
+       }
+   }
+
+   /*
    *   in条件查询聊聊的信息
    */
    public function inquer($field,$type,$arr)
