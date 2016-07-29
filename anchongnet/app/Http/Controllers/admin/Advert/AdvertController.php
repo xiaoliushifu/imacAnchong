@@ -11,6 +11,7 @@ use OSS\Core\OssException;
 use DB;
 use Auth;
 use Gate;
+use Cache;
 
 use App\GoodSpecification;
 use App\GoodThumb;
@@ -74,7 +75,11 @@ class AdvertController extends Controller
             $pos = strpos($signedUrl, "?");
             $urls = substr($signedUrl, 0, $pos);
             $url = str_replace('.oss-','.img-',$urls);
-
+            if($request['adid']>4 && $request['adid']<9){
+                Cache::forget('advert_goodsadvert_ad_result_pic');
+            }elseif($request['adid']>12 && $request['adid']<36){
+                Cache::forget('advert_goodsadvert_ad_result');
+            }
             //创建ORM模型
             $ad=new \App\Ad();
             $result=$ad->adupdate($request['adid'],['ad_name'=>$request['goods_id'],'ad_link'=>$request['gid'],'ad_code'=>$url]);

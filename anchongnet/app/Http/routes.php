@@ -257,13 +257,16 @@ Route::group(['domain' => 'api.anchong.net'], function () {
 
 //支付宝路由
 Route::group(['domain' => 'pay.anchong.net'], function () {
-    Route::any('pay/mobilenotify','Api\Pay\PayController@mobilenotify');
+    //安虫自营路由组
+    Route::group(['middleware'=>'PayAuthen'],function(){
+        Route::post('/pay/mobilenotify','Api\Pay\PayController@mobilenotify');
+    });
     //支付后异步回调
-    Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
+    Route::any('/pay/webnotify','Api\Pay\PayController@webnotify');
     //微信支付
-    Route::any('pay/wxpay','Api\Pay\PayController@wxpay');
+    Route::any('/pay/wxpay','Api\Pay\PayController@wxpay');
     //微信支付回调
-    Route::any('pay/wxnotify','Api\Pay\PayController@wxnotify');
+    Route::any('/pay/wxnotify','Api\Pay\PayController@wxnotify');
 });
 
 //后台路由
