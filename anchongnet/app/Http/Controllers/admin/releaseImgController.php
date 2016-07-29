@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Community_img;
 use OSS\OssClient;
 use OSS\Core\OssException;
 
