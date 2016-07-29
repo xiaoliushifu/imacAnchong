@@ -20,6 +20,7 @@ class SearchController extends Controller
      */
     public function index(Request $req)
     {
+        dd('Nothing');
         $q=$req->get('q');
         $ql=mb_strlen($q,'utf-8');
         if ($ql<1 || $ql>8) {
@@ -42,6 +43,6 @@ class SearchController extends Controller
             $result = DB::table('anchong_goods_type')->whereIn('cat_id',$tmparr)->get();
             Cache::add($prefix.$q,$result,60);
         }
-        return response()->json(['search'=>$q,'fenci'=>'','ResultData'=>$result],200,['Content-type'=>'application/json;charset=utf-8'],JSON_UNESCAPED_UNICODE);
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'search'=>$q,'fenci'=>'','ResultData'=>$result],200,['Content-type'=>'application/json;charset=utf-8'],JSON_UNESCAPED_UNICODE);
     }
 }

@@ -25,7 +25,7 @@
 
 //接口路由组
 
-Route::group(['domain' => 'api.anchong.net'], function () {
+Route::group(['domain' => 'api.myanchong.net'], function () {
     Route::post('/community/chonggou','Api\Community\CommunityController@chonggou');
     //加上token验证的api
     Route::group(['middleware' => 'AppPrivate'], function () {
@@ -100,6 +100,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         /*
         *   商品模块
         */
+        //搜索
+        Route::controller('/search','Api\SearchController');
         //商铺路由
         Route::resource('/shop','Api\Shop\ShopController');
         //商品详细分类信息
@@ -267,7 +269,7 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
 });
 
 //后台路由
-Route::group(['domain' => 'admin.anchong.net'], function () {
+Route::group(['domain' => 'admin.myanchong.net'], function () {
     //搜索
         Route::resource('/search','SearchController');
     //注册相关
