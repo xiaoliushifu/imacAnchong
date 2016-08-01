@@ -27,6 +27,7 @@
 
 Route::group(['domain' => 'api.anchong.net'], function () {
     Route::post('/community/chonggou','Api\Community\CommunityController@chonggou');
+    Route::post('/business/chonggou','Api\Business\BusinessController@chonggou');
     //加上token验证的api
     Route::group(['middleware' => 'AppPrivate'], function () {
 
@@ -429,11 +430,13 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
             //商机图片
             Route::resource('/businessimg','admin\busimgController');
             //获取指定商机的商机图片
-            Route::get('/busimg','admin\busimgController@getImg');
+            //Route::get('/busimg','admin\busimgController@getImg');
             //删除指定商机图片
             Route::get('/delimg','admin\busimgController@delpic');
-            //编辑商机的时候添加商机图片
-            Route::post('/addbusimg','admin\businessController@addpic');
+            //编辑商机的时候修改商机图片
+            Route::post('/editbusimg/{num}','admin\businessController@editpic');
+            //删除商机指定图片
+            Route::post('/delbusinessimg/{num}','admin\businessController@delpic');
 
 
 
@@ -451,6 +454,12 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
             */
             //后台社区编辑获取图片
             Route::get('/community/imgshow/{num}','admin\releaseController@imgshow');
+
+            /*
+            *   后台商机
+            */
+            //后台商机编辑获取图片
+            Route::get('/business/imgshow/{num}','admin\businessController@imgshow');
 
             /*
             *   后台意见反馈

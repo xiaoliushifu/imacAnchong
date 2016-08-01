@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /*
 *   该模型是操作商机表的模块
 */
-class Business extends Model
+class Businesss extends Model
 {
 
     /**
@@ -15,7 +15,7 @@ class Business extends Model
      *
      * @var string
      */
-    protected $table = 'anchong_business';
+    protected $table = 'anchong_businesss';
     protected $primaryKey = 'bid';
 
     /**
@@ -60,7 +60,7 @@ class Business extends Model
     */
     public function businessupdate($id,$data)
     {
-        $id=$this->find($id);
+        $id=$this->where('bid','=',$id);
         if($id->update($data)){
             return true;
         }else{
@@ -111,10 +111,5 @@ class Business extends Model
     public function scopeType($query,$keyType)
     {
         return $query->where('type','=',$keyType);
-    }
-
-    public function testquer($type,$pos,$limit)
-    {
-         return $this->whereRaw($type)->skip($pos)->take($limit)->orderBy('bid', 'ASC')->get();
     }
 }

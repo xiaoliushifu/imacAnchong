@@ -292,6 +292,7 @@
 					<form role="form" class="form-horizontal" action="" id="formToUpdate" method="post" enctype="multipart/form-data">
 						<div id="method"></div>
 						<input type="hidden" name="bid" id="bid">
+						<input type="hidden" name="imgdata" id="imgdata">
 						<div class="gal form-group">
 							<label for="pic" class="col-sm-2 control-label">商机图片</label>
 							<ul class="gallerys col-sm-10 list-inline">

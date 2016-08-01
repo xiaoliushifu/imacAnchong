@@ -93,11 +93,16 @@ class businessController extends Controller
      */
     public function store(\App\Http\Requests\StoreBusinessRequest $request)
     {
-        //开启事务处理
-        DB::beginTransaction();
-
-        //向business表中插入数据,并返回新增的主键id
-        $bid=DB::table('anchong_business')->insertGetId(
+        //定义图片变量
+        $imgs="";
+        //判断是否有图片
+        if($request['pic']){
+            foreach ($request['pic'] as $pic) {
+                $imgs.=$pic.'#@#';
+            }
+        }
+        //向business表中插入数据
+        $result=DB::table('anchong_business')->insertGetId(
             [
                 'users_id' => $request['uid'],
                 'title' => $request['title'],
@@ -111,23 +116,15 @@ class businessController extends Controller
                 'tags_match'=>bin2hex($request['area']),
                 'endtime' => $request['endtime'],
                 'created_at' => date('Y-m-d H:i:s',time()),
+                'img' => $imgs,
             ]
         );
-
-        //向business_img表中插入数据
-        for($i=0;$i<count($request['pic']);$i++){
-            DB::table('anchong_business_img')->insert(
-                [
-                    'bid' => $bid,
-                    'img' => $request['pic'][$i]
-                ]
-            );
+        //判断是否成功
+        if($result){
+            return view("admin/business/create",array('mes'=>"添加成功！"));
+        }else{
+            return view("admin/business/create",array('mes'=>"添加失败！"));
         }
-
-        //提交事务
-        DB::commit();
-
-        return view("admin/business/create",array('mes'=>"添加成功！"));
     }
 
     /**
@@ -139,6 +136,7 @@ class businessController extends Controller
     public function show($id)
     {
         $data=$this->business->find($id);
+        $data->img=trim($data->img,"#@#");
         return $data;
     }
 
@@ -191,7 +189,7 @@ class businessController extends Controller
         return "删除成功";
     }
 
-    public function addpic(Request $request)
+    public function editpic(Request $request,$id)
     {
         $fileType=$_FILES['file']['type'];
         $dir="business/";
@@ -224,20 +222,82 @@ class businessController extends Controller
             $pos = strpos($signedUrl, "?");
             $urls = substr($signedUrl, 0, $pos);
             $url = str_replace('.oss-','.img-',$urls);
-
-            //插入数据库并返回主键id
-            $id = DB::table('anchong_business_img')->insertGetId(
-                ['bid' => $request['bid'], 'img' => $url]
-            );
-
-            $message="上传成功";
-            $isSuccess=true;
+            $imgs="";
+            //进行图片分隔操作
+            $img=trim($request['img'],"#@#");
+            if(!empty($img)){
+                $img_arr=explode('#@#',$img);
+                $img_arr[$request['pic']]=$url;
+                foreach ($img_arr as $pic) {
+                    $imgs.=$pic.'#@#';
+                }
+            }else{
+                $imgs.=$url.'#@#';
+            }
+            //创建图片查询的orm模型
+            $community_release=new \App\Business();
+            $result=$community_release->businessupdate($id,['img'=>$imgs]);
+            if($result){
+                $message="上传成功";
+                $isSuccess=true;
+            }else{
+                $message="上传失败，请稍后再试";
+                $isSuccess=false;
+            }
         }catch (OssException $e) {
             $message="上传失败，请稍后再试";
             $isSuccess=false;
             $url='';
             $id='';
         }
-        return response()->json(['message' => $message, 'isSuccess' => $isSuccess,'url'=>$url,'id'=>$id]);
+        return response()->json(['message' => $message, 'isSuccess' => $isSuccess,'url'=>$url,'imgs'=>$imgs]);
+    }
+
+    /*
+    *   商机图片查看
+    */
+    public function imgshow($id)
+    {
+        //创建图片查询的orm模型
+        $business=new \App\Business();
+        $data=$business->quertime('img','bid='.$id)->toArray();
+        //进行图片分隔操作
+        $img=trim($data[0]['img'],"#@#");
+        $img_arr=[];
+        //判断是否有图片
+        if(!empty($img)){
+            $img_arr=explode('#@#',$img);
+        }
+        return [$img_arr,$data[0]['img'],$id];
+    }
+
+    /*
+     *  删除制定商机的图片
+     */
+    public function delpic(Request $request,$id)
+    {
+        //定义图片
+        $imgs="";
+        //进行图片分隔操作
+        $img=trim($request['img'],"#@#");
+        if(!empty($img)){
+            $img_arr=explode('#@#',$img);
+            $img_arr[$request['pic']]="";
+            foreach ($img_arr as $pic) {
+                //假如pic不为空
+                if($pic){
+                    //拼接图片字符串
+                    $imgs.=$pic.'#@#';
+                }
+            }
+        }
+        //创建图片查询的orm模型
+        $community_release=new \App\Business();
+        $result=$community_release->businessupdate($id,['img'=>$imgs]);
+        if($result){
+            return $message="删除成功";
+        }else{
+            return $message="删除失败";
+        }
     }
 }
