@@ -3911,7 +3911,7 @@ class Request
     }
     public function isMethodSafe()
     {
-        return in_array($this->getMethod(), array('GET', 'HEAD'));
+        return in_array($this->getMethod(), array('GET', 'HEAD', 'OPTIONS', 'TRACE'));
     }
     public function getContent($asResource = false)
     {
@@ -13969,8 +13969,8 @@ class RotatingFileHandler extends StreamHandler
     }
     public function setFilenameFormat($filenameFormat, $dateFormat)
     {
-        if (!in_array($dateFormat, array(self::FILE_PER_DAY, self::FILE_PER_MONTH, self::FILE_PER_YEAR))) {
-            trigger_error('Invalid date format - format should be one of ' . 'RotatingFileHandler::FILE_PER_DAY, RotatingFileHandler::FILE_PER_MONTH ' . 'or RotatingFileHandler::FILE_PER_YEAR.', E_USER_DEPRECATED);
+        if (!preg_match('{^Y(([/_.-]?m)([/_.-]?d)?)?$}', $dateFormat)) {
+            trigger_error('Invalid date format - format must be one of ' . 'RotatingFileHandler::FILE_PER_DAY ("Y-m-d"), RotatingFileHandler::FILE_PER_MONTH ("Y-m") ' . 'or RotatingFileHandler::FILE_PER_YEAR ("Y"), or you can set one of the ' . 'date formats using slashes, underscores and/or dots instead of dashes.', E_USER_DEPRECATED);
         }
         if (substr_count($filenameFormat, '{date}') === 0) {
             trigger_error('Invalid filename format - format should contain at least `{date}`, because otherwise rotating is impossible.', E_USER_DEPRECATED);
@@ -14132,6 +14132,17 @@ class NormalizerFormatter implements FormatterInterface
             throw new \InvalidArgumentException('Exception/Throwable expected, got ' . gettype($e) . ' / ' . get_class($e));
         }
         $data = array('class' => get_class($e), 'message' => $e->getMessage(), 'code' => $e->getCode(), 'file' => $e->getFile() . ':' . $e->getLine());
+        if ($e instanceof \SoapFault) {
+            if (isset($e->faultcode)) {
+                $data['faultcode'] = $e->faultcode;
+            }
+            if (isset($e->faultactor)) {
+                $data['faultactor'] = $e->faultactor;
+            }
+            if (isset($e->detail)) {
+                $data['detail'] = $e->detail;
+            }
+        }
         $trace = $e->getTrace();
         foreach ($trace as $frame) {
             if (isset($frame['file'])) {
@@ -15958,6 +15969,11 @@ class Response
     {
         $this->sendHeaders();
         $this->sendContent();
+        if (function_exists('fastcgi_finish_request')) {
+            fastcgi_finish_request();
+        } elseif ('cli' !== PHP_SAPI) {
+            static::closeOutputBuffers(0, true);
+        }
         return $this;
     }
     public function setContent($content)

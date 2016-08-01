@@ -172,9 +172,12 @@ class goodController extends Controller
         foreach ($keywords_arr as $keyword_arr) {
             $keywords.=bin2hex($keyword_arr)." ";
         }
+        //索引表,用于后续搜索
        DB::table('anchong_goods_keyword')->insert(
             [
                 'cat_id' => $gtid,
+                'cid' => $cid,
+                'tags' => $tags,
                 'keyword'=>$keywords,
             ]
         );

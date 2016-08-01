@@ -27,7 +27,8 @@
 
 Route::group(['domain' => 'api.anchong.net'], function () {
     Route::post('/community/chonggou','Api\Community\CommunityController@chonggou');
-    Route::post('/business/chonggou','Api\Business\BusinessController@chonggou');
+    //商品检索
+    Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
     //加上token验证的api
     Route::group(['middleware' => 'AppPrivate'], function () {
 
@@ -479,6 +480,7 @@ Route::group(['domain' => 'www.anchong.net'], function () {
     Route::get('/getpackage','admin\uEditorController@getPackage');
     //获取虫虫资讯
     Route::get('/information/{infor_id}','Api\Advert\AdvertController@informations');
+    Route::get('/','home\indexController@index');
 });
 
 //验证码类,需要传入数字
