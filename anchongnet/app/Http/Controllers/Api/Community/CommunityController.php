@@ -588,7 +588,7 @@ class CommunityController extends Controller
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
         $param=json_decode($data['param'],true);
-        $limit=10;
+        $limit=20;
         //开启事务处理
         DB::beginTransaction();
         //创建的orm模型
