@@ -65,8 +65,7 @@ class goodController extends Controller
     {
         if (Input::has('sid')) {
             //只允许有 “添加货品”权限的家伙
-            if (Requester::user()['user_rank'] !=3
-                || Gate::denies('create-goods')) {
+            if (Requester::user()['user_rank'] !=3 || Gate::denies('create-goods')) {
                 return back();
             }
             $sid=Input::get('sid');

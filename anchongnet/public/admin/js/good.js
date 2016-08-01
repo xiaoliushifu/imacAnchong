@@ -18,6 +18,7 @@ $(function(){
             $("#added").text(data.goods_create_time);
             $("#goodsnumbering").text(data.goods_numbering);
         });
+        //根据商品分类id,去cat表中获得分类信息，注意某些商品所属的商品分类不止一种
         var cid=$(this).attr("data-cid");
         $.get("/goodcate/"+cid,function(data,status){
             $("#cat").text(data.cat_name);
@@ -30,6 +31,7 @@ $(function(){
                 $("#stock").append(dl);
             }
         });
+        //根据商品id,去goods表里获得商品title
         var gid=$(this).attr("data-gid");
         $.get("/commodity/"+gid,function(data,status){
             $("#good").text(data.title);
