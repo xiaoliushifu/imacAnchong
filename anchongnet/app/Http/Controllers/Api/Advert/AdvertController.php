@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Advert;
 use Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Cache;
 
 /*
 *   该控制器包含了广告模块的操作
@@ -19,16 +20,19 @@ class AdvertController extends Controller
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
         $param=json_decode($data['param'],true);
+
+        $businessinfo=['bid','phone','contact','title','content','tag','tags','created_at','endtime'];
         //创建ORM模型
         $ad=new \App\Ad();
-        $business=new \App\Business();
-        $information=new \App\Information();
-        $businessinfo=['bid','phone','contact','title','content','tag','tags','created_at','endtime'];
         //轮播图查询
         $ad_result_pic=$ad->quer(['ad_code','ad_name','ad_link'],'position_id = 2 and media_type = 0 and enabled = 1',0,5)->toArray();
-        $ad_infor_result=$information->firstquer(['infor_id','title','img'],'added =1');
         //最新招标项目
         $ad_result_area=$ad->quer(['ad_code','ad_name'],'position_id = 4 and media_type = 0 and enabled = 1',0,4)->toArray();
+        //创建ORM模型
+        $information=new \App\Information();
+        $ad_infor_result=$information->firstquer(['infor_id','title','img'],'added =1');
+        //创建ORM模型
+        $business=new \App\Business();
         //热门招标查询
         $businessinfo_data=$business->simplequer($businessinfo,'recommend = 1 and type = 1',0,2);
         $list=null;
@@ -107,22 +111,60 @@ class AdvertController extends Controller
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
         $param=json_decode($data['param'],true);
-        //创建ORM模型
-        $ad=new \App\Ad();
-        $ad_position=new \App\Ad_position();
-        $goods_type=new \App\Goods_type();
-        //查询轮播图
-        $ad_result_pic=$ad->quer(['ad_code','ad_name','ad_link'],'position_id = 3 and media_type = 0 and enabled = 1',0,4)->toArray();
-        //查询商城广告模块
-        $ad_result=$ad->simplequer(['position_id','ad_code','ad_name','ad_link'],'site_ad = 2 and enabled = 1')->toArray();
-        //查询模块定义名称
-        $ad_name=$ad_position->simplequer(['position_id','position_desc'],'site_ad = 2')->toArray();
-        //需要查的字段
-        $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
-        //设置随机偏移量
-        $num=rand(10,99);
-        //推荐商品
-        $goods_result=$goods_type->simplequer($goods_data,"added = 1",$num,10)->toArray();
+        //判断缓存
+        $ad_result_pic_cache=Cache::get('advert_goodsadvert_ad_result_pic');
+        if($ad_result_pic_cache){
+            //将缓存取出来赋值给变量
+            $ad_result_pic=$ad_result_pic_cache;
+        }else{
+            //创建ORM模型
+            $ad=new \App\Ad();
+            //查询轮播图
+            $ad_result_pic=$ad->quer(['ad_code','ad_name','ad_link'],'position_id = 3 and media_type = 0 and enabled = 1',0,4)->toArray();
+            //将查询结果加入缓存
+            Cache::add('advert_goodsadvert_ad_result_pic', $ad_result_pic, 600);
+        }
+        //判断缓存
+        $ad_result_cache=Cache::get('advert_goodsadvert_ad_result');
+        if($ad_result_cache){
+            //将缓存取出来赋值给变量
+            $ad_result=$ad_result_cache;
+        }else{
+            //创建ORM模型
+            $ad=new \App\Ad();
+            //查询商城广告模块
+            $ad_result=$ad->simplequer(['position_id','ad_code','ad_name','ad_link'],'site_ad = 2 and enabled = 1')->toArray();
+            //将查询结果加入缓存
+            Cache::add('advert_goodsadvert_ad_result', $ad_result, 600);
+        }
+        //判断缓存是否存在
+        $ad_name_cache=Cache::get('advert_goodsadvert_ad_name');
+        if($ad_name_cache){
+            //将缓存取出来赋值给变量
+            $ad_name=$ad_name_cache;
+        }else{
+            //创建ORM模型
+            $ad_position=new \App\Ad_position();
+            //查询模块定义名称
+            $ad_name=$ad_position->simplequer(['position_id','position_desc'],'site_ad = 2')->toArray();
+            Cache::add('advert_goodsadvert_ad_name', $ad_name, 600);
+        }
+        //判断缓存是否存在
+        $goods_result_cache=Cache::get('advert_goodsadvert_goods_result');
+        if($goods_result_cache){
+            //将缓存取出来赋值给变量
+            $goods_result=$goods_result_cache;
+        }else{
+            //需要查的字段
+            $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
+            //设置随机偏移量
+            $num=rand(10,99);
+            //创建ORM模型
+            $goods_type=new \App\Goods_type();
+            //推荐商品
+            $goods_result=$goods_type->simplequer($goods_data,"added = 1",$num,10)->toArray();
+            Cache::add('advert_goodsadvert_goods_result', $goods_result, 5);
+        }
         //定义结果数组
         $list=null;
         $ad_one=null;

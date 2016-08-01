@@ -20,7 +20,6 @@ class busimgController extends Controller
     private $bucket;
     public function __construct()
     {
-        $this->bimg=new Business_img();
         $this->accessKeyId=env('ALIOSS_ACCESSKEYId');
         $this->accessKeySecret=env('ALIOSS_ACCESSKEYSECRET');
         $this->endpoint=env('ALIOSS_ENDPOINT');
@@ -179,9 +178,7 @@ class busimgController extends Controller
      */
     public function destroy($id)
     {
-        $data=$this->bimg->find($id);
-        $data->delete();
-        return "删除成功";
+
     }
 
     /*
@@ -189,10 +186,7 @@ class busimgController extends Controller
      * */
     public function delpic(Request $request)
     {
-        $datas=$this->bimg->Bus($request['bid'])->get();
-        for($i=0;$i<count($datas);$i++){
-            $datas[$i]->delete();
-        }
+
     }
 
     /*
@@ -200,7 +194,6 @@ class busimgController extends Controller
      * */
     public function getImg(Request $request)
     {
-        $datas=$this->bimg->Bus($request['bid'])->get();
-        return $datas;
+
     }
 }

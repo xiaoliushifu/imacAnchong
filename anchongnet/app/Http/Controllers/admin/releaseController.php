@@ -94,6 +94,14 @@ class releaseController extends Controller
                 $tags.=bin2hex($tag_arr)." ";
             }
         }
+        //定义图片变量
+        $imgs="";
+        //判断是否有图片
+        if($request['pic']){
+            foreach ($request['pic'] as $pic) {
+                $imgs.=$pic.'#@#';
+            }
+        }
         //定义插入数据库的数据
         $community_data=[
             'users_id' => $request['uid'],
@@ -104,39 +112,16 @@ class releaseController extends Controller
             'headpic' => $request['headpic'],
             'tags' => $request['tag'],
             'tags_match' => $tags,
+            'img' => $imgs,
         ];
         //创建ORM模型
         $community_release=new \App\Community_release();
-        $id=$community_release->add($community_data);
+        $result=$community_release->add($community_data);
         //插入社区图片
-        if(!empty($id)){
-            if($request['pic']){
-                $ture=false;
-                foreach ($request['pic'] as $pic) {
-                    $community_img=new \App\Community_img();
-                    $ture=$community_img->add(['chat_id'=>$id,'img'=> $pic]);
-                    //假如有一张图片插入失败就返回错误
-                    if(!$ture){
-                        //假如失败就回滚
-                        DB::rollback();
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'聊聊发布失败,请重新发布']]);
-                    }
-                }
-                //orm模型操作数据库会返回true或false,如果操作失败则返回错误信息
-                if($ture){
-                    //假如成功就提交
-                    DB::commit();
-                    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'聊聊发布成功']]);
-                }else{
-                    //假如失败就回滚
-                    DB::rollback();
-                    return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请重新发布聊聊']]);
-                }
-            }else{
-                //假如成功就提交
-                DB::commit();
-                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'聊聊发布成功']]);
-            }
+        if(($result)){
+            //假如成功就提交
+            DB::commit();
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'聊聊发布成功']]);
         }else{
             //假如失败就回滚
             DB::rollback();
@@ -194,10 +179,7 @@ class releaseController extends Controller
         //开启事务处理
         DB::beginTransaction();
         $data=$this->release->find($id);
-        $data->delete();
-        //创建图片查询的orm模型
-        $community_img=new \App\Community_img();
-        $result=$community_img->delimg($id);
+        $result=$data->delete();
         if($result){
             //假如成功就提交
             DB::commit();
@@ -215,8 +197,15 @@ class releaseController extends Controller
     public function imgshow($id)
     {
         //创建图片查询的orm模型
-        $community_img=new \App\Community_img();
-        $data=$community_img->quer(['id','img'],$id);
-        return $data;
+        $community_release=new \App\Community_release();
+        $data=$community_release->simplequer('img','chat_id='.$id)->toArray();
+        //进行图片分隔操作
+        $img=trim($data[0]['img'],"#@#");
+        $img_arr=[];
+        //判断是否有图片
+        if(!empty($img)){
+            $img_arr=explode('#@#',$img);
+        }
+        return [$img_arr,$data[0]['img']];
     }
 }

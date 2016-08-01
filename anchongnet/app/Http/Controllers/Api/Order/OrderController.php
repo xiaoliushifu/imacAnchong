@@ -260,7 +260,37 @@ class OrderController extends Controller
             }
         }elseif($param['action'] == 6){
             //进行订单取消操作
-            $result=$order->orderupdate($param['order_id'],['state' => $param['action']]);
+            //获取订单句柄
+            $order_handle=$order->find($param['order_id']);
+            //判断是否已确认收货，防止无限刷库存
+            if($order_handle->state == 6){
+                //假如失败就回滚
+                DB::rollback();
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'操作失败']]);
+            }else{
+                //更改订单状态
+                $order_handle->state=6;
+                $results=$order_handle->save();
+            }
+            if($results){
+                //创建ORM模型
+                $orderinfo=new \App\Orderinfo();
+                $order_gid=$orderinfo->quer(['gid','goods_num'],'order_num ='.$param['order_num'])->toArray();
+                foreach ($order_gid as $gid) {
+                    $result=DB::table('anchong_goods_specifications')->where('gid','=',$gid['gid'])->increment('goods_num',$gid['goods_num']);
+                    if($result){
+                        DB::table('anchong_goods_stock')->where('gid','=',$gid['gid'])->increment('region_num',$gid['goods_num']);
+                    }else{
+                        //假如失败就回滚
+                        DB::rollback();
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'操作失败']]);
+                    }
+                }
+            }else{
+                //假如失败就回滚
+                DB::rollback();
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'操作失败']]);
+            }
         }elseif($param['action'] == 7){
             //确认收货操作
             //获取订单句柄

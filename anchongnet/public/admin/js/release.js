@@ -17,14 +17,15 @@ $(function(){
             $("#title").val(data.title);
             $('#content').val(data.content);
         })
-
         //获取社区图片
         $.get("/community/imgshow/"+id,function(data,status){
             //判断是否有图片
-            if(data[0]){
+            if(data[0][0]){
+                //将所有图片赋值到一个imgdata字段
+                $('#imgdata').val(data[1]);
                 //判断有多少图片
-                for(var b=0;b < data.length;b++){
-                    comtent='<td><input type="hidden" id="communityimgid'+b+'" value="'+data[b].id+'"><form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdates'+b+'" method="post" enctype="multipart/form-data"><div id="method"><input type="hidden" name="_method" value="PUT"></div><div class="gallery text-center"><img src="'+data[b].img+'" style="height:100px;width:100px;" class="imgcontent'+b+'"></div><input type="file" name="file" class="newupdateimgs'+b+'"></form></td>';
+                for(var b=0;b < data[0].length;b++){
+                    comtent='<td><form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdates'+b+'" method="post" enctype="multipart/form-data"><div id="method"><input type="hidden" name="_method" value="PUT"></div><div class="gallery text-center"><img src="'+data[0][b]+'" style="height:100px;width:100px;" class="imgcontent'+b+'"></div><input type="file" name="file" class="newupdateimgs'+b+'"></form></td>';
                     $("#imgcontent").append(comtent);
                 }
             }
@@ -59,93 +60,116 @@ $(function(){
     //最多六张图片跟上面获取图片是生成的图片div一一对应
     //更新图片1
     $("body").on('change','.newupdateimgs0',function(){
+        //获取图片数据
+        var img=$("#imgdata").attr("value");
         //获取图片ID
-        var id=$("#communityimgid0").attr("value");
+        var id=$("#chat_id").attr("value");
         //进行表单提交
         $("#formToUpdates0").ajaxSubmit({
             type: 'post',
-            url: '/releaseimg/'+id,
-            data:{id:id},
+            url: '/releaseimg/0',
+            data:{chat_id:id,img:img},
             //假如成功将当前html的图片改为上传的图片
             success: function (data) {
                 alert('第一张图片'+data.message);
                 if(data.isSuccess==true){
                     $(".imgcontent0").attr("src", data.url);
+                    $('#imgdata').val(data.imgs);
                 }
             }
         });
     });
     //更新图片2
     $("body").on('change','.newupdateimgs1',function(){
-        var id=$("#communityimgid1").attr("value");
+        //获取图片数据
+        var img=$("#imgdata").attr("value");
+        //获取图片ID
+        var id=$("#chat_id").attr("value");
         $("#formToUpdates1").ajaxSubmit({
             type: 'post',
-            url: '/releaseimg/'+id,
-            data:{id:id},
+            url: '/releaseimg/1',
+            data:{chat_id:id,img:img},
             success: function (data) {
                 alert('第二张图片'+data.message);
                 if(data.isSuccess==true){
                     $(".imgcontent1").attr("src", data.url);
+                    $('#imgdata').val(data.imgs);
                 }
             }
         });
     });
     //更新图片3
     $("body").on('change','.newupdateimgs2',function(){
-        var id=$("#communityimgid2").attr("value");
+        //获取图片数据
+        var img=$("#imgdata").attr("value");
+        //获取图片ID
+        var id=$("#chat_id").attr("value");
         $("#formToUpdates2").ajaxSubmit({
             type: 'post',
-            url: '/releaseimg/'+id,
-            data:{id:id},
+            url: '/releaseimg/2',
+            data:{chat_id:id,img:img},
             success: function (data) {
                 alert('第三张图片'+data.message);
                 if(data.isSuccess==true){
                     $(".imgcontent2").attr("src", data.url);
+                    $('#imgdata').val(data.imgs);
                 }
             }
         });
     });
     //更新图片4
     $("body").on('change','.newupdateimgs3',function(){
-        var id=$("#communityimgid3").attr("value");
+        //获取图片数据
+        var img=$("#imgdata").attr("value");
+        //获取图片ID
+        var id=$("#chat_id").attr("value");
         $("#formToUpdates3").ajaxSubmit({
             type: 'post',
-            url: '/releaseimg/'+id,
-            data:{id:id},
+            url: '/releaseimg/3',
+            data:{chat_id:id,img:img},
             success: function (data) {
                 alert('第四张图片'+data.message);
                 if(data.isSuccess==true){
                     $(".imgcontent3").attr("src", data.url);
+                    $('#imgdata').val(data.imgs);
                 }
             }
         });
     });
     //更新图片5
     $("body").on('change','.newupdateimgs4',function(){
-        var id=$("#communityimgid4").attr("value");
+        //获取图片数据
+        var img=$("#imgdata").attr("value");
+        //获取图片ID
+        var id=$("#chat_id").attr("value");
         $("#formToUpdates4").ajaxSubmit({
             type: 'post',
-            url: '/releaseimg/'+id,
-            data:{id:id},
+            url: '/releaseimg/4',
+            data:{chat_id:id,img:img},
             success: function (data) {
                 alert('第五张图片'+data.message);
                 if(data.isSuccess==true){
                     $(".imgcontent4").attr("src", data.url);
+                    $('#imgdata').val(data.imgs);
                 }
             }
         });
     });
     //更新图片6
     $("body").on('change','.newupdateimgs5',function(){
-        var id=$("#communityimgid5").attr("value");
+        //获取图片数据
+        var img=$("#imgdata").attr("value");
+        //获取图片ID
+        var id=$("#chat_id").attr("value");
         $("#formToUpdates5").ajaxSubmit({
             type: 'post',
-            url: '/releaseimg/'+id,
-            data:{id:id},
+            url: '/releaseimg/5',
+            data:{chat_id:id,img:img},
             success: function (data) {
                 alert('第六张图片'+data.message);
                 if(data.isSuccess==true){
                     $(".imgcontent5").attr("src", data.url);
+                    $('#imgdata').val(data.imgs);
                 }
             }
         });

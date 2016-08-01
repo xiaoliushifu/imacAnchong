@@ -39,7 +39,6 @@ $(function(){
                 $('#orderinvoiceinfo').text("发票信息:"+invoice[0]);
                 $('#orderinvoice').text("发票抬头:"+invoice[1]);
             }
-
         }
         //ajax查询订单详细信息
         $.get("/getsiblingsorder",{num:num},function(data,status){

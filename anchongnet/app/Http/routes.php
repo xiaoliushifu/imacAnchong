@@ -27,8 +27,12 @@
 
 Route::group(['domain' => 'api.anchong.net'], function () {
     Route::post('/community/chonggou','Api\Community\CommunityController@chonggou');
+<<<<<<< HEAD
     //商品检索
     Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
+=======
+    Route::post('/business/chonggou','Api\Business\BusinessController@chonggou');
+>>>>>>> 12f045d4eaab7cbeed4800dba6ac16ada8687153
     //加上token验证的api
     Route::group(['middleware' => 'AppPrivate'], function () {
 
@@ -257,13 +261,16 @@ Route::group(['domain' => 'api.anchong.net'], function () {
 
 //支付宝路由
 Route::group(['domain' => 'pay.anchong.net'], function () {
-    Route::any('pay/mobilenotify','Api\Pay\PayController@mobilenotify');
+    //安虫自营路由组
+    Route::group(['middleware'=>'PayAuthen'],function(){
+        Route::post('/pay/mobilenotify','Api\Pay\PayController@mobilenotify');
+    });
     //支付后异步回调
-    Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
+    Route::any('/pay/webnotify','Api\Pay\PayController@webnotify');
     //微信支付
-    Route::any('pay/wxpay','Api\Pay\PayController@wxpay');
+    Route::any('/pay/wxpay','Api\Pay\PayController@wxpay');
     //微信支付回调
-    Route::any('pay/wxnotify','Api\Pay\PayController@wxnotify');
+    Route::any('/pay/wxnotify','Api\Pay\PayController@wxnotify');
 });
 
 //后台路由
@@ -426,11 +433,13 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
             //商机图片
             Route::resource('/businessimg','admin\busimgController');
             //获取指定商机的商机图片
-            Route::get('/busimg','admin\busimgController@getImg');
+            //Route::get('/busimg','admin\busimgController@getImg');
             //删除指定商机图片
             Route::get('/delimg','admin\busimgController@delpic');
-            //编辑商机的时候添加商机图片
-            Route::post('/addbusimg','admin\businessController@addpic');
+            //编辑商机的时候修改商机图片
+            Route::post('/editbusimg/{num}','admin\businessController@editpic');
+            //删除商机指定图片
+            Route::post('/delbusinessimg/{num}','admin\businessController@delpic');
 
 
 
@@ -448,6 +457,12 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
             */
             //后台社区编辑获取图片
             Route::get('/community/imgshow/{num}','admin\releaseController@imgshow');
+
+            /*
+            *   后台商机
+            */
+            //后台商机编辑获取图片
+            Route::get('/business/imgshow/{num}','admin\businessController@imgshow');
 
             /*
             *   后台意见反馈

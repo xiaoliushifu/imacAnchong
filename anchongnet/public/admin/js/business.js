@@ -22,23 +22,47 @@ $(function(){
             $("#vtag").text(data.tag);
             $("#vphone").text(data.phone);
             $("#vcontact").text(data.contact);
-            $("#vtype").text(data.type);
+            //定义类型
+            var type;
+            //匹配工程类型的代号
+            switch(data.type)
+            {
+                case 1:
+                  type="工程招标";
+                  break;
+                case 2:
+                   type="承接工程";
+                   break;
+                case 3:
+                   type="人才发布";
+                   break;
+                case 4:
+                   type="人才招聘";
+                   break;
+                case 5:
+                   type="找货";
+                   break;
+                default:
+                    type="工程招标";
+                    break;
+            }
+            $("#vtype").text(type);
             $("#vcreate").text(data.created_at);
             $("#vupdate").text(data.updated_at);
             $("#varea").text(data.tags);
             $("#vendtime").text(data.endtime);
-        });
-
-        //先让图片div内容为空避免出现未刷新的重复
-        $("#vimg").empty();
-        //获取图片
-        $.get('/busimg',{'bid':id},function(data,status){
+            //先让图片div内容为空避免出现未刷新的重复
+            $("#vimg").empty();
+            //分隔图片字符串
+            var imgs=data.img.split("#@#");
+            //定义变量
             var li;
-            for(var i=0;i<data.length;i++){
+            //遍历图片数组
+            for(var i=0;i<imgs.length;i++){
             	//发商机时，不一定有图片上传
-            		if (data[i].img) {
+            		if (imgs[i]) {
             			//动态生成图片
-            			li='<li class="list-group-item"><a href='+data[i].img+' target="_blank"><img src='+data[i].img+' width="100"></a> </li>';
+            			li='<li class="list-group-item"><a href='+imgs[i]+' target="_blank"><img src='+imgs[i]+' width="100"></a> </li>';
             			$("#vimg").append(li);
             		}
             }
@@ -52,6 +76,7 @@ $(function(){
         $("#updateform").attr("action",'/business/'+id);
         //赋予商机id为后面做准备
         $("#bid").val(id);
+        $("#imgdata").val("");
         //ajax获取商机的内容
         $.get('/business/'+id,function(data,status){
             $("#title").val(data.title);
@@ -65,15 +90,16 @@ $(function(){
         });
 
         //获取商机图片
-        $.get("/busimg",{bid:id},function(data,status) {
+        $.get("/business/imgshow/"+id,{},function(data,status) {
             //首先先将图片div清空避免出现未刷新再次加载
             $(".notem").remove();
             var gallery;
             //动态根据获得的图片数量生成图片
-            for(var i=0;i<data.length;i++){
+            for(var i=0;i<data[0].length;i++){
             		//也许有的商机没有图片
-            		if (data[i].img) {
-            			gallery='<li class="notem"> <div class="gallery text-center"> <img src="'+data[i].img+'" class="img"> </div> <input type="file" name="file" class="pic" data-id="'+data[i].id+'"> </li>';
+            		if (data[0][i]) {
+                        $("#imgdata").val(data[1]);
+            			gallery='<li class="notem"> <div class="gallery text-center"> <img src="'+data[0][i]+'" class="img"> </div> <input type="file" name="file" class="pic" data-id="'+data[2]+'" pic-id="'+i+'"> </li>';
             			$("#addforgood").before(gallery);
             		}
             }
@@ -92,48 +118,40 @@ $(function(){
     //当图片改变的时候执行修改
     $("body").on("change",'.pic',function(){
         var id=$(this).attr("data-id");
-        if(id==undefined){
-            $("#method").empty();
+        //取得图片字符串
+        var imgs=$("#imgdata").val();
+        if(confirm('你确定要替换这张图片吗？')){
+            //获得上传图片的URL
             var objUrl = getObjectURL(this.files[0]) ;
             var filename=$(this).val();
-            $(".isAdd").removeClass("isAdd");
-            $(this).addClass("isAdd");
             if (objUrl) {
+                //先清除所有的修改标签
                 $(".isEdit").removeClass("isEdit");
+                //为该元素增加修改标签
                 $(this).siblings(".gallery").find(".img").addClass("isEdit");
-                $(this).siblings(".gallery").before('<button type="button" class="delpic btn btn-xs btn-danger" title="删除">x</button>');
+                //取到上个pic的pic-id
+                var picid=$(this).parent().prev().find(".pic").attr("pic-id");
+                //判断是否有picid
+                if(picid !== undefined){
+                    $(this).attr("pic-id",parseInt(picid)+1);
+                }else{
+                    $(this).attr("pic-id",0);
+                }
+                //赋值pic-id
+                var pic=$(this).attr("pic-id");
+                //进行ajax提交
                 $("#formToUpdate").ajaxSubmit({
-                    type: 'post',
-                    url: '/addbusimg',
-                    success: function (data) {
+                    type:'post',
+                    data: {img:imgs,pic:pic},
+                    url:'/editbusimg/'+id,
+                    success:function(data){
                         alert(data.message);
                         if(data.isSuccess==true){
-                            $(".isEdit").attr("src", objUrl);
-                            $(".isAdd").attr("data-id",data.id);
+                            $(".isEdit").attr("src",objUrl);
+                            $('#imgdata').val(data.imgs);
                         }
                     },
                 });
-            }
-        }else{
-            var method='<input type="hidden" name="_method" value="PUT">';
-            $("#method").append(method);
-            if(confirm('你确定要替换这张图片吗？')){
-                var objUrl = getObjectURL(this.files[0]) ;
-                var filename=$(this).val();
-                if (objUrl) {
-                    $(".isEdit").removeClass("isEdit");
-                    $(this).siblings(".gallery").find(".img").addClass("isEdit");
-                    $("#formToUpdate").ajaxSubmit({
-                        type:'post',
-                        url:'/businessimg/'+id,
-                        success:function(data){
-                            alert(data.message);
-                            if(data.isSuccess==true){
-                                $(".isEdit").attr("src",objUrl);
-                            }
-                        },
-                    });
-                }
             }
         }
     });
@@ -142,11 +160,25 @@ $(function(){
     $("body").on("click",'.delpic',function(){
         //提示确认是否删除
         if(confirm('确定要删除该张图片吗？')){
-            var id=$(this).siblings('.pic').attr("data-id");
+            //获取上个pic-id
+            var picid=$(this).parent().prev().find(".pic").attr("pic-id");
+            //判断是否有picid
+            if(picid !== undefined){
+                $(this).attr("pic-id",parseInt(picid)+1);
+            }else{
+                $(this).attr("pic-id",0);
+            }
+            //赋值pic-id
+            var pic=$(this).attr("pic-id");
+            //取得商机id
+            var id=$("#bid").val();
+            //取得图片字符串
+            var imgs=$("#imgdata").val();
             //ajax进行数据库删除
             $.ajax({
-                url: '/businessimg/'+id,
-                type:'DELETE',
+                url: '/delbusinessimg/'+id,
+                data:{img:imgs,pic:pic},
+                type:'post',
                 success:function(result){
                     alert(result);
                 }
@@ -170,12 +202,16 @@ $(function(){
 
     //单点击添加图片时执行
     $(".addpic").click(function(){
+        //获得该商机的id
+        var id=$("#bid").val();
         if($(this).hasClass("goodpic")){
             //在该元素之前插入内容
-            $(this).before($(this).siblings(".template").clone().attr("class",""));
+            $(this).before($(this).siblings(".template").clone().attr("class","notem"));
+            $(".pic").attr("data-id",id);
         }else{
             //在该元素之前插入内容
-            $(this).before($(this).siblings(".template").clone().attr("class",""));
+            $(this).before($(this).siblings(".template").clone().attr("class","notem"));
+            $(".pic").attr("data-id",id);
         }
     });
 
@@ -190,14 +226,6 @@ $(function(){
                 success: function(result) {
                     // Do something with the result
                     alert(result);
-                    //商机删除完再执行商机图片删除
-                    $.ajax({
-                        url: "/delimg",
-                        type: 'get',
-                        data:{goods_id:'business',gid:id},
-                        success: function(result) {
-                        }
-                    });
                     setTimeout(function(){location.reload()},500);
                 }
             });

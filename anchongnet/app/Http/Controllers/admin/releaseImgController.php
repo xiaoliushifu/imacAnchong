@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Community_img;
 use OSS\OssClient;
 use OSS\Core\OssException;
 
@@ -22,7 +21,6 @@ class releaseImgController extends Controller
     //构造方法
     public function __construct()
     {
-        $this->coimg=new Community_img();
         $this->accessKeyId=env('ALIOSS_ACCESSKEYId');
         $this->accessKeySecret=env('ALIOSS_ACCESSKEYSECRET');
         $this->endpoint=env('ALIOSS_ENDPOINT');
@@ -160,12 +158,25 @@ class releaseImgController extends Controller
             $pos = strpos($signedUrl, "?");
             $urls = substr($signedUrl, 0, $pos);
             $url = str_replace('.oss-','.img-',$urls);
-            //创建图片ORM
-            $community_img=new \App\Community_img();
-            $result=$community_img->comupdate($id,['img'=>$url]);
-            if($result){
-                $message="更新成功";
-                $isSuccess=true;
+            $imgs="";
+            //进行图片分隔操作
+            $img=trim($request['img'],"#@#");
+            if(!empty($img)){
+                $img_arr=explode('#@#',$img);
+                $img_arr[$id]=$url;
+                foreach ($img_arr as $pic) {
+                    $imgs.=$pic.'#@#';
+                }
+                //创建图片查询的orm模型
+                $community_release=new \App\Community_release();
+                $result=$community_release->communityupdate($request['chat_id'],['img'=>$imgs]);
+                if($result){
+                    $message="更新成功";
+                    $isSuccess=true;
+                }else{
+                    $message="更新失败，请稍后再试";
+                    $isSuccess=false;
+                }
             }else{
                 $message="更新失败，请稍后再试";
                 $isSuccess=false;
@@ -174,7 +185,7 @@ class releaseImgController extends Controller
             $message="更新失败，请稍后再试";
             $isSuccess=false;
         }
-        return response()->json(['message' => $message, 'isSuccess' => $isSuccess, 'url'=>$url]);
+        return response()->json(['message' => $message, 'isSuccess' => $isSuccess, 'url'=>$url,'imgs'=>$imgs]);
     }
 
     /**

@@ -24,9 +24,9 @@ class Community_release extends Model
        //将用户发布的信息添加入数据表
        $this->fill($data);
        if($this->save()){
-           return $this->chat_id;
+           return true;
        }else{
-           return;
+           return false;
        }
    }
 
@@ -44,6 +44,19 @@ class Community_release extends Model
    public function simplequer($field,$type)
    {
         return $this->select($field)->whereRaw($type)->get();
+   }
+
+   /*
+   *   该方法是更新聊聊信息
+   */
+   public function communityupdate($id,$data)
+   {
+       $id=$this->where('chat_id','=',$id);
+       if($id->update($data)){
+           return true;
+       }else{
+           return false;
+       }
    }
 
    /*
@@ -97,7 +110,7 @@ class Community_release extends Model
 
     public function testquer($type,$pos,$limit)
     {
-         return $this->whereRaw($type)->whereRaw($type)->skip($pos)->take($limit)->orderBy('chat_id', 'ASC')->get();
+         return $this->whereRaw($type)->skip($pos)->take($limit)->orderBy('chat_id', 'ASC')->get();
     }
 
 }
