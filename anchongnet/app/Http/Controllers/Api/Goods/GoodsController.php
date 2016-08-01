@@ -225,6 +225,7 @@ class GoodsController extends Controller
     */
     public function goodssearch(Request $request)
     {
+        return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"暂无商品"]]);
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
         $param=json_decode($data['param'],true);
