@@ -27,12 +27,7 @@
 
 Route::group(['domain' => 'api.anchong.net'], function () {
     Route::post('/community/chonggou','Api\Community\CommunityController@chonggou');
-<<<<<<< HEAD
-    //商品检索
-    Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
-=======
     Route::post('/business/chonggou','Api\Business\BusinessController@chonggou');
->>>>>>> 12f045d4eaab7cbeed4800dba6ac16ada8687153
     //加上token验证的api
     Route::group(['middleware' => 'AppPrivate'], function () {
 
