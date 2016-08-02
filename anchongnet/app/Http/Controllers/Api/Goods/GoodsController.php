@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Request;
 use Validator;
 use DB;
+use Cache;
 use Illuminate\Support\Collection;
 
 /*
@@ -225,49 +226,60 @@ class GoodsController extends Controller
     */
     public function goodssearch(Request $request)
     {
-        return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"暂无商品"]]);
-        //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
         $param=json_decode($data['param'],true);
-        //默认每页数量
-        $limit=20;
-        //创建ORM模型
-        $goods_type=new \App\Goods_type();
-        //判断要查询的列表
-        if(empty($param['tags']) && empty($param['search'])){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"无商品"]]);
-        }elseif(!empty($param['tags']) && empty($param['search'])){
-            //根据标签检索
-            $sql="MATCH(`cid`) AGAINST('".bin2hex($param['cid'])."') and added = 1 and MATCH(`tags`) AGAINST('".bin2hex($param['tags'])."')";
-        }elseif(empty($param['tags']) && !empty($param['search'])){
-            //自定义检索
-            $sql="MATCH(`cid`) AGAINST('".bin2hex($param['cid'])."') and added = 1 and MATCH(`keyword`) AGAINST('".bin2hex($param['search'])."')";
-        }elseif(!empty($param['tags']) && !empty($param['search'])){
-            $sql="MATCH(`cid`) AGAINST('".bin2hex($param['cid'])."') and added = 1 and MATCH(`tags`) AGAINST('".bin2hex($param['tags'])."') and MATCH(`keyword`) AGAINST('".bin2hex($param['search'])."')";
+        //分析三个搜索参数
+        $kl = mb_strlen($param['search'],'utf-8');
+        if ($kl<1 || $kl>8) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"keyword too short"]]);
         }
-        //要查询的字段
-        $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
-        $result=$goods_type->quer($goods_data,$sql,(($param['page']-1)*$limit),$limit);
-        $results=$result['list']->toArray();
-        //判断是否需要查询会员价
-        if(!empty($results)){
-            //判断是否有权限查看会员价，也就是判断是否审核通过
-            $showprice=0;
-            if($data['guid'] == 0){
-                $showprice=0;
-            }else{
-                $users=new \App\Users();
-                //查询用户是否认证
-                $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
-                if($users_auth[0]['certification'] == 3){
-                    $showprice=1;
-                }
+        $where=array();
+        //封装where
+        foreach ($param as $key=>$val) {
+            if (!$val) {
+                continue;
             }
-        }else{
-            //如果结果为空则返回0
-            $showprice=0;
+            if (in_array($key,['tags','search'])) {
+                $where[]="match(`$key`) against('".bin2hex($val)."')";
+            }
+            if ($key=='cid') {
+                $where[]="$key='$val'";
+            }
         }
-        //将用户权限传过去
+        $where=implode(' and ',$where);
+        $where = str_replace('`search`', '`keyword`',$where);
+        //缓存判定
+        if (!$result = Cache::get($where)) {
+            //索引表查询
+            $tmp=DB::select("select `cat_id` from `anchong_goods_keyword` where ".$where);
+            if (!$tmp) {
+                return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"没有找到相关商品"]]);
+            }
+            $tmparr=array();
+            foreach($tmp as $o) {
+                $tmparr[]= $o->cat_id;
+            }
+            //要查询的字段
+            $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
+            $res = DB::table('anchong_goods_type')->whereIn('cat_id',$tmparr)->get($goods_data);
+            
+            foreach($res as $val)
+            {
+                $result['list'][]=$val;
+            }
+            $result['total']=count($res);
+            Cache::add($where,$result,'60');
+        }
+        $showprice=0;
+//         if ($data['guid'] != 0) {
+//             $users=new \App\Users();
+//             //查询用户是否认证
+//             $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
+//             if ($users_auth[0]['certification'] == 3) {
+//                 $showprice=1;
+//             }
+//         }
+//         //将用户权限传过去
         $result['showprice']=$showprice;
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
     }

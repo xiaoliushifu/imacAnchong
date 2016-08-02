@@ -171,7 +171,7 @@ class goodController extends Controller
        DB::table('anchong_goods_keyword')->insert(
             [
                 'cat_id' => $gtid,
-                'cid' => $cid,
+                'cid' => trim($catid),
                 'tags' => $tags,
                 'keyword'=>$keywords,
             ]
