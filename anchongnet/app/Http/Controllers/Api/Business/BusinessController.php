@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Request;
 use Validator;
 use DB;
+use Cache;
 
 /*
 *   该控制器包含了商机模块的操作
@@ -122,29 +123,38 @@ class BusinessController extends Controller
     public function typetag()
     {
         try{
-            //创建类型的orm模型
-            $business_type=new \App\Business_type();
-            //创建标签的orm模型
-            $business_tag=new \App\Business_tag();
-            //取出所有类型
-            $business_type_data=$business_type->quer(['id','title'])->toArray();
-            foreach ($business_type_data as $value) {
-                foreach ($value as $value_data) {
-                    //因为取出的是数组所以要判断是否为id
-                    if(is_numeric($value_data)){
-                        //取出所有标签
-                        $business_tag_data=$business_tag->quer('tag',$value_data)->toArray();
-                        foreach ($business_tag_data as $business_tag_value) {
-                            foreach ($business_tag_value as $business_tag_value1) {
-                                $business_tag_data_value[]=$business_tag_value1;
+            //判断缓存
+            $typetag_array_cache=Cache::get('business_typetag_typetag_array');
+            if($typetag_array_cache){
+                //将缓存取出来赋值给变量
+                $typetag_array=$typetag_array_cache;
+            }else{
+                //创建类型的orm模型
+                $business_type=new \App\Business_type();
+                //创建标签的orm模型
+                $business_tag=new \App\Business_tag();
+                //取出所有类型
+                $business_type_data=$business_type->quer(['id','title'])->toArray();
+                foreach ($business_type_data as $value) {
+                    foreach ($value as $value_data) {
+                        //因为取出的是数组所以要判断是否为id
+                        if(is_numeric($value_data)){
+                            //取出所有标签
+                            $business_tag_data=$business_tag->quer('tag',$value_data)->toArray();
+                            foreach ($business_tag_data as $business_tag_value) {
+                                foreach ($business_tag_value as $business_tag_value1) {
+                                    $business_tag_data_value[]=$business_tag_value1;
+                                }
                             }
+                        }else {
+                            //通过拼接和组合将数据变成合格的json
+                            $typetag_array[]=['type'=>$value_data,'tag'=>$business_tag_data_value];
+                            $business_tag_data_value=null;
                         }
-                    }else {
-                        //通过拼接和组合将数据变成合格的json
-                        $typetag_array[]=['type'=>$value_data,'tag'=>$business_tag_data_value];
-                        $business_tag_data_value=null;
                     }
                 }
+                //将查询结果加入缓存
+                Cache::add('business_typetag_typetag_array', $typetag_array, 600);
             }
             //假如没有查出数据
             if(empty($typetag_array)){
@@ -166,26 +176,88 @@ class BusinessController extends Controller
             //获得app端传过来的json格式的数据转换成数组格式
             $data=$request::all();
             $param=json_decode($data['param'],true);
-            //创建标签的orm模型
-            $business_tag=new \App\Business_tag();
-            //查询分类标签
-            $business_tag_tag=$business_tag->search_quer('tag',$param['type'])->toArray();
-            //便利将关联数组转为索引数组
-            foreach ($business_tag_tag as $value1) {
-                foreach ($value1 as $key => $value) {
-                    $result_tag[]=$value;
+            switch ($param['type']) {
+                //发布工程标签
+                case '1':
+                    $result_tag_cache=Cache::get('business_search_result_tag1');
+                    break;
+                //承接工程标签
+                case '2':
+                    $result_tag_cache=Cache::get('business_search_result_tag2');
+                    break;
+                //发布人才
+                case '3':
+                    $result_tag_cache=Cache::get('business_search_result_tag3');
+                    break;
+                //招聘人才
+                case '4':
+                    $result_tag_cache=Cache::get('business_search_result_tag4');
+                    break;
+                //默认的内容
+                default:
+                    $ad_result_cache=null;
+                    break;
+            }
+            //判断缓存
+            $result_tag_cache=Cache::get('business_search_result_tag');
+            if($result_tag_cache){
+                //将缓存取出来赋值给变量
+                $result_tag=$result_tag_cache;
+            }else{
+                //创建标签的orm模型
+                $business_tag=new \App\Business_tag();
+                //查询分类标签
+                $business_tag_tag=$business_tag->search_quer('tag',$param['type'])->toArray();
+                //便利将关联数组转为索引数组
+                foreach ($business_tag_tag as $value1) {
+                    foreach ($value1 as $key => $value) {
+                        $result_tag[]=$value;
+                    }
+                }
+                //添加缓存
+                switch ($param['type']) {
+                    //发布工程标签
+                    case '1':
+                        Cache::add('business_search_result_tag1', $result_tag, 600);
+                        break;
+                    //承接工程标签
+                    case '2':
+                        Cache::add('business_search_result_tag2', $result_tag, 600);
+                        break;
+                    //发布人才
+                    case '3':
+                        Cache::add('business_search_result_tag3', $result_tag, 600);
+                        break;
+                    //招聘人才
+                    case '4':
+                        Cache::add('business_search_result_tag4', $result_tag, 600);
+                        break;
+                    //默认的内容
+                    default:
+                        break;
                 }
             }
-            //查询地域标签
-            $business_tag_area=$business_tag->search_quer('tag',0)->toArray();
-            //便利将关联数组转为索引数组
-            foreach ($business_tag_area as $value2) {
-                foreach ($value2 as $value3) {
-                    $result_area[]=$value3;
+            //判断缓存
+            $result_area_cache=Cache::get('business_search_result_area');
+            if($result_area_cache){
+                //将缓存取出来赋值给变量
+                $result_area=$result_area_cache;
+            }else{
+                //创建标签的orm模型
+                $business_tag=new \App\Business_tag();
+                //查询地域标签
+                $business_tag_area=$business_tag->search_quer('tag',0)->toArray();
+                //便利将关联数组转为索引数组
+                foreach ($business_tag_area as $value2) {
+                    foreach ($value2 as $value3) {
+                        $result_area[]=$value3;
+                    }
                 }
+                //将查询结果加入缓存
+                Cache::add('business_search_result_area', $result_area, 600);
             }
             //假如有数据就返回，否则返回查询失败
-            if(empty($business_tag_tag) && empty($business_tag_area)){
+            if(empty($result_tag) && empty($result_area)){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
             }else{
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['tag'=>$result_tag,'area'=>$result_area]]);
@@ -266,15 +338,32 @@ class BusinessController extends Controller
             $param=json_decode($data['param'],true);
             //默认每页数量
             $limit=20;
-            //创建商机表的orm模型
-            $business=new \App\Business();
-            $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at','endtime','img');
-            //假如没有检索则sql语句为
-            $sql='recommend = 1 and type = 1';
-            $businessinfo_data=$business->quer($businessinfo,$sql,(($param['page']-1)*$limit),$limit);
+            //只缓存第一页
+            if($param['page'] == 1){
+                //判断缓存
+                $businessinfo_data_cache=Cache::get('business_businesshot_businessinfo_data');
+            }else{
+                $businessinfo_data_cache=null;
+            }
+            if($businessinfo_data_cache){
+                //将缓存取出来赋值给变量
+                $businessinfo_data=$businessinfo_data_cache;
+            }else{
+                //创建商机表的orm模型
+                $business=new \App\Business();
+                $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at','endtime','img');
+                //假如没有检索则sql语句为
+                $sql='recommend = 1 and type = 1';
+                $businessinfo_data=$business->quer($businessinfo,$sql,(($param['page']-1)*$limit),$limit);
+                //只缓存第一页
+                if($param['page'] == 1){
+                    //将查询结果加入缓存
+                    Cache::add('business_businesshot_businessinfo_data', $businessinfo_data, 600);
+                }
+            }
             $list=null;
             if($businessinfo_data['total']>0){
-                //通过数组数据的组合将数据拼凑为{"total":3,"list":[{"bid":1,"phone":"","contact":"","title":"","content":"","tag":"","created_at":"2016-02-24 08:02:50","pic":["1","2"]}格式
+                //通过数组数据的组合将数据拼凑
                 foreach ($businessinfo_data['list'] as $business_data) {
                     //进行图片分隔操作
                     $img=trim($business_data['img'],"#@#");
@@ -316,12 +405,29 @@ class BusinessController extends Controller
             $param=json_decode($data['param'],true);
             //默认每页数量
             $limit=20;
-            //创建商机表的orm模型
-            $business=new \App\Business();
-            $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at','endtime','img');
-            //假如没有检索则sql语句为
-            $sql='recommend = 1 and type in(1,2)';
-            $businessinfo_data=$business->quer($businessinfo,$sql,(($param['page']-1)*$limit),$limit);
+            //只缓存第一页
+            if($param['page'] == 1){
+                //判断缓存
+                $businessinfo_data_cache=Cache::get('business_hotproject_businessinfo_data');
+            }else{
+                $businessinfo_data_cache=null;
+            }
+            if($businessinfo_data_cache){
+                //将缓存取出来赋值给变量
+                $businessinfo_data=$businessinfo_data_cache;
+            }else{
+                //创建商机表的orm模型
+                $business=new \App\Business();
+                $businessinfo=array('bid','phone','contact','title','content','tag','tags','created_at','endtime','img');
+                //假如没有检索则sql语句为
+                $sql='recommend = 1 and type in(1,2)';
+                $businessinfo_data=$business->quer($businessinfo,$sql,(($param['page']-1)*$limit),$limit);
+                //只缓存第一页
+                if($param['page'] == 1){
+                    //将查询结果加入缓存
+                    Cache::add('business_hotproject_businessinfo_data', $businessinfo_data, 600);
+                }
+            }
             $list=null;
             if($businessinfo_data['total']>0){
                 //通过数组数据的组合将数据拼凑为{"total":3,"list":[{"bid":1,"phone":"","contact":"","title":"","content":"","tag":"","created_at":"2016-02-24 08:02:50","pic":["1","2"]}格式
@@ -604,60 +710,6 @@ class BusinessController extends Controller
             }
         }catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
-        }
-    }
-
-    /*
-    *   chougou
-    */
-    public function chonggou(Request $request)
-    {
-        //获得app端传过来的json格式的数据转换成数组格式
-        $data=$request::all();
-        $param=json_decode($data['param'],true);
-        $limit=20;
-        //开启事务处理
-        DB::beginTransaction();
-        //创建的orm模型
-        $community_release=new \App\Business();
-        $community_release_result=$community_release->testquer('business_status = 1',(($param['page']-1)*$limit),$limit)->toArray();
-        $result=true;
-        foreach ($community_release_result as $community_releases) {
-            if(!$result){
-                //假如失败就回滚
-                DB::rollback();
-                return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>1]]);
-            }
-            $community_img=new \App\Business_img();
-            $community_img_result=$community_img->quer('img',$community_releases['bid']);
-            $imgs="";
-            if(!empty($community_img_result)){
-                foreach ($community_img_result as $community_imgs) {
-                    $imgs.=$community_imgs['img'].'#@#';
-                }
-            }
-            $community_data=[
-                'users_id' => $community_releases['users_id'],
-                'title' => $community_releases['title'],
-                'contact' => $community_releases['contact'],
-                'phone' =>  $community_releases['phone'],
-                'content' => $community_releases['content'],
-                'created_at' => $community_releases['created_at'],
-                'endtime' => $community_releases['endtime'],
-                'type' => $community_releases['type'],
-                'recommend' => $community_releases['recommend'],
-                'tag' => $community_releases['tag'],
-                'tags' => $community_releases['tags'],
-                'tags_match' => $community_releases['tags_match'],
-                'img' => $imgs,
-            ];
-            $community_releases=new \App\Businesss();
-            $result=$community_releases->add($community_data);
-        }
-        if($result){
-            //假如成功就提交
-            DB::commit();
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'聊聊发布成功']]);
         }
     }
 }

@@ -105,6 +105,7 @@ class OrderController extends Controller
                                         'goods_type' => $goodsinfo['goods_type'],
                                         'img' => $goodsinfo['img'],
                                         'goods_numbering' =>$goods_num[0]['goods_numbering'],
+                                        'gid' => $goodsinfo['gid'],
                                     ];
                                     $body .=$goodsinfo['goods_name'].",";
                                     //创建购物车的ORM模型

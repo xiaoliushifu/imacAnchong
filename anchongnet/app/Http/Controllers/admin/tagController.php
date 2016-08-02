@@ -7,6 +7,7 @@ use Request as Requester;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Tag;
+use Cache;
 
 class tagController extends Controller
 {
@@ -59,6 +60,32 @@ class tagController extends Controller
         $this->tag->type_id = $request->type;
         $this->tag->tag=$request->tag;
         $data=$this->tag->save();
+        //清除缓存
+        switch ($request->type) {
+            //地区标签
+            case '0':
+                Cache::forget('business_search_result_area');
+                break;
+            //发布工程标签
+            case '1':
+                Cache::forget('business_search_result_tag1');
+                break;
+            //承接工程标签
+            case '2':
+                Cache::forget('business_search_result_tag2');                                break;
+            //发布人才
+            case '3':
+                Cache::forget('business_search_result_tag3');
+                break;
+            //招聘人才
+            case '4':
+                Cache::forget('business_search_result_tag4');
+                break;
+            //默认的内容
+            default:
+                break;
+        }
+        Cache::forget('business_typetag_typetag_array');
         if($data){
             return view("admin/tag/create")->with('mes','添加成功！');
         }else{
