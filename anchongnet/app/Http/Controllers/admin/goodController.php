@@ -12,6 +12,7 @@ use OSS\Core\OssException;
 use DB;
 use Auth;
 use Gate;
+use Cache;
 
 use App\GoodSpecification;
 use App\GoodThumb;
@@ -176,6 +177,9 @@ class goodController extends Controller
                 'keyword'=>$keywords,
             ]
         );
+       /*清除关键字缓存操作*/
+       
+       /*清除关键字缓存操作*/
 
         /*
          * 向仓库表中插入
@@ -268,7 +272,6 @@ class goodController extends Controller
         $data->goods_price=$request->costpirce;
         $data->vip_price=$request->viprice;
         $data->goods_desc=$request->description;
-        $data->keyword=$request->keyword;
         //是否上架
         $data->added=$request->status;
         if($request->status==1){
