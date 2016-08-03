@@ -134,7 +134,7 @@
                 <div class="modal-body">
                     <table class="table">
                         <tr>
-                            <td align="right" width="25%">货品标签</td>
+                            <td align="right" width="25%">商品属性</td>
                             <td align="left" id="goodname"></td>
                         </tr>
                         <tr>

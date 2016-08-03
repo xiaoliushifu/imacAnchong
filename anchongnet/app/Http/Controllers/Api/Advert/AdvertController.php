@@ -21,7 +21,6 @@ class AdvertController extends Controller
             //获得app端传过来的json格式的数据转换成数组格式
             $data=$request::all();
             $param=json_decode($data['param'],true);
-
             $businessinfo=['bid','phone','contact','title','content','tag','tags','created_at','endtime','img'];
             //判断缓存
             $ad_result_pic_cache=Cache::get('advert_businessadvert_ad_result_pic');
