@@ -29,7 +29,7 @@ class SearchController extends Controller
         $prefix='search';
         if (!$result = Cache::get($prefix.$q)) {
             //返回数组，但其元素是对象
-            $tmp=DB::select("select `cat_id` from `anchong_goods_keyword` where match(`keyword`) against(:key)",[bin2hex($q)]);
+            $tmp=DB::select("select `keyword` from `anchong_goods_keyword` where match(`keyword`) against(:key)",[bin2hex($q)]);
             if (!$tmp) {
                 return response()->json(['search'=>$q,'fenci'=>'Too','ResultData'=>['Nothing to find']],200,['Content-type'=>'application/json;charset=utf-8'],JSON_UNESCAPED_UNICODE);
             }
