@@ -126,7 +126,6 @@ class goodController extends Controller
         $gid = DB::table('anchong_goods_specifications')->insertGetId(
             [
                 'cat_id'=>$catid,
-                'cid'=>$cid,
                 'goods_id'=>$request->name,
                 'goods_name'=>trim($spetag),
                 'market_price'=>$request->marketprice,
@@ -139,31 +138,6 @@ class goodController extends Controller
                 'sid'=>$this->sid,
             ]
         );
-
-        //将标签转码之后插入数据库，为将来分词索引做准备
-        $tags="";
-        for($j=0;$j<count($request->tag);$j++){
-            $tags.=bin2hex($request->tag[$j])." ";
-        }
-
-        //将二级分类转码之后插入数据库，为将来分词索引做准备
-        //$cid=bin2hex($request->midselect);
-
-        $gtid = DB::table('anchong_goods_type')->insertGetId(
-            [
-                'gid' => $gid,
-                'goods_id'=>$request->name,
-                'title'=>trim($spetag."-".$request->commodityname),
-                'price'=>$request->marketprice,
-                'sname'=>$sname[0]['name'],
-                'vip_price'=>$request->viprice,
-                'cid'=>$cid,
-                'sid'=>$this->sid,
-                'tags'=>$tags,
-                'added'=>$request->status,
-                'other_id'=>$request->mainselect,
-            ]
-        );
         
         //将关键字转码之后再插入数据库，为货品关键字搜索做准备
         //货品关键字只在此添加，以后不得更改，与goods_type表的cat_id关联
@@ -172,9 +146,33 @@ class goodController extends Controller
         foreach ($keywords_arr as $keyword_arr) {
             $keywords.=bin2hex($keyword_arr)." ";
         }
+        $gtid = DB::table('anchong_goods_type')->insertGetId(
+            [
+                'gid' => $gid,
+                'cid'=>$cid,
+                'keyword'=>$keywords,
+                'goods_id'=>$request->name,
+                'title'=>trim($spetag."-".$request->commodityname),
+                'price'=>$request->marketprice,
+                'sname'=>$sname[0]['name'],
+                'vip_price'=>$request->viprice,
+                'sid'=>$this->sid,
+                'added'=>$request->status,
+                'other_id'=>$request->mainselect,
+            ]
+        );
+        
+        //将标签转码之后插入数据库，为将来分词索引做准备
+        $tags="";
+        for($j=0;$j<count($request->tag);$j++){
+            $tags.=bin2hex($request->tag[$j])." ";
+        }
+        //索引表,用于后续搜索
        DB::table('anchong_goods_keyword')->insert(
             [
                 'cat_id' => $gtid,
+                'cid' => trim($catid),
+                'tags' => $tags,
                 'keyword'=>$keywords,
             ]
         );

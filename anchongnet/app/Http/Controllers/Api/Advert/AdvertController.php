@@ -21,7 +21,7 @@ class AdvertController extends Controller
         $data=$request::all();
         $param=json_decode($data['param'],true);
 
-        $businessinfo=['bid','phone','contact','title','content','tag','tags','created_at','endtime'];
+        $businessinfo=['bid','phone','contact','title','content','tag','tags','created_at','endtime','img'];
         //创建ORM模型
         $ad=new \App\Ad();
         //轮播图查询
@@ -37,52 +37,32 @@ class AdvertController extends Controller
         $businessinfo_data=$business->simplequer($businessinfo,'recommend = 1 and type = 1',0,2);
         $list=null;
         if($businessinfo_data){
-            //创建图片查询的orm模型
-            $business_img=new \App\Business_img();
             //通过数组数据的组合将数据拼凑
             foreach ($businessinfo_data as $business_data) {
-                $value_1=$business_img->quer('img',$business_data['bid']);
-                //判断是否为空,如果是空表明没有图片
-                if(empty($value_1)){
-                    $list[]=$business_data;
-                }else{
-                    //假如不为空表明有图片，开始查询拼凑数据
-                    foreach ($value_1 as $value_2) {
-                        foreach ($value_2 as $value_3) {
-                            $img[]=$value_3;
-                        }
-                    }
-                    //重构数组，加上键值
-                    $img_data=['pic'=>$img];
-                    $list[]=array_merge($business_data,$img_data);
-                    $img=null;
-                }
+              //进行图片分隔操作
+              $img=trim($business_data['img'],"#@#");
+              //判断是否有图片
+              if(!empty($img)){
+                  $img_arr=explode('#@#',$img);
+                  $business_data['pic']=$img_arr;
+              }
+              $list[]=$business_data;
             }
         }
         //热门工程
         $businessinfo_data_all=$business->simplequer($businessinfo,'recommend = 1 and type in (1,2)',0,3);
         $list_all=null;
         if($businessinfo_data_all){
-            //创建图片查询的orm模型
-            $business_img=new \App\Business_img();
             //通过数组数据的组合将数据拼凑
             foreach ($businessinfo_data_all as $business_data_all) {
-                $value_1=$business_img->quer('img',$business_data_all['bid']);
-                //判断是否为空,如果是空表明没有图片
-                if(empty($value_1)){
-                    $list_all[]=$business_data_all;
-                }else{
-                    //假如不为空表明有图片，开始查询拼凑数据
-                    foreach ($value_1 as $value_2) {
-                        foreach ($value_2 as $value_3) {
-                            $img[]=$value_3;
-                        }
-                    }
-                    //重构数组，加上键值
-                    $img_data=['pic'=>$img];
-                    $list_all[]=array_merge($business_data_all,$img_data);
-                    $img=null;
-                }
+              //进行图片分隔操作
+              $img=trim($business_data_all['img'],"#@#");
+              //判断是否有图片
+              if(!empty($img)){
+                  $img_arr=explode('#@#',$img);
+                  $business_data_all['pic']=$img_arr;
+              }
+              $list_all[]=$business_data_all;
             }
         }
         $showphone=0;
