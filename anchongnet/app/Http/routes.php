@@ -28,6 +28,11 @@
 Route::group(['domain' => 'api.anchong.net'], function () {
     //加上token验证的api
     Route::group(['middleware' => 'AppPrivate'], function () {
+        /*
+        *   APP更新
+        */
+        //安卓更新接口
+        Route::post('/android/androidupdate','Api\Feedback\FeedbackController@androidupdate');
 
         /*
         *   用户模块
