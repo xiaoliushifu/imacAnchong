@@ -138,7 +138,7 @@ class goodController extends Controller
                 'sid'=>$this->sid,
             ]
         );
-        
+
         //将关键字转码之后再插入数据库，为货品关键字搜索做准备
         //货品关键字只在此添加，以后不得更改，与goods_type表的cat_id关联
         $keywords_arr=explode(' ',$request->keyword);
@@ -161,7 +161,7 @@ class goodController extends Controller
                 'other_id'=>$request->mainselect,
             ]
         );
-        
+
         //将标签转码之后插入数据库，为将来分词索引做准备
         $tags="";
         for($j=0;$j<count($request->tag);$j++){
@@ -268,7 +268,6 @@ class goodController extends Controller
         $data->goods_price=$request->costpirce;
         $data->vip_price=$request->viprice;
         $data->goods_desc=$request->description;
-        $data->keyword=$request->keyword;
         //是否上架
         $data->added=$request->status;
         if($request->status==1){
