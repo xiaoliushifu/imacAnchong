@@ -69,6 +69,9 @@ class ShopController extends Controller
                 'img'=>$urls,
                 'created_at'=>$request['time'],
                 'audit'=>1,
+                'free_price'=>$param['free_price'],
+    			'freight'=>$param['freight'],
+    			'customer'=>$param['customer'],
             ]
         );
         //通过一个for循环向shops_category表中插入数据
@@ -95,42 +98,6 @@ class ShopController extends Controller
         //提交事务
         DB::commit();
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'申请成功，请等待审核']]);
-
-       /* DB::beginTransaction();
-        //想shops表中插入一条记录并返回其id
-        $sid = DB::table('anchong_shops')->insertGetId(
-            [
-                'users_id' => $request->uid,
-                'name'=>$request->name,
-                'introduction'=>$request->introduction,
-                'premises'=>$request->address,
-                'img'=>$request->logo,
-                'audit'=>1,
-            ]
-        );
-        //通过一个for循环向shops_category表中插入数据
-        for($i=0;$i<count($request->cat);$i++){
-            DB::table('anchong_shops_category')->insert(
-                [
-                    'sid' => $sid,
-                    'cat_id' => $request['cat'][$i],
-                ]
-            );
-        }
-
-        //通过一个for循环向shops_mainbrand表中插入数据
-        for($i=0;$i<count($request->brandId);$i++){
-            DB::table('anchong_shops_mainbrand')->insert(
-                [
-                    'sid' => $sid,
-                    'brand_id' => $request['brandId'][$i],
-                    'authorization'=>$request['brandUrl'][$i],
-                ]
-            );
-        }
-
-        //提交事务
-        DB::commit();*/
     }
 
     /**

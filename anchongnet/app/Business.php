@@ -41,9 +41,9 @@ class Business extends Model
        //将用户发布的商机信息添加入数据表
        $this->fill($data);
        if($this->save()){
-           return $this->bid;
+           return true;
        }else{
-           return;
+           return false;
        }
     }
 
