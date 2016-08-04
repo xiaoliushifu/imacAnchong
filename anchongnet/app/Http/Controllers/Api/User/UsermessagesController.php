@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use Illuminate\Http\Request;
+use Request;
 use App\Usermessages;
 use App\Users;
 use App\Http\Requests;
@@ -68,8 +68,9 @@ class UsermessagesController extends Controller
      */
     public function show(Request $request)
     {
+		$data=$request::all();
 		//通过guid获取用户实例
-		$id=$request['guid'];
+		$id=$data['guid'];
 		$shop=$this->shop->User($id)->get();
 		if(count($shop)==0){
 			$audit=0;
@@ -176,11 +177,12 @@ class UsermessagesController extends Controller
      */
     public function update(Request $request)
     {
+		$data=$request::all();
 		//通过guid获取用户实例
-		$id=$request['guid'];
+		$id=$data['guid'];
         $data=Usermessages::Message($id)->take(1)->get();
 
-		$param=json_decode($request['param'],true);
+		$param=json_decode($data['param'],true);
 		$validator = Validator::make($param,
             [
                 'qq' => 'digits_between:5,11',
@@ -239,11 +241,15 @@ class UsermessagesController extends Controller
 		}
     }
 
-	public function setUserHead(Request $request){
+	/*
+	*	用户头像设置
+	*/
+	public function setUserHead(Request $request)
+	{
+		$data=$request::all();
 		//通过guid获取用户实例
-		$id=$request['guid'];
-        $data=Usermessages::Message($id)->take(1)->get();
-		$param=json_decode($request['param'],true);
+		$id=$data['guid'];
+		$param=json_decode($data['param'],true);
 
 		//配置阿里云oss配置
 		$accessKeyId = "HJjYLnySPG4TBdFp";
@@ -269,7 +275,7 @@ class UsermessagesController extends Controller
 			$object="headpic/".time().".jpg";
 		}
 
-		$filePath = $request['headpic'];
+		$filePath = $data['headpic'];
 		try {
 			//实例化一个ossClient对象
 			$ossClient = new OssClient($accessKeyId, $accessKeySecret, $endpoint);
@@ -279,27 +285,38 @@ class UsermessagesController extends Controller
 			$signedUrl = $ossClient->signUrl($bucket, $object);
 			$pos=strpos($signedUrl,"?");
 			$urls = substr($signedUrl, 0, $pos);
-            $url = str_replace('.oss-','.img-',$urls);
-			//将上传的文件的路径保存到数据库中
-			if(count($data)==0){
-				//向数据库插入内容
-				$this->usermessages->headpic = $url;
-				$this->usermessages->save();
-			}else{
-				$user=Usermessages::where('users_id', '=', $id)->first();
-				$user->headpic = $url;
-				$user->save();
+			$url = str_replace('.oss-','.img-',$urls);
+			//判断该表是否有该用户
+			$num=$this->usermessages->countquer('users_id ='.$id);
+			//假如没有该用户则创建该用户
+			if($num == 0){
+				//创建新的一条数据并插入头像
+				$this->usermessages->users_id=$id;
+				$this->usermessages->headpic=$url;
+				$result=$this->usermessages->save();
+			}elseif($num == 1){
+				//更新数据
+				$data=Usermessages::where('users_id', '=', $id)->first();
+				$data->headpic=$url;
+				$result=$data->save();
 			}
-
-			$userlogin=Users_login::Uid($id);
-			$userlogin->headpic=$url;
-			$userlogin->save();
-
-			//返回数据
-			return response()->json(["serverTime"=>time(),"ServerNo"=>0,"ResultData" => [
-					'Message'=>'上传成功',
-					'headPicUrl' => $url
-			]]);
+			//假如头像插入成功
+			if($result){
+				$userlogin=Users_login::Uid($id);
+				$userlogin->headpic=$url;
+				$results=$userlogin->save();
+			}else{
+				return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData'=>['Message'=>'头像上传失败']]);
+			}
+			if($results){
+				//返回数据
+				return response()->json(["serverTime"=>time(),"ServerNo"=>0,"ResultData" => [
+						'Message'=>'上传成功',
+						'headPicUrl' => $url
+				]]);
+			}else{
+				return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData'=>['Message'=>'头像上传失败']]);
+			}
 		} catch (OssException $e) {
 			print $e->getMessage();
 		}
