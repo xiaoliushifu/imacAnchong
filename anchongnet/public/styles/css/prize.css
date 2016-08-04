@@ -1,0 +1,49 @@
+#background{
+    position:relative;
+    top:0px;
+    left:0px;
+}
+#select-level{
+    margin-top:30px;
+}
+#main{
+    position:absolute;
+    top:100px;
+    left:80px;
+
+}
+/** .left-box{
+     float:left;
+ }
+ .right-box{
+     float:right;
+ }**/
+
+
+#level-pic{
+    position:absolute;
+    top:-80px;
+    left:140px;
+}
+
+#prize-background{
+    position:relative;
+    top:-80px;
+    right:0px;
+}
+#prize{
+    position:absolute;
+    top: 40px;
+    right: 0px;
+}
+#list{
+    list-style:none;
+    position:absolute;
+    top:100px;
+    left:150px;
+}
+ul>li>span{
+    font-size:30px;
+    color: #eeeeee;
+}
+
