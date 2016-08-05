@@ -40,7 +40,7 @@ class UserController extends Controller
                 $action="身份验证";
                 break;
             default:
-                return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData'=>['Message'=>'短信行为异常']]);;
+                return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData'=>['Message'=>'短信行为异常']]);
                 break;
         }
         //new一个短信的对象

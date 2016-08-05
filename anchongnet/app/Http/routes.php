@@ -30,6 +30,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
     Route::post('/business/chonggou','Api\Business\BusinessController@chonggou');
     //商品检索
     Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
+    //智能提示
+    Route::controller('/search','Api\SearchController');
     //加上token验证的api
     Route::group(['middleware' => 'AppPrivate'], function () {
         /*
@@ -278,7 +280,7 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
 //后台路由
 Route::group(['domain' => 'admin.anchong.net'], function () {
     //搜索
-        Route::resource('/search','SearchController');
+        //Route::controller('/search','Api\SearchController');
     //注册相关
         Route::any('/userregister', 'admin\indexController@userregister');
         Route::any('/zhuce', 'admin\indexController@zhuce');
@@ -295,6 +297,9 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
 
             //安虫自营路由组
             Route::group(['middleware'=>'anchong'],function(){
+                /**** 抽奖临时*****/
+                Route::controller('/prize','PrizeController');
+                /*********/
                 //用户路由
                 Route::resource('/users','admin\userController');
                 //认证路由
