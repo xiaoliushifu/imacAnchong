@@ -178,15 +178,15 @@ class UsermessagesController extends Controller
     public function update(Request $request)
     {
 		$data=$request::all();
+		$param=json_decode($data['param'],true);
 		//通过guid获取用户实例
 		$id=$data['guid'];
-        $data=Usermessages::Message($id)->take(1)->get();
-
-		$param=json_decode($data['param'],true);
+        $message_data=Usermessages::Message($id)->take(1)->get();
 		$validator = Validator::make($param,
             [
                 'qq' => 'digits_between:5,11',
-                'email' => 'email|unique:anchong_usermessages',
+                'email' => 'email|unique:anchong_usermessages,email',
+				'nickname' => 'unique:anchong_usermessages,nickname'
             ]
         );
 		if ($validator->fails()){
@@ -196,9 +196,11 @@ class UsermessagesController extends Controller
 			    return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'qq格式不正确']]);
 			}else if($messages->has('email')){
 				return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'email格式不正确或该邮箱已经被注册']]);
+			}else if($messages->has('nickname')){
+				return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'该昵称已被注册，请更换昵称']]);
 			}
 		}else{
-			if(count($data)==0){
+			if(count($message_data)==0){
 				//向数据库插入内容
 				$this->usermessages->users_id = $id;
 				if($param['nickname']!=null){

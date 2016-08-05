@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Shop extends Model
 {
     protected $table = 'anchong_shops';
-    protected $fillable = ['users_id', 'name', 'mainbrand','authorization','category','introduction','premises','img','audit','banner'];
+    protected $fillable = ['users_id', 'name', 'mainbrand','authorization','category','introduction','premises','img','audit','banner','free_price','freight','customer'];
 
     //不允许被赋值
     protected $guarded = ['sid'];
@@ -51,6 +51,9 @@ class Shop extends Model
     public function shopsupdate($id,$data)
     {
         $cartnum=$this->find($id);
+        // print_r($data);
+        // var_dump($cartnum);
+        // exit;
         if($cartnum->update($data)){
             return true;
         }else{

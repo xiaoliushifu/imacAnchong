@@ -33,7 +33,13 @@ class CommunityController extends Controller
             //如果出错返回出错信息，如果正确执行下面的操作
             if ($validator->fails())
             {
-                return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请填写完整，并且标题长度不能超过60个字，内容不能低于2个字']]);
+                $messages = $validator->errors();
+                if ($messages->has('title')) {
+    				//如果验证失败,返回验证失败的信息
+    			    return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'标题不能超过60个字']]);
+    			}else if($messages->has('content')){
+    				return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'内容不能低于2个字']]);
+    			}
             }else{
                 //创建用户表通过电话查询出用户电话
                 $users_message=new \App\Usermessages();

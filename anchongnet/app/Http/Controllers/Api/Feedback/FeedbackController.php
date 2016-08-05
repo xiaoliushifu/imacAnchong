@@ -33,7 +33,13 @@ class FeedbackController extends Controller
         //如果出错返回出错信息，如果正确执行下面的操作
         if ($validator->fails())
         {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>17,'ResultData'=>['Message'=>'请填写完整，并且标题长度不能超过126个字，反馈内容不能低于4个字']]);
+            $messages = $validator->errors();
+            if ($messages->has('title')) {
+                //如果验证失败,返回验证失败的信息
+                return response()->json(['serverTime'=>time(),'ServerNo'=>17,'ResultData'=>['Message'=>'标题不能超过126个字']]);
+            }else if($messages->has('content')){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>17,'ResultData'=>['Message'=>'反馈内容不能低于4个字']]);
+            }
         }else{
             $feedback_data=[
                 'users_id' => $data['guid'],
