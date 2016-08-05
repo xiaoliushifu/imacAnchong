@@ -279,11 +279,8 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
 
 //后台路由
 Route::group(['domain' => 'admin.anchong.net'], function () {
-    /**** 抽奖临时*****/
-    Route::resource('/prize','PrizeController');
-    /*********/
     //搜索
-        Route::controller('/search','Api\SearchController');
+        //Route::controller('/search','Api\SearchController');
     //注册相关
         Route::any('/userregister', 'admin\indexController@userregister');
         Route::any('/zhuce', 'admin\indexController@zhuce');
@@ -300,6 +297,9 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
 
             //安虫自营路由组
             Route::group(['middleware'=>'anchong'],function(){
+                /**** 抽奖临时*****/
+                Route::controller('/prize','PrizeController');
+                /*********/
                 //用户路由
                 Route::resource('/users','admin\userController');
                 //认证路由
