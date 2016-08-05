@@ -36,59 +36,67 @@ class ShopsController extends Controller
     */
     public function goodstype()
     {
-        //创建ORM模型
-        $category=new \App\Category();
-        //将一级分类信息查询出来
-        $resultone=$category->quer(['cat_id','cat_name','parent_id'],'is_show = 1')->toArray();
-        //定义装结果的数组
-        $result=null;
-        $catone=null;
-        $cattwo=null;
-        $catthree=null;
-        $catfour=null;
-        $catfive=null;
-        $catsix=null;
-        $catseven=null;
-        $cateight=null;
-        foreach ($resultone as $onearr) {
-            //判断用户行为
-            switch ($onearr['parent_id']) {
-                //0为全部订单
-                case 1:
-                    $catone[]=$onearr;
-                    break;
-                case 2:
-                    $cattwo[]=$onearr;
-                    break;
-                case 3:
-                    $catthree[]=$onearr;
-                    break;
-                case 4:
-                    $catfour[]=$onearr;
-                    break;
-                case 5:
-                    $catfive[]=$onearr;
-                    break;
-                case 6:
-                    $catsix[]=$onearr;
-                    break;
-                case 7:
-                    $catseven[]=$onearr;
-                    break;
-                case 8:
-                    $cateight[]=$onearr;
-                    break;
-
+        //判断缓存
+        $result_cache=Cache::get('shops_goodstype_result');
+        if($result_cache){
+            //将缓存取出来赋值给变量
+            $result=$result_cache;
+        }else{
+            //创建ORM模型
+            $category=new \App\Category();
+            //将一级分类信息查询出来
+            $resultone=$category->quer(['cat_id','cat_name','parent_id'],'is_show = 1')->toArray();
+            //定义装结果的数组
+            $result=null;
+            $catone=null;
+            $cattwo=null;
+            $catthree=null;
+            $catfour=null;
+            $catfive=null;
+            $catsix=null;
+            $catseven=null;
+            $cateight=null;
+            foreach ($resultone as $onearr) {
+                //判断用户行为
+                switch ($onearr['parent_id']) {
+                    //0为全部订单
+                    case 1:
+                        $catone[]=$onearr;
+                        break;
+                    case 2:
+                        $cattwo[]=$onearr;
+                        break;
+                    case 3:
+                        $catthree[]=$onearr;
+                        break;
+                    case 4:
+                        $catfour[]=$onearr;
+                        break;
+                    case 5:
+                        $catfive[]=$onearr;
+                        break;
+                    case 6:
+                        $catsix[]=$onearr;
+                        break;
+                    case 7:
+                        $catseven[]=$onearr;
+                        break;
+                    case 8:
+                        $cateight[]=$onearr;
+                        break;
+                }
             }
+            $result[]=['parent_name'=>'智能门禁','list'=>$catone];
+            $result[]=['parent_name'=>'视频监控','list'=>$cattwo];
+            $result[]=['parent_name'=>'探测报警','list'=>$catthree];
+            $result[]=['parent_name'=>'巡更巡检','list'=>$catfour];
+            $result[]=['parent_name'=>'停车管理','list'=>$catfive];
+            $result[]=['parent_name'=>'楼宇对讲','list'=>$catsix];
+            $result[]=['parent_name'=>'智能消费','list'=>$catseven];
+            $result[]=['parent_name'=>'安防配套','list'=>$cateight];
+            //将查询结果加入缓存
+            Cache::add('shops_goodstype_result', $result, 600);
         }
-        $result[]=['parent_name'=>'智能门禁','list'=>$catone];
-        $result[]=['parent_name'=>'视频监控','list'=>$cattwo];
-        $result[]=['parent_name'=>'探测报警','list'=>$catthree];
-        $result[]=['parent_name'=>'巡更巡检','list'=>$catfour];
-        $result[]=['parent_name'=>'停车管理','list'=>$catfive];
-        $result[]=['parent_name'=>'楼宇对讲','list'=>$catsix];
-        $result[]=['parent_name'=>'智能消费','list'=>$catseven];
-        $result[]=['parent_name'=>'安防配套','list'=>$cateight];
         if(!empty($result)){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }else{
@@ -316,7 +324,17 @@ class ShopsController extends Controller
         );
         if ($validator->fails())
         {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'请填写完整的地址，并且名字不能超过10个字符！']]);
+            $messages = $validator->errors();
+            if ($messages->has('contact')) {
+                //如果验证失败,返回验证失败的信息
+                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'联系人不能为空，且不能超过10个字符']]);
+            }else if($messages->has('phone')){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'电话不能为空']]);
+            }else if($messages->has('content')){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'邮政编码不能为空']]);
+            }else if($messages->has('content')){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'所在地区不能为空']]);
+            }
         }else{
             //创建订单的ORM模型
             $shops_address=new \App\Shops_address();

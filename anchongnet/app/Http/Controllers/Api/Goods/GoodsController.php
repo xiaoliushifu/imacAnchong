@@ -196,7 +196,7 @@ class GoodsController extends Controller
     */
     public function goodsall(Request $request)
     {
-        // try{
+        try{
             //获得app端传过来的json格式的数据转换成数组格式
             $data=$request::all();
             $param=json_decode($data['param'],true);
@@ -248,9 +248,9 @@ class GoodsController extends Controller
             }else{
                 return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'请求失败，请刷新']]);
             }
-        // }catch (\Exception $e) {
-        //     return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
-        // }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
     }
 
     /*
@@ -326,15 +326,15 @@ class GoodsController extends Controller
                 Cache::add($where,$result,'60');
             }
             $showprice=0;
-    //         if ($data['guid'] != 0) {
-    //             $users=new \App\Users();
-    //             //查询用户是否认证
-    //             $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
-    //             if ($users_auth[0]['certification'] == 3) {
-    //                 $showprice=1;
-    //             }
-    //         }
-    //         //将用户权限传过去
+            if ($data['guid'] != 0) {
+                $users=new \App\Users();
+                //查询用户是否认证
+                $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
+                if ($users_auth[0]['certification'] == 3) {
+                    $showprice=1;
+                }
+            }
+            //将用户权限传过去
             $result['showprice']=$showprice;
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }catch (\Exception $e) {
