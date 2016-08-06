@@ -118,7 +118,7 @@ class logisController extends Controller
         //"删除物流" 权限判定
         if (Gate::denies('logis-del')) {
             //特殊处理，不返回back();
-            return '权限不足';    
+            return '权限不足';
         }
         $data=$this->logis->find($id);
         $data->delete();
@@ -130,7 +130,7 @@ class logisController extends Controller
         //权限判定
         if (Gate::denies('order-ship')) {
             //特殊处理，不返回back();
-            return '{}';    
+            return '{}';
         }
         $datas=$this->logis->get();
         return $datas;

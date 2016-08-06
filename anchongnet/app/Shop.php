@@ -51,9 +51,6 @@ class Shop extends Model
     public function shopsupdate($id,$data)
     {
         $cartnum=$this->find($id);
-        // print_r($data);
-        // var_dump($cartnum);
-        // exit;
         if($cartnum->update($data)){
             return true;
         }else{

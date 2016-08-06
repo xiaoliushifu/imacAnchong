@@ -326,14 +326,14 @@ class GoodsController extends Controller
                 Cache::add($where,$result,'60');
             }
             $showprice=0;
-            if ($data['guid'] != 0) {
-                $users=new \App\Users();
-                //查询用户是否认证
-                $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
-                if ($users_auth[0]['certification'] == 3) {
-                    $showprice=1;
-                }
-            }
+            // if ($data['guid'] != 0) {
+            //     $users=new \App\Users();
+            //     //查询用户是否认证
+            //     $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
+            //     if ($users_auth[0]['certification'] == 3) {
+            //         $showprice=1;
+            //     }
+            // }
             //将用户权限传过去
             $result['showprice']=$showprice;
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
@@ -395,7 +395,7 @@ class GoodsController extends Controller
                 $result['collection']=$collresult;
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
             }else{
-                return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'商品信息获取失败，请刷新']]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'该商品暂不出售']]);
             }
         }catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);

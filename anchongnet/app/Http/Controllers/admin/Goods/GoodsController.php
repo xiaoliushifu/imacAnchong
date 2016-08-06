@@ -34,7 +34,8 @@ class GoodsController extends Controller
         $specresult=$goods_specifications->del($param['gid']);
         if($specresult){
             //删除goods_type表的数据
-            $typeresult=$goods_type->del($param['gid']);                if($typeresult){
+            $typeresult=$goods_type->del($param['gid']);
+            if($typeresult){
                 //删除该货品的主图
                 $thumbresult=$goods_thumb->del($param['gid']);
                 if($thumbresult){

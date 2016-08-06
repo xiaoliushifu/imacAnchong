@@ -178,7 +178,7 @@ class goodController extends Controller
             ]
         );
        /*清除关键字缓存操作*/
-       
+
        /*清除关键字缓存操作*/
 
         /*
