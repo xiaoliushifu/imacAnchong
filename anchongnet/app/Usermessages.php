@@ -14,6 +14,7 @@ class Usermessages extends Model
     {
         return $query->where('users_id', '=', $id);
     }
+
     /*
     *   查询联系人姓名
     */
@@ -22,4 +23,11 @@ class Usermessages extends Model
         return $this->select($field)->where($quer_data)->get();
     }
 
+    /*
+    *   判断是否有数据
+    */
+    public function countquer($type)
+    {
+        return $this->whereRaw($type)->count();
+    }
 }

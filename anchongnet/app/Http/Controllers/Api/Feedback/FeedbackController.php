@@ -83,4 +83,12 @@ class FeedbackController extends Controller
             }
         }
     }
+
+	/*
+    *   该方法提供了APP更新
+    */
+    public function androidupdate(Request $request)
+    {
+        return response()->json(['varsionName'=>"2.0",'varsionCode'=>2,'Description'=>"这是新版本修复了bug",'downloadUrl'=>"http://anchongres.oss-cn-hangzhou.aliyuncs.com/android/app-anchong-net-1.06.apk"]);
+    }
 }

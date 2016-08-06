@@ -268,7 +268,6 @@ class goodController extends Controller
         $data->goods_price=$request->costpirce;
         $data->vip_price=$request->viprice;
         $data->goods_desc=$request->description;
-        $data->keyword=$request->keyword;
         //是否上架
         $data->added=$request->status;
         if($request->status==1){

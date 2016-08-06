@@ -11,6 +11,7 @@ use Input;
 use Log;
 use EasyWeChat\Payment\Order;
 use QrCode;
+use Cache;
 
 /*
 *   支付控制器
@@ -45,10 +46,9 @@ class PayController extends Controller
             'trade_type'       => 'NATIVE', // JSAPI，NATIVE，APP...
             'body'             => 'iPad mini 16G 白色',
             'detail'           => 'iPad mini 16G 白色',
-            'out_trade_no'     => '4345791467967488',
-            'total_fee'        => 1000,
-            'notify_url'       => 'http://pay.anchong.net/pay/wxnotify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
-            // ...
+            'out_trade_no'     => '1601201470277627',
+            'total_fee'        => 1,
+            'notify_url'       => 'http://pay.anchong.net/pay/wxnotify',
         ];
         $order = new Order($attributes);
         $payment=$wechat->payment;
@@ -57,7 +57,6 @@ class PayController extends Controller
             $prepayId = $result->prepay_id;
         }
         $config = $payment->configForAppPayment($prepayId);
-        var_dump($config);
         return QrCode::size(200)->color(105,80,10)->backgroundColor(205,230,199)->generate($result->code_url);
     }
 
@@ -75,12 +74,12 @@ class PayController extends Controller
             DB::beginTransaction();
             //判断总价防止app攻击
             $total_price=0;
-            $order_id_arr=$pay->quer(['order_id','total_price'],'paynum ='.$notify->transaction_id)->toArray();
+            $order_id_arr=$pay->quer(['order_id','total_price'],'paynum ='.$notify->out_trade_no)->toArray();
              foreach ($order_id_arr as $order_id) {
                  $total_price +=$order_id['total_price'];
                 //创建ORM模型
                 $orders=new \App\Order();
-                // 使用通知里的 "微信支付订单号" 或者 "商户订单号" 去自己的数据库找到订单
+                // 使用通知里的 "商户订单号" 去自己的数据库找到订单
                 $order = $orders->find($order_id['order_id']);
                 // 如果订单不存在
                 if (!$order) {
@@ -99,6 +98,7 @@ class PayController extends Controller
                     // 不是已经支付状态则修改为已经支付状态
                     // 更新支付时间为当前时间
                     $order->state = 2;
+                    $order->paycode="wxpay:".$notify->transaction_id;
                 } else {
                     // 用户支付失败
                     $order->state = 1;
@@ -114,7 +114,7 @@ class PayController extends Controller
                 //假如失败就回滚
                 DB::rollback();
                 // 返回处理完成
-                return false;
+                return true;
             }
 
         });
@@ -150,10 +150,10 @@ class PayController extends Controller
                     //对总价进行累加
                     $total_price +=$order_id['total_price'];
                     //进行订单操作
-                    $result=$order->orderupdate($order_id['order_id'],['state' => 2]);
+                    $result=$order->orderupdate($order_id['order_id'],['state' => 2,'paycode'=>"alipay:".$data['trade_no']]);
                     if(!$result){
                         //再次执行
-                        $result=$order->orderupdate($order_id['order_id'],['state' => 2]);
+                        $result=$order->orderupdate($order_id['order_id'],['state' => 2,'paycode'=>"alipay:".$data['trade_no']]);
                         if(!$result){
                             //假如失败就回滚
                             DB::rollback();
@@ -210,10 +210,10 @@ class PayController extends Controller
                    //对总价进行累加
                    $total_price +=$order_id['total_price'];
                    //进行订单操作
-                   $result=$order->orderupdate($order_id['order_id'],['state' => 2]);
+                   $result=$order->orderupdate($order_id['order_id'],['state' => 2,'paycode'=>"alipay:".$data['trade_no']]);
                    if(!$result){
                        //再次执行
-                       $result=$order->orderupdate($order_id['order_id'],['state' => 2]);
+                       $result=$order->orderupdate($order_id['order_id'],['state' => 2,'paycode'=>"alipay:".$data['trade_no']]);
                        if(!$result){
                            //假如失败就回滚
                            DB::rollback();
@@ -247,10 +247,10 @@ class PayController extends Controller
                   //对总价进行累加
                   $total_price +=$order_id['total_price'];
                   //进行订单操作
-                  $result=$order->orderupdate($order_id['order_id'],['state' => 2]);
+                  $result=$order->orderupdate($order_id['order_id'],['state' => 2,'paycode'=>"alipay:".$data['trade_no']]);
                   if(!$result){
                       //再次执行
-                      $result=$order->orderupdate($order_id['order_id'],['state' => 2]);
+                      $result=$order->orderupdate($order_id['order_id'],['state' => 2,'paycode'=>"alipay:".$data['trade_no']]);
                       if(!$result){
                           //假如失败就回滚
                           DB::rollback();
