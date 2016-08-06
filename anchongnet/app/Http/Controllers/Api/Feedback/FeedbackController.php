@@ -95,6 +95,10 @@ class FeedbackController extends Controller
     */
     public function androidupdate(Request $request)
     {
-        return response()->json(['varsionName'=>"2.0",'varsionCode'=>2,'Description'=>"这是新版本修复了bug",'downloadUrl'=>"http://anchongres.oss-cn-hangzhou.aliyuncs.com/android/app-anchong-net-1.06.apk"]);
+        return response()->json(['varsionName'=>"1.0.8",'varsionCode'=>8,'Description'=>"更新介绍: 
+1.优化界面，更加美观 
+2.商城界面新增商品搜索功能，360度无死角搜索 
+3.优化用户体验度 
+4.快来下载体验吧",'downloadUrl'=>"http://anchongres.oss-cn-hangzhou.aliyuncs.com/android/app-anchong-net1.0.8.encrypted_signed_Aligned.apk"]);
     }
 }
