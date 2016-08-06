@@ -142,9 +142,15 @@ class goodController extends Controller
 
         //将关键字转码之后再插入数据库，为货品关键字搜索做准备
         //货品关键字只在此添加，以后不得更改，与goods_type表的cat_id关联
-        $keywords_arr=explode(' ',$request->keyword);
+       // $keywords_arr=explode(' ',$request->keyword);
+       //避免多出的空格
+        $keywords_arr = preg_split('#\s#', $request->keyword,-1,PREG_SPLIT_NO_EMPTY);
         $keywords="";
+        $arr_key=array();
         foreach ($keywords_arr as $keyword_arr) {
+            //为智能提示准备数据
+            $arr_key[]=$keyword_arr;
+            //为索引表准备数据
             $keywords.=bin2hex($keyword_arr)." ";
         }
         $gtid = DB::table('anchong_goods_type')->insertGetId(
@@ -177,6 +183,10 @@ class goodController extends Controller
                 'keyword'=>$keywords,
             ]
         );
+       //智能提示suggestion表
+       foreach($arr_key as $k) {
+           DB::insert("insert into anchong_goods_suggestion (`str`) values ('$k') on duplicate key update snums=snums+1");
+       }
        /*清除关键字缓存操作*/
 
        /*清除关键字缓存操作*/

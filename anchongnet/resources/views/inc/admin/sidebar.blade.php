@@ -10,6 +10,8 @@
 			<ul class="treeview-menu">
 				<li><a href="/users"><i class="fa fa-circle-o"></i> 用户浏览</a></li>
 				<li><a href="/cert"><i class="fa fa-circle-o"></i> 资质认证</a></li>
+				<li><a href="/prize/p1"><i class="fa fa-circle-o"></i> 抽奖活动</a></li>
+				<li><a href="/prize/p2"><i class="fa fa-circle-o"></i> 查看中奖名单</a></li>
 			</ul>
 		</li>
 		<!-- 只admin有 权限管理 -->

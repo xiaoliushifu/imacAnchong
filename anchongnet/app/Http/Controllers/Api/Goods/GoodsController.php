@@ -276,7 +276,7 @@ class GoodsController extends Controller
     }
 
     /*
-    *   商品筛选
+    *   根据商品关键字，进行搜索
     */
     public function goodssearch(Request $request)
     {

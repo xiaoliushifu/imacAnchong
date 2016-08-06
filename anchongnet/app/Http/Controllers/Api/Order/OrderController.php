@@ -24,6 +24,9 @@ class OrderController extends Controller
             //获得app端传过来的json格式的数据转换成数组格式
             $data=$request::all();
             $param=json_decode($data['param'],true);
+            if(empty($param['address'])){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请填写收货地址']]);
+            }
             $true=false;
             //开启事务处理
             DB::beginTransaction();
@@ -38,7 +41,7 @@ class OrderController extends Controller
                 //查出该订单生成的联系人姓名
                 $usermessages=new \App\Usermessages();
                 $name=$usermessages->quer('contact',['users_id'=>$data['guid']]);
-                if(empty($name[0]['contact'])){
+                if(!$name){
                     //假如失败就回滚
                     DB::rollback();
                     return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请先填写个人资料里面的联系人']]);
