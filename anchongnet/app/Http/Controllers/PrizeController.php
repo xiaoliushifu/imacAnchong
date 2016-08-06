@@ -27,8 +27,8 @@ class PrizeController extends Controller
      */
     public function getIndex(Request $req) 
     {
-        //只许ajax请求
-        if (!$req->ajax()) {
+        //权限限制
+        if (!$req->ajax() || $req->user()['users_id'] !=1 ) {
             return back();
         }
         $fieldlist='uid,user,phone';
@@ -50,8 +50,8 @@ class PrizeController extends Controller
      */
     public function postList(Request $req)
     {
-        //只许ajax请求
-        if (!$req->ajax()) {
+        //权限限制
+        if (!$req->ajax() || $req->user()['users_id'] !=1 ) {
             return back();
         }
         $get= $req->all();

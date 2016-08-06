@@ -19,7 +19,7 @@
                  <div class="background">
                      <img src="/images/kuang_03.jpg" alt="这是中奖者背景">
                      <ul id="list">
-                         <li><span>王先生</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>13383438785</span></li>
+                         <li><span> 等候抽奖</span></li>
                      </ul>
                  </div>
                  <div id="select-level">
@@ -51,6 +51,10 @@ var plevel='';
 	 $.ajax({
 		 url:'/prize/index',
 		 success:function(data){
+			 if (data.length < 10) {
+				 alert('本次抽奖人员名单不足10人，请抓紧注册');
+				window.history.go('-1');
+		     }
 			 a=data;
 		 },
 		 error:function(xhr,text){
@@ -65,7 +69,7 @@ function action(str)
 {
 		//检验原始名单
 		if (!a.length) {
-			alert('中奖名单为空,请刷新,让我们从新开始');
+			alert('人员名单不足,请刷新,让我们从新开始');
 			$('#actbut').attr('src','/images/draw.png');
 			return;
 		}
