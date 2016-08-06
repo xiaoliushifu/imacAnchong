@@ -346,7 +346,10 @@ class AdvertController extends Controller
     */
     public function projectadvert(Request $request)
     {
-        try{
+       try{
+			//获得APP端传过来的json格式数据转换成数组格式
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
             switch ($param['type']) {
                 //第一块的广告
                 case '1':
@@ -369,9 +372,6 @@ class AdvertController extends Controller
                 //将缓存取出来赋值给变量
                 $ad_result=$ad_result_cache;
             }else{
-                //获得APP端传过来的json格式数据转换成数组格式
-                $data=$request::all();
-                $param=json_decode($data['param'],true);
                 //创建ORM模型
                 $ad=new \App\Ad();
                 //定义sql语句
@@ -401,17 +401,17 @@ class AdvertController extends Controller
                     //第一块的广告
                     case '1':
                         //将查询结果加入缓存
-                        Cache::add('business_projectadvert_ad_result1', $result_tag, 600);
+                        Cache::add('business_projectadvert_ad_result1', $ad_result, 600);
                         break;
                     //第二块的广告
                     case '2':
                         //将查询结果加入缓存
-                        Cache::add('business_projectadvert_ad_result2', $result_tag, 600);
+                        Cache::add('business_projectadvert_ad_result2', $ad_result, 600);
                         break;
                     //第三块的广告
                     case '3':
                         //将查询结果加入缓存
-                        Cache::add('business_projectadvert_ad_result3', $result_tag, 600);
+                        Cache::add('business_projectadvert_ad_result3', $ad_result, 600);
                         break;
                     //默认的内容
                     default:
@@ -425,7 +425,7 @@ class AdvertController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>16,'ResultData'=>['Message'=>'加载失败，请刷新']]);
             }
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+           return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
 
