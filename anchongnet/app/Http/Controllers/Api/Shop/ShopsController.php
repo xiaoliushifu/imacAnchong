@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB;
 use Validator;
+use Cache;
 
 /*
 *   该控制器包含了商铺模块的操作
@@ -116,14 +117,10 @@ class ShopsController extends Controller
         $limit=10;
         //创建ORM模型
         $goods_specifications=new \App\Goods_specifications();
-        if(empty($param['cat_id']) && empty($param['search'])){
+        if(empty($param['cat_id'])){
             return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>"无商品"]]);
-        }elseif(!empty($param['cat_id']) && empty($param['search'])){
+        }elseif(!empty($param['cat_id'])){
             $sql="sid=".$param['sid']." and added = 1 and MATCH(cid) AGAINST('".bin2hex($param['cat_id'])."')";
-        }elseif(empty($param['tags']) && !empty($param['search'])) {
-            $sql="sid=".$param['sid']." and added = 1 and MATCH(keyword) AGAINST('".bin2hex($param['search'])."')";
-        }elseif(!empty($param['tags']) && !empty($param['search'])) {
-            $sql="sid=".$param['sid']." and added = 1 and MATCH(keyword) AGAINST('".bin2hex($param['search'])."') and MATCH(cid) AGAINST('".bin2hex($param['cat_id'])."')";
         }
         //定义查询的字段
         $goods_specifications_data=['gid','goods_img','title','market_price','vip_price','sales','goods_num','goods_id'];
@@ -330,9 +327,9 @@ class ShopsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'联系人不能为空，且不能超过10个字符']]);
             }else if($messages->has('phone')){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'电话不能为空']]);
-            }else if($messages->has('content')){
+            }else if($messages->has('code')){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'邮政编码不能为空']]);
-            }else if($messages->has('content')){
+            }else if($messages->has('region')){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'所在地区不能为空']]);
             }
         }else{

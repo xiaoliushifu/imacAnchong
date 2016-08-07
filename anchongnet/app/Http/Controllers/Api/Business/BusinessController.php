@@ -43,7 +43,9 @@ class BusinessController extends Controller
     			    return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'标题长度不能超过126个字']]);
     			}else if($messages->has('content')){
     				return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'工程简介不能低于4个字']]);
-    			}
+    			}else{
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'商机发布失败']]);
+                }
             }else{
                 //创建用户表通过电话查询出用户电话
                 $users=new \App\Users();
@@ -677,7 +679,9 @@ class BusinessController extends Controller
     			    return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'标题长度不能超过126个字']]);
     			}else if($messages->has('content')){
     				return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'工程简介不能低于4个字']]);
-    			}
+    			}else{
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'修改失败']]);
+                }
             }else{
                 $tags_arr=explode(' ',$param['tags']);
                 $tags="";

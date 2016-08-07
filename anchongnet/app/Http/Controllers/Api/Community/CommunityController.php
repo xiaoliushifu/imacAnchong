@@ -39,7 +39,9 @@ class CommunityController extends Controller
     			    return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'标题不能超过60个字']]);
     			}else if($messages->has('content')){
     				return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'内容不能低于2个字']]);
-    			}
+    			}else{
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'聊聊发布失败']]);
+                }
             }else{
                 //创建用户表通过电话查询出用户电话
                 $users_message=new \App\Usermessages();

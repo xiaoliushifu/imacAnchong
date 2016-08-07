@@ -43,10 +43,10 @@ class UserIndiviController extends Controller
         );
 		if ($validator->fails()){
 			$messages = $validator->errors();
-			if ($messages->has('title')) {
+			if ($messages->has('auth_name')) {
 				//如果验证失败,返回验证失败的信息
 				return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData'=>['Message'=>'认证名称不能超过100个字']]);
-			}else if($messages->has('content')){
+			}else if($messages->has('qua_name')){
 				return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData'=>['Message'=>'资质名称不能为空，且不能超过100个字']]);
 			}
 		}else{

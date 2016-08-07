@@ -50,6 +50,14 @@ class Goods_type extends Model
     }
 
     /*
+    *   相关商品查询
+    */
+    public function corrquer($field,$type,$pos,$limit,$condition)
+    {
+        return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->groupBy($condition)->get()];
+    }
+
+    /*
     *   该方法是商品分类添加
     */
     public function add($goods_data)
