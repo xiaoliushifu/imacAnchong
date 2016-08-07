@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <title>获奖名单</title>
-    <meta name="viewport"content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link href="/styles/css/winner.list.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="/styles/css/bootstrap.min.css">
 

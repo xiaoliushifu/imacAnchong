@@ -285,7 +285,8 @@ class GoodsController extends Controller
             $param=json_decode($data['param'],true);
             //分析三个搜索参数
             $kl = mb_strlen($param['search'],'utf-8');
-            if ($kl<1 || $kl>8) {
+            //需要在录入商品中，添加关键字的时候，注意，空格分开的每个关键字不能超过10个。
+            if ($kl<1 || $kl>10) {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"keyword too short"]]);
             }
             $where=array();
@@ -323,9 +324,12 @@ class GoodsController extends Controller
                     $result['list'][]=$val;
                 }
                 $result['total']=count($res);
+                //统计一次该关键字的查询次数
+                DB::table('anchong_goods_suggestion')->where('str',$param['search'])->increment('qnums');
                 Cache::add($where,$result,'60');
             }
             $showprice=0;
+<<<<<<< HEAD
             // if ($data['guid'] != 0) {
             //     $users=new \App\Users();
             //     //查询用户是否认证
@@ -334,6 +338,14 @@ class GoodsController extends Controller
             //         $showprice=1;
             //     }
             // }
+=======
+//             if ($data['guid'] != 0) {
+//                 $tmp = DB::table('anchong_users')->where('users_id',$data['guid'])->get(array('certification'));
+//                 if ($tmp[0]->certification == 3) {
+//                     $showprice=1;
+//                 }
+//             }
+>>>>>>> 0573f727cd313b2b9aa1cd10452badca64d14063
             //将用户权限传过去
             $result['showprice']=$showprice;
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);

@@ -25,8 +25,12 @@ class PrizeController extends Controller
     /**
      * 获取原始名单
      */
-    public function getIndex() 
+    public function getIndex(Request $req) 
     {
+        //权限限制
+        if (!$req->ajax() || $req->user()['users_id'] !=1 ) {
+            return back();
+        }
         $fieldlist='uid,user,phone';
         $ret=array();
         //名字为空的过滤
@@ -46,6 +50,10 @@ class PrizeController extends Controller
      */
     public function postList(Request $req)
     {
+        //权限限制
+        if (!$req->ajax() || $req->user()['users_id'] !=1 ) {
+            return back();
+        }
         $get= $req->all();
         //失效上一个名单
         DB::table('anchong_prise_list')->update(['flag'=>'1']);
@@ -64,6 +72,10 @@ class PrizeController extends Controller
      */
     public function getList(Request $req)
     {
+        //只许ajax请求
+        if (!$req->ajax()) {
+            return back();
+        }
         $res = DB::select("select ol.user,ol.phone,pl.plevel from anchong_prise_list pl,orilist_view ol where ol.uid=pl.uid and pl.flag=0");
         return response()->json($res);
     }
