@@ -329,23 +329,12 @@ class GoodsController extends Controller
                 Cache::add($where,$result,'60');
             }
             $showprice=0;
-<<<<<<< HEAD
-            // if ($data['guid'] != 0) {
-            //     $users=new \App\Users();
-            //     //查询用户是否认证
-            //     $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
-            //     if ($users_auth[0]['certification'] == 3) {
-            //         $showprice=1;
-            //     }
-            // }
-=======
 //             if ($data['guid'] != 0) {
 //                 $tmp = DB::table('anchong_users')->where('users_id',$data['guid'])->get(array('certification'));
 //                 if ($tmp[0]->certification == 3) {
 //                     $showprice=1;
 //                 }
 //             }
->>>>>>> 0573f727cd313b2b9aa1cd10452badca64d14063
             //将用户权限传过去
             $result['showprice']=$showprice;
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
