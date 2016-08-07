@@ -416,20 +416,22 @@ class GoodsController extends Controller
             //创建ORM模型
             $goods_type=new \App\Goods_type();
             //查询货品关键字
-            $goodskeyword=$goods_type->searchquer('keyword','gid ='.$param['gid'])->toArray();
+            $goodskeyword=$goods_type->searchquer('cid','gid ='.$param['gid'])->toArray();
             //判断货品是否有关键字
-            if(empty($goodskeyword['0']['keyword'])){
+            if(empty($goodskeyword['0']['cid'])){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>[]]);
             }else{
                 //将关键字拆分
-                $keyarr=explode(' ',$goodskeyword['0']['keyword']);
+                $keyarr=explode(' ',$goodskeyword['0']['cid']);
                 //定义查询内容
                 $goods_data=['gid','title','price','pic','goods_id'];
-                $result=$goods_type->condquer($goods_data,"MATCH(keyword) AGAINST('".$keyarr[0]."') and added =1",(($param['page']-1)*$limit),$limit,'sales','DESC');
+                //设置随机偏移量
+                $num=rand(0,15);
+                $result=$goods_type->corrquer($goods_data,"MATCH(cid) AGAINST('".$keyarr[0]."') and added =1",$num,$limit,'goods_id');
                 if(!empty($result['list']->toArray())){
                     return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
                 }else{
-                    $result=$goods_type->condquer($goods_data,"added =1",(($param['page']-1)*$limit),$limit,'sales','DESC');
+                    $result=$goods_type->corrquer($goods_data,"added =1",(($param['page']-1)*$limit),$limit,'sales','DESC');
                     return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
                 }
             }
