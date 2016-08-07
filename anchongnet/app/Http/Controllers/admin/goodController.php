@@ -110,22 +110,19 @@ class goodController extends Controller
         //智能提示。存储所有关键字，来自keyword,attribute,commodityname
         $arr_key=array();
 
-        //将所有属性通过一个for循环拼合起来
+        //将所有属性拼合起来
         $spetag=$attr_k = $comname_k="";
         for($i=0;$i<count($request->attr);$i++){
             //智能提示
-            $arr_key[]=$request->attr[$i];
-            //title
+            $arr_key[]=trim($request->attr[$i]);
+            //title展示
             $spetag.=$request->attr[$i]." ";
-            //商品属性建立索引
-            $attr_k .=bin2hex($request->attr[$i])." ";
         }
         
+        //替换所有的括号
         $comname_k=str_replace(['(','（','）',')'],' ',$request->commodityname);
         //智能提示
         $arr_key=array_merge($arr_key,preg_split('#\s#', $comname_k,-1,PREG_SPLIT_NO_EMPTY));
-        //货品title建立索引
-        $comname_k = str_replace('20',' ',bin2hex($comname_k));
         //将商品分类转码之后插入数据库，为将来分词索引做准备
         $cids=explode(' ',rtrim($request->type));
         $cid="";
@@ -153,22 +150,17 @@ class goodController extends Controller
             ]
         );
 
-        //将关键字转码之后再插入数据库，为货品关键字搜索做准备
-        //货品关键字只在此添加，以后不得更改，与goods_type表的cat_id关联
-        $keywords_arr = preg_split('#\s#', $request->keyword,-1,PREG_SPLIT_NO_EMPTY);
-        $keywords="";
-        foreach ($keywords_arr as $keyword_arr) {
-            //智能提示
-            $arr_key[]=$keyword_arr;
-            //为索引表准备数据
-            $keywords.=bin2hex($keyword_arr)." ";
-        }
+        //取得keyword中的关键字
+        $arr_key = array_merge($arr_key,preg_split('#\s#', $request->keyword,-1,PREG_SPLIT_NO_EMPTY));
+        //由于来源三处，难免重复，须过滤并编码
+        $arr_key=array_unique($arr_key);
+        $keywords=str_replace('20', ' ', bin2hex(implode(' ', $arr_key)));
+        
         $gtid = DB::table('anchong_goods_type')->insertGetId(
             [
                 'gid' => $gid,
                 'cid'=>$cid,
-                //keyword字段的信息，来自三处
-                'keyword'=>$keywords.$attr_k.$comname_k,
+                'keyword'=>$keywords,
                 'goods_id'=>$request->name,
                 'title'=>trim($spetag."-".$request->commodityname),
                 'price'=>$request->marketprice,
@@ -191,11 +183,9 @@ class goodController extends Controller
                 'cat_id' => $gtid,
                 'cid' => trim($catid),
                 'tags' => $tags,
-                'keyword'=>$keywords.$attr_k.$comname_k,
+                'keyword'=>$keywords,
             ]
         );
-       //智能提示suggestion表
-       $arr_key=array_unique($arr_key);
        foreach($arr_key as $k) {
            DB::insert("insert into anchong_goods_suggestion (`str`) values ('$k') on duplicate key update snums=snums+1");
        }
