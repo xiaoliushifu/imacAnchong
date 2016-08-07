@@ -118,7 +118,7 @@ class goodController extends Controller
             //title展示
             $spetag.=$request->attr[$i]." ";
         }
-        
+
         //替换所有的括号
         $comname_k=str_replace(['(','（','）',')'],' ',$request->commodityname);
         //智能提示
@@ -155,7 +155,7 @@ class goodController extends Controller
         //由于来源三处，难免重复，须过滤并编码
         $arr_key=array_unique($arr_key);
         $keywords=str_replace('20', ' ', bin2hex(implode(' ', $arr_key)));
-        
+
         $gtid = DB::table('anchong_goods_type')->insertGetId(
             [
                 'gid' => $gid,
@@ -186,29 +186,7 @@ class goodController extends Controller
                 'keyword'=>$keywords,
             ]
         );
-<<<<<<< HEAD
-        //深度搜索的中文分词字符串
-        $search_match="";
-        //对商品描述进行中文分词
-        $seg=new \App\Segment\lib\Segment();
-        $res = $seg->get_keyword($request->desc);
-        $res_arr=explode(' ',$res);
-        foreach ($res_arr as $res_arrs) {
-            //为索引表准备数据
-            $search_match.=bin2hex($res_arrs)." ";
-        }
-        //深度搜索表
-       DB::table('anchong_goods_search')->insert(
-            [
-                'cat_id' => $gtid,
-                'goods_id'=>$request->name,
-                'search_match'=>$keywords.$search_match,
-            ]
-        );
 
-       //智能提示suggestion表
-=======
->>>>>>> b60f7618bc5b12aa2d682aa379d2d9f7a3943b91
        foreach($arr_key as $k) {
            DB::insert("insert into anchong_goods_suggestion (`str`) values ('$k') on duplicate key update snums=snums+1");
        }
