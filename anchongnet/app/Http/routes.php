@@ -480,6 +480,10 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
             Route::get('/feedback/imgshow/{num}','admin\Feedback\FeedbackController@imgshow');
             //后台意见删除
             Route::get('/feedback/feedbackdel/{num}','admin\Feedback\FeedbackController@feedbackdel');
+            //后台意见状态修改
+            Route::post('/feedback/feedbackedit/{num}','admin\Feedback\FeedbackController@feedbackedit');
+            //后台意见回复
+            Route::any('/feedback/feedbackreply/{num}','admin\Feedback\FeedbackController@feedbackreply');
         });
     });
 

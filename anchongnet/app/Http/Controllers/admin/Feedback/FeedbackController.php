@@ -66,4 +66,54 @@ class FeedbackController extends Controller
             return "删除失败";
         }
     }
+
+    /*
+    *   修改状态
+    */
+    public function feedbackedit(Request $request,$id)
+    {
+        //获得句柄
+        $data=$this->feedback->find($id);
+        //修改状态
+        $data->state=3;
+        $result=$data->save();
+        if($result){
+            return "修改成功";
+        }else{
+            return "修改失败";
+        }
+    }
+
+    /*
+    *   反馈回复
+    */
+    public function feedbackreply(Request $request,$id)
+    {
+        $gid = DB::table('anchong_feedback_reply')->insertGetId(
+            [
+                'feed_id' => $request['feed_id'],
+                'users_id' => $request['users_id'],
+                'title' => $request['title'],
+                'content' => $request['content'],
+            ]
+        );
+        if($gid){
+            //获得句柄
+            $data=$this->feedback->find($id);
+            //修改状态
+            $data->state=2;
+            $result=$data->save();
+            if($result){
+                return
+                response()->json(['Message'=>'回复成功']);
+            }else{
+                return
+                response()->json(['Message'=>'回复失败']);
+            }
+        }else{
+            return
+            response()->json(['Message'=>'回复失败']);
+        }
+
+    }
 }

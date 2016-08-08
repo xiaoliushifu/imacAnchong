@@ -49,11 +49,11 @@ $(function(){
             //通过遍历数据在html上显示
             for(var i=0;i<data.length;i++){
                 //截取商品的简要名称
-                var gname=data[i].goods_name.split("-");
-                var goodsname=gname[1].trim().split(" ");
+                // var gname=data[i].goods_name.split("-");
+                // var goodsname=gname[1].trim().split(" ");
                 //显示商品的型号数组
-                var goodstype=data[i].goods_name.trim().split(" ");
-                dl='<tr class="orderinfos"><td align="center" valign="middle">'+data[i].goods_numbering+'</td><td align="center" valign="middle">'+goodsname[0]+'</td><td align="center" valign="middle">'+goodstype[(goodstype.length-1)]+'</td><td align="center" valign="middle">'+data[i].goods_num+'</td><td align="center" valign="middle">'+data[i].goods_price+'</td></tr>';
+                //var goodstype=data[i].goods_name.trim();
+                dl='<tr class="orderinfos"><td align="center" valign="middle">'+data[i].goods_numbering+'</td><td align="center" valign="middle">'+data[i].goods_name+'</td><td align="center" valign="middle">'+data[i].goods_type+'</td><td align="center" valign="middle">'+data[i].goods_num+'</td><td align="center" valign="middle">'+data[i].goods_price+'</td></tr>';
                 $("#mbody").prepend(dl);
             }
             //标题插入

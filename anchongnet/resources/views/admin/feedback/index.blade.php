@@ -67,7 +67,8 @@
 								<tr>
 									<th width="5%">编号</th>
 									<th width="20%">标题</th>
-									<th width="60%">内容</th>
+									<th width="53%">内容</th>
+									<th width="7%">状态</th>
 									<th width="15%">操作</th>
 								</tr>
 								@foreach ($datacol['datas'] as $data)
@@ -76,8 +77,25 @@
 								    <td align="center">{{$data['title']}}</td>
 									<td align="center">{{$data['content']}}</td>
 									<td align="center">
+										<?php
+											switch($data['state']){
+												case 1:
+													echo '<font color="red">未回复</font>';
+													break;
+												case 2:
+													echo "未修复";
+													break;
+												case 3:
+													echo '<font color="green">已修复</font>';
+													break;
+											}
+										?>
+									</td>
+									<td align="center">
 										<button type='button' class='view f-ib btn btn-primary btn-xs' data-id="{{$data['feed_id']}}" data-uid="{{$data['users_id']}}" data-title="{{$data['title']}}" data-content="{{$data['content']}}" data-toggle="modal" data-target="#myModal">查看</button>
 										<button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['feed_id']}}">删除</button>
+										<button type="button" class="comment f-ib btn btn-warning btn-xs" data-id="{{$data['feed_id']}}" data-uid="{{$data['users_id']}}" data-toggle="modal" data-target="#mycomment">回复</button>
+										<button type="button" class="success f-ib btn btn-success btn-xs" data-id="{{$data['feed_id']}}">修复</button>
 									</td>
 								</tr>
 								@endforeach
@@ -133,6 +151,43 @@
 							</tr>
 						</table>
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="mycomment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">回复反馈</h4>
+				</div>
+				<div class="modal-body">
+					<form role="form" class="form-horizontal" action="" method="PUT" id="formToUpdate">
+						<input type="hidden" class="form-control" id="commentfeedid" name="feed_id">
+						<input type="hidden" class="form-control" id="commentfeedusersid" name="users_id">
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="title">标题</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="commenttitle" required name="title">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="content">内容</label>
+							<div class="col-sm-9">
+								<textarea class="form-control" rows="5" id="commentcontent" required name="content"></textarea>
+							</div>
+						</div><!--end form-group-->
+						<div class="form-group text-center">
+							<label class="col-sm-3 control-label"></label>
+							<div class="col-sm-3">
+								<button type="submit" class="btn btn-info" id="save">回复</button>
+							</div>
+						</div><!--end form-group text-center-->
+					</form>
 				</div>
 			</div>
 		</div>
