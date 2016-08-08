@@ -20,8 +20,6 @@ class FeedbackController extends Controller
     public function __construct()
     {
         $this->feedback=new \App\Feedback();
-        //通过Auth获取当前登录用户的id
-        $this->uid=Auth::user()['users_id'];
     }
 
     /*
@@ -29,7 +27,7 @@ class FeedbackController extends Controller
     */
     public function show()
     {
-        //查出该用户所有聊聊
+        //查出反馈
         $datas=$this->feedback->orderBy("feed_id","desc")->paginate(8);
         //返回数据,all代表是否是查询所有聊聊
         return view('admin/feedback/index',array("datacol"=>compact("datas")));
@@ -67,5 +65,55 @@ class FeedbackController extends Controller
             DB::rollback();
             return "删除失败";
         }
+    }
+
+    /*
+    *   修改状态
+    */
+    public function feedbackedit(Request $request,$id)
+    {
+        //获得句柄
+        $data=$this->feedback->find($id);
+        //修改状态
+        $data->state=3;
+        $result=$data->save();
+        if($result){
+            return "修改成功";
+        }else{
+            return "修改失败";
+        }
+    }
+
+    /*
+    *   反馈回复
+    */
+    public function feedbackreply(Request $request,$id)
+    {
+        $gid = DB::table('anchong_feedback_reply')->insertGetId(
+            [
+                'feed_id' => $request['feed_id'],
+                'users_id' => $request['users_id'],
+                'title' => $request['title'],
+                'content' => $request['content'],
+            ]
+        );
+        if($gid){
+            //获得句柄
+            $data=$this->feedback->find($id);
+            //修改状态
+            $data->state=2;
+            $result=$data->save();
+            if($result){
+                return
+                response()->json(['Message'=>'回复成功']);
+            }else{
+                return
+                response()->json(['Message'=>'回复失败']);
+            }
+        }else{
+            return
+            response()->json(['Message'=>'回复失败']);
+        }
+
     }
 }
