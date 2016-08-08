@@ -20,7 +20,7 @@ class SearchController extends Controller
         $param=json_decode($data['param'],true);
         $q = $param['q'];
         if (!$q) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"keyword too short"]]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['']]);
         }
         $prefix='suggestion';
         if (!$result = Cache::get($prefix.$q)) {
@@ -35,7 +35,8 @@ class SearchController extends Controller
             foreach ($tmp as $o) {
                 $result[]= $o->str;
             }
-            Cache::add($prefix.$q,$result,60);
+            //缓存30分钟
+            Cache::add($prefix.$q,$result,30);
         }
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
     }
