@@ -20,8 +20,6 @@ class FeedbackController extends Controller
     public function __construct()
     {
         $this->feedback=new \App\Feedback();
-        //通过Auth获取当前登录用户的id
-        $this->uid=Auth::user()['users_id'];
     }
 
     /*
@@ -29,7 +27,7 @@ class FeedbackController extends Controller
     */
     public function show()
     {
-        //查出该用户所有聊聊
+        //查出反馈
         $datas=$this->feedback->orderBy("feed_id","desc")->paginate(8);
         //返回数据,all代表是否是查询所有聊聊
         return view('admin/feedback/index',array("datacol"=>compact("datas")));

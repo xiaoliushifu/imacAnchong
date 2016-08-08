@@ -40,10 +40,8 @@ class OrderController extends Controller
             foreach ($param['list'] as $orderarr) {
                 //查出该订单生成的联系人姓名
                 $usermessages=new \App\Usermessages();
-                $name=$usermessages->quer('contact',['users_id'=>$data['guid']]);
+                $name=$usermessages->quer('contact',['users_id'=>$data['guid']])->toArray();
                 if(!$name){
-                    //假如失败就回滚
-                    DB::rollback();
                     return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请先填写个人资料里面的联系人']]);
                 }
                 //查出该店铺客服联系方式
@@ -167,7 +165,7 @@ class OrderController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
             }
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+           return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
 
