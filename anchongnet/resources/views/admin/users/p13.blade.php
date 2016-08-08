@@ -134,7 +134,7 @@ function run()
 				 data:{a2},
 				 success:function(data){
 					 alert('本轮抽奖结束');
-					 location.href='/prize/p2';
+					 location.href='/prize/p23';
 				 },
 				 error:function(xhr,text){
 					 alert(text);
