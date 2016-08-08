@@ -331,7 +331,7 @@ class AdvertController extends Controller
                 //将查询结果加入缓存
                 Cache::add('business_information_list', $list, 600);
             }
-            if($infor_result['total']>0){
+            if($list['total']>0){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$list]);
             }else{
                 return response()->json(['serverTime'=>time(),'ServerNo'=>16,'ResultData'=>['Message'=>'加载失败，请刷新']]);

@@ -103,7 +103,7 @@ class CollectController extends Controller
             if(!empty($results)){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$results]);
             }else{
-                return response()->json(['serverTime'=>time(),'ServerNo'=>15,'ResultData'=>['Message'=>'查询失败，请刷新']]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>[]]);
             }
         }catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
