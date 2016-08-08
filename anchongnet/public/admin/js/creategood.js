@@ -86,6 +86,7 @@ $(function(){
         $.get("/commodity/"+val,function(data,status){
             $("#keyword").val(data.keyword);
             $("#type").val(data.type);
+            $("#desc").val(data.desc);
         });
     });
 

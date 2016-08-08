@@ -40,7 +40,7 @@ class UserController extends Controller
                 $action="身份验证";
                 break;
             default:
-                return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData'=>['Message'=>'短信行为异常']]);;
+                return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData'=>['Message'=>'短信行为异常']]);
                 break;
         }
         //new一个短信的对象
@@ -76,7 +76,15 @@ class UserController extends Controller
             //如果出错返回出错信息，如果正确执行下面的操作
             if ($validator->fails())
             {
-                return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'账号已注册或密码小于六位']]);
+                $messages = $validator->errors();
+                if ($messages->has('phone')) {
+    				//如果验证失败,返回验证失败的信息
+    			    return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'账号已注册']]);
+    			}else if($messages->has('password')){
+    				return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'密码不能为空，并且密码不能小于6位']]);
+    			}else if($messages->has('phonecode')){
+    				return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'验证码不能为空']]);
+    			}
             }else{
                 //从Redis里面取出验证码
                 $redis = Redis::connection();

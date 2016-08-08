@@ -46,7 +46,7 @@ class PayController extends Controller
             'trade_type'       => 'NATIVE', // JSAPI，NATIVE，APP...
             'body'             => 'iPad mini 16G 白色',
             'detail'           => 'iPad mini 16G 白色',
-            'out_trade_no'     => '1601201470277627',
+            'out_trade_no'     => '16012014702776271',
             'total_fee'        => 1,
             'notify_url'       => 'http://pay.anchong.net/pay/wxnotify',
         ];

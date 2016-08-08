@@ -10,7 +10,7 @@ use Cache;
 
 /**
 *
-*   根据输入的关键字 进行搜索处理
+*   根据输入的关键字 进行搜索处理,WEB端
 */
 class SearchController extends Controller
 {

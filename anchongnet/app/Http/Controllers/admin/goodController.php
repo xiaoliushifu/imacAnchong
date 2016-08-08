@@ -12,6 +12,7 @@ use OSS\Core\OssException;
 use DB;
 use Auth;
 use Gate;
+use Cache;
 
 use App\GoodSpecification;
 use App\GoodThumb;
@@ -106,12 +107,22 @@ class goodController extends Controller
     {
         DB::beginTransaction();
 
-        //将所有属性通过一个for循环拼合起来
-        $spetag="";
+        //智能提示。存储所有关键字，来自keyword,attribute,commodityname
+        $arr_key=array();
+
+        //将所有属性拼合起来
+        $spetag=$attr_k = $comname_k="";
         for($i=0;$i<count($request->attr);$i++){
+            //智能提示
+            $arr_key[]=trim($request->attr[$i]);
+            //title展示
             $spetag.=$request->attr[$i]." ";
         }
 
+        //替换所有的括号
+        $comname_k=str_replace(['(','（','）',')'],' ',$request->commodityname);
+        //智能提示
+        $arr_key=array_merge($arr_key,preg_split('#\s#', $comname_k,-1,PREG_SPLIT_NO_EMPTY));
         //将商品分类转码之后插入数据库，为将来分词索引做准备
         $cids=explode(' ',rtrim($request->type));
         $cid="";
@@ -138,19 +149,18 @@ class goodController extends Controller
                 'sid'=>$this->sid,
             ]
         );
-        
-        //将关键字转码之后再插入数据库，为货品关键字搜索做准备
-        //货品关键字只在此添加，以后不得更改，与goods_type表的cat_id关联
-        $keywords_arr=explode(' ',$request->keyword);
-        $keywords="";
-        foreach ($keywords_arr as $keyword_arr) {
-            $keywords.=bin2hex($keyword_arr)." ";
-        }
+
+        //取得keyword中的关键字
+        $arr_key = array_merge($arr_key,preg_split('#\s#', $request->keyword,-1,PREG_SPLIT_NO_EMPTY));
+        //由于来源三处，难免重复，须过滤并编码
+        $arr_key=array_unique($arr_key);
+        $keywords=str_replace('20', ' ', bin2hex(implode(' ', $arr_key)));
+
         $gtid = DB::table('anchong_goods_type')->insertGetId(
             [
                 'gid' => $gid,
                 'cid'=>$cid,
-                'keyword'=>$keywords,
+                //'keyword'=>$keywords,
                 'goods_id'=>$request->name,
                 'title'=>trim($spetag."-".$request->commodityname),
                 'price'=>$request->marketprice,
@@ -161,7 +171,7 @@ class goodController extends Controller
                 'other_id'=>$request->mainselect,
             ]
         );
-        
+
         //将标签转码之后插入数据库，为将来分词索引做准备
         $tags="";
         for($j=0;$j<count($request->tag);$j++){
@@ -176,6 +186,32 @@ class goodController extends Controller
                 'keyword'=>$keywords,
             ]
         );
+        //深度搜索的中文分词字符串
+        $search_match="";
+        //对商品描述进行中文分词
+        $seg=new \App\Segment\lib\Segment();
+        $res = $seg->get_keyword($request->desc);
+        $res_arr=explode(' ',$res);
+        foreach ($res_arr as $res_arrs) {
+            //为索引表准备数据
+            $search_match.=bin2hex($res_arrs)." ";
+        }
+        //深度搜索表
+       DB::table('anchong_goods_search')->insert(
+            [
+                'cat_id' => $gtid,
+                'goods_id'=>$request->name,
+                'search_match'=>$keywords.$search_match,
+            ]
+        );
+
+       //智能提示suggestion表
+       foreach($arr_key as $k) {
+           DB::insert("insert into anchong_goods_suggestion (`str`) values ('$k') on duplicate key update snums=snums+1");
+       }
+       /*清除关键字缓存操作*/
+
+       /*清除关键字缓存操作*/
 
         /*
          * 向仓库表中插入

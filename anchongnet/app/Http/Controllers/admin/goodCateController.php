@@ -143,6 +143,8 @@ class goodCateController extends Controller
         $this->cat->parent_id=$request['parent'];
         $result=$this->cat->save();
         if($result){
+            //清除缓存
+            Cache::forget('category_catinfo_result');
             return redirect()->back();
         }else{
             dd("修改失败，请返回重试");
@@ -191,6 +193,8 @@ class goodCateController extends Controller
         $data->parent_id=$request['parent'];
         $result=$data->save();
         if($result){
+            //清除缓存
+            Cache::forget('category_catinfo_result');
             return redirect()->back();
         }else{
             dd("修改失败，请返回重试");
@@ -208,6 +212,8 @@ class goodCateController extends Controller
         $data=$this->cat->find($id);
         $result=$data->delete();
         if($result){
+            //清除缓存
+            Cache::forget('category_catinfo_result');
             return "删除成功";
         }else{
             return "删除失败";

@@ -43,7 +43,9 @@ class BusinessController extends Controller
     			    return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'标题长度不能超过126个字']]);
     			}else if($messages->has('content')){
     				return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'工程简介不能低于4个字']]);
-    			}
+    			}else{
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'商机发布失败']]);
+                }
             }else{
                 //创建用户表通过电话查询出用户电话
                 $users=new \App\Users();
@@ -598,7 +600,7 @@ class BusinessController extends Controller
                 //返回数据总数和具体数据
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$businessinfo_data['total'],'list'=>$list]]);
             }else{
-                return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
             }
         }catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
@@ -667,13 +669,19 @@ class BusinessController extends Controller
                     'content' => 'required|min:4',
                     'tag' => 'required',
                     'pic' => 'array',
-                    'endtime' => 'required',
                 ]
             );
             //如果出错返回出错信息，如果正确执行下面的操作
-            if ($validator->fails())
-            {
-                return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请填写完整，并且标题长度不能超过60个字，工程简介不能低于4个字']]);
+            if ($validator->fails()){
+                $messages = $validator->errors();
+                if ($messages->has('title')) {
+    				//如果验证失败,返回验证失败的信息
+    			    return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'标题长度不能超过126个字']]);
+    			}else if($messages->has('content')){
+    				return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'工程简介不能低于4个字']]);
+    			}else{
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'修改失败']]);
+                }
             }else{
                 $tags_arr=explode(' ',$param['tags']);
                 $tags="";

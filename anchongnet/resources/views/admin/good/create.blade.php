@@ -111,6 +111,12 @@
                                         <input type="text" name="keyword" id="keyword" class="form-control" readonly />
                                     </div>
                                 </div><!--end form-group-->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="desc">描述</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" name="desc" id="desc" class="form-control" readonly />
+                                    </div>
+                                </div><!--end form-group-->
                                 <ul class="form-group" id="attrs">
                                 </ul>
                                 <div class="form-group">

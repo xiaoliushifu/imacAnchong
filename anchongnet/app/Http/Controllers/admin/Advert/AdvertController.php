@@ -75,10 +75,20 @@ class AdvertController extends Controller
             $pos = strpos($signedUrl, "?");
             $urls = substr($signedUrl, 0, $pos);
             $url = str_replace('.oss-','.img-',$urls);
-            if($request['adid']>4 && $request['adid']<9){
+            if($request['adid']>0 && $request['adid']<5){
+                Cache::forget('advert_businessadvert_ad_result_pic');
+            }elseif($request['adid']>4 && $request['adid']<9){
                 Cache::forget('advert_goodsadvert_ad_result_pic');
+            }elseif($request['adid']>8 && $request['adid']<13){
+                Cache::forget('advert_businessadvert_ad_result_area');
             }elseif($request['adid']>12 && $request['adid']<36){
                 Cache::forget('advert_goodsadvert_ad_result');
+            }elseif($request['adid']>35 && $request['adid']<40){
+                Cache::forget('business_projectadvert_ad_result1');
+            }elseif($request['adid']>39 && $request['adid']<44){
+                Cache::forget('business_projectadvert_ad_result2');
+            }elseif($request['adid']>43 && $request['adid']<48){
+                Cache::forget('business_projectadvert_ad_result3');
             }
             //创建ORM模型
             $ad=new \App\Ad();
@@ -116,6 +126,16 @@ class AdvertController extends Controller
         //创建ORM模型
         $business=new \App\Business();
         $result=$business->businessupdate($param['bid'],['recommend'=>$param['recommend']]);
+        //清除缓存
+        //商机首页热门工程项目
+        Cache::forget('advert_businessadvert_list_all');
+        //商机热门招标项目
+        Cache::forget('advert_businessadvert_list');
+        //商机热门招标信息
+        Cache::forget('business_businesshot_businessinfo_data');
+        //商机热门工程项目
+        Cache::forget('business_hotproject_businessinfo_data');
+
         if($result){
             return
             response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'推广成功']]);
@@ -176,6 +196,9 @@ class AdvertController extends Controller
         ];
         //进行插入
         $result=$information->add($information_data);
+        //清除缓存
+        Cache::forget('business_information_list');
+        Cache::forget('advert_businessadvert_ad_infor_result');
         if($result){
             return view("admin/advert/create_news",array('mes'=>"添加成功！"));
         }else{

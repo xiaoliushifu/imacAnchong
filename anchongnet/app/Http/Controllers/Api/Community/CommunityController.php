@@ -33,7 +33,15 @@ class CommunityController extends Controller
             //如果出错返回出错信息，如果正确执行下面的操作
             if ($validator->fails())
             {
-                return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请填写完整，并且标题长度不能超过60个字，内容不能低于2个字']]);
+                $messages = $validator->errors();
+                if ($messages->has('title')) {
+    				//如果验证失败,返回验证失败的信息
+    			    return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'标题不能超过60个字']]);
+    			}else if($messages->has('content')){
+    				return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'内容不能低于2个字']]);
+    			}else{
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'聊聊发布失败']]);
+                }
             }else{
                 //创建用户表通过电话查询出用户电话
                 $users_message=new \App\Usermessages();
@@ -579,55 +587,4 @@ class CommunityController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
-
-    /*
-    *   chougou
-    */
-    public function chonggou(Request $request)
-    {
-        //获得app端传过来的json格式的数据转换成数组格式
-        $data=$request::all();
-        $param=json_decode($data['param'],true);
-        $limit=20;
-        //开启事务处理
-        DB::beginTransaction();
-        //创建的orm模型
-        $community_release=new \App\Community_release();
-        $community_release_result=$community_release->testquer('auth = 1',(($param['page']-1)*$limit),$limit)->toArray();
-        $result=true;
-        foreach ($community_release_result as $community_releases) {
-            if(!$result){
-                //假如失败就回滚
-                DB::rollback();
-                return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>1]]);
-            }
-            $community_img=new \App\Community_img();
-            $community_img_result=$community_img->quer('img',$community_releases['chat_id']);
-            $imgs="";
-            if(!empty($community_img_result)){
-                foreach ($community_img_result as $community_imgs) {
-                    $imgs.=$community_imgs['img'].'#@#';
-                }
-            }
-            $community_data=[
-                'users_id' => $community_releases['users_id'],
-                'title' => $community_releases['title'],
-                'name' => $community_releases['name'],
-                'content' => $community_releases['content'],
-                'created_at' => $community_releases['created_at'],
-                'headpic' => $community_releases['headpic'],
-                'tags' => $community_releases['tags'],
-                'tags_match' => $community_releases['tags_match'],
-                'img' => $imgs,
-            ];
-            $community_releases=new \App\Community_releases();
-            $result=$community_releases->add($community_data);
-        }
-        if($result){
-            //假如成功就提交
-            DB::commit();
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'聊聊发布成功']]);
-        }
-    }
-
 }
