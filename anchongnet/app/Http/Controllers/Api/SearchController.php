@@ -20,7 +20,7 @@ class SearchController extends Controller
         $param=json_decode($data['param'],true);
         $q = $param['q'];
         if (!$q) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'请输入查找的内容']]);
         }
         $prefix='suggestion';
         if (!$result = Cache::get($prefix.$q)) {
@@ -29,7 +29,7 @@ class SearchController extends Controller
             $tmp=DB::select("select `str` from `anchong_goods_suggestion` where `str` like '$q%' order by qnums desc limit 6");
             //$queries = DB::getQueryLog();
             if (!$tmp) {
-                return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['']]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'']]);
             }
             $result='';
             foreach ($tmp as $o) {
