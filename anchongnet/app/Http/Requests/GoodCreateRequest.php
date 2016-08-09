@@ -26,6 +26,7 @@ class GoodCreateRequest extends Request
         return [
             'name'=>'required',
             'marketprice'=>'required|numeric',
+            'model'=>'required',
             'costpirce'=>'numeric',
             'viprice'=>'numeric',
             'keyword'=>'required',
@@ -40,6 +41,7 @@ class GoodCreateRequest extends Request
     {
         return [
             'name.required'=>'请输入商品名',
+            'model.required' =>'请输入型号',
             'marketprice.required'=>'请输入市场价',
             'marketprice.numeric'=>'市场价必须为数值',
             'costpirce.numeric'=>'成本价必须为数值',

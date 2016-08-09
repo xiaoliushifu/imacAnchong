@@ -6,13 +6,27 @@ $(function(){
     $(".view").click(function(){
         //获取ID
         var id=$(this).attr("data-id");
+        var title=$(this).attr("data-title");
+        var state=$(this).attr("data-state");
+        var users_id=$(this).attr("data-uid");
         //先将编辑的div清空
         $("#imgcontent").empty();
         //赋值反馈标题
-        $('#feedbacktitle').text($(this).attr("data-title"));
+        $('#feedbacktitle').text(title);
         //赋值反馈内容
         $('#feedbackcontent').text($(this).attr("data-content"));
-
+        //判断
+        if(state == 1){
+            //已查看，给用户反馈已查看的信息
+            $.ajax({
+                url: '/feedback/feedbackview',
+                type:'POST',
+                data:{feed_id:id,title:title,users_id:users_id},
+                success:function(result){
+                    alert(result);
+                }
+            });
+        }
         //获取社区图片
         $.get("/feedback/imgshow/"+id,function(data,status){
             //判断是否有图片
@@ -50,7 +64,7 @@ $(function(){
 
     //已修复
     $(".success").click(function(){
-        if(confirm("确定已经修复了吗？")){
+        if(confirm("确定已经反馈给工程师了吗？")){
             var id=$(this).attr("data-id");
             $.ajax({
                 url: '/feedback/feedbackedit/'+id,
@@ -63,17 +77,4 @@ $(function(){
         }
     });
 
-    //回复反馈
-    $("#save").click(function(){
-        var id=$("#commentfeedid").val();
-        var usersid=$("#commentfeedusersid").val();
-        $("#formToUpdate").ajaxSubmit({
-            url:'/feedback/feedbackreply/'+id,
-            type:'PUT',
-            success:function(data){
-                alert(data.Message);
-                location.reload();
-            }
-        });
-    });
 });

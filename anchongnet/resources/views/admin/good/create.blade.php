@@ -120,6 +120,14 @@
                                 <ul class="form-group" id="attrs">
                                 </ul>
                                 <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="desc">型号</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" name="model" id="model" class="form-control"/>
+                                    </div>
+                                </div><!--end form-group-->
+                                <ul class="form-group" id="attrs">
+                                </ul>
+                                <div class="form-group">
                                     <label class="col-sm-2 control-label" for="marketprice">市场价</label>
                                     <div class="col-sm-3">
                                         <input type="text" name="marketprice" id="marketprice" class="form-control" required value="{{ old('marketprice') }}" />

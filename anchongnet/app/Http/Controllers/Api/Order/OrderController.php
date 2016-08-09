@@ -83,7 +83,7 @@ class OrderController extends Controller
                         foreach ($orderarr['goods'] as $goodsinfo) {
                             //创建货品表的ORM模型来查询货品数量
                             $goods_specifications=new \App\Goods_specifications();
-                            $goods_num=$goods_specifications->quer(['title','goods_num','added','goods_numbering'],'gid ='.$goodsinfo['gid'])->toArray();
+                            $goods_num=$goods_specifications->quer(['title','goods_num','model','added','goods_numbering'],'gid ='.$goodsinfo['gid'])->toArray();
                             //判断商品是否以删除
                             if(empty($goods_num)){
                                 //假如失败就回滚

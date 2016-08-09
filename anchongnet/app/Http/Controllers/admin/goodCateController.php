@@ -7,6 +7,7 @@ use Request as Requester;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\GoodCat;
+use Cache;
 
 class goodCateController extends Controller
 {
