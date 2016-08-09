@@ -54,7 +54,7 @@
 	<div class="content-wrapper">
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
-			<h1>意见反馈</h1><div align="center"><font color="red" align="center">{{ Session::get('commentresult') }}</font></div>
+			<h1>意见反馈</h1><div align="center"><font color="red">{{ Session::get('commentresult') }}</font></div>
 		</section>
 
 		<!-- Main content -->
