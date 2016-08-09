@@ -139,14 +139,16 @@ class goodController extends Controller
                 'cat_id'=>$catid,
                 'goods_id'=>$request->name,
                 'goods_name'=>trim($spetag),
+                'model' => $request->model,
                 'market_price'=>$request->marketprice,
                 'goods_price'=>$request->costpirce,
                 'vip_price'=>$request->viprice,
                 'sname' => $sname[0]['name'],
                 'added'=>$request->status,
                 'goods_numbering'=>$request->numbering,
-                'title'=>trim($spetag)."-".$request->commodityname,
+                'title'=>trim($request->commodityname),
                 'sid'=>$this->sid,
+                'cid' => $cid,
             ]
         );
 
@@ -162,7 +164,7 @@ class goodController extends Controller
                 'cid'=>$cid,
                 //'keyword'=>$keywords,
                 'goods_id'=>$request->name,
-                'title'=>trim($spetag."-".$request->commodityname),
+                'title'=>trim($request->commodityname),
                 'price'=>$request->marketprice,
                 'sname'=>$sname[0]['name'],
                 'vip_price'=>$request->viprice,
@@ -300,10 +302,12 @@ class goodController extends Controller
         $data->goods_id=$request->name;
         //$data->cat_id=$request->midselect;
         $data->goods_name=$request->spetag;
+        $data->model=$request->model;
         $data->market_price=$request->marketprice;
         $data->goods_price=$request->costpirce;
         $data->vip_price=$request->viprice;
         $data->goods_desc=$request->description;
+        $data->title=trim($request->goodsname);
         //是否上架
         $data->added=$request->status;
         if($request->status==1){
@@ -319,10 +323,11 @@ class goodController extends Controller
             $goods_type=new \App\Goods_type();
             //修改数据
             $goods_type_data=[
-                'title' => trim($request->spetag."-".$request->goodsname),
+                'title' => trim($request->goodsname),
                 'price' => $request->marketprice,
                 'vip_price'=> $request->viprice,
-                'added'=>$request->status,
+                'added' => $request->status,
+                'updated_at' => date('Y-m-d H:i:s',time()),
             ];
             $results=$goods_type->goodsupdate($id,$goods_type_data);
             if($results){

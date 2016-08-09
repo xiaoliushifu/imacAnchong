@@ -483,7 +483,9 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
             //后台意见状态修改
             Route::post('/feedback/feedbackedit/{num}','admin\Feedback\FeedbackController@feedbackedit');
             //后台意见回复
-            Route::any('/feedback/feedbackreply/{num}','admin\Feedback\FeedbackController@feedbackreply');
+            Route::post('/feedback/feedbackreply','admin\Feedback\FeedbackController@feedbackreply');
+            //后台意见状态修改
+            Route::post('/feedback/feedbackview','admin\Feedback\FeedbackController@feedbackview');
         });
     });
 

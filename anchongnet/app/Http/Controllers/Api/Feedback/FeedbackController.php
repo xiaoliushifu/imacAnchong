@@ -44,50 +44,65 @@ class FeedbackController extends Controller
                     return response()->json(['serverTime'=>time(),'ServerNo'=>17,'ResultData'=>['Message'=>'反馈失败']]);
                 }
             }else{
-                $feedback_data=[
-                    'users_id' => $data['guid'],
-                    'title' => $param['title'],
-                    'created_at' => date('Y-m-d H:i:s',$data['time']),
-                    'content' => $param['content']
-                ];
-                //开启事务处理
-                DB::beginTransaction();
-                //创建插入方法
-                $feedback=new \App\Feedback();
-                $id=$feedback->add($feedback_data);
-                //插入成功继续插图片，插入失败则返回错误信息
-                if(!empty($id)){
-                    if($param['pic']){
-                        $ture=false;
-                        foreach ($param['pic'] as $pic) {
-                            $urls = str_replace('.oss-','.img-',$pic);
-                            $feedback_img=new \App\Feedback_img();
-                            $ture=$feedback_img->add(['feed_id'=>$id,'img'=> $urls]);
-                            //假如有一张图片插入失败就返回错误
-                            if(!$ture){
+                //创建用户表通过电话查询出用户电话
+                $users=new \App\Users();
+                $users_phone=$users->quer('phone',['users_id'=>$data['guid']])->toArray();
+                //判断用户数据表中是否有电话联系方式
+                if($users_phone[0]['phone']){
+                    $users_message=new \App\Usermessages();
+                    $users_contact=$users_message->quer('contact',['users_id'=>$data['guid']])->toArray();
+                    if(!$users_contact){
+                        $users_contact[0]['contact']="";
+                    }
+                    $feedback_data=[
+                        'users_id' => $data['guid'],
+                        'title' => $param['title'],
+                        'created_at' => date('Y-m-d H:i:s',$data['time']),
+                        'content' => $param['content'],
+                        'phone' => $users_phone[0]['phone'],
+                        'contact' => $users_contact[0]['contact'],
+                    ];
+                    //开启事务处理
+                    DB::beginTransaction();
+                    //创建插入方法
+                    $feedback=new \App\Feedback();
+                    $id=$feedback->add($feedback_data);
+                    //插入成功继续插图片，插入失败则返回错误信息
+                    if(!empty($id)){
+                        if($param['pic']){
+                            $ture=false;
+                            foreach ($param['pic'] as $pic) {
+                                $urls = str_replace('.oss-','.img-',$pic);
+                                $feedback_img=new \App\Feedback_img();
+                                $ture=$feedback_img->add(['feed_id'=>$id,'img'=> $urls]);
+                                //假如有一张图片插入失败就返回错误
+                                if(!$ture){
+                                    //假如失败就回滚
+                                    DB::rollback();
+                                    return response()->json(['serverTime'=>time(),'ServerNo'=>17,'ResultData'=>['Message'=>'提交反馈失败，请重新提交']]);
+                                }
+                            }
+                            //orm模型操作数据库会返回true或false,如果操作失败则返回错误信息
+                            if($ture){
+                                //假如成功就提交
+                                DB::commit();
+                                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'提交成功']]);
+                            }else{
                                 //假如失败就回滚
                                 DB::rollback();
-                                return response()->json(['serverTime'=>time(),'ServerNo'=>17,'ResultData'=>['Message'=>'提交反馈失败，请重新提交']]);
+                                return response()->json(['serverTime'=>time(),'ServerNo'=>17,'ResultData'=>['Message'=>'请重新提交信息']]);
                             }
-                        }
-                        //orm模型操作数据库会返回true或false,如果操作失败则返回错误信息
-                        if($ture){
+                        }else{
                             //假如成功就提交
                             DB::commit();
                             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'提交成功']]);
-                        }else{
-                            //假如失败就回滚
-                            DB::rollback();
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>17,'ResultData'=>['Message'=>'请重新提交信息']]);
                         }
                     }else{
-                        //假如成功就提交
-                        DB::commit();
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'提交成功']]);
+                        //假如失败就回滚
+                        DB::rollback();
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>17,'ResultData'=>['Message'=>'请重新提交信息']]);
                     }
                 }else{
-                    //假如失败就回滚
-                    DB::rollback();
                     return response()->json(['serverTime'=>time(),'ServerNo'=>17,'ResultData'=>['Message'=>'请重新提交信息']]);
                 }
             }
@@ -95,7 +110,6 @@ class FeedbackController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
-
 
     /*
     *   该方法提供了APP更新
