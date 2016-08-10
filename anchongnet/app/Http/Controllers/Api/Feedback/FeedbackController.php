@@ -59,6 +59,7 @@ class FeedbackController extends Controller
                         'title' => $param['title'],
                         'created_at' => date('Y-m-d H:i:s',$data['time']),
                         'content' => $param['content'],
+                        'phonemodel' => $param['phonemodel'],
                         'phone' => $users_phone[0]['phone'],
                         'contact' => $users_contact[0]['contact'],
                     ];
@@ -108,6 +109,22 @@ class FeedbackController extends Controller
             }
         }catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
+
+    public function reply(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $feedback_reply=new \App\Feedback_reply();
+        //查出数据
+        $result=$feedback_reply->quer(['title','content'],'users_id = '.$data['guid']);
+        if(empty($result)){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>[]]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }
     }
 

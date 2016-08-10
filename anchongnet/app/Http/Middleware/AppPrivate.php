@@ -19,7 +19,7 @@ class AppPrivate
      {
          if($request['guid'] == 0){
                  //公开的中间件
-           $signature=md5(trim($request->path()).trim($request['time']).trim($request['guid']).trim($request['param']).'anchongnet');
+          $signature=md5(trim($request->path()).trim($request['time']).trim($request['guid']).trim($request['param']).'anchongnet');
                  if($request['signature'] == $signature){
                      return $next($request);
                  }

@@ -15,6 +15,12 @@ $(function(){
         $('#feedbacktitle').text(title);
         //赋值反馈内容
         $('#feedbackcontent').text($(this).attr("data-content"));
+        //赋值反馈内容
+        $('#feedbackphone').text($(this).attr("data-phone"));
+        //赋值反馈内容
+        $('#feedbackcontact').text($(this).attr("data-contact"));
+        //赋值反馈内容
+        $('#feedbackphonemodel').text($(this).attr("data-phonemodel"));
         //判断
         if(state == 1){
             //已查看，给用户反馈已查看的信息

@@ -260,6 +260,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         */
         //意见反馈提交
         Route::post('/feedback/release','Api\Feedback\FeedbackController@release');
+        //意见反馈提交
+        Route::post('/feedback/reply','Api\Feedback\FeedbackController@reply');
     });
 });
 

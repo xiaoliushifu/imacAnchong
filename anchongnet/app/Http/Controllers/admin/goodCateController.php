@@ -195,7 +195,7 @@ class goodCateController extends Controller
         $result=$data->save();
         if($result){
             //清除缓存
-            Cache::forget('category_catinfo_result');
+            Cache::forget('category_catinfo_result'.$request['parent']);
             return redirect()->back();
         }else{
             dd("修改失败，请返回重试");
@@ -214,7 +214,21 @@ class goodCateController extends Controller
         $result=$data->delete();
         if($result){
             //清除缓存
-            Cache::forget('category_catinfo_result');
+            Cache::forget('category_catinfo_result1');
+            //清除缓存
+            Cache::forget('category_catinfo_result2');
+            //清除缓存
+            Cache::forget('category_catinfo_result3');
+            //清除缓存
+            Cache::forget('category_catinfo_result4');
+            //清除缓存
+            Cache::forget('category_catinfo_result5');
+            //清除缓存
+            Cache::forget('category_catinfo_result6');
+            //清除缓存
+            Cache::forget('category_catinfo_result7');
+            //清除缓存
+            Cache::forget('category_catinfo_result8');
             return "删除成功";
         }else{
             return "删除失败";
