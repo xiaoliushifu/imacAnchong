@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>100人摇奖</title>
+    <title>2000人摇奖</title>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link href="/styles/css/prize.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="/styles/css/bootstrap.min.css">
@@ -32,7 +32,7 @@
                  </div>
              </div>
              <div id="right-box" class="col-lg-4 col-md-4 col-xs-4">																							<!-- 奖品图 -->
-                 <div><img id="prize-background" src="/images/prize—background.png" alt="这里是奖品背景图"><img id="prize" src="/images/battery.png"  alt="这里是奖品图"></div>
+                 <div><img id="prize-background" src="/images/prize—background.png" alt="这里是奖品背景图"><img id="prize" src="/images/phone.png"  alt="这里是奖品图"></div>
              </div>
          </div>
     </div>
@@ -49,7 +49,7 @@ var plevel='';
 //加载事件，用于获取原始用户名单
  $(function(){
 	 $.ajax({
-		 url:'/prize/index',
+		 url:'/prize/index20',
 		 success:function(data){
 			 if (data.length < 10) {
 				 alert('本次抽奖人员名单不足10人，请抓紧注册');
@@ -89,17 +89,17 @@ function action(str)
 					break;
 				case 1:
 					$('#flevel').attr('src','/images/fenlei_02.png');
-					$('#prize').attr('src','/images/cup.png');
+					$('#prize').attr('src','/images/pad.png');
 					plevel='二等奖';
 					break;
 				case 2:
 					$('#flevel').attr('src','/images/fenlei_03.png');
-					$('#prize').attr('src','/images/mingpianjia.png');
+					$('#prize').attr('src','/images/cup.png');
 					plevel='三等奖';
 					break;
 				default:
 					$('#flevel').attr('src','/images/fenlei_special-.png');
-					$('#prize').attr('src','/images/phonetie.png');
+					$('#prize').attr('src','/images/battery.png');
 					plevel='特别奖';
 			}
 		//否则 “停止"
@@ -134,7 +134,7 @@ function run()
 				 data:{a2},
 				 success:function(data){
 					 alert('本轮抽奖结束');
-					 location.href='/prize/p2';
+					 location.href='/prize/p23';
 				 },
 				 error:function(xhr,text){
 					 alert(text);

@@ -119,8 +119,8 @@ class goodController extends Controller
             $spetag.=$request->attr[$i]." ";
         }
 
-        //替换所有的括号
-        $comname_k=str_replace(['(','（','）',')'],' ',$request->commodityname);
+        //替换商品名中所有的特殊字符
+        $comname_k=str_replace(['(','（','）',')','；','“','”','，',',','、'],' ',$request->commodityname);
         //智能提示
         $arr_key=array_merge($arr_key,preg_split('#\s#', $comname_k,-1,PREG_SPLIT_NO_EMPTY));
         //将商品分类转码之后插入数据库，为将来分词索引做准备
@@ -152,10 +152,12 @@ class goodController extends Controller
             ]
         );
 
-        //取得keyword中的关键字
+        //取得keyword中的关键字,当然不排除某些录入者错把desc 录入到 keyword中
         $arr_key = array_merge($arr_key,preg_split('#\s#', $request->keyword,-1,PREG_SPLIT_NO_EMPTY));
         //由于来源三处，难免重复，须过滤并编码
         $arr_key=array_unique($arr_key);
+        //英文字符全部转为大写，使得有关英文的搜索不区分大小。
+        $arr_key=array_map('strtoupper',$arr_key);
         $keywords=str_replace('20', ' ', bin2hex(implode(' ', $arr_key)));
 
         $gtid = DB::table('anchong_goods_type')->insertGetId(

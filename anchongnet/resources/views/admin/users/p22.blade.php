@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>100人获奖名单</title>
+    <title>500人获奖名单</title>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link href="/styles/css/winner.list.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="/styles/css/bootstrap.min.css">
@@ -18,25 +18,23 @@
             <div class="left-box ">
                 <div class="box">
                      <div class="prize"><img src="/images/01_03.png" alt=""></div>
-                     <div class="prize"><img src="/images/li2_03.png" alt=""></div>
-                     <div class="prize" id="add"><img src="/images2/+_03.png" alt=""></div>
-                     <div class="prize"><img src="/images/li1_03.png" alt=""></div>
+                     <div class="prize"><img src="/images/view_pad.png" alt=""></div>
                 </div>
                 <div class="box">
                     <div class="prize"><img src="/images/02_03.png" alt=""></div>
-                    <div class="prize"><img src="/images/li3_03.png" alt=""></div>
+                    <div class="prize"><img src="/images/view_battery.png" alt=""></div>
                     <div class="prize" id="add"><img src="/images2/+_03.png" alt=""></div>
-                    <div class="prize"><img src="/images2/li1_03.png" alt=""></div>
+                    <div class="prize"><img src="/images2/li3_03.png" alt=""></div>
                 </div>
                 <div class="box">
                     <div class="prize"><img src="/images/03_03.png" alt=""></div>
-                    <div class="prize"><img src="/images/li4_03.png" alt=""></div>
-                    <div class="prize" id="add"><img src="/images2/+_03.png" alt=""></div>
                     <div class="prize"><img src="/images/li1_03.png" alt=""></div>
+                    <div class="prize" id="add"><img src="/images2/+_03.png" alt=""></div>
+                    <div class="prize"><img src="/images/li4_03.png" alt=""></div>
                 </div>
                 <div class="box">
                     <div class="prize"><img src="/images/04_03.png" alt=""></div>
-                    <div class="prize"><img src="/images/li5_03.png" alt=""></div>
+                    <div class="prize"><img src="/images/li3_03.png" alt=""></div>
                 </div>
             </div>
             <div class="right-box">
