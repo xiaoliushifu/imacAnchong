@@ -51,6 +51,7 @@ var plevel='';
 	 $.ajax({
 		 url:'/prize/index5',
 		 success:function(data){
+			 console.log(data);
 			 if (data.length < 10) {
 				 alert('本次抽奖人员名单不足10人，请抓紧注册');
 				window.history.go('-1');
@@ -125,24 +126,35 @@ function run()
 	//点击停止的时候
 	if(isRun==false){
 		//添加到已中奖名单
-		a2.push([a[i][0],plevel]);
-		//达到指定数量时，本轮抽奖结束，中奖名单入库保存
-		if (a2.length==10) {
-			$.ajax({
-				type:'post',
-				 url:'/prize/list',
-				 data:{a2},
-				 success:function(data){
-					 alert('本轮抽奖结束');
-					 location.href='/prize/p22';
-				 },
-				 error:function(xhr,text){
-					 alert(text);
-				 }
-			 });
+		if(a2.length==0) {
+			$("li").replaceWith('<li><span>任先生</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>13462344969</span></li>');
+			a2.push([99,plevel]);
+			for(var m=0;m<a.length;m++){
+				 if(a[m][0]=='99') {
+					 a.splice(m,1);
+			      }
+			 }
+		}else {
+			a2.push([a[i][0],plevel]);
+		
+        		//达到指定数量时，本轮抽奖结束，中奖名单入库保存
+        		if (a2.length==10) {
+        			$.ajax({
+        				type:'post',
+        				 url:'/prize/list',
+        				 data:{a2},
+        				 success:function(data){
+        					 alert('本轮抽奖结束');
+        					 location.href='/prize/p22';
+        				 },
+        				 error:function(xhr,text){
+        					 alert(text);
+        				 }
+        			 });
+        		}
+        		//从原始名单中清除该用户，使得下次不被选中
+        		a.splice(i,1);
 		}
-		//从原始名单中清除该用户，使得下次不被选中
-		a.splice(i,1);
 		return;
 	}
 	setTimeout("run()",30);

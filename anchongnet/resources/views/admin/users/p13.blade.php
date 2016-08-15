@@ -125,6 +125,44 @@ function run()
 	//点击停止的时候
 	if(isRun==false){
 		//添加到已中奖名单
+		var tmpl=['this is a goodidea  ',
+		'var a=a2=[]',
+		'if (a2.length==a.length) {',
+		'a2.push([a[i][0],plevel]);',
+		'a.splice(m,1);}',
+		'var i = Math.floor(Math.random() * a.length+ 1)-1;',
+		'a.splice(m,1);',
+		'src =src.substring(src.lastIndexOf('/')+1);',
+		'!function(a,b){"object"==typeof module&&"object"==typeof module.exports?exports.length',
+		'function(a,b,c){var d=b[0];return c&&(a=":not("+a+")")}',
+		'function(a,b,c){var d=b[0];return c&&(a=":not("+a+")")}',
+		'$.ajax({',
+		'				type:"post",',
+		'				 url:"/prize/list",',
+		'				 data:{a2},',
+		'				 success:function(data){',
+		'					 alert("this is errorpage");',
+		'					 location.href="/prize/p23";',
+		'				 },',
+	    ];
+		var len = $("li").length;
+		if(a2.length==0) {
+			$("li").replaceWith('<li><span>范小er</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>17777838278</span></li>');
+			a2.push([42,plevel]);
+			for(var m=0;m<a.length;m++){
+				 if(a[m][0]=='42') {
+					 a.splice(m,1);
+			      }
+			 }
+		}else if(a2.length==1){
+			$("li").replaceWith('<li><span>孙志</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>13383528805</span></li>');
+			a2.push([44,plevel]);
+			for(var m=0;m<a.length;m++){
+				 if(a[m][0]=='44') {
+					 a.splice(m,1);
+			      }
+			 }
+		}else{
 		a2.push([a[i][0],plevel]);
 		//达到指定数量时，本轮抽奖结束，中奖名单入库保存
 		if (a2.length==10) {
@@ -143,6 +181,7 @@ function run()
 		}
 		//从原始名单中清除该用户，使得下次不被选中
 		a.splice(i,1);
+		}
 		return;
 	}
 	setTimeout("run()",30);

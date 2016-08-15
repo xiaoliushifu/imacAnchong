@@ -214,22 +214,6 @@
                         <input type="hidden" name="sid" id="sid" value="{{$sid}}">
                         <input type="hidden" name="_method" value="PUT">
                         <div id="goodscat">
-                        <!-- <div class="form-group">
-                            <label class="col-sm-2 control-label">商品分类</label>
-                            <div class="col-sm-10">
-                                <div class="row">
-                                    <div class="col-xs-4">
-                                        <select class="form-control" id="mainselect" name="mainselect" required>
-                                        </select>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <select class="form-control" id="midselect" name="midselect" required>
-                                        </select>
-                                        <input type="hidden" name="midhidden" id="midhidden" value="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="name">商品名称</label>
