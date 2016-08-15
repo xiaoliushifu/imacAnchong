@@ -27,7 +27,8 @@ class CategoryController extends Controller
             $data=$request::all();
             $param=json_decode($data['param'],true);
             //判断缓存
-            $result_cache=Cache::get('category_catinfo_result');
+            $cache_param=$param['cat_id'];
+            $result_cache=Cache::get('category_catinfo_result'.$cache_param);
             if($result_cache){
                 //将缓存取出来赋值给变量
                 $result=$result_cache;
@@ -37,7 +38,7 @@ class CategoryController extends Controller
                 //将一级分类信息查询出来
                 $result=$category->quer(['cat_id','cat_name'],'parent_id = '.$param['cat_id'].' and is_show = 1')->toArray();
                 //将查询结果加入缓存
-                Cache::add('category_catinfo_result', $result, 600);
+                Cache::add('category_catinfo_result'.$cache_param, $result, 600);
             }
             //假如数据组装后不为空那么返回正确，否则返回错误
             if(!empty($result)){

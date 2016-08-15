@@ -54,7 +54,7 @@
 	<div class="content-wrapper">
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
-			<h1>意见反馈</h1><div align="center"><font color="red" align="center">{{ Session::get('commentresult') }}</font></div>
+			<h1>意见反馈</h1><div align="center"><font color="red">{{ Session::get('commentresult') }}</font></div>
 		</section>
 
 		<!-- Main content -->
@@ -88,7 +88,7 @@
 													echo '<font color="orange">已查看</font>';
 													break;
 												case 3:
-													echo '<font color="gray">处理中</font>';
+													echo '<font color="blue">处理中</font>';
 													break;
 												case 4:
 													echo '<font color="green">已修复</font>';
@@ -97,7 +97,7 @@
 										?>
 									</td>
 									<td align="center">
-										<button type='button' class='view f-ib btn btn-primary btn-xs' data-id="{{$data['feed_id']}}" data-uid="{{$data['users_id']}}" data-title="{{$data['title']}}" data-content="{{$data['content']}}" data-state="{{$data['state']}}" data-toggle="modal" data-target="#myModal">查看</button>
+										<button type='button' class='view f-ib btn btn-primary btn-xs' data-id="{{$data['feed_id']}}" data-uid="{{$data['users_id']}}" data-title="{{$data['title']}}" data-content="{{$data['content']}}" data-state="{{$data['state']}}" data-phonemodel="{{$data['phonemodel']}}" data-phone="{{$data['phone']}}" data-contact="{{$data['contact']}}" data-toggle="modal" data-target="#myModal">查看</button>
 										<button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['feed_id']}}">删除</button>
 										<button type="button" class="success f-ib btn btn-success btn-xs" data-id="{{$data['feed_id']}}">处理</button>
 										<button type="button" class="comment f-ib btn btn-warning btn-xs" data-id="{{$data['feed_id']}}" data-uid="{{$data['users_id']}}" data-toggle="modal" data-target="#mycomment">已修复</button>
@@ -138,13 +138,31 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="title">标题</label>
 							<div class="col-sm-9">
-								<label class="col-sm-2 control-label" id="feedbacktitle"></label>
+								<label class="control-label" id="feedbacktitle"></label>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="content">内容</label>
 							<div class="col-sm-9">
-								<label class="col-sm-2 control-label" id="feedbackcontent"></label>
+								<label class="control-label" id="feedbackcontent"></label>
+							</div>
+						</div><!--end form-group-->
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="content">联系电话</label>
+							<div class="col-sm-9">
+								<label class="col-sm-2 control-label" id="feedbackphone"></label>
+							</div>
+						</div><!--end form-group-->
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="content">联系人</label>
+							<div class="col-sm-9">
+								<label class="col-sm-2 control-label" id="feedbackcontact"></label>
+							</div>
+						</div><!--end form-group-->
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="content">手机型号</label>
+							<div class="col-sm-9">
+								<label class="col-sm-2 control-label" id="feedbackphonemodel"></label>
 							</div>
 						</div><!--end form-group-->
 					</form>

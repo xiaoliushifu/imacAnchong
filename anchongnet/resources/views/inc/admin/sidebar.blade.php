@@ -70,7 +70,7 @@
 			</ul>
 		</li>
 		<li class="treeview" id="treeadvert">
-			<a href="#">
+			<a href="">
 				<i class="fa fa-laptop"></i>
 				<span>广告管理</span>
 				<i class="fa fa-angle-left pull-right"></i>

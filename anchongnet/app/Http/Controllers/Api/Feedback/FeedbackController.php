@@ -59,6 +59,7 @@ class FeedbackController extends Controller
                         'title' => $param['title'],
                         'created_at' => date('Y-m-d H:i:s',$data['time']),
                         'content' => $param['content'],
+                        'phonemodel' => $param['phonemodel'],
                         'phone' => $users_phone[0]['phone'],
                         'contact' => $users_contact[0]['contact'],
                     ];
@@ -109,6 +110,69 @@ class FeedbackController extends Controller
         }catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
+    }
+
+    /*
+    *   该方法提供了意见反馈回复的功能
+    */
+    public function reply(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $feedback_reply=new \App\Feedback_reply();
+        //查出数据
+        $result=$feedback_reply->quer(['title','content','state'],'users_id = '.$data['guid']);
+        if(empty($result)){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>[]]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+        }
+    }
+
+    /*
+    *   该方法提供了意见反馈操作的功能
+    */
+    public function replyedit(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $feedback_reply=new \App\Feedback_reply();
+        //判断操作
+        if($param['action'] == 1){
+            //修改回复信息查看状态
+            $result=$feedback_reply->replyupdate($param['freply_id'],['state'=>1]);
+        }elseif($param['action'] == 2){
+            //删除回复信息
+            $result=$feedback_reply->replydel($param['freply_id']);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>17,'ResultData'=>['Message'=>'非法操作']]);
+        }
+        //判断是否操作成功
+        if($result){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'操作成功']]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>17,'ResultData'=>['Message'=>'操作失败']]);
+        }
+    }
+
+    /*
+    *   该方法提供了意见反馈回复未查看数量
+    */
+    public function replycount(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //创建ORM模型
+        $feedback_reply=new \App\Feedback_reply();
+        //修改回复信息查看状态
+        $num=$feedback_reply->countquer('users_id ='.$data['guid']." and state = 0");
+        //返回数量
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$num]);
     }
 
     /*
