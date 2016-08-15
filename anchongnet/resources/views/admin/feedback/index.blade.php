@@ -138,13 +138,13 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="title">标题</label>
 							<div class="col-sm-9">
-								<label class="col-sm-2 control-label" id="feedbacktitle"></label>
+								<label class="control-label" id="feedbacktitle"></label>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="content">内容</label>
 							<div class="col-sm-9">
-								<label class="col-sm-2 control-label" id="feedbackcontent"></label>
+								<label class="control-label" id="feedbackcontent"></label>
 							</div>
 						</div><!--end form-group-->
 						<div class="form-group">

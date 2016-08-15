@@ -41,4 +41,38 @@ class Feedback_reply extends Model
      {
          return $this->select($field)->whereRaw($type)->orderBy('freply_id','DESC')->get();
      }
+
+    /*
+     *   该方法是更新信息
+     */
+     public function replyupdate($id,$data)
+     {
+         $id=$this->find($id);
+         if($id->update($data)){
+             return true;
+         }else{
+             return false;
+         }
+     }
+
+    /*
+     *   删除信息
+     */
+     public function replydel($id)
+     {
+         $del=$this->find($id);
+         if($del->delete()){
+             return true;
+         }else{
+             return false;
+         }
+     }
+
+     /*
+      * 反馈回复未查看数量查询
+      */
+      public function countquer($type)
+      {
+          return $this->whereRaw($type)->count();
+      }
 }

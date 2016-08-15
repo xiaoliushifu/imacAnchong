@@ -193,6 +193,7 @@ class PayController extends Controller
     //
     //       return 'fail1';
     //   }
+    //Cache::add('pay-alipay', Request::instance()->getContent(), 600);
 
       // 判断通知类型。
       switch ($data['trade_status']) {

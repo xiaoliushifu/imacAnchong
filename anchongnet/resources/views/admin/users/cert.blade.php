@@ -100,7 +100,7 @@
 								  ?>
 								  </td>
 								  <td align="center">
-								      <button type="button" class="view btn btn-default btn-xs" data-auth="{{$data['auth_name']}}" data-id="{{$data['users_id']}}" data-toggle="modal" data-target="#myModal">查看</button>
+								      <button type="button" class="view btn btn-default btn-xs" data-auth="{{$data['auth_name']}}" data-exp="{{$data['explanation']}}" data-qua="{{$data['qua_name']}}" data-id="{{$data['id']}}" data-toggle="modal" data-target="#myModal">查看</button>
 								  </td>
 								  <td align="center">
 								  {{-- 应用权限判定--}}
@@ -109,11 +109,11 @@
 									  <button type='button' data-id="{{$data['id']}}" class='check-success btn btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button' data-id="{{$data['id']}}"   class='check-failed btn btn-danger btn-xs'>不通过</button>
 									  @else
 									  {{--  权限不许时，灰色按钮--}}
-									  <button type='button'  class='btn disabled btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button'  class='btn disabled btn-danger btn-xs'>不通过</button>									  
+									  <button type='button'  class='btn disabled btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button'  class='btn disabled btn-danger btn-xs'>不通过</button>
 									  @endcan
 								  @endif
 								  </td>
-								</tr>  
+								</tr>
 								@endforeach
 								<tr>
 								  <td colspan="5" align="center">
@@ -133,7 +133,7 @@
 		<!-- /.content -->
 	</div>
 	<!-- /.content-wrapper -->
-	
+
 	<!-- Modal -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	  <div class="modal-dialog" role="document">
@@ -142,10 +142,20 @@
 			<h4 class="modal-title" id="myModalLabel">Modal title</h4>
 		  </div>
 		  <div class="modal-body">
+			  <table class="table">
+				  <tr>
+					  <td align="right" width="25%">会员简介</td>
+					  <td align="left" id="view-qua"></td>
+				  </tr>
+				  <tr>
+					  <td align="right" width="25%">证件名称</td>
+					  <td align="left" id="view-explanation"></td>
+				  </tr>
+		  	</table>
 			<table class="table">
 			  <tr>
-			    <th>资质名称</th>
-				<th>简介</th>
+			    <!-- <th>资质名称</th>
+				<th>简介</th> -->
 				<th>上传证件</th>
 			  </tr>
 			  <tbody id="qua">
@@ -211,7 +221,7 @@ $(function(){
 			var id=parseInt($(this).attr("data-id"));
 			$.get("/check",{"id":id,"certified":"no"},function(data,status){
 				alert(data);
-				setTimeout(function(){location.reload()},1000); 
+				setTimeout(function(){location.reload()},1000);
 			});
 		}
 	})
@@ -220,11 +230,13 @@ $(function(){
 	    var id=parseInt($(this).attr("data-id"));
 		var auth=$(this).attr("data-auth");
 		$("#myModalLabel").text(auth);
+		$("#view-qua").text($(this).attr("data-qua"));
+		$("#view-explanation").text($(this).attr("data-exp"));
 		$.get("/cert/"+id,function(data,status){
 			$("#qua").empty();
 			var con="";
 			for(var i=0;i<data.length;i++){
-				con+="<tr><td align='center'>"+data[i].qua_name+"</td><td align='center'>"+data[i].explanation+"</td><td align='center'><a href="+data[i].credentials+" target='_blank'><img src="+data[i].credentials+" width='50'></a></td></tr>";
+				con+="<tr><td align='center'><a href="+data[i].credentials+" target='_blank'><img src="+data[i].credentials+" width='100'></a></td></tr>";
 			}
 			$("#qua").append(con);
 		});

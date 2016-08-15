@@ -81,7 +81,7 @@
 								  <td align="center">{{$data['phone']}}</td>
 								  <td align="center">{{$data['email']}}</td>
 								  <td align="center">
-								  <?php 
+								  <?php
 								  switch ($data['users_rank']){
 									  case 1:
 									  echo $data['id'];
@@ -95,7 +95,7 @@
 									  break;
 								  }?>
 								  </td>
-								</tr>  
+								</tr>
 								@endforeach
 								<tr>
 								  <td colspan="4" align="center">
