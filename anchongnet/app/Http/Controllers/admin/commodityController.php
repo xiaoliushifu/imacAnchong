@@ -81,11 +81,16 @@ class commodityController extends Controller
          * */
         DB::beginTransaction();
 
-        //将关键字转码之后再插入数据库，为将来分词索引做准备
-        $keywords_arr=explode(' ',$request->keyword);
+        //替换，多字节字符替换
+        $str = str_replace(array(',','，',';','；','.','。'),' ',$request->keyword);
+        //拆分，按照空白拆分
+        $keywords_arr=preg_split('#\s#', $str,-1,PREG_SPLIT_NO_EMPTY);
         $keywords="";
-        foreach ($keywords_arr as $keyword_arr) {
-            $keywords.=bin2hex($keyword_arr)." ";
+        foreach ($keywords_arr as $k) {
+            //限制长度
+            if (mb_strlen($k,'utf-8') < 15 ) {
+                $keywords.=bin2hex($k)." ";
+            }
         };
 
         //遍历商品分类的数组，挨个进行转码，为将来分词索引做准备
@@ -215,10 +220,14 @@ class commodityController extends Controller
         $data->param='<style>img{max-width:100%;}</style>'.$request->param;
         $data->package='<style>img{max-width:100%;}</style>'.$request->data;
         //将关键字转码之后再插入数据库，为将来分词索引做准备
-        $keywords_arr=explode(' ',$request->keyword);
+        $str = str_replace(array(',','，',';','；','.','。'),' ',$request->keyword);
+        //拆分，按照空白拆分
+        $keywords_arr=preg_split('#\s#', $str,-1,PREG_SPLIT_NO_EMPTY);
         $keywords="";
-        foreach ($keywords_arr as $keyword_arr) {
-            $keywords.=bin2hex($keyword_arr)." ";
+        foreach ($keywords_arr as $k) {
+            if (mb_strlen($k,'utf-8') < 15) {
+                $keywords.=bin2hex($k)." ";
+            }
         };
 
         //遍历商品分类的数组，挨个进行转码，为将来分词索引做准备
