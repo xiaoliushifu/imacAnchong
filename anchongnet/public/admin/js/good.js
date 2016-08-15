@@ -101,6 +101,7 @@ $(function(){
 
         $.get("/good/"+id+"/edit",function(data,status){
             $("#spetag").val(data.goods_name);
+            $("#model").val(data.model);
             $("#marketprice").val(data.market_price);
             $("#costprice").val(data.goods_price);
             $("#viprice").val(data.vip_price);

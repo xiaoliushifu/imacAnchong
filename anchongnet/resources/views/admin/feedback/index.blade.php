@@ -54,7 +54,7 @@
 	<div class="content-wrapper">
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
-			<h1>意见反馈</h1>
+			<h1>意见反馈</h1><div align="center"><font color="red" align="center">{{ Session::get('commentresult') }}</font></div>
 		</section>
 
 		<!-- Main content -->
@@ -67,35 +67,41 @@
 								<tr>
 									<th width="5%">编号</th>
 									<th width="20%">标题</th>
-									<th width="53%">内容</th>
+									<th width="15%">联系电话</th>
+									<th width="10%">联系人</th>
 									<th width="7%">状态</th>
-									<th width="15%">操作</th>
+									<th width="23%">操作</th>
 								</tr>
 								@foreach ($datacol['datas'] as $data)
 								<tr>
 									<td align="center">{{$data['feed_id']}}</td>
 								    <td align="center">{{$data['title']}}</td>
-									<td align="center">{{$data['content']}}</td>
+									<td align="center">{{$data['phone']}}</td>
+									<td align="center">{{$data['contact']}}</td>
 									<td align="center">
 										<?php
 											switch($data['state']){
 												case 1:
-													echo '<font color="red">未回复</font>';
+													echo '<font color="red">未查看</font>';
 													break;
 												case 2:
-													echo "未修复";
+													echo '<font color="orange">已查看</font>';
 													break;
 												case 3:
+													echo '<font color="gray">处理中</font>';
+													break;
+												case 4:
 													echo '<font color="green">已修复</font>';
 													break;
 											}
 										?>
 									</td>
 									<td align="center">
-										<button type='button' class='view f-ib btn btn-primary btn-xs' data-id="{{$data['feed_id']}}" data-uid="{{$data['users_id']}}" data-title="{{$data['title']}}" data-content="{{$data['content']}}" data-toggle="modal" data-target="#myModal">查看</button>
+										<button type='button' class='view f-ib btn btn-primary btn-xs' data-id="{{$data['feed_id']}}" data-uid="{{$data['users_id']}}" data-title="{{$data['title']}}" data-content="{{$data['content']}}" data-state="{{$data['state']}}" data-toggle="modal" data-target="#myModal">查看</button>
 										<button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['feed_id']}}">删除</button>
-										<button type="button" class="comment f-ib btn btn-warning btn-xs" data-id="{{$data['feed_id']}}" data-uid="{{$data['users_id']}}" data-toggle="modal" data-target="#mycomment">回复</button>
-										<button type="button" class="success f-ib btn btn-success btn-xs" data-id="{{$data['feed_id']}}">修复</button>
+										<button type="button" class="success f-ib btn btn-success btn-xs" data-id="{{$data['feed_id']}}">处理</button>
+										<button type="button" class="comment f-ib btn btn-warning btn-xs" data-id="{{$data['feed_id']}}" data-uid="{{$data['users_id']}}" data-toggle="modal" data-target="#mycomment">已修复</button>
+
 									</td>
 								</tr>
 								@endforeach
@@ -121,7 +127,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="location.reload();">
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<h4 class="modal-title" id="myModalLabel">查看反馈</h4>
@@ -166,7 +172,7 @@
 					<h4 class="modal-title" id="myModalLabel">回复反馈</h4>
 				</div>
 				<div class="modal-body">
-					<form role="form" class="form-horizontal" action="" method="PUT" id="formToUpdate">
+					<form role="form" class="form-horizontal" action="/feedback/feedbackreply" method="POST" id="formToUpdate">
 						<input type="hidden" class="form-control" id="commentfeedid" name="feed_id">
 						<input type="hidden" class="form-control" id="commentfeedusersid" name="users_id">
 						<div class="form-group">
@@ -179,6 +185,12 @@
 							<label class="col-sm-2 control-label" for="content">内容</label>
 							<div class="col-sm-9">
 								<textarea class="form-control" rows="5" id="commentcontent" required name="content"></textarea>
+							</div>
+						</div><!--end form-group-->
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="content">奖励信息</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="reward" name="reward" placeholder="无奖励则不填">
 							</div>
 						</div><!--end form-group-->
 						<div class="form-group text-center">

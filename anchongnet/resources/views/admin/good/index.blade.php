@@ -230,6 +230,12 @@
                             </div>
                         </div><!--end form-group-->
                         <div class="form-group">
+                            <label class="col-sm-2 control-label" for="marketprice">型号</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="model" id="model" class="form-control" required value="{{ old('model') }}" />
+                            </div>
+                        </div><!--end form-group-->
+                        <div class="form-group">
                             <label class="col-sm-2 control-label" for="marketprice">市场价</label>
                             <div class="col-sm-6">
                                 <input type="text" name="marketprice" id="marketprice" class="form-control" required value="{{ old('marketprice') }}" />
