@@ -13,6 +13,7 @@ $(function(){
             $("#cost").text(data.goods_price);
             $("#vip").text(data.vip_price);
             $("#desc").text(data.goods_desc);
+            $("#viewmodel").text(data.model);
             $("#goodpic").attr("href",data.goods_img);
             $("#goodpic img").attr("src",data.goods_img);
             $("#added").text(data.goods_create_time);
@@ -106,9 +107,9 @@ $(function(){
             $("#costprice").val(data.goods_price);
             $("#viprice").val(data.vip_price);
             $("#description").val(data.goods_desc);
-            if(data.goods_create_time=="0000-00-00 00:00:00"){
+            if(data.added== 2){
                 $("#notonsale").attr("checked",true);
-            }else{
+            }else if(data.added== 1){
                 $("#onsale").attr("checked",true);
             }
             $("#numbering").val(data.goods_numbering);

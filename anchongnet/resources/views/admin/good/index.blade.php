@@ -146,6 +146,10 @@
                             <td align="left" id="good"></td>
                         </tr>
                         <tr>
+                            <td align="right">型号</td>
+                            <td align="left" id="viewmodel"></td>
+                        </tr>
+                        <tr>
                             <td align="right">市场价格</td>
                             <td align="left" id="market"></td>
                         </tr>

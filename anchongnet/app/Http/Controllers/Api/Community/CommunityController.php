@@ -549,6 +549,7 @@ class CommunityController extends Controller
             $community_collect=new \App\Community_collect();
             //开启事务处理
             DB::beginTransaction();
+            //将所有聊聊有关的都删除
             $community_release_result=$community_release->communitydel($param['chat_id']);
             if($community_release_result){
                 $community_comment_result=$community_comment->delcomment($param['chat_id']);

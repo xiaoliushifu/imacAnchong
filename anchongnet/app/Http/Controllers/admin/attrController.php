@@ -53,7 +53,6 @@ class attrController extends Controller
                 'value'=>$request->value,
             ]
         );
-
         $message="保存成功";
         return response()->json(['message' => $message,'id'=>$id]);
     }
