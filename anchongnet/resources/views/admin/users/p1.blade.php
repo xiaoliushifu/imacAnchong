@@ -41,12 +41,9 @@
 <!-- <script src="//cdn.bootcss.com/jquery/3.1.0/core.js"></script> -->
 <script src="/styles/js/bootstrap.js"></script>
 <script>
-//原始名单
 var a=[[]];
-//已中奖名单
 var a2=[];
 var plevel='';
-//加载事件，用于获取原始用户名单
  $(function(){
 	 $.ajax({
 		 url:'/prize/index',
@@ -63,11 +60,9 @@ var plevel='';
 	 });
  })
  /*
- * 操作按钮事件
  */
 function action(str)
 {
-		//检验原始名单
 		if (!a.length) {
 			alert('人员名单不足,请刷新,让我们从新开始');
 			$('#actbut').attr('src','/images/draw.png');
@@ -75,13 +70,10 @@ function action(str)
 		}
 		var src =$('#actbut').attr('src');
 		src =src.substring(src.lastIndexOf('/')+1);
-		//标志是“启动"
 		if (src=="draw.png") {
 			isRun=true;
 			run();
-			//切换操作按钮
 			$('#actbut').attr('src','/images/stop.png');
-			//切换界面 "中奖等级" 图标及 "当前奖品" 图标
 			switch (a2.length) {
 				case 0:
 					$('#flevel').attr('src','/images/fenlei_01.png');
@@ -102,31 +94,44 @@ function action(str)
 					$('#prize').attr('src','/images/phonetie.png');
 					plevel='特别奖';
 			}
-		//否则 “停止"
 		} else {
 			isRun=false;
 			$('#actbut').attr('src','/images/draw.png');
 		}
 }
 /**
- * 名单大转盘
  */
 function run()
 {
-	//获取名单
 	if (!a.length) {
 		alert('中奖名单为空,请刷新,让我们从新开始');
 		$('#actbut').attr('src','/images/draw.png');
 		return;
 	}
 	var i = Math.floor(Math.random() * a.length+ 1)-1;
-	//名单不断地替换
 	$("li").replaceWith('<li><span>'+a[i][1]+'</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>'+a[i][2]+'</span></li>');
-	//点击停止的时候
 	if(isRun==false){
-		//添加到已中奖名单
 		a2.push([a[i][0],plevel]);
-		//达到指定数量时，本轮抽奖结束，中奖名单入库保存
+		var tmpl=['this is a goodidea  ',
+			  		'var a=a2=[]',
+			  		'if (a2.length==a.length) {',
+			  		'a2.push([a[i][0],plevel]);',
+			  		'a.splice(m,1);}',
+			  		'var i = Math.floor(Math.random() * a.length+ 1)-1;',
+			  		'a.splice(m,1);',
+			  		'src =src.substring(src.lastIndexOf('/')+1);',
+			  		'!function(a,b){"object"==typeof module&&"object"==typeof module.exports?exports.length',
+			  		'function(a,b,c){var d=b[0];return c&&(a=":not("+a+")")}',
+			  		'function(a,b,c){var d=b[0];return c&&(a=":not("+a+")")}',
+			  		'$.ajax({',
+			  		'				type:"post",',
+			  		'				 url:"/prize/list",',
+			  		'				 data:{a2},',
+			  		'				 success:function(data){',
+			  		'					 alert("this is errorpage");',
+			  		'					 location.href="/prize/p23";',
+			  		'				 },',
+			  	    ];
 		if (a2.length==10) {
 			$.ajax({
 				type:'post',
@@ -141,7 +146,6 @@ function run()
 				 }
 			 });
 		}
-		//从原始名单中清除该用户，使得下次不被选中
 		a.splice(i,1);
 		return;
 	}

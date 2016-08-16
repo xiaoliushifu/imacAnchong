@@ -6,6 +6,7 @@ $(function(){
     var one0=0;
     var defaultopt="<option value=''>请选择</option>";
     var nullopt="<option value=''>无数据，请重选上级分类</option>";
+    //开始时，为商品和配套商品 及他们各自的隐藏副本获得分类信息
     $.get("/getlevel",{pid:one0},function(data,status){
         for(var i=0;i<data.length;i++){
             opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
@@ -13,6 +14,7 @@ $(function(){
         }
     });
 
+    	//为一级分类信息，绑定事件，使其获得二级分类信息
     $("body").on("change",".mainselect",function(){
         var val=$(this).val();
         $(".waitforopt").removeClass("waitforopt");
@@ -35,7 +37,8 @@ $(function(){
         }
     });
 
-    /*----添加分类----*/
+    /*----添加分类，把隐藏域的副本，稍微调整即可得---*/
+    
     $("body").on("click",".add button",function(){
         var tem=$(".catemplate").clone().removeClass("hidden").removeClass("catemplate");
         $("#catarea").append(tem);
@@ -43,20 +46,20 @@ $(function(){
 
     /*----删除分类----*/
     $("body").on("click",".minus button",function(){
-        var len=$(".mainselect").length;
-        if(len<3){
+        var len=$("#catarea").children().length;
+        if(len<1){
             alert("不能删除仅有的分类信息！");
         }else{
             $(this).parents(".form-group").remove();
         }
     });
-
+    //属性添加
     $("body").on("click",'.addcuspro',function(){
         var len=$(".line").length;
         var line='<tr class="line"> <td> <input type="text" name="attrname[]" class="form-control" required /> </td> <td> <textarea name="attrvalue[]" class="form-control" required rows="5"></textarea> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
         $("#stock").append(line);
     });
-
+    //属性删除
     $("body").on("click",'.delcuspro',function(){
         var len=$(".line").length;
         if(len>1){
@@ -64,7 +67,7 @@ $(function(){
         }
     });
 
-    //添加配套商品的时候选择二级分类获取对应的分类下的商品
+    //添加配套商品部分，选择二级分类时获取该分类下的商品
     $("body").on("change",".midforsup",function(){
         var val=$(this).val();
         var sid=$("#sid").val();
@@ -84,7 +87,7 @@ $(function(){
         });
     });
 
-    //添加配套商品的时候获取选中商品的第一条货品
+    //添加配套商品部分，选中商品时获取该商品的第一条货品
     $("body").on("change",".supname",function(){
         var txt=$(this).find("option:selected").text();
         $(this).siblings(".goodsname").val(txt);

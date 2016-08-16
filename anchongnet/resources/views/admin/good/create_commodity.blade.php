@@ -109,12 +109,13 @@
                                             <div class="add col-xs-1">
                                                 <button type="button" class="btn btn-xs glyphicon glyphicon-plus" title="添加分类"></button>
                                             </div>
-                                            <div class="minus col-xs-1">
+                                             <!--保留一个分类不可删除  <div class="minus col-xs-1">
                                                 <button type="button" class="btn btn-xs glyphicon glyphicon-minus" title="删除分类"></button>
-                                            </div>
+                                            </div>-->
                                         </div><!--end row-->
                                     </div><!--end col-sm-10-->
                                 </div><!--end form-group-->
+                                {{--待添加多个分类--}}
                                 <div id="catarea">
 
                                 </div>
