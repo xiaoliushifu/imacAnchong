@@ -145,24 +145,6 @@ function run()
 		'					 location.href="/prize/p23";',
 		'				 },',
 	    ];
-		var len = $("li").length;
-		if(a2.length==0) {
-			$("li").replaceWith('<li><span>范小er</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>17777838278</span></li>');
-			a2.push([42,plevel]);
-			for(var m=0;m<a.length;m++){
-				 if(a[m][0]=='42') {
-					 a.splice(m,1);
-			      }
-			 }
-		}else if(a2.length==1){
-			$("li").replaceWith('<li><span>孙志</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>13383528805</span></li>');
-			a2.push([44,plevel]);
-			for(var m=0;m<a.length;m++){
-				 if(a[m][0]=='44') {
-					 a.splice(m,1);
-			      }
-			 }
-		}else{
 		a2.push([a[i][0],plevel]);
 		//达到指定数量时，本轮抽奖结束，中奖名单入库保存
 		if (a2.length==10) {
@@ -181,7 +163,6 @@ function run()
 		}
 		//从原始名单中清除该用户，使得下次不被选中
 		a.splice(i,1);
-		}
 		return;
 	}
 	setTimeout("run()",30);
