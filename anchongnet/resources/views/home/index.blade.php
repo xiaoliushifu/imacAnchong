@@ -105,7 +105,7 @@
                     </div>
                 </div>
             </div>
-            </div> 
+            </div>
             <div class="zxsz hidden-sm">
                 <div><img src="home/images/65.jpg"></div>
                 <div class="zixun">
@@ -216,7 +216,7 @@
         <div class="col-md-3"><img src="home/images/86.jpg" alt=""></div>
         <div class="col-md-3"><img src="home/images/87.jpg" alt=""></div>
         <div class="col-md-3"><img src="home/images/88.jpg" alt=""></div>
-        
+
     </div>
 </div>
 

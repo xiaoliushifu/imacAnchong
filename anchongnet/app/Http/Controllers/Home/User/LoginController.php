@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 /*
 *   该控制器是web端用户注册的页面
 */
-class RegController extends Controller
+class LoginController extends Controller
 {
     //定义变量
     private $users_login;
@@ -29,7 +29,7 @@ class RegController extends Controller
      */
     public function index()
     {
-        return view('home.users.register');
+        return view('home.users.login');
     }
 
     /**

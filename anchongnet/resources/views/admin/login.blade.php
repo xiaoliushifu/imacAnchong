@@ -39,6 +39,7 @@
           <input id="" name="password" type="password" placeholder="密码" class="input-text size-L" required="required">
         </div>
       </div>
+      <input type="hidden" name="captchanum" id="captchanum" value="">
       <div class="row cl">
         <div class="formControls col-8 col-offset-3">
           <input class="input-text size-L" type="text" name="captchapic" placeholder="验证码" onfocus="javascript:this.value=''" onclick="if(this.value=='验证码:'){this.value='';}" value="验证码:" style="width:150px;" required="required">
@@ -57,8 +58,10 @@
 <script>
 function captcha() {
 	$url = "{{ URL('/captcha') }}";
-        $url = $url + "/" + Math.random();
+        num=Math.random();
+        $url = $url + "/" + num;
         document.getElementById('captchapic').src=$url;
+        document.getElementById('captchanum').value=num;
   }
 </script>
 </body>
