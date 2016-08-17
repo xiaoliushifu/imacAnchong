@@ -9,7 +9,7 @@
 			</a>
 			<ul class="treeview-menu">
 				<li><a href="/users"><i class="fa fa-circle-o"></i> 用户浏览</a></li>
-				<li><a href="/cert"><i class="fa fa-circle-o"></i> 资质认证</a></li>
+				<li><a href="/cert"><i class="fa fa-circle-o"></i> 会员认证</a></li>
 				<li><a href="/prize/p1"><i class="fa fa-circle-o"></i> 100人的抽奖活动</a></li>
 				<li><a href="/prize/p2"><i class="fa fa-circle-o"></i> 查看中奖名单100人</a></li>
 				<li><a href="/prize/p12"><i class="fa fa-circle-o"></i> 500人的抽奖活动</a></li>

@@ -32,11 +32,11 @@ class certController extends Controller
         if ($keyId=="" && $keyStatus=="") {
 		    $datas=$this->auth->orderBy("id","desc")->paginate(8);
 		} elseif (empty($keyStatus)) {
-			$datas = Auth::Ids($keyId)->orderBy("id","desc")->paginate(8);
+			$datas = Auth::Users($keyId)->orderBy("id","desc")->paginate(8);
 		} elseif (empty($keyId)) {
 			$datas = Auth::Status($keyStatus)->orderBy("id","desc")->paginate(8);
 		} else {
-			$datas = Auth::Ids($keyId)->Status($keyStatus)->orderBy("id","desc")->paginate(8);
+			$datas = Auth::Users($keyId)->Status($keyStatus)->orderBy("id","desc")->paginate(8);
 		}
 		$args=array("id"=>$keyId,"auth_status"=>$keyStatus);
 		return view('admin/users/cert',array("datacol"=>compact("args","datas")));

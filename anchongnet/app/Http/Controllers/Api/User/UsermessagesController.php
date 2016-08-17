@@ -173,7 +173,7 @@ class UsermessagesController extends Controller
     }
 
     /**
-     * 	用户资料修改
+     * 	用户资料的设置和修改
      */
     public function update(Request $request)
     {
@@ -189,55 +189,56 @@ class UsermessagesController extends Controller
 				'nickname' => 'unique:anchong_usermessages,nickname'
             ]
         );
-		if ($validator->fails()){
+		//验证失败时返回错误信息
+		if ($validator->fails()) {
 			$messages = $validator->errors();
 			if ($messages->has('qq')) {
-				//如果验证失败,返回验证失败的信息
 			    return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'qq格式不正确']]);
-			}else if($messages->has('email')){
+			} elseif ($messages->has('email')) {
 				return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'email格式不正确或该邮箱已经被注册']]);
-			}else if($messages->has('nickname')){
+			} elseif ($messages->has('nickname')) {
 				return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'该昵称已被注册，请更换昵称']]);
 			}
-		}else{
-			if(count($message_data)==0){
-				//向数据库插入内容
+		} else {
+		    //库中无，则是添加资料
+			if (count($message_data)==0) {
 				$this->usermessages->users_id = $id;
-				if($param['nickname']!=null){
+				if ($param['nickname']!=null) {
 					$this->usermessages->nickname = $param['nickname'];
 				}
-				if($param['qq']!=null){
+				if ($param['qq']!=null) {
 					$this->usermessages->qq = $param['qq'];
 				}
-				if($param['email']!=null){
+				if ($param['email']!=null) {
 					$this->usermessages->email = $param['email'];
 				}
-				if($param['contact']!=null){
+				if ($param['contact']!=null) {
 					$this->usermessages->contact = $param['contact'];
 				}
 
 				$result=$this->usermessages->save();
-			}else{
+			} else {
+			    //库中有，则是修改资料
 				$user=usermessages::where('users_id', '=', $id)->first();
-				if($param['nickname']!=null){
+				if ($param['nickname']!=null) {
 					$user->nickname = $param['nickname'];
 				}
-				if($param['qq']!=null){
+				if ($param['qq']!=null) {
 					$user->qq = $param['qq'];
 				}
-				if($param['email']!=null){
+				if ($param['email']!=null) {
 					$user->email = $param['email'];
 				}
-				if($param['contact']!=null){
+				if ($param['contact']!=null) {
 					$user->contact = $param['contact'];
 				}
 				$result=$user->save();
 			}
 
 			//返回给客户端数据
-			if($result){
+			if ($result) {
 				return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'更新成功']]);
-			}else{
+			} else {
 				return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'更新失败']]);
 			}
 		}

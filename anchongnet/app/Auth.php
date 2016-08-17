@@ -19,6 +19,7 @@ class Auth extends Model
 
 	/*
 	* 根据条件进行认证搜索
+	* 这个方法将来会被删除，因为它和上面的方法重复了。
 	*/
 	public function scopeIds($query,$keyId)
     {
