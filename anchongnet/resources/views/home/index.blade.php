@@ -52,7 +52,7 @@
             <div class="col-lg" id="call">
 
                 <div class="input-group navbar-btn col-md-pull-1 " >
-                    <input type="text" class="form-control bdsz" >
+                    <input type="text" class="form-control bdsz">
           <span class="input-group-btn" >
             <button class="btn btn-primary sssz"  type="button" >搜索</button>
           </span>
@@ -584,5 +584,6 @@
 
 <script src="home/js/jquery-3.0.0.min.js"></script>
 <script src="home/js/bootstrap.min.js"></script>
+<script src="home/js/index.js"></script>
 </body>
 </html>
