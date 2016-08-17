@@ -123,7 +123,7 @@ class FeedbackController extends Controller
         //创建ORM模型
         $feedback_reply=new \App\Feedback_reply();
         //查出数据
-        $result=$feedback_reply->quer(['title','content','state'],'users_id = '.$data['guid']);
+        $result=$feedback_reply->quer(['freply_id','title','content','state'],'users_id = '.$data['guid']);
         if(empty($result)){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>[]]);
         }else{
@@ -180,10 +180,11 @@ class FeedbackController extends Controller
     */
     public function androidupdate(Request $request)
     {
-        return response()->json(['varsionName'=>"1.1",'varsionCode'=>10,'Description'=>"更新介绍:
-1.优化界面，更加美观
-2.商城界面新增商品搜索功能，360度无死角搜索
-3.优化用户体验度
-4.快来下载体验吧",'downloadUrl'=>"http://anchongres.oss-cn-hangzhou.aliyuncs.com/android/net.anchong.app.encrypted.channel.360_signed_Aligned.apk"]);
+        return response()->json(['varsionName'=>"1.1.5",'varsionCode'=>13,'Description'=>"更新介绍:
+1.更改APP图标
+2.优化APP进入闪屏页
+3.优化意见反馈界面布局
+4.商城首页新增消息功能
+5.新增个人店铺信息展示及修改",'downloadUrl'=>"http://anchongres.oss-cn-hangzhou.aliyuncs.com/android/app-anchong-net_1.1.5.encrypted_signed_Aligned.apk"]);
     }
 }

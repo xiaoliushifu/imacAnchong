@@ -24,7 +24,7 @@ class CaptchaController extends Controller
        //获取验证码的内容
        $phrase = $builder->getPhrase();
        //把内容存入session
-       Session::flash('adminmilkcaptcha', $phrase);
+       Session::flash($num.'adminmilkcaptcha', $phrase);
        //生成图片
        header("Cache-Control: no-cache, must-revalidate");
        header('Content-Type: image/jpeg');

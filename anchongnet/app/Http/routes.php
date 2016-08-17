@@ -287,7 +287,7 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
 Route::group(['domain' => 'admin.anchong.net'], function () {
     //搜索
         //Route::controller('/search','Api\SearchController');
-    //注册相关
+        //注册相关
         Route::any('/userregister', 'admin\indexController@userregister');
         Route::any('/zhuce', 'admin\indexController@zhuce');
         //支付宝
@@ -504,6 +504,10 @@ Route::group(['domain' => 'www.anchong.net'], function () {
     //获取虫虫资讯
     Route::get('/information/{infor_id}','Api\Advert\AdvertController@informations');
     Route::get('/','home\indexController@index');
+    //前台注册
+    Route::resource('/user/register','Home\User\RegController');
+    //前台登录
+    Route::resource('/user/login','Home\User\LoginController');
 });
 
 //验证码类,需要传入数字

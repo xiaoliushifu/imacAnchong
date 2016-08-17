@@ -65,7 +65,7 @@ class indexController extends Controller
     {
         $data=$request::all();
         //判断验证码是否正确
-        if ($data['captchapic'] == Session::get('adminmilkcaptcha')) {
+        if ($data['captchapic'] == Session::get($data['captchanum'].'adminmilkcaptcha')) {
             //判断用户名密码是否正确
             if (Auth::attempt(['username' => $data['username'], 'password' => $data['password']])) {
                 $users=new \App\Users();
