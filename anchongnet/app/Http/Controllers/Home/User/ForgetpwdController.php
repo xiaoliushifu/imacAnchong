@@ -10,13 +10,13 @@ use Validator;
 use Hash;
 use Auth;
 use DB;
-use Session;
 use Redirect;
+use Redis;
 
 /*
-*   该控制器是web端用户注册的页面
+*   该控制器是web端用户手机验证的页面
 */
-class LoginController extends Controller
+class ForgetpwdController extends Controller
 {
 
     /*
@@ -34,7 +34,7 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return view('home.users.login');
+        return view('home.users.forgetpwd');
     }
 
     /**
@@ -48,37 +48,41 @@ class LoginController extends Controller
     }
 
     /**
-     * 用户登录
+     * 修改密码
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
+        //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
-        //提取username和password
-        $username=$data['username'];
-        $password=$data['password'];
-        //使用laravel集成的验证方法来验证
         $validator = Validator::make($data,
             [
-                'username' => 'unique:anchong_users_login,username',
+                'password' => 'required|min:6|confirmed',
+                'password_confirmation' => 'required',
             ]
         );
-        //如果不出错返回未注册，如果出错执行下面的操作
-        if (!$validator->fails())
+        if ($validator->fails())
         {
-            return Redirect::back()->withInput()->with('errormessage','账号未注册!');
+			return Redirect::back()->withInput()->with('errormessage','两次输入密码需要一致，且密码不能小于6位');
         }else{
-            if ($data['captchapic'] == Session::get($data['captchanum'].'adminmilkcaptcha')) {
-                if (Auth::attempt(['username' => $username, 'password' => $password]))
-                {
-                    return Redirect::to('/');
+            //redis的验证码
+            $redis = Redis::connection();
+            if($redis->get($data['phone'].'变更验证') == $data['phonecode']){
+                $redis->del($data['phone'].'变更验证');
+                $password_data=[
+                    'password' => Hash::make($data['password'])
+                ];
+                $users_login=new \App\Users_login();
+                $result=$users_login->updatepassword($data['phone'],$password_data);
+                if($result){
+                    return Redirect::to('/user/login');
                 }else{
-                    return Redirect::back()->withInput()->with('errormessage','账号密码错误');
+                    return Redirect::back()->withInput()->with('errormessage','修改密码失败');
                 }
-            } else {
-                return Redirect::back()->withInput()->with('errormessage','请填写正确的验证码');
+            }else{
+                return Redirect::back()->withInput()->with('errormessage','手机验证码错误');
             }
         }
     }

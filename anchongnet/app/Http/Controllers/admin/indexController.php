@@ -32,22 +32,22 @@ class indexController extends Controller
         $newauth=0;
         //创建ORM模型
         $order=new \App\Order();
-        $users=new \App\Users();
+        $feedback=new \App\Feedback();
         $shop=new \App\Shop();
         $auth=new \App\Auth();
         $community_release=new \App\Community_release();
         //查询相比于上次登录新增的订单数目
-        $neworder=$order->ordercount('created_at > "'.$datetime.'" and sid ='.$sid);
+        $neworder=$order->ordercount('sid =1 and state in(2,4)');
         //查询新增的用户人数
-        $newuser=$users->usercount('ctime >'.$lasttime);
+        $newfeedback=$feedback->feedbackcount('state = 1');
         //查询新增商铺
-        $newshop=$shop->shopcount('created_at > '.$lasttime);
+        $newshop=$shop->shopcount('audit = 1');
         //查询新增认证
-        $newauth=$auth->authcount('created_at > "'.$datetime.'"');
+        $newauth=$auth->authcount('auth_status = 1');
         //查询聊聊
         $community_release_result=$community_release->indexquer(['chat_id','title','name','content','created_at','headpic','comnum'],'auth = 1')->orderBy("chat_id","desc")->paginate(5);
         $args=array("uid"=>$uid);
-        return view('admin.index',['username' => Auth::user()['username'],"neworder"=>$neworder,'newuser'=>$newuser,'newshop'=>$newshop,'newauth'=>$newauth,'last_time'=>$datetime,"datacol"=>$community_release_result]);
+        return view('admin.index',['username' => Auth::user()['username'],"neworder"=>$neworder,'feedback'=>$newfeedback,'newshop'=>$newshop,'newauth'=>$newauth,'last_time'=>$datetime,"datacol"=>$community_release_result]);
     }
 
     /*

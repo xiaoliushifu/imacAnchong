@@ -56,7 +56,7 @@ class smsAuth {
             }elseif($key == 'alibaba_aliqin_fc_sms_num_send_response' && $value['result']['success'] == '1'){
                 $redis = Redis::connection();
                 $redis->set($phone.$action, $code);
-                return [true,1];
+                return [true,'发送成功'];
             }else{
                 return [false,'发送失败，请重新发送！'];
             }

@@ -54,4 +54,12 @@ class Feedback extends Model
      {
          return $query;
      }
+
+     /*
+     *   数量统计
+     */
+     public function feedbackcount($type)
+     {
+         return $this->whereRaw($type)->count();
+     }
 }

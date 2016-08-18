@@ -26,7 +26,7 @@
                 <div class="col-md-12">
                     <ul class="nav navbar-nav navbar-right daohang" style="padding-top: 3px;">
 
-                        <li class="zhuce"><a href="#">注册&nbsp;&nbsp;/</a><a href="#">登录</a></li>
+                        <li class="zhuce"><a href="/user/register">注册&nbsp;&nbsp;/</a><a href="/user/login">登录</a></li>
 
                         <li class="active">咨询电话：010-888888</li>
                         <li class="tubl"><a href="#"><img class="img-circle" src="home/images/60.jpg"></a></li>

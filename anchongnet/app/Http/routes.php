@@ -506,8 +506,12 @@ Route::group(['domain' => 'www.anchong.net'], function () {
     Route::get('/','home\indexController@index');
     //前台注册
     Route::resource('/user/register','Home\User\RegController');
+    //手机短信
+    Route::post('/user/smsauth','Home\User\RegController@smsauth');
     //前台登录
     Route::resource('/user/login','Home\User\LoginController');
+    //前台重置密码
+    Route::resource('/user/forgetpwd','Home\User\ForgetpwdController');
 });
 
 //验证码类,需要传入数字
