@@ -1,0 +1,25 @@
+/*input框的层级*/
+#gover_search_key{z-index:20}
+/*定义提示框的css*/
+#gov_search_suggest
+{
+    position:absolute;
+	z-index:10;
+    left:-30px;
+    top:48px;
+    width:480px;
+    border:1px solid #ccc;
+    border-top:none;
+    display:none;
+    color:#004080;
+}
+#gov_search_suggest li
+{
+    overflow:hidden;
+    padding-left:3px;
+    line-height:24px;
+    background:#fff;
+    cursor:default;
+}
+/*hoveranchong的有无决定是否高亮*/
+#gov_search_suggest  li.hoveranchong {background:#eee;}

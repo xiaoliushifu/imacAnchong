@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="home/css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="home/css/shangpinxq.css">
+    <link rel="stylesheet" type="text/css" href="home/css/suggestion.css">
 </head>
 <body>
 <div class="hedtou">
@@ -52,12 +53,14 @@
             <div class="col-lg" id="call">
 
                 <div class="input-group navbar-btn col-md-pull-1 " >
-                    <input type="text" class="form-control bdsz">
-          <span class="input-group-btn" >
-            <button class="btn btn-primary sssz"  type="button" >搜索</button>
-          </span>
-
+                    <input type="text" class="form-control bdsz"  id="gover_search_key">
+                    <span class="input-group-btn" >
+                    <button class="btn btn-primary sssz"  type="button" >搜索</button>
+                    </span>
                 </div>
+                {{--智能提示框部分--}}
+                <div class="search_suggest"  id="gov_search_suggest"><ul style="padding:0px;margin-bottom:0px;"></ul></div>
+                
                 <div class="rmss"> <strong>热门搜索：</strong>
                     <a href="#">探测监控</a>
                     <a href="#">防护保障</a>
