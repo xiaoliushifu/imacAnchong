@@ -71,7 +71,7 @@
                 <div class="inner">
                     <h3>{{$neworder}}</h3>
 
-                    <p>新增订单</p>
+                    <p>未处理订单</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
@@ -86,7 +86,7 @@
                 <div class="inner">
                     <h3>{{$newshop}}</h3>
 
-                    <p>新增商铺</p>
+                    <p>商铺认证</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
@@ -99,14 +99,14 @@
             <!-- small box -->
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h3>{{$newuser}}</h3>
+                    <h3>{{$newauth}}</h3>
 
-                    <p>新增用户</p>
+                    <p>VIP认证</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
                 </div>
-                <a href="/users" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="/cert" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -114,14 +114,14 @@
             <!-- small box -->
             <div class="small-box bg-red">
                 <div class="inner">
-                    <h3>{{$newauth}}</h3>
+                    <h3>{{$feedback}}</h3>
 
-                    <p>新增认证</p>
+                    <p>意见反馈</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-pie-graph"></i>
                 </div>
-                <a href="/cert" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="/feedback/show" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->

@@ -29,7 +29,7 @@ class FeedbackController extends Controller
     public function show()
     {
         //查出反馈
-        $datas=$this->feedback->orderBy("feed_id","desc")->paginate(8);
+        $datas=$this->feedback->orderBy("state","asc")->orderBy("feed_id","desc")->paginate(8);
         //返回数据,all代表是否是查询所有聊聊
         return view('admin/feedback/index',array("datacol"=>compact("datas")));
     }

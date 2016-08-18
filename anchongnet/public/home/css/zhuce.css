@@ -5,10 +5,15 @@
 /*标题*/
 .titles {width: 100%;padding-top: 10px;}
 .titles h1 {color: #1DABD8;}
-.captcha img {padding-top: 4px}
+.authnum img {padding-left: 15px;}
 #sign_in_password {width: 300px;height: 40px; }
-
+#sign_in_repassword {width: 300px;height: 40px; }
 #sign_in_name {width: 300px;height: 40px;}
+#authnum { width: 140px; height: 40px;}
+.authmum {text-align: left;}
+
+.authnum ladda-button {padding-right: 0px;}
+.authnum ladda-button ladda-label auth { font-size: 20px;}
 
 .bootstrap-tagsinput {
     background-color: #fff;
