@@ -24,8 +24,6 @@ class shopController extends Controller
     public function __construct()
     {
         $this->shop = new Shop();
-        $this->mb=new Mainbrand();
-        $this->shopcat=new ShopCat();
     }
 
     /**
@@ -122,6 +120,7 @@ class shopController extends Controller
      * */
     public function getbrand(Request $request)
     {
+        $this->mb=new Mainbrand();
         $sid=$request['sid'];
         $datas=$this->mb->Shop($sid)->get();
         return $datas;
@@ -132,6 +131,7 @@ class shopController extends Controller
      * */
     public function getcat(Request $request)
     {
+        $this->shopcat=new ShopCat();
         $sid=$request['sid'];
         $datas=$this->shopcat->Shop($sid)->get();
         return $datas;

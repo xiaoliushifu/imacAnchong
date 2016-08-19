@@ -70,12 +70,12 @@ class ShopController extends Controller
                 'created_at'=>$request['time'],
                 'audit'=>1,
                 'free_price'=>$param['free_price'],
-    			'freight'=>$param['freight'],
-    			'customer'=>$param['customer'],
+    			    'freight'=>$param['freight'],
+    			    'customer'=>$param['customer'],
             ]
         );
         //通过一个for循环向shops_category表中插入数据
-        for($i=0;$i<count($param['cat']);$i++){
+        for ($i=0;$i<count($param['cat']);$i++) {
             DB::table('anchong_shops_category')->insert(
                 [
                     'sid' => $sid,
@@ -85,7 +85,7 @@ class ShopController extends Controller
         }
 
         //通过一个for循环向shops_mainbrand表中插入数据
-        for($i=0;$i<count($param['brandId']);$i++){
+        for ($i=0;$i<count($param['brandId']);$i++) {
             DB::table('anchong_shops_mainbrand')->insert(
                 [
                     'sid' => $sid,
