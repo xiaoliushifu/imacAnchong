@@ -57,5 +57,6 @@ class Kernel extends HttpKernel
         'PayAuthen' =>\App\Http\Middleware\PayAuthen::class,
 		'permission' =>\App\Http\Middleware\Backpermission::class,
 		'anchong' =>\App\Http\Middleware\Anchong::class,
+        'csrf' =>\App\Http\Middleware\VerifyCsrfToken::class,
     ];
 }

@@ -504,16 +504,21 @@ Route::group(['domain' => 'www.anchong.net'], function () {
     //获取虫虫资讯
     Route::get('/information/{infor_id}','Api\Advert\AdvertController@informations');
     Route::get('/','home\indexController@index');
-    //个人中心
-    Route::resource('/pcenter','Home\Pcenter\IndexController');
-    //前台注册
-    Route::resource('/user/register','Home\User\RegController');
-    //手机短信
-    Route::post('/user/smsauth','Home\User\RegController@smsauth');
-    //前台登录
-    Route::resource('/user/login','Home\User\LoginController');
-    //前台重置密码
-    Route::resource('/user/forgetpwd','Home\User\ForgetpwdController');
+
+    //前台安全防护
+    Route::group(['middleware'=>'csrf'],function(){
+        //个人中心
+        Route::resource('/pcenter','Home\Pcenter\IndexController');
+        //前台注册
+        //前台注册
+        Route::resource('/user/register','Home\User\RegController');
+        //手机短信
+        Route::post('/user/smsauth','Home\User\RegController@smsauth');
+        //前台登录
+        Route::resource('/user/login','Home\User\LoginController');
+        //前台重置密码
+        Route::resource('/user/forgetpwd','Home\User\ForgetpwdController');
+    });
 });
 
 //验证码类,需要传入数字

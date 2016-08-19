@@ -27,7 +27,7 @@
                 <div class="col-md-12">
                     <ul class="nav navbar-nav navbar-right daohang" style="padding-top: 3px;">
 
-                        <li class="zhuce"><a href="/user/register">注册&nbsp;&nbsp;/</a><a href="/user/login">登录</a></li>
+                			<li class="zhuce"><a href="/user/register">注册&nbsp;&nbsp;/</a><a href="/user/login">登录</a></li>
 
                         <li class="active">咨询电话：010-888888</li>
                         <li class="tubl"><a href="/pcenter"><img class="img-circle" src="home/images/60.jpg"></a></li>
@@ -207,7 +207,7 @@
             <li><img src="home/images/81.jpg" alt=""><p>head</p></li>
             <li><img src="home/images/82.jpg" alt=""><p>开心麻花</p></li>
             <li><img src="home/images/83.jpg" alt=""><p>回笼换</p></li>
-            <li ><img src="home/images/84.jpg" alt=""><p>沙河村</p></li>
+            <li><img src="home/images/84.jpg" alt=""><p>沙河村</p></li>
         </ul>
     </div>
 </div>

@@ -23,6 +23,7 @@
 
     <div class="sign-in">
       <form class="form-horizontal" data-js-module="sign-in" action="/user/forgetpwd" accept-charset="UTF-8" method="post">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
     <p id="signin_errors" class="signin_error"> <font color="red">{{ Session::get('errormessage') }}</font></p>
 
