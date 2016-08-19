@@ -51,14 +51,6 @@ class indexController extends Controller
     }
 
     /*
-    *  后台首页
-    */
-   public function zhuce()
-   {
-       return view('welcome');
-   }
-
-    /*
     *   验证登陆
     */
     public function checklogin(Request $request)

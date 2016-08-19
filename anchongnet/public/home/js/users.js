@@ -6,9 +6,22 @@ $(function(){
         var time=30;
         //判断是否是格式正确的电话
         if(phone.length == 11 && phone.substr(0,1) == "1"){
+            // $.ajaxSetup({
+            //     //默认添加请求头
+            //     headers: {
+            //        "X-CSRF-TOKEN": $('[name="_token"]').val(),
+            //    } ,
+            // });
             //假如成功就请求短信接口
             $.ajax({
                 url: '/user/smsauth',
+                //添加csrf请求头
+                beforeSend: function (xhr) {
+                    var token = $('[name="_token"]').val();
+                    if (token) {
+                          return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                    }
+                },
                 data:{phone:phone,action:1},
                 type:'post',
                 success:function(result){
@@ -43,6 +56,12 @@ $(function(){
         var time=30;
         //判断是否是格式正确的电话
         if(phone.length == 11 && phone.substr(0,1) == "1"){
+            $.ajaxSetup({
+                //默认添加请求头
+                headers: {
+                   "X-CSRF-TOKEN": $('[name="_token"]').val(),
+               } ,
+            });
             //假如成功就请求短信接口
             $.ajax({
                 url: '/user/smsauth',
