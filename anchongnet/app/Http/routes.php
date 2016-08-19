@@ -504,6 +504,8 @@ Route::group(['domain' => 'www.anchong.net'], function () {
     //获取虫虫资讯
     Route::get('/information/{infor_id}','Api\Advert\AdvertController@informations');
     Route::get('/','home\indexController@index');
+    //个人中心
+    Route::resource('/pcenter','Home\Pcenter\IndexController');
     //前台注册
     Route::resource('/user/register','Home\User\RegController');
     //手机短信
