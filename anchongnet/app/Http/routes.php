@@ -39,7 +39,6 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         */
         //安卓更新接口
         Route::post('/android/androidupdate','Api\Feedback\FeedbackController@androidupdate');
-
         /*
         *   用户模块
         */
@@ -497,7 +496,7 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
 
 
 //前台路由
-Route::group(['domain' => 'www.anchong.net'], function () {
+Route::group(['domain' => 'www.myanchong.net'], function () {
     //获取商品参数html代码
     Route::get('/getparam','admin\uEditorController@getParam');
     Route::get('/getpackage','admin\uEditorController@getPackage');
@@ -508,7 +507,7 @@ Route::group(['domain' => 'www.anchong.net'], function () {
     //前台安全防护
     Route::group(['middleware'=>'csrf'],function(){
         //个人中心
-        Route::resource('/pcenter','Home\Pcenter\IndexController');
+        Route::controller('/pcenter','Home\Pcenter\IndexController');
         //前台注册
         //前台注册
         Route::resource('/user/register','Home\User\RegController');
