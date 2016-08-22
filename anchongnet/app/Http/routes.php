@@ -266,6 +266,18 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/feedback/replyedit','Api\Feedback\FeedbackController@replyedit');
         //意见反馈未查看数量
         Route::post('/feedback/replycount','Api\Feedback\FeedbackController@replycount');
+
+        /*
+        *   钱袋模块
+        */
+        //钱袋余额
+        Route::post('/purse/pursemoney','Api\Purse\PurseController@pursemoney');
+        //可用余额
+        Route::post('/purse/usablemoney','Api\Purse\PurseController@usablemoney');
+        //虫豆首页
+        Route::post('/purse/beansindex','Api\Purse\PurseController@beansindex');
+        //虫豆签到
+        Route::post('/purse/signin','Api\Purse\PurseController@signin');
     });
 });
 

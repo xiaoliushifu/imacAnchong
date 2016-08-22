@@ -169,6 +169,12 @@
                                         </table>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="name">OEM</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" name="oem" id="oem" class="form-control" style="width:500px;" placeholder="多个属性值之间请用空格隔开，最后一个属性为订制。如：中信 订制" value="{{ old('oem') }}" />
+                                    </div>
+                                </div>
                                 <div class="form-group hidden suptemp">
                                     <label class="col-sm-2 control-label">添加配套商品</label>
                                     <div class="col-sm-10">

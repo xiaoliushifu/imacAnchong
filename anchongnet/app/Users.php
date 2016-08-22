@@ -55,7 +55,7 @@ class Users extends Model implements AuthenticatableContract,
     }
 
     /*
-    *   查询用户等级
+    *   查询用户数据
     */
     public function quer($field,$quer_data)
     {

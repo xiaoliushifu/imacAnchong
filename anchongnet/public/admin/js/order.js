@@ -43,21 +43,25 @@ $(function(){
         //ajax查询订单详细信息
         $.get("/getsiblingsorder",{num:num},function(data,status){
             //订单总费用的html
-            al='<tr class="orderinfos"><td width="25%" colspan="2" align="left" valign="middle">运费：'+freight+'</td><td width="25%" colspan="4" align="left" valign="middle">总价：'+total_price+'</td></tr>';
+            al='<tr class="orderinfos"><td width="25%" colspan="2" align="left" valign="middle">运费：'+freight+'</td><td width="25%" colspan="5" align="left" valign="middle">总价：'+total_price+'</td></tr>';
             $("#mbody").prepend(al);
             // //定义类型
             //通过遍历数据在html上显示
             for(var i=0;i<data.length;i++){
                 //截取商品的简要名称
                 var gname=data[i].goods_name.split(" ");
-
                 //显示商品的型号数组
                 var goodsname=gname[0]+" "+(gname[1]?gname[1]:"")+" "+(gname[2]?gname[2]:"");
-                dl='<tr class="orderinfos"><td align="center" valign="middle">'+data[i].goods_numbering+'</td><td align="center" valign="middle">'+goodsname+'</td><td align="center" valign="middle">'+data[i].goods_type+'</td><td align="center" valign="middle">'+data[i].model+'</td><td align="center" valign="middle">'+data[i].goods_num+'</td><td align="center" valign="middle">'+data[i].goods_price+'</td></tr>';
+                //定义oem
+                var oem=data[i].oem;
+                if(oem == ""){
+                    oem="无";
+                }
+                dl='<tr class="orderinfos"><td align="center" valign="middle">'+data[i].goods_numbering+'</td><td align="center" valign="middle">'+goodsname+'</td><td align="center" valign="middle">'+data[i].goods_type+'</td><td align="center" valign="middle">'+data[i].model+'</td><td align="center" valign="middle">'+oem+'</td><td align="center" valign="middle">'+data[i].goods_num+'</td><td align="center" valign="middle">'+data[i].goods_price+'</td></tr>';
                 $("#mbody").prepend(dl);
             }
             //标题插入
-            cl='<tr><th width="11%">序号</th><th width="30%">商品名称</th><th width="19%">规格</th><th width="10%">型号</th><th width="8%">数量</th><th width="12%">价格</th></tr>';
+            cl='<tr><th width="11%">序号</th><th width="27%">商品名称</th><th width="17%">规格</th><th width="10%">型号</th><th width="7%">OEM</th><th width="6%">数量</th><th width="12%">价格</th></tr>';
             $("#mbody").prepend(cl);
         })
     });

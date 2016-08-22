@@ -98,6 +98,7 @@ class OrderController extends Controller
                                     //订单生产时更新库存
                                     $goodsnum_result=$goods_specifications->specupdate($goodsinfo['gid'],['goods_num' => $goodsnum]);
                                     DB::table('anchong_goods_stock')->where('gid','=',$goodsinfo['gid'])->decrement('region_num',$goodsinfo['goods_num']);
+                                    //判断更新库存是否成功
                                     if($goodsnum_result){
                                         $orderinfo_data=[
                                             'order_num' =>$order_num,
@@ -107,7 +108,9 @@ class OrderController extends Controller
                                             'goods_type' => $goodsinfo['goods_type'],
                                             'img' => $goodsinfo['img'],
                                             'goods_numbering' =>$goods_num[0]['goods_numbering'],
+                                            'model' => $goods_num[0]['model'],
                                             'gid' => $goodsinfo['gid'],
+                                            'oem' => $goodsinfo['oem'],
                                         ];
                                         $body .=$goodsinfo['goods_name'].",";
                                         //创建购物车的ORM模型

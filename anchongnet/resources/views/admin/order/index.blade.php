@@ -184,7 +184,7 @@
 					<table class="tables" id="mbody">
 						<tr>
 							<td colspan="2" id="orderinvoiceinfo">发票信息:</td>
-							<td colspan="4" id="orderinvoice">发票抬头:</td>
+							<td colspan="5" id="orderinvoice">发票抬头:</td>
 						</tr>
 					</table>
 					<table class="table1" style="margin-top:7px">

@@ -46,7 +46,7 @@ class PayController extends Controller
             'trade_type'       => 'NATIVE', // JSAPI，NATIVE，APP...
             'body'             => 'iPad mini 16G 白色',
             'detail'           => 'iPad mini 16G 白色',
-            'out_trade_no'     => '16012014702776271',
+            'out_trade_no'     => '160120147027762171',
             'total_fee'        => 1,
             'notify_url'       => 'http://pay.anchong.net/pay/wxnotify',
         ];
@@ -57,6 +57,7 @@ class PayController extends Controller
             $prepayId = $result->prepay_id;
         }
         $config = $payment->configForAppPayment($prepayId);
+        var_dump($config);
         return QrCode::size(200)->color(105,80,10)->backgroundColor(205,230,199)->generate($result->code_url);
     }
 
@@ -121,9 +122,9 @@ class PayController extends Controller
         return $response;
     }
 
-    /*
-    *   异步通知
-    */
+   /*
+   *   异步通知
+   */
    public function webnotify()
    {
        // 验证请求。
