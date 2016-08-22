@@ -78,7 +78,7 @@ class indexController extends Controller
                 return Redirect::back()->withInput()->with('loginmes','账号或密码错误!');
             }
         } else {
-            return Redirect::back()->withInput()->with('admincaptcha','请填写正确的验证码!');
+            return Redirect::back()->withInput()->with('admincaptcha','请填写正确验证码');
         }
     }
 

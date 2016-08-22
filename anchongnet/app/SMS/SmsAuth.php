@@ -2,7 +2,7 @@
 
 namespace App\SMS;
 
-use Redis;
+use Cache;
 /**
 *   使用方法:为手机短信验证服务
 */
@@ -54,8 +54,7 @@ class smsAuth {
             if($key == 'error_response'){
                 return [false,'发送失败，'.$value['sub_msg'].'，请重新发送！'];
             }elseif($key == 'alibaba_aliqin_fc_sms_num_send_response' && $value['result']['success'] == '1'){
-                $redis = Redis::connection();
-                $redis->set($phone.$action, $code);
+                Cache::add($phone.$action, $code ,10);
                 return [true,'发送成功'];
             }else{
                 return [false,'发送失败，请重新发送！'];

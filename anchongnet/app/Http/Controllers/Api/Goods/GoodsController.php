@@ -476,10 +476,12 @@ class GoodsController extends Controller
             $param=json_decode($data['param'],true);
             //创建ORM模型
             $Goods_attribute=new \App\Goods_attribute();
+            $oem_result=DB::table('anchong_goods_oem')->select('value')->where('goods_id','=',$param['goods_id'])->get();
             $results=$Goods_attribute->quer(['name','value'],'goods_id ='.$param['goods_id'])->toArray();
             //定义一个商品属性的空数组
             $goodsvalue=null;
             $typearr=null;
+            $goods_list=null;
             foreach ($results as $attribute) {
                 $type_arr=explode(' ',trim($attribute['value']));
                 foreach($type_arr as $type_arrs){
@@ -490,8 +492,20 @@ class GoodsController extends Controller
                 $goodsvalue[]=['name'=>$attribute['name'],'value'=>$typearr];
                 $typearr=null;
             }
+            if($oem_result){
+                //组合oem
+                $oem_arr=explode(' ',trim($oem_result[0]->value));
+                foreach($oem_arr as $oem_arrs){
+                    if($oem_arrs){
+                        $oemarr[]=$oem_arrs;
+                    }
+                }
+                $goods_list['list']=$goodsvalue;
+                $goods_list['oem']=$oemarr;
+            }
+
             if(!empty($goodsvalue)){
-                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$goodsvalue]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$goods_list]);
             }else{
                 return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'规格信息获取失败，请刷新']]);
             }
