@@ -496,7 +496,7 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
 
 
 //前台路由
-Route::group(['domain' => 'www.myanchong.net'], function () {
+Route::group(['domain' => 'www.anchong.net'], function () {
     //获取商品参数html代码
     Route::get('/getparam','admin\uEditorController@getParam');
     Route::get('/getpackage','admin\uEditorController@getPackage');
