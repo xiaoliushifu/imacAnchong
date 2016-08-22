@@ -49,7 +49,7 @@
 	<div class="content-wrapper">
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
-			<h1>店铺浏览</h1>
+			<h1>商铺浏览</h1>
 		</section>
 
 		<!-- Main content -->

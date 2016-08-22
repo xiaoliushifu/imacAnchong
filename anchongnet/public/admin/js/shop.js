@@ -45,12 +45,6 @@ $(function(){
         }
     });
 
-    //进入广告页面
-    $(".advert").click(function(){
-        $("#advert-shopsname").text($(this).attr("data-name"));
-        $("#advert-sid").val($(this).attr("data-id"));
-    });
-
     //进行商铺的关闭
     $(".shopclose").click(function(){
         //提示用户
@@ -78,6 +72,13 @@ $(function(){
             });
         }
     });
+    
+    /**---进入广告管理页面--**/
+    $(".advert").click(function(){
+        $("#advert-shopsname").text($(this).attr("data-name"));
+        $("#advert-sid").val($(this).attr("data-id"));
+    });
+    
     //该图片修改模块的表单与图片还有文件inpu的命名根据数据库广告表的id进行设置
     //商城轮播图
     $(".newgoodspic31").change(function(){
@@ -99,6 +100,7 @@ $(function(){
             }
         });
     });
+    //第二张图
     $(".newgoodspic32").change(function(){
         var goods_id="shop";
         var gid=$("#advert-sid").attr("value");
