@@ -242,6 +242,9 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
         //支付后跳转页面
         Route::any('pay/webreturn','Api\Pay\PayController@webreturn');
+		//微信app支付
+        Route::post('/pay/wxapppay','Api\Pay\PayController@wxapppay');
+
 
         /*
         *   广告模块

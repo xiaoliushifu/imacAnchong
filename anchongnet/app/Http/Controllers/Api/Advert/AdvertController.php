@@ -314,8 +314,14 @@ class AdvertController extends Controller
             $param=json_decode($data['param'],true);
             //默认每页数量
             $limit=20;
+            //只为第一页添加缓存
+            if($param['page'] == 1){
+                //定义所有货品的关联缓存
+                $list_cache=Cache::get('business_information_list');
+            }else{
+                $list_cache=null;
+            }
             //判断缓存
-            $list_cache=Cache::get('business_information_list');
             if($list_cache){
                 //将缓存取出来赋值给变量
                 $list=$list_cache;
@@ -328,8 +334,11 @@ class AdvertController extends Controller
                 $list['total']=$infor_result['total'];
                 $list['list']=$infor_result['list'];
                 $list['url']='http://www.anchong.net/information/';
-                //将查询结果加入缓存
-                Cache::add('business_information_list', $list, 600);
+                //只为第一页添加缓存
+                if($param['page'] == 1){
+                    //将查询结果加入缓存
+                    Cache::add('business_information_list', $list, 600);
+                }
             }
             if($list['total']>0){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$list]);

@@ -46,7 +46,7 @@ class PayController extends Controller
             'trade_type'       => 'NATIVE', // JSAPI，NATIVE，APP...
             'body'             => 'iPad mini 16G 白色',
             'detail'           => 'iPad mini 16G 白色',
-            'out_trade_no'     => '16012014702776271',
+            'out_trade_no'     => '160120147027762171',
             'total_fee'        => 1,
             'notify_url'       => 'http://pay.anchong.net/pay/wxnotify',
         ];
@@ -57,7 +57,36 @@ class PayController extends Controller
             $prepayId = $result->prepay_id;
         }
         $config = $payment->configForAppPayment($prepayId);
+        var_dump($config);
         return QrCode::size(200)->color(105,80,10)->backgroundColor(205,230,199)->generate($result->code_url);
+    }
+
+    /*
+    *   该方法是微信APP的支付接口
+    */
+    public function wxapppay(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        $total_fee=$param['totalFee']*100;
+        $wechat = app('wechat');
+        $attributes = [
+            'trade_type'       => 'APP', // JSAPI，NATIVE，APP...
+            'body'             => $param['body'],
+            'detail'           => $param['subject'],
+            'out_trade_no'     => $param['outTradeNo'],
+            'total_fee'        => $total_fee,
+            'notify_url'       => 'http://pay.anchong.net/pay/wxnotify',
+        ];
+        $order = new Order($attributes);
+        $payment=$wechat->payment;
+        $result = $payment->prepare($order);
+        if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
+            $prepayId = $result->prepay_id;
+        }
+        $config = $payment->configForAppPayment($prepayId);
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$config]);
     }
 
     /*
@@ -121,9 +150,9 @@ class PayController extends Controller
         return $response;
     }
 
-    /*
-    *   异步通知
-    */
+   /*
+   *   异步通知
+   */
    public function webnotify()
    {
        // 验证请求。
