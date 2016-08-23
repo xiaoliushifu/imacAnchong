@@ -27,7 +27,7 @@ class goodCateController extends Controller
      */
     public function index()
     {
-        $keyName=Requester::input('keyName');
+      $keyName=Requester::input('keyName');
         if($keyName==""){
             $datas=$this->cat->paginate(8);
         }else{
@@ -46,9 +46,9 @@ class goodCateController extends Controller
         $cid=$request['cid'];
         $pid=$this->cat->find($cid)->parent_id;
         //缓存使用
-        if (!$datas = \Cache::get($pid)) {
+        if (!$datas = Cache::get($pid)) {
             $datas=$this->cat->Level($pid)->get();
-            \Cache::add($pid,$datas,'60');
+            Cache::add($pid,$datas,'60');
         }
         $datas = $datas->toArray();
         $result['cnum']=$request['id'];
@@ -65,9 +65,9 @@ class goodCateController extends Controller
     {
         $pid=$request['pid'];
         //缓存的使用
-        if (!$datas = \Cache::get($pid)) {
+        if (!$datas = Cache::get($pid)) {
             $datas = GoodCat::Level($pid)->get();
-            \Cache::add($pid,$datas,'60');
+            Cache::add($pid,$datas,'60');
         }
         $result['cnum']=$request['id'];
         $result['datas']=$datas;
@@ -83,9 +83,9 @@ class goodCateController extends Controller
        $cid=$request['cid'];
        $pid=$this->cat->find($cid)->parent_id;
        //使用缓存
-       if (!$datas = \Cache::get($pid)) {
+       if (!$datas = Cache::get($pid)) {
            $datas=$this->cat->Level($pid)->get();
-           \Cache::add($pid,$datas,'60');
+           Cache::add($pid,$datas,'60');
        }
        return $datas;
    }
@@ -97,9 +97,9 @@ class goodCateController extends Controller
    {
        $pid=$request['pid'];
        //使用缓存，获取pid=0-8
-       if (!$datas = \Cache::get($pid)) {
+       if (!$datas = Cache::get($pid)) {
            $datas = GoodCat::Level($pid)->get();
-           \Cache::add($pid,$datas,'60');
+           Cache::add($pid,$datas,'60');
        }
        return $datas;
    }
@@ -111,9 +111,9 @@ class goodCateController extends Controller
     public function getLevel2()
     {
         //加入缓存
-        if (!$datas = \Cache::get('level2')) {
+        if (!$datas = Cache::get('level2')) {
             $datas = GoodCat::Level2()->get();
-            \Cache::add('level2',$datas,'60');
+            Cache::add('level2',$datas,'60');
         }
         return $datas;
     }

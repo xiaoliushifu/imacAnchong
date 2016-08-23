@@ -24,10 +24,10 @@ class caTagController extends Controller
      */
     public function index()
     {
-        $keyCat=Requester::input("cat");
-        if($keyCat==""){
+        $keyCat= Requester::input("cat");
+        if ($keyCat=="") {
             $datas=$this->catag->paginate(8);
-        }else{
+        } else {
             $datas = Catag::Cat($keyCat)->paginate(8);
         }
         $args=array("cat"=>$keyCat);
