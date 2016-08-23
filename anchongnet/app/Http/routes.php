@@ -39,7 +39,6 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         */
         //安卓更新接口
         Route::post('/android/androidupdate','Api\Feedback\FeedbackController@androidupdate');
-
         /*
         *   用户模块
         */
@@ -269,6 +268,18 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/feedback/replyedit','Api\Feedback\FeedbackController@replyedit');
         //意见反馈未查看数量
         Route::post('/feedback/replycount','Api\Feedback\FeedbackController@replycount');
+
+        /*
+        *   钱袋模块
+        */
+        //钱袋余额
+        Route::post('/purse/pursemoney','Api\Purse\PurseController@pursemoney');
+        //可用余额
+        Route::post('/purse/usablemoney','Api\Purse\PurseController@usablemoney');
+        //虫豆首页
+        Route::post('/purse/beansindex','Api\Purse\PurseController@beansindex');
+        //虫豆签到
+        Route::post('/purse/signin','Api\Purse\PurseController@signin');
     });
 });
 
@@ -511,7 +522,7 @@ Route::group(['domain' => 'www.anchong.net'], function () {
     //前台安全防护
     Route::group(['middleware'=>'csrf'],function(){
         //个人中心
-        Route::resource('/pcenter','Home\Pcenter\IndexController');
+        Route::controller('/pcenter','Home\Pcenter\IndexController');
         //前台注册
         //前台注册
         Route::resource('/user/register','Home\User\RegController');

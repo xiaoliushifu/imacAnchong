@@ -11,6 +11,7 @@ use Validator;
 use Hash;
 use Auth;
 use DB;
+use Cache;
 
 /*
 *   该类是手机Api接口的用户相关的控制器
@@ -87,9 +88,8 @@ class UserController extends Controller
     			}
             }else{
                 //从Redis里面取出验证码
-                $redis = Redis::connection();
-                if($redis->get($param['phone'].'注册验证') == $param['phonecode']){
-                    $redis->del($param['phone'].'注册验证');
+                if(Cache::get($param['phone'].'注册验证') == $param['phonecode']){
+                    Cache::forget($param['phone'].'注册验证');
                     //像users表中插的数据
                     $users_data=[
                         'phone' => $param['phone'],
