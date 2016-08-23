@@ -191,11 +191,11 @@ class AdvertController extends Controller
                 //需要查的字段
                 $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
                 //设置随机偏移量
-                $num=rand(10,99);
+                $num=rand(6,20);
                 //创建ORM模型
                 $goods_type=new \App\Goods_type();
                 //推荐商品
-                $goods_result=$goods_type->simplequer($goods_data,"added = 1",$num,10)->toArray();
+                $goods_result=$goods_type->simplequer($goods_data,"sid=1 and added = 1",$num,10,"goods_id")->toArray();
                 Cache::add('advert_goodsadvert_goods_result', $goods_result, 5);
             }
             //定义结果数组

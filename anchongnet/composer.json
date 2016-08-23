@@ -16,7 +16,9 @@
         "stevenyangecho/laravel-u-editor": "~1.1",
         "latrell/alipay":"dev-master",
         "overtrue/laravel-wechat":"~3.0",
-        "simplesoftwareio/simple-qrcode": "~1"
+        "simplesoftwareio/simple-qrcode": "~1",
+        "ignited/laravel-omnipay": "2.*",
+        "lokielse/omnipay-unionpay": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

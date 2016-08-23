@@ -92,7 +92,7 @@ class OrderController extends Controller
                             }
                             //判断商品是否下架
                             if($goods_num[0]['added'] == 1){
-                            //判断总库存是否足够
+                                //判断总库存是否足够
                                 if($goods_num[0]['goods_num'] >= $goodsinfo['goods_num']){
                                     $goodsnum=$goods_num[0]['goods_num']-$goodsinfo['goods_num'];
                                     //订单生产时更新库存
@@ -161,7 +161,7 @@ class OrderController extends Controller
             if($true && $total_price>0){
                 //假如成功就提交
                 DB::commit();
-                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['outTradeNo'=>$paynum,'totalFee'=>$total_price,'body'=>$body,'subject'=>"安虫商城订单支付",'notifyURLAlipay'=>'http://pay.anchong.net/pay/mobilenotify']]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['outTradeNo'=>$paynum,'totalFee'=>$total_price,'body'=>$body,'subject'=>"安虫商城订单支付",'notifyURLAlipay'=>'http://pay.anchong.net/pay/mobilenotify','wxnotify_url'=>'http://pay.anchong.net/pay/wxnotify']]);
             }else{
                 //假如失败就回滚
                 DB::rollback();

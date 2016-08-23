@@ -111,8 +111,8 @@ class Goods_type extends Model
     /*
     *   简单条件查询
     */
-    public function simplequer($field,$type,$pos,$limit)
+    public function simplequer($field,$type,$pos,$limit,$condition)
     {
-        return $this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get();
+        return $this->select($field)->whereRaw($type)->skip($pos)->take($limit)->groupBy($condition)->get();
     }
 }

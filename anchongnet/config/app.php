@@ -151,6 +151,7 @@ return [
         Latrell\Alipay\AlipayServiceProvider::class,
         Overtrue\LaravelWechat\ServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Ignited\LaravelOmnipay\LaravelOmnipayServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -211,6 +212,7 @@ return [
         'Input'     =>Illuminate\Support\Facades\Input::class,
         'Wechat'    => Overtrue\LaravelWechat\Facade::class,
         'QrCode'    => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'Omnipay' => Ignited\LaravelOmnipay\Facades\OmnipayFacade::class,
     ],
 
 ];

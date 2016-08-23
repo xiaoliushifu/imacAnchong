@@ -429,11 +429,11 @@ class GoodsController extends Controller
                 $goods_data=['gid','title','price','pic','goods_id'];
                 //设置随机偏移量
                 $num=rand(0,15);
-                $result=$goods_type->corrquer($goods_data,"MATCH(cid) AGAINST('".$keyarr[0]."') and added =1",$num,$limit,'goods_id');
+                $result=$goods_type->corrquer($goods_data,"MATCH(cid) AGAINST('".$keyarr[0]."') and sid=1 and added =1",$num,$limit,'goods_id');
                 if(!empty($result['list']->toArray())){
                     return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
                 }else{
-                    $result=$goods_type->corrquer($goods_data,"added =1",(($param['page']-1)*$limit),$limit,'sales','DESC');
+                    $result=$goods_type->corrquer($goods_data,"MATCH(cid) AGAINST('".$keyarr[0]."') and added =1",$num,$limit,'goods_id');
                     return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
                 }
             }
