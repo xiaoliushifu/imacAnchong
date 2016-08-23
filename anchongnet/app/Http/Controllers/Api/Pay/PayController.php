@@ -46,7 +46,7 @@ class PayController extends Controller
             'trade_type'       => 'NATIVE', // JSAPI，NATIVE，APP...
             'body'             => 'iPad mini 16G 白色',
             'detail'           => 'iPad mini 16G 白色',
-            'out_trade_no'     => '160120147027762171',
+            'out_trade_no'     => '16012014702776217',
             'total_fee'        => 1,
             'notify_url'       => 'http://pay.anchong.net/pay/wxnotify',
         ];
@@ -70,6 +70,7 @@ class PayController extends Controller
         $data=$request::all();
         $param=json_decode($data['param'],true);
         $total_fee=$param['totalFee']*100;
+        //总价转换
         $wechat = app('wechat');
         $attributes = [
             'trade_type'       => 'APP', // JSAPI，NATIVE，APP...
@@ -79,12 +80,15 @@ class PayController extends Controller
             'total_fee'        => $total_fee,
             'notify_url'       => 'http://pay.anchong.net/pay/wxnotify',
         ];
+        //生成订单类
         $order = new Order($attributes);
         $payment=$wechat->payment;
         $result = $payment->prepare($order);
+        //判断是否有成功的订单
         if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
             $prepayId = $result->prepay_id;
         }
+        //生成app所需的内容
         $config = $payment->configForAppPayment($prepayId);
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$config]);
     }
@@ -261,7 +265,7 @@ class PayController extends Controller
                 DB::rollback();
                 return 'fail';
             }
-               break;
+                break;
           case 'TRADE_FINISHED':
               // TODO: 支付成功，取得订单号进行其它相关操作。
               //开启事务处理
@@ -298,7 +302,7 @@ class PayController extends Controller
                DB::rollback();
                return 'fail';
            }
-              break;
+               break;
       }
   }
 

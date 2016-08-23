@@ -244,7 +244,6 @@ Route::group(['domain' => 'api.anchong.net'], function () {
 		//微信app支付
         Route::post('/pay/wxapppay','Api\Pay\PayController@wxapppay');
 
-
         /*
         *   广告模块
         */
@@ -295,6 +294,8 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
     Route::any('/pay/wxpay','Api\Pay\PayController@wxpay');
     //微信支付回调
     Route::any('/pay/wxnotify','Api\Pay\PayController@wxnotify');
+    //银联支付处理
+    Route::get('/unionpay/pay','Api\Pay\UnionpayController@pay');
 });
 
 //后台路由
