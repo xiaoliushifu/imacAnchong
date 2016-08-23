@@ -149,7 +149,8 @@ class tagController extends Controller
                 break;
             //承接工程标签
             case '2':
-                Cache::forget('business_search_result_tag2');                                break;
+                Cache::forget('business_search_result_tag2');
+                break;
             //发布人才
             case '3':
                 Cache::forget('business_search_result_tag3');
@@ -157,9 +158,6 @@ class tagController extends Controller
             //招聘人才
             case '4':
                 Cache::forget('business_search_result_tag4');
-                break;
-            //默认的内容
-            default:
                 break;
         }
         Cache::forget('business_typetag_typetag_array');

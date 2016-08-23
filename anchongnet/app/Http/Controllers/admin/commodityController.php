@@ -117,7 +117,7 @@ class commodityController extends Controller
         //插入oem数据
         DB::table('anchong_goods_oem')->insertGetId(
             [
-                'goods_id'=>$gid,
+                 'goods_id'=>$gid,
                 'value'=>$request->oem
             ]
         );
@@ -157,7 +157,7 @@ class commodityController extends Controller
 
     /**
      * Display the specified resource.
-     *
+     *这个方法有在调用吗？
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

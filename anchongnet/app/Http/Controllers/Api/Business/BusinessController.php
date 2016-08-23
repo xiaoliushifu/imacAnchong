@@ -145,15 +145,15 @@ class BusinessController extends Controller
                 foreach ($business_type_data as $value) {
                     foreach ($value as $value_data) {
                         //因为取出的是数组所以要判断是否为id
-                        if(is_numeric($value_data)){
-                            //取出所有标签
+                        if (is_numeric($value_data)) {
+                            //取出该类型下的所有标签
                             $business_tag_data=$business_tag->quer('tag',$value_data)->toArray();
                             foreach ($business_tag_data as $business_tag_value) {
                                 foreach ($business_tag_value as $business_tag_value1) {
                                     $business_tag_data_value[]=$business_tag_value1;
                                 }
                             }
-                        }else {
+                        } else {
                             //通过拼接和组合将数据变成合格的json
                             $typetag_array[]=['type'=>$value_data,'tag'=>$business_tag_data_value];
                             $business_tag_data_value=null;
@@ -164,12 +164,12 @@ class BusinessController extends Controller
                 Cache::add('business_typetag_typetag_array', $typetag_array, 600);
             }
             //假如没有查出数据
-            if(empty($typetag_array)){
+            if (empty($typetag_array)) {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>"查询失败"]]);
-            }else{
+            } else {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$typetag_array]);
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }

@@ -53,8 +53,8 @@
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
-				<li><a href="/tag"><i class="fa fa-circle-o"></i> 标签列表</a></li>
-				<li><a href="/tag/create"><i class="fa fa-circle-o"></i> 添加标签</a></li>
+				<li><a href="/tag"><i class="fa fa-circle-o"></i> 商机标签列表</a></li>
+				<li><a href="/tag/create"><i class="fa fa-circle-o"></i> 添加商机标签</a></li>
 				<li><a href="/catag"><i class="fa fa-circle-o"></i> 分类标签列表</a></li>
 				<li><a href="/catag/create"><i class="fa fa-circle-o"></i> 添加分类标签</a></li>
 			</ul>

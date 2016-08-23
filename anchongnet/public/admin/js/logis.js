@@ -2,6 +2,10 @@
  * Created by lengxue on 2016/5/19.
  */
 $(function(){
+	
+	/**
+	 * 编辑物流
+	 */
     $(".edit").click(function(){
         var id=$(this).attr("data-id");
         //确定 保存物流时 提交的url
@@ -35,6 +39,10 @@ $(function(){
         // 为了防止普通浏览器进行表单提交和产生页面导航（防止页面刷新？）返回false
         return false;
     });
+    
+    /**
+     * 删除物流
+     */
     $(".del").click(function(){
         if(confirm("您确定要删除该条记录吗？")){
             var id=$(this).attr("data-id");
