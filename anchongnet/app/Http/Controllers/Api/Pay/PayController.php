@@ -73,8 +73,8 @@ class PayController extends Controller
         $wechat = app('wechat');
         $attributes = [
             'trade_type'       => 'APP', // JSAPI，NATIVE，APP...
-            'body'             => $param['body'],
-            'detail'           => $param['subject'],
+            'body'             => $param['subject'],
+            'detail'           => $param['body'],
             'out_trade_no'     => $param['outTradeNo'],
             'total_fee'        => $total_fee,
             'notify_url'       => 'http://pay.anchong.net/pay/wxnotify',

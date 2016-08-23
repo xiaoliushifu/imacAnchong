@@ -33,7 +33,7 @@ class CartController extends Controller
                 //商品数量
                 $goodsnum=[
                     'goods_num' => $param['goods_num']+$gid_num[0]['goods_num'],
-                    'oem' => $param['oem']
+                    //'oem' => $param['oem']
                 ];
                 //更新商品数量
                 $result=$cart->cartupdate($gid_num[0]['cart_id'],$goodsnum);
@@ -51,7 +51,7 @@ class CartController extends Controller
                     'sid' => $param['sid'],
                     'sname' => $param['sname'],
                     'goods_id' => $param['goods_id'],
-                    'oem' => $param['oem']
+                   // 'oem' => $param['oem']
                 ];
                 $result=$cart->add($cart_data);
             }
@@ -81,7 +81,7 @@ class CartController extends Controller
             $shop=new \App\Shop();
             $cart=new \App\Cart();
             //定义查询的数组
-            $cart_data=['cart_id','goods_name','goods_num','goods_price','img','goods_type','gid','sid','sname','goods_id','oem'];
+            $cart_data=['cart_id','goods_name','goods_num','goods_price','img','goods_type','gid','sid','sname','goods_id'];
             //得到结果
             $results=$cart->quer($cart_data,'users_id = '.$data['guid'])->toArray();
             //假如购物车无数据
