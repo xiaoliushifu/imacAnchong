@@ -286,7 +286,7 @@ class GoodsController extends Controller
                 //分析三个搜索参数
                 /*查询字符串是空格分开的字符串时，目前的处理，拆分留一个*/
                 $param['search'] = preg_split('#\s#',$param['search'],-1,PREG_SPLIT_NO_EMPTY)[0];
-                
+
                 $kl = mb_strlen($param['search'],'utf-8');
                 //需要在录入商品中，添加关键字的时候，注意，空格分开的每个独立的关键字不能超过14个utf-8汉字。
                 if ($kl<1 || $kl>14) {
@@ -322,7 +322,7 @@ class GoodsController extends Controller
                     //要查询的字段
                     $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
                     $res = DB::table('anchong_goods_type')->whereIn('cat_id',$tmparr)->get($goods_data);
-    
+
                     foreach($res as $val)
                     {
                         $result['list'][]=$val;
@@ -508,7 +508,7 @@ class GoodsController extends Controller
             }
 
             if(!empty($goodsvalue)){
-                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$goodsvalue]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$goods_list]);
             }else{
                 return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'规格信息获取失败，请刷新']]);
             }
