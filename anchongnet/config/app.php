@@ -152,7 +152,6 @@ return [
         Overtrue\LaravelWechat\ServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Ignited\LaravelOmnipay\LaravelOmnipayServiceProvider::class,
-
         /*
          * Application Service Providers...
          */
@@ -209,10 +208,10 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 	    'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Image'     => Intervention\Image\Facades\Image::class,
-        'Input'     =>Illuminate\Support\Facades\Input::class,
+        'Input'     => Illuminate\Support\Facades\Input::class,
         'Wechat'    => Overtrue\LaravelWechat\Facade::class,
         'QrCode'    => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
-        'Omnipay' => Ignited\LaravelOmnipay\Facades\OmnipayFacade::class,
+        'Omnipay'   => Ignited\LaravelOmnipay\Facades\OmnipayFacade::class,
     ],
 
 ];

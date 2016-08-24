@@ -276,7 +276,7 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="area">工程结束时间</label>
 							<div class="col-sm-9">
-								<input type="text" id="endtime" class="form-control" name="endtime">
+								<input type="text" id="endtime" class="form-control" name="endtime" placeholder="时间格式:2016-08-24">
 							</div>
 						</div>
 						<div class="form-group text-center">

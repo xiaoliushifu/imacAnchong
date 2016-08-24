@@ -114,7 +114,7 @@ class businessController extends Controller
                 'business_status'=>1,
                 'tags'=>$request['area'],
                 'tags_match'=>bin2hex($request['area']),
-                'endtime' => $request['endtime'],
+                'endtime' => strtotime($request['endtime']),
                 'created_at' => date('Y-m-d H:i:s',time()),
                 'img' => $imgs,
             ]
@@ -137,6 +137,7 @@ class businessController extends Controller
     {
         $data=$this->business->find($id);
         $data->img=trim($data->img,"#@#");
+        $data->endtime=date('Y-m-d',$data->endtime);
         return $data;
     }
 
@@ -170,7 +171,7 @@ class businessController extends Controller
         $data->type=$request['type'];
         $data->tags=$request['area'];
         $data->tags_match=bin2hex($request['area']);
-        $data->endtime=$request['endtime'];
+        $data->endtime=strtotime($request['endtime']);
         $data->created_at = date('Y-m-d H:i:s',time());
         $data->save();
         return redirect()->back();

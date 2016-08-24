@@ -96,7 +96,7 @@ class BusinessController extends Controller
                                 'tag' => $param['tag'],
                                 'tags' => $param['tags'],
                                 'tags_match' => $tags,
-                                'endtime' => $param['endtime'],
+                                'endtime' => strtotime($param['endtime']),
                                 'phone' => $users_phone[0]['phone'],
                                 'contact' => $users_contact[0]['contact'],
                                 'img'  => $imgs,
@@ -707,7 +707,7 @@ class BusinessController extends Controller
                     'tag' => $param['tag'],
                     'tags' => $param['tags'],
                     'tags_match' => $tags,
-                    'endtime' => $param['endtime'],
+                    'endtime' => strtotime($param['endtime']),
                     'img'  => $imgs,
                 ];
 

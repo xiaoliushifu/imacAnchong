@@ -494,6 +494,12 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
             Route::get('/business/imgshow/{num}','admin\businessController@imgshow');
 
             /*
+            *   后台推送
+            */
+            //后台推送
+            Route::get('/propel/apppropel','admin\Propel\PropelController@apppropel');
+
+            /*
             *   后台意见反馈
             */
             //后台意见反馈查看

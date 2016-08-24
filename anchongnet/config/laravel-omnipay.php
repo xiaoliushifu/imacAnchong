@@ -25,19 +25,18 @@ return [
                 'returnUrl' => 'your returnUrl here',
                 'notifyUrl' => 'your notifyUrl here'
             ]
-        ]
-    ],
-
-    'unionpay' => [
-        'driver' => 'UnionPay_Express',
-        'options' => [
-            'merId' => '777290058120462',
-            'certPath' => '/path/to/storage/app/unionpay/certs/PM_700000000000001_acp.pfx',
-            'certPassword' =>'000000',
-            'certDir'=>'/path/to/certs',
-            'returnUrl' => 'Your ReturnUrl Here',
-            'notifyUrl' => 'Your NotifyUrl Here'
+        ],
+        //银联支付配置
+        'unionpay' => [
+            'driver' => 'UnionPay_Express',
+            'options' => [
+                'merId' => '777290058136340',
+                'certPath' =>  __DIR__ . '/cert/700000000000001_acp.pfx',
+                'certPassword' =>'000000',
+                'certDir'=> __DIR__ . '/cert',
+                'returnUrl' => 'Your ReturnUrl Here',
+                'notifyUrl' => 'Your NotifyUrl Here'
+            ]
         ]
     ]
-
 ];
