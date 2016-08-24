@@ -2,7 +2,9 @@
  * Created by lengxue on 2016/6/8.
  */
 $(function(){
-    //页面加载的时候初始化标签选择下拉菜单的选项
+    /*
+     * 获得所有商机标签
+     */
     $.get('/getag',function(data,status){
         var opt;
         for(var i=0;i<data.length;i++){
@@ -231,49 +233,30 @@ $(function(){
             });
         }
     });
-    //推广商机
-    $(".advert").click(function(){
+    /**
+     * 广告推送与取消推送
+     */
+    $("button:contains('推送')").click(function(){
         //商机ID
         bid=$(this).attr("data-id");
         //显示提示,避免误操作
-        if(confirm('确定要推到热门招标项目吗？')){
+        if(confirm($(this).attr('note'))){
             $.ajax({
                 url: "/advert/businessadvert",
                 type:'POST',
-                data:{goods_id:'business',bid:bid,recommend:1},
+                data:{goods_id:'business',bid:bid,recommend:$(this).attr('reco')},
                 success:function( response ){
                     if(response.ServerNo == 0){
-                        alert('推广成功');
+                        alert('操作成功');
                         location.reload();
                     }else{
-                        alert('推广失败');
-                    }
-                }
-            });
-    	}
-    });
-    //取消推送按钮 推广商机
-    $(".advertcancel").click(function(){
-        //商机ID
-        bid=$(this).attr("data-id");
-        //显示提示,避免误操作
-        if(confirm('确定要取消推广吗？')){
-            //进行ajax提交修改推荐状态
-            $.ajax({
-                url: "/advert/businessadvert",
-                type:'POST',
-                data:{goods_id:'business',bid:bid,recommend:0},
-                success:function( response ){
-                    if(response.ServerNo == 0){
-                        alert('取消成功');
-                        location.reload();
-                    }else{
-                        alert('取消失败');
+                        alert('操作失败');
                     }
                 }
             });
         }
     });
+    
 //点击“广告轮播图”按钮，出现弹框
     $(".advertpic").click(function(){
         $("#advert-bid").val($(this).attr("data-id"));
@@ -344,7 +327,7 @@ $(function(){
             }
         });
     });
-//最新招标项目
+//最新招标项目(广告)
     $(".appbusinesspic41").change(function(){
         //获取商机ID
         var bid=$("#advert-bid").attr("value");

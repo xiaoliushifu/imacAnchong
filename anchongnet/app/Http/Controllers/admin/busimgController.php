@@ -63,8 +63,6 @@ class busimgController extends Controller
                 $object=$dir.time().rand(100000,999999).".png";
                 break;
             case "image/jpeg":
-                $object=$dir.time().rand(100000,999999).".jpg";
-                break;
             case "image/jpg":
                 $object=$dir.time().rand(100000,999999).".jpg";
                 break;
