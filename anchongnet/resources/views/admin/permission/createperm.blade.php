@@ -132,10 +132,10 @@ $(function(){
     			   nochinese:true,                //规则名称
     			   required:true,
     		   },
-    		   label:{                        //name="name"的表单项的验证规则
+    		   label:{                        //name="label"的表单项的验证规则
     			   required:true,
     		   },
-    		   description:{                        //name="name"的表单项的验证规则
+    		   description:{
     			   required:true,
     		   },
     	 },
