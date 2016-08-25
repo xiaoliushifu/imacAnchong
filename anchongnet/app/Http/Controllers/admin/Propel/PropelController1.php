@@ -45,7 +45,7 @@ class PropelController1 extends Controller
         );
         //设置Android的通知
         $android_notification = array(
-            'title' => 'hello jpush',
+            'title' => '安虫平台',
             'build_id' => 2,
             'extras' => array(
                 'key' => 'value',
