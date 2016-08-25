@@ -70,6 +70,19 @@ $(function(){
             }
         });
     });
+    
+    /**
+     * 表单验证逻辑 工程结束时间项
+     */
+    $("#updateform").validate({
+    		//验证规则
+		rules:{
+			endtime:{
+				   dateISO:true,
+			   },
+		},
+    })
+    
     //商机的编辑
     $(".edit").click(function(){
         //获取商机的ID

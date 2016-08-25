@@ -19,7 +19,6 @@ class releaseController extends Controller
 
     public function __construct()
     {
-        $this->release=new Community_release();
         //通过Auth获取当前登录用户的id
         $this->uid=Auth::user()['users_id'];
     }
@@ -32,6 +31,7 @@ class releaseController extends Controller
     public function index()
     {
         $keyTag=Requester::input("tag");
+        $this->release=new Community_release();
         //判断有无筛选标签
         if($keyTag==""){
             //查出该用户所有聊聊
@@ -53,6 +53,7 @@ class releaseController extends Controller
     public function releases()
     {
         $keyTag=Requester::input("tag");
+        $this->release = new Community_release();
         //判断有无筛选标签
         if($keyTag==""){
             //查出所有聊聊
@@ -118,11 +119,11 @@ class releaseController extends Controller
         $community_release=new \App\Community_release();
         $result=$community_release->add($community_data);
         //插入社区图片
-        if(($result)){
+        if ($result) {
             //假如成功就提交
             DB::commit();
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'聊聊发布成功']]);
-        }else{
+        } else {
             //假如失败就回滚
             DB::rollback();
             return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请重新发布聊聊']]);
@@ -148,6 +149,7 @@ class releaseController extends Controller
      */
     public function edit($id)
     {
+        $this->release = new Community_release();
         $data=$this->release->find($id);
         return $data;
     }
@@ -161,6 +163,7 @@ class releaseController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->release = new Community_release();
         $data=$this->release->find($id);
         $data->title=$request->title;
         $data->content=$request['content'];
@@ -178,6 +181,7 @@ class releaseController extends Controller
     {
         //开启事务处理
         DB::beginTransaction();
+        $this->release = new Community_release();
         $data=$this->release->find($id);
         $result=$data->delete();
         if($result){
