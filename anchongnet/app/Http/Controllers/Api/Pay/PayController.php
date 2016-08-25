@@ -132,12 +132,23 @@ class PayController extends Controller
                     // 更新支付时间为当前时间
                     $order->state = 2;
                     $order->paycode="wxpay:".$notify->transaction_id;
+                    //将钱增加到商户冻结资金
+                    $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price*0.99);
                 } else {
                     // 用户支付失败
                     $order->state = 1;
+                    $result=false;
                 }
-                // 保存订单
-                $order->save();
+                //判断是否加钱成功
+                if($result){
+                    // 保存订单
+                    $order->save();
+                }else{
+                    //假如失败就回滚
+                    DB::rollback();
+                    // 返回处理完成
+                    return true;
+                }
             }
             if($total_price == ($notify->total_fee/100)){
                 DB::commit();
@@ -155,7 +166,7 @@ class PayController extends Controller
     }
 
    /*
-   *   异步通知
+   *   异步通知（具体待修改）
    */
    public function webnotify()
    {
@@ -244,15 +255,33 @@ class PayController extends Controller
                    //对总价进行累加
                    $total_price +=$order_id['total_price'];
                    //进行订单操作
-                   $result=$order->orderupdate($order_id['order_id'],['state' => 2,'paycode'=>"alipay:".$data['trade_no']]);
-                   if(!$result){
-                       //再次执行
-                       $result=$order->orderupdate($order_id['order_id'],['state' => 2,'paycode'=>"alipay:".$data['trade_no']]);
-                       if(!$result){
-                           //假如失败就回滚
-                           DB::rollback();
-                           return 'fail';
-                       }
+                   // 使用通知里的 "商户订单号" 去自己的数据库找到订单
+                   $order = $orders->find($order_id['order_id']);
+                   // 如果订单不存在
+                   if (!$order) {
+                       // 我已经处理完了，订单没找到，别再通知我了
+                       return 'fail';
+                   }
+
+                   // 检查订单是否已经更新过支付状态
+                   if ($order->state == 2) {
+                       // 假设订单字段“支付时间”不为空代表已经支付
+                       // 已经支付成功了就不再更新了
+                       continue;
+                   }
+                   //将订单状态改成成功并记录下支付单号
+                   $order->state = 2;
+                   $order->paycode="alipay:".$data['trade_no'];
+
+                   //将钱增加到商户冻结资金
+                   $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price*0.99);
+                   if($result){
+                       // 保存订单
+                       $order->save();
+                   }else{
+                       //假如失败就回滚
+                       DB::rollback();
+                       return 'fail';
                    }
                }
 
@@ -281,15 +310,32 @@ class PayController extends Controller
                   //对总价进行累加
                   $total_price +=$order_id['total_price'];
                   //进行订单操作
-                  $result=$order->orderupdate($order_id['order_id'],['state' => 2,'paycode'=>"alipay:".$data['trade_no']]);
-                  if(!$result){
-                      //再次执行
-                      $result=$order->orderupdate($order_id['order_id'],['state' => 2,'paycode'=>"alipay:".$data['trade_no']]);
-                      if(!$result){
-                          //假如失败就回滚
-                          DB::rollback();
-                          return 'fail';
-                      }
+                  // 使用通知里的 "商户订单号" 去自己的数据库找到订单
+                  $order = $orders->find($order_id['order_id']);
+                  // 如果订单不存在
+                  if (!$order) {
+                      // 我已经处理完了，订单没找到，别再通知我了
+                      return 'fail';
+                  }
+
+                  // 检查订单是否已经更新过支付状态
+                  if ($order->state == 2) {
+                      // 假设订单字段“支付时间”不为空代表已经支付
+                      // 已经支付成功了就不再更新了
+                      continue;
+                  }
+                  //将订单状态改成成功并记录下支付单号
+                  $order->state = 2;
+                  $order->paycode="alipay:".$data['trade_no'];
+
+                  //将钱增加到商户冻结资金
+                  $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price*0.99);
+                  if($result){
+                      // 保存订单
+                      $order->save();
+                  }else{
+                      //假如失败就回滚
+                      DB::rollback();
                   }
               }
 

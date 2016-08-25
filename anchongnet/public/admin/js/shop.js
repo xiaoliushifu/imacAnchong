@@ -26,8 +26,10 @@ $(function(){
     /*----审核通过----*/
     $("body").on("click",'.check-success',function(){
         if(confirm('确定要通过吗？')){
+            //获取商铺ID与用户ID
             var id=parseInt($(this).attr("data-id"));
-            $.get("/checkShop",{"sid":id,"certified":"yes"},function(data,status){
+            var uid=parseInt($(this).attr("data-uid"));
+            $.get("/checkShop",{"sid":id,"users_id":uid,"certified":"yes"},function(data,status){
                 alert(data);
                 setTimeout(function(){location.reload()},1000);
             });
@@ -72,13 +74,13 @@ $(function(){
             });
         }
     });
-    
+
     /**---进入广告管理页面--**/
     $(".advert").click(function(){
         $("#advert-shopsname").text($(this).attr("data-name"));
         $("#advert-sid").val($(this).attr("data-id"));
     });
-    
+
     //该图片修改模块的表单与图片还有文件inpu的命名根据数据库广告表的id进行设置
     //商城轮播图
     $(".newgoodspic31").change(function(){

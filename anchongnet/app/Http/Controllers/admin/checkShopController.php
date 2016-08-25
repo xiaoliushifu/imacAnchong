@@ -22,6 +22,7 @@ class checkShopController extends Controller
         $sid=$request['sid'];
         if ($request['certified']=="yes") {
             DB::table('anchong_shops')->where('sid', $sid)->update(['audit' => 2]);
+            DB::table('anchong_users')->where('users_id', $request['users_id'])->update(['sid' => $sid]);
         } else {
             DB::table('anchong_shops')->where('sid', $sid)->delete();
         };

@@ -317,7 +317,16 @@ class OrderController extends Controller
                 }else{
                     //更改订单状态
                     $order_handle->state=7;
-                    $results=$order_handle->save();
+                    $resultss=$order_handle->save();
+                    if($resultss){
+                        //将商户冻结资金转移到可用资金
+                        DB::table('anchong_users')->where('sid','=',$order->sid)->decrements('disable_money',$order->total_price*0.99);
+                        $results=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('usable_money',$order->total_price*0.99);
+                    }else{
+                        //假如失败就回滚
+                        DB::rollback();
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'操作失败']]);
+                    }
                 }
                 if($results){
                     //创建ORM模型
