@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\Goods;
 
 //use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Request;
 use Validator;
@@ -103,7 +102,7 @@ class GoodsController extends Controller
                                 DB::rollback();
                                 return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'添加商品失败，请重新添加']]);
                             }
-                        }else{
+                       }else{
                             //加入失败就回滚
                             DB::rollback();
                             return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'添加商品失败，请重新添加']]);

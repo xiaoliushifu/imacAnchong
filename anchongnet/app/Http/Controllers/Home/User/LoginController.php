@@ -66,15 +66,13 @@ class LoginController extends Controller
             ]
         );
         //如果不出错返回未注册，如果出错执行下面的操作
-        if (!$validator->fails())
-        {
+        if (!$validator->fails()) {
             return Redirect::back()->withInput()->with('errormessage','账号未注册!');
-        }else{
+        } else {
             if ($data['captchapic'] == Session::get($data['captchanum'].'adminmilkcaptcha')) {
-                if (Auth::attempt(['username' => $username, 'password' => $password]))
-                {
+                if (Auth::attempt(['username' => $username, 'password' => $password])) {
                     return Redirect::to('/');
-                }else{
+                } else {
                     return Redirect::back()->withInput()->with('errormessage','账号密码错误');
                 }
             } else {

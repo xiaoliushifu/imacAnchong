@@ -72,7 +72,8 @@ class tagController extends Controller
                 break;
             //承接工程标签
             case '2':
-                Cache::forget('business_search_result_tag2');                                break;
+                Cache::forget('business_search_result_tag2');                                
+                break;
             //发布人才
             case '3':
                 Cache::forget('business_search_result_tag3');

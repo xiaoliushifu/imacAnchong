@@ -53,7 +53,7 @@
 	<div class="content-wrapper">
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
-			<h1><?php echo $all?"所有商机":"我的商机" ?></h1>
+			<h1>{{ ($all)? "所有商机":"我的商机" }}</h1>
 		</section>
 
 		<!-- Main content -->
@@ -62,7 +62,7 @@
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-body">
-						    <form action="<?php echo $all?"/businesss":"/business" ?>" method="get" class="form-horizontal form-inline f-ib">
+						    <form action="{{ ($all)? '/businesss':'/business' }}" method="get" class="form-horizontal form-inline f-ib">
 								商机类型：
 								<select class="form-control" name="type">
 									<option value="" id="check">请选择</option>
@@ -74,7 +74,7 @@
 								</select>
 						      <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 						    </form>
-		                    <a href="<?php echo $all?"/businesss":"/business" ?>" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
+		                    <a href="{{ ($all)? '/businesss' : '/business' }}" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
 									<th>标题</th>
@@ -105,7 +105,6 @@
 												break;
 											case 5:
 												echo "找商品";
-												break;
 										}
 									?>
 									</td>
@@ -116,9 +115,9 @@
 										<!-- 广告处理屏蔽第三方，安虫自营皆可看到但是只某些角色可操作 -->
 										@if(Auth::user()['user_rank']==3)
 										    @can('advert-toggle')
-										        <button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['bid']}}"  data-toggle="modal"
+										        <button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['bid']}}"  data-toggle="modal"  note='确定要推到热门招标项目吗？' reco=1
 										        >广告推送</button>
-										        <button type="button" class="advertcancel f-ib btn btn-warning btn-xs" data-id="{{$data['bid']}}"  data-toggle="modal"
+										        <button type="button" class="advertcancel f-ib btn btn-warning btn-xs" data-id="{{$data['bid']}}"  data-toggle="modal" note='确定要取消推广吗？'     reco=0
 										        >取消推送</button>
 										        <button type="button" class="advertpic f-ib btn btn-info btn-xs" data-id="{{$data['bid']}}"  data-toggle="modal"
 										        data-target="#myAdvert"

@@ -96,7 +96,7 @@ class businessController extends Controller
         //定义图片变量
         $imgs="";
         //判断是否有图片
-        if($request['pic']){
+        if ($request['pic']) {
             foreach ($request['pic'] as $pic) {
                 $imgs.=$pic.'#@#';
             }
@@ -120,9 +120,9 @@ class businessController extends Controller
             ]
         );
         //判断是否成功
-        if($result){
+        if ($result) {
             return view("admin/business/create",array('mes'=>"添加成功！"));
-        }else{
+        } else {
             return view("admin/business/create",array('mes'=>"添加失败！"));
         }
     }
