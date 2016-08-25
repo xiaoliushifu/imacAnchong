@@ -507,7 +507,7 @@ class GoodsController extends Controller
             }
 
             if(!empty($goodsvalue)){
-                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$goods_list]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$goodsvalue]);
             }else{
                 return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'规格信息获取失败，请刷新']]);
             }
