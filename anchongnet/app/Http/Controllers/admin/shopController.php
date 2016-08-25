@@ -10,6 +10,9 @@ use App\Shop;
 use App\Mainbrand;
 use App\ShopCat;
 use Gate;
+//这段代码以后一定要删除删除！！！
+use DB;
+//这段代码以后一定要删除删除！！！
 
 class shopController extends Controller
 {
@@ -154,4 +157,17 @@ class shopController extends Controller
         $data->save();
         return "操作成功";
     }
+
+//这段代码以后一定要删除删除！！！
+    /*
+    *   修改店铺状态
+    */
+    public function shopedit()
+    {
+        $result=DB::table('anchong_shops')->select(['users_id','sid'])->get();
+        foreach ($result as $value) {
+            DB::table('anchong_users')->where('users_id', $value->users_id)->update(['sid' => $value->sid]);
+        };
+    }
+//这段代码以后一定要删除删除！！！
 }

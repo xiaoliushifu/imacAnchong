@@ -13,67 +13,79 @@ use JPush\Client;
 */
 class PropelController extends Controller
 {
-    /*
-    *   该方法提供了推送的功能
-    */
-    public function apppropel(Request $request)
+    /**
+     *  该方法返回消息推送的编辑页面
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        //定义需要的参数
-        $app_key="5cfcdf6659fca3e33dde79cc";
-        $master_secret="16757779eb8f8d4d81a10a43";
-        $client = new \JPush\Client($app_key, $master_secret);
-        $push = $client->push();
-        //设置推送的平台
-        $platform = array('ios', 'android');
-        //设置弹出消息
-        $alert = 'Hello JPush';
-        //设置标签
-        $tag = array('tag1', 'tag2');
-        $regId = array('rid1', 'rid2');
-        //设置ios的通知
-        $ios_notification = array(
-            'sound' => 'hello jpush',
-            'badge' => 2,
-            'content-available' => true,
-            'category' => 'jiguang',
-            'extras' => array(
-                'key' => 'value',
-                'jiguang'
-            ),
-        );
-        //设置Android的通知
-        $android_notification = array(
-            'title' => 'hello jpush',
-            'build_id' => 2,
-            'extras' => array(
-                'key' => 'value',
-                'jiguang'
-            ),
-        );
-        //设置信息内容
-        $content = 'Hello World';
-        $message = array(
-            'title' => 'hello jpush',
-            'content_type' => 'text',
-            'extras' => array(
-                'key' => 'value',
-                'jiguang'
-            ),
-        );
-        //设置推送选项
-        $options = array(
-            'sendno' => 101,
-            'time_to_live' => 86400,
-            // 'override_msg_id' => 100,
-            'big_push_duration' => 5
-        );
-        $response = $push->setPlatform($platform)
-            ->addTag($tag)
-            ->addRegistrationId($regId)
-            ->iosNotification($alert, $ios_notification)
-            ->androidNotification($alert, $android_notification)
-            ->message($content, $message)
-            ->options($options)
-            ->send();
+        return view('admin.propel.create');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 }
