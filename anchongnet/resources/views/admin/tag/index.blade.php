@@ -100,7 +100,7 @@
 								    </td>
 									<td align="center">{{$data['tag']}}</td>
 									<td align="center">
-										<button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['id']}}">删除</button>
+										<button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['id']}}"  data-type="{{$data['type_id']}}">删除</button>
 									</td>
 								</tr>
 								@endforeach

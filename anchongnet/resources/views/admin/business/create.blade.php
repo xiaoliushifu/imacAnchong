@@ -33,7 +33,7 @@
         /**
          * 表单验证逻辑的错误提示样式
          */
-        #updateform label.error
+        .form-horizontal  label.error
         { 
             color:Red; 
             font-size:13px; 

@@ -6,6 +6,9 @@
 	reserved.
 </footer>
 <script src="/admin/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<!--[if lt IE 9]>
+<script src="/admin/plugins/jquery1/1.9.1/jquery.js"></script>
+<![endif]--> 
 <script>
 	$(function(){
 		var activeFlag=$("#activeFlag").val();

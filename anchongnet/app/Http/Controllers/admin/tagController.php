@@ -134,9 +134,11 @@ class tagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $data=$this->tag->find($id);
+        if (!$data=$this->tag->find($id)) {
+            return "删除成功";
+        }
         $data->delete();
         //清除缓存
         switch ($request->type) {
