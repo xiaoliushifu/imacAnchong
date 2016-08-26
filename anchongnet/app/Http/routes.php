@@ -368,7 +368,7 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
                 */
                 //商铺的开启与关闭
                 Route::post('/shop/shopstate','admin\shopController@shopstate');
-                
+
                 //社区所有聊聊
                 Route::resource('/releases','admin\releaseController@releases');
                 //所有商机
@@ -497,8 +497,6 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
             *   后台推送
             */
             //后台推送
-            Route::get('/propel1/apppropel','admin\Propel\PropelController1@apppropel');
-            //后台推送
             Route::resource('/propel','admin\Propel\PropelController');
 
             /*
@@ -528,10 +526,6 @@ Route::group(['domain' => 'www.anchong.net'], function () {
     //获取虫虫资讯
     Route::get('/information/{infor_id}','Api\Advert\AdvertController@informations');
     Route::get('/','home\indexController@index');
-    //这段代码以后一定要删除删除！！！
-    //改变表的路由
-    Route::get('/shop/shopedit','admin\shopController@shopedit');
-    //这段代码以后一定要删除删除！！！
     //前台安全防护
     Route::group(['middleware'=>'csrf'],function(){
         //个人中心

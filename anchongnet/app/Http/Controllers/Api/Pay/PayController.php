@@ -246,7 +246,7 @@ class PayController extends Controller
                DB::beginTransaction();
                $paynum=$data['out_trade_no'];
                //创建ORM模型
-               $order=new \App\Order();
+               $orders=new \App\Order();
                $pay=new \App\Pay();
                //判断总价防止app攻击
                $total_price=0;
@@ -301,7 +301,7 @@ class PayController extends Controller
               DB::beginTransaction();
               $paynum=$data['out_trade_no'];
               //创建ORM模型
-              $order=new \App\Order();
+              $orders=new \App\Order();
               $pay=new \App\Pay();
               //判断总价防止app攻击
               $total_price=0;

@@ -68,70 +68,45 @@
                                     echo "<div class='alert alert-info' role='alert'>$mes</div>";
                                 };
                             ?>
-                            <form role="form" class="form-horizontal" action="/business" method="post">
+                            <div class="form-group">
+                                <div style="text-align:center" class="">
+                                    <p id="signin_errors" class="signin_error"> <font color="red">{{ Session::get('errormessage') }}</font> </p>
+                                </div>
+                            </div>
+                            <form role="form" class="form-horizontal" action="/propel" method="post">
                                 <input type="hidden" name="uid" value="{{Auth::user()['users_id']}}">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="etype">推送类型</label>
+                                    <div class="col-sm-9">
+                                        <select name="type" class="form-control" id="etype" required>
+                                            <option value="1">广播</option>
+                                            <option value="2">个人推送</option>
+                                            <option value="3">标签推送(暂不开放)</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="title">标题</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="title" id="title" class="form-control" required value="{{ old('title') }}"/>
+                                        <input type="text" name="title" id="title" class="form-control" required placeholder="50个字以内" value="{{ old('title') }}"/>
                                     </div>
                                 </div><!--end form-group-->
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="content">内容</label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" rows="5" id="content" required value="{{ old('content') }}" name="content"></textarea>
+                                        <textarea class="form-control" rows="3" id="content" required placeholder="300个字以内" value="{{ old('content') }}" name="content"></textarea>
                                     </div>
                                 </div><!--end form-group-->
-                                <ul class="form-group hidden" id="img">
-                                </ul>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="tag">标签</label>
-                                    <div class="col-sm-9">
-                                        <select name="tag" id="tag" class="form-control" required>
-
-                                        </select>
-                                    </div>
-                                </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="contact">联系人</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="contact" name="contact" value="{{ old('contact') }}">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="phone">电话</label>
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" id="phone" name="phone" required value="{{ old('phone') }}">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="etype">类型</label>
-                                    <div class="col-sm-9">
-                                        <select name="type" class="form-control" id="etype" required>
-                                            <option value="1">发布工程</option>
-                                            <option value="2">承接工程</option>
-                                            <option value="3">发布人才</option>
-                                            <option value="4">招聘人才</option>
-                                            <option value="5">找商品</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="area">区域</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" id="area" class="form-control" name="area" required value="{{ old('area') }}">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="area">工程结束时间</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" id="endtime" class="form-control" name="endtime" value="{{ old('endtime') }}" placeholder="时间格式:2016-08-24">
+                                        <input type="text" class="form-control" id="contact" name="contact" placeholder="个人推送时填写个人手机" value="{{ old('contact') }}">
                                     </div>
                                 </div>
                                 <div class="form-group text-center">
                                     <label class="col-sm-3 control-label"></label>
                                     <div class="col-sm-3">
-                                        <button type="submit" class="btn btn-info">保存</button>
+                                        <button type="submit" class="btn btn-info">推送</button>
                                     </div>
                                 </div><!--end form-group text-center-->
                             </form>
@@ -160,6 +135,5 @@
 <script src="/admin/js/jquery.form.js"></script>
 <script src="/admin/js/webuploader.html5only.min.js"></script>
 <script src="/admin/js/diyUpload.js"></script>
-<script src="/admin/js/createbusiness.js"></script>
 </body>
 </html>
