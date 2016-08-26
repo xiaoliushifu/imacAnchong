@@ -8,14 +8,17 @@ $(function(){
     * */
     $(".del").click(function(){
         if(confirm("确定要删除该条标签吗？")){
-            var id=$(this).attr("data-id");
+        		var o = $(this);
+            var id=o.attr("data-id");
             $.ajax({
                 url: '/tag/'+id,
                 type:'DELETE',
+                //delete方法也能传参
+                data:'type='+o.attr("data-type"),
                 success:function(result){
-                    // Do something with the result
                     alert(result);
-                    location.reload();
+                    //needn't refresh
+                    o.parents('tr').remove();
                 }
             });
         }
