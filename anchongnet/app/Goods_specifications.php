@@ -32,7 +32,6 @@ class Goods_specifications extends Model
      * @var array
      */
     public  $timestamps=false;
-
     /*
     *   分类查询
     */
@@ -96,5 +95,17 @@ class Goods_specifications extends Model
     public function del($data)
     {
         return $this->destroy($data);
+    }
+    
+    /*
+     * 根据条件进行商品查询
+     * */
+    public function scopeName($query,$keyName)
+    {
+        return $query->where('goods_numbering', '=', $keyName);
+    }
+    public function scopeGood($query,$keyGood)
+    {
+        return $query->where('goods_id', '=', $keyGood);
     }
 }

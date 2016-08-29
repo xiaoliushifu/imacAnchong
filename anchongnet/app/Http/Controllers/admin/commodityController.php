@@ -270,7 +270,7 @@ class commodityController extends Controller
      * */
     public function getSiblings(Request $request){
         $type=bin2hex($request['pid']);
-        $data=Good::Type($type,$request['sid'])->get();
+        $data=Goods::Type($type,$request['sid'])->get();
         return $data;
     }
 
