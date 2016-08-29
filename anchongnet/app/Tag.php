@@ -16,4 +16,15 @@ class Tag extends Model
     {
         return $query->where('type_id', '=', $keyType);
     }
+    
+    public function quer($field, $id)
+    {
+        return $this->select($field)->where('type_id',$id)->orWhere('type_id',0)->get();
+    }
+    
+    public function search_quer($field, $id)
+    {
+        return $this->select($field)->where('type_id',$id)->get();
+    }
+    
 }

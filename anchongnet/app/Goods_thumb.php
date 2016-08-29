@@ -31,6 +31,7 @@ class Goods_thumb extends Model
      * @var array
      */
     public  $timestamps=false;
+    protected $primaryKey = 'tid';
 
     /*
     *   分类查询
@@ -65,4 +66,13 @@ class Goods_thumb extends Model
             return false;
         }
     }
+    
+    /*
+     * 根据条件进行缩略图搜索
+     * */
+    public function scopeGid($query,$keyGid)
+    {
+        return $query->where('gid', '=', $keyGid);
+    }
+    
 }

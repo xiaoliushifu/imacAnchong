@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\GoodThumb;
+use App\Goods_thumb;
 use App\Goods_type;
-use App\GoodSpecification;
+use App\Goods_specifications;
 
 use OSS\OssClient;
 use OSS\Core\OssException;
@@ -29,9 +29,9 @@ class thumbController extends Controller
      * */
     public function __construct()
     {
-        $this->thumb=new GoodThumb();
+        $this->thumb=new Goods_thumb();
         $this->goodType=new Goods_type();
-        $this->good=new GoodSpecification();
+        $this->good=new Goods_specifications();
         $this->accessKeyId="HJjYLnySPG4TBdFp";
         $this->accessKeySecret="Ifv0SNWwch5sgFcrM1bDthqyy4BmOa";
         $this->endpoint="oss-cn-hangzhou.aliyuncs.com";
@@ -210,7 +210,7 @@ class thumbController extends Controller
      * */
     public function getGoodThumb(Request $request){
         $gid=$request['gid'];
-        $data=GoodThumb::Gid($gid)->get();
+        $data=Goods_thumb::Gid($gid)->get();
         return $data;
     }
 }

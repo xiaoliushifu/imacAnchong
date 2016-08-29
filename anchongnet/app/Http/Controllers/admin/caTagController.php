@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Request as Requester;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Catag;
+use App\Goods_tag;
 use DB;
 
 class caTagController extends Controller
@@ -14,7 +14,7 @@ class caTagController extends Controller
     private $catag;
     public function __construct()
     {
-        $this->catag=new catag();
+        $this->catag=new Goods_tag();
     }
 
     /**
@@ -28,7 +28,7 @@ class caTagController extends Controller
         if ($keyCat=="") {
             $datas=$this->catag->paginate(8);
         } else {
-            $datas = Catag::Cat($keyCat)->paginate(8);
+            $datas = Goods_tag::Cat($keyCat)->paginate(8);
         }
         $args=array("cat"=>$keyCat);
         return view('admin/tag/index_cat',array("datacol"=>compact("args","datas")));

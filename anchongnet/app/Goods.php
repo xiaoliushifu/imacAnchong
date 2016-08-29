@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /*
-*   该模型是操作货品表的模块
+*   商品表
 */
 class Goods extends Model
 {
@@ -21,8 +21,7 @@ class Goods extends Model
      *
      * @var array
      */
-     //不允许被赋值
-    protected $guarded = ['goods_id'];
+    protected $fillable = ['title', 'desc'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -31,6 +30,9 @@ class Goods extends Model
      */
     public  $timestamps=false;
 
+    //不允许被赋值
+    protected $guarded = ['goods_id'];
+    
     /*
     *   分类查询
     */
@@ -46,10 +48,28 @@ class Goods extends Model
     {
        //将货品添加入数据表
        $this->fill($goods_data);
-       if($this->save()){
+       if ($this->save()) {
            return $this->id;
-       }else{
+       } else {
            return;
        }
+    }
+    
+    /*
+     * 根据条件进行商品查询
+     * */
+    public function scopeName($query,$keyName,$keySid)
+    {
+        return $query->where('title', 'like', "%{$keyName}%")->where('sid','=',$keySid);
+    }
+    
+    public function scopeType($query,$keyType,$keySid)
+    {
+        return $query->where('type', 'like', "%{$keyType}%")->where('sid','=',$keySid);
+    }
+    
+    public function getGoodsByType($type)
+    {
+        return $this->whereRaw("match(`type`) against(?)",array(bin2hex($type)) )->take(3)->get();
     }
 }

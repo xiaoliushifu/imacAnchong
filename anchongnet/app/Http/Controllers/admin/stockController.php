@@ -7,18 +7,18 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Stock;
-use App\GoodSpecification;
+use App\Goods_specifications;
 use DB;
 use Gate;
 
 class stockController extends Controller
 {
     private $stock;
-    private $goodSpecification;
+    private $Goods_specifications;
     public function __construct()
     {
         $this->stock=new Stock();
-        $this->goodSpecification=new GoodSpecification();
+        $this->Goods_specifications=new Goods_specifications();
     }
 
     /**
@@ -169,7 +169,7 @@ class stockController extends Controller
         for($i=0;$i<count($datas);$i++){
             $total=$total+$datas[$i]->region_num;
         }
-        $good=$this->goodSpecification->find($gid);
+        $good=$this->Goods_specifications->find($gid);
         $good->goods_num=$total;
         $good->save();
     }

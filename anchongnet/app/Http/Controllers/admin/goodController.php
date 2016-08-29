@@ -14,8 +14,7 @@ use Auth;
 use Gate;
 use Cache;
 
-use App\GoodSpecification;
-use App\GoodThumb;
+use App\Goods_specifications;
 use App\Stock;
 use App\Goods_type;
 use App\Shop;
@@ -23,11 +22,9 @@ use Input;
 
 class goodController extends Controller
 {
-    private $goodSpecification;
-    private $goodThumb;
+    private $Goods_specifications;
     private $stock;
     private $goods_type;
-
     private $accessKeyId;
     private $accessKeySecret ;
     private $endpoint;
@@ -41,8 +38,7 @@ class goodController extends Controller
      * */
     public function __construct()
     {
-        $this->goodSpecification=new GoodSpecification();
-        $this->goodThumb=new GoodThumb();
+        $this->Goods_specifications=new Goods_specifications();
         $this->stock=new Stock();
         $this->goods_type=new Goods_type();
 
@@ -75,9 +71,9 @@ class goodController extends Controller
         }
         $keyName=Requester::input('keyName');
         if ($keyName=="") {
-            $datas=$this->goodSpecification->where('sid','=',$sid)->orderBy("gid","desc")->paginate(8);
+            $datas=$this->Goods_specifications->where('sid','=',$sid)->orderBy("gid","desc")->paginate(8);
         } else {
-            $datas = GoodSpecification::Name($keyName)->where('sid','=',$sid)->orderBy("gid","desc")->paginate(8);
+            $datas = Goods_specifications::Name($keyName)->where('sid','=',$sid)->orderBy("gid","desc")->paginate(8);
         }
         $args=array("keyName"=>$keyName);
         return view('admin/good/index',array("datacol"=>compact("args","datas"),"sid"=>$sid));
@@ -233,7 +229,7 @@ class goodController extends Controller
             );
             //$total=$total+$request['stock']['num'][$m];
 //         }
-//         $gdata=$this->goodSpecification->find($gid);
+//         $gdata=$this->Goods_specifications->find($gid);
 //         $gdata->goods_num=$total;
 //         $gdata->save();
 
@@ -243,7 +239,7 @@ class goodController extends Controller
         for($i=0;$i<count($request['pic']);$i++){
             if($i==0){
                 //如果是第一张，就像货品表和商品类型表中插入图片地址
-                $data=$this->goodSpecification->find($gid);
+                $data=$this->Goods_specifications->find($gid);
                 $data->goods_img=$request['pic'][$i]['url'];
                 $data->save();
 
@@ -274,7 +270,7 @@ class goodController extends Controller
      */
     public function show($id)
     {
-        $data=$this->goodSpecification->find($id);
+        $data=$this->Goods_specifications->find($id);
         return $data;
     }
 
@@ -286,7 +282,7 @@ class goodController extends Controller
      */
     public function edit($id)
     {
-        $data=$this->goodSpecification->find($id);
+        $data=$this->Goods_specifications->find($id);
         return $data;
     }
 
@@ -300,7 +296,7 @@ class goodController extends Controller
     public function update(Request $request, $id)
     {
         DB::beginTransaction();
-        $data=$this->goodSpecification->find($id);
+        $data=$this->Goods_specifications->find($id);
         $data->goods_id=$request->name;
         //$data->cat_id=$request->midselect;
         $data->goods_name=$request->spetag;
@@ -362,7 +358,7 @@ class goodController extends Controller
      * */
     public function getSiblings(Request $request)
     {
-        $datas=$this->goodSpecification->Good($request->good)->get();
+        $datas=$this->Goods_specifications->Good($request->good)->get();
         return $datas;
     }
 
