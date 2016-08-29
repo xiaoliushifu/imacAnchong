@@ -143,11 +143,11 @@ class goodCateController extends Controller
         $this->cat->is_show=$request['ishow'];
         $this->cat->parent_id=$request['parent'];
         $result=$this->cat->save();
-        if($result){
+        if ($result) {
             //清除缓存
             Cache::forget('category_catinfo_result');
             return redirect()->back();
-        }else{
+        } else {
             dd("修改失败，请返回重试");
         }
     }
@@ -211,6 +211,19 @@ class goodCateController extends Controller
     public function destroy($id)
     {
         $data=$this->cat->find($id);
+        //顶级分类不可删除
+        if ($data['parent_id'] == 0) {
+            return '顶级分类不可删除';
+        }
+        //该分类是否有子分类
+        if (GoodCat::Level($id)->get()->toArray()) {
+            return '该分类下仍有子分类信息';
+        }
+        //该分类下是否有商品
+        $goods = new \App\Goods();
+        if ($goods->getGoodsByType($id)->toArray()) {
+            return  '该分类下仍有商品信息';
+        }
         $result=$data->delete();
         if($result){
             //清除缓存

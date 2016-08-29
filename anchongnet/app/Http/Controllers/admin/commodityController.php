@@ -7,7 +7,7 @@ use Request as Requester;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Good;
+use App\Goods;
 use App\Shop;
 use Auth;
 use DB;
@@ -28,7 +28,7 @@ class commodityController extends Controller
 
     public function __construct()
     {
-        $this->good=new Good();
+        $this->goods=new Goods();
         //通过Auth获取当前登录用户的id
         $this->uid=Auth::user()['users_id'];
         //通过用户获取商铺id
@@ -49,7 +49,7 @@ class commodityController extends Controller
     {
         $keyName=Requester::input('keyName');
         if($keyName==""){
-            $datas=$this->good->where('sid','=',$this->sid)->orderBy("goods_id","desc")->paginate(8);
+            $datas=$this->goods->where('sid','=',$this->sid)->orderBy("goods_id","desc")->paginate(8);
         }else{
             $datas = Good::Name($keyName,$this->sid)->orderBy("goods_id","desc")->paginate(8);
         }
@@ -163,7 +163,7 @@ class commodityController extends Controller
      */
     public function show($id)
     {
-        $data=$this->good->find($id);
+        $data=$this->goods->find($id);
 
         $keywords=rtrim($data['keyword']);
         $arr=explode(" ",$keywords);
@@ -191,7 +191,7 @@ class commodityController extends Controller
      */
     public function edit($id)
     {
-        $data=$this->good->find($id);
+        $data=$this->goods->find($id);
 
         $keywords=rtrim($data['keyword']);
         $arr=explode(" ",$keywords);
@@ -221,7 +221,7 @@ class commodityController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data=$this->good->find($id);
+        $data=$this->goods->find($id);
         $data->title=$request->title;
         $data->desc=$request->description;
         $data->remark=$request->remark;
@@ -312,7 +312,7 @@ class commodityController extends Controller
             $url = str_replace('.oss-','.img-',$urls);
 
             //将商品详情图片替换掉
-            $data=$this->good->find($request['gid']);
+            $data=$this->goods->find($request['gid']);
             $data->images=$url;
             $data->save();
 

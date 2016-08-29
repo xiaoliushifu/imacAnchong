@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Goods_img;
-use App\Good;
 
 use OSS\OssClient;
 use OSS\Core\OssException;
@@ -24,7 +23,6 @@ class ImgController extends Controller
     public function __construct()
     {
         $this->img=new Goods_img();
-        $this->good=new Good();
         $this->accessKeyId="HJjYLnySPG4TBdFp";
         $this->accessKeySecret="Ifv0SNWwch5sgFcrM1bDthqyy4BmOa";
         $this->endpoint="oss-cn-hangzhou.aliyuncs.com";
