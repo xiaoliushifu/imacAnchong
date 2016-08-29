@@ -139,7 +139,7 @@ class BusinessController extends Controller
                 //创建类型的orm模型
                 $business_type=new \App\Business_type();
                 //创建标签的orm模型
-                $business_tag=new \App\Business_tag();
+                $business_tag=new \App\Tag();
                 //取出所有类型
                 $business_type_data=$business_type->quer(['id','title'])->toArray();
                 foreach ($business_type_data as $value) {
@@ -212,7 +212,7 @@ class BusinessController extends Controller
                 $result_tag=$result_tag_cache;
             }else{
                 //创建标签的orm模型
-                $business_tag=new \App\Business_tag();
+                $business_tag=new \App\Tag();
                 //查询分类标签
                 $business_tag_tag=$business_tag->search_quer('tag',$param['type'])->toArray();
                 //便利将关联数组转为索引数组
@@ -251,7 +251,7 @@ class BusinessController extends Controller
                 $result_area=$result_area_cache;
             }else{
                 //创建标签的orm模型
-                $business_tag=new \App\Business_tag();
+                $business_tag=new \App\Tag();
                 //查询地域标签
                 $business_tag_area=$business_tag->search_quer('tag',0)->toArray();
                 //便利将关联数组转为索引数组
