@@ -15,7 +15,6 @@ use Gate;
 use Cache;
 
 use App\Goods_specifications;
-use App\GoodThumb;
 use App\Stock;
 use App\Goods_type;
 use App\Shop;
@@ -24,10 +23,8 @@ use Input;
 class goodController extends Controller
 {
     private $Goods_specifications;
-    private $goodThumb;
     private $stock;
     private $goods_type;
-
     private $accessKeyId;
     private $accessKeySecret ;
     private $endpoint;
@@ -42,7 +39,6 @@ class goodController extends Controller
     public function __construct()
     {
         $this->Goods_specifications=new Goods_specifications();
-        $this->goodThumb=new GoodThumb();
         $this->stock=new Stock();
         $this->goods_type=new Goods_type();
 

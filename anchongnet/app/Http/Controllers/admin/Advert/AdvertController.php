@@ -13,7 +13,6 @@ use Auth;
 use Gate;
 use Cache;
 
-use App\GoodThumb;
 use App\Stock;
 use App\Goods_type;
 use App\Shop;
