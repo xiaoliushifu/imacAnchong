@@ -118,7 +118,7 @@ class commodityController extends Controller
         DB::table('anchong_goods_oem')->insertGetId(
             [
                  'goods_id'=>$gid,
-                'value'=>$request->oem
+                 'value'=>$request->oem
             ]
         );
 

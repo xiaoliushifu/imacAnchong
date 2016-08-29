@@ -40,18 +40,17 @@ class CommunityController extends Controller
                 ]
             );
             //如果出错返回出错信息，如果正确执行下面的操作
-            if ($validator->fails())
-            {
+            if ($validator->fails()) {
                 $messages = $validator->errors();
                 if ($messages->has('title')) {
-    				//如果验证失败,返回验证失败的信息
-    			    return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'标题不能超过60个字']]);
-    			}else if($messages->has('content')){
-    				return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'内容不能低于2个字']]);
-    			}else{
-                    return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'聊聊发布失败']]);
+        				//如果验证失败,返回验证失败的信息
+        			    return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'标题不能超过60个字']]);
+        			} elseif ($messages->has('content')) {
+        				return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'内容不能低于2个字']]);
+        			} else {
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'聊聊发布失败']]);
                 }
-            }else{
+            } else {
                 //创建用户表通过电话查询出用户电话
                 $users_message=new \App\Usermessages();
                 $users_nickname=$users_message->quer(['nickname','headpic'],['users_id'=>$data['guid']])->toArray();
@@ -112,7 +111,7 @@ class CommunityController extends Controller
                 }
 
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
@@ -133,10 +132,9 @@ class CommunityController extends Controller
                 ]
             );
             //如果出错返回出错信息，如果正确执行下面的操作
-            if ($validator->fails())
-            {
+            if ($validator->fails()) {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'评论不能超过500个字']]);
-            }else{
+            } else {
                 //创建用户表通过电话查询出用户电话
                 $users_message=new \App\Usermessages();
                 $users_nickname=$users_message->quer(['nickname','headpic'],['users_id'=>$data['guid']])->toArray();
@@ -170,13 +168,13 @@ class CommunityController extends Controller
                     //更新评论数量
                     DB::table('anchong_community_release')->where('chat_id','=',$param['chat_id'])->increment('comnum',1);
                     //推送消息
-                    $this->propel->apppropel($this->user->find($param['users_id'])->phone,'聊聊评论',$users_nickname[0]['nickname'].'评论了您的聊聊');
+                    $this->propel->apppropel($this->user->find($param['users_id'])->phone,'聊聊评论',$users_nickname[0]['nickname'].'  评论了您的聊聊:'.$param['title']);
                     return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'评论成功']]);
                 }else{
                     return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'评论失败']]);
                 }
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
@@ -197,10 +195,9 @@ class CommunityController extends Controller
                 ]
             );
             //如果出错返回出错信息，如果正确执行下面的操作
-            if ($validator->fails())
-            {
+            if ($validator->fails()) {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'评论不能超过500个字']]);
-            }else{
+            } else {
                 //创建用户表通过电话查询出用户电话
                 $users_message=new \App\Usermessages();
                 $users_nickname=$users_message->quer(['account','nickname','headpic'],['users_id'=>$data['guid']])->toArray();
@@ -234,13 +231,13 @@ class CommunityController extends Controller
                 $ture=$community_reply->add($community_data);
                 if($ture){
                     //推送消息
-                    $this->propel->apppropel($this->user->find($param['users_id'])->phone,'聊聊评论回复',$users_nickname[0]['nickname'].'回复了您的评论');
+                    $this->propel->apppropel($this->user->find($param['users_id'])->phone,'聊聊评论回复',$users_nickname[0]['nickname'].'  回复了您的评论:'.$param['reply_content']);
                     return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'回复成功']]);
                 }else{
                     return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'回复失败']]);
                 }
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
@@ -261,22 +258,22 @@ class CommunityController extends Controller
             //查询数据
             $community_release_data=['chat_id','title','name','content','created_at','tags','headpic','comnum','img'];
             //判断是否是筛选
-            if(empty($param['tags'])){
+            if (empty($param['tags'])) {
                 $sql="auth = 1";
-            }else{
+            } else {
                 $sql="MATCH(tags_match) AGAINST('".bin2hex($param['tags'])."') and auth = 1";
             }
             $community_release_result=$community_release->quer($community_release_data,$sql,(($param['page']-1)*$limit),$limit);
             //定义结果列表数组
             $list=null;
             //判断是否取出数据
-            if($community_release_result['total']>0){
+            if ($community_release_result['total']>0) {
                 //遍历聊聊数组
                 foreach ($community_release_result['list'] as $release_results) {
                     //进行图片分隔操作
                     $img=trim($release_results['img'],"#@#");
                     //判断是否有图片
-                    if(!empty($img)){
+                    if (!empty($img)) {
                         $img_arr=explode('#@#',$img);
                         $release_results['pic']=$img_arr;
                     }
@@ -284,10 +281,10 @@ class CommunityController extends Controller
                 }
                 //返回数据总数和具体数据
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_release_result['total'],'list'=>$list]]);
-            }else{
+            } else {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>"查询失败"]]);
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
@@ -308,19 +305,19 @@ class CommunityController extends Controller
             //查询数据
             $community_release_data=['chat_id','title','name','content','created_at','tags','headpic','comnum','img'];
             //判断是否是筛选
-            if(empty($param['tags'])){
+            if (empty($param['tags'])) {
                 $sql="users_id =".$data['guid']." and auth = 1";
-            }else{
+            } else {
                 $sql="users_id =".$data['guid']." and MATCH(tags_match) AGAINST('".bin2hex($param['tags'])."') and auth= 1";
             }
             $community_release_result=$community_release->quer($community_release_data,$sql,(($param['page']-1)*$limit),$limit);
             //定义结果列表数组
             $list=null;
-            if($community_release_result['total']>0){
+            if ($community_release_result['total']>0) {
                 //遍历聊聊数组
                 foreach ($community_release_result['list'] as $release_results) {
                     $img=trim($release_results['img'],"#@#");
-                    if(!empty($img)){
+                    if (!empty($img)) {
                         $img_arr=explode('#@#',$img);
                         $release_results['pic']=$img_arr;
                     }
@@ -328,10 +325,10 @@ class CommunityController extends Controller
                 }
                 //返回数据总数和具体数据
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_release_result['total'],'list'=>$list]]);
-            }else{
+            } else {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
@@ -357,13 +354,13 @@ class CommunityController extends Controller
             //定义结果
             $list=null;
             $img=null;
-            if($count>0){
+            if ($count>0) {
                 $list['collresult']=1;
-            }else{
+            } else {
                 $list['collresult']=0;
             }
             //判断是否查到该条聊聊
-            if(!empty($community_release_result)){
+            if (!empty($community_release_result)) {
                 //将数据组合
                 foreach ($community_release_result[0] as $key =>$release_result) {
                     $list[$key]=$release_result;
@@ -371,19 +368,19 @@ class CommunityController extends Controller
                 //进行图片操作
                 $img=trim($community_release_result[0]['img'],"#@#");
                 //判断是否有图片
-                if(!empty($img)){
+                if (!empty($img)) {
                     $img_arr=explode('#@#',$img);
                     $list['pic']=$img_arr;
                 }
-                if(!empty($list)){
+                if (!empty($list)) {
                     return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$list]);
-                }else{
+                } else {
                     return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>"查看详情失败，请刷新"]]);
                 }
-            }else{
+            } else {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>"查看详情失败，请刷新"]]);
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
@@ -406,7 +403,7 @@ class CommunityController extends Controller
             //定义评论数组
             $commentlist=null;
             $community_comment_results=$community_comment->quer($community_comment_data,'chat_id = '.$param['chat_id'],(($param['page']-1)*$limit),$limit);
-            if($community_comment_results['total'] > 0 ){
+            if ($community_comment_results['total'] > 0 ) {
                 foreach ($community_comment_results['list'] as $commentarr) {
                     //查询评论回复
                     $community_reply_result=$community_reply->quer(['reid','users_id','name','content','comname'],"comid = ".$commentarr['comid'],0,2)->toArray();
@@ -417,7 +414,7 @@ class CommunityController extends Controller
                 }
             }
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_comment_results['total'],'list'=>$commentlist]]);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
@@ -442,12 +439,12 @@ class CommunityController extends Controller
             foreach ($community_comment_results as $result) {
                 $result['reply']=$community_reply_result;
             }
-            if(!empty($result) && !empty($community_reply_result)){
+            if (!empty($result) && !empty($community_reply_result)) {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
-            }else{
+            } else {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>"查看详情失败，请刷新"]]);
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
@@ -471,7 +468,7 @@ class CommunityController extends Controller
             $results=null;
             //查询收藏的聊聊id和数量
             $community_collect_result=$community_collect->totalquer('chat_id','users_id ='.$data['guid'],(($param['page']-1)*$limit),$limit);
-            if($community_collect_result['total'] == 0){
+            if ($community_collect_result['total'] == 0) {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_collect_result['total'],'list'=>[]]]);
             }
             $chatarr=null;
@@ -522,18 +519,18 @@ class CommunityController extends Controller
             //查询是否已收藏
             $count=$community_collect->countquer('users_id ='.$data['guid'].' and chat_id = '.$param['chat_id']);
             //判断聊聊是否收藏
-            if($count > 0){
+            if ($count > 0) {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'该聊聊已收藏']]);
-            }else{
+            } else {
                 //收藏聊聊
                 $result=$community_collect->add($community_data);
-                if($result){
+                if ($result) {
                     return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'收藏成功']]);
-                }else{
+                } else {
                     return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'收藏失败']]);
                 }
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
@@ -550,12 +547,12 @@ class CommunityController extends Controller
             //创建ORM模型
             $community_collect=new \App\Community_collect();
             $result=$community_collect->del('users_id ='.$data['guid'].' and chat_id = '.$param['chat_id']);
-            if($result){
+            if ($result) {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'取消成功']]);
-            }else{
+            } else {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'取消失败']]);
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }

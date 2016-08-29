@@ -30,6 +30,16 @@
     <![endif]-->
     <style>
         *{margin: 0;padding: 0;}
+        /**
+         * 表单验证逻辑的错误提示样式
+         */
+        .form-horizontal  label.error
+        { 
+            color:Red; 
+            font-size:13px; 
+            margin-left:5px; 
+            padding-left:16px; 
+        } 
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -165,6 +175,10 @@
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
 <script src="/admin/js/jquery.form.js"></script>
+{{--一套jquery验证插件START--}}
+<script src="/admin/plugins/form/jquery.validate.min.js"></script>
+<script src="/admin/plugins/form/messages_zh.js"></script>
+{{--一套jquery验证插件END--}}
 <script src="/admin/js/webuploader.html5only.min.js"></script>
 <script src="/admin/js/diyUpload.js"></script>
 <script src="/admin/js/createbusiness.js"></script>

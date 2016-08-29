@@ -2,6 +2,7 @@
  * Created by lengxue on 2016/6/9.
  */
 $(function(){
+	
     /**
      *  获得所有商机标签
      */
@@ -12,6 +13,19 @@ $(function(){
             $("#tag").append(opt);
         }
     });
+    
+    /**
+     * 表单验证逻辑 工程结束时间项
+     */
+    $(".form-horizontal").validate({
+    		//验证规则
+		rules:{
+			endtime:{
+				   dateISO:true,
+			   },
+		},
+    })
+    
 });
 
 /*商品图片添加*/

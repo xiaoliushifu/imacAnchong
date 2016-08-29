@@ -54,7 +54,7 @@
 	<div class="content-wrapper">
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
-			<h1><?php echo $all?"所有聊聊":"我的聊聊" ?></h1>
+			<h1>{{ ($all)? "所有聊聊":"我的聊聊" }}</h1>
 		</section>
 
 		<!-- Main content -->
@@ -63,7 +63,7 @@
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-body">
-						    <form action="<?php echo $all?"/releases":"/release" ?>" method="get" class="form-horizontal form-inline f-ib">
+						    <form action="{{ ($all)? '/releases' : '/release' }}" method="get" class="form-horizontal form-inline f-ib">
 								标签类型：
 								<select class="form-control" name="tag">
 									<option value="" id="check">请选择</option>
@@ -73,7 +73,7 @@
 								</select>
 						      <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 						    </form>
-		                    <a href="<?php echo $all?"/releases":"/release" ?>" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
+		                    <a href="{{ ($all)? '/releases' : '/release'  }}" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
 									<th width="15%">标题</th>

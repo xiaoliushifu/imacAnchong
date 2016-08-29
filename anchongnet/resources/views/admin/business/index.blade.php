@@ -37,6 +37,16 @@
 	.gallery{width: 80px; height: 80px; background: url("/admin/image/catetypecreate/add.jpg") center center no-repeat; border: solid #ddd 1px;  cursor: pointer; display:table-cell; vertical-align: middle;}
 	.gallery img{max-width: 100%; max-height: 100%;}
 	.addpic{margin-top: -100px;}
+	/**
+         * 表单验证逻辑的错误提示样式
+         */
+    .form-horizontal label.error
+    { 
+        color:Red; 
+        font-size:13px; 
+        margin-left:5px; 
+        padding-left:16px; 
+    } 
 	</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -512,6 +522,10 @@
 <!-- ./wrapper -->
 <!-- Bootstrap 3.3.5 -->
 <script src="/admin/bootstrap/js/bootstrap.min.js"></script>
+{{--一套jquery验证插件START--}}
+<script src="/admin/plugins/form/jquery.validate.min.js"></script>
+<script src="/admin/plugins/form/messages_zh.js"></script>
+{{--一套jquery验证插件END--}}
 <!-- FastClick -->
 <script src="/admin/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->

@@ -243,6 +243,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::any('pay/webreturn','Api\Pay\PayController@webreturn');
 		//微信app支付
         Route::post('/pay/wxapppay','Api\Pay\PayController@wxapppay');
+        //支付宝app支付
+        Route::post('/pay/aliapppay','Api\Pay\PayController@aliapppay');
 
         /*
         *   广告模块
@@ -279,6 +281,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/purse/beansindex','Api\Purse\PurseController@beansindex');
         //虫豆签到
         Route::post('/purse/signin','Api\Purse\PurseController@signin');
+        //钱袋充值
+        Route::post('/purse/recharge','Api\Purse\PurseController@recharge');
     });
 });
 
@@ -288,6 +292,8 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
     Route::group(['middleware'=>'PayAuthen'],function(){
         Route::post('/pay/mobilenotify','Api\Pay\PayController@mobilenotify');
     });
+    //支付宝支付
+    Route::any('/pay/alipay','Api\Pay\PayController@alipay');
     //支付后异步回调
     Route::any('/pay/webnotify','Api\Pay\PayController@webnotify');
     //微信支付

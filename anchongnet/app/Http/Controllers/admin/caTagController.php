@@ -113,7 +113,9 @@ class caTagController extends Controller
      */
     public function destroy($id)
     {
-        $data=$this->catag->find($id);
+        if (!$data=$this->catag->find($id)) {
+            return "删除成功";
+        }
         $data->delete();
         return "删除成功";
     }
