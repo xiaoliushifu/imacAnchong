@@ -25,6 +25,8 @@ class Users extends Model implements AuthenticatableContract,
      * @var string
      */
     protected $table = 'anchong_users';
+    //定义主键名称
+    protected $primaryKey = 'users_id';
 
     /**
      * The attributes that are mass assignable.

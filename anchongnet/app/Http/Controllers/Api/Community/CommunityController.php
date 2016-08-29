@@ -13,6 +13,15 @@ use Validator;
 */
 class CommunityController extends Controller
 {
+    //定义变量
+    private $user;
+    private $propel;
+    //初始化orm
+    public function __construct(){
+		$this->propel=new \App\Http\Controllers\admin\Propel\PropelmesgController();
+		$this->user=new \App\Users();
+	}
+
     /*
     *   该方法提供了聊聊发布的功能
     */
@@ -97,6 +106,7 @@ class CommunityController extends Controller
                 } else {
                     return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
                 }
+
             }
         } catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
@@ -152,6 +162,33 @@ class CommunityController extends Controller
                 } else {
                     return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
                 }
+                //头像信息
+                if(empty($users_nickname[0]['headpic'])){
+                    $headpic="";
+                }else{
+                    $headpic=$users_nickname[0]['headpic'];
+                }
+                //定义插入数据库的数据
+                $community_data=[
+                    'name' => $users_nickname[0]['nickname'],
+                    'content' => $param['content'],
+                    'users_id' => $data['guid'],
+                    'created_at' => date('Y-m-d H:i:s',$data['time']),
+                    'headpic' => $headpic,
+                    'chat_id' => $param['chat_id']
+                ];
+                //创建ORM模型
+                $community_comment=new \App\Community_comment();
+                $ture=$community_comment->add($community_data);
+                if($ture){
+                    //更新评论数量
+                    DB::table('anchong_community_release')->where('chat_id','=',$param['chat_id'])->increment('comnum',1);
+                    //推送消息
+                    $this->propel->apppropel($this->user->find($param['users_id'])->phone,'聊聊评论',$users_nickname[0]['nickname'].'评论了您的聊聊');
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'评论成功']]);
+                }else{
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'评论失败']]);
+                }
             }
         } catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
@@ -179,7 +216,7 @@ class CommunityController extends Controller
             } else {
                 //创建用户表通过电话查询出用户电话
                 $users_message=new \App\Usermessages();
-                $users_nickname=$users_message->quer(['nickname','headpic'],['users_id'=>$data['guid']])->toArray();
+                $users_nickname=$users_message->quer(['account','nickname','headpic'],['users_id'=>$data['guid']])->toArray();
                 //判断用户信息表中是否有联系人姓名
                 if (!empty($users_nickname)) {
                     if (empty($users_nickname[0]['headpic'])) {
@@ -207,6 +244,33 @@ class CommunityController extends Controller
                     }
                 } else {
                     return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
+                }
+                //头像信息
+                if(empty($users_nickname[0]['headpic'])){
+                    $headpic="";
+                }else{
+                    $headpic=$users_nickname[0]['headpic'];
+                }
+                //定义插入数据库的数据
+                $community_data=[
+                    'name' => $users_nickname[0]['nickname'],
+                    'content' => $param['content'],
+                    'created_at' => date('Y-m-d H:i:s',$data['time']),
+                    'headpic' => $headpic,
+                    'users_id' => $data['guid'],
+                    'comid' => $param['comid'],
+                    'chat_id' =>$param['chat_id'],
+                    'comname' =>$param['name'],
+                ];
+                //创建ORM模型
+                $community_reply=new \App\Community_reply();
+                $ture=$community_reply->add($community_data);
+                if($ture){
+                    //推送消息
+                    $this->propel->apppropel($this->user->find($param['users_id'])->phone,'聊聊评论回复',$users_nickname[0]['nickname'].'回复了您的评论');
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'回复成功']]);
+                }else{
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'回复失败']]);
                 }
             }
         } catch (\Exception $e) {
@@ -318,7 +382,7 @@ class CommunityController extends Controller
             $community_release=new \App\Community_release();
             $community_collect=new \App\Community_collect();
             //定义需要的数据
-            $community_release_data=['chat_id','headpic','name','created_at','title','tags','content','img'];
+            $community_release_data=['chat_id','users_id','headpic','name','created_at','title','tags','content','img'];
             //查询聊聊内容
             $community_release_result=$community_release->simplequer($community_release_data,'chat_id ='.$param['chat_id'])->toArray();
             //查询是否已收藏
@@ -371,14 +435,14 @@ class CommunityController extends Controller
             //创建ORM模型
             $community_comment=new \App\Community_comment();
             $community_reply=new \App\Community_reply();
-            $community_comment_data=['comid','name','headpic','content','created_at'];
+            $community_comment_data=['comid','users_id','name','headpic','content','created_at'];
             //定义评论数组
             $commentlist=null;
             $community_comment_results=$community_comment->quer($community_comment_data,'chat_id = '.$param['chat_id'],(($param['page']-1)*$limit),$limit);
             if ($community_comment_results['total'] > 0 ) {
                 foreach ($community_comment_results['list'] as $commentarr) {
                     //查询评论回复
-                    $community_reply_result=$community_reply->quer(['reid','name','content','comname'],"comid = ".$commentarr['comid'],0,2)->toArray();
+                    $community_reply_result=$community_reply->quer(['reid','users_id','name','content','comname'],"comid = ".$commentarr['comid'],0,2)->toArray();
                     //在评论内容数组中添加回复内容
                     $commentarr['reply']=$community_reply_result;
                     //组合数组
@@ -462,7 +526,6 @@ class CommunityController extends Controller
                 //将结果数组填充
                 $result[]=$release_results;
             }
-
             if($result){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_collect_result['total'],'list'=>$result]]);
             }else{

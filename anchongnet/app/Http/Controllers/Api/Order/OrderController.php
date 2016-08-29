@@ -291,9 +291,9 @@ class OrderController extends Controller
                     $orderinfo=new \App\Orderinfo();
                     $order_gid=$orderinfo->quer(['gid','goods_num'],'order_num ='.$param['order_num'])->toArray();
                     foreach ($order_gid as $gid) {
-                        $result=DB::table('anchong_goods_specifications')->where('gid','=',$gid['gid'])->increment('goods_num',$gid['goods_num']);
-                        if($result){
-                            DB::table('anchong_goods_stock')->where('gid','=',$gid['gid'])->increment('region_num',$gid['goods_num']);
+                        $resulta=DB::table('anchong_goods_specifications')->where('gid','=',$gid['gid'])->increment('goods_num',$gid['goods_num']);
+                        if($resulta){
+                            $result=DB::table('anchong_goods_stock')->where('gid','=',$gid['gid'])->increment('region_num',$gid['goods_num']);
                         }else{
                             //假如失败就回滚
                             DB::rollback();
@@ -317,11 +317,12 @@ class OrderController extends Controller
                 }else{
                     //更改订单状态
                     $order_handle->state=7;
-                    $resultss=$order_handle->save();
+                    //将商户冻结资金转移到可用资金
+                    DB::table('anchong_users')->where('sid','=',$order_handle->sid)->decrement('disable_money',$order_handle->total_price*0.99);
+                    $resultss=DB::table('anchong_users')->where('sid','=',$order_handle->sid)->increment('usable_money',$order_handle->total_price*0.99);
+                    //假如资金转成功则保存数据
                     if($resultss){
-                        //将商户冻结资金转移到可用资金
-                        DB::table('anchong_users')->where('sid','=',$order->sid)->decrements('disable_money',$order->total_price*0.99);
-                        $results=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('usable_money',$order->total_price*0.99);
+                        $results=$order_handle->save();
                     }else{
                         //假如失败就回滚
                         DB::rollback();
@@ -333,8 +334,8 @@ class OrderController extends Controller
                     $orderinfo=new \App\Orderinfo();
                     $order_gid=$orderinfo->quer(['gid','goods_num'],'order_num ='.$param['order_num'])->toArray();
                     foreach ($order_gid as $gid) {
-                        $result=DB::table('anchong_goods_specifications')->where('gid','=',$gid['gid'])->increment('sales',$gid['goods_num']);
-                        if($result){
+                        $resulta=DB::table('anchong_goods_specifications')->where('gid','=',$gid['gid'])->increment('sales',$gid['goods_num']);
+                        if($resulta){
                             $result=DB::table('anchong_goods_type')->where('gid','=',$gid['gid'])->increment('sales',$gid['goods_num']);
                         }else{
                             //假如失败就回滚
@@ -347,6 +348,12 @@ class OrderController extends Controller
                     DB::rollback();
                     return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'操作失败']]);
                 }
+            }elseif($param['action'] == 4){
+                //退货操作
+                //获取订单句柄
+                $order_handle=$order->find($param['order_id']);
+                $order_handle->state = 4;
+                $result=$order_handle->save();
             }else{
                 //假如失败就回滚
                 DB::rollback();
