@@ -16,6 +16,7 @@ class PurseController extends Controller
     private $users;
     private $coupon;
     private $coupon_pool;
+    private $purse_order;
 
     /*
     *   执行构造方法将orm模型初始化
@@ -25,6 +26,7 @@ class PurseController extends Controller
         $this->users=new \App\Users();
         $this->coupon=new \App\Coupon();
         $this->coupon_pool=new \App\Coupon_pool();
+        $this->purse_order=new \App\Purse_order();
     }
 
     /*
@@ -87,5 +89,55 @@ class PurseController extends Controller
         //签到增加的虫豆数量
         $addbeans=0;
         DB::table('anchong_users')->where('users_id','=',$data['guid'])->increment('sales',$gid['goods_num']);
+    }
+
+    /*
+    *   钱袋充值
+    */
+    public function recharge(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //生成订单编号
+        $order_num=rand(1000,9999).substr($data['guid'],0,1).time();
+        //插入订单数据
+        $order_data=[
+            'order_num' =>$order_num,
+            'users_id' => $data['guid'],
+            'price' => $param['price'],
+            'action' => 1,
+            'created_at' => date('Y-m-d H:i:s',$data['time']),
+        ];
+        switch ($param['payment']) {
+            //支付宝支付
+            case 1:
+                //增加订单备注
+                $order_data['remark']='支付宝充值';
+                break;
+
+            //微信支付
+            case 2:
+                //增加订单备注
+                $order_data['remark']='微信充值';
+                break;
+
+            //对公账号
+            case 3:
+                //增加订单备注
+                $order_data['remark']='对公账号充值';
+                break;
+            default:
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'非法操作']]);
+                break;
+        }
+        //生成订单
+        $result=$this->purse_order->add($order_data);
+        //判断是否成功
+        if($result){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['outTradeNo'=>$order_num,'totalFee'=>$param['price'],'subject'=>"安虫商城订单",'body'=>"安虫钱包充值"]]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'充值失败']]);
+        }
     }
 }

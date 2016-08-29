@@ -110,7 +110,7 @@ class OrderController extends Controller
                                             'goods_numbering' =>$goods_num[0]['goods_numbering'],
                                             'model' => $goods_num[0]['model'],
                                             'gid' => $goodsinfo['gid'],
-                                            //'oem' => $goodsinfo['oem'],
+                                            'oem' => $goodsinfo['oem'],
                                         ];
                                         $body .=$goodsinfo['goods_name'].",";
                                         //创建购物车的ORM模型
@@ -161,7 +161,7 @@ class OrderController extends Controller
             if($true && $total_price>0){
                 //假如成功就提交
                 DB::commit();
-                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['outTradeNo'=>$paynum,'totalFee'=>$total_price,'body'=>$body,'subject'=>"安虫商城订单支付",'notifyURLAlipay'=>'http://pay.anchong.net/pay/mobilenotify','wxnotify_url'=>'http://pay.anchong.net/pay/wxnotify']]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['outTradeNo'=>$paynum,'totalFee'=>$total_price,'body'=>$body,'subject'=>"安虫商城订单支付"]]);
             }else{
                 //假如失败就回滚
                 DB::rollback();

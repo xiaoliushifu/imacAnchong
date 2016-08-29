@@ -55,56 +55,59 @@ class CommunityController extends Controller
                 $users_message=new \App\Usermessages();
                 $users_nickname=$users_message->quer(['nickname','headpic'],['users_id'=>$data['guid']])->toArray();
                 //判断用户信息表中是否有联系人姓名
-                if (!empty($users_nickname)) {
-                    $tags_arr=explode(' ',$param['tags']);
-                    $tags="";
-                    if (!empty($tags_arr)) {
-                        foreach ($tags_arr as $tag_arr) {
-                            $tags.=bin2hex($tag_arr)." ";
-                        }
+                try{
+                    if(!$users_nickname[0]['nickname']){
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
                     }
-                    //头像信息
-                    if (empty($users_nickname[0]['headpic'])) {
-                        $headpic="";
-                    } else {
-                        $headpic=$users_nickname[0]['headpic'];
-                    }
-                    //定义图片变量
-                    $imgs="";
-                    //判断是否有图片
-                    if ($param['pic']) {
-                        foreach ($param['pic'] as $pic) {
-                            $urls = str_replace('.oss-','.img-',$pic);
-                            $imgs.=$urls.'#@#';
-                        }
-                    }
-                    //定义插入数据库的数据
-                    $community_data=[
-                        'users_id' => $data['guid'],
-                        'title' => $param['title'],
-                        'name' => $users_nickname[0]['nickname'],
-                        'content' => $param['content'],
-                        'created_at' => date('Y-m-d H:i:s',$data['time']),
-                        'headpic' => $headpic,
-                        'tags' => $param['tags'],
-                        'tags_match' => $tags,
-                        'img' => $imgs,
-                    ];
-                    //创建ORM模型
-                    $community_release=new \App\Community_release();
-                    $result=$community_release->add($community_data);
-                    //插入成功继续插图片，插入失败则返回错误信息
-                    if ($result) {
-                        //假如成功就提交
-                        DB::commit();
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'聊聊发布成功']]);
-                    } else {
-                        //假如失败就回滚
-                        DB::rollback();
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请重新发布聊聊']]);
-                    }
-                } else {
+                }catch (\Exception $e) {
                     return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
+                }
+                $tags_arr=explode(' ',$param['tags']);
+                $tags="";
+                if(!empty($tags_arr)){
+                    foreach ($tags_arr as $tag_arr) {
+                        $tags.=bin2hex($tag_arr)." ";
+                    }
+                }
+                //头像信息
+                if(empty($users_nickname[0]['headpic'])){
+                    $headpic="";
+                }else{
+                    $headpic=$users_nickname[0]['headpic'];
+                }
+                //定义图片变量
+                $imgs="";
+                //判断是否有图片
+                if($param['pic']){
+                    foreach ($param['pic'] as $pic) {
+                        $urls = str_replace('.oss-','.img-',$pic);
+                        $imgs.=$urls.'#@#';
+                    }
+                }
+                //定义插入数据库的数据
+                $community_data=[
+                    'users_id' => $data['guid'],
+                    'title' => $param['title'],
+                    'name' => $users_nickname[0]['nickname'],
+                    'content' => $param['content'],
+                    'created_at' => date('Y-m-d H:i:s',$data['time']),
+                    'headpic' => $headpic,
+                    'tags' => $param['tags'],
+                    'tags_match' => $tags,
+                    'img' => $imgs,
+                ];
+                //创建ORM模型
+                $community_release=new \App\Community_release();
+                $result=$community_release->add($community_data);
+                //插入成功继续插图片，插入失败则返回错误信息
+                if($result){
+                    //假如成功就提交
+                    DB::commit();
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'聊聊发布成功']]);
+                }else{
+                    //假如失败就回滚
+                    DB::rollback();
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请重新发布聊聊']]);
                 }
 
             }
@@ -136,30 +139,11 @@ class CommunityController extends Controller
                 $users_message=new \App\Usermessages();
                 $users_nickname=$users_message->quer(['nickname','headpic'],['users_id'=>$data['guid']])->toArray();
                 //判断用户信息表中是否有联系人姓名
-                if (!empty($users_nickname)) {
-                    if (empty($users_nickname[0]['headpic'])) {
-                        $headpic="";
-                    } else {
-                        $headpic=$users_nickname[0]['headpic'];
+                try{
+                    if(!$users_nickname[0]['nickname']){
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
                     }
-                    //定义插入数据库的数据
-                    $community_data=[
-                        'name' => $users_nickname[0]['nickname'],
-                        'content' => $param['content'],
-                        'created_at' => date('Y-m-d H:i:s',$data['time']),
-                        'headpic' => $headpic,
-                        'chat_id' => $param['chat_id']
-                    ];
-                    //创建ORM模型
-                    $community_comment=new \App\Community_comment();
-                    $ture=$community_comment->add($community_data);
-                    if ($ture) {
-                        DB::table('anchong_community_release')->where('chat_id','=',$param['chat_id'])->increment('comnum',1);
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'评论成功']]);
-                    } else {
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'评论失败']]);
-                    }
-                } else {
+                }catch (\Exception $e) {
                     return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
                 }
                 //头像信息
@@ -218,31 +202,11 @@ class CommunityController extends Controller
                 $users_message=new \App\Usermessages();
                 $users_nickname=$users_message->quer(['account','nickname','headpic'],['users_id'=>$data['guid']])->toArray();
                 //判断用户信息表中是否有联系人姓名
-                if (!empty($users_nickname)) {
-                    if (empty($users_nickname[0]['headpic'])) {
-                        $headpic="";
-                    } else {
-                        $headpic=$users_nickname[0]['headpic'];
+                try{
+                    if(!$users_nickname[0]['nickname']){
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
                     }
-                    //定义插入数据库的数据
-                    $community_data=[
-                        'name' => $users_nickname[0]['nickname'],
-                        'content' => $param['content'],
-                        'created_at' => date('Y-m-d H:i:s',$data['time']),
-                        'headpic' => $headpic,
-                        'comid' => $param['comid'],
-                        'chat_id' =>$param['chat_id'],
-                        'comname' =>$param['name'],
-                    ];
-                    //创建ORM模型
-                    $community_reply=new \App\Community_reply();
-                    $ture=$community_reply->add($community_data);
-                    if ($ture) {
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'回复成功']]);
-                    } else {
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'回复失败']]);
-                    }
-                } else {
+                }catch (\Exception $e) {
                     return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
                 }
                 //头像信息
