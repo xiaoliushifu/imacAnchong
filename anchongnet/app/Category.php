@@ -38,4 +38,13 @@ class Category extends Model
     {
         return $this->select($field)->whereRaw($type)->orderBy("sort_order","ASC")->get();
     }
+    
+    /*
+     * 根据条件进行分类搜索
+     */
+    public function scopePids($query,$keyPid)
+    {
+        return $query->where('parent_id', '=', $keyPid);
+    }
+    
 }

@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Api\Shop;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Brand;
-use App\Cat;
+use App\Category;
 
 class CatbrandController extends Controller
 {
@@ -17,7 +14,7 @@ class CatbrandController extends Controller
     public function __construct()
     {
         $this->brand=new Brand();
-        $this->cat=new Cat();
+        $this->cat=new Category();
     }
 
     public function index()
