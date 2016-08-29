@@ -17,4 +17,9 @@ class Goods_tag extends Model
     {
         return $this->select($field)->whereRaw($type)->get();
     }
+    
+    public function scopeCat($query,$keyCat)
+    {
+        return $query->where('cat_id', '=', $keyCat);
+    }
 }
