@@ -30,6 +30,7 @@ class Category extends Model
      * @var array
      */
     public  $timestamps=false;
+    protected $primaryKey = 'cat_id';
 
     /*
     *   分类查询
@@ -47,4 +48,21 @@ class Category extends Model
         return $query->where('parent_id', '=', $keyPid);
     }
     
+    public function scopeName($query,$keyName)
+    {
+        return $query->where('cat_name', 'like',"%{$keyName}%");
+    }
+    
+    public function scopeLevel($query,$keyLevel)
+    {
+        return $query->where('parent_id', '=',$keyLevel);
+    }
+    /*
+     * 获取一级和二级分类表中的二级分类
+     * */
+    
+    public function scopeLevel2($query)
+    {
+        return $query->where('parent_id', '!=',0);
+    }
 }
