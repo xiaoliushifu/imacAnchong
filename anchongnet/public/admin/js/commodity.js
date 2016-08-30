@@ -68,7 +68,6 @@ $(function(){
                 }
             });
         });
-
         /*----获取商品属性信息----*/
         var line;
         $.get('/getsiblingsattr', {gid: id}, function (data, status) {

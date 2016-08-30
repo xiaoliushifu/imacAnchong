@@ -18,6 +18,17 @@ use Cache;
 */
 class PayController extends Controller
 {
+    //定义变量
+    private $users;
+
+    /*
+    *   执行构造方法将orm模型初始化
+    */
+    public function __construct()
+    {
+        $this->users=new \App\Users();
+    }
+
     /*
     *   该方法是支付宝的支付接口
     */
@@ -112,7 +123,82 @@ class PayController extends Controller
         $alipay->setBody($param['body']);
 
         // 返回签名后的支付参数给支付宝移动端的SDK。
-        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>urldecode($alipay->getPayPara())]);
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$alipay->getPayPara()]);
+    }
+
+    /*
+    *   该方法是支付宝APP订单内的支付接口
+    */
+    public function aliapporderpay(Request $request)
+    {
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            //创建ORM模型
+            $pay=new \App\Pay();
+            //支付单号
+            $paynum=rand(100000,999999).time();
+            $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$param['order_id'],'total_price'=>$param['totalFee']]);
+            if($payresult){
+                // 创建支付单。
+                $alipay = app('alipay.mobile');
+                $alipay->setOutTradeNo($paynum);
+                $alipay->setTotalFee($param['totalFee']);
+                $alipay->setSubject('安虫商城订单支付');
+                $alipay->setBody($param['body']);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$alipay->getPayPara()]);
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败']]);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
+
+    /*
+    *   该方法是微信APP订单内的支付接口
+    */
+    public function wxapporderpay(Request $request)
+    {
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            //创建ORM模型
+            $pay=new \App\Pay();
+            //支付单号
+            $paynum=rand(100000,999999).time();
+            $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$param['order_id'],'total_price'=>$param['totalFee']]);
+            if($payresult){
+                $total_fee=$param['totalFee']*100;
+                //总价转换
+                $wechat = app('wechat');
+                $attributes = [
+                    'trade_type'       => 'APP', // JSAPI，NATIVE，APP...
+                    'body'             => "安虫商城订单支付",
+                    'detail'           => $param['body'],
+                    'out_trade_no'     => $paynum,
+                    'total_fee'        => $total_fee,
+                    'notify_url'       => 'http://pay.anchong.net/pay/wxnotify',
+                ];
+                //生成订单类
+                $order = new Order($attributes);
+                $payment=$wechat->payment;
+                $result = $payment->prepare($order);
+                //判断是否有成功的订单
+                if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
+                    $prepayId = $result->prepay_id;
+                }
+                //生成app所需的内容
+                $config = $payment->configForAppPayment($prepayId);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$config]);
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败']]);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
     }
 
     /*
@@ -183,6 +269,7 @@ class PayController extends Controller
                     // 返回处理完成
                     return true;
                 }
+            //个人钱袋订单处理
             }elseif(strlen($notify->out_trade_no) == 15){
                 //看是否成功支付
                 if ($successful) {
@@ -190,10 +277,35 @@ class PayController extends Controller
                     DB::beginTransaction();
                     //创建orm
                     $purse_order=new \App\Purse_order();
+                    //通过订单查出价格和ID
+                    $result=$purse_order->quer(['purse_oid','price'],'order_num ='.$notify->out_trade_no)->toArray();
+                    //判断总价，防止app改包攻击
+                    if($result[0]['price'] != ($notify->total_fee/100)){
+                        return true;
+                    }
                     //更新订单状态
-                    $result=$purse_order->purseupdate($notify->out_trade_no,['state'=>2,'pay_num'=>"wxpay:".$notify->transaction_id]);
-                    //判断是否更新成功
-                    if($result){
+                    $purse_order_handle=$purse_order->find($result[0]['purse_oid']);
+                    //订单已经修改过，无需再修改
+                    if($purse_order_handle->state == 2){
+                        return true;
+                    }
+                    //将订单改为2
+                    $purse_order_handle->state = 2;
+                    $purse_order_handle->pay_num="wxpay:".$notify->transaction_id;
+                    //将钱增加到商户冻结资金
+                    $results=DB::table('anchong_users')->where('users_id','=',$purse_order_handle->users_id)->increment('usable_money',$result[0]['price']);
+                    //判断是否操作成功
+                    if($results){
+                        $purse_order_handle->remainder=$this->users->find($purse_order_handle->users_id)->usable_money;
+                        //保存订单
+                        $purse_order_handle->save();
+                        DB::commit();
+                        // 返回处理完成
+                        return true;
+                    }else{
+                        //假如失败就回滚
+                        DB::rollback();
+                        return true;
                     }
                 }else{
                     // 返回处理完成
@@ -274,7 +386,8 @@ class PayController extends Controller
                        if ($order->state == 2) {
                            // 假设订单字段“支付时间”不为空代表已经支付
                            // 已经支付成功了就不再更新了
-                           continue;
+                           DB::rollback();
+                           return 'fail';
                        }
                        //将订单状态改成成功并记录下支付单号
                        $order->state = 2;
@@ -301,8 +414,42 @@ class PayController extends Controller
                     DB::rollback();
                     return 'fail';
                 }
+            //个人钱袋订单处理
             }elseif(strlen($paynum) == 15){
-
+                //开启事务处理
+                DB::beginTransaction();
+                //创建orm
+                $purse_order=new \App\Purse_order();
+                //通过订单查出价格和ID
+                $result=$purse_order->quer(['purse_oid','price'],'order_num ='.$paynum)->toArray();
+                //判断总价，防止app改包攻击
+                if($result[0]['price'] != $data['total_fee']){
+                    return 'fail';
+                }
+                //更新订单状态
+                $purse_order_handle=$purse_order->find($result[0]['purse_oid']);
+                //订单已经修改过，无需再修改
+                if($purse_order_handle->state == 2){
+                    return 'fail';
+                }
+                //将订单改为2
+                $purse_order_handle->state = 2;
+                $purse_order_handle->pay_num="alipay:".$data['trade_no'];
+                //将钱增加到商户冻结资金
+                $results=DB::table('anchong_users')->where('users_id','=',$purse_order_handle->users_id)->increment('usable_money',$result[0]['price']);
+                //判断是否操作成功
+                if($results){
+                    $purse_order_handle->remainder=$this->users->find($purse_order_handle->users_id)->usable_money;
+                    //保存订单
+                    $purse_order_handle->save();
+                    DB::commit();
+                    // 返回处理完成
+                    return 'true';
+                }else{
+                    //假如失败就回滚
+                    DB::rollback();
+                    return 'false';
+                }
             }
                 break;
           case 'TRADE_FINISHED':
@@ -333,7 +480,8 @@ class PayController extends Controller
                       if ($order->state == 2) {
                           // 假设订单字段“支付时间”不为空代表已经支付
                           // 已经支付成功了就不再更新了
-                          continue;
+                          DB::rollback();
+                          return 'fail';
                       }
                       //将订单状态改成成功并记录下支付单号
                       $order->state = 2;
@@ -360,8 +508,42 @@ class PayController extends Controller
                    DB::rollback();
                    return 'fail';
                }
+           //个人钱袋订单处理
            }elseif(strlen($paynum) == 15){
-
+               //开启事务处理
+               DB::beginTransaction();
+               //创建orm
+               $purse_order=new \App\Purse_order();
+               //通过订单查出价格和ID
+               $result=$purse_order->quer(['purse_oid','price'],'order_num ='.$paynum)->toArray();
+               //判断总价，防止app改包攻击
+               if($result[0]['price'] != $data['total_fee']){
+                   return 'fail';
+               }
+               //更新订单状态
+               $purse_order_handle=$purse_order->find($result[0]['purse_oid']);
+               //订单已经修改过，无需再修改
+               if($purse_order_handle->state == 2){
+                   return 'fail';
+               }
+               //将订单改为2
+               $purse_order_handle->state = 2;
+               $purse_order_handle->pay_num="alipay:".$data['trade_no'];
+               //将钱增加到商户冻结资金
+               $results=DB::table('anchong_users')->where('users_id','=',$purse_order_handle->users_id)->increment('usable_money',$result[0]['price']);
+               //判断是否操作成功
+               if($results){
+                   $purse_order_handle->remainder=$this->users->find($purse_order_handle->users_id)->usable_money;
+                   //保存订单
+                   $purse_order_handle->save();
+                   DB::commit();
+                   // 返回处理完成
+                   return 'true';
+               }else{
+                   //假如失败就回滚
+                   DB::rollback();
+                   return 'false';
+               }
            }
                break;
       }

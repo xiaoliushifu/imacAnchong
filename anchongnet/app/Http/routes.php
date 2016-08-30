@@ -245,6 +245,10 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/pay/wxapppay','Api\Pay\PayController@wxapppay');
         //支付宝app支付
         Route::post('/pay/aliapppay','Api\Pay\PayController@aliapppay');
+        //支付宝app订单内支付
+        Route::post('/pay/aliapporderpay','Api\Pay\PayController@aliapporderpay');
+        //微信app订单内支付
+        Route::post('/pay/wxapporderpay','Api\Pay\PayController@wxapporderpay');
 
         /*
         *   广告模块
@@ -283,6 +287,12 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/purse/signin','Api\Purse\PurseController@signin');
         //钱袋充值
         Route::post('/purse/recharge','Api\Purse\PurseController@recharge');
+        //钱袋提现
+        Route::post('/purse/withdraw','Api\Purse\PurseController@withdraw');
+        //钱袋账单
+        Route::post('/purse/bill','Api\Purse\PurseController@bill');
+        //账单详情
+        Route::post('/purse/billinfo','Api\Purse\PurseController@billinfo');
     });
 });
 

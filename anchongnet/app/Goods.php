@@ -32,7 +32,7 @@ class Goods extends Model
 
     //不允许被赋值
     protected $guarded = ['goods_id'];
-    
+
     /*
     *   分类查询
     */
@@ -54,7 +54,7 @@ class Goods extends Model
            return;
        }
     }
-    
+
     /*
      * 根据条件进行商品查询
      * */
@@ -62,12 +62,12 @@ class Goods extends Model
     {
         return $query->where('title', 'like', "%{$keyName}%")->where('sid','=',$keySid);
     }
-    
+
     public function scopeType($query,$keyType,$keySid)
     {
         return $query->where('type', 'like', "%{$keyType}%")->where('sid','=',$keySid);
     }
-    
+
     public function getGoodsByType($type)
     {
         return $this->whereRaw("match(`type`) against(?)",array(bin2hex($type)) )->take(3)->get();
