@@ -556,7 +556,7 @@ class ShopsController extends Controller
 
 
     /*
-    *   店铺全部商品
+    *   店铺首页
     */
     public function shopsindex(Request $request)
     {

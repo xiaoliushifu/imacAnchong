@@ -40,7 +40,7 @@ class Purse_order extends Model
        //将数据添加入数据表
        $this->fill($data);
        if($this->save()){
-           return true;
+           return $this->purse_oid;
        }else{
            return false;
        }
@@ -52,6 +52,14 @@ class Purse_order extends Model
     public function quer($field,$type)
     {
         return $this->select($field)->whereRaw($type)->get();
+    }
+
+    /*
+    *   查询信息，有分页
+    */
+    public function pagequer($field,$type,$pos,$limit)
+    {
+         return ['total'=>$this->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('purse_oid', 'DESC')->get()];
     }
 
     /*

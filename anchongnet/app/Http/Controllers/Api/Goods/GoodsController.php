@@ -504,6 +504,9 @@ class GoodsController extends Controller
                 }
                 $goods_list['list']=$goodsvalue;
                 $goods_list['oem']=$oemarr;
+            }else{
+                $goods_list['list']=$goodsvalue;
+                $goods_list['oem']=[];
             }
 
             if(!empty($goodsvalue)){
