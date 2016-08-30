@@ -79,6 +79,24 @@ $(function(){
         });
     });
 
+    	$(".del").click(function(){
+    		 if(confirm("确定要删除该商品，删除该商品会把相关的货品也一并删除？")){
+    			 var o = $(this);
+    			 $.ajax({
+    	                url: "/goods/delall",
+    	                type: 'DELETE',
+    	                data:{npx:o.attr('data-id')},
+    	                success: function(result) {
+    	                    alert(result);
+    	                    if( result.indexOf('成功') != -1){
+    	                    		o.parents('tr').remove();
+    	                    }
+    	                }
+    	            });
+    		 }
+    	});
+    
+    
     /*----添加分类----*/
     $("body").on("click",".add button",function(){
         var tem=$(".catemplate").clone().removeClass("hidden").removeClass("catemplate");

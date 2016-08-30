@@ -486,6 +486,7 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
             */
             //后台商品删除
             Route::post('/goods/goodsdel','admin\Goods\GoodsController@goodsdel');
+            Route::delete('/goods/delall','admin\Goods\GoodsController@delhuobyGoods');
 
             /*
             *   后台社区
