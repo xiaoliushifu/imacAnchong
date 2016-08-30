@@ -46,13 +46,16 @@ $(function(){
     //删除发布
     $(".del").click(function(){
         if(confirm("确定要删除吗？")){
-            var id=$(this).attr("data-id");
+            var o=$(this);
+            var id=o.attr("data-id");
             $.ajax({
                 url: '/release/'+id,
                 type:'DELETE',
                 success:function(result){
                     alert(result);
-                    location.reload();
+                    if (result.indexOf('成功') != -1){
+                    		o.parents('tr').remove();
+                    }
                 }
             });
         }

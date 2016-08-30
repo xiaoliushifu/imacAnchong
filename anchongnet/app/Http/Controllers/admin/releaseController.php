@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use Request as Requester;
 
+use Exception;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Community_release;
@@ -116,7 +117,7 @@ class releaseController extends Controller
             'img' => $imgs,
         ];
         //创建ORM模型
-        $community_release=new \App\Community_release();
+        $community_release=new Community_release();
         $result=$community_release->add($community_data);
         //插入社区图片
         if ($result) {
@@ -179,19 +180,27 @@ class releaseController extends Controller
      */
     public function destroy($id)
     {
-        //开启事务处理
-        DB::beginTransaction();
-        $this->release = new Community_release();
-        $data=$this->release->find($id);
-        $result=$data->delete();
-        if($result){
-            //假如成功就提交
-            DB::commit();
-            return "删除成功";
-        }else{
-            //假如失败就回滚
-            DB::rollback();
-            return "删除失败";
+        $res=array();
+        try{
+                //还有更好的办法
+                DB::beginTransaction();
+                $res[] = DB::table('anchong_community_release')->where('chat_id',$id)->delete();
+                $res[] = DB::table('anchong_community_collect')->where('chat_id',$id)->delete();
+                $res[] = DB::table('anchong_community_comment')->where('chat_id',$id)->delete();
+                $res[] = DB::table('anchong_community_reply')->where('chat_id',$id)->delete();
+                DB::commit();
+                return '聊聊删除成功';
+//             if($result){
+//                 //假如成功就提交
+//                 DB::commit();
+//                 return "删除成功";
+//             }else{
+//                 //假如失败就回滚
+//                 DB::rollback();
+//                 return "删除失败";
+//             }
+        } catch(Exception $e) {
+            return '聊聊删除有误';
         }
     }
 
@@ -201,7 +210,7 @@ class releaseController extends Controller
     public function imgshow($id)
     {
         //创建图片查询的orm模型
-        $community_release=new \App\Community_release();
+        $community_release=new Community_release();
         $data=$community_release->simplequer('img','chat_id='.$id)->toArray();
         //进行图片分隔操作
         $img=trim($data[0]['img'],"#@#");

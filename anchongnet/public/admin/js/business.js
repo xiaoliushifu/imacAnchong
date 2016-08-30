@@ -233,15 +233,15 @@ $(function(){
     //删除按钮
     $(".del").click(function(){
         if(confirm('确定要删除吗？')){
-            var id=$(this).attr("data-id");
+            var o=$(this);
+            var id=o.attr("data-id");
             //ajax进行删除商机
             $.ajax({
                 url: "/business/"+id,
                 type: 'DELETE',
                 success: function(result) {
-                    // Do something with the result
                     alert(result);
-                    setTimeout(function(){location.reload()},500);
+                    o.parents('tr').remove();
                 }
             });
         }
