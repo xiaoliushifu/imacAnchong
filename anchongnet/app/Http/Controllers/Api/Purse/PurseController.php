@@ -15,6 +15,7 @@ class PurseController extends Controller
 {
     //定义变量
     private $users;
+    private $users_message;
     private $coupon;
     private $coupon_pool;
     private $purse_order;
@@ -25,6 +26,7 @@ class PurseController extends Controller
     public function __construct()
     {
         $this->users=new \App\Users();
+        $this->users_message=new \App\Usermessages();
         $this->coupon=new \App\Coupon();
         $this->coupon_pool=new \App\Coupon_pool();
         $this->purse_order=new \App\Purse_order();
@@ -68,6 +70,22 @@ class PurseController extends Controller
         $param=json_decode($data['param'],true);
         //默认每页数量
         $limit=8;
+        //查出个人信息
+        $beans=$this->users->find($data['guid'])->beans;
+        $usersmessage=$this->users_message->quer(['headpic','nickname'],['users_id'=>$data['guid']])->toArray();
+        try{
+            if(!$usersmessage[0]['nickname']){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
+        }
+        //头像信息
+        if(empty($usersmessage[0]['headpic'])){
+            $headpic="http://anchongres.oss-cn-hangzhou.aliyuncs.com/headpic/placeholder120@3x.png";
+        }else{
+            $headpic=$usersmessage[0]['headpic'];
+        }
         //定义优惠券字段
         $coupon_data=['acpid','title','cvalue','info','beans'];
         //查出余额数据
@@ -76,7 +94,7 @@ class PurseController extends Controller
         if($coupon_pool_data['total'] == 0){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
         }
-        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$coupon_pool_data]);
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['headpic'=>$headpic,'nickname'=>$usersmessage[0]['nickname'],'beans'=>$beans,'coupon'=>$coupon_pool_data]]);
     }
 
     /*
@@ -178,6 +196,7 @@ class PurseController extends Controller
             'price' => $param['price'],
             'action' => 2,
             'created_at' => date('Y-m-d H:i:s',$data['time']),
+            'remainder' => $usable_money-$param['price'],
         ];
         //判断提现方式
         switch ($param['payment']) {
