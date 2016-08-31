@@ -335,12 +335,14 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
             //安虫自营路由组
             Route::group(['middleware'=>'anchong'],function(){
                 /**** 抽奖临时*****/
-                Route::controller('/prize','PrizeController');
+                //Route::controller('/prize','PrizeController');
                 /*********/
                 //用户路由
                 Route::resource('/users','admin\userController');
                 //认证路由
                 Route::resource('/cert','admin\certController');
+                //优惠券路由
+                Route::resource('/coupon','admin\couponController');
                 //认证检查
                 Route::get('/check','admin\CheckController@check');
                 //商铺路由
