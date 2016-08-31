@@ -20,6 +20,10 @@ use App\Goods_type;
 use App\Shop;
 use Input;
 
+
+/**
+ * 货品操作控制器
+ */
 class goodController extends Controller
 {
     private $Goods_specifications;
@@ -342,14 +346,33 @@ class goodController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 货品的删除
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        //只客服可以删除货品
+        if (Gate::denies('del-good')) {
+            return back();
+        }
+        $aid = Requester::get('aid');
+        $bid = Requester::get('bid');
+        try{
+            DB::beginTransaction();
+            $res['spe'] = DB::table('anchong_goods_specifications')->where('goods_id',$bid)->delete();
+            $res['stock'] = DB::table('anchong_goods_stock')->where('gid',$aid)->delete();
+            $res['thumb'] = DB::table('anchong_goods_thumb')->where('gid',$aid)->delete();
+            //根据gid找到下表的cat_id
+            $res['cid']=$cid = DB::table('anchong_goods_type')->where('gid',$aid)->pluck('cat_id');
+            $res['keyword'] = DB::table('anchong_goods_keyword')->whereIn('cat_id',$cid)->delete();
+            //\Log::info($res,array('good_del'));
+            DB::commit();
+            return '删除成功';
+        } catch (\Exception $e) {
+            return '删除失败';
+        }
     }
 
     /*

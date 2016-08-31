@@ -425,8 +425,9 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
             //获取同一个一级分类下的所有二级分类的路由
             Route::get('/newgetsiblingscat','admin\goodCateController@newgetSiblings');
 
-            //商品管理路由
+            //货品管理路由
             Route::resource('/good','admin\goodController');
+            //商品管理路由
             Route::resource('/commodity','admin\commodityController');
             //获取同一分类下的商品的路由
             Route::get('/getsibilingscommodity','admin\commodityController@getSiblings');
@@ -488,18 +489,8 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
             //删除商机指定图片
             Route::post('/delbusinessimg/{num}','admin\businessController@delpic');
 
-
-
-
             //权限管理 隐式路由
             Route::controller('/permission','admin\PermissionController');
-            /*
-            *   后台商品
-            */
-            //后台商品删除
-            Route::post('/goods/goodsdel','admin\Goods\GoodsController@goodsdel');
-            Route::delete('/goods/delall','admin\Goods\GoodsController@delhuobyGoods');
-
             /*
             *   后台社区
             */

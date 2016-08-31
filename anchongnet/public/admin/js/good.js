@@ -370,28 +370,28 @@ $(function(){
         //传递货品id
         $("#advert-gid").val($(this).attr("data-id"));
     });
-//点击删除
+
+
+    	/**
+    	 * 货品删除
+    	 */
     $(".goods_del").click(function(){
-        //货品ID
-        gid=$(this).attr("data-id");
-        //商品ID
-        goods_id=$(this).attr("data-gid");
-        //提示，避免误操作
-        if(confirm('确认要删除吗？')){
+    		var o = $(this);
+        var gid=o.attr("data-id");
+        var goods_id=o.attr("data-gid");
+        if(confirm('确认要删除这条货品吗？')){
             $.ajax({
-                url: "/goods/goodsdel",
-                type:'POST',
-                data:{action:2,gid:gid,goods_id:goods_id},
-                success:function( response ){
-                    if(response.ServerNo == 0){
-                        alert('删除成功');
-                        location.reload();
-                    }else{
-                        alert('删除失败');
-                    }
+                url: "/good/404",
+                type:'DELETE',
+                data:{aid:gid,bid:goods_id},
+                success:function(res ){
+	                	alert(res);
+	                if (res.indexOf('成功') != -1) {
+	                		o.parents('tr').remove();
+	                }
                 }
             });
-    	}
+        }
     });
 
     //该图片修改模块的表单与图片还有文件inpu的命名根据数据库广告表的id进行设置

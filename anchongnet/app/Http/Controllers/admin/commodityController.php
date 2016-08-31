@@ -89,7 +89,7 @@ class commodityController extends Controller
         foreach ($keywords_arr as $k) {
             //限制长度
             if (mb_strlen($k,'utf-8') < 15 ) {
-                $keywords.=bin2hex($k)." ";
+                $keywords.=$k." ";
             }
         };
 
@@ -165,13 +165,13 @@ class commodityController extends Controller
     {
         $data=$this->goods->find($id);
 
-        $keywords=rtrim($data['keyword']);
-        $arr=explode(" ",$keywords);
-        $str="";
-        for($i=0;$i<count($arr);$i++){
-            $str.=pack("H*",$arr[$i])." ";
-        }
-        $data['keyword']=$str;
+//         $keywords=rtrim($data['keyword']);
+//         $arr=explode(" ",$keywords);
+//         $str="";
+//         for($i=0;$i<count($arr);$i++){
+//             $str.=pack("H*",$arr[$i])." ";
+//         }
+//         $data['keyword']=$str;
 
         $arr0=explode(" ",$data['type']);
         $type="";
@@ -192,15 +192,15 @@ class commodityController extends Controller
     public function edit($id)
     {
         $data=$this->goods->find($id);
-
-        $keywords=rtrim($data['keyword']);
-        $arr=explode(" ",$keywords);
-        $str="";
-        for($i=0;$i<count($arr);$i++){
-            $str.=pack("H*",$arr[$i])." ";
+        //给个缓冲期，使得编辑时仍能看到关键字
+        if (!preg_match('#[\x{4e00}-\x{9fa5}]#u',$data['keyword'])){
+            $arr=preg_split('#\s#', $data['keyword'],-1,PREG_SPLIT_NO_EMPTY);
+            $str="";
+            for($i=0;$i<count($arr);$i++){
+                $str.=hex2bin($arr[$i])." ";
+            }
+            $data['keyword']=$str;
         }
-        $data['keyword']=$str;
-
         $arr0=explode(" ",$data['type']);
         $type="";
         for($j=0;$j<count($arr0);$j++){
@@ -234,7 +234,7 @@ class commodityController extends Controller
         $keywords="";
         foreach ($keywords_arr as $k) {
             if (mb_strlen($k,'utf-8') < 15) {
-                $keywords.=bin2hex($k)." ";
+                $keywords.=$k." ";
             }
         };
 
@@ -255,14 +255,45 @@ class commodityController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 商品与货品的级联删除
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        $id = Requester::get('npx');
+        \Log::info($id,array('this is goods_id'));
+        try{
+            DB::beginTransaction();
+            //先删货品相关的
+            //找出该商品下的所有货品ID--,
+            $gid = DB::table('anchong_goods_specifications')->where('goods_id',$id)->pluck('gid');
+            //\Log::info($gid);
+            //根据gid删除下列两表
+            $res['stock'] = DB::table('anchong_goods_stock')->whereIn('gid',$gid)->delete();
+            $res['thumb'] = DB::table('anchong_goods_thumb')->whereIn('gid',$gid)->delete();
+            //根据gid找到下表的cat_id
+            $cid = DB::table('anchong_goods_type')->whereIn('gid',$gid)->pluck('cat_id');
+            //\Log::info($cid);
+            //根据cat_id删除下列表
+            $res['keyword'] = DB::table('anchong_goods_keyword')->whereIn('cat_id',$cid)->delete();
+            //深度搜索表
+            $res['search'] = DB::table('anchong_goods_search')->where('goods_id',$id)->delete();
+            $res['specifi'] = DB::table('anchong_goods_specifications')->where('goods_id',$id)->delete();
+        
+            //再删商品相关的
+            $res['goods'] = DB::table('anchong_goods')->where('goods_id',$id)->delete();
+            $res['oem'] = DB::table('anchong_goods_oem')->where('goods_id',$id)->delete();
+            $res['attr'] = DB::table('anchong_goods_attribute')->where('goods_id',$id)->delete();
+            $res['supp'] = DB::table('anchong_goods_supporting')->where('assoc_gid',$id)->delete();
+            //\Log::info($res,array('this is shangpin'));
+            DB::commit();
+            return '删除商品成功';
+        } catch (\Exception $e) {
+            \Log::info($e->getMessage(),array('goods_del_error'));
+            return '商品删除有误';
+        }
     }
 
     /*
