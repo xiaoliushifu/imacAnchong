@@ -32,11 +32,7 @@ class Goods extends Model
 
     //不允许被赋值
     protected $guarded = ['goods_id'];
-<<<<<<< HEAD
     protected  $primaryKey='goods_id';
-=======
-
->>>>>>> 07b8ee3d5ea5d52c2a383679262a0abf1e418f51
     /*
     *   分类查询
     */
