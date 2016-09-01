@@ -17,7 +17,6 @@ class couponController extends Controller
     {
         $this->cp = new Coupon_pool();
         $datas = $this->cp->orderBy("acpid","desc")->paginate(8);
-        \Log::info($datas);
         $args=array("id"=>1,"auth_status"=>1);
         return view('admin/coupon/index',array("datacol"=>compact("args","datas")));
     }
