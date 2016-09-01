@@ -103,12 +103,8 @@ class CommunityController extends Controller
                 $result=$community_release->add($community_data);
                 //插入成功继续插图片，插入失败则返回错误信息
                 if($result){
-                    //假如成功就提交
-                    DB::commit();
                     return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'聊聊发布成功']]);
                 }else{
-                    //假如失败就回滚
-                    DB::rollback();
                     return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请重新发布聊聊']]);
                 }
 
@@ -180,6 +176,7 @@ class CommunityController extends Controller
                         $img=$img_arr[0];
                     };
                     //将标题和图片放入数组
+                    $community_data['users_id']=$param['users_id'];
                     $community_data['title']=$param['title'];
                     $community_data['img']=$img;
                     //插入聊聊信息提示表
@@ -256,7 +253,8 @@ class CommunityController extends Controller
                         $img_arr=explode('#@#',trim($picstr));
                         $img=$img_arr[0];
                     };
-                    //将标题和图片放入数组
+                    //将用户id,标题和图片放入数组
+                    $community_data['users_id']=$param['users_id'];
                     $community_data['title']=$handle->title;
                     $community_data['img']=$img;
                     unset($community_data['comid']);
@@ -525,6 +523,62 @@ class CommunityController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$community_collect_result['total'],'list'=>$result]]);
             }else{
                 return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>"查询失败，请刷新"]]);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
+
+    /*
+    *   聊聊消息提示
+    */
+    public function message(Request $request)
+    {
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            //查出数据
+            $message_result=DB::table('anchong_community_message')->where('users_id',$data['guid'])->get();
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$message_result]);
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
+
+    /*
+    *   聊聊消息统计
+    */
+    public function countmessage(Request $request)
+    {
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            //查出数据
+            $count=DB::table('anchong_community_message')->where('users_id',$data['guid'])->count();
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$count]);
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
+
+    /*
+    *   聊聊消息删除
+    */
+    public function delmessage(Request $request)
+    {
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            //删除数据
+            $result=DB::table('anchong_community_message')->where('cm_id',$param['cm_id'])->delete();
+            //判断是否删除成功
+            if($result){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'删除成功']]);
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'删除失败']]);
             }
         }catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
