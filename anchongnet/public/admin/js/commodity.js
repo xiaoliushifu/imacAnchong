@@ -78,11 +78,14 @@ $(function(){
         });
     });
 
+    	/**
+    	 * {{--商品删除--}}
+    	 */
     	$(".del").click(function(){
     		 if(confirm("确定要删除该商品，删除该商品会把相关的货品也一并删除？")){
     			 var o = $(this);
     			 $.ajax({
-    	                url: "/goods/delall",
+    	                url: "/commodity/404",
     	                type: 'DELETE',
     	                data:{npx:o.attr('data-id')},
     	                success: function(result) {

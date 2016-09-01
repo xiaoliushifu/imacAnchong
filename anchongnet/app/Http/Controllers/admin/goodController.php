@@ -20,6 +20,10 @@ use App\Goods_type;
 use App\Shop;
 use Input;
 
+
+/**
+ * 货品操作控制器
+ */
 class goodController extends Controller
 {
     private $Goods_specifications;
@@ -109,16 +113,14 @@ class goodController extends Controller
         //将所有属性拼合起来
         $spetag=$attr_k = $comname_k="";
         for($i=0;$i<count($request->attr);$i++){
-            //智能提示
+             //智能提示 来自商品属性
             $arr_key[]=trim($request->attr[$i]);
             //title展示
             $spetag.=$request->attr[$i]." ";
         }
 
-        //替换商品名中所有的特殊字符
-        $comname_k=str_replace(['(','（','）',')','；','“','”','，',',','、'],' ',$request->commodityname);
-        //智能提示
-        $arr_key=array_merge($arr_key,preg_split('#\s#', $comname_k,-1,PREG_SPLIT_NO_EMPTY));
+        //智能提示 来自商品名
+        $arr_key=array_merge($arr_key,preg_split('#\s#', $request->commodityname,-1,PREG_SPLIT_NO_EMPTY));
         //将商品分类转码之后插入数据库，为将来分词索引做准备
         $cids=explode(' ',rtrim($request->type));
         $cid="";
@@ -148,14 +150,15 @@ class goodController extends Controller
             ]
         );
 
-        //取得keyword中的关键字,当然不排除某些录入者错把desc 录入到 keyword中
+        //智能提示  来自关键字
         $arr_key = array_merge($arr_key,preg_split('#\s#', $request->keyword,-1,PREG_SPLIT_NO_EMPTY));
         //由于来源三处，难免重复，须过滤并编码
         $arr_key=array_unique($arr_key);
+        //替换特殊字符
+        $arr_key = str_replace(['(','（','）',')','；','“','”','，',',','、','"','。'],'',$arr_key);
         //英文字符全部转为大写，使得有关英文的搜索不区分大小。
         $arr_key=array_map('strtoupper',$arr_key);
         $keywords=str_replace('20', ' ', bin2hex(implode(' ', $arr_key)));
-
         $gtid = DB::table('anchong_goods_type')->insertGetId(
             [
                 'gid' => $gid,
@@ -343,14 +346,33 @@ class goodController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 货品的删除
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        //只客服可以删除货品
+        if (Gate::denies('del-good')) {
+            return back();
+        }
+        $aid = Requester::get('aid');
+        $bid = Requester::get('bid');
+        try{
+            DB::beginTransaction();
+            $res['spe'] = DB::table('anchong_goods_specifications')->where('goods_id',$bid)->delete();
+            $res['stock'] = DB::table('anchong_goods_stock')->where('gid',$aid)->delete();
+            $res['thumb'] = DB::table('anchong_goods_thumb')->where('gid',$aid)->delete();
+            //根据gid找到下表的cat_id
+            $res['cid']=$cid = DB::table('anchong_goods_type')->where('gid',$aid)->pluck('cat_id');
+            $res['keyword'] = DB::table('anchong_goods_keyword')->whereIn('cat_id',$cid)->delete();
+            //\Log::info($res,array('good_del'));
+            DB::commit();
+            return '删除成功';
+        } catch (\Exception $e) {
+            return '删除失败';
+        }
     }
 
     /*
