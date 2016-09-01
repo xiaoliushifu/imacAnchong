@@ -108,10 +108,13 @@ class PermissionController extends Controller
     public function getRole(Request $req)
     {
         //来个用户模型
-            
         $this->user = new Users();
-        $datas=$this->user->paginate(8);
-        $args=array("phone"=>1);
+        if (!$phone = $req->get('phone')) {
+            $datas=$this->user->paginate(8);
+        } else {
+            $datas=$this->user->Phone($phone)->paginate(8);
+        }
+        $args=array("phone"=>$phone);
         return view('admin/permission/r',array("datacol"=>compact("datas","args")));
     }
     

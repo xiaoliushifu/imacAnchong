@@ -184,7 +184,8 @@ class goodController extends Controller
        DB::table('anchong_goods_keyword')->insert(
             [
                 'cat_id' => $gtid,
-                'cid' => trim($catid),
+                //存储编码过的
+                'cid' => trim($cid),
                 'tags' => $tags,
                 'keyword'=>$keywords,
             ]

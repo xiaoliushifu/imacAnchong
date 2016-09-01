@@ -56,6 +56,10 @@
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-body">
+						<form action="/permission/role" method="get" class="form-horizontal form-inline f-ib">
+						     <input type="tel" name="phone"  placeholder="电话" class="form-control input-sm" value="{{$datacol['args']['phone']}}">&nbsp;
+						     <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
+						 </form>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
 									<th>ID</th>

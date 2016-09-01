@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
-use Request as Requester;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Goods;
@@ -28,7 +26,6 @@ class commodityController extends Controller
 
     public function __construct()
     {
-        $this->goods=new Goods();
         //通过Auth获取当前登录用户的id
         $this->uid=Auth::user()['users_id'];
         //通过用户获取商铺id
@@ -45,15 +42,19 @@ class commodityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $req)
     {
-        $keyName=Requester::input('keyName');
-        if($keyName==""){
+        $this->goods=new Goods();
+        $keyName=$req->get('keyName');
+        $keyName2=$req->get('keyName2');
+        if ($keyName2) {
+            $datas=$this->goods->where('sid','=',$this->sid)->where('goods_id',$keyName2)->get();
+        } elseif ($keyName) {
+            $datas=$this->goods->where('sid','=',$this->sid)->Name($keyName)->orderBy("goods_id","desc")->paginate(8);
+        } else {
             $datas=$this->goods->where('sid','=',$this->sid)->orderBy("goods_id","desc")->paginate(8);
-        }else{
-            $datas = Good::Name($keyName,$this->sid)->orderBy("goods_id","desc")->paginate(8);
         }
-        $args=array("keyName"=>$keyName);
+        $args=array("keyName"=>$keyName,"keyName2"=>$keyName2);
         return view('admin/good/index_commodity',array("datacol"=>compact("args","datas"),"sid"=>$this->sid));
     }
 
@@ -163,6 +164,7 @@ class commodityController extends Controller
      */
     public function show($id)
     {
+        $this->goods=new Goods();
         $data=$this->goods->find($id);
 
 //         $keywords=rtrim($data['keyword']);
@@ -191,6 +193,7 @@ class commodityController extends Controller
      */
     public function edit($id)
     {
+        $this->goods=new Goods();
         $data=$this->goods->find($id);
         //给个缓冲期，使得编辑时仍能看到关键字
         if (!preg_match('#[\x{4e00}-\x{9fa5}]#u',$data['keyword'])){
@@ -221,6 +224,7 @@ class commodityController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->goods=new Goods();
         $data=$this->goods->find($id);
         $data->title=$request->title;
         $data->desc=$request->description;
@@ -260,9 +264,10 @@ class commodityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $req, $id)
     {
-        $id = Requester::get('npx');
+        $this->goods=new Goods();
+        $id = $req->get('npx');
         \Log::info($id,array('this is goods_id'));
         try{
             DB::beginTransaction();
@@ -343,6 +348,7 @@ class commodityController extends Controller
             $url = str_replace('.oss-','.img-',$urls);
 
             //将商品详情图片替换掉
+            $this->goods=new Goods();
             $data=$this->goods->find($request['gid']);
             $data->images=$url;
             $data->save();

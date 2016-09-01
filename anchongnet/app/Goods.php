@@ -58,9 +58,9 @@ class Goods extends Model
     /*
      * 根据条件进行商品查询
      * */
-    public function scopeName($query,$keyName,$keySid)
+    public function scopeName($query,$keyName)
     {
-        return $query->where('title', 'like', "%{$keyName}%")->where('sid','=',$keySid);
+        return $query->where('title', 'like', "%{$keyName}%");
     }
 
     public function scopeType($query,$keyType,$keySid)

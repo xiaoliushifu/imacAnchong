@@ -70,7 +70,7 @@ class Users extends Model implements AuthenticatableContract,
 	*/
 	public function scopePhone($query,$keyPhone)
     {
-		return $query->where('phone', 'like', "%{$keyPhone}%");
+		return $query->where('phone', $keyPhone);
     }
 	public function scopeLevel($query,$keyLevel)
 	{

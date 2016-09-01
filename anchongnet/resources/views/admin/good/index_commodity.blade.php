@@ -66,6 +66,7 @@
                         <div class="box-body">
                             <form action="/commodity" method="get" class="form-horizontal form-inline f-ib">
                                 <input type="text" name="keyName" value="{{$datacol['args']['keyName']}}" class="form-control" placeholder="商品名称">
+                                <input type="text" name="keyName2" value="{{$datacol['args']['keyName2']}}" class="form-control" placeholder="商品ID">
                                 <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
                             </form>
                             <a href="/commodity" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
