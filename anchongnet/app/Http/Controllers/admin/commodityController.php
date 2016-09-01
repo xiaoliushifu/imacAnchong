@@ -115,13 +115,16 @@ class commodityController extends Controller
             ]
         );
 
-        //插入oem数据
-        DB::table('anchong_goods_oem')->insertGetId(
-            [
-                 'goods_id'=>$gid,
-                 'value'=>$request->oem
-            ]
-        );
+        //判断是否有OEM
+        if($request->oem){
+            //插入oem数据
+            DB::table('anchong_goods_oem')->insertGetId(
+                [
+                     'goods_id'=>$gid,
+                     'value'=>$request->oem
+                ]
+            );
+        }
 
         //通过一个for循环向属性表中插入数据
         for($i=0;$i<count($request->attrname);$i++){

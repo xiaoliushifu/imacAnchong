@@ -7,6 +7,7 @@
         <link href="/home/css/bootstrap.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="/home/css/zhuce.css">
         <link rel="stylesheet" type="text/css" href="/home/css/base.css">
+        <script src="https://qiyukf.com/script/d58aef2d7ee62793e1e1a1115200c1dc.js" defer async></script>
     </head>
     <body>
         <div class="container">

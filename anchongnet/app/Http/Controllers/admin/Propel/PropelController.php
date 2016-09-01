@@ -46,7 +46,7 @@ class PropelController extends Controller
         //定义需要的参数
         $app_key="5cfcdf6659fca3e33dde79cc";
         $master_secret="b6d1612108cbd489e379e25e";
-        $client = new \JPush\Client($app_key, $master_secret,'');
+        $client = new \JPush\Client($app_key, $master_secret);
         $push = $client->push();
         //设置推送的平台
         $platform = array('ios', 'android');

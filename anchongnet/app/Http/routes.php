@@ -225,6 +225,12 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/community/communitycom','Api\Community\CommunityController@communitycom');
         //评论详情
         Route::post('/community/commentinfo','Api\Community\CommunityController@commentinfo');
+        //聊聊消息提示
+        Route::post('/community/message','Api\Community\CommunityController@message');
+        //聊聊消息统计
+        Route::post('/community/countmessage','Api\Community\CommunityController@countmessage');
+        //聊聊消息删除
+        Route::post('/community/delmessage','Api\Community\CommunityController@delmessage');
         //收藏聊聊
         Route::post('/community/addcollect','Api\Community\CommunityController@addcollect');
         //取消收藏聊聊
@@ -283,6 +289,12 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/purse/usablemoney','Api\Purse\PurseController@usablemoney');
         //虫豆首页
         Route::post('/purse/beansindex','Api\Purse\PurseController@beansindex');
+        //虫豆充值页面
+        Route::post('/purse/beansrecharge','Api\Purse\PurseController@beansrecharge');
+        //虫豆购买
+        Route::post('/purse/buybeans','Api\Purse\PurseController@buybeans');
+        //签到首页
+        Route::post('/purse/signinindex','Api\Purse\PurseController@signinindex');
         //虫豆签到
         Route::post('/purse/signin','Api\Purse\PurseController@signin');
         //钱袋充值

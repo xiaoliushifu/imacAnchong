@@ -7,6 +7,7 @@ use Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Cache;
+use DB;
 
 /*
 *   该控制器包含了钱袋模块的操作
@@ -15,6 +16,7 @@ class PurseController extends Controller
 {
     //定义变量
     private $users;
+    private $users_message;
     private $coupon;
     private $coupon_pool;
     private $purse_order;
@@ -25,6 +27,7 @@ class PurseController extends Controller
     public function __construct()
     {
         $this->users=new \App\Users();
+        $this->users_message=new \App\Usermessages();
         $this->coupon=new \App\Coupon();
         $this->coupon_pool=new \App\Coupon_pool();
         $this->purse_order=new \App\Purse_order();
@@ -68,15 +71,120 @@ class PurseController extends Controller
         $param=json_decode($data['param'],true);
         //默认每页数量
         $limit=8;
+        //查出个人信息
+        $beans=$this->users->find($data['guid'])->beans;
+        $usersmessage=$this->users_message->quer(['headpic','nickname'],['users_id'=>$data['guid']])->toArray();
+        try{
+            if(!$usersmessage[0]['nickname']){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
+        }
+        //头像信息
+        if(empty($usersmessage[0]['headpic'])){
+            $headpic="http://anchongres.oss-cn-hangzhou.aliyuncs.com/headpic/placeholder120@3x.png";
+        }else{
+            $headpic=$usersmessage[0]['headpic'];
+        }
         //定义优惠券字段
         $coupon_data=['acpid','title','cvalue','info','beans'];
         //查出余额数据
         $coupon_pool_data=$this->coupon_pool->quer($coupon_data,'open = 1',(($param['page']-1)*$limit),$limit);
-        //判断是否有优惠券
-        if($coupon_pool_data['total'] == 0){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['headpic'=>$headpic,'nickname'=>$usersmessage[0]['nickname'],'beans'=>$beans,'coupon'=>$coupon_pool_data]]);
+    }
+
+    /*
+    *   虫豆充值界面
+    */
+    public function beansrecharge(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //获得个人信息的句柄
+        $users_handle=$this->users->find($data['guid']);
+        //获得个人的虫豆数量
+        $beans=$users_handle->beans;
+        //获得个人可用余额
+        $usable_money=$users_handle->usable_money;
+        //获得用户信息
+        $usersmessage=$this->users_message->quer(['headpic','nickname'],['users_id'=>$data['guid']])->toArray();
+        try{
+            if(!$usersmessage[0]['nickname']){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
         }
-        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$coupon_pool_data]);
+        //头像信息
+        if(empty($usersmessage[0]['headpic'])){
+            $headpic="http://anchongres.oss-cn-hangzhou.aliyuncs.com/headpic/placeholder120@3x.png";
+        }else{
+            $headpic=$usersmessage[0]['headpic'];
+        }
+        //查出数据
+        $tariff_result=DB::table('anchong_beans_recharge')->get();
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['headpic'=>$headpic,'nickname'=>$usersmessage[0]['nickname'],'usable_money'=>$usable_money,'beans'=>$beans,'tariff'=>$tariff_result]]);
+    }
+
+    /*
+    *   虫豆购买
+    */
+    public function buybeans(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        $beans_data=DB::table('anchong_beans_recharge')->select('beans','money')->where('beans_id', $param['beans_id'])->get();
+        //获得个人信息的句柄
+        $users_handle=$this->users->find($data['guid']);
+        //获得个人的虫豆数量
+        $beans=$users_handle->beans;
+        //获得个人可用余额
+        $usable_money=$users_handle->usable_money;
+        //判断钱够不够
+        if($beans_data[0]->money > $usable_money){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'您的可用余额不足请充值']]);
+        }
+        //将余额减去
+        $users_handle->usable_money=$usable_money-$beans_data[0]->money;
+        //将虫豆加上
+        $users_handle->beans=$beans+$beans_data[0]->beans;
+        $result=$users_handle->save();
+        //判断是否更新成功
+        if($result){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'购买成功']]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'购买失败，请重试']]);
+        }
+    }
+
+    /*
+    *   签到页面
+    */
+    public function signinindex(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //默认每页数量
+        $limit=8;
+        //今天零点的时间
+        $todaytime=strtotime(date('Ymd',time()));
+        //判断今天是否签到
+        if($this->users->find($data['guid'])->sign_time>$todaytime){
+            $sign_state=1;
+        }else{
+            $sign_state=0;
+        }
+        //查出签到的天数和每天的虫豆数量
+        $signin_data=DB::table('anchong_signin')->select('day','beans')->get();
+        //定义优惠券字段
+        $coupon_data=['acpid','title','cvalue','info','beans'];
+        //查出余额数据
+        $coupon_pool_data=$this->coupon_pool->quer($coupon_data,'open = 1',(($param['page']-1)*$limit),$limit);
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['sign_state'=>$sign_state,'signin'=>$signin_data,'coupon'=>$coupon_pool_data]]);
     }
 
     /*
@@ -87,9 +195,59 @@ class PurseController extends Controller
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
         $param=json_decode($data['param'],true);
-        //签到增加的虫豆数量
-        $addbeans=0;
-        DB::table('anchong_users')->where('users_id','=',$data['guid'])->increment('sales',$gid['goods_num']);
+        //现在的时间
+        $nowtime=time();
+        //今天零点的时间
+        $todaytime=strtotime(date('Ymd',$nowtime));
+        //明天零点的时间
+        $nexttime=$todaytime+86400;
+        //获得用户的句柄
+        $users_handle=$this->users->find($data['guid']);
+        //获取用户签到时间
+        $signintime=$users_handle->sign_time;
+        //判断用户是否是第一次签到
+        if(!$signintime){
+            //如果第一次则增加第一次的虫豆
+            $sign_beans = DB::table('anchong_signin')->where('signin_id', '1')->pluck('beans');
+            $users_handle->day=2;
+            $users_handle->sign_time=$nowtime;
+        }else{
+            if($signintime > $todaytime){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请不要重复签到']]);
+            }
+            //如果不是第一次则判断是否是连续签到
+            //昨天凌晨的时间
+            $yesterdaytime=$todaytime-86400;
+            //判断是否断签
+            if($signintime < $yesterdaytime){
+                //如果断签则增加第一次的虫豆
+                $sign_beans = DB::table('anchong_signin')->where('signin_id', '1')->pluck('beans');
+                $users_handle->day=2;
+                $users_handle->sign_time=$nowtime;
+            }else{
+                //如果没有断签
+                $sign_beans = DB::table('anchong_signin')->where('signin_id', $users_handle->day)->pluck('beans');
+                //假如联系签到天数大于6
+                if($users_handle->day < 7){
+                    //将联系签到天数变成1
+                    $users_handle->day=1;
+                    $users_handle->sign_time=$nowtime;
+                }else{
+                    //将联系签到天数增加1
+                    $users_handle->day =$users_handle->day+1;
+                    $users_handle->sign_time=$nowtime;
+                }
+            }
+        }
+        //将虫豆添加
+        $users_handle->beans=$users_handle->beans+$sign_beans[0];
+        $result=$users_handle->save();
+        //判断是否成功
+        if($result){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'签到成功']]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'签到失败']]);
+        }
     }
 
     /*
@@ -178,6 +336,7 @@ class PurseController extends Controller
             'price' => $param['price'],
             'action' => 2,
             'created_at' => date('Y-m-d H:i:s',$data['time']),
+            'remainder' => $usable_money-$param['price'],
         ];
         //判断提现方式
         switch ($param['payment']) {
