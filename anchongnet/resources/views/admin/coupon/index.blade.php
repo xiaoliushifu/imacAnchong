@@ -56,62 +56,38 @@
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-body">
-						    <form action="/cert" method="get" class="form-horizontal form-inline f-ib">
+						    <form action="/coupon" method="get" class="form-horizontal form-inline f-ib">
 						        <input type="number" name="id"  placeholder="用户ID" class="form-control input-sm" value="{{$datacol['args']['id']}}">&nbsp;
-								审核状态：
-								<label class="radio-inline">
-									<input type="radio" name="auth_status" id="status1" class="status" value="1">待审核
-								</label>
-								<label class="radio-inline">
-									<input type="radio" name="auth_status" id="status2" class="status" value="2">未通过
-								</label>
-								<label class="radio-inline">
-									<input type="radio" name="auth_status" id="status3" class="status" value="3">已通过
-								</label>
 						        <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
-
 						    </form>
-							<a href="/cert" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
-									<th>用户ID</th>
-									<th>认证名称</th>
-									<th>认证状态</th>
-									<th>查看资质</th>
+									<th>券ID</th>
+									<th>券标题</th>
+									<th>券面值</th>
+									<th>券类型</th>
+									<th>券类型2</th>
+									<th>可换虫豆数</th>
+									<th>状态</th>
 									<th>操作</th>
 								</tr>
 								@foreach ($datacol['datas'] as $data)
 								<tr>
-								  <td align="center">{{$data['users_id']}}</td>
-								  <td align="center">{{$data['auth_name']}}</td>
-								  <td align="center">
-								  <?php
-								  switch($data['auth_status']){
-									  case 1:
-									  echo "待审核";
-									  break;
-									  case 2:
-									  echo "审核未通过";
-									  break;
-									  case 3:
-									  echo "审核已通过";
-									  break;
-								  }
-								  ?>
-								  </td>
-								  <td align="center">
-								      <button type="button" class="view btn btn-default btn-xs" data-auth="{{$data['auth_name']}}" data-exp="{{$data['explanation']}}" data-qua="{{$data['qua_name']}}" data-id="{{$data['id']}}" data-toggle="modal" data-target="#myModal">查看</button>
-								  </td>
+								  <td align="center">{{$data['acpid']}}</td>
+								  <td align="center">{{$data['title']}}</td>
+								  <td align="center">{{$data['cvalue']}}</td>
+								  <td align="center">{{$data['type']}}</td>
+								  <td align="center">{{$data['type2']}}</td>
+								  <td align="center">{{$data['beans']}}</td>
+								  <td align="center">{{($data['open'])? '使用中':'已停用'}}</td>
 								  <td align="center">
 								  {{-- 应用权限判定--}}
-								  @if($data['auth_status']==1)
-								  	  @can('authentication')
-									  <button type='button' data-id="{{$data['id']}}" class='check-success btn btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button' data-id="{{$data['id']}}"   class='check-failed btn btn-danger btn-xs'>不通过</button>
+								  	  @can('coupon')
+									  <button type='button' data-id="{{$data['acpid']}}" class='check-success btn btn-success btn-xs'>启用</button>&nbsp;&nbsp;<button type='button' data-id="{{$data['acpid']}}"   class='check-failed btn btn-danger btn-xs'>停用</button>
 									  @else
 									  {{--  权限不许时，灰色按钮--}}
-									  <button type='button'  class='btn disabled btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button'  class='btn disabled btn-danger btn-xs'>不通过</button>
+									  <button type='button'  class='btn disabled btn-success btn-xs'>启用</button>&nbsp;&nbsp;<button type='button'  class='btn disabled btn-danger btn-xs'>停用</button>
 									  @endcan
-								  @endif
 								  </td>
 								</tr>
 								@endforeach
@@ -134,47 +110,6 @@
 	</div>
 	<!-- /.content-wrapper -->
 
-	<!-- Modal -->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	  <div class="modal-dialog" role="document">
-		<div class="modal-content">
-		  <div class="modal-header">
-			<h4 class="modal-title" id="myModalLabel">Modal title</h4>
-		  </div>
-		  <div class="modal-body">
-			  <table class="table">
-				  <tr>
-					  <td align="right" width="25%">会员简介</td>
-					  <td align="left" id="view-qua"></td>
-				  </tr>
-				  <tr>
-					  <td align="right" width="25%">证件名称</td>
-					  <td align="left" id="view-explanation"></td>
-				  </tr>
-		  	</table>
-			<table class="table">
-			  <tr>
-			    <!-- <th>资质名称</th>
-				<th>简介</th> -->
-				<th>上传证件</th>
-			  </tr>
-			  <tbody id="qua">
-			  </tbody>
-				<tr>
-					<td colspan="3">
-						<ul class="pagination" id="rendor">
-
-						</ul>
-					</td>
-				</tr>
-			</table>
-		  </div>
-		  <div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-		  </div>
-		</div>
-	  </div>
-	</div>
 	<input type="hidden" id="activeFlag" value="treeuser">
 	@include('inc.admin.footer')
 </div>
@@ -185,23 +120,6 @@
 <script src="/admin/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
-<?php
-if(isset($datacol['args']['auth_status'])){
-	switch ($datacol['args']['auth_status']){
-		case 1:
-		echo '<script>$(function(){$("#status1").attr("checked",true)});</script>';
-		break;
-		case 2:
-		echo '<script>$(function(){$("#status2").attr("checked",true)});</script>';
-		break;
-		case 3:
-		echo '<script>$(function(){$("#status3").attr("checked",true)});</script>';
-		break;
-		default:
-		echo '<script>$(function(){$("#status1").attr("checked",false);$("#status2").attr("checked",false);$("#status3").attr("checked",false)});</script>';
-	}
-}
-?>
 <script>
 $(function(){
 	{{--加上权限判定：是否可点击 “通过”按钮--}}

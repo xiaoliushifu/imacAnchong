@@ -36,10 +36,9 @@ class GoodsController extends Controller
                     'spec' => 'array',
                 ]
             );
-            if ($validator->fails())
-            {
+            if ($validator->fails()) {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请填写完整的商品内容！']]);
-            }else{
+            } else {
                 $goods_data=[
                     'title' => $param['title'],
                     'desc' =>$param['desc']
@@ -327,8 +326,15 @@ class GoodsController extends Controller
                         DB::table("anchong_goods_keyword")->whereIn('cat_id',$tmparr)->delete();
                         return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"没有相关商品"]]);
                     }
-                    foreach($res as $val)
-                    {
+                    uasort($res,function($o1, $o2){
+                        if ($o1->gid > $o2->gid) {
+                            return -1;
+                        } elseif ($o1->gid < $o2->gid) {
+                            return 1;
+                        }
+                        return 0;
+                    });
+                    foreach($res as $val) {
                         $result['list'][]=$val;
                     }
                     $result['total']=count($res);

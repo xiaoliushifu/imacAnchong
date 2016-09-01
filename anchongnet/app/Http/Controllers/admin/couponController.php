@@ -5,7 +5,7 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
-use App\Auth;
+use App\Coupon_pool;
 class couponController extends Controller
 {
     /**
@@ -15,19 +15,10 @@ class couponController extends Controller
      */
     public function index(Request $req)
     {
-        $this->auth = new Auth();
-        $keyId = $req->get("id");
-        $keyStatus=$req->get("auth_status");
-        if ($keyId=="" && $keyStatus=="") {
-            $datas=$this->auth->orderBy("auth_status","asc")->orderBy("id","desc")->paginate(8);
-        } elseif (empty($keyStatus)) {
-            $datas = Auth::Users($keyId)->orderBy("id","desc")->paginate(8);
-        } elseif (empty($keyId)) {
-            $datas = Auth::Status($keyStatus)->orderBy("auth_status","asc")->orderBy("id","desc")->paginate(8);
-        } else {
-            $datas = Auth::Users($keyId)->Status($keyStatus)->orderBy("id","desc")->paginate(8);
-        }
-        $args=array("id"=>$keyId,"auth_status"=>$keyStatus);
+        $this->cp = new Coupon_pool();
+        $datas = $this->cp->orderBy("acpid","desc")->paginate(8);
+        \Log::info($datas);
+        $args=array("id"=>1,"auth_status"=>1);
         return view('admin/coupon/index',array("datacol"=>compact("args","datas")));
     }
 
