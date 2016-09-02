@@ -1,6 +1,7 @@
 /**
  * Created by lengxue on 2016/4/26.
  */
+var catarr=[];
 $(function(){
     //加载一级分类
     var opt;
@@ -13,69 +14,69 @@ $(function(){
     });
 
     $(".edit").click(function() {
-        $("#midselect").empty();
         $("#stock").empty();
         $("#sups").empty();
         $("#futuresups").empty();
-        var id = $(this).attr("data-id");
+        
+        var o = $(this);
+        var tr = o.parents('tr');
+        var id = o.attr("data-id");
         var sid=$("#sid").val();
 
-        var opt;
-        var firstPid;
-        $("#gid").val($(this).attr("data-id"));
+        $("#gid").val(o.attr("data-id"));
 
         $("#updataForm").attr("action", "/commodity/" + id);
-        $.get("/commodity/" + id + "/edit", function (data, status) {
-            var arr=$.trim(data.type).split(" ");
-            $("#catarea").empty();
-            for(var i=0;i<arr.length;i++){
-                var cat=$(".catemplate").clone().removeClass("hidden").removeClass("catemplate");
-                $("#catarea").append(cat);
-                $("#flag").val(arr[i]);
-                $.ajax({
-                    type : "GET",
-                    url : '/getsiblingscat?s='+new Date().getTime(),
-                    data:{cid:arr[i]},
-                    async:false,
-                    cache :false,
-                    success : function(data){
-                        for (var j = 0; j < data.length; j++) {
-                            opt = "<option  value=" + data[j].cat_id + ">" + data[j].cat_name + "</option>";
-                            $(".midselect").eq(i+1).append(opt);
-                        };
-                        firstPid = data[0].parent_id;
-                        var val=$("#flag").val();
-                        $(".midselect").eq(i+1).find("option[value="+val+"]").attr("selected",true);
-                        $(".mainselect").eq(i+1).find("option[value="+firstPid+"]").attr("selected",true);
-                    }
-                });
-            };
+        //组织分类信息
+        var arr=$.trim(tr.children(':eq(8)').text()).split(/\s/);
+        for(var k=0;k<arr.length;k++){
+        	catarr.push(arr[k].split(','));
+        }
+        //全局变量，缓存二级分类信息
+        $("#catarea").empty();
+        var cat=$(".catemplate").clone().removeClass("hidden").removeClass("catemplate");
+        $("#catarea").append(cat);
+        $("#title").val(tr.children(':eq(1)').text());
+        $("#description").val(tr.children(':eq(2)').text());
+        $("#remark").text(tr.children(':eq(3)').text());
+        $("#keyword").val(tr.children(':eq(4)').text());
+        $("#img").attr("src",tr.children(':eq(5)').text());
+        UE.getEditor('container').setContent(tr.children(':eq(6)').text());
+        UE.getEditor('container1').setContent(tr.children(':eq(7)').text());
 
-            $("#title").val(data.title);
-            $("#description").val(data.desc);
-            $("#remark").text(data.remark);
-            $("#keyword").val(data.keyword);
-            $("#img").attr("src",data.images);
-            UE.getEditor('container').setContent(data.param);
-            UE.getEditor('container1').setContent(data.package);
-
-            //发送ajax请求获取商品的配套商品
-            $.get("/getsupcom",{"gid":id,'sid':sid},function(data,status){
-                var sup;
-                for(var i=0;i<data.length;i++){
-                    sup='<li class="list-group-item">'+data[i].goods_name+'<button type="button" data-id='+data[i].supid+' class="delsup btn btn-warning btn-xs pull-right glyphicon glyphicon-minus" title="删除条配套信息"></button></li>';
-                    $("#sups").append(sup);
-                }
-            });
+        //发送ajax请求获取商品的配套商品
+        $.get("/getsupcom",{"gid":id,'sid':sid},function(data,status){
+            var sup;
+            for(var i=0;i<data.length;i++){
+                sup='<li class="list-group-item">'+data[i].goods_name+'<button type="button" data-id='+data[i].supid+' class="delsup btn btn-warning btn-xs pull-right glyphicon glyphicon-minus" title="删除条配套信息"></button></li>';
+                $("#sups").append(sup);
+            }
         });
         /*----获取商品属性信息----*/
-        var line;
         $.get('/getsiblingsattr', {gid: id}, function (data, status) {
             for (var i = 0; i < data.length; i++) {
-                line = '<tr class="line"> <td> <input type="text" class="attrname form-control" value="' + data[i].name + '" /> </td> <td><textarea rows="5" class="attrvalue form-control">' + data[i].value + '</textarea> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" data-id="' + data[i].atid + '" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除" data-id="' + data[i].atid + '"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
+                var line = '<tr class="line"> <td> <input type="text" class="attrname form-control" value="' + data[i].name + '" /> </td> <td><textarea rows="5" class="attrvalue form-control">' + data[i].value + '</textarea> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" data-id="' + data[i].atid + '" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除" data-id="' + data[i].atid + '"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
                 $("#stock").append(line);
             }
         });
+        
+        //获取二级分类信息
+        for(var f=0;f<catarr.length;f++){
+            //去获得该分类的子分类信息
+            $.ajax({
+            	url:'/getlevel',
+            	data:{pid:catarr[f][0]},
+            	async:false,//同步
+            	success:function(data){
+	                for (var j = 0; j < data.length; j++) {
+	                    var opt = "<option  value='" + data[j].cat_id + "'>" + data[j].cat_name + "</option>";
+	                    $("#catarea .midselect").append(opt);
+	                }
+	                //设置选中项
+	                $("#catarea .mainselect option[value='"+catarr[f][0]+"']").attr("selected",true);
+	                $('#catarea .midselect option[value="'+catarr[f][1]+'"]').attr("selected",true);
+            	},
+            });
+        }
     });
 
     	/**

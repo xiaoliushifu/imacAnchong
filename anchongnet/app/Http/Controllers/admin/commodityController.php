@@ -48,7 +48,7 @@ class commodityController extends Controller
         $keyName=$req->get('keyName');
         $keyName2=$req->get('keyName2');
         if ($keyName2) {
-            $datas=$this->goods->where('sid','=',$this->sid)->where('goods_id',$keyName2)->get();
+            $datas=$this->goods->where('sid','=',$this->sid)->where('goods_id',$keyName2)->paginate(1);
         } elseif ($keyName) {
             $datas=$this->goods->where('sid','=',$this->sid)->Name($keyName)->orderBy("goods_id","desc")->paginate(8);
         } else {
@@ -94,10 +94,10 @@ class commodityController extends Controller
             }
         };
 
-        //遍历商品分类的数组，挨个进行转码，为将来分词索引做准备
+        //存储商品的分类信息，不再转码，且加入分类树
         $type="";
         for($i=0;$i<count($request['midselect']);$i++){
-            $type.=bin2hex($request['midselect'][$i])." ";
+            $type.=($request['mainselect'][$i].','.$request['midselect'][$i])." ";
         };
 
         //向goods表中插入数据并获取刚插入数据的主键
