@@ -115,10 +115,13 @@ class UsermessagesController extends Controller
 					'shopstatus'=>'',
 					'shopname'=>'',
 					'shoplogo'=>'',
-					'shopid'=>''
+					'shopid'=>'',
+					'beans' => '',
 				],
 			]);
 		}else{
+			//获取数据
+			$users_handle=$this->user->find($id);
 			$user=Usermessages::where('users_id', '=', $id)->first();
 			$waitforcash=count($this->order->US($id,1)->get());
 			$waitforsend=count($this->order->US($id,2)->get());
@@ -154,6 +157,7 @@ class UsermessagesController extends Controller
 						'shopname'=>$shopname,
 						'shoplogo'=>$shoplogo,
 						'shopid'=>$shopid,
+						'beans' => $users_handle->beans,
 					],
 				]
 			);
