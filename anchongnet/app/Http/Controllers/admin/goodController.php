@@ -118,7 +118,6 @@ class goodController extends Controller
             //title展示
             $spetag.=$request->attr[$i]." ";
         }
-        $spetag=str_replace("&*&"," ",$spetag);
 
         //智能提示 来自商品名
         $arr_key=array_merge($arr_key,preg_split('#\s#', $request->commodityname,-1,PREG_SPLIT_NO_EMPTY));

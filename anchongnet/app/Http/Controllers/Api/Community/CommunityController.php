@@ -165,11 +165,29 @@ class CommunityController extends Controller
                 if($ture){
                     //更新评论数量
                     DB::table('anchong_community_release')->where('chat_id','=',$param['chat_id'])->increment('comnum',1);
-                    //推送消息
-                    $this->propel->apppropel($this->user->find($param['users_id'])->phone,'聊聊评论',$users_nickname[0]['nickname'].'  评论了您的聊聊:'.$param['title']);
+                    try{
+                        //推送消息
+                        $this->propel->apppropel($this->user->find($param['users_id'])->phone,'聊聊评论',$users_nickname[0]['nickname'].'  评论了您的聊聊:'.$param['title']);
+                    }catch (\Exception $e) {
+                        //查出第一张图片
+                        $picstr=$this->community_release->find($param['chat_id'])->img;
+                        $img="";
+                        //判断是否有图片并进行操作
+                        if(strlen($picstr)>10){
+                            $img_arr=explode('#@#',trim($picstr));
+                            $img=$img_arr[0];
+                        };
+                        //将标题和图片放入数组
+                        $community_data['users_id']=$param['users_id'];
+                        $community_data['title']=$param['title'];
+                        $community_data['img']=$img;
+                        //插入聊聊信息提示表
+                        DB::table('anchong_community_message')->insertGetId($community_data);
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'评论成功']]);
+                    }
                     //查出第一张图片
                     $picstr=$this->community_release->find($param['chat_id'])->img;
-                    $img=null;
+                    $img="";
                     //判断是否有图片并进行操作
                     if(strlen($picstr)>10){
                         $img_arr=explode('#@#',trim($picstr));
@@ -242,12 +260,33 @@ class CommunityController extends Controller
                 $community_reply=new \App\Community_reply();
                 $ture=$community_reply->add($community_data);
                 if($ture){
-                    //推送消息
-                    $this->propel->apppropel($this->user->find($param['users_id'])->phone,'聊聊评论回复',$users_nickname[0]['nickname'].'  回复了您的评论:'.$param['reply_content']);
+                    try{
+                        //推送消息
+                        $this->propel->apppropel($this->user->find($param['users_id'])->phone,'聊聊评论回复',$users_nickname[0]['nickname'].'  回复了您的评论:'.$param['reply_content']);
+                    }catch (\Exception $e) {
+                        //查出第一张图片与标题
+                        $handle=$this->community_release->find($param['chat_id']);
+                        $picstr=$handle->img;
+                        $img="";
+                        //判断是否有图片并进行操作
+                        if(strlen($picstr)>10){
+                            $img_arr=explode('#@#',trim($picstr));
+                            $img=$img_arr[0];
+                        };
+                        //将用户id,标题和图片放入数组
+                        $community_data['users_id']=$param['users_id'];
+                        $community_data['title']=$handle->title;
+                        $community_data['img']=$img;
+                        unset($community_data['comid']);
+                        unset($community_data['comname']);
+                        //插入聊聊信息提示表
+                        DB::table('anchong_community_message')->insertGetId($community_data);
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'回复成功']]);
+                    }
                     //查出第一张图片与标题
                     $handle=$this->community_release->find($param['chat_id']);
                     $picstr=$handle->img;
-                    $img=null;
+                    $img="";
                     //判断是否有图片并进行操作
                     if(strlen($picstr)>10){
                         $img_arr=explode('#@#',trim($picstr));

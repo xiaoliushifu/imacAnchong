@@ -264,7 +264,7 @@ class GoodsController extends Controller
             $goods_tag=new \App\Goods_tag();
             $result=$goods_tag->quer('tag','cat_id='.$param['cat_id'])->toArray();
             if(!empty($result)){
-                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['anchong'=>[['tag'=>'安虫自营'],['tag'=>'最新上架'],['tag'=>'销量最多']],'brand'=>$result]]);
             }else{
                 return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'该分类没有检索标签']]);
             }
@@ -499,7 +499,6 @@ class GoodsController extends Controller
                 $type_arr=explode(' ',trim($attribute['value']));
                 foreach($type_arr as $type_arrs){
                     if($type_arrs){
-                        $type_arra=str_replace("&*&"," ",$type_arrs);
                         $typearr[]=$type_arra;
                     }
                 }
