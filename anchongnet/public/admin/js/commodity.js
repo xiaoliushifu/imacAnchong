@@ -1,18 +1,19 @@
 /**
  * Created by lengxue on 2016/4/26.
  */
+//二级分类信息 catarr[1]=parent=1的二级
+//二级分类信息 catarr[2]=parent=2的二级
 var catarr=[];
 $(function(){
     //加载一级分类
-    var opt;
     var one0=0;
     $.get("/getlevel",{pid:one0},function(data,status){
         for(var i=0;i<data.length;i++){
-            opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
+          var  opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
             $(".mainselect").append(opt);
         }
     });
-
+    
     $(".edit").click(function() {
         $("#stock").empty();
         $("#sups").empty();
@@ -26,15 +27,11 @@ $(function(){
         $("#gid").val(o.attr("data-id"));
 
         $("#updataForm").attr("action", "/commodity/" + id);
-        //组织分类信息
+        //组织当前商品的分类信息
         var arr=$.trim(tr.children(':eq(8)').text()).split(/\s/);
-        for(var k=0;k<arr.length;k++){
-        	catarr.push(arr[k].split(','));
-        }
-        //全局变量，缓存二级分类信息
         $("#catarea").empty();
-        var cat=$(".catemplate").clone().removeClass("hidden").removeClass("catemplate");
-        $("#catarea").append(cat);
+        //从模板克隆一套分类信息
+        var cat=$(".catemplate").clone(true).removeClass("hidden").removeClass("catemplate");
         $("#title").val(tr.children(':eq(1)').text());
         $("#description").val(tr.children(':eq(2)').text());
         $("#remark").text(tr.children(':eq(3)').text());
@@ -60,22 +57,32 @@ $(function(){
         });
         
         //获取二级分类信息
-        for(var f=0;f<catarr.length;f++){
-            //去获得该分类的子分类信息
-            $.ajax({
-            	url:'/getlevel',
-            	data:{pid:catarr[f][0]},
-            	async:false,//同步
-            	success:function(data){
-	                for (var j = 0; j < data.length; j++) {
-	                    var opt = "<option  value='" + data[j].cat_id + "'>" + data[j].cat_name + "</option>";
-	                    $("#catarea .midselect").append(opt);
-	                }
-	                //设置选中项
-	                $("#catarea .mainselect option[value='"+catarr[f][0]+"']").attr("selected",true);
-	                $('#catarea .midselect option[value="'+catarr[f][1]+'"]').attr("selected",true);
-            	},
-            });
+        for(var f=0;f<arr.length;f++){
+        	tmpcat = cat.clone(true);
+        	$("#catarea").append(tmpcat);
+            //如果凑巧这个二级分类信息已经有了
+        	Level1 = (arr[f].split(','))[0];
+        	Level2 = (arr[f].split(','))[1];
+        	if(!catarr[Level1]) {
+        		//不存在时只得跑一趟了
+	            $.ajax({
+	            	url:'/getlevel',
+	            	data:{pid:Level1},
+	            	async:false,//同步
+	            	success:function(data){
+		                //缓存二级分类，下次就无需再跑一趟了
+	            		catarr[Level1]=data;
+	            	},
+	            });
+        	}
+            for (var j = 0; j < (catarr[Level1]).length; j++) {
+                var opt = "<option  value='" + catarr[Level1][j].cat_id + "'>" + catarr[Level1][j].cat_name + "</option>";
+                $('#catarea .midselect:eq('+f+')').append(opt);
+            }
+          //设置选中项
+            $('#catarea .mainselect:eq('+f+') option[value="'+Level1+'"]').attr("selected",true);
+            $('#catarea .midselect:eq('+f+') option[value="'+Level2+'"]').attr("selected",true);
+            
         }
     });
 
@@ -270,6 +277,7 @@ $(function(){
         $(this).parent().siblings("div").find(".midselect").empty().addClass("waitforopt");
         $(this).parent().siblings("div").find(".midselect").append(defaultopt);
         if(val==""){
+        	return;
         }else{
             $.get("/getlevel",{pid:parseInt(val)},function(data,status){
                 if(data.length==0){
