@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-
 class Backpermission
 {
     /**
@@ -16,6 +15,7 @@ class Backpermission
      */
     public function handle($request, Closure $next)
     {
+        
         //只许admin通过，否则回退
         if ($request->user()['users_id'] != 1) {
             return back();

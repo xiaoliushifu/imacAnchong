@@ -327,7 +327,7 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
 });
 
 //后台路由
-Route::group(['domain' => 'admin.anchong.net'], function () {
+Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function () {
     //搜索
         //Route::controller('/search','Api\SearchController');
         //注册相关
