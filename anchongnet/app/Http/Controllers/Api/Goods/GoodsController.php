@@ -499,7 +499,7 @@ class GoodsController extends Controller
                 $type_arr=explode(' ',trim($attribute['value']));
                 foreach($type_arr as $type_arrs){
                     if($type_arrs){
-                        $typearr[]=$type_arra;
+                        $typearr[]=$type_arrs;
                     }
                 }
                 $goodsvalue[]=['name'=>$attribute['name'],'value'=>$typearr];
