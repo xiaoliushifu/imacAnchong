@@ -56,6 +56,15 @@
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-body">
+							@if (count($errors) > 0)
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
 						    <form action="/coupon" method="get" class="form-horizontal form-inline f-ib">
 						        <input type="number" name="acpid"  placeholder="券ID"  value="{{$datacol['args']['acpid']}}">&nbsp;
 						        <select name="status"  title="优惠券状态">
@@ -90,6 +99,9 @@
 								            break;
 								        case 3:
 								            echo '<td align="center"  value="3">商品</td>';
+								            break;
+								        default :
+							                echo '<td align="center"  value="1">通用</td>';
 								    }
 								  ?>
 								  <td align="center">{{$data['type2']}}</td>
@@ -124,7 +136,7 @@
 		<!-- /.content -->
 	</div>
 	<!-- /.content-wrapper -->
-<!-- Modal -->
+<!-- Modal ---for edit -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
         		{{--大块内容--}}
@@ -134,8 +146,9 @@
                     <h4 class="modal-title" id="myModalLabel">优惠券编辑</h4>
                     <small>当前优惠券：</small>
                 </div>
-                <form class="form-horizontal" id="myform" action="" method="post">
+                <form class="form-horizontal" id="myform" action="" method="POST">
                 		<input type="hidden" id='hid' name="acpid" value="">
+                		<input type="hidden" name="_method" value="PUT">
                     <div class="form-name form-group">
                             <label for="title" class="col-sm-2 control-label">优惠券标题</label>
                             <div class="col-sm-9">
@@ -154,22 +167,22 @@
                                 <input type="number" class="form-control" name="beans" id="beans" placeholder="0代表不可兑换">
                             </div>
                     </div>
-                    <div class="form-name form-group">
+                    <!-- <div class="form-name form-group">
                             <label for="beans" class="col-sm-2 control-label">优惠券类型</label>
                             <div class="col-sm-9">
                             		<div class="col-xs-4">
                                     <select class="form-control" name="type"  id="type" placeholder="选项">
-                                    		<option value="1" >通用</option>
+                                    		<option value="1" tit="通用">通用</option>
                                     		<option value="2"  tit="请填写商铺ID">商铺</option>
                                     		<option value="3"  tit="请填写商品ID">商品</option>
-                                    		<option value="4" >其他</option>
+                                    		<option value="4" tit = "其他">其他</option>
                                     </select>
                                 </div>
                                 <div class="col-xs-4">
-                                		<input type="text" class="form-control" name="type2"  id="type2" placeholder="请填写内容" />
+                                		<input type="text" class="form-control" name="type2"  id="type2"  placeholder="请填写内容" />
                                 </div>
                             </div>
-                    </div>
+                    </div> -->
                     {{--footer--}}
                      <div class="modal-footer">
                          <button type="button" class="btn btn-default"  data-dismiss="modal">关闭</button>
@@ -179,7 +192,7 @@
             </div>
         </div>
     </div>
-	<input type="hidden" id="activeFlag" value="treeuser">
+	<input type="hidden" id="activeFlag" value="treecoupon">
 	@include('inc.admin.footer')
 </div>
 <!-- ./wrapper -->

@@ -8,7 +8,8 @@ class Coupon_pool extends Model
 {
     protected $table = 'anchong_coupon_pool';
     protected $guard='acpid';
-    //不允许被赋值
+    protected $primaryKey='acpid';
+    //不允许用create方法赋值
     protected $guarded = [];
     public  $timestamps=false;
 
