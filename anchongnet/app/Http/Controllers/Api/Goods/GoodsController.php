@@ -274,6 +274,52 @@ class GoodsController extends Controller
     }
 
     /*
+    *   商品筛选
+    */
+    public function goodsfilter(Request $request)
+    {
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            //默认每页数量
+            $limit=20;
+            //要查的数据
+            $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
+            //创建orm模型
+            $goods_type=new \App\Goods_type();
+            //判断用户的操作是筛选的什么
+            switch ($param['tag']) {
+                //假如是安虫自营则只显示安虫的
+                case '安虫自营':
+                    $sql="sid =1 and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1";
+                    $goods_count=$goods_type->Goods($sql)->count();
+                    $goods_result=$goods_type->Goods($sql)->skip((($param['page']-1)*$limit))->take($limit)->orderBy('cat_id','DESC')->get();
+                    break;
+                //假如是最新上架则按上架日期排列
+                case '最新上架':
+                    $sql="MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1";
+                    $goods_count=$goods_type->Goods($sql)->count();
+                    $goods_result=$goods_type->Goods($sql)->skip((($param['page']-1)*$limit))->take($limit)->orderBy('created_at','DESC')->orderBy('sid','ASC')->get();
+                    break;
+                //假如是销量最多就按照销量排行
+                case '销量最多':
+                    $sql="MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1";
+                    $goods_count=$goods_type->Goods($sql)->count();
+                    $goods_result=$goods_type->Goods($sql)->skip((($param['page']-1)*$limit))->take($limit)->orderBy('sales','DESC')->orderBy('sid','ASC')->get();
+                    break;
+                //其他的就是标签
+                default:
+                    # code...
+                    break;
+            }
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$goods_count,'list'=>$goods_result]]);
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
+
+    /*
     *   根据商品关键字，进行搜索
     */
     public function goodssearch(Request $request)

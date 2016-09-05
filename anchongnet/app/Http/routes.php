@@ -118,7 +118,9 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         //商品列表所有商品
         Route::post('/goods/goodsall','Api\Goods\GoodsController@goodsall');
         //提供商品标签的检索
-        Route::post('/goods/tag','Api\Goods\GoodsController@goodslist');
+        Route::post('/goods/tag','Api\Goods\GoodsController@tag');
+        //提供商品检索
+        Route::post('/goods/goodsfilter','Api\Goods\GoodsController@goodsfilter');
         //商品详情
         Route::post('/goods/goodsinfo','Api\Goods\GoodsController@goodsinfo');
         //商品推荐
@@ -353,7 +355,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::resource('/users','admin\userController');
                 //认证路由
                 Route::resource('/cert','admin\certController');
-                //优惠券路由                                                                                              
+                //优惠券路由
                 Route::resource('/coupon','admin\couponController');
                 //认证检查
                 Route::get('/check','admin\CheckController@check');
