@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 use App\Coupon_pool;
+use DB;
 class couponController extends Controller
 {
     /**
@@ -17,7 +18,7 @@ class couponController extends Controller
     {
         $this->cp = new Coupon_pool();
         $datas = $this->cp->orderBy("acpid","desc")->paginate(8);
-        $args=array("id"=>1,"auth_status"=>1);
+        $args=array("acpid"=>1,"open"=>1);
         return view('admin/coupon/index',array("datacol"=>compact("args","datas")));
     }
 
@@ -71,9 +72,22 @@ class couponController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $req, $id)
     {
-        //
+        try{
+            $pa = $req->all();
+            //只更新状态
+            if (isset($pa['act'])) {
+                $arr=array('check-success'=>1,'check-failed'=>0);
+                 return  DB::update("update `anchong_coupon_pool` set `open`={$arr[$pa['act']]} where `acpid`={$pa['xid']} ");
+                 //$res = DB::table("anchong_coupon_pool")->where('acpid',$pa['xid'])->update(['open'=>'00']);
+            }
+            
+//             \Log::info($req->all());
+            //更新其他详情
+            } catch(\Exception $e) {
+                return 0;
+            }
     }
 
     /**

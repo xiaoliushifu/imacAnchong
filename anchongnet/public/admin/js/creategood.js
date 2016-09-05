@@ -2,6 +2,8 @@
  * Created by lengxue on 2016/4/20.
  */
 $(function(){
+	var Level1;
+	var Level2;
     /*-------------------------------------------基本信息---------------------------------------------*/
     var opt;
     var one0=0;
@@ -16,12 +18,13 @@ $(function(){
 
     $("#mainselect").change(function(){
         var val=$(this).val();
+        Level1=val;
         $("#midselect").empty();
         $("#midselect").append(defaultopt);
         $("#name").empty();
         $("#name").append(defaultopt);
         if(val==""){
-
+        	return ;
         }else{
             $.get("/getlevel",{pid:parseInt(val)},function(data,status){
                 if(data.length==0){
@@ -39,12 +42,13 @@ $(function(){
 
     $("#midselect").change(function(){
         var val=$(this).val();
+        Level2=val;
         var sid=$("#sid").val();
         $("#name").empty();
         $("#name").append(defaultopt);
         $("#checks").empty();
         $("#attrs").empty();
-        $.get("/getsibilingscommodity",{pid:parseInt(val),sid:sid},function(data,status){
+        $.get("/getsibilingscommodity",{pid:Level1+','+Level2,sid:sid},function(data,status){
             if(data.length==0){
                 $("#name").empty();
                 $("#name").append(nullopt);

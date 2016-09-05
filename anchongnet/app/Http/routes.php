@@ -327,7 +327,7 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
 });
 
 //后台路由
-Route::group(['domain' => 'admin.anchong.net'], function () {
+Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function () {
     //搜索
         //Route::controller('/search','Api\SearchController');
         //注册相关
@@ -353,7 +353,7 @@ Route::group(['domain' => 'admin.anchong.net'], function () {
                 Route::resource('/users','admin\userController');
                 //认证路由
                 Route::resource('/cert','admin\certController');
-                //优惠券路由
+                //优惠券路由                                                                                              
                 Route::resource('/coupon','admin\couponController');
                 //认证检查
                 Route::get('/check','admin\CheckController@check');

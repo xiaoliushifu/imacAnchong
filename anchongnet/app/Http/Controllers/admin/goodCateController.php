@@ -98,7 +98,7 @@ class goodCateController extends Controller
        $pid=$request['pid'];
        //使用缓存，获取pid=0-8
        if (!$datas = Cache::get($pid)) {
-           $datas = Category::Level($pid)->get();
+           $datas = Category::Level($pid)->get(['cat_id','cat_name']);
            Cache::add($pid,$datas,'60');
        }
        return $datas;

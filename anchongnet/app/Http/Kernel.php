@@ -55,6 +55,7 @@ class Kernel extends HttpKernel
         'AppPrivate'=>\App\Http\Middleware\AppPrivate::class,
         'LoginAuthen'=>\App\Http\Middleware\LoginAuthen::class,
         'PayAuthen' =>\App\Http\Middleware\PayAuthen::class,
+		'defper' =>\App\Http\Middleware\Defpermission::class,
 		'permission' =>\App\Http\Middleware\Backpermission::class,
 		'anchong' =>\App\Http\Middleware\Anchong::class,
         'csrf' =>\App\Http\Middleware\VerifyCsrfToken::class,
