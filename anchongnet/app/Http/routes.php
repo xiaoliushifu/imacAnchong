@@ -118,7 +118,9 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         //商品列表所有商品
         Route::post('/goods/goodsall','Api\Goods\GoodsController@goodsall');
         //提供商品标签的检索
-        Route::post('/goods/tag','Api\Goods\GoodsController@goodslist');
+        Route::post('/goods/tag','Api\Goods\GoodsController@tag');
+        //提供商品检索
+        Route::post('/goods/goodsfilter','Api\Goods\GoodsController@goodsfilter');
         //商品详情
         Route::post('/goods/goodsinfo','Api\Goods\GoodsController@goodsinfo');
         //商品推荐
@@ -289,6 +291,10 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/purse/usablemoney','Api\Purse\PurseController@usablemoney');
         //虫豆首页
         Route::post('/purse/beansindex','Api\Purse\PurseController@beansindex');
+        //优惠券兑换
+        Route::post('/purse/couponexchange','Api\Purse\PurseController@couponexchange');
+        //我的优惠券
+        Route::post('/purse/mycoupon','Api\Purse\PurseController@mycoupon');
         //虫豆充值页面
         Route::post('/purse/beansrecharge','Api\Purse\PurseController@beansrecharge');
         //虫豆购买
@@ -305,6 +311,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/purse/bill','Api\Purse\PurseController@bill');
         //账单详情
         Route::post('/purse/billinfo','Api\Purse\PurseController@billinfo');
+        //删除账单
+        Route::post('/purse/delbill','Api\Purse\PurseController@delbill');
     });
 });
 

@@ -20,7 +20,7 @@ class Coupon_pool extends Model
     {
         return ['total'=>$this->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('acpid', 'DESC')->get()];
     }
-    
+
     /**
      * 列表页的筛选
      * @param unknown $req
@@ -42,5 +42,12 @@ class Coupon_pool extends Model
         }
         $res = $this->where($where)->orderBy("acpid","desc")->paginate(8);
         return ['data'=>$res,'where'=>$where];
+
+    /*
+     * 查询构造器
+     */
+    public function scopeCoupon($query)
+    {
+        return $query;
     }
 }

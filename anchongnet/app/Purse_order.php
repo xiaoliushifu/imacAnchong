@@ -33,6 +33,14 @@ class Purse_order extends Model
     public  $timestamps=false;
 
     /*
+     * 查询构造器
+     */
+    public function scopePurse($query)
+    {
+        return $query;
+    }
+
+    /*
     *   该方法是订单生成
     */
     public function add($data)

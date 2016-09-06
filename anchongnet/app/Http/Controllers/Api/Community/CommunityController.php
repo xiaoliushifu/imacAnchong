@@ -499,8 +499,8 @@ class CommunityController extends Controller
             //创建ORM模型
             $community_comment=new \App\Community_comment();
             $community_reply=new \App\Community_reply();
-            $community_comment_data=['comid','name','headpic','content','created_at'];
-            $community_reply_data=['reid','name','content','headpic','created_at','comname'];
+            $community_comment_data=['comid','users_id','name','headpic','content','created_at'];
+            $community_reply_data=['reid','users_id','name','content','headpic','created_at','comname'];
             //查询评论
             $community_comment_results=$community_comment->simplequer($community_comment_data,'comid = '.$param['comid'])->toArray();
             $community_reply_result=$community_reply->simplequer($community_reply_data,'comid = '.$param['comid'])->toArray();
@@ -695,22 +695,26 @@ class CommunityController extends Controller
             $community_comment=new \App\Community_comment();
             $community_reply=new \App\Community_reply();
             $community_collect=new \App\Community_collect();
+            //聊聊ID
+            $chat_id=$param['chat_id'];
             //开启事务处理
             DB::beginTransaction();
             //将所有聊聊有关的都删除
-            $community_release_result=$community_release->communitydel($param['chat_id']);
+            $community_release_result=$community_release->communitydel($chat_id);
             if($community_release_result){
-                $community_comment_result=$community_comment->delcomment($param['chat_id']);
+                $community_comment_result=$community_comment->delcomment($chat_id);
                 if($community_comment_result){
-                    $community_comment_reply=$community_reply->delcomment($param['chat_id']);
+                    $community_comment_reply=$community_reply->delcomment($chat_id);
                     if($community_comment_reply){
-                        $countnum=$community_collect->countquer('chat_id = '.$param['chat_id']);
+                        $countnum=$community_collect->countquer('chat_id = '.$chat_id);
                         if($countnum > 1){
-                            $result=$community_collect->del('chat_id = '.$param['chat_id']);
+                            $result=$community_collect->del('chat_id = '.$chat_id);
                         }else{
                             $result=true;
                         }
                         if($result){
+                            //将聊聊信息删除
+                            DB::table('anchong_community_message')->where('chat_id',$chat_id)->delete();
                             //假如成功就提交
                             DB::commit();
                             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'删除成功']]);

@@ -44,6 +44,16 @@
     				<li><a href="/coupon/create"><i class="fa fa-circle-o"></i>优惠券添加</a></li>
     			</ul>
     		</li>
+			<li class="treeview" id="treewithdraw">
+    			<a href="#">
+    				<i class="fa fa-laptop"></i>
+    				<span>钱袋管理</span>
+    				<i class="fa fa-angle-left pull-right"></i>
+    			</a>
+    			<ul class="treeview-menu">
+    				<li><a href="#"><i class="fa fa-circle-o"></i>用户提现</a></li>
+    			</ul>
+    		</li>
     	    @endif
 		<li class="treeview" id="treeshop">
 			<a href="#">

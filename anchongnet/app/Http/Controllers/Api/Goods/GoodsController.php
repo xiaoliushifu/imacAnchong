@@ -274,6 +274,76 @@ class GoodsController extends Controller
     }
 
     /*
+    *   商品筛选
+    */
+    public function goodsfilter(Request $request)
+    {
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            //默认每页数量
+            $limit=20;
+            //要查的数据
+            $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
+            //创建orm模型
+            $goods_type=new \App\Goods_type();
+            $goods_keyword=new \App\Goods_keyword();
+            //判断用户的操作是筛选的什么
+            switch ($param['tag']) {
+                //假如是安虫自营则只显示安虫的
+                case '安虫自营':
+                    //定义sql语句
+                    $sql="sid =1 and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1";
+                    //统计数量
+                    $goods_count=$goods_type->Goods($sql)->count();
+                    //查询检索结果
+                    $goods_result=$goods_type->Goods($sql)->select($goods_data)->skip((($param['page']-1)*$limit))->take($limit)->orderBy('cat_id','DESC')->get();
+                    break;
+                //假如是最新上架则按上架日期排列
+                case '最新上架':
+                    //定义sql语句
+                    $sql="MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1";
+                    //统计数量
+                    $goods_count=$goods_type->Goods()->whereRaw($sql)->count();
+                    //查询检索结果
+                    $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw($sql)->skip((($param['page']-1)*$limit))->take($limit)->orderBy('created_at','DESC')->orderBy('sid','ASC')->get();
+                    break;
+                //假如是销量最多就按照销量排行
+                case '销量最多':
+                    //定义sql语句
+                    $sql="MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1";
+                    //统计数量
+                    $goods_count=$goods_type->Goods()->whereRaw($sql)->count();
+                    //查询检索结果
+                    $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw($sql)->skip((($param['page']-1)*$limit))->take($limit)->orderBy('sales','DESC')->orderBy('sid','ASC')->get();
+                    break;
+                //其他的就是标签
+                default:
+                    //定义sql语句
+                    $sql="tags = '".bin2hex($param['tag'])."' and MATCH(cid) AGAINST('".bin2hex($param['cid'])."')";
+                    //统计数量
+                    $goods_count=$goods_keyword->Goods($sql)->count();
+                    //查询检索结果
+                    $goods_catid=$goods_keyword->Goods($sql)->select('cat_id')->skip((($param['page']-1)*$limit))->take($limit)->get();
+                    //定义数组
+                    $goods_arr=[];
+                    //遍历出ID
+                    foreach ($goods_catid as $goods_id) {
+                        $goods_arr[]=$goods_id->cat_id;
+                    };
+                    //查出商品信息
+                    $goods_result=$goods_type->Goods()->select($goods_data)->whereIn('cat_id',$goods_arr)->whereRaw('added = 1')->orderBy('created_at','DESC')->orderBy('sid','ASC')->get();
+                    break;
+            }
+            //返回结果
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$goods_count,'list'=>$goods_result]]);
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
+
+    /*
     *   根据商品关键字，进行搜索
     */
     public function goodssearch(Request $request)
@@ -499,7 +569,7 @@ class GoodsController extends Controller
                 $type_arr=explode(' ',trim($attribute['value']));
                 foreach($type_arr as $type_arrs){
                     if($type_arrs){
-                        $typearr[]=$type_arra;
+                        $typearr[]=$type_arrs;
                     }
                 }
                 $goodsvalue[]=['name'=>$attribute['name'],'value'=>$typearr];
