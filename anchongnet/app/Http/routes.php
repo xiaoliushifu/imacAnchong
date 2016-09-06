@@ -291,6 +291,10 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/purse/usablemoney','Api\Purse\PurseController@usablemoney');
         //虫豆首页
         Route::post('/purse/beansindex','Api\Purse\PurseController@beansindex');
+        //优惠券兑换
+        Route::post('/purse/couponexchange','Api\Purse\PurseController@couponexchange');
+        //我的优惠券
+        Route::post('/purse/mycoupon','Api\Purse\PurseController@mycoupon');
         //虫豆充值页面
         Route::post('/purse/beansrecharge','Api\Purse\PurseController@beansrecharge');
         //虫豆购买
@@ -307,6 +311,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/purse/bill','Api\Purse\PurseController@bill');
         //账单详情
         Route::post('/purse/billinfo','Api\Purse\PurseController@billinfo');
+        //删除账单
+        Route::post('/purse/delbill','Api\Purse\PurseController@delbill');
     });
 });
 

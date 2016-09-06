@@ -111,9 +111,9 @@ class Goods_type extends Model
     /*
      * 分类筛选
      */
-    public function scopeGoods($query,$sql)
+    public function scopeGoods($query)
     {
-        return $query->whereRaw($sql);
+        return $query;
     }
 
     /*
