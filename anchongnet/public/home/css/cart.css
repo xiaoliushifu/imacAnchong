@@ -1,0 +1,476 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-family: "微软雅黑","宋体",verdana;
+}
+a{
+    text-decoration: none;
+}
+i{
+    font-style: normal;
+}
+ul,li{
+    list-style: none;
+}
+.cl{
+    clear: both;
+}
+.site-top{
+    width: 100%;
+    background-color: #f5f5f5;
+}
+.top-container{
+    width: 1220px;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 auto;
+}
+.index{
+    margin-left:10px;
+    color:#606060;
+    font-size: 12px;
+}
+.info{
+    margin-right: 10px;
+    float: right;
+}
+.info li{
+    float: left;
+    font-size:12px;
+    color: #606060;
+    margin-right: 20px;
+}
+.little-tx{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+.info li a{
+    color:#606060;
+    font-size:12px;
+}
+.info-triangle{
+    width: 0;
+    height: 0;
+    border-width: 5px 5px 0 5px;
+    border-color: #4a4a4a transparent;
+    border-style: solid;
+    display: inline-block;
+    vertical-align: middle;
+}
+.userinfo{
+    cursor: pointer;
+}
+.cart{
+    position: absolute;
+    display: none;
+    width: 83px;
+    text-align: center;
+    background:rgba(245,245,245,0.7);
+}
+.cart a{
+    line-height: 30px;
+    color: #606060;
+}
+.header{
+    width: 100%;
+    border-bottom: 2px solid #1DABD8;
+}
+.header-container{
+    height: 130px;
+    width: 1220px;
+    margin: 0 auto;
+}
+.logo{
+    float:left ;
+}
+.logo img{
+    vertical-align: middle;
+    margin-left: 10px;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+.logo-title{
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 40px;
+    font-weight: bold;
+    color: #4a4a4a;
+}
+.search{
+    float: right;
+    margin-right: 10px;
+    margin-top: 30px;
+}
+.search-form{
+    border: none;
+}
+.search-text{
+    text-indent: 120px;
+    padding-right: 80px;
+    border: 1px solid #1DABD8;
+    border-radius: 5px;
+    width: 500px;
+    height: 40px;
+    line-height: 40px;
+}
+.search-btn{
+    width: 80px;
+    height: 40px;
+    background-color: #1DABD8;
+    border: none;
+    border-radius: 5px;
+    position: relative;
+    top:0;
+    right: 85px;
+}
+.middle-cont{
+    width: 1220px;
+    margin: 0 auto;
+}
+.cart-title{
+    width: 1200px;
+    margin: 0 auto;
+    background-color: #F5F5F5;
+    height: 50px;
+}
+.cart-title li{
+    text-align: center;
+    float: left;
+    font-weight: bold;
+    font-size: 14px;
+    color: #4a4a4a;
+    line-height: 50px;
+}
+.cart-title a{
+    font-weight: bold;
+    font-size: 14px;
+    color: #4a4a4a;
+}
+.check{
+    display: inline-block;
+    vertical-align: middle;
+    width: 14px;
+    height: 14px;
+    margin-left: 20px;
+    margin-right: 5px;
+    background: url("../img/select.png");
+}
+.goods{
+    margin-left: 130px;
+    margin-right: 320px;
+}
+.price{
+    width: 88px;
+    margin-right: 50px;
+}
+.number{
+    width: 151px;
+    margin-right: 50px;
+}
+.total{
+    width: 97px;
+    margin-right: 100px;
+}
+.handle{
+    width: 101px;
+}
+.order{
+    width: 1200px;
+    margin: 21px auto 0;
+}
+.shop{
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight:bold;
+    color: #606060;
+}
+.store{
+    margin-left: 54px;
+}
+.shop-name{
+    font-size: 14px;
+    font-weight:bold;
+    color: #606060;
+}
+.goods-info{
+    width: 1200px;
+    background-color: #F5F5F5;
+}
+.goods-info ul li{
+    display: inline-block;
+    vertical-align: top;
+}
+.goods-info ul{
+    height: 120px;
+}
+.select{
+    display: inline-block;
+    vertical-align: top;
+    width: 14px;
+    height: 14px;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.goods-img img{
+    margin: 10px 20px 10px 10px;
+}
+.goods-desc,.goods-price,.goods-number,.total-price,.goods-handle{
+    margin-top: 10px;
+}
+.goods-desc{
+    width: 300px;
+    margin-right: 40px;
+}
+.goods-name a{
+    font-size: 14px;
+    font-weight: bold;
+    color: #606060;
+}
+.goods-type{
+    font-size: 14px;
+    color: #9b9b9b;
+    margin-top: 30px;
+}
+.goods-price{
+    width: 88px;
+    text-align: center;
+    margin-right: 50px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #606060;
+ }
+.goods-number{
+    width: 151px;
+    text-align: center;
+    margin-right: 40px;
+    padding-left: 10px;
+}
+.minus{
+    width: 31px;
+    height: 26px;
+    margin-right: -5px;
+    display: inline-block;
+    vertical-align: middle;
+    background: url("../img/minus.jpg");
+}
+.count{
+    width: 46px;
+    height: 26px;
+    border: none;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+    background: url("../img/number.jpg");
+}
+.add{
+    height: 26px;
+    width: 32px;
+    margin-left: -5px;
+    display: inline-block;
+    vertical-align: middle;
+    background: url("../img/add.jpg");
+}
+.total-price{
+    width: 97px;
+    text-align: center;
+    margin-right: 100px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #f53745;
+}
+.goods-handle{
+    width: 101px;
+    text-indent: 20px;
+}
+.favorite a,.del a{
+    font-size: 14px;
+    color: #606060;
+}
+.del{
+    margin-top: 5px;
+}
+.order1{
+    width: 1200px;
+    margin: 40px auto;
+}
+.checked{
+    display: inline-block;
+    vertical-align: middle;
+    width: 14px;
+    height: 14px;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.selected{
+    display: inline-block;
+    vertical-align: top;
+    width: 14px;
+    height: 14px;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.settlement{
+    background-color: #4a4a4a;
+    height: 50px;
+    width: 1200px;
+    margin: 40px auto 0px;
+}
+.settlement li{
+    float: left;
+    line-height: 50px;
+    text-align: center;
+}
+.settlement a{
+    color:#FFFFFF;
+    text-align: center;
+}
+.all a,.delete a,.collect a{
+    font-size: 14px;
+}
+.check1{
+    border: 1px solid #FFFFFF;
+    display: inline-block;
+    vertical-align: middle;
+    width: 14px;
+    height: 14px;
+    margin-left: 20px;
+    margin-right: 10px;
+}
+.delete{
+    margin-left: 100px;
+    margin-right: 40px;
+}
+.collect{
+    margin-right: 253px;
+}
+.unit-price{
+    margin-right: 60px;
+}
+.amount{
+    margin-right: 20px;
+}
+.count-num{
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    font-size: 18px;
+    color: #f53745;
+}
+.freight{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.count-price{
+    vertical-align: middle;
+    margin-left: 20px;
+    font-size: 18px;
+    color: #f53745;
+}
+.pay{
+    display: inline-block;
+    width: 120px;
+    height: 50px;
+    background-color: #f53745;
+    font-size: 22px;
+}
+.unit-price,.selected-good,.freight{
+    color: #FFFFFF;
+    font-size: 14px;
+}
+.footer-top{
+    width: 100%;
+    background-color: #F5F5F5;
+}
+.footer-top-container{
+    width: 1220px;
+    margin: 0 auto;
+    margin-top: 140px;
+}
+.link{
+    float: left;
+    width: 700px;
+}
+.link h4{
+    font-size: 20px;
+    color: #4A4A4A;
+    margin: 10px 0 20px 10px;
+}
+.line{
+    border: none;
+    background-color: #c5c4c5;
+    width: 700px;
+    height: 1px;
+}
+.link-list,.link-list1{
+    margin-top: 15px;
+    float: left;
+    width: 170px;
+}
+.link-list a,.link-list1 a{
+    color:#737373 ;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+.link-list{
+    margin-left: 10px;
+}
+.qr-code{
+    float: left;
+    width: 500px;
+}
+.qr-code ul{
+    margin-left: 100px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.qr-code h4{
+    font-size: 20px;
+    color: #4A4A4A;
+}
+.qr-code li{
+    text-align: center;
+    float: left;
+    width: 200px;
+}
+.qr-code img{
+    width: 120px;
+    height: 120px;
+    margin-top: 10px;
+}
+.btottom{
+    width: 100%;
+    border-top: 5px solid #9b9b9b;
+    background-color: #4A4A4A;
+}
+.bottom-container{
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 12px;
+    width: 1220px;
+    margin: 0 auto;
+}
+.bottom-container a{
+    color: #FFFFFF;
+    font-size: 12px;
+}
+.p1{
+    margin-top: 30px;
+}.p1 span{
+     margin: 0 20px;
+ }
+.p2{
+    margin-top: 15px;
+}
+.p3{
+    margin-top: 15px;
+    padding-bottom: 22px;
+}
+.p3 span {
+    margin: 0 20px;
+}
