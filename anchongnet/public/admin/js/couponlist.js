@@ -27,15 +27,25 @@ $(function(){
 	 */
 	$("body").on("click",'.edit',function(){
 		var o = $(this);
+		
 		var tr = o.parents('tr');
-		$('#hid').val(tr.children(':first').text());
+		var hid = tr.children(':first').text();
+		$('#hid').val(hid);
 		$('#title').val(tr.children(':eq(1)').text());
 		$('#cvalue').val(tr.children(':eq(2)').text());
 		$('#beans').val(tr.children(':eq(5)').text());
 		//类型处理
 		$('#type option[value="'+tr.children(':eq(3)').attr('value').trim()+'"]').attr('selected',true);
-		$('#type2').val($('#type option[value="'+tr.children(':eq(3)').attr('value').trim()+'"]').attr('tit'));
+		$('#type2').attr('placeholder',$('#type option[value="'+tr.children(':eq(3)').attr('value').trim()+'"]').attr('tit'));
+		$('#myform').attr('action','/coupon/'+hid);
 		
+		
+		
+		//编辑页面，列表change事件
+//		$('body').on('change','#type',function(){
+//			//类型处理
+//			$('#type2').attr('placeholder',$(this).find('option:selected').attr('tit'));
+//		});
 		
 	});
 	

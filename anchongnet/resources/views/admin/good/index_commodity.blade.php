@@ -89,10 +89,6 @@
                                         <td align="center" class="hid">{{$data['param']}}</td>
                                         <td align="center" class="hid">{{$data['package']}}</td>
                                         <td align="center" class="hid">{{$data['type']}}</td>
-                                        <td align="center" class="hid">{{$data['remark']}}</td>
-                                        <td align="center" class="hid">{{$data['remark']}}</td>
-                                        <td align="center" class="hid">{{$data['remark']}}</td>
-                                        <td align="center" class="hid">{{$data['remark']}}</td>
                                         <td align="center">
                                             <button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['goods_id']}}"  data-toggle="modal" data-target="#myModal">编辑</button>
                                             <button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['goods_id']}}">删除</button>

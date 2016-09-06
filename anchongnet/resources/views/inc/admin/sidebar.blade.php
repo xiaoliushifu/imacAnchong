@@ -16,7 +16,6 @@
 				<li><a href="/prize/p22"><i class="fa fa-circle-o"></i> 查看中奖名单500人</a></li>
 				<li><a href="/prize/p13"><i class="fa fa-circle-o"></i> 2000人的抽奖活动</a></li>
 				<li><a href="/prize/p23"><i class="fa fa-circle-o"></i> 查看中奖名单2000人</a></li> -->
-				<li><a href="/coupon"><i class="fa fa-circle-o"></i>优惠券</a></li>
 			</ul>
 		</li>
 		<!-- 只admin有 权限管理 -->
@@ -32,6 +31,17 @@
     				<li><a href="/permission/role"><i class="fa fa-circle-o"></i> 角色设置</a></li>
     				<li><a href="/permission/cp"><i class="fa fa-circle-o"></i> 权限添加</a></li>
     				<li><a href="/permission/cr"><i class="fa fa-circle-o"></i> 角色添加</a></li>
+    			</ul>
+    		</li>
+    		<li class="treeview" id="treecoupon">
+    			<a href="#">
+    				<i class="fa fa-files-o"></i>
+    				<span>优惠券管理</span>
+    				<i class="fa fa-angle-left pull-right"></i>
+    			</a>
+    			<ul class="treeview-menu">
+    				<li><a href="/coupon"><i class="fa fa-circle-o"></i>优惠券列表</a></li>
+    				<li><a href="/coupon/create"><i class="fa fa-circle-o"></i>优惠券添加</a></li>
     			</ul>
     		</li>
     	    @endif
