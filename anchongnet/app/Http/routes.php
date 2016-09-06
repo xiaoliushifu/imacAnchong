@@ -353,7 +353,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::resource('/users','admin\userController');
                 //认证路由
                 Route::resource('/cert','admin\certController');
-                //优惠券路由                                                                                              
+                //优惠券路由
                 Route::resource('/coupon','admin\couponController');
                 //认证检查
                 Route::get('/check','admin\CheckController@check');
