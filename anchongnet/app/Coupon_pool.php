@@ -20,4 +20,27 @@ class Coupon_pool extends Model
     {
         return ['total'=>$this->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('acpid', 'DESC')->get()];
     }
+    
+    /**
+     * 列表页的筛选
+     * @param unknown $req
+     */
+    public function backfilter($req)
+    {
+        $where=[];
+        foreach ($req->all() as $key=>$val) {
+            if (!$val || $key== 'page') {
+                continue;
+            }
+            if ($key == 'open') {
+                $val--;
+            }
+            $where[]=[$key,$val];
+            if ($key == 'acpid') {
+                break;
+            }
+        }
+        $res = $this->where($where)->orderBy("acpid","desc")->paginate(8);
+        return ['data'=>$res,'where'=>$where];
+    }
 }
