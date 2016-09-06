@@ -76,7 +76,16 @@
                                         <div class="row">
                                             <div class="col-xs-3">
                                                 <select class="form-control" id="mainselect" name="mainselect" required>
+                                                		{{--静态固定--}}
                                                     <option value="">请选择</option>
+                                                    <option value="1">智能门禁</option>
+                                                    <option value="2">视频监控</option>
+                                                    <option value="3">探测报警</option>
+                                                    <option value="4">巡更巡检</option>
+                                                    <option value="5">停车管理</option>
+                                                    <option value="6">楼宇对讲</option>
+                                                    <option value="7">智能消费</option>
+                                                    <option value="8">安防配套</option>
                                                 </select>
                                             </div>
                                             <div class="col-xs-3">
@@ -168,9 +177,7 @@
                                         <table class="table text-center">
                                             <thead>
                                             <tr>
-
                                                 <th class="text-center col-sm-1">货位</th>
-
                                                 <th class="text-center col-sm-1">库存数</th>
                                                 <th class="text-center col-sm-1">操作</th>
                                             </tr>
