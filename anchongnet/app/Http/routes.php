@@ -566,29 +566,3 @@ Route::group(['domain' => 'www.anchong.com'], function () {
 
 //验证码类,需要传入数字
 Route::get('/captcha/{num}', 'CaptchaController@captcha');
-
-Route::get('/cart',function (){
-    return view('home.cart.cart');
-});
-
-Route::get('/chat',function (){
-    return view('home.chat.chat');
-});
-Route::get('/order',function (){
-    return view('home.order.order');
-});
-Route::get('/orderdetail',function (){
-    return view('home.order.orderdetail');
-});
-Route::get('/talent',function (){
-    return view('home.business.talent');
-});
-Route::get('/talentdetail',function (){
-    return view('home.business.talent-desc');
-});
-Route::get('/confirmation',function (){
-    return view('home.cart.confirmation');
-});
-Route::get('/chatdetail',function (){
-    return view('home.chat.chat-detail');
-});
