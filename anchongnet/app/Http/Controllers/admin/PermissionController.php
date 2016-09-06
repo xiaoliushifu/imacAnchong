@@ -115,6 +115,7 @@ class PermissionController extends Controller
             $datas=$this->user->Phone($phone)->paginate(8);
         }
         $args=array("phone"=>$phone);
+        
         return view('admin/permission/r',array("datacol"=>compact("datas","args")));
     }
     
@@ -168,14 +169,19 @@ class PermissionController extends Controller
             if($v)
                 $data[] = ['permission_id'=>$v,'role_id'=>$rid];
         }
+        try{
+            DB::beginTransaction();
+            //先删除，后插入
+            DB::table('anchong_permission_role')->where('role_id',$rid)->delete();
+            DB::table('anchong_permission_role')->insert($data);
+            DB::commit();
+           //给个提示
+           echo "权限分配成功";
+           \Cache::forget('pcall');
+        }catch(\Exception $e) {
+            exit("权限设置有误");
+        }
         
-        DB::beginTransaction();
-        //先删除，后插入
-        DB::table('anchong_permission_role')->where('role_id',$rid)->delete();
-        DB::table('anchong_permission_role')->insert($data);
-        DB::commit();
-       //给个提示
-       echo "权限分配成功";
     }
     
     /**
@@ -190,11 +196,16 @@ class PermissionController extends Controller
             if($v)
                 $data[] = ['role_id'=>$v,'user_id'=>$uid];
         }
-        DB::beginTransaction();
-        //先删除，后插入
-        DB::table('anchong_role_user')->where('user_id',$uid)->delete();
-        DB::table('anchong_role_user')->insert($data);
-        DB::commit();
-        echo "角色设置成功";
+        try{
+            DB::beginTransaction();
+            //先删除，后插入
+            DB::table('anchong_role_user')->where('user_id',$uid)->delete();
+            DB::table('anchong_role_user')->insert($data);
+            DB::commit();
+            echo "角色设置成功";
+            \Cache::forget('pcall');
+        }catch (\Exception $e){
+            echo "角色设置有误";
+        }
     }
 }

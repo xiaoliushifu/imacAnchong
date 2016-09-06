@@ -118,7 +118,6 @@ class goodController extends Controller
             //title展示
             $spetag.=$request->attr[$i]." ";
         }
-        $spetag=str_replace("&*&"," ",$spetag);
 
         //智能提示 来自商品名
         $arr_key=array_merge($arr_key,preg_split('#\s#', $request->commodityname,-1,PREG_SPLIT_NO_EMPTY));
@@ -189,24 +188,6 @@ class goodController extends Controller
                 'cid' => trim($cid),
                 'tags' => $tags,
                 'keyword'=>$keywords,
-            ]
-        );
-        //深度搜索的中文分词字符串
-        $search_match="";
-        //对商品描述进行中文分词
-        $seg=new \App\Segment\lib\Segment();
-        $res = $seg->get_keyword($request->desc);
-        $res_arr=explode(' ',$res);
-        foreach ($res_arr as $res_arrs) {
-            //为索引表准备数据
-            $search_match.=bin2hex($res_arrs)." ";
-        }
-        //深度搜索表
-       DB::table('anchong_goods_search')->insert(
-            [
-                'cat_id' => $gtid,
-                'goods_id'=>$request->name,
-                'search_match'=>$keywords.$search_match,
             ]
         );
 

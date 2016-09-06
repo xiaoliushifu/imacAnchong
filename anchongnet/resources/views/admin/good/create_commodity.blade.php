@@ -69,35 +69,12 @@
                             ?>
                             <form role="form" class="form-horizontal" action="/commodity" method="post">
                                 <input type="hidden" name="sid" id="sid" value="{{$sid}}">
-                                <div class="catemplate hidden form-group">
-                                    <label class="col-sm-2 control-label">商品分类</label>
-                                    <div class="col-sm-10">
-                                        <div class="row">
-                                            <div class="col-xs-3">
-                                                <select class="mainselect form-control" name="mainselect">
-                                                    <option value="">请选择</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-xs-3">
-                                                <select class="midselect form-control" name="midselect[]">
-                                                    <option value="">请选择</option>
-                                                </select>
-                                            </div>
-                                            <div class="add col-xs-1">
-                                                <button type="button" class="btn btn-xs glyphicon glyphicon-plus" title="添加分类"></button>
-                                            </div>
-                                            <div class="minus col-xs-1">
-                                                <button type="button" class="btn btn-xs glyphicon glyphicon-minus" title="删除分类"></button>
-                                            </div>
-                                        </div><!--end row-->
-                                    </div><!--end col-sm-10-->
-                                </div><!--end form-group-->
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">商品分类</label>
                                     <div class="col-sm-10">
                                         <div class="row">
                                             <div class="col-xs-3">
-                                                <select class="mainselect form-control" name="mainselect" required>
+                                                <select class="mainselect form-control" name="mainselect[]" required>
                                                     <option value="">请选择</option>
                                                 </select>
                                             </div>
@@ -290,6 +267,29 @@
     </div>
     <!-- /.content-wrapper -->
     <input type="hidden" id="activeFlag" value="treegood">
+    <div class="catemplate hidden form-group">
+        <label class="col-sm-2 control-label">商品分类</label>
+        <div class="col-sm-10">
+            <div class="row">
+                 <div class="col-xs-3">
+                    <select class="mainselect form-control" name="mainselect[]">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="col-xs-3">
+                    <select class="midselect form-control" name="midselect[]">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="add col-xs-1">
+                    <button type="button" class="btn btn-xs glyphicon glyphicon-plus" title="添加分类"></button>
+                </div>
+                <div class="minus col-xs-1">
+                    <button type="button" class="btn btn-xs glyphicon glyphicon-minus" title="删除分类"></button>
+                </div>
+            </div><!--end row-->
+        </div><!--end col-sm-10-->
+    </div><!--end form-group-->
     @include('inc.admin.footer')
 </div>
 <!-- ./wrapper -->

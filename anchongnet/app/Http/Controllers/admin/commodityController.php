@@ -48,11 +48,22 @@ class commodityController extends Controller
         $keyName=$req->get('keyName');
         $keyName2=$req->get('keyName2');
         if ($keyName2) {
-            $datas=$this->goods->where('sid','=',$this->sid)->where('goods_id',$keyName2)->get();
+            $datas=$this->goods->where('sid','=',$this->sid)->where('goods_id',$keyName2)->paginate(1);
         } elseif ($keyName) {
             $datas=$this->goods->where('sid','=',$this->sid)->Name($keyName)->orderBy("goods_id","desc")->paginate(8);
         } else {
             $datas=$this->goods->where('sid','=',$this->sid)->orderBy("goods_id","desc")->paginate(8);
+        }
+        //缓冲期
+        foreach ($datas as &$row) {
+            if (!preg_match('#[\x{4e00}-\x{9fa5}]#u',$row['keyword'])){
+                $arr=preg_split('#\s#', $row['keyword'],-1,PREG_SPLIT_NO_EMPTY);
+                $str="";
+                for($i=0;$i<count($arr);$i++){
+                    $str.=hex2bin($arr[$i])." ";
+                }
+                $row['keyword']=$str;
+            }
         }
         $args=array("keyName"=>$keyName,"keyName2"=>$keyName2);
         return view('admin/good/index_commodity',array("datacol"=>compact("args","datas"),"sid"=>$this->sid));
@@ -89,15 +100,15 @@ class commodityController extends Controller
         $keywords="";
         foreach ($keywords_arr as $k) {
             //限制长度
-            if (mb_strlen($k,'utf-8') < 15 ) {
+            if (mb_strlen($k,'utf-8') < 20 ) {
                 $keywords.=$k." ";
             }
         };
 
-        //遍历商品分类的数组，挨个进行转码，为将来分词索引做准备
+        //存储商品的分类信息，不再转码，且加入分类树
         $type="";
         for($i=0;$i<count($request['midselect']);$i++){
-            $type.=bin2hex($request['midselect'][$i])." ";
+            $type.=($request['mainselect'][$i].','.$request['midselect'][$i])." ";
         };
 
         //向goods表中插入数据并获取刚插入数据的主键
@@ -161,31 +172,23 @@ class commodityController extends Controller
 
     /**
      * Display the specified resource.
-     *这个方法有在调用吗？
+     *添加货品页，选择商品时触发
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $this->goods=new Goods();
-        $data=$this->goods->find($id);
-
-//         $keywords=rtrim($data['keyword']);
-//         $arr=explode(" ",$keywords);
-//         $str="";
-//         for($i=0;$i<count($arr);$i++){
-//             $str.=pack("H*",$arr[$i])." ";
-//         }
-//         $data['keyword']=$str;
-
-        $arr0=explode(" ",$data['type']);
-        $type="";
-        for($j=0;$j<count($arr0);$j++){
-            $type.=pack("H*",$arr0[$j])." ";
-        };
-        $data['type']=$type;
-
-        return $data;
+        $data=$this->goods->where('goods_id',$id)->get(array('keyword','type','desc'));
+        if (!preg_match('#[\x{4e00}-\x{9fa5}]#u',$data[0]['keyword'])){
+            $arr=preg_split('#\s#', $data[0]['keyword'],-1,PREG_SPLIT_NO_EMPTY);
+            $str="";
+            for($i=0;$i<count($arr);$i++){
+                $str.=hex2bin($arr[$i])." ";
+            }
+            $data[0]['keyword']=$str;
+        }
+        return $data[0];
     }
 
     /**
@@ -207,14 +210,14 @@ class commodityController extends Controller
             }
             $data['keyword']=$str;
         }
-        $arr0=explode(" ",$data['type']);
-        $type="";
-        for($j=0;$j<count($arr0);$j++){
-            if($arr0[$j] !== ""){
-                $type.=pack("H*",$arr0[$j])." ";
-            }
-        };
-        $data['type']=$type;
+//         $arr0=explode(" ",$data['type']);
+//         $type="";
+//         for($j=0;$j<count($arr0);$j++){
+//             if($arr0[$j] !== ""){
+//                 $type.=pack("H*",$arr0[$j])." ";
+//             }
+//         };
+//         $data['type']=$type;
         return $data;
     }
 
@@ -240,7 +243,7 @@ class commodityController extends Controller
         $keywords_arr=preg_split('#\s#', $str,-1,PREG_SPLIT_NO_EMPTY);
         $keywords="";
         foreach ($keywords_arr as $k) {
-            if (mb_strlen($k,'utf-8') < 15) {
+            if (mb_strlen($k,'utf-8') < 20) {
                 $keywords.=$k." ";
             }
         };
@@ -248,7 +251,7 @@ class commodityController extends Controller
         //遍历商品分类的数组，挨个进行转码，为将来分词索引做准备
         $type="";
         for($i=0;$i<count($request['midselect']);$i++){
-            $type.=bin2hex($request['midselect'][$i])." ";
+            $type.=($request['mainselect'][$i].','.$request['midselect'][$i])." ";
         };
 
         $data->keyword=ltrim($keywords);
@@ -308,7 +311,7 @@ class commodityController extends Controller
      * 获取同一个分类下的商品的方法
      * */
     public function getSiblings(Request $request){
-        $type=bin2hex($request['pid']);
+        $type=$request['pid'];
         $data=Goods::Type($type,$request['sid'])->get();
         return $data;
     }

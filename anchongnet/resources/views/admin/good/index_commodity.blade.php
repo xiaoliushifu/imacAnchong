@@ -40,6 +40,7 @@
         .delsup{margin-left:10px;}
         .addsup{margin-right:16px;}
         .save,.delone{margin-top: 5px;}
+         .hid{display:none;}
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -82,6 +83,12 @@
                                         <td align="center">{{$data['goods_id']}}</td>
                                         <td align="center">{{$data['title']}}</td>
                                         <td align="center">{{$data['desc']}}</td>
+                                        <td align="center" class="hid">{{$data['remark']}}</td>
+                                        <td align="center" class="hid">{{$data['keyword']}}</td>
+                                        <td align="center" class="hid">{{$data['images']}}</td>
+                                        <td align="center" class="hid">{{$data['param']}}</td>
+                                        <td align="center" class="hid">{{$data['package']}}</td>
+                                        <td align="center" class="hid">{{$data['type']}}</td>
                                         <td align="center">
                                             <button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['goods_id']}}"  data-toggle="modal" data-target="#myModal">编辑</button>
                                             <button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['goods_id']}}">删除</button>
@@ -117,29 +124,6 @@
                 </div>
                 <div class="modal-body">
                     <h5 class="text-center">基本信息</h5>
-                    <div class="catemplate hidden form-group">
-                        <label class="col-sm-2 control-label">商品分类</label>
-                        <div class="col-sm-10">
-                            <div class="row">
-                                <div class="col-xs-4">
-                                    <select class="mainselect form-control" name="mainselect" required>
-                                        <option value="">请选择</option>
-                                    </select>
-                                </div>
-                                <div class="col-xs-4">
-                                    <select class="midselect form-control" name="midselect[]" required>
-                                        <option value="">请选择</option>
-                                    </select>
-                                </div>
-                                <div class="add col-xs-1">
-                                    <button type="button" class="btn btn-xs glyphicon glyphicon-plus" title="添加分类"></button>
-                                </div>
-                                <div class="minus col-xs-1">
-                                    <button type="button" class="btn btn-xs glyphicon glyphicon-minus" title="删除分类"></button>
-                                </div>
-                            </div><!--end row-->
-                        </div><!--end col-sm-10-->
-                    </div><!--end form-group-->
                     <form action="" method="post" class="form-horizontal" id="updataForm">
                         <input type="hidden" name="_method" value="PUT">
                         <input type="hidden" name="flag" id="flag">
@@ -269,6 +253,29 @@
         </div>
     </div>
     <input type="hidden" id="activeFlag" value="treegood">
+    <div class="catemplate hidden form-group">
+        <label class="col-sm-2 control-label">商品分类</label>
+        <div class="col-sm-10">
+            <div class="row">
+                <div class="col-xs-4">
+                    <select class="mainselect form-control" name="mainselect[]" required>
+                        <option value="0" >请选择</option>
+                    </select>
+                </div>
+                <div class="col-xs-4">
+                    <select class="midselect form-control" name="midselect[]" required>
+                        <option value="0" >请选择</option>
+                    </select>
+                </div>
+                <div class="add col-xs-1">
+                    <button type="button" class="btn btn-xs glyphicon glyphicon-plus" title="添加分类"></button>
+                </div>
+                <div class="minus col-xs-1">
+                    <button type="button" class="btn btn-xs glyphicon glyphicon-minus" title="删除分类"></button>
+                </div>
+            </div><!--end row-->
+        </div><!--end col-sm-10-->
+    </div><!--end form-group-->
     <!-- /.content-wrapper -->
     @include('inc.admin.footer')
 </div>

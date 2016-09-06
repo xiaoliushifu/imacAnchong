@@ -67,6 +67,11 @@ class Goods extends Model
     {
         return $query->where('type', 'like', "%{$keyType}%")->where('sid','=',$keySid);
     }
+    
+    public function scopeMType($query,$keyType,$keySid)
+    {
+        return $query->whereRaw("`type`=? ", array($keyType))->where('sid','=',$keySid);
+    }
 
     public function getGoodsByType($type)
     {

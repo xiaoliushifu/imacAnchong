@@ -22,6 +22,7 @@ $(function(){
         $(this).parent().siblings("div").find(".name").empty();
         $(this).parent().siblings("div").find(".midselect").append(defaultopt);
         if(val==""){
+        	return;
         }else{
             $.get("/getlevel",{pid:parseInt(val)},function(data,status){
                 if(data.length==0){

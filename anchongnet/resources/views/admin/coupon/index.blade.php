@@ -56,8 +56,21 @@
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-body">
+							@if (count($errors) > 0)
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
 						    <form action="/coupon" method="get" class="form-horizontal form-inline f-ib">
-						        <input type="number" name="id"  placeholder="用户ID" class="form-control input-sm" value="{{$datacol['args']['id']}}">&nbsp;
+						        <input type="number" name="acpid"  placeholder="券ID"  value="{{$datacol['args']['acpid']}}">&nbsp;
+						        <select name="status"  title="优惠券状态">
+						        		<option value="1" checked>启用</option>
+						        		<option value="0">停用</option>
+						        </select>
 						        <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 						    </form>
 							<table id="example1" class="table table-bordered table-striped">
@@ -76,14 +89,28 @@
 								  <td align="center">{{$data['acpid']}}</td>
 								  <td align="center">{{$data['title']}}</td>
 								  <td align="center">{{$data['cvalue']}}</td>
-								  <td align="center">{{$data['type']}}</td>
+								  <?php 
+								    switch($data['type']){
+								        case 1:
+								            echo '<td align="center"  value="1">通用</td>';
+								            break;
+								        case 2:
+								            echo '<td align="center"  value="2">商铺</td>';
+								            break;
+								        case 3:
+								            echo '<td align="center"  value="3">商品</td>';
+								            break;
+								        default :
+							                echo '<td align="center"  value="1">通用</td>';
+								    }
+								  ?>
 								  <td align="center">{{$data['type2']}}</td>
 								  <td align="center">{{$data['beans']}}</td>
-								  <td align="center">{{($data['open'])? '使用中':'已停用'}}</td>
+								  <td align="center">{{($data['open'])? '启用':'停用'}}</td>
 								  <td align="center">
 								  {{-- 应用权限判定--}}
 								  	  @can('coupon')
-									  <button type='button' data-id="{{$data['acpid']}}" class='check-success btn btn-success btn-xs'>启用</button>&nbsp;&nbsp;<button type='button' data-id="{{$data['acpid']}}"   class='check-failed btn btn-danger btn-xs'>停用</button>
+									  <button type='button' data-id="{{$data['acpid']}}" class='check-success {{ ($data["open"])? "disabled":""}} btn btn-success btn-xs act'>启用</button>&nbsp;&nbsp;<button type='button' data-id="{{$data['acpid']}}"   class='check-failed {{ ($data["open"])? "":"disabled"}} btn btn-danger btn-xs act'>停用</button>&nbsp;&nbsp;<button type="button" class="edit f-ib btn btn-primary btn-xs" data-id="1347" data-toggle="modal" data-target="#myModal">编辑</button>
 									  @else
 									  {{--  权限不许时，灰色按钮--}}
 									  <button type='button'  class='btn disabled btn-success btn-xs'>启用</button>&nbsp;&nbsp;<button type='button'  class='btn disabled btn-danger btn-xs'>停用</button>
@@ -109,8 +136,63 @@
 		<!-- /.content -->
 	</div>
 	<!-- /.content-wrapper -->
-
-	<input type="hidden" id="activeFlag" value="treeuser">
+<!-- Modal ---for edit -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+        		{{--大块内容--}}
+            <div class="modal-content">
+            		{{--header--}}
+                <div class="modal-header" style="margin-top:50px">
+                    <h4 class="modal-title" id="myModalLabel">优惠券编辑</h4>
+                    <small>当前优惠券：</small>
+                </div>
+                <form class="form-horizontal" id="myform" action="" method="POST">
+                		<input type="hidden" id='hid' name="acpid" value="">
+                		<input type="hidden" name="_method" value="PUT">
+                    <div class="form-name form-group">
+                            <label for="title" class="col-sm-2 control-label">优惠券标题</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="title" id="title" required>
+                            </div>
+                    </div>
+                    <div class="form-name form-group">
+                            <label for="cvalue" class="col-sm-2 control-label">优惠券面值</label>
+                            <div class="col-sm-4">
+                                <input type="number" class="form-control" name="cvalue" id="cvalue" required>
+                            </div>
+                    </div>
+                    <div class="form-name form-group">
+                            <label for="beans" class="col-sm-2 control-label">可抵虫豆数</label>
+                            <div class="col-sm-4">
+                                <input type="number" class="form-control" name="beans" id="beans" placeholder="0代表不可兑换">
+                            </div>
+                    </div>
+                    <!-- <div class="form-name form-group">
+                            <label for="beans" class="col-sm-2 control-label">优惠券类型</label>
+                            <div class="col-sm-9">
+                            		<div class="col-xs-4">
+                                    <select class="form-control" name="type"  id="type" placeholder="选项">
+                                    		<option value="1" tit="通用">通用</option>
+                                    		<option value="2"  tit="请填写商铺ID">商铺</option>
+                                    		<option value="3"  tit="请填写商品ID">商品</option>
+                                    		<option value="4" tit = "其他">其他</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-4">
+                                		<input type="text" class="form-control" name="type2"  id="type2"  placeholder="请填写内容" />
+                                </div>
+                            </div>
+                    </div> -->
+                    {{--footer--}}
+                     <div class="modal-footer">
+                         <button type="button" class="btn btn-default"  data-dismiss="modal">关闭</button>
+                         <button type="submit" class="btn btn-primary text-center">保存</button>
+                     </div>
+                </form>
+            </div>
+        </div>
+    </div>
+	<input type="hidden" id="activeFlag" value="treecoupon">
 	@include('inc.admin.footer')
 </div>
 <!-- ./wrapper -->
@@ -120,46 +202,6 @@
 <script src="/admin/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
-<script>
-$(function(){
-	{{--加上权限判定：是否可点击 “通过”按钮--}}
-	@can('authentication')
-    $("body").on("click",'.check-success',function(){
-		if(confirm('确定要通过吗？')){
-			var id=parseInt($(this).attr("data-id"));
-			$.get("/check",{"id":id,"certified":"yes"},function(data,status){
-				alert(data);
-				setTimeout(function(){location.reload()},1000);
-			});
-		}
-	})
-	{{--加上权限判定：是否可点击 “不通过”按钮--}}
-	$("body").on("click",'.check-failed',function(){
-		if(confirm('确定审核不通过吗？')){
-			var id=parseInt($(this).attr("data-id"));
-			$.get("/check",{"id":id,"certified":"no"},function(data,status){
-				alert(data);
-				setTimeout(function(){location.reload()},1000);
-			});
-		}
-	})
-	@endcan
-	$(".view").click(function(){
-	    var id=parseInt($(this).attr("data-id"));
-		var auth=$(this).attr("data-auth");
-		$("#myModalLabel").text(auth);
-		$("#view-qua").text($(this).attr("data-qua"));
-		$("#view-explanation").text($(this).attr("data-exp"));
-		$.get("/cert/"+id,function(data,status){
-			$("#qua").empty();
-			var con="";
-			for(var i=0;i<data.length;i++){
-				con+="<tr><td align='center'><a href="+data[i].credentials+" target='_blank'><img src="+data[i].credentials+" width='100'></a></td></tr>";
-			}
-			$("#qua").append(con);
-		});
-	})
-})
-</script>
+<script src="/admin/js/couponlist.js"></script>
 </body>
 </html>

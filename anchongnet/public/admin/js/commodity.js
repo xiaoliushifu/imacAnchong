@@ -1,81 +1,89 @@
 /**
  * Created by lengxue on 2016/4/26.
  */
+//二级分类信息 catarr[1]=parent=1的二级
+//二级分类信息 catarr[2]=parent=2的二级
+var catarr=[];
 $(function(){
     //加载一级分类
-    var opt;
     var one0=0;
     $.get("/getlevel",{pid:one0},function(data,status){
         for(var i=0;i<data.length;i++){
-            opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
+          var  opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
             $(".mainselect").append(opt);
         }
     });
-
+    
     $(".edit").click(function() {
-        $("#midselect").empty();
         $("#stock").empty();
         $("#sups").empty();
         $("#futuresups").empty();
-        var id = $(this).attr("data-id");
+        
+        var o = $(this);
+        var tr = o.parents('tr');
+        var id = o.attr("data-id");
         var sid=$("#sid").val();
 
-        var opt;
-        var firstPid;
-        $("#gid").val($(this).attr("data-id"));
+        $("#gid").val(o.attr("data-id"));
 
         $("#updataForm").attr("action", "/commodity/" + id);
-        $.get("/commodity/" + id + "/edit", function (data, status) {
-            var arr=$.trim(data.type).split(" ");
-            $("#catarea").empty();
-            for(var i=0;i<arr.length;i++){
-                var cat=$(".catemplate").clone().removeClass("hidden").removeClass("catemplate");
-                $("#catarea").append(cat);
-                $("#flag").val(arr[i]);
-                $.ajax({
-                    type : "GET",
-                    url : '/getsiblingscat?s='+new Date().getTime(),
-                    data:{cid:arr[i]},
-                    async:false,
-                    cache :false,
-                    success : function(data){
-                        for (var j = 0; j < data.length; j++) {
-                            opt = "<option  value=" + data[j].cat_id + ">" + data[j].cat_name + "</option>";
-                            $(".midselect").eq(i+1).append(opt);
-                        };
-                        firstPid = data[0].parent_id;
-                        var val=$("#flag").val();
-                        $(".midselect").eq(i+1).find("option[value="+val+"]").attr("selected",true);
-                        $(".mainselect").eq(i+1).find("option[value="+firstPid+"]").attr("selected",true);
-                    }
-                });
-            };
+        //组织当前商品的分类信息
+        var arr=$.trim(tr.children(':eq(8)').text()).split(/\s/);
+        $("#catarea").empty();
+        //从模板克隆一套分类信息
+        var cat=$(".catemplate").clone(true).removeClass("hidden").removeClass("catemplate");
+        $("#title").val(tr.children(':eq(1)').text());
+        $("#description").val(tr.children(':eq(2)').text());
+        $("#remark").text(tr.children(':eq(3)').text());
+        $("#keyword").val(tr.children(':eq(4)').text());
+        $("#img").attr("src",tr.children(':eq(5)').text());
+        UE.getEditor('container').setContent(tr.children(':eq(6)').text());
+        UE.getEditor('container1').setContent(tr.children(':eq(7)').text());
 
-            $("#title").val(data.title);
-            $("#description").val(data.desc);
-            $("#remark").text(data.remark);
-            $("#keyword").val(data.keyword);
-            $("#img").attr("src",data.images);
-            UE.getEditor('container').setContent(data.param);
-            UE.getEditor('container1').setContent(data.package);
-
-            //发送ajax请求获取商品的配套商品
-            $.get("/getsupcom",{"gid":id,'sid':sid},function(data,status){
-                var sup;
-                for(var i=0;i<data.length;i++){
-                    sup='<li class="list-group-item">'+data[i].goods_name+'<button type="button" data-id='+data[i].supid+' class="delsup btn btn-warning btn-xs pull-right glyphicon glyphicon-minus" title="删除条配套信息"></button></li>';
-                    $("#sups").append(sup);
-                }
-            });
+        //发送ajax请求获取商品的配套商品
+        $.get("/getsupcom",{"gid":id,'sid':sid},function(data,status){
+            var sup;
+            for(var i=0;i<data.length;i++){
+                sup='<li class="list-group-item">'+data[i].goods_name+'<button type="button" data-id='+data[i].supid+' class="delsup btn btn-warning btn-xs pull-right glyphicon glyphicon-minus" title="删除条配套信息"></button></li>';
+                $("#sups").append(sup);
+            }
         });
         /*----获取商品属性信息----*/
-        var line;
         $.get('/getsiblingsattr', {gid: id}, function (data, status) {
             for (var i = 0; i < data.length; i++) {
-                line = '<tr class="line"> <td> <input type="text" class="attrname form-control" value="' + data[i].name + '" /> </td> <td><textarea rows="5" class="attrvalue form-control">' + data[i].value + '</textarea> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" data-id="' + data[i].atid + '" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除" data-id="' + data[i].atid + '"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
+                var line = '<tr class="line"> <td> <input type="text" class="attrname form-control" value="' + data[i].name + '" /> </td> <td><textarea rows="5" class="attrvalue form-control">' + data[i].value + '</textarea> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" data-id="' + data[i].atid + '" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除" data-id="' + data[i].atid + '"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
                 $("#stock").append(line);
             }
         });
+        
+        //获取二级分类信息
+        for(var f=0;f<arr.length;f++){
+        	tmpcat = cat.clone(true);
+        	$("#catarea").append(tmpcat);
+            //如果凑巧这个二级分类信息已经有了
+        	Level1 = (arr[f].split(','))[0];
+        	Level2 = (arr[f].split(','))[1];
+        	if(!catarr[Level1]) {
+        		//不存在时只得跑一趟了
+	            $.ajax({
+	            	url:'/getlevel',
+	            	data:{pid:Level1},
+	            	async:false,//同步
+	            	success:function(data){
+		                //缓存二级分类，下次就无需再跑一趟了
+	            		catarr[Level1]=data;
+	            	},
+	            });
+        	}
+            for (var j = 0; j < (catarr[Level1]).length; j++) {
+                var opt = "<option  value='" + catarr[Level1][j].cat_id + "'>" + catarr[Level1][j].cat_name + "</option>";
+                $('#catarea .midselect:eq('+f+')').append(opt);
+            }
+          //设置选中项
+            $('#catarea .mainselect:eq('+f+') option[value="'+Level1+'"]').attr("selected",true);
+            $('#catarea .midselect:eq('+f+') option[value="'+Level2+'"]').attr("selected",true);
+            
+        }
     });
 
     	/**
@@ -269,6 +277,7 @@ $(function(){
         $(this).parent().siblings("div").find(".midselect").empty().addClass("waitforopt");
         $(this).parent().siblings("div").find(".midselect").append(defaultopt);
         if(val==""){
+        	return;
         }else{
             $.get("/getlevel",{pid:parseInt(val)},function(data,status){
                 if(data.length==0){
