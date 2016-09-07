@@ -377,6 +377,8 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::resource('/catag','admin\caTagController');
                 //分类管理路由
                 Route::resource('/goodcate','admin\goodCateController');
+                //分类管理路由
+                Route::resource('/purse','admin\PurseController');
 
                 /*
                  *   后台广告
