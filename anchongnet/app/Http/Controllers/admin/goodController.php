@@ -195,8 +195,7 @@ class goodController extends Controller
        foreach($arr_key as $k) {
            DB::insert("insert into anchong_goods_suggestion (`str`) values ('$k') on duplicate key update snums=snums+1");
        }
-       /*清除关键字缓存操作*/
-
+       
        /*清除关键字缓存操作*/
 
         /*
