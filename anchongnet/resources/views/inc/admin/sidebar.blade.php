@@ -36,7 +36,7 @@
     		<li class="treeview" id="treecoupon">
     			<a href="#">
     				<i class="fa fa-files-o"></i>
-    				<span>优惠券管理</span>
+    				<span>券池管理</span>
     				<i class="fa fa-angle-left pull-right"></i>
     			</a>
     			<ul class="treeview-menu">

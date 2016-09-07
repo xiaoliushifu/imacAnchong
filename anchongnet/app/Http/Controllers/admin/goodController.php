@@ -125,7 +125,7 @@ class goodController extends Controller
         $cids=explode(' ',rtrim($request->type));
         $cid="";
         $catid="";
-        for($j=0;$j<count($cids);$j++){
+        for ($j=0; $j<count($cids); $j++) {
             $cid.=bin2hex($cids[$j])." ";
             $catid.=$cids[$j]." ";
         }

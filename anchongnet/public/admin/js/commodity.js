@@ -40,7 +40,7 @@ $(function(){
         UE.getEditor('container').setContent(tr.children(':eq(6)').text());
         UE.getEditor('container1').setContent(tr.children(':eq(7)').text());
 
-        //发送ajax请求获取商品的配套商品
+        //获取商品的配套商品
         $.get("/getsupcom",{"gid":id,'sid':sid},function(data,status){
             var sup;
             for(var i=0;i<data.length;i++){
@@ -61,8 +61,8 @@ $(function(){
 	        	tmpcat = cat.clone(true);
 	        	$("#catarea").append(tmpcat);
 	            //如果凑巧这个二级分类信息已经有了
-	        	Level1 = (arr[f].split(','))[0];
-	        	Level2 = (arr[f].split(','))[1];
+	        	Level1 = (arr[f].split('uu'))[0];
+	        	Level2 = (arr[f].split('uu'))[1];
 	        	if(!catarr[Level1]) {
 	        		//不存在时只得跑一趟了
 		            $.ajax({
@@ -123,7 +123,7 @@ $(function(){
         }
     });
 
-    //添加配套商品
+    //添加配套商品输入框
     $(".addsup").click(function(){
         var suptem=$(".suptemp").clone().removeClass("hidden").removeClass("suptemp");
         $("#futuresups").append(suptem);
