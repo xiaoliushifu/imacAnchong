@@ -31,6 +31,12 @@
 	.f-ib{display:inline-block;}
 	#example1{margin-top:10px;}
 		.radio-inline{position: relative; top: -4px;}
+        #myform label.error
+        {   color:Red; 
+            font-size:13px; 
+            margin-left:5px; 
+            padding-left:16px; 
+        }
 	</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -65,12 +71,27 @@
                                     </ul>
                                 </div>
                             @endif
+                            <?php
+                                if(isset($mes)){
+                                    echo "<div class='alert alert-info' role='alert'>$mes</div>";
+                                };
+                            ?>
 						    <form action="/coupon" method="get" class="form-horizontal form-inline f-ib">
-						        <input type="number" name="acpid"  placeholder="券ID"  value="{{$datacol['args']['acpid']}}">&nbsp;
-						        <select name="status"  title="优惠券状态">
-						        		<option value="1" checked>启用</option>
-						        		<option value="0">停用</option>
-						        </select>
+						        <input type="number" name="acpid"  placeholder="输入券ID搜索">
+						        <input type="number" name="cvalue"  placeholder="输入券面值搜索">
+						        <label class="radio-inline">
+									<input type="radio" name="open"  value="2">启用
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="open" value="1">停用
+								</label>
+								<select name="type"  id="type">
+                                    		<option value="0" >--选择券类型--</option>
+                                    		<option value="1">通用</option>
+                                    		<option value="2">商铺</option>
+                                    		<option value="3">商品</option>
+                                    		<option value="4">其他</option>
+                                </select>
 						        <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 						    </form>
 							<table id="example1" class="table table-bordered table-striped">
@@ -79,7 +100,7 @@
 									<th>券标题</th>
 									<th>券面值</th>
 									<th>券类型</th>
-									<th>券类型2</th>
+									<th>关联类型</th>
 									<th>可换虫豆数</th>
 									<th>状态</th>
 									<th>操作</th>
@@ -110,7 +131,7 @@
 								  <td align="center">
 								  {{-- 应用权限判定--}}
 								  	  @can('coupon')
-									  <button type='button' data-id="{{$data['acpid']}}" class='check-success {{ ($data["open"])? "disabled":""}} btn btn-success btn-xs act'>启用</button>&nbsp;&nbsp;<button type='button' data-id="{{$data['acpid']}}"   class='check-failed {{ ($data["open"])? "":"disabled"}} btn btn-danger btn-xs act'>停用</button>&nbsp;&nbsp;<button type="button" class="edit f-ib btn btn-primary btn-xs" data-id="1347" data-toggle="modal" data-target="#myModal">编辑</button>
+									  <button type='button' data-id="{{$data['acpid']}}" class='check-success {{ ($data["open"])? "disabled":""}} btn btn-success btn-xs act'>启用</button>&nbsp;&nbsp;<button type='button' data-id="{{$data['acpid']}}"   class='check-failed {{ ($data["open"])? "":"disabled"}} btn btn-danger btn-xs act'>停用</button>&nbsp;&nbsp;<button type="button" class="edit f-ib btn btn-primary btn-xs" data-id="{{$data['acpid']}}"  data-toggle="modal" data-target="#myModal">编辑</button>&nbsp;&nbsp;<button type="button" class="del f-ib btn btn-primary btn-xs" data-id="{{$data['acpid']}}">删除</button>
 									  @else
 									  {{--  权限不许时，灰色按钮--}}
 									  <button type='button'  class='btn disabled btn-success btn-xs'>启用</button>&nbsp;&nbsp;<button type='button'  class='btn disabled btn-danger btn-xs'>停用</button>
@@ -120,6 +141,7 @@
 								@endforeach
 								<tr>
 								  <td colspan="5" align="center">
+								  {{--appends方法添加查询参数到分页的url中--}}
 									<?php echo $datacol['datas']->appends($datacol['args'])->render(); ?>
 								  </td>
 								</tr>
@@ -167,26 +189,10 @@
                                 <input type="number" class="form-control" name="beans" id="beans" placeholder="0代表不可兑换">
                             </div>
                     </div>
-                    <!-- <div class="form-name form-group">
-                            <label for="beans" class="col-sm-2 control-label">优惠券类型</label>
-                            <div class="col-sm-9">
-                            		<div class="col-xs-4">
-                                    <select class="form-control" name="type"  id="type" placeholder="选项">
-                                    		<option value="1" tit="通用">通用</option>
-                                    		<option value="2"  tit="请填写商铺ID">商铺</option>
-                                    		<option value="3"  tit="请填写商品ID">商品</option>
-                                    		<option value="4" tit = "其他">其他</option>
-                                    </select>
-                                </div>
-                                <div class="col-xs-4">
-                                		<input type="text" class="form-control" name="type2"  id="type2"  placeholder="请填写内容" />
-                                </div>
-                            </div>
-                    </div> -->
                     {{--footer--}}
                      <div class="modal-footer">
-                         <button type="button" class="btn btn-default"  data-dismiss="modal">关闭</button>
-                         <button type="submit" class="btn btn-primary text-center">保存</button>
+                         <button type="submit" class="btn btn-primary text-center">更新</button>
+                         <button type="button" class="btn btn-default"  data-dismiss="modal">取消</button>
                      </div>
                 </form>
             </div>
@@ -202,6 +208,7 @@
 <script src="/admin/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
+<script src="/admin/plugins/form/jquery.validate.min.js"></script>
 <script src="/admin/js/couponlist.js"></script>
 </body>
 </html>

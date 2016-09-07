@@ -1,8 +1,8 @@
 /**
  * Created by lengxue on 2016/4/26.
  */
-//二级分类信息 catarr[1]=parent=1的二级
-//二级分类信息 catarr[2]=parent=2的二级
+//二级分类信息 catarr[1]里包含parent=1的二级
+//二级分类信息 catarr[2]里包含parent=2的二级
 var catarr=[];
 $(function(){
     //加载一级分类
@@ -56,25 +56,25 @@ $(function(){
             }
         });
         
-        //获取二级分类信息
-        for(var f=0;f<arr.length;f++){
-        	tmpcat = cat.clone(true);
-        	$("#catarea").append(tmpcat);
-            //如果凑巧这个二级分类信息已经有了
-        	Level1 = (arr[f].split(','))[0];
-        	Level2 = (arr[f].split(','))[1];
-        	if(!catarr[Level1]) {
-        		//不存在时只得跑一趟了
-	            $.ajax({
-	            	url:'/getlevel',
-	            	data:{pid:Level1},
-	            	async:false,//同步
-	            	success:function(data){
-		                //缓存二级分类，下次就无需再跑一趟了
-	            		catarr[Level1]=data;
-	            	},
-	            });
-        	}
+        //获取二级分类信息，因为该商品有可能属于多个分类，故循环
+        for (var f=0;f<arr.length;f++) {
+	        	tmpcat = cat.clone(true);
+	        	$("#catarea").append(tmpcat);
+	            //如果凑巧这个二级分类信息已经有了
+	        	Level1 = (arr[f].split(','))[0];
+	        	Level2 = (arr[f].split(','))[1];
+	        	if(!catarr[Level1]) {
+	        		//不存在时只得跑一趟了
+		            $.ajax({
+		            	url:'/getlevel',
+		            	data:{pid:Level1},
+		            	async:false,//同步
+		            	success:function(data){
+			                //缓存二级分类，下次就无需再跑一趟了
+		            		catarr[Level1]=data;
+		            	},
+		            });
+	        	}
             for (var j = 0; j < (catarr[Level1]).length; j++) {
                 var opt = "<option  value='" + catarr[Level1][j].cat_id + "'>" + catarr[Level1][j].cat_name + "</option>";
                 $('#catarea .midselect:eq('+f+')').append(opt);

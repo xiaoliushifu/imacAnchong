@@ -2,6 +2,7 @@
  * Created by lengxue on 2016/4/20.
  */
 $(function(){
+	
 	var Level1;
 	var Level2;
     /*-------------------------------------------基本信息---------------------------------------------*/
@@ -9,24 +10,29 @@ $(function(){
     var one0=0;
     var defaultopt="<option value=''>请选择</option>";
     var nullopt="<option value=''>无数据，请重选上级分类</option>";
-    $.get("/getlevel",{pid:one0},function(data,status){
-        for(var i=0;i<data.length;i++){
-            opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
-            $("#mainselect").append(opt);
-        }
-    });
+//    $.get("/getlevel",{pid:one0},function(data,status){
+//        for(var i=0;i<data.length;i++){
+//            opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
+//            $("#mainselect").append(opt);
+//        }
+//    });
 
+    	/**
+    	 * 顶级分类的change
+    	 */
     $("#mainselect").change(function(){
         var val=$(this).val();
         Level1=val;
+        //二级分类信息初始化
         $("#midselect").empty();
         $("#midselect").append(defaultopt);
+        //商品名称初始化
         $("#name").empty();
         $("#name").append(defaultopt);
         if(val==""){
-        	return ;
+        		return ;
         }else{
-            $.get("/getlevel",{pid:parseInt(val)},function(data,status){
+            $.get("/getlevel",{pid:val},function(data,status){
                 if(data.length==0){
                     $("#midselect").empty();
                     $("#midselect").append(nullopt);
@@ -40,14 +46,21 @@ $(function(){
         }
     });
 
+    /**
+     * 二级分类的选择
+     */
     $("#midselect").change(function(){
         var val=$(this).val();
         Level2=val;
         var sid=$("#sid").val();
+        //商品名初始化
         $("#name").empty();
         $("#name").append(defaultopt);
+        //分类标签
         $("#checks").empty();
+        //属性
         $("#attrs").empty();
+        //获得有关该分类的商品
         $.get("/getsibilingscommodity",{pid:Level1+','+Level2,sid:sid},function(data,status){
             if(data.length==0){
                 $("#name").empty();
@@ -59,6 +72,7 @@ $(function(){
                  }
             }
         });
+        //获得有关该分类的标签
         $.get("/getsiblingstag",{cid:val},function(data,status){
             for(var i=0;i<data.length;i++){
                 var lab='<label><input type="checkbox" name="tag[]" value='+data[i].tag+'>'+data[i].tag+'</label>&nbsp;&nbsp;&nbsp;';
@@ -67,6 +81,9 @@ $(function(){
         })
     });
 
+    /**
+     * 商品的选择
+     */
     $("#name").change(function(){
         var val=$(this).val();
         var li;
@@ -94,21 +111,29 @@ $(function(){
         });
     });
 
-    //增加一条仓储记录input框，因采购无权，暂无用
+    /**
+     * 增加一条仓储记录input框，因采购无权，暂无用
+     */
     $("body").on("click",'.addcuspro',function(){
         var len=$(".line").length;
         var line='<tr class="line"> <td> <input type="text" name="stock[location][]" class="form-control" required /> </td> <td> <input type="number" min="0" name="stock[num][]" class="form-control" required /> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
         $("#stock").append(line);
     });
-    //删除一条仓储记录
+    /**
+     * 删除一条仓储记录
+     */
     $("body").on("click",'.delcuspro',function(){
         var len=$(".line").length;
         if(len>1){
             $(this).parents(".line").remove();
         }
     });
+    
+    
 });
-
+/**
+ * 商品图片上传
+ */
 $('#test').diyUpload({
     url:'/thumb',
     success:function( data ) {
@@ -119,5 +144,5 @@ $('#test').diyUpload({
     },
     error:function( err ) {
         console.info( err );
-    },
+    }
 });

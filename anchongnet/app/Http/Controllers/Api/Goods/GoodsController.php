@@ -357,7 +357,7 @@ class GoodsController extends Controller
 
                 $kl = mb_strlen($param['search'],'utf-8');
                 //需要在录入商品中，添加关键字的时候，注意，空格分开的每个独立的关键字不能超过14个utf-8汉字。
-                if ($kl<1 || $kl>14) {
+                if ($kl<1 || $kl>20) {
                     return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"没有找到相关的商品"]]);
                 }
                 $where=array();
