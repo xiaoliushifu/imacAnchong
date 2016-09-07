@@ -42,7 +42,7 @@ class Coupon_pool extends Model
         }
         $res = $this->where($where)->orderBy("acpid","desc")->paginate(8);
         return ['data'=>$res,'where'=>$where];
-
+    }
     /*
      * 查询构造器
      */
