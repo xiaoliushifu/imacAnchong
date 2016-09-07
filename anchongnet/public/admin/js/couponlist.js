@@ -1,6 +1,6 @@
 $(function(){
 	/**
-	 * 启用
+	 * 启用与停用
 	 */
     $("body").on("click",'.act',function(){
     		//判断点击类型
@@ -14,11 +14,11 @@ $(function(){
 				success:function(data,status){
 					if (data) {
 						o.toggleClass('disabled');
-			    			o.siblings('button').toggleClass('disabled');
+			    			o.siblings('button:eq(0)').toggleClass('disabled');
 						sta.text(o.text());
 					}
 					console.log(data);
-				},
+				}
 		});
 	})
 	
@@ -27,7 +27,6 @@ $(function(){
 	 */
 	$("body").on("click",'.edit',function(){
 		var o = $(this);
-		
 		var tr = o.parents('tr');
 		var hid = tr.children(':first').text();
 		$('#hid').val(hid);
@@ -39,14 +38,61 @@ $(function(){
 		$('#type2').attr('placeholder',$('#type option[value="'+tr.children(':eq(3)').attr('value').trim()+'"]').attr('tit'));
 		$('#myform').attr('action','/coupon/'+hid);
 		
+		//”编辑表单“的验证逻辑
+		$("#myform").validate({
+	 	   rules:{
+	 	  		   beans:{
+	 	  			   min:0,
+	 	  		   },
+	 	  		   title:{
+	 	  			   required:true,
+	 	  			   minlength:5,
+	 	  		   },
+	 	  		   cvalue:{
+	 	  			   required:true,
+	 	  			   digits:true,
+	 	  		   }
+	 	   },
+	 	   //自定义错误提示
+	 	   messages:{
+		 		     beans:{
+			   			min:'输入的值不能小于0！',
+			   		 },
+	 		   		title:{
+			   			required:'标题怎么能不填写呢! ',
+			   			minlength:'标题写得也太少了吧',
+			   		},
+			   		cvalue:{
+			   			required:'面额必须得填吧',
+		 	  			digits:'面额必须得是整数吧',
+		 	  		}
+	 	   }
+		});
 		
-		
-		//编辑页面，列表change事件
-//		$('body').on('change','#type',function(){
-//			//类型处理
-//			$('#type2').attr('placeholder',$(this).find('option:selected').attr('tit'));
-//		});
-		
+	});
+    
+    /**
+     * 删除
+     */
+    $("body").on("click",'.del',function(){
+    		if(confirm('如果不想使用该优惠券，建议选择【停用】而不是删除')) {
+    			if(confirm('你确定要删除吗?')){
+				var o = $(this);
+				var tr = o.parents('tr');
+				$.ajax({
+					url:"/coupon/404",
+					data:{"xid":o.attr("data-id")},
+					type:'DELETE',
+					success:function(data,status){
+						if(parseInt(data)){
+							tr.remove();
+							return;
+						}
+						console.log(data);
+					}
+				});
+    			}
+    		}
 	});
 	
 })

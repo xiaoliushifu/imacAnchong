@@ -46,7 +46,7 @@ class Goods_type extends Model
     */
     public function condquer($field,$type,$pos,$limit,$condition,$sort)
     {
-        return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy($condition, $sort)->get()];
+        return ['total'=>$this->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy($condition, $sort)->get()];
     }
 
     /*
@@ -54,7 +54,7 @@ class Goods_type extends Model
     */
     public function corrquer($field,$type,$pos,$limit,$condition)
     {
-        return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->groupBy($condition)->get()];
+        return ['total'=>$this->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->groupBy($condition)->get()];
     }
 
     /*
@@ -106,6 +106,14 @@ class Goods_type extends Model
     public function scopeGid($query,$keyGid)
     {
         return $query->where('gid', '=', $keyGid)->first();
+    }
+
+    /*
+     * 分类筛选
+     */
+    public function scopeGoods($query)
+    {
+        return $query;
     }
 
     /*

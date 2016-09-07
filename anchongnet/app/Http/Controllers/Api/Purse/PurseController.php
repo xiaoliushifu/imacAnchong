@@ -95,6 +95,106 @@ class PurseController extends Controller
     }
 
     /*
+    *   优惠券兑换
+    */
+    public function couponexchange(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //开启事务处理
+        DB::beginTransaction();
+        //获取优惠券句柄
+        $coupon_pool_beans=$this->coupon_pool->find($param['acpid'])->beans;
+        //获取用户句柄
+        $users_handle=$this->users->find($data['guid']);
+        //判断虫豆是否够
+        if($users_handle->beans < $coupon_pool_beans){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'虫豆余额不足，请充值']]);
+        }
+        //剩余虫豆数量
+        $users_handle->beans=$users_handle->beans-$coupon_pool_beans;
+        //保存获得结果
+        $result=$users_handle->save();
+        if(!$result){
+            //假如失败就回滚
+            DB::rollback();
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'兑换失败']]);
+        }
+        //优惠券数据
+        $coupon_data=[
+            'users_id' => $data['guid'],
+            'cpid' => $param['acpid'],
+            'num' => 1,
+            'end' => (time()+7776000),
+        ];
+        //插入个人优惠券表
+        $cpresult=DB::table('anchong_coupon')->insertGetId($coupon_data);
+        //判断是否插入成功
+        if(!$cpresult){
+            //假如失败就回滚
+            DB::rollback();
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'兑换失败']]);
+        }
+        //假如成功就提交
+        DB::commit();
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'兑换成功']]);
+    }
+
+    /*
+    *   我的优惠券
+    */
+    public function mycoupon(Request $request)
+    {
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            //默认每页数量
+            $limit=20;
+            //定义优惠券字段
+            $coupon_data=['acpid','title','cvalue','info','beans'];
+            //匹配查看的优惠券类型
+            switch ($param['state']) {
+                //未使用的优惠券
+                case '1':
+                    //统计数量
+                    $coupon_count=$this->coupon->Coupon()->whereRaw('users_id = '.$data['guid'].' and end >'.time())->count();
+                    $coupon_cpid=$this->coupon->Coupon()->select('cpid')->whereRaw('users_id = '.$data['guid'].' and end >'.time())->skip((($param['page']-1)*$limit))->take($limit)->get();
+                    //定义数组
+                    $coupon_arr=[];
+                    //遍历出ID
+                    foreach ($coupon_cpid as $coupon_id) {
+                        $coupon_arr[]=$coupon_id->cpid;
+                    };
+                    $coupon_result=$this->coupon_pool->Coupon()->select($coupon_data)->whereIn('acpid',$coupon_arr)->orderBy('acpid','DESC')->get();
+                    break;
+                //已过期的优惠券
+                case '2':
+                    //统计数量
+                    $coupon_count=$this->coupon->Coupon()->whereRaw('users_id = '.$data['guid'].' and end <'.time())->count();
+                    $coupon_cpid=$this->coupon->Coupon()->select('cpid')->whereRaw('users_id = '.$data['guid'].' and end <'.time())->skip((($param['page']-1)*$limit))->take($limit)->get();
+                    //定义数组
+                    $coupon_arr=[];
+                    //遍历出ID
+                    foreach ($coupon_cpid as $coupon_id) {
+                        $coupon_arr[]=$coupon_id->cpid;
+                    };
+                    $coupon_result=$this->coupon_pool->Coupon()->select($coupon_data)->whereIn('acpid',$coupon_arr)->orderBy('acpid','DESC')->get();
+                    break;
+                //不是这两个就是非法操作
+                default:
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'非法操作']]);
+                    break;
+            }
+            //返回结果
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$coupon_count,'list'=>$coupon_result]]);
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
+
+    /*
     *   虫豆充值界面
     */
     public function beansrecharge(Request $request)
@@ -404,6 +504,24 @@ class PurseController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$billinfo_result[0]]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>"查询失败"]]);
+        }
+    }
+
+    /*
+    *   账单删除
+    */
+    public function delbill(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //查询账单
+        $result=$this->purse_order->pursedel($param['purse_oid']);
+        //判断是否有账单
+        if($result){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>"删除成功"]]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>"删除失败"]]);
         }
     }
 }
