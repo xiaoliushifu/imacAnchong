@@ -8,3 +8,4 @@ Homestead.json
 /storage
 .idea/
 .idea
+.env.example
