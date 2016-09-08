@@ -61,8 +61,21 @@ class IndexController extends Controller
     {
         return view('home.pcenter.head');
     }
-
-
+//收藏商品
+    public function colgoods()
+    {
+        return view('home.pcenter.collectgoods');
+}
+//    收藏商铺
+    public function colshop()
+    {
+        return view('home.pcenter.collectshop');
+    }
+//    收藏社区
+    public function colcommunity()
+    {
+        return view('home.pcenter.collectcommunity');
+    }
 
 
 

@@ -606,6 +606,17 @@ Route::group(['domain' => 'www.anchong.net'], function () {
         Route::get('/conwork','IndexController@work');
 //        上传头像
         Route::get('/uphead','IndexController@uphead');
+
+
+//        个人中心收藏
+//        商品
+        Route::get('/colgoods','IndexController@colgoods');
+//        商铺
+        Route::get('/colshop','IndexController@colshop');
+//        社区
+        Route::get('/colcommunity','IndexController@colcommunity');
+
+
     });
 
 

@@ -5,6 +5,8 @@
     <title>商机首页</title>
     <link rel="stylesheet" href="home/css/shangjisy.css">
     <script src="home/js/jquery-3.0.0.min.js"></script>
+    <script src="home/js/businessjs.js"></script>
+    <link rel="stylesheet" href="home/css/businessjs.css">
 
 </head>
 <body>
@@ -46,77 +48,41 @@
 
             <ul>
                 <li><a href="{{url('/')}}">首页</a></li>
-                <li class="buslist"><a href="#">商机<img src="home/images/shangji/9.jpg" alt="" ></a></li>
+                <li><a href="{{url('/business')}}">商机</a><img src="home/images/shangji/9.jpg" alt=" " class="buslist" ></li>
                 <div class="cart">
                     <p><a href="{{url('/gc')}}">工程</a></p>
                     <p><a href="{{url('/sergoods')}}">找货</a></p>
                     <p><a href="{{url('/orderlist')}}">人才</a></p>
                 </div>
                 <script>
-                    $('.buslist').click(function(){
-                        $('.cart').toggle();
-                    });
+
                 </script>
                 <style>
-                    .buslist{cursor: pointer}
-                    .cart{
-                        position: absolute;
-                        display: none;
-                        width: 120px;
-                        left: 195px;
-                        top: 217px;
-                        text-align: center;
-                        background:rgba(245,245,245,1);
-                        z-index: 20;
-                    }
+
                 </style>
-                <li class="buslist1"><a href="#">社区<img src="home/images/shangji/9.jpg" alt="" ></a></li>
+                <li><a href="#">社区</a><img src="home/images/shangji/9.jpg" alt="" class="buslist1"></li>
                 <div class="cart1">
                     <script>
-                        $('.buslist1').click(function(){
-                            $('.cart1').toggle();
-                        });
+
                     </script>
                     <style>
-                        .buslist1{cursor: pointer}
-                        .cart1{
-                            position: absolute;
-                            display: none;
-                            width: 120px;
-                            left: 315px;
-                            top: 217px;
-                            text-align: center;
-                            background:rgba(245,245,245,1);
-                            z-index: 20;
-                        }
+
                     </style>
                     <p><a href="{{url('/gc')}}">工程</a></p>
                     <p><a href="{{url('/sergoods')}}">找货</a></p>
                     <p><a href="{{url('/orderlist')}}">人才</a></p>
                 </div>
-                <li  class="buslist2"><a href="#">设备选购<img src="home/images/shangji/9.jpg" alt="" style="left: 70px;" ></a></li>
+                <li><a href="#">设备选购</a><img src="home/images/shangji/9.jpg" alt="" style="right: 15px;"  class="buslist2"></li>
                 <div class="cart2">
                     <p><a href="{{url('/ancself')}}">安虫自营</a></p>
                     <p><a href="{{url('/sergoods')}}">第三方商城</a></p>
 
                 </div>
                 <script>
-                    $('.buslist2').click(function(){
-                        $('.cart2').toggle();
-                    });
+
                 </script>
                 <style>
-                    .buslist2{cursor: pointer}
-                    .cart2{
-                        position: absolute;
-                        display: none;
-                        width: 120px;
-                        left: 435px;
-                        top: 217px;
-                        text-align: center;
-                        background:rgba(245,245,245,1);
-                        z-index: 20;
-                    }
+
                 </style>
                 <li><a href="#">资讯</a></li>
             </ul>
@@ -137,33 +103,7 @@
 
     </ul>
     <script type="text/javascript">
-        $(function(){
-            var timer=setInterval(function(){
-                if($(".banner li:last").is(":hidden")){
-                    $(".banner li:visible").addClass("on");
-                    $(".banner li[class=on]").next().fadeIn("slow");
-                    $(".banner li[class=on]").hide().removeClass("on");
-                }else{
-                    $(".banner li:last").hide();
-                    $(".banner li:first").fadeIn("slow");
-                }
-            },2000)
 
-            $(".banner li").hover(function(){
-                clearInterval(timer);
-            },function(){
-                timer=setInterval(function(){
-                    if($(".banner li:last").is(":hidden")){
-                        $(".banner li:visible").addClass("on");
-                        $(".banner li[class=on]").next().fadeIn("slow");
-                        $(".banner li[class=on]").hide().removeClass("on");
-                    }else{
-                        $(".banner li:last").hide();
-                        $(".banner li:first").fadeIn("slow");
-                    }
-                },5000)
-            })
-        })
 
 
     </script>

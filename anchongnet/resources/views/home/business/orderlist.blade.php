@@ -6,30 +6,25 @@
     <link rel="stylesheet" href="home/css/rencailist.css">
     <script src="home/js/jquery-3.0.0.min.js"></script>
 
+
 </head>
 <body>
 <div class="nav-top">
     <div class="centerbar">
 
         <div class="navmain">
-            <script type="text/javascript">
-                $(document).ready(function(){
-                    $("#ss").click(function(){
-                        $("#hh").toggle();
-                    });
-                });
-            </script>
             <ul >
                 <li>邮箱：www.@anchong.net</li>
                 <li>垂询电话:0317-8155026</li>
                 <li><img src="home/images/zhaohuo/6.jpg" alt=""></li>
-                <li style="padding-left: 10px;"><a href="#">风信子<b class="caret" id="ss"></b></a></li>
+                <li style="padding-left: 10px; position: relative;"><a href="#">风信子<b class="caret" id="ss"></b></a></li>
             </ul>
-            <ul id="hh" style="display: none;z-index: -100;" >
+            <ul id="hh" class="topdown" >
                 <li><a href="#">买卖情况</a></li>
                 <li><a href="#">在线物流</a></li>
                 <li><a href="#">售后服务</a></li>
             </ul>
+
         </div>
     </div>
 </div>
@@ -82,13 +77,7 @@
                 <a href="{{url('/reorder')}}"><img src="home/images/zhaohuo/36.jpg" alt=""></a>
             </div>
         </div>
-        <script>
-            $(document).ready(function(){
-                $("#flip").click(function(){
-                    $("#yy").slideToggle("slow");
-                });
-            });
-        </script>
+
         <div class="server">
             <hr>
             <ul class="server-type">
@@ -126,13 +115,7 @@
                 <li><a href="#">邢台市</a></li>
                 <li class="downmenue" style="width: 80px;height: 50px;float: right;font-size: 14px;color:#606060;"><span  id="show" >展开 <b class="caret"></b></span></li>
             </ul>
-            <script>
-                $(document).ready(function(){
-                    $("#show").click(function(){
-                        $("#adress").slideToggle("slow");
-                    });
-                });
-            </script>
+
 
             <ul class="server-type" id="adress" style="display: none">
                 <li><a href="#">北京市</a></li>
@@ -196,6 +179,6 @@
 
 <!--底部-->
 @include('inc.home.footer')
-
+<script src="home/js/orderlist.js"></script>
 </body>
 </html>

@@ -60,7 +60,7 @@
             <ul>
                 <li  class="ppp"><a href="#" >首页</a><img src="home/images/pcenter/pup.png" alt=""> </li>
                 <li  class="ppp"><a href="#" >个人资料</a><img src="home/images/pcenter/pup.png" alt=""> </li>
-                <li  class="ppp"><a href="#" >消息</a><img src="home/images/pcenter/pup.png" alt=""> </li>
+                <li  class="ppp"><a href="{{url('/servermsg')}}" >消息</a><img src="home/images/pcenter/pup.png" alt=""> </li>
                 <li  class="ppp"><a href="#" >其他更多吧</a><img src="home/images/pcenter/pup.png" alt=""> </li>
             </ul>
         </div>
@@ -94,9 +94,9 @@
                     <li><a href="javascript::" class="inactive">我的收藏<b class="caret"></b></a>
                       <ul class="list-unstyled ttt" style="display: none">
                           <hr>
-                          <li><a href="#" class="item">商品</a></li>
-                          <li><a href="#" class="item">商铺</a></li>
-                          <li><a href="#" class="item">社区</a></li>
+                          <li><a href="{{url('/colgoods')}}" class="item">商品</a></li>
+                          <li><a href="{{url('/colshop')}}" class="item">商铺</a></li>
+                          <li><a href="{{url('/colcommunity')}}" class="item">社区</a></li>
                       </ul>
                     </li>
                     <hr>
@@ -116,9 +116,9 @@
                     <hr>
                     <li><a href="#">虫虫粉丝</a></li>
                     <hr>
-                    <li><a href="#">商铺申请</a></li>
+                    <li><a href="{{url('/applysp')}}">商铺申请</a></li>
                     <hr>
-                    <li><a href="#">商家认证</a></li>
+                    <li><a href="{{url('/honor')}}">商家认证</a></li>
                     <hr>
                 </ul>
             </div>
@@ -127,9 +127,9 @@
         <div class="col-lg-9 daxie">
             <div class="col-lg-12 daomain">
                 <ul class="list-unstyled list-inline">
-                    <li><a href="#">发布工程</a></li>
+                    <li><a href="{{url('/conwork')}}">发包工程</a></li>
                     <li><a href="#">承接工程</a></li>
-                    <li><a href="#">发布人才</a></li>
+                    <li><a href="{{url('/reorder')}}">发布人才</a></li>
                 </ul>
             </div>
             <!-- 内容 -->
