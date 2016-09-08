@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>聊聊</title>
+    <title>聊聊详情</title>
     <link rel="stylesheet" type="text/css" href="home/css/chat-detail.css"/>
 </head>
 <body>

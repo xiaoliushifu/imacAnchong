@@ -333,13 +333,13 @@
         </ul>
         <div class="pages">
             <ul class="page-select">
-                <li class="pagesup"><a href="">&lt;&nbsp;上一页</a></li>
+                <li class="pagesup"><a href=""><img src="home/images/pageup.png"></a></li>
                 <li class="pages-num"><a href="">4</a></li>
                 <li class="pages-num"><a href="">5</a></li>
                 <li class="pages-num"><a href="">6</a></li>
                 <li class="pages-num"><a href="">7</a></li>
                 <li class="pages-num"><a href="">8</a></li>
-                <li class="pagesdown"><a href="">下一页&nbsp;&gt;</a></li>
+                <li class="pagesdown"><a href=""><img src="home/images/pagedown.png"></a></li>
             </ul>
             <ul class="page-skip">
                 <i>共有10页，</i>

@@ -6,13 +6,15 @@
 a{
 	text-decoration: none;
 }
+i{
+    font-style: normal;
+}
 ul,li{
 	list-style: none;
 }
 .cl{
 	clear: both;
 }
-
 .site-top{
 	width: 100%;
 	background-color: #f5f5f5;
@@ -121,7 +123,6 @@ ul,li{
 }
 .home a,.business a,.community a,.equipment a,.news a{
 	 color: #606060;
-	 font-size: 14px;
 }
 .business-triangle{
 	width: 0;
@@ -135,92 +136,194 @@ ul,li{
 .business-list{
 	display: none;
 }
+.banner{
+	width: 100%;
+}
 .site-middle{
 	width: 100%;
 }
 .middle-container{
 	width: 1220px;
-	margin: 20px auto 0;
+	margin: 20px auto 15px;
 }
-.publisher,.project-detail{
+.contract-work,.package{
+	width: 120px;
+	height: 40px;
+	display: inline-block;
+}
+.release{
+	width: 180px;
+	height: 40px;
+	float: right;
+	margin-left: 10px;
+}
+.contract-work{
+	margin-left: 10px;
+	margin-right: 60px;
+}
+.server{
+	width: 1220px;
+	margin: 0 auto;
+}
+.server-area{
+	width: 1200px;
+	margin: 0 auto;
+	border-top: 1px solid #c5c4c5;
+	border-bottom: 1px solid #c5c4c5;
+}
+.server-type{
+	width: 1200px;
+	margin: 0 auto;
+	border-top: 5px solid #c5c4c5;
+}
+.server-type li{
 	float: left;
-}
-.publisher{
+	width: 120px;
+	height: 50px;
+	line-height: 50px;
 	text-align: center;
 }
-.publisher ul{
-	width: 300px;
-	height: 300px;
-	background-color: #F5F5F5;
+.server-area li{
+	float: left;
+	width: 120px;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
 }
-.publisher img{
-	width: 100px;
-	height: 100px;
-	border-radius: 50%;
-	margin-top: 20px;
-	margin-bottom: 10px;
-}
-.publisher-name{
-	font-size: 18px;
-	font-weight: bold;
+.type-list,.area-list{
 	color: #606060;
-	margin-bottom: 20px;
-}
-.server-type,.server-area,.contact-tel{
 	font-size: 18px;
+}
+.type-title,.area-title{
+	background-color: #606060;
+	color: #FFFFFF;
+	font-size: 18px;
+}
+.show-list{
 	color: #606060;
+	margin-left: 60px;
+	background-color: #f5f5f5;
 }
-.server-area,.server-type,.contact{
-	margin-top: 10px;
+.sort{
+	width: 1200px;
+	margin: 0 auto;
+	border-bottom: 1px solid #c5c4c5;
 }
-.contact-info{
-	font-size: 18px;
+.rank,.hot-rank{
+	font-size: 14px;
+	display: inline-block;
+	width: 120px;
+}
+.rank{
 	color: #1DABD8;
 }
-.project-detail{
-	margin-left: 20px;
-	width: 880px;
+.hot-rank{
+	color: #9b9b9b;
 }
-.project-title{
-	display: inline-block;
-	vertical-align: bottom;
-	font-size: 20px;
-	font-weight: bold;
+.pages-turn{
+	float: right;
+}
+.rank,.hot-rank,.pages-turn{
+	height: 20px;
+	margin-top: 40px;
+	margin-bottom: 20px;
+}
+.pageup,.pagedown{
+	line-height: 20px;
+	font-size: 14px;
+	color: #9b9b9b;
+ }
+.pageup{
+	margin-right: 40px;
+}
+.project-info{
+	width: 1220px;
+	margin: 20px auto 0;
+}
+.project-info ul{
+	width: 1180px;
+	margin: 0 auto;
+	border-bottom: 1px solid #c5c4c5;
+}
+.project-preview{
+	margin-left: 10px;;
+	float: left;
+}
+.title{
+	margin-top: 30px;
+}
+.title a{
 	color: #4A4A4A;
+	font-size: 18px;
+	font-weight: bold;
 }
-.type,.area{
-	margin-left:20px ;
+.digest{
+	color: #606060;
 	font-size: 14px;
-	color: #1DABD8;
-	display: inline-block;
-	vertical-align: bottom;
-}
-.publish-time{
 	margin-top: 10px;
-	margin-bottom: 20px;
-	font-size: 12px;
-	color: #d8d8d8;
 }
-.project-desc{
-	font-size: 14px;
-	color: #606060;
+.image{
+	float: right;
 }
-.project-desc h5{
-	font-size: 14px;
-	color: #606060;
-	font-weight: normal;
+.image img{
+	width: 120px;
+	height: 80px;
+	margin: 10px 10px 10px 0;
 }
-.construction h5,.construction{
-	font-size: 14px;
-	color: #606060;
-	font-weight: normal;
+.pages{
+    width: 1180px;
+    height: 80px;
+    margin: 0 auto;
 }
-.construction img{
-	margin-top: 20px;
-	width: 800px;
+.page-select{
+    margin-left: 380px;
+    margin-top: 50px;
+    float:left ;
 }
-.arctile-foot{
-	margin-top: 20px;
+.page-select li{
+    display: inline-block;
+    vertical-align: middle;
+}
+.pagesup{
+    margin-right: 20px;
+}
+.pagesdown{
+    margin-left: 20px;
+}
+.pages-num{
+    text-align: center;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    outline: 1px solid #c5c4c5;
+}
+.page-select a{
+    font-size: 14px;
+    color:#9b9b9b;
+}
+.page-skip{
+    font-size: 14px;
+    color: #9b9b9b;
+    margin-top: 50px;
+    float: right;
+}
+.page-num{
+    width: 20px;
+    height: 20px;
+    border: 1px solid #9b9b9b;
+}
+.blank{
+    margin-left: 10px;
+    margin-right: 20px;
+}
+.page-btn{
+    width: 50px;
+    text-align: center;
+    color: #9b9b9b;
+    background-color: #FFFFFF;
+    border: 1px solid #9b9b9b;
+    line-height: 20px;
+    margin-right: 10px;
 }
 .footer-top{
 	width: 100%;

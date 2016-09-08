@@ -2,8 +2,8 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title>人才</title>
-		<link rel="stylesheet" type="text/css" href="home/css/talent-desc.css"/>
+		<title>商机详情</title>
+		<link rel="stylesheet" type="text/css" href="home/css/porject-desc.css"/>
 		<script src="{{asset('home/js/jquery-3.0.0.js')}}"></script>
 		<script src="{{asset('home/js/talent.js')}}" type="text/javascript" charset="utf-8"></script>
 	</head>

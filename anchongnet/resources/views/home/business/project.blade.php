@@ -2,8 +2,8 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>人才</title>
-		<link rel="stylesheet" type="text/css" href="home/css/talent.css"/>
+		<title>商机</title>
+		<link rel="stylesheet" type="text/css" href="home/css/project.css"/>
 		<script src="{{asset('home/js/jquery-3.1.0.js')}}"></script>
 		<script src="{{asset('home/js/talent.js')}}" type="text/javascript" charset="utf-8"></script>
 	</head>
@@ -102,12 +102,10 @@
 						<span class="hot-rank">热门排序</span>
 						<ul class="pages-turn">
                             <a href="" class="pageup">
-                                <span class=""><</span>
-                                <span class="">&nbsp;上一页</span>
+                                <img src="home/images/pageup.png">
                             </a>
                             <a href="" class="pagedown">
-                                <span class="">下一页&nbsp;</span>
-                                <span class="">></span>
+                                <img src="home/images/pagedown.png">
                             </a>
                     </div>
 					<div class="project-info">
@@ -260,7 +258,7 @@
 							<div class="cl"></div>
 						</ul>
 					</div>
-					<div class="cl"></div>
+					<div style="clear: both"></div>
 				</div>	
 			</div>
 			<div class="site-bottom">
