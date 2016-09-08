@@ -11,3 +11,4 @@ cache/services.php
 /storage
 .idea/
 .idea
+.env.example
