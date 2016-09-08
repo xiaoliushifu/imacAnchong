@@ -604,6 +604,19 @@ Route::group(['domain' => 'www.anchong.net'], function () {
         //前台重置密码
         Route::resource('/user/forgetpwd','Home\User\ForgetpwdController');
     });
+
+    /*
+     * 资讯
+     */
+    //资讯首页
+    Route::get('/info','Home\Info\InfoController@index');
+
+
+    /*
+     * 社区
+     */
+    //社区首页
+    Route::get('/community','Home\community\CommunityController@index');
 });
 
 //验证码类,需要传入数字

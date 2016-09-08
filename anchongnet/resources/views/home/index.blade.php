@@ -1,508 +1,501 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>安虫首页</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="home/css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="home/css/shangpinxq.css">
-    <link rel="stylesheet" type="text/css" href="home/css/suggestion.css">
+    <link rel="stylesheet" type="text/css" href="home/css/index.css">
 </head>
 <body>
-<div class="hedtou">
-    <div class="container ttop">
-        <nav class="navbar navbar-default rossa " role="navigation" >
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle " data-toggle="collapse"
-                        data-target="#example-navbar-collapse" style="margin: 0px;">
-                    <span class="sr-only">切换导航</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-            </div>
-            <div class="collapse navbar-collapse row" id="example-navbar-collapse">
-
-                <div class="col-md-12">
-                    <ul class="nav navbar-nav navbar-right daohang" style="padding-top: 3px;">
-
-                			<li class="zhuce"><a href="/user/register">注册&nbsp;&nbsp;/</a><a href="/user/login">登录</a></li>
-
-                        <li class="active">咨询电话：010-888888</li>
-                        <li class="tubl"><a href="/pcenter"><img class="img-circle" src="home/images/60.jpg"></a></li>
-                        <li class="tubl"><a href="#"><img class="img-circle" src="home/images/61.jpg"></a></li>
-                        <li class="tubl"><a href="#"><img class="img-circle" src="home/images/62.jpg"></a></li>
-
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </div>
-
-</div>
-<hr class="topfg" >
-
-<div class="container">
-    <div class="row tusou">
-        <!--<div class="col-md-1"></div>-->
-        <div class="col-md-4 col-sm-6 text-left">
-            <img src="home/images/7.jpg">
-        </div>
-        <div class="col-md-5 col-sm-6  sod">
-            <div class="col-lg" id="call">
-
-                <div class="input-group navbar-btn col-md-pull-1 " >
-                    <input type="text" class="form-control bdsz"  id="gover_search_key">
-                    <span class="input-group-btn" >
-                    <button class="btn btn-primary sssz"  type="button" >搜索</button>
-                    </span>
-                </div>
-                {{--智能提示框部分--}}
-                <div class="search_suggest"  id="gov_search_suggest"><ul style="padding:0px;margin-bottom:0px;"></ul></div>
-                
-                <div class="rmss"> <strong>热门搜索：</strong>
-                    <a href="#">探测监控</a>
-                    <a href="#">防护保障</a>
-                    <a href="#">探测报警</a>
-                    <a href="#">探测监控</a>
-                    <a href="#">弱电工程</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3"></div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row ">
-
-        <div class="col-md-12 span8 ">
-            <ul class="nav nav-pills daosty">
-                <li><a href="#">首页</a></li>
-                <li><a href="#" >商机<b class="caret" style="margin-left: 5px;"></b></a></li>
-                <li><a href="#">社区</a></li>
-                <li><a href="#">设备选购</a></li>
-                <li><a href="#">资讯</a></li>
-
-            </ul>
-        </div>
-
-    </div>
-
-</div>
-<hr class ="fenge">
-<div class="container">
-    <div class="row">
-        <div class="col-md-9 col-sm-12 zhutu"><img src="home/images/63.jpg" ></div>
-        <div class="col-md-3">
-            <div class="qbzx hidden-sm">
-            <div><img src="home/images/64.jpg" alt=""></div>
-            <div class="acgg" >
-                <div class="ggxq" style="border-radius: 5px; background-image:url('home/images/3.jpg')">
-
-                <p>感谢小伙伴一直以来的支持和喜爱。安虫app于7.25已正式上线，涵盖商城、商机、社区、我的四大模块。安虫，致力为安防行业提供便捷、高效、优质的全面服务。欢迎业内人士交流沟通。</p>
-                    <div class="ggsd">
-                <!--<p>时间：2016.7.15 &nbsp;&nbsp;19:00</p>
-                <p>地址：朝阳区建国路93号万达广场</p>-->
-                    </div>
-                </div>
-            </div>
-            </div>
-            <div class="zxsz hidden-sm">
-                <div><img src="home/images/65.jpg"></div>
-                <div class="zixun">
-                    <div class="remen"><p>热门</p><p>热门</p></div>
-                    <div class="mayun">
-                        <p><a href="#">你和马as云只差一个idea</a></p>
-                        <p><a href="#">你和马云只差一个马赛克</a></p>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="qbzx col-sm-6 visible-sm">
-                <div><img src="home/images/64.jpg" alt=""></div>
-                <div class="acgg" >
-                    <div class="ggxq" style="border-radius: 5px; background-image:url('home/images/3.jpg')">
-
-                        <p>感谢伙伴们一直以来的支持和喜爱。安虫app将于7.15日在朝阳区建国路93号万达广场隆重剪彩上线。欢迎业内人士莅临参加。</p>
-                        <div class="ggsd">
-                            <p>时间：2016.7.15 &nbsp;&nbsp;19:00</p>
-                            <p>地址：朝阳区建国路93号万达广场</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="zxsz col-sm-6 visible-sm">
-                <div><img src="home/images/65.jpg"></div>
-                <div class="zixun">
-                    <div class="remen"><p>热门</p><p>热门</p></div>
-                    <div class="mayun">
-                        <p><a href="#">你和马as云只差一个idea</a></p>
-                        <p><a href="#">你和马云只差一个马赛克</a></p>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-<div class="container">
-    <div class="col=md-12 gcbt"><h1><strong>工程流程</strong></h1></div>
-   <div class="row">
-       <div class="col-md-1"></div>
-       <div class="col-md-10 gclc">
-           <ul>
-               <li><a href="#"><img src="home/images/66.jpg" ></a></li>
-               <li><a href="#"><img src="home/images/67.jpg" ></a></li>
-               <li><a href="#"><img src="home/images/68.jpg" ></a></li>
-               <li><a href="#"><img src="home/images/69.jpg" ></a></li>
-               <li><a href="#"><img src="home/images/70.jpg" ></a></li>
-               <li><a href="#"><img src="home/images/71.jpg" ></a></li>
-           </ul>
-       </div>
-       <div class="col-md-1"></div>
-   </div>
-    </div>
-<div class="container">
-    <div class="col=md-12 gcbt"><h1><strong>推荐工程</strong></h1></div>
-    <div class="row">
-        <div class="col-md-5 tplft gcbbb col-xs-12 col-sm-8">
-            <div class="tplfton"><p>此处是工程标题 </p> </div>
-            <img src="home/images/72.jpg" alt="" style="margin-left: 15px;">
-        </div>
-        <div class="col-md-2 www col-xs-6 visible-sm col-sm-4"><img src="home/images/76.jpg" alt="" style="padding-right: 15px;">
-            <div class="tplfton" style="width: 227px; left: 0px;"><p>公测版本7.31上线，敬请期待</p></div>
-        </div>
-        <div class="col-md-5 ">
-            <div class=" tplft col-xs-12 hidden-sm"><img src="home/images/73.jpg" alt="" >
-                <div class="tpcenton"><p>工程标题</p></div>
-            </div>
-            <div class=" tplft col-xs-12 col-sm-5 visible-sm"><img src="home/images/73.jpg" alt="" >
-                <div class="tpcenton"><p>工程标题</p></div>
-            </div>
-
-
-            <div class="row yiqid">
-                <div class="col-md-6 mmm col-xs-6 col-sm-3 " style="padding-right: 0px;"><img src="home/images/74.jpg" alt="" style="margin-left: 10px;" >
-                    <div class="tplfton" style="width: 227px;left:10px; "><p>工程标题</p></div>
-                </div>
-                <div class="col-md-6 mmm col-xs-6 col-sm-3"><img src="home/images/75.jpg" alt="">
-                    <div class="tplfton" style="width: 227px;left: 0px;"><p>工程标题</p></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2 www col-xs-6 hidden-sm"><img src="home/images/76.jpg" alt="" style="padding-right: 15px;">
-            <div class="tplfton" style="width: 227px; left: 0px;"><p>公测版本7.31上线，敬请期待</p></div>
-        </div>
-    </div>
-    <div class=" toxi">
-        <ul style="overflow:hidden;padding-left: 0px;">
-            <li><img src="home/images/77.jpg" alt=""><p>头像</p></li>
-            <li><img src="home/images/78.jpg" alt=""><p>礼拜</p></li>
-            <li><img src="home/images/79.jpg" alt=""><p>毛毛</p></li>
-            <li><img src="home/images/80.jpg" alt=""><p>安虫虫</p></li>
-            <li><img src="home/images/81.jpg" alt=""><p>head</p></li>
-            <li><img src="home/images/82.jpg" alt=""><p>开心麻花</p></li>
-            <li><img src="home/images/83.jpg" alt=""><p>回笼换</p></li>
-            <li><img src="home/images/84.jpg" alt=""><p>沙河村</p></li>
+<div class="site-top">
+    <div class="top-container">
+        <ul class="info">
+            <li class="tel">垂询电话：010-88888888</li>
+            <li>
+                <a href="{{url('/user/login')}}">登陆</a>/<a href="{{url('/user/register')}}">注册</a>
+            </li>
         </ul>
     </div>
 </div>
-
-<div class="container">
-    <div class="col=md-12 gcbt"><h1><strong>为您服务</strong></h1></div>
-    <div class="row fwfl">
-        <div class="col-md-3"><img src="home/images/85.jpg" alt=""></div>
-        <div class="col-md-3"><img src="home/images/86.jpg" alt=""></div>
-        <div class="col-md-3"><img src="home/images/87.jpg" alt=""></div>
-        <div class="col-md-3"><img src="home/images/88.jpg" alt=""></div>
-
-    </div>
-</div>
-
-<div class="container">
-    <div class="col=md-12 gcbt"><h1><strong>热门社区</strong></h1></div>
-    <div class="row">
-        <div class="col-md-4 col-sm-7 rmsqtp"><img src="home/images/89.jpg" alt=""></div>
-        <div class="col-md-3 col-sm-5 visible-sm">
-            <div class="biaoge ">
-                <ul class="list-unstyled text-center">
-                    <li><a href="#"style="padding: 0px 15px;font-size: 20px;">人才招聘</a><a href="#"style="padding: 0px 15px;font-size: 20px;" >人才自荐</a>
-                        <hr></li>
-                    <li><span>区域</span><span>人才</span>
-                        <hr></li>
-                    <li><a href="#">昌平区</a><a href="#">李先生</a>
-                        <hr></li>
-                    <li><a href="#">昌平区</a><a href="#">李先生</a>
-                        <hr></li>
-                    <li><a href="#">昌平区</a><a href="#">李先生</a>
-                        <hr></li>
-                    <li><a href="#">昌平区</a><a href="#">李先生</a>
-                        <hr></li>
-                    <li><a href="#">昌平区</a><a href="#">李先生</a>
-                        <hr></li>
-                </ul>
-            </div>
-
-
+<div class="header">
+    <div class="header-container">
+        <div class="logo">
+            <img src="home/images/7.jpg"/>
         </div>
-        <div class="col-md-5  lyxz hidden-sm">
-            <hr>
-            <div class="ppp">
-            <h4><strong>夏日抹抹茶</strong></h4>
-            <p>安静可视对讲啊回家碍事卡圣诞节啊睡觉的</p>
-            </div>
-            <hr>
-            <div class="ppp">
-            <h4><strong>永远年轻，永远热泪盈眶</strong></h4>
-            <p>安静可视对讲啊回家碍事卡圣诞节啊睡觉的</p>
-            </div>
-            <hr>
-            <div class="ppp">
-            <h4><strong>想行动，永远不会晚</strong></h4>
-            <p>安静可视对讲啊回家碍事卡圣诞节啊睡觉的</p>
-            </div>
-            <hr>
+        <div class="search">
+            <form class="search-form" method="post">
+                <select class="area">
+                    <option value="北京">北京</option>
+                </select>
+                <span class="upright"></span>
+                <input type="text" name="search" class="search-text" placeholder="找工程&nbsp;找人才&nbsp;聊生活" />
+                <input type="submit" value="搜索" class="search-btn"/>
+            </form>
+            <ul class="hot-words">
+                <li class="hot-word-title">热门搜索：</li>
+                <li class="words-item"><a href="">探测监控</a></li>
+                <li class="words-item"><a href="">防护保障</a></li>
+                <li class="words-item"><a href="">探测警报</a></li>
+                <li class="words-item"><a href="">探测监控</a></li>
+                <li class="words-item"><a href="">弱电工程</a></li>
+            </ul>
         </div>
-        <div class="col-md-3  hidden-sm">
-            <div class="biaoge">
-                <ul class="list-unstyled text-center">
-                    <li><a href="#"style="padding: 0px 15px;font-size: 20px;">人才招聘</a><a href="#"style="padding: 0px 15px;font-size: 20px;" >人才自荐</a>
-                        <hr></li>
-                    <li><span>区域</span><span>人才</span>
-                        <hr></li>
-                    <li><a href="#">昌平区</a><a href="#">李先生</a>
-                        <hr></li>
-                    <li><a href="#">昌平区</a><a href="#">李先生</a>
-                        <hr></li>
-                    <li><a href="#">昌平区</a><a href="#">李先生</a>
-                        <hr></li>
-                    <li><a href="#">昌平区</a><a href="#">李先生</a>
-                        <hr></li>
-                    <li><a href="#">昌平区</a><a href="#">李先生</a>
-                        <hr></li>
-                </ul>
-            </div>
-
-
-        </div>
-
-        <div class="col-md-5 col-sm-12 lyxz visible-sm">
-            <hr>
-            <div class="ppp">
-                <h4><strong>夏日抹抹茶</strong></h4>
-                <p>安静可视对讲啊回家碍事卡圣诞节啊睡觉的</p>
-            </div>
-            <hr>
-            <div class="ppp">
-                <h4><strong>永远年轻，永远热泪盈眶</strong></h4>
-                <p>安静可视对讲啊回家碍事卡圣诞节啊睡觉的</p>
-            </div>
-            <hr>
-            <div class="ppp">
-                <h4><strong>想行动，永远不会晚</strong></h4>
-                <p>安静可视对讲啊回家碍事卡圣诞节啊睡觉的</p>
-            </div>
-            <hr>
-        </div>
-
-    </div>
-    <div class="col-md-12 toxi">
-        <ul style="overflow:hidden;padding-left: 0px;">
-            <li><img src="home/images/77.jpg" alt=""><p>头像</p></li>
-            <li><img src="home/images/78.jpg" alt=""><p>礼拜</p></li>
-            <li><img src="home/images/79.jpg" alt=""><p>毛毛</p></li>
-            <li><img src="home/images/80.jpg" alt=""><p>安虫虫</p></li>
-            <li><img src="home/images/81.jpg" alt=""><p>head</p></li>
-            <li><img src="home/images/82.jpg" alt=""><p>开心麻花</p></li>
-            <li><img src="home/images/83.jpg" alt=""><p>回笼换</p></li>
-            <li ><img src="home/images/84.jpg" alt=""><p>沙河村</p></li>
-        </ul>
-    </div>
-
-</div>
-<div class="container">
-    <div class="row afdh">
-       <div class="col-md-3 gcbt"><strong><h1>安防百货</h1></strong></div>
-
-        <nav class="navbar navbar-default rossa visible-xs " role="navigation" >
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle " data-toggle="collapse"
-                        data-target="#example-navbar-collaps" style="margin: 0px;">
-                    <span class="sr-only">切换导航</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-            </div>
-            <div class="collapse navbar-collapse row" id="example-navbar-collaps">
-
-                <div class="col-md-9">
-                    <ul class="nav navbar-nav navbar-right bhdh">
-                        <li><a href="#">门禁监控器</a></li>
-                        <li><a href="#">视频监控</a></li>
-                        <li><a href="#">探测报警</a></li>
-                        <li><a href="#">巡更巡检</a></li>
-                        <li><a href="#">门紧锁</a></li>
-                        <li><a href="#">智能消费</a></li>
-                        <li><a href="#">快速通道</a></li>
-                        <li><a href="#">更多</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <div class="col-md-9 hidden-xs">
-            <ul class="nav navbar-nav navbar-right bhdh">
-                <li><a href="#">门禁监控器</a></li>
-                <li><a href="#">视频监控</a></li>
-                <li><a href="#">探测报警</a></li>
-                <li><a href="#">巡更巡检</a></li>
-                <li><a href="#">门紧锁</a></li>
-                <li><a href="#">智能消费</a></li>
-                <li><a href="#">快速通道</a></li>
-                <li><a href="#">更多</a></li>
+        <div class="cl"></div>
+        <div class="site-nav">
+            <ul class="navigation">
+                <li class="home nav-item"><a href="{{url('/')}}">首页</a></li>
+                <li class="business nav-item">
+                    <a href="{{url('')}}">商机</a>
+                    <span class="business-triangle"></span>
+                    <div class="business-list">
+                        <p><a href="">工程</a></p>
+                        <p><a href="">人才</a></p>
+                        <p><a href="">找货</a></p>
+                    </div>
+                </li>
+                <li class="community nav-item"><a href="{{url('/community')}}">社区</a></li>
+                <li class="equipment nav-item"><a href="{{url('')}}">设备选购</a></li>
+                <li class="news nav-item"><a href="{{url('/info')}}">资讯</a></li>
             </ul>
         </div>
     </div>
-    </div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-3  col-sm-5"style="padding-right: 0px;">
-            <div class="badalei">
-                <div class="badaleion">
-                    <h3><strong>八大类</strong></h3>
-                    <ul class="list-inline">
-                        <li>
-                            <p><a href="#">智能门禁</a></p>
-                            <p><a href="#">巡更巡检</a></p>
-                        </li>
-                        <li>
-                            <p><a href="#">停车管理</a></p>
-                            <p><a href="#">安防配套</a></p>
-                        </li>
-                        <li>
-                            <p><a href="#">探测报警</a></p>
-                            <p><a href="#">楼宇对讲</a></p>
-                        </li>
-
-                    </ul>
+</div>
+<div class="site-middle">
+    <div class="middle-cont">
+        <ul class="middle-top">
+            <li class="banner">
+                <div>
+                    <img src="home/images/shouyel.png">
                 </div>
-                <img src="home/images/90.jpg" alt="">
-            </div>
-            <div class="rsb">
-                <h3><strong>热搜榜</strong></h3>
-                <ul class="list-inline" style="margin-bottom: 3px;">
-                    <li>
-                       <p><a href="#">门禁</a></p>
-                        <p><a href="#">摄像头</a></p>
-                        <p><a href="#">监控器</a></p>
-                    </li>
-                    <li>
-                        <p><a href="#">魔仕龙</a></p>
-                        <p><a href="#">停车管理</a></p>
-                        <p><a href="#">安防配套</a></p>
-                    </li>
-                    <li>
-                        <p><a href="#">魔仕龙</a></p>
-                        <p><a href="#">停车管理</a></p>
-                        <p><a href="#">安防配套</a></p>
-                    </li>
+            </li>
+            <li class="tips">
+                <div class="notice">
+                    <p class="notice-title"><a><img src="home/images/notice.png"></a></p>
+                    <div class="notice-info">
+                        <p>感谢小伙伴一直以来的支持和喜爱。安虫app于7.25已正式上线，涵盖商城、商机、社区、我的四大模块。安虫，致力为安防行业提供便捷、高效、优质的全面服务。欢迎业内人士交流沟通</p>
+                    </div>
+                </div>
+                <div class="information">
+                    <p class="title"><a href=""><img src="home/images/info.png"></a></p>
+                    <div class="hot-info">
+                        <p><img src="home/images/hot.png"><a href="">视频干扰分析和解决方法</a></p>
+                        <p><img src="home/images/hot.png"><a href="">停车场管理系统常见故障</a></p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="flow">
+            <h1>工程流程</h1>
+            <ul class="chart">
+                <li><a><img src="home/images/66.jpg"></a></li>
+                <li><a><img src="home/images/67.jpg"></a></li>
+                <li><a><img src="home/images/68.jpg"></a></li>
+                <li><a><img src="home/images/69.jpg"></a></li>
+                <li><a><img src="home/images/70.jpg"></a></li>
+                <li><a><img src="home/images/71.jpg"></a></li>
+            </ul>
+        </div>
+        <div class="recommended">
+            <h1>推荐工程</h1>
+            <ul class="recommended-list">
+                <li class="recommended-left recommend-1">
+                    <a>
+                        <img src="home/images/72.jpg">
+                        <p>此处是工程标题</p>
+                    </a>
+                </li>
+                <li class="recommended-cnter">
+                    <ul>
+                        <li class="recommend-2">
+                            <a>
+                                <img src="home/images/73.jpg">
+                                <p>此处是工程标题</p>
+                            </a>
+                        </li>
+                        <li class="recommend-3">
+                            <a>
+                                <img src="home/images/74.jpg">
+                                <p>此处是工程标题</p>
+                            </a>
+                        </li>
+                        <li class="recommend-4">
+                            <a>
+                                <img src="home/images/75.jpg">
+                                <p>此处是工程标题</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="recommend-5 recommended-right">
+                    <a>
+                        <img src="home/images/76.jpg">
+                        <p>此处是工程标题</p>
+                    </a>
+                </li>
+            </ul>
+            <ul class="bottom">
+                <li class="bottom-item">
+                    <a>
+                        <img src="home/images/77.jpg">
+                        <p>头像</p>
+                    </a>
+                </li>
+                <li class="bottom-item">
+                    <a>
+                        <img src="home/images/78.jpg">
+                        <p>李白</p>
+                    </a>
+                </li>
+                <li class="bottom-item">
+                    <a>
+                        <img src="home/images/79.jpg">
+                        <p>毛毛</p>
+                    </a>
+                </li>
+                <li class="bottom-item">
+                    <a>
+                        <img src="home/images/80.jpg">
+                        <p>安虫虫</p>
+                    </a>
+                </li>
+                <li class="bottom-item">
+                    <a>
+                        <img src="home/images/81.jpg">
+                        <p>head</p>
+                    </a>
+                </li>
+                <li class="bottom-item">
+                    <a>
+                        <img src="home/images/82.jpg">
+                        <p>开心麻花</p>
+                    </a>
+                </li>
+                <li class="bottom-item">
+                    <a>
+                        <img src="home/images/83.jpg">
+                        <p>回龙观商贩</p>
+                    </a>
+                </li>
+                <li class="bottom-item1">
+                    <a>
+                        <img src="home/images/84.jpg">
+                        <p>沙河村</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="server">
+            <h1>为您服务</h1>
+            <ul>
+                <li class="server-item"><img src="home/images/85.jpg"></li>
+                <li class="server-item"><img src="home/images/86.jpg"></li>
+                <li class="server-item"><img src="home/images/87.jpg"></li>
+                <li class="server-item1"><img src="home/images/88.jpg"></li>
+            </ul>
+        </div>
+        <div class="hot">
+            <h1>热门社区</h1>
+            <ul class="hot-top">
+                <li class="ad">
+                    <a>
+                        <img src="home/images/89.jpg">
+                    </a>
+                </li>
+                <li class="bbs">
+                    <ul>
+                        <li>
+                            <h3><a>夏日抹抹茶</a></h3>
+                            <p>炎炎夏日，假面舞会，撩你❤798约起来！</p>
+                        </li>
+                        <li>
+                            <h3><a>永远年轻，永远热泪盈眶</a></h3>
+                            <p>炎炎夏日，假面舞会，撩你❤798约起来！</p>
+                        </li>
+                        <li>
+                            <h3><a>想行动，永远都不会玩</a></h3>
+                            <p>炎炎夏日，假面舞会，撩你❤798约起来！</p>
+                        </li>
+                    </ul>
+                </li>
+                <li class="talent-cont">
+                    <p class="talent-nav">
+                    <h3>人才招聘</h3>
+                    <h3>人才自荐</h3>
+                    </p>
+                    <p class="talent-item">
+                        <span class="region">区域</span>
+                        <span class="talent">人才</span>
+                    </p>
+                    <p class="talent-item">
+                        <a class="district">昌平区</a>
+                        <a class="talent-name">李先生</a>
+                    </p>
+                    <p class="talent-item">
+                        <a class="district">昌平区</a>
+                        <a class="talent-name">李先生</a>
+                    </p>
+                    <p class="talent-item">
+                        <a class="district">昌平区</a>
+                        <a class="talent-name">李先生</a>
+                    </p>
+                    <p class="talent-item">
+                        <a class="district">昌平区</a>
+                        <a class="talent-name">李先生</a>
+                    </p>
+                    <p class="talent-item1">
+                        <a class="district">昌平区</a>
+                        <a class="talent-name">李先生</a>
+                    </p>
+                </li>
+            </ul>
+            <ul class="bottom">
+                <li class="bottom-item">
+                    <a>
+                        <img src="home/images/77.jpg">
+                        <p>头像</p>
+                    </a>
+                </li>
+                <li class="bottom-item">
+                    <a>
+                        <img src="home/images/78.jpg">
+                        <p>李白</p>
+                    </a>
+                </li>
+                <li class="bottom-item">
+                    <a>
+                        <img src="home/images/79.jpg">
+                        <p>毛毛</p>
+                    </a>
+                </li>
+                <li class="bottom-item">
+                    <a>
+                        <img src="home/images/80.jpg">
+                        <p>安虫虫</p>
+                    </a>
+                </li>
+                <li class="bottom-item">
+                    <a>
+                        <img src="home/images/81.jpg">
+                        <p>head</p>
+                    </a>
+                </li>
+                <li class="bottom-item">
+                    <a>
+                        <img src="home/images/82.jpg">
+                        <p>开心麻花</p>
+                    </a>
+                </li>
+                <li class="bottom-item">
+                    <a>
+                        <img src="home/images/83.jpg">
+                        <p>回龙观商贩</p>
+                    </a>
+                </li>
+                <li class="bottom-item1">
+                    <a>
+                        <img src="home/images/84.jpg">
+                        <p>沙河村</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="goods">
+            <h1>安防百货</h1>
+            <div class="goods-nav">
+                <ul class="good-nav">
+                    <li><a href="">门禁控制器</a></li>
+                    <li><a href="">视频监控</a></li>
+                    <li><a href="">探测报警</a></li>
+                    <li><a href="">巡更巡警</a></li>
+                    <li><a href="">门禁锁</a></li>
+                    <li><a href="">智能消费</a></li>
+                    <li><a href="">快速通道</a></li>
+                    <li><a href="">更多</a></li>
                 </ul>
             </div>
+            <ul class="goods-cont">
+                <li class="goods-left">
+                    <ul>
+                        <li class="classify">
+                            <h3>八大类<i class="icon"></i></h3>
+                            <ul>
+                                <li><a href="">智能门禁</a></li>
+                                <li><a href="">停车管理</a></li>
+                                <li><a href="">探测报警</a></li>
+                                <li><a href="">巡更巡警</a></li>
+                                <li><a href="">安防配套</a></li>
+                                <li><a href="">楼宇对讲</a></li>
+                            </ul>
+                        </li>
+                        <li class="top-search">
+                            <h3>热搜榜<i class="icon1"></i></h3>
+                            <ul>
+                                <li><a href="">门禁</a></li>
+                                <li><a href="">魔士龙</a></li>
+                                <li><a href="">魔士龙</a></li>
+                                <li><a href="">摄像头</a></li>
+                                <li><a href="">停车管理</a></li>
+                                <li><a href="">停车管理</a></li>
+                                <li><a href="">监控器</a></li>
+                                <li><a href="">安防配套</a></li>
+                                <li><a href="">安防配套</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="goods-center">
+                    <div><img src="home/images/91.jpg"></div>
+                </li>
+                <li class="goods-right">
+                    <ul>
+                        <li>
+                            <img src="home/images/92.jpg">
+                            <p>
+                                <a class="goods-classify" href="">[Oulin/欧林]</a>
+                                <a class="goods-title" href="">欧林水槽双槽&nbsp;&nbsp;不锈钢厨</a>
+                            </p>
+                            <p class="goods-price">
+                                价格：￥180
+                            </p>
+                        </li>
+                        <li>
+                            <img src="home/images/93.jpg">
+                            <p>
+                                <a class="goods-classify" href="">[Oulin/欧林]</a>
+                                <a class="goods-title" href="">欧林水槽双槽&nbsp;&nbsp;不锈钢厨</a>
+                            </p>
+                            <p class="goods-price">
+                                价格：￥180
+                            </p>
+                        </li>
+                        <li>
+                            <img src="home/images/94.jpg">
+                            <p>
+                                <a class="goods-classify" href="">[Oulin/欧林]</a>
+                                <a class="goods-title" href="">欧林水槽双槽&nbsp;&nbsp;不锈钢厨</a>
+                            </p>
+                            <p class="goods-price">
+                                价格：￥180
+                            </p>
+                        </li>
+                        <li>
+                            <img src="home/images/95.jpg">
+                            <p>
+                                <a class="goods-classify" href="">[Oulin/欧林]</a>
+                                <a class="goods-title" href="">欧林水槽双槽&nbsp;&nbsp;不锈钢厨</a>
+                            </p>
+                            <p class="goods-price">
+                                价格：￥180
+                            </p>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="goods-bottom">
+                <li><a href=""><img src="home/images/96.jpg"></a></li>
+                <li><a href=""><img src="home/images/97.jpg"></a></li>
+                <li><a href=""><img src="home/images/98.jpg"></a></li>
+                <li><a href=""><img src="home/images/99.jpg"></a></li>
+                <li><a href=""><img src="home/images/100.jpg"></a></li>
+                <li><a href=""><img src="home/images/101.jpg"></a></li>
+            </ul>
         </div>
-        <div class="col-md-4 col-sm-7"style="padding: 0px;">
-            <div id="myCarousel" class="carousel slide">
-                <!-- 轮播（Carousel）指标 -->
-                <ol class="carousel-indicators">
-                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#myCarousel" data-slide-to="1"></li>
-                    <li data-target="#myCarousel" data-slide-to="2"></li>
-                </ol>
-                <!-- 轮播（Carousel）项目 -->
-                <div class="carousel-inner lunbo">
-                    <div class="item active">
-                        <img src="home/images/91.jpg" alt="First slide">
-                    </div>
-                    <div class="item">
-                        <img src="home/images/114.jpg" alt="Second slide">
-                    </div>
-                    <div class="item">
-                        <img src="home/images/115.jpg" alt="Third slide">
-                    </div>
-                </div>
-                <!-- 轮播（Carousel）导航 -->
-                <a class="carousel-control left" href="#myCarousel"
-                   data-slide="prev">&lsaquo;</a>
-                <a class="carousel-control right" href="#myCarousel"
-                   data-slide="next">&rsaquo;</a>
-            </div>
-            <!--<div><img src="images/91.jpg" alt=""></div>-->
+        <div class="exhibition">
+            <h1>展会活动</h1>
+            <ul>
+                <li><a href=""><img src="home/images/102.jpg"></a></li>
+                <li><a href=""><img src="home/images/103.jpg"></a></li>
+                <li><a href=""><img src="home/images/104.jpg"></a></li>
+                <li><a href=""><img src="home/images/105.jpg"></a></li>
+            </ul>
         </div>
-        <div class="col-md-5 text-center ytsz">
-            <div class="row">
-                <div class="col-md-6 col-sm-6" style="padding-left: 5px;">
-                    <div><a href="#"><img src="home/images/92.jpg" alt=""></a>
-                        <p><a href="#" class="abq">[Oulin/欧琳]&nbsp;&nbsp;</a><a href="#" class="smbq">欧琳水槽双槽&nbsp;&nbsp;不锈钢厨</a></p>
-                        <p> <span>价格：￥180</span></p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-sm-6">
-                    <div><a href="#"><img src="home/images/93.jpg" alt=""></a>
-                    <p><a href="#"  class="abq">[Oulin/欧琳]&nbsp;&nbsp;</a><a href="#" class="smbq">欧琳水槽双槽&nbsp;&nbsp;不锈钢厨</a></p>
-                        <p><span>价格：￥180</span></p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 col-sm-6" style="padding-left: 5px;">
-                    <div><a href="#"><img src="home/images/94.jpg" alt=""></a>
-                        <p><a href="#"  class="abq">[Oulin/欧琳]&nbsp;&nbsp;</a><a href="#" class="smbq">欧琳水槽双槽&nbsp;&nbsp;不锈钢厨</a></p>
-                        <p><span>价格：￥180</span></p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-sm-6">
-                    <div><a href="#"><img src="home/images/95.jpg" alt=""></a>
-                        <p><a href="#"  class="abq">[Oulin/欧琳]&nbsp;&nbsp;</a><a href="#" class="smbq">欧琳水槽双槽&nbsp;&nbsp;不锈钢厨</a></p>
-                        <p><span>价格：￥180</span></p>
-                    </div>
-                </div>
-            </div>
+        <div class="cooperative">
+            <h1>合作企业</h1>
+            <ul>
+                <li><a href=""><img src="home/images/106.jpg"></a></li>
+                <li><a href=""><img src="home/images/107.jpg"></a></li>
+                <li><a href=""><img src="home/images/108.jpg"></a></li>
+                <li><a href=""><img src="home/images/109.jpg"></a></li>
+                <li><a href=""><img src="home/images/110.jpg"></a></li>
+                <li><a href=""><img src="home/images/111.jpg"></a></li>
+                <li><a href=""><img src="home/images/112.jpg"></a></li>
+                <li><a href=""><img src="home/images/113.jpg"></a></li>
+            </ul>
         </div>
     </div>
-
-    </div>
-
-<div class="container">
-    <div class="row sqer text-right">
-        <div class="col-md-2 hjkl col-xs-6 col-sm-2"> <a href="#"><img src="home/images/96.jpg" alt=""></a> </div>
-        <div class="col-md-2 hjkl col-xs-6 col-sm-2 "><a href="#"><img src="home/images/97.jpg" alt=""></a>  </div>
-        <div class="col-md-2 hjkl col-xs-6 col-sm-2"> <a href="#"><img src="home/images/98.jpg" alt=""></a> </div>
-        <div class="col-md-2 hjkl col-xs-6 col-sm-2"> <a href="#"><img src="home/images/99.jpg" alt=""></a> </div>
-        <div class="col-md-2 hjkl col-xs-6 col-sm-2"> <a href="#"><img src="home/images/100.jpg" alt=""></a> </div>
-        <div class="col-md-2 col-xs-6 col-sm-2 hjkl"style="border-right: 1px #9b9b9b solid;"> <a href="#"><img src="home/images/101.jpg" alt=""></a> </div>
-    </div>
-
 </div>
 
-<div class="container">
-    <div class="col=md-12 gcbt"><h1><strong>展会活动</strong></h1></div>
-    <div class="row szxc">
-        <div class="col-md-3 col-sm-6"><a href=""><img src="home/images/102.jpg" alt=""></a></div>
-        <div class="col-md-3 col-sm-6"><a href=""><img src="home/images/103.jpg" alt=""></a></div>
-        <div class="col-md-3 col-sm-6"><a href=""><img src="home/images/104.jpg" alt=""></a></div>
-        <div class="col-md-3 col-sm-6"><a href=""><img src="home/images/105.jpg" alt=""></a></div>
+<div class="site-footer">
+    <div class="footer-top">
+        <div class="footer-top-container">
+            <div class="link">
+                <h4>友情链接</h4>
+                <hr class="line" />
+                <div class="link-list">
+                    <p><a href="">中国安防行业网</a></p>
+                    <p><a href="">华强安防网</a></p>
+                    <p><a href="">中国安防展览网</a></p>
+                    <p><a href="">安防英才网</a></p>
+                </div>
+                <div class="link-list1">
+                    <p><a href="">智能交通网</a></p>
+                    <p><a href="">中国智能化</a></p>
+                    <p><a href="">中关村在线</a></p>
+                    <p><a href="">教育装备采购网</a></p>
+                </div>
+                <div class="link-list1">
+                    <p><a href="">中国贸易网</a></p>
+                    <p><a href="">华强电子网</a></p>
+                    <p><a href="">研究报告中国测控网</a></p>
+                    <p><a href="">五金机电网</a></p>
+                </div>
+                <div class="link-list1">
+                    <p><a href="">中国安防展览网</a></p>
+                    <p><a href="">民营企业网</a></p>
+                    <p><a href="">中国航空新闻网</a></p>
+                    <p><a href="">北极星电力</a></p>
+                </div>
+            </div>
+            <div class="qr-code">
+                <ul>
+                    <li>
+                        <h4>下载安虫APP客户端</h4>
+                        <img src="home/images/1.jpg"/>
+                    </li>
+                    <li>
+                        <h4>安虫微信订阅号</h4>
+                        <img src="home/images/2.jpg"/>
+                    </li>
+                    <div class="cl"></div>
+                </ul>
+            </div>
+            <div class="cl"></div>
+        </div>
+    </div>
+    <div class="site-bottom">
+        <div class="btottom">
+            <div class="bottom-container">
+                <p class="p1">
+                    <a href="">关于安虫</a>
+                    <span class="">|</span>
+                    <a href="">联系我们</a>
+                    <span class="">|</span>
+                    <a href="">帮助中心</a>
+                    <span class="">|</span>
+                    <a href="">服务网点</a>
+                    <span class="">|</span>
+                    <a href="">法律声明</a>
+                    <span class="">|</span>
+                    客服热像400-888-888
+                </p>
+                <p class="p2">Copyright©北京安虫版权所有 anchong.net</p>
+                <p class="p3">
+                    <a href="">京ICP备111111号</a>
+                    <span class="">|</span>
+                    <a href="">出版物经营许可证</a>
+                </p>
+            </div>
+        </div>
     </div>
 </div>
-{{--通用底部--}}
-@include('inc.home.foot')
-
-<script src="home/js/jquery-3.0.0.min.js"></script>
-<script src="home/js/bootstrap.min.js"></script>
-<script src="home/js/index.js"></script>
 </body>
 </html>
