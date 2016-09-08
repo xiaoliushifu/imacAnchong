@@ -15,6 +15,7 @@ class PurseController extends Controller
     //定义变量
     private $purse_order;
     private $users;
+    private $propel;
 
     /*
     *   执行构造方法将orm模型初始化
@@ -23,6 +24,7 @@ class PurseController extends Controller
     {
         $this->purse_order=new \App\Purse_order();
         $this->users=new \App\Users();
+        $this->propel=new \App\Http\Controllers\admin\Propel\PropelmesgController();
     }
 
     /**
@@ -36,8 +38,8 @@ class PurseController extends Controller
         //判断有无筛选标签
         if($keyType==""){
             //查出提现数据
-            $datas=$this->purse_order->Purse()->whereRaw('action =2')->whereRaw('state = 1')->orderBy("purse_oid","desc")->paginate(8);
-            $state=0;
+            $datas=$this->purse_order->Purse()->whereRaw('action =2')->whereRaw('state = 1')->orderBy("purse_oid","ASC")->paginate(8);
+            $state=1;
         }else{
             //查出提现数据
             $datas=$this->purse_order->Purse()->whereRaw('action =2')->whereRaw('state ='.$keyType)->orderBy("purse_oid","desc")->paginate(8);
@@ -117,8 +119,15 @@ class PurseController extends Controller
         }
         //改变该订单状态
         $purse_order_handle->state = 2;
+        $users_id=$purse_order_handle->users_id;
         $result=$purse_order_handle->save();
         if($result){
+            try{
+                //推送消息
+                $this->propel->apppropel($this->users->find($users_id)->phone,'提现进度',"您好，您申请的提现已成功！");
+            }catch (\Exception $e) {
+                return "操作成功";
+            }
             return "操作成功";
         }else{
             return "操作失败";

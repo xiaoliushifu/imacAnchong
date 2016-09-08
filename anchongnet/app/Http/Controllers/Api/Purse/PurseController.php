@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Cache;
 use DB;
+use Validator;
 
 /*
 *   该控制器包含了钱袋模块的操作
@@ -72,7 +73,9 @@ class PurseController extends Controller
         //默认每页数量
         $limit=8;
         //查出个人信息
-        $beans=$this->users->find($data['guid'])->beans;
+        $users_handle=$this->users->find($data['guid']);
+        $beans=$users_handle->beans;
+        $usable_money=$users_handle->usable_money;
         $usersmessage=$this->users_message->quer(['headpic','nickname'],['users_id'=>$data['guid']])->toArray();
         try{
             if(!$usersmessage[0]['nickname']){
@@ -88,10 +91,10 @@ class PurseController extends Controller
             $headpic=$usersmessage[0]['headpic'];
         }
         //定义优惠券字段
-        $coupon_data=['acpid','title','cvalue','info','beans'];
+        $coupon_data=['acpid','title','cvalue','target','beans','endline'];
         //查出余额数据
-        $coupon_pool_data=$this->coupon_pool->quer($coupon_data,'open = 1',(($param['page']-1)*$limit),$limit);
-        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['headpic'=>$headpic,'nickname'=>$usersmessage[0]['nickname'],'beans'=>$beans,'coupon'=>$coupon_pool_data]]);
+        $coupon_pool_data=$this->coupon_pool->quer($coupon_data,'endline > '.time().' and open = 1 and beans > 0',(($param['page']-1)*$limit),$limit);
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['headpic'=>$headpic,'nickname'=>$usersmessage[0]['nickname'],'beans'=>$beans,'usable_money'=>$usable_money,'coupon'=>$coupon_pool_data]]);
     }
 
     /*
@@ -105,9 +108,14 @@ class PurseController extends Controller
         //开启事务处理
         DB::beginTransaction();
         //获取优惠券句柄
-        $coupon_pool_beans=$this->coupon_pool->find($param['acpid'])->beans;
+        $coupon_pool_handle=$this->coupon_pool->find($param['acpid']);
+        $coupon_pool_beans=$coupon_pool_handle->beans;
         //获取用户句柄
         $users_handle=$this->users->find($data['guid']);
+        //判断该优惠券是否可以兑换
+        if($coupon_pool_beans == 0){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'该优惠券不可兑换']]);
+        }
         //判断虫豆是否够
         if($users_handle->beans < $coupon_pool_beans){
             return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'虫豆余额不足，请充值']]);
@@ -125,6 +133,10 @@ class PurseController extends Controller
         $coupon_data=[
             'users_id' => $data['guid'],
             'cpid' => $param['acpid'],
+            'target' => $coupon_pool_handle->target,
+            'shop' => $coupon_pool_handle->shop,
+            'type' => $coupon_pool_handle->type,
+            'type2' => $coupon_pool_handle->type2,
             'num' => 1,
             'end' => (time()+7776000),
         ];
@@ -153,7 +165,7 @@ class PurseController extends Controller
             //默认每页数量
             $limit=20;
             //定义优惠券字段
-            $coupon_data=['acpid','title','cvalue','info','beans'];
+            $coupon_data=['acpid','title','cvalue','target'];
             //匹配查看的优惠券类型
             switch ($param['state']) {
                 //未使用的优惠券
@@ -273,7 +285,9 @@ class PurseController extends Controller
         //今天零点的时间
         $todaytime=strtotime(date('Ymd',time()));
         //判断今天是否签到
-        if($this->users->find($data['guid'])->sign_time>$todaytime){
+        $users_handle=$this->users->find($data['guid']);
+        $sign_day=$users_handle->day;
+        if($users_handle->sign_time>$todaytime){
             $sign_state=1;
         }else{
             $sign_state=0;
@@ -281,10 +295,10 @@ class PurseController extends Controller
         //查出签到的天数和每天的虫豆数量
         $signin_data=DB::table('anchong_signin')->select('day','beans')->get();
         //定义优惠券字段
-        $coupon_data=['acpid','title','cvalue','info','beans'];
+        $coupon_data=['acpid','title','cvalue','target','beans','endline'];
         //查出余额数据
-        $coupon_pool_data=$this->coupon_pool->quer($coupon_data,'open = 1',(($param['page']-1)*$limit),$limit);
-        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['sign_state'=>$sign_state,'signin'=>$signin_data,'coupon'=>$coupon_pool_data]]);
+        $coupon_pool_data=$this->coupon_pool->quer($coupon_data,'endline > '.time().' and open = 1 and beans > 0',(($param['page']-1)*$limit),$limit);
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['sign_state'=>$sign_state,'sign_day'=>$sign_day,'signin'=>$signin_data,'coupon'=>$coupon_pool_data]]);
     }
 
     /*
@@ -327,13 +341,13 @@ class PurseController extends Controller
             }else{
                 //如果没有断签
                 $sign_beans = DB::table('anchong_signin')->where('signin_id', $users_handle->day)->pluck('beans');
-                //假如联系签到天数大于6
-                if($users_handle->day < 7){
-                    //将联系签到天数变成1
+                //假如连续签到天数大于5
+                if($users_handle->day > 5){
+                    //将连续签到天数变成1
                     $users_handle->day=1;
                     $users_handle->sign_time=$nowtime;
                 }else{
-                    //将联系签到天数增加1
+                    //将连续签到天数增加1
                     $users_handle->day =$users_handle->day+1;
                     $users_handle->sign_time=$nowtime;
                 }
@@ -401,6 +415,31 @@ class PurseController extends Controller
     }
 
     /*
+    *   钱袋提现状态
+    */
+    public function withdrawstate(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //得到用户钱袋订单正在提现的数量,看看有没有
+        $num=$this->purse_order->Purse()->whereRaw('users_id ='.$data['guid'].' and action = 2 and state =1')->count();
+        //判断是否有正在提现的账单
+        if($num > 0){
+            //将账单查出来
+            $purse_data=$this->purse_order->Purse()->select('remark','pay_num','price')->whereRaw('users_id ='.$data['guid'].' and action = 2 and state =1')->first();
+            $pay_num=explode(":",$purse_data->pay_num);
+            //取出正在提现的信息
+            $remark=$purse_data->remark;
+            $account=$pay_num[1];
+            $price=$purse_data->price;
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['state'=>1,'remark'=>$remark,'account'=>$account,'price'=>$price]]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['state'=>0,'remark'=>"",'account'=>"",'price'=>""]]);
+        }
+    }
+
+    /*
     *   钱袋提现
     */
     public function withdraw(Request $request)
@@ -408,6 +447,27 @@ class PurseController extends Controller
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
         $param=json_decode($data['param'],true);
+        //验证用户传过来的数据是否合法
+        $validator = Validator::make($param,
+        [
+            'name' => 'required',
+            'account' => 'required',
+            'phonecode' => 'required',
+        ]
+        );
+        //如果出错返回出错信息，如果正确执行下面的操作
+        if ($validator->fails())
+        {
+            $messages = $validator->errors();
+            if ($messages->has('name')) {
+                //如果验证失败,返回验证失败的信息
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'收款人姓名不能为空']]);
+            }else if($messages->has('account')){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'收款人账号不能为空']]);
+            }else if($messages->has('phonecode')){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'验证码不能为空']]);
+            }
+        }
         //得到用户信息的句柄
         $users_handle=$this->users->find($data['guid']);
         //判断手机验证码是否正确
@@ -460,7 +520,7 @@ class PurseController extends Controller
         $result=$this->purse_order->add($order_data);
         //判断是否成功
         if($result){
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>"提现成功"]]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['remark'=>$order_data['remark'],'account'=>$param['account'],'price'=>$param['price']]]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'提现失败']]);
         }
