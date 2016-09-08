@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
+    "hash": "1abb6d4c5683201901dadf84f6dba978",
+=======
     "hash": "44e4bc17cfd95523ffa17a1f43787ef1",
+>>>>>>> 5fbd407d8f676f72de951e0f298996797b73d2f3
     "content-hash": "fadb88d8ee232b3b53af273269375a63",
     "packages": [
         {
@@ -1772,6 +1776,18 @@
         },
         {
             "name": "overtrue/socialite",
+<<<<<<< HEAD
+            "version": "1.0.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/socialite.git",
+                "reference": "0582aa49d8298072ef4e726c1d7cd6824df4b8aa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/overtrue/socialite/0582aa49d8298072ef4e726c1d7cd6824df4b8aa.zip",
+                "reference": "0582aa49d8298072ef4e726c1d7cd6824df4b8aa",
+=======
             "version": "1.0.15",
             "source": {
                 "type": "git",
@@ -1782,6 +1798,7 @@
                 "type": "zip",
                 "url": "https://packagist.phpcomposer.com/files/overtrue/socialite/b268a1283dc3f1cbbbf720157aaaef30a247c6a3.zip",
                 "reference": "b268a1283dc3f1cbbbf720157aaaef30a247c6a3",
+>>>>>>> 5fbd407d8f676f72de951e0f298996797b73d2f3
                 "shasum": ""
             },
             "require": {
@@ -1818,7 +1835,11 @@
                 "wechat",
                 "weibo"
             ],
+<<<<<<< HEAD
+            "time": "2016-07-07 03:40:26"
+=======
             "time": "2016-09-03 10:53:28"
+>>>>>>> 5fbd407d8f676f72de951e0f298996797b73d2f3
         },
         {
             "name": "overtrue/wechat",
@@ -2503,7 +2524,11 @@
         },
         {
             "name": "symfony/event-dispatcher",
+<<<<<<< HEAD
+            "version": "v2.8.9",
+=======
             "version": "v2.8.10",
+>>>>>>> 5fbd407d8f676f72de951e0f298996797b73d2f3
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -2612,6 +2637,18 @@
         },
         {
             "name": "symfony/http-foundation",
+<<<<<<< HEAD
+            "version": "v2.8.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/http-foundation.git",
+                "reference": "f20bea598906c990eebe3c70a63ca5ed18cdbc11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/symfony/http-foundation/f20bea598906c990eebe3c70a63ca5ed18cdbc11.zip",
+                "reference": "f20bea598906c990eebe3c70a63ca5ed18cdbc11",
+=======
             "version": "v2.8.10",
             "source": {
                 "type": "git",
@@ -2622,6 +2659,7 @@
                 "type": "zip",
                 "url": "https://packagist.phpcomposer.com/files/symfony/http-foundation/176b094c515ae8ad85484f93999ab6776ec4ac67.zip",
                 "reference": "176b094c515ae8ad85484f93999ab6776ec4ac67",
+>>>>>>> 5fbd407d8f676f72de951e0f298996797b73d2f3
                 "shasum": ""
             },
             "require": {
@@ -2663,7 +2701,11 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
+            "time": "2016-07-30 07:20:35"
+=======
             "time": "2016-08-22 12:09:58"
+>>>>>>> 5fbd407d8f676f72de951e0f298996797b73d2f3
         },
         {
             "name": "symfony/http-kernel",
@@ -3533,6 +3575,8 @@
             "time": "2015-05-11 14:41:42"
         },
         {
+<<<<<<< HEAD
+=======
             "name": "illuminate/config",
             "version": "v5.2.43",
             "source": {
@@ -3817,6 +3861,7 @@
             "time": "2016-08-05 14:49:58"
         },
         {
+>>>>>>> 5fbd407d8f676f72de951e0f298996797b73d2f3
             "name": "mockery/mockery",
             "version": "0.9.5",
             "source": {
