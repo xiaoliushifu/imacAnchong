@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>个人中心</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="home/css/bootstrap.css" rel="stylesheet">
+    <link href="home/css/boot.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="home/css/pcenter.css">
 </head>
 <body>
