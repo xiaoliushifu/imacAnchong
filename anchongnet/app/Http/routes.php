@@ -551,7 +551,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
 
 //前台路由
-Route::group(['domain' => 'www.anchong.com'], function () {
+Route::group(['domain' => 'www.anchong.net'], function () {
     //获取商品参数html代码
     Route::get('/getparam','admin\uEditorController@getParam');
     Route::get('/getpackage','admin\uEditorController@getPackage');
@@ -572,6 +572,19 @@ Route::group(['domain' => 'www.anchong.com'], function () {
         //前台重置密码
         Route::resource('/user/forgetpwd','Home\User\ForgetpwdController');
     });
+
+    /*
+     * 资讯
+     */
+    //资讯首页
+    Route::get('/info','Home\Info\InfoController@index');
+
+
+    /*
+     * 社区
+     */
+    //社区首页
+    Route::get('/community','Home\community\CommunityController@index');
 });
 
 //验证码类,需要传入数字

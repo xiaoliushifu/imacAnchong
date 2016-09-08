@@ -39,10 +39,10 @@
 				</div>
 				<div class="cl"></div>
 				<div class="site-nav">
-					<ul class="navigation">
-						<li class="home"><a href="">首页</a></li>
-						<li class="business">
-							<a href="">商机</a>
+					<<ul class="navigation">
+						<li class="home nav-item"><a href="{{url('/')}}">首页</a></li>
+						<li class="business nav-item">
+							<a href="{{url('/business')}}">商机</a>
 							<span class="business-triangle"></span>
 							<div class="business-list">
 								<p><a href="">工程</a></p>
@@ -50,10 +50,9 @@
 								<p><a href="">找货</a></p>
 							</div>
 						</li>
-						<li class="community"><a href="">社区</a></li>
-						<li class="equipment"><a href="">设备选购</a></li>
-						<li class="news"><a href="">资讯</a></li>
-						<div class="cl"></div>
+						<li class="community nav-item"><a href="{{url('/community')}}">社区</a></li>
+						<li class="equipment nav-item"><a href="{{url('')}}">设备选购</a></li>
+						<li class="news nav-item"><a href="{{url('/info')}}">资讯</a></li>
 					</ul>
 				</div>	
 			</div>	

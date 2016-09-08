@@ -156,7 +156,7 @@ ul,li{
     height: 14px;
     margin-left: 20px;
     margin-right: 5px;
-    background: url("../img/select.png");
+    background: url("../images/cart/select.png");
 }
 .goods{
     margin-left: 130px;
@@ -255,7 +255,7 @@ ul,li{
     margin-right: -5px;
     display: inline-block;
     vertical-align: middle;
-    background: url("../img/minus.jpg");
+    background: url("../images/cart/minus.jpg");
 }
 .count{
     width: 46px;
@@ -264,7 +264,7 @@ ul,li{
     text-align: center;
     display: inline-block;
     vertical-align: middle;
-    background: url("../img/number.jpg");
+    background: url("../images/cart/number.jpg");
 }
 .add{
     height: 26px;
@@ -272,7 +272,7 @@ ul,li{
     margin-left: -5px;
     display: inline-block;
     vertical-align: middle;
-    background: url("../img/add.jpg");
+    background: url("../images/cart/add.jpg");
 }
 .total-price{
     width: 97px;
