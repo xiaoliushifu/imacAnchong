@@ -4,7 +4,6 @@ namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\GoodSupporting;
 use DB;
@@ -106,11 +105,14 @@ class goodSupportingController extends Controller
         $data->delete();
         return "删除成功";
     }
-
+    
+    /**
+     * 商品编辑页，ajax获得配套商品
+     * @param Request $request
+     */
     public function getSupcom(Request $request)
     {
-        $gid=$request->gid;
-        $datas=$this->gs->Good($gid)->get();
-        return $datas;
+        $field=['goods_name','supid'];
+        return $this->gs->Good($request->gid)->get($field);
     }
 }

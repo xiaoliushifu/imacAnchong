@@ -377,6 +377,8 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::resource('/catag','admin\caTagController');
                 //分类管理路由
                 Route::resource('/goodcate','admin\goodCateController');
+                //分类管理路由
+                Route::resource('/purse','admin\PurseController');
 
                 /*
                  *   后台广告
@@ -435,9 +437,9 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::get('/getsiblingstag','admin\caTagController@getSiblings');
 
             //获取商品一级或二级分类路由
-            Route::get('/getlevel','admin\goodCateController@getLevel');
+            Route::get('/getlevel','admin\goodCateController@getsubLevel');
             //获取商品一级或二级分类路由
-            Route::get('/newgetlevel','admin\goodCateController@newgetLevel');
+            Route::get('/newgetlevel','admin\goodCateController@newgetsubLevel');
             //获取商品所有二级分类路由
             Route::get('/getlevel2','admin\goodCateController@getLevel2');
             //获取同一个一级分类下的所有二级分类的路由

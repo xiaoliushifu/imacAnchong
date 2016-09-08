@@ -416,8 +416,6 @@ class PayController extends Controller
                 }
             //个人钱袋订单处理
             }elseif(strlen($paynum) == 15){
-                //开启事务处理
-                DB::beginTransaction();
                 //创建orm
                 $purse_order=new \App\Purse_order();
                 //通过订单查出价格和ID
@@ -444,11 +442,11 @@ class PayController extends Controller
                     $purse_order_handle->save();
                     DB::commit();
                     // 返回处理完成
-                    return 'true';
+                    return 'success';
                 }else{
                     //假如失败就回滚
                     DB::rollback();
-                    return 'false';
+                    return 'fail';
                 }
             }
                 break;
@@ -538,11 +536,11 @@ class PayController extends Controller
                    $purse_order_handle->save();
                    DB::commit();
                    // 返回处理完成
-                   return 'true';
+                   return 'success';
                }else{
                    //假如失败就回滚
                    DB::rollback();
-                   return 'false';
+                   return 'fail';
                }
            }
                break;

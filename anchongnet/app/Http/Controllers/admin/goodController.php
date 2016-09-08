@@ -125,7 +125,7 @@ class goodController extends Controller
         $cids=explode(' ',rtrim($request->type));
         $cid="";
         $catid="";
-        for($j=0;$j<count($cids);$j++){
+        for ($j=0; $j<count($cids); $j++) {
             $cid.=bin2hex($cids[$j])." ";
             $catid.=$cids[$j]." ";
         }
@@ -195,8 +195,7 @@ class goodController extends Controller
        foreach($arr_key as $k) {
            DB::insert("insert into anchong_goods_suggestion (`str`) values ('$k') on duplicate key update snums=snums+1");
        }
-       /*清除关键字缓存操作*/
-
+       
        /*清除关键字缓存操作*/
 
         /*

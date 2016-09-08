@@ -108,7 +108,7 @@ class commodityController extends Controller
         //存储商品的分类信息，不再转码，且加入分类树
         $type="";
         for($i=0;$i<count($request['midselect']);$i++){
-            $type.=($request['mainselect'][$i].','.$request['midselect'][$i])." ";
+            $type.=($request['mainselect'][$i].'uu'.$request['midselect'][$i])." ";
         };
 
         //向goods表中插入数据并获取刚插入数据的主键
@@ -251,7 +251,7 @@ class commodityController extends Controller
         //遍历商品分类的数组，挨个进行转码，为将来分词索引做准备
         $type="";
         for($i=0;$i<count($request['midselect']);$i++){
-            $type.=($request['mainselect'][$i].','.$request['midselect'][$i])." ";
+            $type.=($request['mainselect'][$i].'uu'.$request['midselect'][$i])." ";
         };
 
         $data->keyword=ltrim($keywords);
@@ -274,20 +274,13 @@ class commodityController extends Controller
     {
         $this->goods=new Goods();
         $id = $req->get('npx');
-        \Log::info($id,array('this is goods_id'));
         try{
             DB::beginTransaction();
-            //先删货品相关的
-            //找出该商品下的所有货品ID--,
+            //货品相关
             $gid = DB::table('anchong_goods_specifications')->where('goods_id',$id)->pluck('gid');
-            //\Log::info($gid);
-            //根据gid删除下列两表
             $res['stock'] = DB::table('anchong_goods_stock')->whereIn('gid',$gid)->delete();
             $res['thumb'] = DB::table('anchong_goods_thumb')->whereIn('gid',$gid)->delete();
-            //根据gid找到下表的cat_id
             $cid = DB::table('anchong_goods_type')->whereIn('gid',$gid)->pluck('cat_id');
-            //\Log::info($cid);
-            //根据cat_id删除下列表
             $res['keyword'] = DB::table('anchong_goods_keyword')->whereIn('cat_id',$cid)->delete();
             //深度搜索表
             $res['search'] = DB::table('anchong_goods_search')->where('goods_id',$id)->delete();
@@ -298,17 +291,15 @@ class commodityController extends Controller
             $res['oem'] = DB::table('anchong_goods_oem')->where('goods_id',$id)->delete();
             $res['attr'] = DB::table('anchong_goods_attribute')->where('goods_id',$id)->delete();
             $res['supp'] = DB::table('anchong_goods_supporting')->where('assoc_gid',$id)->delete();
-            //\Log::info($res,array('this is shangpin'));
             DB::commit();
             return '删除商品成功';
         } catch (\Exception $e) {
-            \Log::info($e->getMessage(),array('goods_del_error'));
             return '商品删除有误';
         }
     }
 
     /*
-     * 获取同一个分类下的商品的方法
+     * 根据分类信息获取商品
      * */
     public function getSiblings(Request $request){
         $type=$request['pid'];

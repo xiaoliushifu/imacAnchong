@@ -61,7 +61,7 @@ $(function(){
         //属性
         $("#attrs").empty();
         //获得有关该分类的商品
-        $.get("/getsibilingscommodity",{pid:Level1+','+Level2,sid:sid},function(data,status){
+        $.get("/getsibilingscommodity",{pid:Level1+'uu'+Level2,sid:sid},function(data,status){
             if(data.length==0){
                 $("#name").empty();
                 $("#name").append(nullopt);
@@ -90,7 +90,7 @@ $(function(){
 		var optioner;
         var txt=$("#name option:selected").text();
         $("#attrs").empty();
-        $("#commodityname").val(txt);
+        $("#commodityname").val(txt);//商品名保存
         $.get("/getsiblingsattr",{gid:parseInt(val)},function(data,status){
             for(var i=0;i<data.length;i++){
 			    $("#selectforattr").attr("id","");

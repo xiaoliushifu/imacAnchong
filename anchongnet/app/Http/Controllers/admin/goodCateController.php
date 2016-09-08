@@ -47,7 +47,7 @@ class goodCateController extends Controller
         $pid=$this->cat->find($cid)->parent_id;
         //缓存使用
         if (!$datas = Cache::get($pid)) {
-            $datas=$this->cat->Level($pid)->get();
+            $datas=$this->cat->Pids($pid)->get();
             Cache::add($pid,$datas,'60');
         }
         $datas = $datas->toArray();
@@ -61,12 +61,12 @@ class goodCateController extends Controller
     /*
      * 获取指定一级或二级分类的方法
      * */
-    public function newgetLevel(Request $request)
+    public function newgetsubLevel(Request $request)
     {
         $pid=$request['pid'];
         //缓存的使用
         if (!$datas = Cache::get($pid)) {
-            $datas = Category::Level($pid)->get();
+            $datas = Category::Pids($pid)->get();
             Cache::add($pid,$datas,'60');
         }
         $result['cnum']=$request['id'];
@@ -84,21 +84,21 @@ class goodCateController extends Controller
        $pid=$this->cat->find($cid)->parent_id;
        //使用缓存
        if (!$datas = Cache::get($pid)) {
-           $datas=$this->cat->Level($pid)->get();
+           $datas=$this->cat->Pids($pid)->get();
            Cache::add($pid,$datas,'60');
        }
        return $datas;
    }
 
    /*
-    * 获取指定一级或二级分类的方法
+    * 获取指定分类的子分类的方法
     * */
-   public function getLevel(Request $request)
+   public function getsubLevel(Request $request)
    {
        $pid=$request['pid'];
        //使用缓存，获取pid=0-8
        if (!$datas = Cache::get($pid)) {
-           $datas = Category::Level($pid)->get(['cat_id','cat_name']);
+           $datas = Category::Pids($pid)->get(['cat_id','cat_name']);
            Cache::add($pid,$datas,'60');
        }
        return $datas;
@@ -216,7 +216,7 @@ class goodCateController extends Controller
             return '顶级分类不可删除';
         }
         //该分类是否有子分类
-        if (Category::Level($id)->get()->toArray()) {
+        if (Category::Pids($id)->get()->toArray()) {
             return '该分类下仍有子分类信息';
         }
         //该分类下是否有商品
