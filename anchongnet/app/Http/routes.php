@@ -558,6 +558,36 @@ Route::group(['domain' => 'www.anchong.net'], function () {
     //获取虫虫资讯
     Route::get('/information/{infor_id}','Api\Advert\AdvertController@informations');
     Route::get('/','home\indexController@index');
+
+    Route::group(['namespace'=>'home\Business'],function(){
+        //    商机主页
+        Route::get('/business','BusinessController@index');
+        //    工程详情
+        Route::get('/pro/{bid}','BusinessController@project');
+        //    工程列表
+        Route::get('/gc','BusinessController@talent');
+        //    找货列表
+        Route::get('/sergoods','BusinessController@sergoods');
+        //    人才列表
+        Route::get('/orderlist','BusinessController@orderlist');
+        //    人才详情
+        Route::get('/order/{bid}','BusinessController@ordermain');
+        //    发布聊聊
+        Route::get('/chat','BusinessController@chat');
+        //    发布人才
+        Route::get('/reorder','BusinessController@reorder');
+        //    发布找货
+        Route::get('/fngoods','BusinessController@fngoods');
+        //    发布工程
+        Route::get('/releaseeg','BusinessController@releaseeg');
+//        设备选购安虫自营
+        Route::get('/ancself','BusinessController@ancshop');
+//        第三方商城
+        Route::get('/thirdshop','BusinessController@thirdshop');
+    });
+
+
+
     //前台安全防护
     Route::group(['middleware'=>'csrf'],function(){
         //个人中心
