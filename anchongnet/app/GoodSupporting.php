@@ -12,7 +12,7 @@ class GoodSupporting extends Model
     public $timestamps = false;
 
     /*
-     * 查找某个商品的所有关联商品
+     * 查找某个商品的所有关联商品,也叫配套商品
      * */
     public function scopeGood($query,$keyGood)
     {

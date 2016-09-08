@@ -11,8 +11,9 @@ $(function(){
         $.get("/good/"+id,function(data,status){
             $("#market").text(data.market_price);
             $("#cost").text(data.goods_price);
+            $("#good").text(data.title);
             $("#vip").text(data.vip_price);
-            $("#desc").text(data.goods_desc);
+            $("#desc").text(data.goods_desc);//暂无
             $("#viewmodel").text(data.model);
             $("#goodpic").attr("href",data.goods_img);
             $("#goodpic img").attr("src",data.goods_img);
@@ -24,6 +25,10 @@ $(function(){
         $.get("/goodcate/"+cid,function(data,status){
             $("#cat").text(data.cat_name);
         });
+        
+        /**
+         * 库存数
+         */
         $.get("/getStock",{gid:id},function(data,status){
             $("#stock").empty();
             var dl;
@@ -31,11 +36,6 @@ $(function(){
                 dl="<dl class='dl-horizontal'>  <dd>"+data[i].region_num+"</dd> </dl>";
                 $("#stock").append(dl);
             }
-        });
-        //根据商品id,去goods表里获得商品title
-        var gid=$(this).attr("data-gid");
-        $.get("/commodity/"+gid,function(data,status){
-            $("#good").text(data.title);
         });
     });
 
@@ -60,7 +60,6 @@ $(function(){
         var id=$(this).attr("data-id");
         var gid=$(this).attr("data-gid");
         var sid=$("#sid").val();
-        var opt;
         var opts;
         var firstPid;
         var opt;
@@ -72,6 +71,7 @@ $(function(){
             opts='<div class="form-group"><label class="col-sm-2 control-label">商品分类</label><div class="col-sm-10"><div class="row"><div class="col-xs-4"><select class="form-control" id="mainselect'+c+'" name="mainselect'+c+'"></select></div><div class="col-xs-4"><select class="form-control" id="midselect'+c+'" name="midselect'+c+'"></select></div></div></div></div>';
 
             $("#goodscat").append(opts);
+            //获取一级分类信息
             $.get("/newgetlevel",{pid:one0,id:c},function(data,status){
                 for(var i=0;i<data.datas.length;i++){
                     opt="<option  value="+data.datas[i].cat_id+">"+data.datas[i].cat_name+"</option>";
