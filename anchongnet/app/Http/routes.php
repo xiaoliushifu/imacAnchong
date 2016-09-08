@@ -559,6 +559,8 @@ Route::group(['domain' => 'www.anchong.net'], function () {
     Route::get('/information/{infor_id}','Api\Advert\AdvertController@informations');
     Route::get('/','home\indexController@index');
 
+
+//商机部分路由
     Route::group(['namespace'=>'home\Business'],function(){
         //    商机主页
         Route::get('/business','BusinessController@index');
@@ -586,6 +588,25 @@ Route::group(['domain' => 'www.anchong.net'], function () {
         Route::get('/thirdshop','BusinessController@thirdshop');
     });
 
+//    个人中心部分路由
+    Route::group(['namespace'=>'home\Pcenter'],function() {
+//        服务消息
+        Route::get('/servermsg','IndexController@servermsg');
+//        地址管理
+        Route::get('/adress','IndexController@adress');
+//        申请商铺
+        Route::get('/applysp','IndexController@applysp');
+//        基本资料
+        Route::get('/basics','IndexController@basics');
+//        商铺认证
+        Route::get('/honor','IndexController@honor');
+//        我的发布
+        Route::get('/mypublish','IndexController@publish');
+//        发包工程
+        Route::get('/conwork','IndexController@work');
+//        上传头像
+        Route::get('/uphead','IndexController@uphead');
+    });
 
 
     //前台安全防护
