@@ -105,10 +105,10 @@ class commodityController extends Controller
             }
         };
 
-        //存储商品的分类信息，不再转码，且加入分类树
+        //存储商品的分类信息，转码
         $type="";
         for($i=0;$i<count($request['midselect']);$i++){
-            $type.=($request['mainselect'][$i].'uu'.$request['midselect'][$i])." ";
+            $type.=bin2hex($request['midselect'][$i])." ";
         };
 
         //向goods表中插入数据并获取刚插入数据的主键
@@ -251,7 +251,7 @@ class commodityController extends Controller
         //遍历商品分类的数组，挨个进行转码，为将来分词索引做准备
         $type="";
         for($i=0;$i<count($request['midselect']);$i++){
-            $type.=($request['mainselect'][$i].'uu'.$request['midselect'][$i])." ";
+            $type.=bin2hex($request['midselect'][$i])." ";
         };
 
         $data->keyword=ltrim($keywords);

@@ -41,7 +41,7 @@
     			</a>
     			<ul class="treeview-menu">
     				<li><a href="/coupon"><i class="fa fa-circle-o"></i>优惠券列表</a></li>
-    				<li><a href="/coupon/create"><i class="fa fa-circle-o"></i>优惠券添加</a></li>
+    				<li><a href="/coupon/create"><i class="fa fa-circle-o"></i>优惠券生成</a></li>
     			</ul>
     		</li>
 			<li class="treeview" id="treewithdraw">
