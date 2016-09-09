@@ -1,16 +1,63 @@
 
 $(function(){
-    $('.buslist').click(function(){
-        $('.cart').toggle();
+
+    //
+    //$('.buslist').toggle(function(){
+    //    $(this).next(".cart").hide();
+    //},function(){
+    //    $(this).next(".cart1").show();
+    //},function(){
+    //    $(this).next(".cart2").show();
+    //})
+
+
+    $('.buslist').on("click", function(e){
+        $(".cart").show();
+
+        $(document).one("click", function(){
+            $(".cart").hide();
+        });
+
+        e.stopPropagation();
+    });
+    $(".cart").on("click", function(e){
+        e.stopPropagation();
     });
 
-    $('.buslist1').click(function(){
-        $('.cart1').toggle();
+
+
+    $('.buslist1').on("click", function(e){
+        $(".cart1").show();
+
+        $(document).one("click", function(){
+            $(".cart1").hide();
+        });
+
+        e.stopPropagation();
+    });
+    $(".cart1").on("click", function(e){
+        e.stopPropagation();
     });
 
-    $('.buslist2').click(function(){
-        $('.cart2').toggle();
+    $('.buslist2').on("click", function(e){
+        $(".cart2").show();
+
+        $(document).one("click", function(){
+            $(".cart2").hide();
+        });
+
+        e.stopPropagation();
     });
+    $(".cart2").on("click", function(e){
+        e.stopPropagation();
+    });
+
+
+
+
+
+
+
 })
 
 
