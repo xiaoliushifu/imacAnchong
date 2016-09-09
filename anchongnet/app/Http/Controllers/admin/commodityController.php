@@ -110,7 +110,6 @@ class commodityController extends Controller
         for($i=0;$i<count($request['midselect']);$i++){
             $type.=bin2hex($request['midselect'][$i])." ";
         };
-
         //向goods表中插入数据并获取刚插入数据的主键
         $gid = DB::table('anchong_goods')->insertGetId(
             [
@@ -253,7 +252,6 @@ class commodityController extends Controller
         for($i=0;$i<count($request['midselect']);$i++){
             $type.=bin2hex($request['midselect'][$i])." ";
         };
-
         $data->keyword=ltrim($keywords);
         $data->type=trim($type);
         $result=$data->save();
