@@ -305,6 +305,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/purse/signin','Api\Purse\PurseController@signin');
         //钱袋充值
         Route::post('/purse/recharge','Api\Purse\PurseController@recharge');
+        //钱袋提现状态
+        Route::post('/purse/withdrawstate','Api\Purse\PurseController@withdrawstate');
         //钱袋提现
         Route::post('/purse/withdraw','Api\Purse\PurseController@withdraw');
         //钱袋账单
@@ -634,6 +636,19 @@ Route::group(['domain' => 'anchong.hd'], function () {
         //前台重置密码
         Route::resource('/user/forgetpwd','Home\User\ForgetpwdController');
     });
+
+    /*
+     * 资讯
+     */
+    //资讯首页
+    Route::get('/info','Home\Info\InfoController@index');
+
+
+    /*
+     * 社区
+     */
+    //社区首页
+    Route::get('/community','Home\community\CommunityController@index');
 });
 
 //验证码类,需要传入数字
