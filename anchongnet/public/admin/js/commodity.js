@@ -1,10 +1,43 @@
 /**
  * Created by lengxue on 2016/4/26.
  */
-//二级分类信息 catarr[1]里包含parent=1的二级
-//二级分类信息 catarr[2]里包含parent=2的二级
-var catarr=[];
+
+//二级分类信息 catarr[1]=[[56,'智能']]
+//二级分类信息 catsibs[56]里是二级56的信息
+var catarr=[[], [], [], [], [], [], [], [], [], []];
+var catsibs=[];
 $(function(){
+	
+	//自定义转码函数
+	var hex2bin = function(data){
+	    var data = (data || '') + '';
+	    var tmpStr = '';
+	    if (data.length % 2) {
+	        console && console.log('hex2bin(): Hexadecimal input string must have an even length');
+	        return false;
+	    }
+	    if (/[^\da-z]/ig.test(data)) {
+	        console && console.log('hex2bin(): Input string must be hexadecimal string');
+	        return false;
+	    }
+	    for (var i = 0, j = data.length; i < j; i += 2) {
+	        tmpStr += '%' + data[i] + data[i + 1];
+	    }
+	    return decodeURIComponent(tmpStr);
+	}
+	//获取子分类
+	var getsublevel = function (plevel){
+		$.get("/getlevel",{pid:plevel},function(data,status){
+			return data;
+		});
+	};
+	//获取兄弟分类
+	var getsiblevel = function (level){
+	    	$.get("/getsiblingstag",{cid:level},function(data,status){
+	    		return data;
+	    	});
+	};
+	
     //加载一级分类
     var one0=0;
     $.get("/getlevel",{pid:one0},function(data,status){
@@ -13,6 +46,8 @@ $(function(){
             $(".mainselect").append(opt);
         }
     });
+    
+    
     
     $(".edit").click(function() {
         $("#stock").empty();
@@ -61,24 +96,28 @@ $(function(){
 	        	tmpcat = cat.clone(true);
 	        	$("#catarea").append(tmpcat);
 	            //如果凑巧这个二级分类信息已经有了
-	        	Level1 = (arr[f].split('uu'))[0];
-	        	Level2 = (arr[f].split('uu'))[1];
-	        	if(!catarr[Level1]) {
+	        	Level2 = hex2bin(arr[f]);
+	        	if(!catsibs[Level2]) {
 	        		//不存在时只得跑一趟了
 		            $.ajax({
-		            	url:'/getlevel',
-		            	data:{pid:Level1},
+		            	url:'/getsiblingscat',
+		            	data:{cid:Level2},
 		            	async:false,//同步
 		            	success:function(data){
-			                //缓存二级分类，下次就无需再跑一趟了
-		            		catarr[Level1]=data;
+		            		Level1 = data[0].parent_id;
+		            		for(var i in data){
+		            			catsibs[data[i].cat_id+''] = data[i];
+		            			catarr[Level1].push([data[i].cat_id,data[i].cat_name]);
+		            		}
 		            	},
-		            });
+		        });
 	        	}
+	        	Level1 = catsibs[Level2].parent_id;
+	        	var opt;
             for (var j = 0; j < (catarr[Level1]).length; j++) {
-                var opt = "<option  value='" + catarr[Level1][j].cat_id + "'>" + catarr[Level1][j].cat_name + "</option>";
-                $('#catarea .midselect:eq('+f+')').append(opt);
+                opt += "<option  value='" + catarr[Level1][j][0] + "'>" + catarr[Level1][j][1] + "</option>";
             }
+            $('#catarea .midselect:eq('+f+')').append(opt);
           //设置选中项
             $('#catarea .mainselect:eq('+f+') option[value="'+Level1+'"]').attr("selected",true);
             $('#catarea .midselect:eq('+f+') option[value="'+Level2+'"]').attr("selected",true);

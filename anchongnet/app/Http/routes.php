@@ -560,6 +560,68 @@ Route::group(['domain' => 'www.anchong.net'], function () {
     //获取虫虫资讯
     Route::get('/information/{infor_id}','Api\Advert\AdvertController@informations');
     Route::get('/','home\indexController@index');
+
+
+//商机部分路由
+    Route::group(['namespace'=>'home\Business'],function(){
+        //    商机主页
+        Route::get('/business','BusinessController@index');
+        //    工程详情
+        Route::get('/pro/{bid}','BusinessController@project');
+        //    工程列表
+        Route::get('/gc','BusinessController@talent');
+        //    找货列表
+        Route::get('/sergoods','BusinessController@sergoods');
+        //    人才列表
+        Route::get('/orderlist','BusinessController@orderlist');
+        //    人才详情
+        Route::get('/order/{bid}','BusinessController@ordermain');
+        //    发布聊聊
+        Route::get('/chat','BusinessController@chat');
+        //    发布人才
+        Route::get('/reorder','BusinessController@reorder');
+        //    发布找货
+        Route::get('/fngoods','BusinessController@fngoods');
+        //    发布工程
+        Route::get('/releaseeg','BusinessController@releaseeg');
+//        设备选购安虫自营
+        Route::get('/ancself','BusinessController@ancshop');
+//        第三方商城
+        Route::get('/thirdshop','BusinessController@thirdshop');
+    });
+
+//    个人中心部分路由
+    Route::group(['namespace'=>'home\Pcenter'],function() {
+//        服务消息
+        Route::get('/servermsg','IndexController@servermsg');
+//        地址管理
+        Route::get('/adress','IndexController@adress');
+//        申请商铺
+        Route::get('/applysp','IndexController@applysp');
+//        基本资料
+        Route::get('/basics','IndexController@basics');
+//        商铺认证
+        Route::get('/honor','IndexController@honor');
+//        我的发布
+        Route::get('/mypublish','IndexController@publish');
+//        发包工程
+        Route::get('/conwork','IndexController@work');
+//        上传头像
+        Route::get('/uphead','IndexController@uphead');
+
+
+//        个人中心收藏
+//        商品
+        Route::get('/colgoods','IndexController@colgoods');
+//        商铺
+        Route::get('/colshop','IndexController@colshop');
+//        社区
+        Route::get('/colcommunity','IndexController@colcommunity');
+
+
+    });
+
+
     //前台安全防护
     Route::group(['middleware'=>'csrf'],function(){
         //个人中心
@@ -574,6 +636,19 @@ Route::group(['domain' => 'www.anchong.net'], function () {
         //前台重置密码
         Route::resource('/user/forgetpwd','Home\User\ForgetpwdController');
     });
+
+    /*
+     * 资讯
+     */
+    //资讯首页
+    Route::get('/info','Home\Info\InfoController@index');
+
+
+    /*
+     * 社区
+     */
+    //社区首页
+    Route::get('/community','Home\community\CommunityController@index');
 });
 
 //验证码类,需要传入数字

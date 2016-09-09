@@ -4,7 +4,11 @@
 Homestead.yaml
 Homestead.json
 .env
+.env.example
+cache/compiled.php
+cache/services.php
 .DS_Store
 /storage
 .idea/
 .idea
+.env.example

@@ -75,8 +75,7 @@ class goodCateController extends Controller
     }
 
     /*
-    * 获取某个二级分类的所有兄弟分类的方法
-    * 即获取同一个一级分类下的所有二级分类的方法
+    * 由二级分类获取同一个父分类下的所有二级分类的方法
     * */
    public function getSiblings(Request $request)
    {
@@ -106,7 +105,7 @@ class goodCateController extends Controller
 
 
     /*
-     * 获取所有二级分类的方法
+     * 获取所有非顶级分类的方法，目前只有两级分类
      * */
     public function getLevel2()
     {
