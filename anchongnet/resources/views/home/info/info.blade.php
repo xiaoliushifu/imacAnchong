@@ -2,25 +2,25 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>上传干货</title>
-    <link rel="stylesheet" type="text/css" href="home/css/upload.css"/>
+    <title>资讯</title>
+    <link rel="stylesheet" type="text/css" href="{{url('../home/css/information.css')}}"/>
 </head>
 <body>
 <div class="site-top">
     <div class="top-container">
         <ul class="info">
-            <li>邮箱：<a href="mailto:www@anchong.net">www@anchong.net</a></li>
+            <li class="mail">邮箱：<a href="mailto:www.anchong.net">www@anchong.net</a></li>
             <li class="tel">垂询电话：0317-8155026</li>
             <li>
-                <img class="little-tx" src="home/images/p61.jpg"/>
+                <img class="little-tx" src="{{url('/home/images/business/tx.jpg')}}"/>
                 <span class="userinfo">
-				    风信子
-					<span class="info-triangle"></span>
-						<div class="cart">
-							<p><a href="">购物车</a></p>
-							<p><a href="">收藏夹</a></p>
-						</div>
-				</span>
+                    风信子
+                    <span class="info-triangle"></span>
+                    <div class="cart">
+						<p><a href="">购物车</a></p>
+						<p><a href="">收藏夹</a></p>
+					</div>
+                </span>
             </li>
         </ul>
     </div>
@@ -30,6 +30,13 @@
         <div class="logo">
             <a href="{{url('/')}}"><img src="{{url('/home/images/logo.jpg')}}"/></a>
         </div>
+        <div class="search">
+            <form class="search-form" method="post">
+                <input type="text" name="search" class="search-text"/>
+                <input type="submit" value="搜索" class="search-btn"/>
+            </form>
+        </div>
+        <div class="cl"></div>
         <div class="site-nav">
             <ul class="navigation">
                 <li class="home nav-item"><a href="{{url('/')}}">首页</a></li>
@@ -43,37 +50,27 @@
                     </div>
                 </li>
                 <li class="community nav-item"><a href="{{url('/community')}}">社区</a></li>
-                <li class="equipment nav-item"><a href="{{url('/ancself')}}">设备选购</a></li>
+                <li class="equipment nav-item"><a href="{{url('')}}">设备选购</a></li>
                 <li class="news nav-item"><a href="{{url('/info')}}">资讯</a></li>
             </ul>
         </div>
     </div>
 </div>
 <div class="site-middle">
-    <div class="middle-cont">
-        <div class="middle-top">
-            <i class="site-location">您的位置:</i>
-            <i class="index">首页</i>
-            <span class =connector"">></span>
-            <i class="personal">资讯</i>
-            <span class ="connector">></span>
-            <i class="upload">上传干货</i>
-        </div>
-        <div class="upload-status">
-            <img src="home/images/info/uploading.png">
-        </div>
-        <div class="upload-content">
-            <a href=""><img src="home/images/info/selected_text.png"></a>
-            <p>从我的电脑选择要上传的文档：按住CTRL可以上传多份文档</p>
-        </div>
-        <div class="tips">
-            <h3>温馨提示</h3>
-            <p>1.你可以上传日常积累和撰写的文档资料，或者施工案例，支持多种文档类型：doc，docx，ppt，ppts，xls，xlsx，wps，PDF，txt。</p>
-            <p>2.上传侵权内容的文档会被移除。</p>
-            <p>3.为营造绿色的网络环境，严禁上传淫秽色情集低俗信息文档，让我们携手共同打造健康技术干货</p>
+    <div class="middle-content">
+        <div class="middle-top" style="margin-top: 20px">
+            <h3 style="text-align: center">{{$info->title}}</h3>
+            <p style="margin-top: 10px">{!! $info->content !!}</p>
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
 <div class="site-footer">
     <div class="footer-top">
         <div class="footer-top-container">
@@ -109,11 +106,11 @@
                 <ul>
                     <li>
                         <h4>下载安虫APP客户端</h4>
-                        <img src="./img/app.jpg"/>
+                        <img src="{{url('/home/images/1.jpg')}}"/>
                     </li>
                     <li>
                         <h4>安虫微信订阅号</h4>
-                        <img src="./img/dyh.jpg"/>
+                        <img src="{{url('/home/images/2.jpg')}}"/>
                     </li>
                     <div class="cl"></div>
                 </ul>

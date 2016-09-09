@@ -553,13 +553,13 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
 
 //前台路由
-Route::group(['domain' => 'www.anchong.net'], function () {
+Route::group(['domain' => 'www.anchong.test'], function () {
     //获取商品参数html代码
     Route::get('/getparam','admin\uEditorController@getParam');
     Route::get('/getpackage','admin\uEditorController@getPackage');
     //获取虫虫资讯
     Route::get('/information/{infor_id}','Api\Advert\AdvertController@informations');
-    Route::get('/','home\indexController@index');
+    Route::get('/','home\IndexController@index');
 
 
 //商机部分路由
@@ -640,8 +640,12 @@ Route::group(['domain' => 'www.anchong.net'], function () {
     /*
      * 资讯
      */
-    //资讯首页
-    Route::get('/info','Home\Info\InfoController@index');
+    Route::group(['namespace'=>'Home\Info'],function(){
+        Route::get('/info','InfoController@index');
+        Route::get('/info/{infor_id}','InfoController@info');
+        Route::get('/upload','InfoController@upload');
+    });
+
 
 
     /*

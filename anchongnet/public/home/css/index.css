@@ -138,7 +138,6 @@ h1{
 }
 .nav-item a{
     color: #606060;
-    font-size: 14px;
 }
 .nav-item:hover{
     background-color: #1DABD8;
@@ -319,6 +318,10 @@ h1{
 .recommend-5{
     height: 340px;
     position: relative;
+}
+.recommend-5 img{
+    width: 220px;
+    height: 340px;
 }
 .bottom{
     padding-left: 23px;

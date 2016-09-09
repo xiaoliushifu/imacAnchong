@@ -129,7 +129,6 @@ ul,li{
 }
 .nav-item a{
     color: #606060;
-    font-size: 14px;
 }
 .nav-item:hover{
     background-color: #1DABD8;
@@ -297,6 +296,8 @@ ul,li{
     margin-bottom: 10px;
 }
 .info-desc p{
+    width: 1000px;
+    height: 24px;
     font-size: 14px;
     color: #9b9b9b;
     text-overflow: ellipsis;
@@ -320,10 +321,22 @@ ul,li{
     height: 80px;
     margin: 0 auto;
 }
-.page-select{
+.pagination{
     margin-left: 380px;
     margin-top: 50px;
     float:left ;
+}
+.pagination li{
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    text-align: center;
+    line-height: 20px;
+    outline: 1px solid #9b9b9b;
+}
+.pagination a{
+    color: #9b9b9b;
 }
 .page-select li{
     display: inline-block;

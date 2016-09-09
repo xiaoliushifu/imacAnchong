@@ -9,7 +9,7 @@
 <div class="site-top">
     <div class="top-container">
         <ul class="info">
-            <li class="tel">垂询电话：010-88888888</li>
+            <li class="tel">垂询电话：0317-8155026</li>
             <li>
                 <a href="{{url('/user/login')}}">登陆</a>/<a href="{{url('/user/register')}}">注册</a>
             </li>
@@ -44,16 +44,16 @@
             <ul class="navigation">
                 <li class="home nav-item"><a href="{{url('/')}}">首页</a></li>
                 <li class="business nav-item">
-                    <a href="{{url('')}}">商机</a>
+                    <a href="{{url('/business')}}">商机</a>
                     <span class="business-triangle"></span>
                     <div class="business-list">
-                        <p><a href="">工程</a></p>
-                        <p><a href="">人才</a></p>
-                        <p><a href="">找货</a></p>
+                        <p><a href="{{url('/gc')}}">工程</a></p>
+                        <p><a href="{{url('orderlist')}}">人才</a></p>
+                        <p><a href="{{url('/sergoods')}}">找货</a></p>
                     </div>
                 </li>
                 <li class="community nav-item"><a href="{{url('/community')}}">社区</a></li>
-                <li class="equipment nav-item"><a href="{{url('')}}">设备选购</a></li>
+                <li class="equipment nav-item"><a href="{{url('/ancself')}}">设备选购</a></li>
                 <li class="news nav-item"><a href="{{url('/info')}}">资讯</a></li>
             </ul>
         </div>
@@ -77,8 +77,8 @@
                 <div class="information">
                     <p class="title"><a href=""><img src="home/images/info.png"></a></p>
                     <div class="hot-info">
-                        <p><img src="home/images/hot.png"><a href="">视频干扰分析和解决方法</a></p>
-                        <p><img src="home/images/hot.png"><a href="">停车场管理系统常见故障</a></p>
+                        <p><img src="home/images/hot.png"><a href="{{url('/info/'.$info[0]->infor_id)}}">{{$info[0]->title}}</a></p>
+                        <p><img src="home/images/hot.png"><a href="{{url('/info/'.$info[1]->infor_id)}}">{{$info[1]->title}}</a></p>
                     </div>
                 </div>
             </li>
@@ -98,37 +98,37 @@
             <h1>推荐工程</h1>
             <ul class="recommended-list">
                 <li class="recommended-left recommend-1">
-                    <a>
-                        <img src="home/images/72.jpg">
-                        <p>此处是工程标题</p>
+                    <a href="{{url('pro/'.$hot[0]->bid)}}">
+                        <img src="{{$hot[0]->img}}">
+                        <p>{{$hot[0]->title}}</p>
                     </a>
                 </li>
                 <li class="recommended-cnter">
                     <ul>
                         <li class="recommend-2">
-                            <a>
-                                <img src="home/images/73.jpg">
-                                <p>此处是工程标题</p>
+                            <a href="{{url('pro/'.$hot[1]->bid)}}">
+                                <img src="{{$hot[1]->img}}">
+                                <p>{{$hot[1]->title}}</p>
                             </a>
                         </li>
                         <li class="recommend-3">
-                            <a>
-                                <img src="home/images/74.jpg">
-                                <p>此处是工程标题</p>
+                            <a href="{{url('pro/'.$hot[2]->bid)}}">
+                                <img src="{{$hot[2]->img}}">
+                                <p>{{$hot[2]->title}}</p>
                             </a>
                         </li>
                         <li class="recommend-4">
-                            <a>
-                                <img src="home/images/75.jpg">
-                                <p>此处是工程标题</p>
+                            <a href="{{url('pro/'.$hot[4]->bid)}}">
+                                <img src="{{$hot[3]->img}}">
+                                <p>{{$hot[3]->title}}</p>
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="recommend-5 recommended-right">
-                    <a>
-                        <img src="home/images/76.jpg">
-                        <p>此处是工程标题</p>
+                    <a href="{{url('pro/'.$hot[4]->bid)}}">
+                        <img src="{{$hot[4]->img}}">
+                        <p>{{$hot[4]->title}}</p>
                     </a>
                 </li>
             </ul>
