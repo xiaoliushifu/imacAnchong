@@ -103,7 +103,7 @@ $(function(){
                 }
             }
         });
-        //选择商品时，从goods表里获得商品的关键字和商品id，type字段为商品id
+        //选择商品时，从goods表里获得商品的关键字和商品类型，商品描述
         $.get("/commodity/"+val,function(data,status){
             $("#keyword").val(data.keyword);
             $("#type").val(data.type);
