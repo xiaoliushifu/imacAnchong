@@ -187,6 +187,13 @@ class commodityController extends Controller
             }
             $data[0]['keyword']=$str;
         }
+        //商品类型转码
+        $arr=preg_split('#\s#', $data[0]['type'],-1,PREG_SPLIT_NO_EMPTY);
+            $str="";
+            for($i=0;$i<count($arr);$i++){
+                $str.=hex2bin($arr[$i])." ";
+            }
+            $data[0]['type']=$str;
         return $data[0];
     }
 
