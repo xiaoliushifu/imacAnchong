@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>人才列表</title>
     <link rel="stylesheet" href="home/css/rencailist.css">
-    <script src="home/js/jquery-3.0.0.min.js"></script>
+    <script src="home/js/jquery-3.1.0.min.js"></script>
 
 
 </head>

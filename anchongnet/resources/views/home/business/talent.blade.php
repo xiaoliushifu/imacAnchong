@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<title>工程列表</title>
 		<link rel="stylesheet" type="text/css" href="../home/css/talent.css"/>
-		<script src="../home/js/jquery-3.0.0.min.js"></script>
+		<script src="../home/js/jquery-3.1.0.min.js"></script>
 		<script src="../home/js/talent.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body>
@@ -79,8 +79,20 @@
 							<li class="type-list">呼救器</li>
 							<li class="type-list">楼宇对讲</li>
 							<li class="type-list">快速通道</li>
-							<li class="show-list">展开</li>
+							<li class="show-list"><span id="flip">展开 <b class="caret"></b></span></li>
                             <div class="cl"></div>
+						</ul>
+						<ul class="server-type" id="yy" style="display: none;">
+							<li><a href="#">按时打算</a></li>
+							<li><a href="#">探测监视</a></li>
+							<li><a href="#">防护保障</a></li>
+							<li><a href="#">探测报警</a></li>
+							<li><a href="#">弱电工程</a></li>
+							<li><a href="#">呼救器</a></li>
+							<li><a href="#">楼宇对讲</a></li>
+							<li ><a href="#">快速通道</a></li>
+							<li><a href="#">楼宇对讲</a></li>
+							<li ><a href="#">快速通道</a></li>
 						</ul>
 						<ul class="server-area">
 							<li class="area-title" style="width:180px">区&nbsp;&nbsp;域</li>
@@ -91,9 +103,22 @@
 							<li class="area-list">石家庄</li>
 							<li class="area-list">衡水市</li>
 							<li class="area-list">邢台市</li>
-							<li class="show-list">展开</li>
+							<li class="show-list"><span id="show">展开<b class="caret"></b></span></li>
                             <div class="cl"></div>
 						</ul>
+						<ul class="server-type" id="adress" style="display: none">
+							<li><a href="#">北京市</a></li>
+							<li><a href="#">上海市</a></li>
+							<li><a href="#">武汉市</a></li>
+							<li><a href="#">保定市</a></li>
+							<li><a href="#">石家庄市</a></li>
+							<li><a href="#">衡水市</a></li>
+							<li><a href="#">邢台市</a></li>
+							<li><a href="#">北京市</a></li>
+							<li><a href="#">上海市</a></li>
+							<li><a href="#">武汉市</a></li>
+						</ul>
+
 					</div>
 				</div>
 				<div class="project-list">
@@ -140,5 +165,6 @@
 			</div>
 		</div>
 	@include('inc.home.footer')
+		<script src="home/js/orderlist.js"></script>
 	</body>
 </html>

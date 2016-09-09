@@ -5,7 +5,7 @@
     <title>基本资料</title>
     <link rel="stylesheet" type="text/css" href="home/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="home/css/basics.css">
-    <script type="text/javascript" src="home/js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="home/js/jquery-3.1.0.min.js"></script>
      <script type="text/javascript" src="home/js/bootstrap.js"></script>
 </head>
 <body>
@@ -38,9 +38,9 @@
         </div>
         <div class="topone-3">
             <ul>
-                <li  class="ppp"><a href="#" >首页</a><img src="home/images/mine/up.png" alt=""> </li>
-                <li  class="ppp"><a href="#" >个人资料</a><img src="home/images/mine/up.png" alt=""> </li>
-                <li  class="ppp"><a href="#" >消息</a><img src="home/images/mine/up.png" alt=""> </li>
+                <li  class="ppp"><a href="{{url('/pcenter')}}" >首页</a><img src="home/images/mine/up.png" alt=""> </li>
+                <li  class="ppp"><a href="{{url('/basics')}}" >个人资料</a><img src="home/images/mine/up.png" alt=""> </li>
+                <li  class="ppp"><a href="{{url('/servermsg')}}" >消息</a><img src="home/images/mine/up.png" alt=""> </li>
             </ul>
         </div>
 
@@ -57,11 +57,11 @@
         <div class="toppp">
             <ul>
                 <hr>
-                <li><a href="#">地址管理</a></li>
+                <li><a href="{{url('/adress')}}">地址管理</a></li>
                 <hr>
-                <li><a href="#">商铺申请</a></li>
+                <li><a href="{{url('applysp')}}">商铺申请</a></li>
                 <hr>
-                <li><a href="#">商家认证</a></li>
+                <li><a href="{{url('honor')}}">商家认证</a></li>
                 <hr>
 
             </ul>
@@ -70,7 +70,7 @@
     <div class="mainrg">
         <form action="" method="">
         <div class=" daomain">
-           <h4><a href="">基本资料</a></h4> <p><a href="">头像上传</a></p>
+           <h4><a href="{{url('/basics')}}">基本资料</a></h4> <p><a href="{{url('/uphead')}}">头像上传</a></p>
         </div>
             <div class="detail">
                 <div class="papers">

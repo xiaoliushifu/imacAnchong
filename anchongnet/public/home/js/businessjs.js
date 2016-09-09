@@ -1,15 +1,7 @@
 
 $(function(){
 
-    //
-    //$('.buslist').toggle(function(){
-    //    $(this).next(".cart").hide();
-    //},function(){
-    //    $(this).next(".cart1").show();
-    //},function(){
-    //    $(this).next(".cart2").show();
-    //})
-
+//商机主页导航下拉
 
     $('.buslist').on("click", function(e){
         $(".cart").show();
@@ -60,7 +52,7 @@ $(function(){
 
 })
 
-
+//商机主页轮播
 
 $(function(){
     var timer=setInterval(function(){

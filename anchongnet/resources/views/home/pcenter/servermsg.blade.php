@@ -5,7 +5,7 @@
     <title>服务消息</title>
     <link rel="stylesheet" type="text/css" href="home/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="home/css/servermsg.css">
-    <script type="text/javascript" src="home/js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="home/js/jquery-3.1.0.min.js"></script>
      <script type="text/javascript" src="home/js/bootstrap.js"></script>
 </head>
 <body>
@@ -38,9 +38,9 @@
         </div>
         <div class="topone-3">
             <ul>
-                <li  class="ppp"><a href="#" >首页</a><img src="home/images/mine/up.png" alt=""> </li>
-                <li  class="ppp"><a href="#" >个人资料</a><img src="home/images/mine/up.png" alt=""> </li>
-                <li  class="ppp"><a href="#" >消息</a><img src="home/images/mine/up.png" alt=""> </li>
+                <li  class="ppp"><a href="{{url('/pcenter')}}" >首页</a><img src="home/images/mine/up.png" alt=""> </li>
+                <li  class="ppp"><a href="{{url('/basics')}}" >个人资料</a><img src="home/images/mine/up.png" alt=""> </li>
+                <li  class="ppp"><a href="{{url('/servermsg')}}" >消息</a><img src="home/images/mine/up.png" alt=""> </li>
             </ul>
         </div>
 

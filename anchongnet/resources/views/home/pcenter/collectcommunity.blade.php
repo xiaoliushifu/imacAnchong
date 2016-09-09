@@ -5,8 +5,9 @@
     <title>社区</title>
     <link rel="stylesheet" type="text/css" href="home/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="home/css/collectcommunity.css">
-    <script type="text/javascript" src="home/js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="home/js/jquery-3.1.0.min.js"></script>
      <script type="text/javascript" src="home/js/bootstrap.js"></script>
+    <script type="text/javascript" src="home/js/navleft.js"></script>
 </head>
 <body>
 <div class="topt">
@@ -55,44 +56,14 @@
         </div>
         <div class="toppp">
             <ul>
-
-                <script type="text/javascript">
-                    $(document).ready(function() {
-                        $('.inactive').click(function(){
-                            if($(this).siblings('ul').css('display')=='none'){
-                                $(this).parent('li').siblings('li').removeClass('inactives');
-                                $(this).addClass('inactives');
-                                $(this).siblings('ul').slideDown(100).children('li');
-                                if($(this).parents('li').siblings('li').children('ul').css('display')=='block'){
-                                    $(this).parents('li').siblings('li').children('ul').parent('li').children('a').removeClass('inactives');
-                                    $(this).parents('li').siblings('li').children('ul').slideUp(100);
-
-                                }
-                            }else{
-                                //控制自身变成+号
-                                $(this).removeClass('inactives');
-                                //控制自身菜单下子菜单隐藏
-                                $(this).siblings('ul').slideUp(100);
-                                //控制自身子菜单变成+号
-                                $(this).siblings('ul').children('li').children('ul').parent('li').children('a').addClass('inactives');
-                                //控制自身菜单下子菜单隐藏
-                                $(this).siblings('ul').children('li').children('ul').slideUp(100);
-
-                                //控制同级菜单只保持一个是展开的（-号显示）
-                                $(this).siblings('ul').children('li').children('a').removeClass('inactives');
-                            }
-                        })
-                    });
-                </script>
-
-
                 <li><a href="javascript::" class="inactive">我的发布<b class="caret"></b></a>
                     <ul class="ttt" style="display: none">
                         <hr>
-                        <li><a href="#" class="inactive active">美协机关</a>
-
-                        </li>
-                        <li><a href="#" class="inactive active">中国文联美术艺术中心</a>
+                        <li><a href="{{url('/conwork')}}" class="inactive active">发包工程</a></li>
+                        <li><a href="{{url('/conwork')}}" class="inactive active">承接工程</a></li>
+                        <li><a href="{{url('/reoder')}}" class="inactive active">发布人才</a></li>
+                        <li><a href="{{url('/mypublish')}}" class="inactive active">人才自荐</a></li>
+                        <li><a href="{{url('/fngoods')}}" class="inactive active">找货</a></li>
 
                     </ul>
 
@@ -101,9 +72,9 @@
                 <li><a href="javascript::" class="inactive">我的收藏<b class="caret"></b></a>
                     <ul class="ttt" style="display: none">
                         <hr>
-                        <li><a href="#" class="inactive active">商品</a></li>
-                        <li class="last"><a href="#">商铺</a></li>
-                        <li class="last"><a href="#">社区</a></li>
+                        <li><a href="{{url('/colgoods')}}" class="inactive active">商品</a></li>
+                        <li class="last"><a href="{{url('/colshop')}}">商铺</a></li>
+                        <li class="last"><a href="{{url('/colcommunity')}}">社区</a></li>
                     </ul>
                 </li>
                 <hr>
@@ -123,9 +94,9 @@
                 <hr>
                 <li><a href="#">虫虫粉丝</a></li>
                 <hr>
-                <li><a href="#">商铺申请</a></li>
+                <li><a href="{{url('/applysp')}}">商铺申请</a></li>
                 <hr>
-                <li><a href="#">商家认证</a></li>
+                <li><a href="{{url('/honor')}}">商家认证</a></li>
                 <hr>
 
             </ul>
@@ -134,9 +105,9 @@
     <div class="mainrg">
         <div class=" daomain">
             <ul>
-                <li><a href="#">商品</a></li>
-                <li><a href="#">商铺</a></li>
-                <li><a href="#" style="font-weight: bold;color: #1DACD8;">社区</a></li>
+                <li><a href="{{url('/colgoods')}}">商品</a></li>
+                <li><a href="{{url('/colshop')}}">商铺</a></li>
+                <li><a href="{{url('/colcommunity')}}" style="font-weight: bold;color: #1DACD8;">社区</a></li>
 
 
             </ul>

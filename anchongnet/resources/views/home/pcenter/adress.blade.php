@@ -5,7 +5,7 @@
     <title>地址管理</title>
     <link rel="stylesheet" type="text/css" href="home/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="home/css/adress.css">
-    <script type="text/javascript" src="home/js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="home/js/jquery-3.1.0.min.js"></script>
      <script type="text/javascript" src="home/js/bootstrap.js"></script>
 </head>
 <body>

@@ -5,7 +5,7 @@
     <title>发包工程</title>
     <link rel="stylesheet" type="text/css" href="home/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="home/css/contractwork.css">
-    <script type="text/javascript" src="home/js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="../home/js/jquery-3.1.0.min.js"></script>
      <script type="text/javascript" src="home/js/bootstrap.js"></script>
 </head>
 <body>
@@ -38,9 +38,9 @@
         </div>
         <div class="topone-3">
             <ul>
-                <li  class="ppp"><a href="#" >首页</a><img src="home/images/mine/up.png" alt=""> </li>
-                <li  class="ppp"><a href="#" >个人资料</a><img src="home/images/mine/up.png" alt=""> </li>
-                <li  class="ppp"><a href="#" >消息</a><img src="home/images/mine/up.png" alt=""> </li>
+                <li  class="ppp"><a href="{{url('/pcenter')}}" >首页</a><img src="home/images/mine/up.png" alt=""> </li>
+                <li  class="ppp"><a href="{{url('/basics')}}" >个人资料</a><img src="home/images/mine/up.png" alt=""> </li>
+                <li  class="ppp"><a href="{{url('/servermsg')}}" >消息</a><img src="home/images/mine/up.png" alt=""> </li>
             </ul>
         </div>
         <div class="mypublish">
@@ -92,10 +92,10 @@
                 <li><a href="javascript::" class="inactive">我的发布<b class="caret"></b></a>
                     <ul class="ttt" style="display: none">
                         <hr>
-                        <li><a href="#" class="inactive active">发包工程</a></li>
-                        <li><a href="#" class="inactive active">承接工程</a></li>
-                        <li><a href="#" class="inactive active">发布人才</a></li>
-                        <li><a href="#" class="inactive active">人才自荐</a></li>
+                        <li><a href="{{url('/conwork')}}" class="inactive active">发包工程</a></li>
+                        <li><a href="" class="inactive active">承接工程</a></li>
+                        <li><a href="{{url('/reorder')}}" class="inactive active">发布人才</a></li>
+                        <li><a href="{{url('/orderlist')}}" class="inactive active">人才自荐</a></li>
                         <li><a href="#" class="inactive active">找货</a></li>
 
                     </ul>
@@ -105,9 +105,9 @@
                 <li><a href="javascript::" class="inactive">我的收藏<b class="caret"></b></a>
                     <ul class="ttt" style="display: none">
                         <hr>
-                        <li><a href="#" class="inactive active">商品</a></li>
-                        <li class="last"><a href="#">商铺</a></li>
-                        <li class="last"><a href="#">社区</a></li>
+                        <li><a href="{{url('/colgoods')}}" class="inactive active">商品</a></li>
+                        <li class="last"><a href="{{url('/colshop')}}">商铺</a></li>
+                        <li class="last"><a href="{{url('/colcommunity')}}">社区</a></li>
                     </ul>
                 </li>
                 <hr>
