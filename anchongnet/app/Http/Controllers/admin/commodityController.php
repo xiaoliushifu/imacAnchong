@@ -281,6 +281,7 @@ class commodityController extends Controller
             $res['stock'] = DB::table('anchong_goods_stock')->whereIn('gid',$gid)->delete();
             $res['thumb'] = DB::table('anchong_goods_thumb')->whereIn('gid',$gid)->delete();
             $cid = DB::table('anchong_goods_type')->whereIn('gid',$gid)->pluck('cat_id');
+            $tid = DB::table('anchong_goods_type')->whereIn('gid',$gid)->delete();
             $res['keyword'] = DB::table('anchong_goods_keyword')->whereIn('cat_id',$cid)->delete();
             //深度搜索表
             $res['search'] = DB::table('anchong_goods_search')->where('goods_id',$id)->delete();
