@@ -25,7 +25,7 @@
 
 //接口路由组
 
-Route::group(['domain' => 'api.anchong.net'], function () {
+Route::group(['domain' => 'apinew.anchong.net'], function () {
     Route::post('/community/chonggou','Api\Community\CommunityController@chonggou');
     Route::post('/business/chonggou','Api\Business\BusinessController@chonggou');
     //商品检索
@@ -118,9 +118,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         //商品列表所有商品
         Route::post('/goods/goodsall','Api\Goods\GoodsController@goodsall');
         //提供商品标签的检索
-        Route::post('/goods/tag','Api\Goods\GoodsController@tag');
-        //提供商品检索
-        Route::post('/goods/goodsfilter','Api\Goods\GoodsController@goodsfilter');
+        Route::post('/goods/tag','Api\Goods\GoodsController@goodslist');
         //商品详情
         Route::post('/goods/goodsinfo','Api\Goods\GoodsController@goodsinfo');
         //商品推荐
@@ -319,7 +317,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
 });
 
 //支付宝路由
-Route::group(['domain' => 'pay.anchong.net'], function () {
+Route::group(['domain' => 'paynew.anchong.net'], function () {
     //安虫自营路由组
     Route::group(['middleware'=>'PayAuthen'],function(){
         Route::post('/pay/mobilenotify','Api\Pay\PayController@mobilenotify');
@@ -363,7 +361,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::resource('/users','admin\userController');
                 //认证路由
                 Route::resource('/cert','admin\certController');
-                //优惠券路由
+                //优惠券路由                                                                                              
                 Route::resource('/coupon','admin\couponController');
                 //认证检查
                 Route::get('/check','admin\CheckController@check');
@@ -379,8 +377,6 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::resource('/catag','admin\caTagController');
                 //分类管理路由
                 Route::resource('/goodcate','admin\goodCateController');
-                //分类管理路由
-                Route::resource('/purse','admin\PurseController');
 
                 /*
                  *   后台广告
@@ -439,9 +435,9 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::get('/getsiblingstag','admin\caTagController@getSiblings');
 
             //获取商品一级或二级分类路由
-            Route::get('/getlevel','admin\goodCateController@getsubLevel');
+            Route::get('/getlevel','admin\goodCateController@getLevel');
             //获取商品一级或二级分类路由
-            Route::get('/newgetlevel','admin\goodCateController@newgetsubLevel');
+            Route::get('/newgetlevel','admin\goodCateController@newgetLevel');
             //获取商品所有二级分类路由
             Route::get('/getlevel2','admin\goodCateController@getLevel2');
             //获取同一个一级分类下的所有二级分类的路由
@@ -560,68 +556,6 @@ Route::group(['domain' => 'www.anchong.net'], function () {
     //获取虫虫资讯
     Route::get('/information/{infor_id}','Api\Advert\AdvertController@informations');
     Route::get('/','home\indexController@index');
-
-
-//商机部分路由
-    Route::group(['namespace'=>'home\Business'],function(){
-        //    商机主页
-        Route::get('/business','BusinessController@index');
-        //    工程详情
-        Route::get('/pro/{bid}','BusinessController@project');
-        //    工程列表
-        Route::get('/gc','BusinessController@talent');
-        //    找货列表
-        Route::get('/sergoods','BusinessController@sergoods');
-        //    人才列表
-        Route::get('/orderlist','BusinessController@orderlist');
-        //    人才详情
-        Route::get('/order/{bid}','BusinessController@ordermain');
-        //    发布聊聊
-        Route::get('/chat','BusinessController@chat');
-        //    发布人才
-        Route::get('/reorder','BusinessController@reorder');
-        //    发布找货
-        Route::get('/fngoods','BusinessController@fngoods');
-        //    发布工程
-        Route::get('/releaseeg','BusinessController@releaseeg');
-//        设备选购安虫自营
-        Route::get('/ancself','BusinessController@ancshop');
-//        第三方商城
-        Route::get('/thirdshop','BusinessController@thirdshop');
-    });
-
-//    个人中心部分路由
-    Route::group(['namespace'=>'home\Pcenter'],function() {
-//        服务消息
-        Route::get('/servermsg','IndexController@servermsg');
-//        地址管理
-        Route::get('/adress','IndexController@adress');
-//        申请商铺
-        Route::get('/applysp','IndexController@applysp');
-//        基本资料
-        Route::get('/basics','IndexController@basics');
-//        商铺认证
-        Route::get('/honor','IndexController@honor');
-//        我的发布
-        Route::get('/mypublish','IndexController@publish');
-//        发包工程
-        Route::get('/conwork','IndexController@work');
-//        上传头像
-        Route::get('/uphead','IndexController@uphead');
-
-
-//        个人中心收藏
-//        商品
-        Route::get('/colgoods','IndexController@colgoods');
-//        商铺
-        Route::get('/colshop','IndexController@colshop');
-//        社区
-        Route::get('/colcommunity','IndexController@colcommunity');
-
-
-    });
-
-
     //前台安全防护
     Route::group(['middleware'=>'csrf'],function(){
         //个人中心
@@ -636,19 +570,6 @@ Route::group(['domain' => 'www.anchong.net'], function () {
         //前台重置密码
         Route::resource('/user/forgetpwd','Home\User\ForgetpwdController');
     });
-
-    /*
-     * 资讯
-     */
-    //资讯首页
-    Route::get('/info','Home\Info\InfoController@index');
-
-
-    /*
-     * 社区
-     */
-    //社区首页
-    Route::get('/community','Home\community\CommunityController@index');
 });
 
 //验证码类,需要传入数字
