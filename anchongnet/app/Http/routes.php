@@ -25,7 +25,7 @@
 
 //接口路由组
 
-Route::group(['domain' => 'api.anchong.net'], function () {
+Route::group(['domain' => 'apinew.anchong.net'], function () {
     Route::post('/community/chonggou','Api\Community\CommunityController@chonggou');
     Route::post('/business/chonggou','Api\Business\BusinessController@chonggou');
     //商品检索
@@ -319,7 +319,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
 });
 
 //支付宝路由
-Route::group(['domain' => 'pay.anchong.net'], function () {
+Route::group(['domain' => 'paynew.anchong.net'], function () {
     //安虫自营路由组
     Route::group(['middleware'=>'PayAuthen'],function(){
         Route::post('/pay/mobilenotify','Api\Pay\PayController@mobilenotify');
@@ -658,3 +658,4 @@ Route::group(['domain' => 'www.anchong.net'], function () {
 
 //验证码类,需要传入数字
 Route::get('/captcha/{num}', 'CaptchaController@captcha');
+
