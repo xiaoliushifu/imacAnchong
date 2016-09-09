@@ -286,7 +286,7 @@ class commodityController extends Controller
             //深度搜索表
             $res['search'] = DB::table('anchong_goods_search')->where('goods_id',$id)->delete();
             $res['specifi'] = DB::table('anchong_goods_specifications')->where('goods_id',$id)->delete();
-        
+
             //再删商品相关的
             $res['goods'] = DB::table('anchong_goods')->where('goods_id',$id)->delete();
             $res['oem'] = DB::table('anchong_goods_oem')->where('goods_id',$id)->delete();
@@ -306,6 +306,15 @@ class commodityController extends Controller
         $type=$request['pid'];
         $data=Goods::Type($type,$request['sid'])->get();
         return $data;
+    }
+
+    /*
+     * 获取商品关键词
+     * */
+    public function getKeywords(Request $request){
+        $goods_id=$request['goods_id'];
+        $keywords=DB::table('anchong_goods')->whereRaw('goods_id='.$goods_id)->pluck('keyword');
+        return $keywords;
     }
 
     /*

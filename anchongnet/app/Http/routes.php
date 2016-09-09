@@ -455,6 +455,8 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::resource('/commodity','admin\commodityController');
             //获取同一分类下的商品的路由
             Route::get('/getsibilingscommodity','admin\commodityController@getSiblings');
+            //获取商品关键字
+            Route::get('/getKeywords','admin\commodityController@getKeywords');
             //获取同一商品下的所有货品的路由
             Route::get('/getsiblingsgood','admin\goodController@getSiblings');
             //获取商品的配套商品的路由
