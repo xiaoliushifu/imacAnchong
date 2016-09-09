@@ -413,12 +413,12 @@ class GoodsController extends Controller
                     Cache::add($where,$result,'60');
                 }
                 $showprice=0;
-//                 if ($data['guid'] != 0) {
-//                     $tmp = DB::table('anchong_users')->where('users_id',$data['guid'])->get(array('certification'));
-//                     if ($tmp[0]->certification == 3) {
-//                         $showprice=1;
-//                     }
-//                 }
+                if ($data['guid'] != 0) {
+                    $tmp = DB::table('anchong_users')->where('users_id',$data['guid'])->get(array('certification'));
+                    if ($tmp[0]->certification == 3) {
+                        $showprice=1;
+                    }
+                }
                 //将用户权限传过去
                 $result['showprice']=$showprice;
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
