@@ -25,7 +25,7 @@ $(function(){
         $.get("/goodcate/"+cid,function(data,status){
             $("#cat").text(data.cat_name);
         });
-        
+
         /**
          * 库存数
          */
@@ -98,6 +98,10 @@ $(function(){
             }
             $("#name option[value="+gid+"]").attr("selected",true);
             $("#goodsname").val($("#name option[value="+gid+"]").text());
+        });
+
+    $.get("/getKeywords",{goods_id:gid},function(data,status){
+            $("#keywords").val(data);
         });
 
         $.get("/good/"+id+"/edit",function(data,status){

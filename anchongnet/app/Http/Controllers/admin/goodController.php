@@ -195,7 +195,7 @@ class goodController extends Controller
        foreach($arr_key as $k) {
            DB::insert("insert into anchong_goods_suggestion (`str`) values ('$k') on duplicate key update snums=snums+1");
        }
-       
+
        /*清除关键字缓存操作*/
 
         /*
@@ -291,6 +291,12 @@ class goodController extends Controller
         $data->vip_price=$request->viprice;
         $data->goods_desc=$request->description;
         $data->title=trim($request->goodsname);
+        //将关键字加密转码
+        $keywords="";
+        $keywords_arr=explode(' ',rtrim($request->keywords));
+        for($i=0;$i<count($keywords_arr);$i++){
+            $keywords.=bin2hex($keywords_arr[$i])." ";
+        }
         //是否上架
         $data->added=$request->status;
         if($request->status==1){
@@ -312,7 +318,14 @@ class goodController extends Controller
                 'added' => $request->status,
                 'updated_at' => date('Y-m-d H:i:s',time()),
             ];
-            $results=$goods_type->goodsupdate($id,$goods_type_data);
+            $result_type=$goods_type->goodsupdate($id,$goods_type_data);
+            if(!$result_type){
+                DB::rollback();
+                return redirect()->back();
+            }
+            //得到货品的分类ID
+            $cat_id=DB::table('anchong_goods_type')->where('gid',$id)->pluck('cat_id');
+            $results=DB::table('anchong_goods_keyword')->where('cat_id', $cat_id)->update(['keyword' => $keywords]);
             if($results){
                 //假如成功就提交
                 DB::commit();

@@ -217,6 +217,7 @@
                     <form role="form" class="form-horizontal" action="" method="post" id="updateform">
                         <input type="hidden" name="sid" id="sid" value="{{$sid}}">
                         <input type="hidden" name="_method" value="PUT">
+                        <input type="hidden" name="keywords" id="keywords" value=""/>
                         <div id="goodscat">
                         </div>
                         <div class="form-group">
