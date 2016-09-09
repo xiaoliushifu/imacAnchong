@@ -44,7 +44,7 @@
     				<li><a href="/coupon/create"><i class="fa fa-circle-o"></i>优惠券生成</a></li>
     			</ul>
     		</li>
-			<li class="treeview" id="treewithdraw">
+			<li class="treeview" id="treepurse">
     			<a href="#">
     				<i class="fa fa-laptop"></i>
     				<span>钱袋管理</span>
@@ -52,6 +52,8 @@
     			</a>
     			<ul class="treeview-menu">
     				<li><a href="/purse"><i class="fa fa-circle-o"></i>用户提现</a></li>
+    				<li><a href="/signin"><i class="fa fa-circle-o"></i>签到管理</a></li>
+    				<li><a href="/beans"><i class="fa fa-circle-o"></i>虫豆充值</a></li>
     			</ul>
     		</li>
     	    @endif
