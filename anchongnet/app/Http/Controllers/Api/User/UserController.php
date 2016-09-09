@@ -222,9 +222,8 @@ class UserController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'密码小于六位']]);
         }else{
             //redis的验证码
-            $redis = Redis::connection();
-            if($redis->get($param['phone'].'变更验证') == $param['phonecode']){
-                $redis->del($param['phone'].'变更验证');
+            if(Cache::get($param['phone'].'变更验证') == $param['phonecode']){
+                Cache::forget($param['phone'].'变更验证');
                 $password_data=[
                     'password' => Hash::make($param['password'])
                 ];
