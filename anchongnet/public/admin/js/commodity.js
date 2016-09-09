@@ -6,6 +6,8 @@
 //二级分类信息 catsibs[56]里是二级56的信息
 var catarr=[[], [], [], [], [], [], [], [], [], []];
 var catsibs=[];
+var Level1='';
+var Level2='';
 $(function(){
 	
 	//自定义转码函数
@@ -100,13 +102,14 @@ $(function(){
 	        	if(!catsibs[Level2]) {
 	        		//不存在时只得跑一趟了
 		            $.ajax({
-		            	url:'/getsiblingscat',
+		            	url:'/getsiblingscat?a='+Math.random(),
 		            	data:{cid:Level2},
 		            	async:false,//同步
+		            	cache:false,
 		            	success:function(data){
 		            		Level1 = data[0].parent_id;
 		            		for(var i in data){
-		            			catsibs[data[i].cat_id+''] = data[i];
+		            			catsibs[data[i].cat_id] = data[i];
 		            			catarr[Level1].push([data[i].cat_id,data[i].cat_name]);
 		            		}
 		            	},

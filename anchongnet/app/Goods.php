@@ -65,7 +65,7 @@ class Goods extends Model
 
     public function scopeType($query,$keyType,$keySid)
     {
-        return $query->whereRaw("match(`type`) against(?)",array(bin2hex($type)) )->where('sid','=',$keySid);
+        return $query->whereRaw("match(`type`) against(?)",array(bin2hex($keyType)) )->where('sid','=',$keySid);
     }
     
     public function scopeMType($query,$keyType,$keySid)

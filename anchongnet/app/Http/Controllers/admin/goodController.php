@@ -361,7 +361,7 @@ class goodController extends Controller
             $res['thumb'] = DB::table('anchong_goods_thumb')->where('gid',$aid)->delete();
             //根据gid找到下表的cat_id
             $res['cid']=$cid = DB::table('anchong_goods_type')->where('gid',$aid)->pluck('cat_id');
-            $res['tid']=$cid = DB::table('anchong_goods_type')->where('gid',$aid)->delete();
+             $res['tid']= DB::table('anchong_goods_type')->where('gid',$aid)->delete();
             $res['keyword'] = DB::table('anchong_goods_keyword')->whereIn('cat_id',$cid)->delete();
             //\Log::info($res,array('good_del'));
             DB::commit();
