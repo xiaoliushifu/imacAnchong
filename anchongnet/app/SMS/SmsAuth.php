@@ -54,7 +54,7 @@ class smsAuth {
             if($key == 'error_response'){
                 return [false,'发送失败，'.$value['sub_msg'].'，请重新发送！'];
             }elseif($key == 'alibaba_aliqin_fc_sms_num_send_response' && $value['result']['success'] == '1'){
-                Cache::add($phone.$action, $code ,10);
+                Cache::put($phone.$action, $code ,10);
                 return [true,'发送成功'];
             }else{
                 return [false,'发送失败，请重新发送！'];
