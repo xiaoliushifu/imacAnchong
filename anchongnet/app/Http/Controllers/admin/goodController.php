@@ -163,7 +163,6 @@ class goodController extends Controller
             [
                 'gid' => $gid,
                 'cid'=>$cid,
-                //'keyword'=>$keywords,
                 'goods_id'=>$request->name,
                 'title'=>trim($request->commodityname),
                 'price'=>$request->marketprice,
@@ -291,12 +290,6 @@ class goodController extends Controller
         $data->vip_price=$request->viprice;
         $data->goods_desc=$request->description;
         $data->title=trim($request->goodsname);
-        //将关键字加密转码
-        $keywords="";
-        $keywords_arr=explode(' ',rtrim($request->keywords));
-        for($i=0;$i<count($keywords_arr);$i++){
-            $keywords.=bin2hex($keywords_arr[$i])." ";
-        }
         //是否上架
         $data->added=$request->status;
         if($request->status==1){
@@ -324,8 +317,15 @@ class goodController extends Controller
                 return redirect()->back();
             }
             //得到货品的分类ID
-            $cat_id=DB::table('anchong_goods_type')->where('gid',$id)->pluck('cat_id');
-            $results=DB::table('anchong_goods_keyword')->where('cat_id', $cat_id)->update(['keyword' => $keywords]);
+            $cat_ids=DB::table('anchong_goods_type')->where('gid',$id)->pluck('cat_id');
+            //更新操作时，关键字处理
+            $arr_key=array();
+            $arr_key=array_merge($arr_key, $this->keyProcess($request->spetag));//属性
+            $arr_key=array_merge($arr_key, $this->keyProcess($request->goodsname));//商品名
+            $arr_key=array_merge($arr_key, $this->keyProcess($request->keywords));//关键字
+            $arr_key=array_unique($arr_key);
+            $keywords=str_replace('20', ' ', bin2hex(implode(' ', $arr_key)));
+            $results=DB::table('anchong_goods_keyword')->where('cat_id', $cat_ids[0])->update(['keyword'=>$keywords]);
             if($results){
                 //假如成功就提交
                 DB::commit();
@@ -356,7 +356,7 @@ class goodController extends Controller
         $bid = Requester::get('bid');
         try{
             DB::beginTransaction();
-            $res['spe'] = DB::table('anchong_goods_specifications')->where('goods_id',$bid)->delete();
+            $res['spe'] = DB::table('anchong_goods_specifications')->where('gid',$aid)->delete();
             $res['stock'] = DB::table('anchong_goods_stock')->where('gid',$aid)->delete();
             $res['thumb'] = DB::table('anchong_goods_thumb')->where('gid',$aid)->delete();
             //根据gid找到下表的cat_id
@@ -434,5 +434,19 @@ class goodController extends Controller
             $tid='';
         }
         return response()->json(['message' => $message, 'isSuccess' => $isSuccess,'url'=>$url,'tid'=>$tid]);
+    }
+    
+    /**
+     * 关键字封装方法
+     */
+    private function keyProcess($str)
+    {
+        $arr_key=array();
+        if (empty($str)) {
+            return  $arr_key;
+        }
+        $arr_key=array_merge($arr_key,preg_split('#\s#', trim($str),-1,PREG_SPLIT_NO_EMPTY));//拆分
+        $arr_key=array_map('strtoupper',$arr_key);//大小写
+        return  $arr_key;
     }
 }

@@ -99,8 +99,11 @@
 									<th>券ID</th>
 									<th>券标题</th>
 									<th>券面值</th>
+									<th>使用值</th>
 									<th>券类型</th>
+									<th>子类型</th>
 									<th>关联类型</th>
+									<th>截止日期</th>
 									<th>可换虫豆数</th>
 									<th>状态</th>
 									<th>操作</th>
@@ -109,6 +112,8 @@
 								<tr>
 								  <td align="center">{{$data['acpid']}}</td>
 								  <td align="center">{{$data['title']}}</td>
+								  <td align="center">{{$data['target']}}</td>
+								  <td align="center">{{$data['shop']}}</td>
 								  <td align="center">{{$data['cvalue']}}</td>
 								  <?php 
 								    switch($data['type']){
@@ -116,16 +121,20 @@
 								            echo '<td align="center"  value="1">通用</td>';
 								            break;
 								        case 2:
-								            echo '<td align="center"  value="2">商铺</td>';
+								            echo '<td align="center"  value="2">分类</td>';
 								            break;
 								        case 3:
 								            echo '<td align="center"  value="3">商品</td>';
 								            break;
+								        case 4 :
+							                echo '<td align="center"  value="1">品牌</td>';
+							                break;
 								        default :
 							                echo '<td align="center"  value="1">通用</td>';
 								    }
 								  ?>
 								  <td align="center">{{$data['type2']}}</td>
+								  <td align="center">{{$data['endline']}}</td>
 								  <td align="center">{{$data['beans']}}</td>
 								  <td align="center">{{($data['open'])? '启用':'停用'}}</td>
 								  <td align="center">

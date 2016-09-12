@@ -389,7 +389,8 @@ class GoodsController extends Controller
                     }
                     //要查询的字段
                     $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
-                    $res = DB::table('anchong_goods_type')->whereIn('cat_id',$tmparr)->get($goods_data);
+                    //已上架added=1
+                    $res = DB::table('anchong_goods_type')->whereIn('cat_id',$tmparr)->where('added',1)->get($goods_data);
                     //无结果
                     if (!$res) {
                         //无结果说明索引已失效，删除之

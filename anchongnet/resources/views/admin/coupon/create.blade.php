@@ -74,13 +74,20 @@
                             ?>
                             <form role="form" class="form-horizontal" id="myform" action="/coupon" method="post">
                                 <div class="form-group">
-                                		<label class="col-sm-2 control-label">优惠券类型</label>
+                                    <label class="col-sm-2 control-label" for="cvalue">券类型</label>
+                                    <div class="col-sm-2">
+                                        <input type="number" name="shop" id="shop" class="form-control" required value="{{ old('shop') }}"  placeholder=""/>
+                                    </div>
+                                    <small>0代表通用，其他请填写商铺id</small>
+                                </div>
+                                <div class="form-group">
+                                		<label class="col-sm-2 control-label">子类型</label>
                                 		<div class="col-sm-2">
                                     		<select class="form-control" name="type"  id="type" placeholder="选项">
                                         		<option value="1" tit="通用">通用</option>
-                                        		<option value="2"  tit="请填写商铺ID">商铺</option>
+                                        		<option value="2"  tit="请填写分类ID">分类</option>
                                         		<option value="3"  tit="请填写商品ID">商品</option>
-                                        		<option value="4" tit = "其他">其他</option>
+                                        		<option value="4" tit ="填写品牌ID">品牌</option>
                                     		</select>
                                 		</div>
                                 </div>
@@ -89,26 +96,42 @@
                                     <div class="col-sm-2">
                                     		<input type="text" class="form-control" name="type2"  id="type2"  readonly placeholder="通用" />
                                     </div>
-                                    <small>关联类型的值，根据优惠券类型的不同，代表不同的意义</small>
+                                    <small>关联类型的值，根据子类型的不同，代表不同的意义</small>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="title">优惠券标题</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" name="title" id="title" class="form-control" required value="{{ old('title') }}" placeholder="如：满2000减100"/>
+                                    <label class="col-sm-2 control-label" for="cvalue">起始使用值</label>
+                                    <div class="col-sm-2">
+                                        <input type="number" name="target" id="target" class="form-control" required value="{{ old('target') }}" />
                                     </div>
+                                    <small>如：满2000减100，就填写2000</small>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="cvalue">优惠券面额</label>
                                     <div class="col-sm-2">
                                         <input type="number" name="cvalue" id="cvalue" class="form-control" required value="{{ old('cvalue') }}" />
                                     </div>
+                                    <small>如：满2000减100，就填写100</small>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="title">优惠券标题</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" name="title" id="title"  readonly class="form-control" required value="{{ old('title') }}" placeholder="如：满2000减100"/>
+                                    </div>
+                                </div>
+                                
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="beans">虫豆数</label>
                                     <div class="col-sm-2">
                                         <input type="number" name="beans" id="beans" class="form-control"  value="{{ old('beans')?: 0 }}" />
                                     </div>
                                     <small>将来兑换优惠券时的虫豆数，0代表不可兑换</small>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="beans">截止日期</label>
+                                    <div class="col-sm-2">
+                                        <input type="number" name="endline" id="endline" class="form-control"  value="{{ old('beans')?: 0 }}" />
+                                    </div>
+                                    <small>只填写日期，如：2017-08-08</small>
                                 </div>
                                 <div class="form-group text-center">
                                     <label class="col-sm-2 control-label"></label>
