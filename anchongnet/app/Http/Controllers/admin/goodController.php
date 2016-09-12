@@ -159,6 +159,11 @@ class goodController extends Controller
         //英文字符全部转为大写，使得有关英文的搜索不区分大小。
         $arr_key=array_map('strtoupper',$arr_key);
         $keywords=str_replace('20', ' ', bin2hex(implode(' ', $arr_key)));
+        //将标签转码之后插入数据库，为将来分词索引做准备
+        $tags="";
+        for($j=0;$j<count($request->tag);$j++){
+            $tags.=bin2hex($request->tag[$j])." ";
+        }
         $gtid = DB::table('anchong_goods_type')->insertGetId(
             [
                 'gid' => $gid,
@@ -170,16 +175,13 @@ class goodController extends Controller
                 'sname'=>$sname[0]['name'],
                 'vip_price'=>$request->viprice,
                 'sid'=>$this->sid,
+                'tags' => $tags,
                 'added'=>$request->status,
                 'other_id'=>$request->mainselect,
             ]
         );
 
-        //将标签转码之后插入数据库，为将来分词索引做准备
-        $tags="";
-        for($j=0;$j<count($request->tag);$j++){
-            $tags.=bin2hex($request->tag[$j])." ";
-        }
+
         //索引表,用于后续搜索
        DB::table('anchong_goods_keyword')->insert(
             [

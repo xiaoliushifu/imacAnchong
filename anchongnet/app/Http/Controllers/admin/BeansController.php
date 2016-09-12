@@ -77,11 +77,23 @@ class BeansController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $result=DB::table('anchong_beans_recharge')->where('beans_id',$id)->update(['beans'=>$request->beans,'money'=>$request->money]);
         if($result){
             return "修改成功";
         }else{
-            return "修改失败";
+            $id = DB::table('anchong_beans_recharge')->insertGetId(
+                [
+                    'beans_id'=>$id,
+                    'beans'=>$request->beans,
+                    'money'=>$request->money
+                ]
+            );
+            if($id){
+                return "修改成功";
+            }else {
+                return "修改失败";
+            }
         }
     }
 
@@ -93,6 +105,12 @@ class BeansController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //根据ID进行删除
+        $result=DB::table('anchong_beans_recharge')->where('beans_id',$id)->delete();
+        if($result){
+            return "删除成功";
+        }else{
+            return "删除失败";
+        }
     }
 }
