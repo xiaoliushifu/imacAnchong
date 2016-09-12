@@ -27,7 +27,9 @@
 <div class="header-center">
     <div class="header-main">
         <div class="logo">
-            <img src="home/images/shebei/12.jpg" alt="">
+            <a href="{{url('/')}}">
+                <img src="home/images/logo.jpg"/>
+            </a>
         </div>
         <div class="search">
             <div class="searchbar">

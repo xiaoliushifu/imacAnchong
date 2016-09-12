@@ -137,21 +137,13 @@ ul,li{
     text-align: center;
 }
 .upload-content{
-    height: 400px;
+    height: 300px;
     width: 1200px;
+    padding-top: 100px;
     margin: 0 auto;
     outline: 1px solid #606060;
 }
-.upload-content a{
-    width: 300px;
-    display: block;
-    margin: 0 auto;
-}
-.upload-content img{
-    width: 300px;
-    height: 100px;
-    margin-top: 100px;
-}
+
 .upload-content p{
     margin-top: 30px;
     text-align: center;

@@ -10,15 +10,7 @@
         <ul class="info">
             <li class="tel">垂询电话：0317-8155026</li>
             <li>
-                <img class="little-tx" src="home/images/chat/tx.jpg"/>
-                <span class="userinfo">
-							{{session('name')}}
-							<span class="info-triangle"></span>
-							<div class="cart">
-								<p><a href="">购物车</a></p>
-								<p><a href="">收藏夹</a></p>
-							</div>
-						</span>
+                <a href="{{url('/user/login')}}">登陆</a>/<a href="{{url('/user/register')}}">注册</a>
             </li>
         </ul>
     </div>
@@ -26,8 +18,10 @@
 <div class="header">
     <div class="header-container">
         <div class="logo">
-            <img src="home/images/chat/logo_01.jpg"/>
-            <i>安虫社区</i>
+            <a href="{{url('/')}}">
+                <img src="home/images/chat/logo_01.jpg"/>
+                <i>安虫社区</i>
+            </a>
         </div>
         <div class="search">
             <form class="search-form" method="post">
@@ -110,7 +104,8 @@
                         </p>
                     </li>
                 </ul>
-            </li><li class="chat-item">
+            </li>
+            <li class="chat-item">
             <ul class="chat-show">
                 <li>
                     <img class="portrait" src="home/images/chat/tx.jpg">
@@ -310,26 +305,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="chat-item">
-                <ul class="chat-show">
-                    <li>
-                        <img class="portrait" src="home/images/chat/tx.jpg">
-                        <p class="name">风信子</p>
-                        <p class="date">
-                            <i class="day">18/</i>
-                            <i class="month">6</i>
-                        </p>
-                    </li>
-                    <li class="chat-content">
-                        <h3 class="chat-title">夏日抹抹茶</h3>
-                        <p class="content">炎炎夏日，假面舞会,聊你 798约起来!炎炎夏日，假面舞会,聊你 798约起来!炎炎夏日，假面舞会,聊你 798约起来!炎炎夏日，假面舞会,聊你 798约起来!炎炎夏日，假面舞会,聊你 798约起来!炎炎夏日，假面舞会,聊你 798约起来!</p>
-                        <p class="comments-share">
-                            <a class="comments" href=""><img src="home/images/chat/talk.png">28</a>
-                            <a class="share" href=""><img src="home/images/chat/share.png"></a>
-                        </p>
-                    </li>
-                </ul>
-            </li>
+
         </ul>
         <div class="pages">
             <ul class="page-select">

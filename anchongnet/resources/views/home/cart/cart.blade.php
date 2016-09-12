@@ -30,8 +30,10 @@
 <div class="header">
     <div class="header-container">
         <div class="logo">
-            <img  src="home/images/cart/logo_01.jpg"/>
-            <span class="logo-title">安虫购物车</span>
+            <a href="{{url('/')}}">
+                <img  src="home/images/cart/logo_01.jpg"/>
+                <span class="logo-title">安虫购物车</span>
+            </a>
         </div>
         <div class="search">
             <form class="search-form" method="post">

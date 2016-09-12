@@ -24,7 +24,9 @@
 <div class="header-center">
     <div class="header-main">
         <div class="logo">
+            <a href="{{url('/')}}">
             <img src="../home/images/zhaohuo/7.jpg" alt="">
+            </a>
         </div>
         <div class="search">
             <div class="searchbar">

@@ -578,9 +578,9 @@ Route::group(['domain' => 'www.anchong.net'], function () {
         //    找货列表
         Route::get('/sergoods','BusinessController@sergoods');
         //    人才列表
-        Route::get('/orderlist','BusinessController@orderlist');
+        Route::get('/talentlist','BusinessController@talentlist');
         //    人才详情
-        Route::get('/order/{bid}','BusinessController@ordermain');
+        Route::get('/talent/{bid}','BusinessController@talentmain');
         //    发布聊聊
         Route::get('/chat','BusinessController@chat');
         //    发布人才
@@ -649,6 +649,7 @@ Route::group(['domain' => 'www.anchong.net'], function () {
         Route::get('/info','InfoController@index');
         Route::get('/info/{infor_id}','InfoController@info');
         Route::get('/upload','InfoController@upload');
+        Route::any('/uploadify','InfoController@uploadify');
     });
 
 

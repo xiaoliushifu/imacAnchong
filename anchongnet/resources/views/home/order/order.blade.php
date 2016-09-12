@@ -22,7 +22,7 @@
 							<div class="cart">
 								<p><a href="">购物车</a></p>
 								<p><a href="">收藏夹</a></p>
-							</div>	
+							</div>
 						</span>
 					</li>
 				</ul>

@@ -1,3 +1,4 @@
+{{session_start()}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -133,63 +134,23 @@
                 </li>
             </ul>
             <ul class="bottom">
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/77.jpg">
-                        <p>头像</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/78.jpg">
-                        <p>李白</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/79.jpg">
-                        <p>毛毛</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/80.jpg">
-                        <p>安虫虫</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/81.jpg">
-                        <p>head</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/82.jpg">
-                        <p>开心麻花</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/83.jpg">
-                        <p>回龙观商贩</p>
-                    </a>
-                </li>
-                <li class="bottom-item1">
-                    <a>
-                        <img src="home/images/84.jpg">
-                        <p>沙河村</p>
-                    </a>
-                </li>
+                @foreach($userinfo as $value)
+                    <li class="bottom-item">
+                        <a>
+                            <img src="{{$value -> headpic}}">
+                            <p>{{$value -> nickname}}</p>
+                        </a>
+                    </li>
+                @endforeach
             </ul>
         </div>
         <div class="server">
             <h1>为您服务</h1>
             <ul>
-                <li class="server-item"><img src="home/images/85.jpg"></li>
-                <li class="server-item"><img src="home/images/86.jpg"></li>
-                <li class="server-item"><img src="home/images/87.jpg"></li>
-                <li class="server-item1"><img src="home/images/88.jpg"></li>
+                <li class="server-item"><a href="{{url('/gc')}}"><img src="home/images/85.jpg"></a></li>
+                <li class="server-item"><a href="{{url('/gc')}}"><img src="home/images/86.jpg"></a></li>
+                <li class="server-item"><a href="{{url('/talentlist')}}"><img src="home/images/87.jpg"></a></li>
+                <li class="server-item1"><a href="{{url('/ancself')}}"><img src="home/images/88.jpg"></a></li>
             </ul>
         </div>
         <div class="hot">
@@ -225,77 +186,23 @@
                         <span class="region">区域</span>
                         <span class="talent">人才</span>
                     </p>
+                    @foreach($talent as $value)
                     <p class="talent-item">
-                        <a class="district">昌平区</a>
-                        <a class="talent-name">李先生</a>
+                        <a href="{{url('/talentlist')}}" class="district">{{$value -> tags}}</a>
+                        <a href="{{url('/talent/'.$value->bid)}}" class="talent-name">{{$value -> contact}}</a>
                     </p>
-                    <p class="talent-item">
-                        <a class="district">昌平区</a>
-                        <a class="talent-name">李先生</a>
-                    </p>
-                    <p class="talent-item">
-                        <a class="district">昌平区</a>
-                        <a class="talent-name">李先生</a>
-                    </p>
-                    <p class="talent-item">
-                        <a class="district">昌平区</a>
-                        <a class="talent-name">李先生</a>
-                    </p>
-                    <p class="talent-item1">
-                        <a class="district">昌平区</a>
-                        <a class="talent-name">李先生</a>
-                    </p>
+                    @endforeach
                 </li>
             </ul>
             <ul class="bottom">
+                @foreach($userinfo as $value)
                 <li class="bottom-item">
                     <a>
-                        <img src="home/images/77.jpg">
-                        <p>头像</p>
+                        <img src="{{$value -> headpic}}">
+                        <p>{{$value -> nickname}}</p>
                     </a>
                 </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/78.jpg">
-                        <p>李白</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/79.jpg">
-                        <p>毛毛</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/80.jpg">
-                        <p>安虫虫</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/81.jpg">
-                        <p>head</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/82.jpg">
-                        <p>开心麻花</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/83.jpg">
-                        <p>回龙观商贩</p>
-                    </a>
-                </li>
-                <li class="bottom-item1">
-                    <a>
-                        <img src="home/images/84.jpg">
-                        <p>沙河村</p>
-                    </a>
-                </li>
+                @endforeach
             </ul>
         </div>
         <div class="goods">

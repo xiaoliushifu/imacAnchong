@@ -47,14 +47,14 @@ class BusinessController extends Controller
     }
 
 
-    public function orderlist()
+    public function talentlist()
     {
         $data = Business::where('type', 3)->orderBy('created_at', 'desc')->paginate(15);
 
         return view('home.business.orderlist', compact('data'));
     }
 
-    public function ordermain($bid)
+    public function talentmain($bid)
     {
         $data = Business::find($bid);
         $data->content = str_replace("\n", "<br>", $data->content);

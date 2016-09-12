@@ -29,18 +29,18 @@
 		</div>
 		<div class="site-header">
 			<div class="header-container">
-				<img src="home/images/order/logo.jpg"/>
+				<a href="{{url('/')}}"><img src="home/images/order/logo.jpg"/></a>
 			</div>
 		</div>
 		<div class="site-middle">
 			<div class="middle-container">
 				<div class="middle-top">
 					<i class="site-location">您的位置:</i>
-					<i class="home">首页</i>
+					<a href="{{url('/')}}"><i class="home">首页</i></a>
 					<span class =connector"">></span>
-					<i class="personal">我的个人中心</i>
+					<a href="{{url('/pcenter')}}"><i class="personal">我的个人中心</i></a>
 					<span class ="connector">></span>
-					<i class="owner-order">我的订单</i>
+					<a href="{{url('/order')}}"><i class="owner-order">我的订单</i></a>
 					<span class ="connector">></span>
 					<i class = "order-detail">订单详情</i>
 				</div>

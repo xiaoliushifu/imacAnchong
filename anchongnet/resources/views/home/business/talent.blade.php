@@ -13,15 +13,7 @@
 				<ul class="info">
 					<li class="tel">垂询电话：010-88888888</li>
 					<li>
-						<img class="little-tx" src="../home/images/gongchengxq/tx.jpg"/>
-						<span class="userinfo">
-							风信子
-							<span class="info-triangle"></span>
-							<div class="cart">
-								<p><a href="">购物车</a></p>
-								<p><a href="">收藏夹</a></p>
-							</div>	
-						</span>
+						<a href="{{url('/user/login')}}">登陆</a>/<a href="{{url('/user/register')}}">注册</a>
 					</li>
 				</ul>
 			</div>
@@ -29,7 +21,7 @@
 		<div class="header">
 			<div class="header-container">
 				<div class="logo">
-					<img src="../home/images/gongchengxq/logo.jpg"/>
+					<a href="{{url('/')}}"><img src="../home/images/gongchengxq/logo.jpg"/></a>
 				</div>
 				<div class="search">
 					<form class="search-form" method="post">

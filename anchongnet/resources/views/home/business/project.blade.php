@@ -51,7 +51,7 @@
 							</div>
 						</li>
 						<li class="community nav-item"><a href="{{url('/community')}}">社区</a></li>
-						<li class="equipment nav-item"><a href="{{url('')}}">设备选购</a></li>
+						<li class="equipment nav-item"><a href="{{url('/ancself')}}">设备选购</a></li>
 						<li class="news nav-item"><a href="{{url('/info')}}">资讯</a></li>
 					</ul>
 				</div>	

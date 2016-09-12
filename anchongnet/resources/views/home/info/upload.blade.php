@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>上传干货</title>
     <link rel="stylesheet" type="text/css" href="home/css/upload.css"/>
+    <script src="home/js/jquery-3.1.0.min.js"></script>
 </head>
 <body>
 <div class="site-top">
@@ -12,15 +13,7 @@
             <li>邮箱：<a href="mailto:www@anchong.net">www@anchong.net</a></li>
             <li class="tel">垂询电话：0317-8155026</li>
             <li>
-                <img class="little-tx" src="home/images/p61.jpg"/>
-                <span class="userinfo">
-				    风信子
-					<span class="info-triangle"></span>
-						<div class="cart">
-							<p><a href="">购物车</a></p>
-							<p><a href="">收藏夹</a></p>
-						</div>
-				</span>
+                <a href="{{url('/user/login')}}">登陆</a>/<a href="{{url('/user/register')}}">注册</a>
             </li>
         </ul>
     </div>
@@ -63,7 +56,32 @@
             <img src="home/images/info/uploading.png">
         </div>
         <div class="upload-content">
-            <a href=""><img src="home/images/info/selected_text.png"></a>
+            <form>
+                <input id="file_upload" name="file_upload" type="file" multiple="true">
+                <script src="home/org/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
+                <link rel="stylesheet" type="text/css" href="home/org/uploadify/uploadify.css">
+                <script type="text/javascript">
+                    <?php $timestamp = time();?>
+                    $(function() {
+                        $('#file_upload').uploadify({
+                            'fileTypeDEsc' : 'Doucments' ,
+                            'fileTypeExts' : '*.pdf;*.doc;*.docx;*.ppt;*.ppts;*.xls;*.xlsx;*.wps;*.pdf;*.txt' ,
+                            'formData'     : {
+                                'timestamp' : '<?php echo $timestamp;?>',
+                                '_token'     : '{{csrf_token()}}'
+                            },
+                            'height'   : 100,
+                            'width'    : 300,
+                            'buttonText': '',
+                            'swf'      : 'home/org/uploadify/uploadify.swf',
+                            'uploader' : "{{url('/uploadify')}}"
+                        });
+                    });
+                </script>
+                <style>
+                    .uploadify-button{background: url("home/images/info/selected_text.png");}
+                </style>
+            </form>
             <p>从我的电脑选择要上传的文档：按住CTRL可以上传多份文档</p>
         </div>
         <div class="tips">
@@ -109,11 +127,11 @@
                 <ul>
                     <li>
                         <h4>下载安虫APP客户端</h4>
-                        <img src="./img/app.jpg"/>
+                        <img src="home/images/1.jpg"/>
                     </li>
                     <li>
                         <h4>安虫微信订阅号</h4>
-                        <img src="./img/dyh.jpg"/>
+                        <img src="home/images/2.jpg"/>
                     </li>
                     <div class="cl"></div>
                 </ul>

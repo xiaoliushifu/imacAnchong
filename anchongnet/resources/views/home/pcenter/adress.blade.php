@@ -197,22 +197,18 @@
 
 <div class="footdown">
     <div class="footdown-1">
-
-
-                 <div class="ddd">
-                    <p><a href="#">关于安虫</a><span>|</span>
-                        <a href="#">联系我们</a><span>|</span>
-                        <a href="#">帮助中心</a><span>|</span>
-                        <a href="#">服务网点</a><span>|</span>
-                        <a href="#">法律声明</a><span>|</span>
-                        客服热线：400-888-888
-
-                    </p>
-                    <p>Copyright©&nbsp;北京安虫版权所有&nbsp;anchong.net</p>
-                    <p>京ICP备111111号&nbsp;<span>|</span>&nbsp;出版物经营许可证</p>
-
-                  </div>
-
+        <div class="ddd">
+            <p>
+                <a href="#">关于安虫</a><span>|</span>
+                <a href="#">联系我们</a><span>|</span>
+                <a href="#">帮助中心</a><span>|</span>
+                <a href="#">服务网点</a><span>|</span>
+                <a href="#">法律声明</a><span>|</span>
+                客服热线：400-888-888
+            </p>
+            <p>Copyright©&nbsp;北京安虫版权所有&nbsp;anchong.net</p>
+            <p>京ICP备111111号&nbsp;<span>|</span>&nbsp;出版物经营许可证</p>
+        </div>
     </div>
 </div>
 

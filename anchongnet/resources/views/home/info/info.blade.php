@@ -12,15 +12,7 @@
             <li class="mail">邮箱：<a href="mailto:www.anchong.net">www@anchong.net</a></li>
             <li class="tel">垂询电话：0317-8155026</li>
             <li>
-                <img class="little-tx" src="{{url('/home/images/business/tx.jpg')}}"/>
-                <span class="userinfo">
-                    风信子
-                    <span class="info-triangle"></span>
-                    <div class="cart">
-						<p><a href="">购物车</a></p>
-						<p><a href="">收藏夹</a></p>
-					</div>
-                </span>
+                <a href="{{url('/user/login')}}">登陆</a>/<a href="{{url('/user/register')}}">注册</a>
             </li>
         </ul>
     </div>

@@ -14,12 +14,7 @@
             <li>
                 <img class="little-tx" src="home/images/p61.jpg"/>
                 <span class="userinfo">
-                    风信子
-                    <span class="info-triangle"></span>
-                    <div class="cart">
-						<p><a href="">购物车</a></p>
-						<p><a href="">收藏夹</a></p>
-					</div>
+                    <a href="{{url('/user/login')}}">登陆</a>/<a href="{{url('/user/register')}}">注册</a>
                 </span>
             </li>
         </ul>
