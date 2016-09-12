@@ -56,7 +56,7 @@
 					<div class="box">
 						<div class="box-body">
 						    <form action="/purse" method="get" class="form-horizontal form-inline f-ib">
-								标签类型：
+								提现订单类型：
 								<select class="form-control" name="type">
 									<option value="" id="check">请选择</option>
 									<option value="1">未提现订单</option>

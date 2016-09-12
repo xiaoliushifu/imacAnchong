@@ -47,7 +47,7 @@ class PropelController extends Controller
         $app_key="5cfcdf6659fca3e33dde79cc";
         $master_secret="b6d1612108cbd489e379e25e";
         //点三个参数可以传日志位置
-        $client = new \JPush\Client($app_key, $master_secret);
+        $client = new \JPush\Client($app_key, $master_secret, $_SERVER['DOCUMENT_ROOT'].'../storage/jpush.log');
         $push = $client->push();
         //设置推送的平台
         $platform = array('ios', 'android');
@@ -113,7 +113,7 @@ class PropelController extends Controller
             //2 为个人
             case '2':
             //当用户未登陆时，无法为个人推送消息，这时会发生异常，捕获异常并处理
-            try{
+            //try{
                 $response = $push->setPlatform($platform)
                     ->addAlias($alias)
                     ->iosNotification($alert, $ios_notification)
@@ -122,9 +122,9 @@ class PropelController extends Controller
                     ->options($options)
                     ->send();
                     return Redirect::back()->withInput()->with('errormessage','个人推送成功');
-                }catch (\Exception $e) {
-                    return Redirect::back()->withInput()->with('errormessage','该用户未登陆');
-                }
+                // }catch (\Exception $e) {
+                //     return Redirect::back()->withInput()->with('errormessage','该用户未登陆');
+                // }
                 break;
             default:
                 return Redirect::back()->withInput()->with('errormessage','非法推送');

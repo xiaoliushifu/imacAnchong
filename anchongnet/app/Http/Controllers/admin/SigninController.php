@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\admin;
 
-use Request;
+use \Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use DB;
 
 /*
 *   该控制器操作后台签到模块
@@ -19,7 +20,8 @@ class SigninController extends Controller
      */
     public function index()
     {
-        //
+        $datas=DB::table('anchong_signin')->get();
+        return view('admin/signin/index',["datacol"=>compact("datas")]);
     }
 
     /**
@@ -74,7 +76,12 @@ class SigninController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $result=DB::table('anchong_signin')->where('signin_id',$id)->update(['beans'=>$request->beans,'day'=>$request->day]);
+        if($result){
+            return "修改成功";
+        }else{
+            return "修改失败";
+        }
     }
 
     /**

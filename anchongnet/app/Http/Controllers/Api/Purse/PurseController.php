@@ -165,12 +165,12 @@ class PurseController extends Controller
     */
     public function mycoupon(Request $request)
     {
-        try{
+        // try{
             //获得app端传过来的json格式的数据转换成数组格式
             $data=$request::all();
             $param=json_decode($data['param'],true);
             //默认每页数量
-            $limit=20;
+            $limit=8;
             //定义优惠券字段
             $coupon_data=['acpid','title','cvalue','target'];
             //匹配查看的优惠券类型
@@ -198,7 +198,7 @@ class PurseController extends Controller
                     $coupon_count=$this->coupon->Coupon()->whereRaw('users_id = '.$data['guid'].' and end <'.time())->count();
                     $coupon_cpid=$this->coupon->Coupon()->select('cpid','end')->whereRaw('users_id = '.$data['guid'].' and end <'.time())->skip((($param['page']-1)*$limit))->take($limit)->get();
                     //定义数组
-                    $coupon_arr=[];
+                    $coupon_result=[];
                     //遍历出ID
                     foreach ($coupon_cpid as $coupon_id) {
                         $coupon_arr=$this->coupon_pool->Coupon()->select($coupon_data)->where('acpid','=',$coupon_id->cpid)->get()->toArray();
@@ -216,9 +216,9 @@ class PurseController extends Controller
             }
             //返回结果
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$coupon_count,'list'=>$coupon_result]]);
-        }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
-        }
+        // }catch (\Exception $e) {
+        //     return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        // }
     }
 
     /*

@@ -288,52 +288,133 @@ class GoodsController extends Controller
             $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
             //创建orm模型
             $goods_type=new \App\Goods_type();
-            $goods_keyword=new \App\Goods_keyword();
             //判断用户的操作是筛选的什么
-            switch ($param['tag']) {
+            switch ($param['anchong']) {
                 //假如是安虫自营则只显示安虫的
                 case '安虫自营':
-                    //定义sql语句
-                    $sql="sid =1 and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1";
-                    //统计数量
-                    $goods_count=$goods_type->Goods($sql)->count();
-                    //查询检索结果
-                    $goods_result=$goods_type->Goods($sql)->select($goods_data)->skip((($param['page']-1)*$limit))->take($limit)->orderBy('cat_id','DESC')->get();
+                    //判断是否有价格区间
+                    if($param['minprice'] != ""){
+                        //判断是否有品牌标签
+                        if($param['tags']){
+                            //统计数量
+                            $goods_count=$goods_type->Goods()->whereRaw("sid =1 and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->count();
+                            //查询检索结果
+                            $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw("sid =1 and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->skip((($param['page']-1)*$limit))->take($limit)->orderBy('cat_id','DESC')->get();
+                        }else{
+                            echo "23232";
+                            //统计数量
+                            $goods_count=$goods_type->Goods()->whereRaw("sid =1 and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->count();
+                            //查询检索结果
+                            $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw("sid =1 and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->skip((($param['page']-1)*$limit))->take($limit)->orderBy('cat_id','DESC')->get();
+                        }
+                    }else{
+                        //判断是否有品牌标签
+                        if($param['tags']){
+                            //统计数量
+                            $goods_count=$goods_type->Goods()->whereRaw("sid =1 and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and added = 1")->count();
+                            //查询检索结果
+                            $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw("sid =1 and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and added = 1")->skip((($param['page']-1)*$limit))->take($limit)->orderBy('cat_id','DESC')->get();
+                        }else{
+                            echo "=====";
+                            //统计数量
+                            $goods_count=$goods_type->Goods()->whereRaw("sid =1 and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1")->count();
+                            //查询检索结果
+                            $goods_result=$goods_type->Goods()->whereRaw("sid =1 and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1")->select($goods_data)->skip((($param['page']-1)*$limit))->take($limit)->orderBy('cat_id','DESC')->get();
+                        }
+                    }
                     break;
                 //假如是最新上架则按上架日期排列
                 case '最新上架':
-                    //定义sql语句
-                    $sql="MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1";
-                    //统计数量
-                    $goods_count=$goods_type->Goods()->whereRaw($sql)->count();
-                    //查询检索结果
-                    $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw($sql)->skip((($param['page']-1)*$limit))->take($limit)->orderBy('created_at','DESC')->orderBy('sid','ASC')->get();
+                    //判断是否有价格区间
+                    if($param['minprice'] != ""){
+                        //判断是否有品牌标签
+                        if($param['tags']){
+                            //统计数量
+                            $goods_count=$goods_type->Goods()->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->count();
+                            //查询检索结果
+                            $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->skip((($param['page']-1)*$limit))->take($limit)->orderBy('created_at','DESC')->orderBy('sid','ASC')->get();
+                        }else{
+                            //统计数量
+                            $goods_count=$goods_type->Goods()->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->count();
+                            //查询检索结果
+                            $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->skip((($param['page']-1)*$limit))->take($limit)->orderBy('created_at','DESC')->orderBy('sid','ASC')->get();
+                        }
+                    }else{
+                        //判断是否有品牌标签
+                        if($param['tags']){
+                            //统计数量
+                            $goods_count=$goods_type->Goods()->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and added = 1")->count();
+                            //查询检索结果
+                            $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and added = 1")->skip((($param['page']-1)*$limit))->take($limit)->orderBy('created_at','DESC')->orderBy('sid','ASC')->get();
+                        }else{
+                            //统计数量
+                            $goods_count=$goods_type->Goods()->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1")->count();
+                            //查询检索结果
+                            $goods_result=$goods_type->Goods()->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1")->select($goods_data)->skip((($param['page']-1)*$limit))->take($limit)->orderBy('created_at','DESC')->orderBy('sid','ASC')->get();
+                        }
+                    }
                     break;
                 //假如是销量最多就按照销量排行
                 case '销量最多':
-                    //定义sql语句
-                    $sql="MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1";
-                    //统计数量
-                    $goods_count=$goods_type->Goods()->whereRaw($sql)->count();
-                    //查询检索结果
-                    $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw($sql)->skip((($param['page']-1)*$limit))->take($limit)->orderBy('sales','DESC')->orderBy('sid','ASC')->get();
+                    //判断是否有价格区间
+                    if($param['minprice'] != ""){
+                        //判断是否有品牌标签
+                        if($param['tags']){
+                            //统计数量
+                            $goods_count=$goods_type->Goods()->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->count();
+                            //查询检索结果
+                            $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->skip((($param['page']-1)*$limit))->take($limit)->orderBy('sales','DESC')->orderBy('sid','ASC')->get();
+                        }else{
+                            //统计数量
+                            $goods_count=$goods_type->Goods()->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->count();
+                            //查询检索结果
+                            $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->skip((($param['page']-1)*$limit))->take($limit)->orderBy('sales','DESC')->orderBy('sid','ASC')->get();
+                        }
+                    }else{
+                        //判断是否有品牌标签
+                        if($param['tags']){
+                            //统计数量
+                            $goods_count=$goods_type->Goods()->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and added = 1")->count();
+                            //查询检索结果
+                            $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and added = 1")->skip((($param['page']-1)*$limit))->take($limit)->orderBy('sales','DESC')->orderBy('sid','ASC')->get();
+                        }else{
+                            //统计数量
+                            $goods_count=$goods_type->Goods()->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1")->count();
+                            //查询检索结果
+                            $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1")->skip((($param['page']-1)*$limit))->take($limit)->orderBy('sales','DESC')->orderBy('sid','ASC')->get();
+                        }
+                    }
                     break;
                 //其他的就是标签
                 default:
-                    //定义sql语句
-                    $sql="tags = '".bin2hex($param['tag'])."' and MATCH(cid) AGAINST('".bin2hex($param['cid'])."')";
-                    //统计数量
-                    $goods_count=$goods_keyword->Goods($sql)->count();
-                    //查询检索结果
-                    $goods_catid=$goods_keyword->Goods($sql)->select('cat_id')->skip((($param['page']-1)*$limit))->take($limit)->get();
-                    //定义数组
-                    $goods_arr=[];
-                    //遍历出ID
-                    foreach ($goods_catid as $goods_id) {
-                        $goods_arr[]=$goods_id->cat_id;
-                    };
-                    //查出商品信息
-                    $goods_result=$goods_type->Goods()->select($goods_data)->whereIn('cat_id',$goods_arr)->whereRaw('added = 1')->orderBy('created_at','DESC')->orderBy('sid','ASC')->get();
+                    //判断是否有价格区间
+                    if($param['minprice'] != ""){
+                        //判断是否有品牌标签
+                        if($param['tags']){
+                            //统计数量
+                            $goods_count=$goods_type->Goods()->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->count();
+                            //查询检索结果
+                            $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->skip((($param['page']-1)*$limit))->take($limit)->orderBy('created_at','DESC')->orderBy('sid','ASC')->get();
+                        }else{
+                            //统计数量
+                            $goods_count=$goods_type->Goods()->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->count();
+                            //查询检索结果
+                            $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->skip((($param['page']-1)*$limit))->take($limit)->orderBy('created_at','DESC')->orderBy('sid','ASC')->get();
+                        }
+                    }else{
+                        //判断是否有品牌标签
+                        if($param['tags']){
+                            //统计数量
+                            $goods_count=$goods_type->Goods()->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and added = 1")->count();
+                            //查询检索结果
+                            $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and added = 1")->skip((($param['page']-1)*$limit))->take($limit)->orderBy('created_at','DESC')->orderBy('sid','ASC')->get();
+                        }else{
+                            //统计数量
+                            $goods_count=$goods_type->Goods()->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1")->count();
+                            //查询检索结果
+                            $goods_result=$goods_type->Goods()->whereRaw("MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and added = 1")->select($goods_data)->skip((($param['page']-1)*$limit))->take($limit)->orderBy('created_at','DESC')->orderBy('sid','ASC')->get();
+                        }
+                    }
                     break;
             }
             //返回结果
@@ -626,6 +707,23 @@ class GoodsController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'商品无库存，联系客服']]);
         }catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
+
+    /*
+    *   =======到时候要删删删=======
+    *   =========现转表使用=========
+    */
+    public function tagsedit(Request $request)
+    {
+        //创建orm模型
+        $goods_type=new \App\Goods_type();
+        $goods_keyword=new \App\Goods_keyword();
+        for($i=2883;$i< 3346;$i++){
+            $datas=DB::table('anchong_goods_keyword')->where('cat_id',$i)->pluck('tags');
+            if($datas){
+                DB::table('anchong_goods_type')->where('cat_id',$i)->update(['tags' => $datas[0]]);
+            }
         }
     }
 }
