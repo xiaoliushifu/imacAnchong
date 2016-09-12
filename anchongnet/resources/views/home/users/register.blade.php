@@ -59,7 +59,7 @@
         </div>
       </div>
         </div>
-        <script src="/home/js/jquery-3.0.0.min.js"></script>
+        <script src="/home/js/jquery-3.1.0.min.js"></script>
         <script src="/home/js/bootstrap.min.js"></script>
         <script src="/home/js/users.js"></script>
     </body>
