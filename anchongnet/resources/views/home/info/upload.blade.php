@@ -3,24 +3,17 @@
 <head>
     <meta charset="utf-8">
     <title>上传干货</title>
-    <link rel="stylesheet" type="text/css" href="css/upload.css"/>
+    <link rel="stylesheet" type="text/css" href="home/css/upload.css"/>
+    <script src="home/js/jquery-3.1.0.min.js"></script>
 </head>
 <body>
 <div class="site-top">
     <div class="top-container">
         <ul class="info">
             <li>邮箱：<a href="mailto:www@anchong.net">www@anchong.net</a></li>
-            <li class="tel">垂询电话：010-88888888</li>
+            <li class="tel">垂询电话：0317-8155026</li>
             <li>
-                <img class="little-tx" src="images/p61.jpg"/>
-                <span class="userinfo">
-				    风信子
-					<span class="info-triangle"></span>
-						<div class="cart">
-							<p><a href="">购物车</a></p>
-							<p><a href="">收藏夹</a></p>
-						</div>
-				</span>
+                <a href="{{url('/user/login')}}">登陆</a>/<a href="{{url('/user/register')}}">注册</a>
             </li>
         </ul>
     </div>
@@ -28,13 +21,13 @@
 <div class="header">
     <div class="header-container">
         <div class="logo">
-            <img src="images/logo.png">
+            <a href="{{url('/')}}"><img src="{{url('/home/images/logo.jpg')}}"/></a>
         </div>
         <div class="site-nav">
             <ul class="navigation">
-                <li class="home"><a href="">首页</a></li>
-                <li class="business">
-                    <a href="">商机</a>
+                <li class="home nav-item"><a href="{{url('/')}}">首页</a></li>
+                <li class="business nav-item">
+                    <a href="{{url('/business')}}">商机</a>
                     <span class="business-triangle"></span>
                     <div class="business-list">
                         <p><a href="">工程</a></p>
@@ -42,10 +35,9 @@
                         <p><a href="">找货</a></p>
                     </div>
                 </li>
-                <li class="community"><a href="">社区</a></li>
-                <li class="equipment"><a href="">设备选购</a></li>
-                <li class="news"><a href="">资讯</a></li>
-                <div class="cl"></div>
+                <li class="community nav-item"><a href="{{url('/community')}}">社区</a></li>
+                <li class="equipment nav-item"><a href="{{url('/ancself')}}">设备选购</a></li>
+                <li class="news nav-item"><a href="{{url('/info')}}">资讯</a></li>
             </ul>
         </div>
     </div>
@@ -61,10 +53,35 @@
             <i class="upload">上传干货</i>
         </div>
         <div class="upload-status">
-            <img src="images/uploading.png">
+            <img src="home/images/info/uploading.png">
         </div>
         <div class="upload-content">
-            <a href=""><img src="images/selected_text.png"></a>
+            <form>
+                <input id="file_upload" name="file_upload" type="file" multiple="true">
+                <script src="home/org/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
+                <link rel="stylesheet" type="text/css" href="home/org/uploadify/uploadify.css">
+                <script type="text/javascript">
+                    <?php $timestamp = time();?>
+                    $(function() {
+                        $('#file_upload').uploadify({
+                            'fileTypeDEsc' : 'Doucments' ,
+                            'fileTypeExts' : '*.pdf;*.doc;*.docx;*.ppt;*.ppts;*.xls;*.xlsx;*.wps;*.pdf;*.txt' ,
+                            'formData'     : {
+                                'timestamp' : '<?php echo $timestamp;?>',
+                                '_token'     : '{{csrf_token()}}'
+                            },
+                            'height'   : 100,
+                            'width'    : 300,
+                            'buttonText': '',
+                            'swf'      : 'home/org/uploadify/uploadify.swf',
+                            'uploader' : "{{url('/uploadify')}}"
+                        });
+                    });
+                </script>
+                <style>
+                    .uploadify-button{background: url("home/images/info/selected_text.png");}
+                </style>
+            </form>
             <p>从我的电脑选择要上传的文档：按住CTRL可以上传多份文档</p>
         </div>
         <div class="tips">
@@ -110,11 +127,11 @@
                 <ul>
                     <li>
                         <h4>下载安虫APP客户端</h4>
-                        <img src="./img/app.jpg"/>
+                        <img src="home/images/1.jpg"/>
                     </li>
                     <li>
                         <h4>安虫微信订阅号</h4>
-                        <img src="./img/dyh.jpg"/>
+                        <img src="home/images/2.jpg"/>
                     </li>
                     <div class="cl"></div>
                 </ul>

@@ -12,7 +12,7 @@
         <ul class="info">
             <li>邮箱:<a href="mailto:www@anchong.net">www@anchong.net</a></li>
             <li><a href="">购物车<i class="carticon"></i></a></li>
-            <li class="tel">垂询电话：010-88888888</li>
+            <li class="tel">垂询电话：0317-8155026</li>
             <li>
                 <img class="little-tx" src="home/images/cart/tx.jpg"/>
                 <span class="userinfo">
@@ -30,7 +30,9 @@
 <div class="header">
     <div class="header-container">
         <div class="logo">
+            <a href="{{url('/')}}">
             <img  src="home/images/cart/logo.jpg"/>
+            </a>
         </div>
         <div class="search">
             <form class="search-form" method="post">

@@ -566,7 +566,7 @@ Route::group(['domain' => 'www.anchong.net'], function () {
     Route::get('/getpackage','admin\uEditorController@getPackage');
     //获取虫虫资讯
     Route::get('/information/{infor_id}','Api\Advert\AdvertController@informations');
-    Route::get('/','home\indexController@index');
+    Route::get('/','home\IndexController@index');
 
 
 //商机部分路由
@@ -580,9 +580,9 @@ Route::group(['domain' => 'www.anchong.net'], function () {
         //    找货列表
         Route::get('/sergoods','BusinessController@sergoods');
         //    人才列表
-        Route::get('/orderlist','BusinessController@orderlist');
+        Route::get('/talentlist','BusinessController@talentlist');
         //    人才详情
-        Route::get('/order/{bid}','BusinessController@ordermain');
+        Route::get('/talent/{bid}','BusinessController@talentmain');
         //    发布聊聊
         Route::get('/chat','BusinessController@chat');
         //    发布人才
@@ -647,8 +647,13 @@ Route::group(['domain' => 'www.anchong.net'], function () {
     /*
      * 资讯
      */
-    //资讯首页
-    Route::get('/info','Home\Info\InfoController@index');
+    Route::group(['namespace'=>'Home\Info'],function(){
+        Route::get('/info','InfoController@index');
+        Route::get('/info/{infor_id}','InfoController@info');
+        Route::get('/upload','InfoController@upload');
+        Route::any('/uploadify','InfoController@uploadify');
+    });
+
 
 
     /*

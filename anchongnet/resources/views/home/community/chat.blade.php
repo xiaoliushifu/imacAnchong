@@ -8,7 +8,7 @@
 <div class="site-top">
     <div class="top-container">
         <ul class="info">
-            <li class="tel">垂询电话：010-88888888</li>
+            <li class="tel">垂询电话：0317-8155026</li>
             <li>
                 <img class="little-tx" src="home/images/chat/tx.jpg"/>
                 <span class="userinfo">
@@ -26,7 +26,9 @@
 <div class="header">
     <div class="header-container">
         <div class="logo">
-            <img src="home/images/chat/logo_01.jpg"/>
+            <a href="{{url('/')}}">
+                <img src="home/images/logo.jpg"/>
+            </a>
         </div>
         <div class="search">
             <form class="search-form" method="post">
@@ -151,7 +153,7 @@
                                 <textarea  class="replay-content"></textarea>
                                 <a class="send"><img src="home/images/chat/send.png" ></a>
                                 <a class="emoticon"><img src="home/images/chat/emoticon.png"></a>
-                                </form>
+                            </form>
                         </div>
                     </li>
                 </ul>
@@ -159,12 +161,6 @@
         </ul>
     </div>
 </div>
-
-
-
-
-
-
 
 <div class="site-footer">
     <div class="footer-top">

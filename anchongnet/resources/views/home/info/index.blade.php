@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>人才</title>
+    <title>资讯</title>
     <link rel="stylesheet" type="text/css" href="home/css/information.css"/>
 </head>
 <body>
@@ -10,16 +10,11 @@
     <div class="top-container">
         <ul class="info">
             <li class="mail">邮箱：<a href="mailto:www.anchong.net">www@anchong.net</a></li>
-            <li class="tel">垂询电话：010-88888888</li>
+            <li class="tel">垂询电话：0317-8155026</li>
             <li>
                 <img class="little-tx" src="home/images/p61.jpg"/>
                 <span class="userinfo">
-                    风信子
-                    <span class="info-triangle"></span>
-                    <div class="cart">
-						<p><a href="">购物车</a></p>
-						<p><a href="">收藏夹</a></p>
-					</div>
+                    <a href="{{url('/user/login')}}">登陆</a>/<a href="{{url('/user/register')}}">注册</a>
                 </span>
             </li>
         </ul>
@@ -28,7 +23,7 @@
 <div class="header">
     <div class="header-container">
         <div class="logo">
-            <img src="home/images/logo.jpg"/>
+            <a href="{{url('/')}}"><img src="{{url('/home/images/logo.jpg')}}"/></a>
         </div>
         <div class="search">
             <form class="search-form" method="post">
@@ -50,7 +45,7 @@
                     </div>
                 </li>
                 <li class="community nav-item"><a href="{{url('/community')}}">社区</a></li>
-                <li class="equipment nav-item"><a href="{{url('')}}">设备选购</a></li>
+                <li class="equipment nav-item"><a href="{{url('/ancself')}}">设备选购</a></li>
                 <li class="news nav-item"><a href="{{url('/info')}}">资讯</a></li>
             </ul>
         </div>
@@ -69,7 +64,7 @@
                     <li class="share-title">
                         <h2>干货分享</h2>
                         <i>More</i>
-                        <a class=""><img src="home/images/info/upload.png"></a>
+                        <a href="{{url('/upload')}}"><img src="home/images/info/upload.png"></a>
                     </li>
                     <span class="parting"></span>
                     <li class="share-item">
@@ -141,140 +136,32 @@
                         </li>
                     </ul>
                 </li>
+                @foreach($info as $v)
                 <li class="info-item">
                     <ul>
+                        <a href="{{url('/info/'.$v->infor_id)}}">
                         <li class="info-desc">
-                            <h3>监控摄像机选型攻略之全天候机型选用</h3>
-                            <p>为满足全天候成像应用，目前主要有三大类型夜视摄像机，分别是星光级摄像机、激光、红外、白光色和相机、热成像摄像机、，本文将介绍前两大类。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;星光级摄像机是指在微弱环境下，摄像</p>
+                            <h3>{{$v-> title}}</h3>
+                            <p><?php
+                                    $str = strip_tags($v->content);
+                                    $str1 = mb_substr($str,20,100,'utf-8');
+                                    echo $str1;
+                                ?></p>
                         </li>
                         <li>
-                            <img src="home/images/info/01.png">
+                            <img src="{{$v-> img}}">
                         </li>
+                        </a>
                         <span class="info-parting"></span>
                     </ul>
                 </li>
-                <li class="info-item">
-                    <ul>
-                        <li class="info-desc">
-                            <h3>监控摄像机选型攻略之全天候机型选用</h3>
-                            <p>为满足全天候成像应用，目前主要有三大类型夜视摄像机，分别是星光级摄像机、激光、红外、白光色和相机、热成像摄像机、，本文将介绍前两大类。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;星光级摄像机是指在微弱环境下，摄像</p>
-                        </li>
-                        <li>
-                            <img src="home/images/info/01.png">
-                        </li>
-                        <span class="info-parting"></span>
-                    </ul>
-                </li>
-                <li class="info-item">
-                    <ul>
-                        <li class="info-desc">
-                            <h3>监控摄像机选型攻略之全天候机型选用</h3>
-                            <p>为满足全天候成像应用，目前主要有三大类型夜视摄像机，分别是星光级摄像机、激光、红外、白光色和相机、热成像摄像机、，本文将介绍前两大类。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;星光级摄像机是指在微弱环境下，摄像</p>
-                        </li>
-                        <li>
-                            <img src="home/images/info/01.png">
-                        </li>
-                        <span class="info-parting"></span>
-                    </ul>
-                </li>
-                <li class="info-item">
-                    <ul>
-                        <li class="info-desc">
-                            <h3>监控摄像机选型攻略之全天候机型选用</h3>
-                            <p>为满足全天候成像应用，目前主要有三大类型夜视摄像机，分别是星光级摄像机、激光、红外、白光色和相机、热成像摄像机、，本文将介绍前两大类。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;星光级摄像机是指在微弱环境下，摄像</p>
-                        </li>
-                        <li>
-                            <img src="home/images/info/01.png">
-                        </li>
-                        <span class="info-parting"></span>
-                    </ul>
-                </li>
-                <li class="info-item">
-                    <ul>
-                        <li class="info-desc">
-                            <h3>监控摄像机选型攻略之全天候机型选用</h3>
-                            <p>为满足全天候成像应用，目前主要有三大类型夜视摄像机，分别是星光级摄像机、激光、红外、白光色和相机、热成像摄像机、，本文将介绍前两大类。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;星光级摄像机是指在微弱环境下，摄像</p>
-                        </li>
-                        <li>
-                            <img src="home/images/info/01.png">
-                        </li>
-                        <span class="info-parting"></span>
-                    </ul>
-                </li>
-                <li class="info-item">
-                    <ul>
-                        <li class="info-desc">
-                            <h3>监控摄像机选型攻略之全天候机型选用</h3>
-                            <p>为满足全天候成像应用，目前主要有三大类型夜视摄像机，分别是星光级摄像机、激光、红外、白光色和相机、热成像摄像机、，本文将介绍前两大类。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;星光级摄像机是指在微弱环境下，摄像</p>
-                        </li>
-                        <li>
-                            <img src="home/images/info/01.png">
-                        </li>
-                        <span class="info-parting"></span>
-                    </ul>
-                </li>
-                <li class="info-item">
-                    <ul>
-                        <li class="info-desc">
-                            <h3>监控摄像机选型攻略之全天候机型选用</h3>
-                            <p>为满足全天候成像应用，目前主要有三大类型夜视摄像机，分别是星光级摄像机、激光、红外、白光色和相机、热成像摄像机、，本文将介绍前两大类。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;星光级摄像机是指在微弱环境下，摄像</p>
-                        </li>
-                        <li>
-                            <img src="home/images/info/01.png">
-                        </li>
-                        <span class="info-parting"></span>
-                    </ul>
-                </li>
-                <li class="info-item">
-                    <ul>
-                        <li class="info-desc">
-                            <h3>监控摄像机选型攻略之全天候机型选用</h3>
-                            <p>为满足全天候成像应用，目前主要有三大类型夜视摄像机，分别是星光级摄像机、激光、红外、白光色和相机、热成像摄像机、，本文将介绍前两大类。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;星光级摄像机是指在微弱环境下，摄像</p>
-                        </li>
-                        <li>
-                            <img src="home/images/info/01.png">
-                        </li>
-                        <span class="info-parting"></span>
-                    </ul>
-                </li>
-                <li class="info-item">
-                    <ul>
-                        <li class="info-desc">
-                            <h3>监控摄像机选型攻略之全天候机型选用</h3>
-                            <p>为满足全天候成像应用，目前主要有三大类型夜视摄像机，分别是星光级摄像机、激光、红外、白光色和相机、热成像摄像机、，本文将介绍前两大类。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;星光级摄像机是指在微弱环境下，摄像</p>
-                        </li>
-                        <li>
-                            <img src="home/images/info/01.png">
-                        </li>
-                        <span class="info-parting"></span>
-                    </ul>
-                </li>
-                <li class="info-item">
-                    <ul>
-                        <li class="info-desc">
-                            <h3>监控摄像机选型攻略之全天候机型选用</h3>
-                            <p>为满足全天候成像应用，目前主要有三大类型夜视摄像机，分别是星光级摄像机、激光、红外、白光色和相机、热成像摄像机、，本文将介绍前两大类。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;星光级摄像机是指在微弱环境下，摄像</p>
-                        </li>
-                        <li>
-                            <img src="home/images/info/01.png">
-                        </li>
-                        <span class="info-parting"></span>
-                    </ul>
-                </li>
+                @endforeach
             </ul>
         </div>
         <div class="pages">
-            <ul class="page-select">
-                <li class="pagesup"><a href="">&lt;&nbsp;上一页</a></li>
-                <li class="pages-num"><a href="">4</a></li>
-                <li class="pages-num"><a href="">5</a></li>
-                <li class="pages-num"><a href="">6</a></li>
-                <li class="pages-num"><a href="">7</a></li>
-                <li class="pages-num"><a href="">8</a></li>
-                <li class="pagesdown"><a href="">下一页&nbsp;&gt;</a></li>
-            </ul>
+            {!! $info->links() !!}
             <ul class="page-skip">
-                <i>共有10页，</i>
+                <i>共有{{$info->lastpage()}}页，</i>
                 <i class="blank">
                     去第
                     <input class="page-num" type="text">

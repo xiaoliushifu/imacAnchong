@@ -66,9 +66,6 @@ h1{
     margin-right: 10px;
     margin-top: 40px;
 }
-.search-form{
-    position: relative;
-}
 .area{
     border: none;
     width: 60px;
@@ -89,23 +86,27 @@ h1{
     top: 5px;
     left: 80px;
 }
+.search-form{
+    position: relative;
+}
 .search-text{
     text-indent: 120px;
     padding-right: 80px;
     border: 1px solid #1DABD8;
     border-radius: 5px;
-    width: 425px;
-    height: 40px;
+    width:418px;
+    height: 38px;
     line-height: 40px;
 }
 .search-btn{
     width: 80px;
     height: 40px;
-    line-height: 40px;
     background-color: #1DABD8;
     border: none;
-    margin-left: -85px;
     border-radius: 5px;
+    position: absolute;
+    top:0;
+    right: 0;
 }
 .hot-word-title{
     margin-right: 20px;
@@ -138,7 +139,6 @@ h1{
 }
 .nav-item a{
     color: #606060;
-    font-size: 14px;
 }
 .nav-item:hover{
     background-color: #1DABD8;
@@ -320,6 +320,10 @@ h1{
     height: 340px;
     position: relative;
 }
+.recommend-5 img{
+    width: 220px;
+    height: 340px;
+}
 .bottom{
     padding-left: 23px;
     width: 1177px;
@@ -330,10 +334,7 @@ h1{
     vertical-align: middle;
     height: 140px;
     float: left;
-    margin-right: 73px;
-}
-.bottom-item1{
-    float: left;
+    margin-left: 60px;
 }
 .bottom::after{
     clear: both;
@@ -458,15 +459,23 @@ h1{
     margin: 0 auto;
     text-align: center;
 }
-.talent-item span,.talent-item a{
+.talent-item span{
     display: inline-block;
     line-height: 40px;
     width: 140px;
+    color: #9b9b9b;
+    font-size: 16px;
 }
-.talent-item1 a{
+.talent-item a,.talent-item1 a{
     display: inline-block;
     line-height: 40px;
     width: 140px;
+    color: #9b9b9b;
+    font-size: 18px
+}
+.talent-item a:hover,.talent-item1 a:hover{
+    color: #f53745;
+    text-decoration: underline;
 }
 .good::after{
     clear: both;

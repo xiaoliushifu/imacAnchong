@@ -1,3 +1,4 @@
+{{session_start()}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +10,7 @@
 <div class="site-top">
     <div class="top-container">
         <ul class="info">
-            <li class="tel">垂询电话：010-88888888</li>
+            <li class="tel">垂询电话：0317-8155026</li>
             <li>
                 <a href="{{url('/user/login')}}">登陆</a>/<a href="{{url('/user/register')}}">注册</a>
             </li>
@@ -48,8 +49,13 @@
                     <span class="business-triangle"></span>
                     <div class="business-list">
                         <p><a href="{{url('/gc')}}">工程</a></p>
+<<<<<<< HEAD
                         <p><a href="{{url('/orderlist')}}">人才</a></p>
                         <p><a href="{{url('/fngoods')}}">找货</a></p>
+=======
+                        <p><a href="{{url('orderlist')}}">人才</a></p>
+                        <p><a href="{{url('/sergoods')}}">找货</a></p>
+>>>>>>> 1d36002ef5ee52e91ef5a9bc3725df772d72248f
                     </div>
                 </li>
                 <li class="community nav-item"><a href="{{url('/community')}}">社区</a></li>
@@ -77,8 +83,8 @@
                 <div class="information">
                     <p class="title"><a href=""><img src="home/images/info.png"></a></p>
                     <div class="hot-info">
-                        <p><img src="home/images/hot.png"><a href="">视频干扰分析和解决方法</a></p>
-                        <p><img src="home/images/hot.png"><a href="">停车场管理系统常见故障</a></p>
+                        <p><img src="home/images/hot.png"><a href="{{url('/info/'.$info[0]->infor_id)}}">{{$info[0]->title}}</a></p>
+                        <p><img src="home/images/hot.png"><a href="{{url('/info/'.$info[1]->infor_id)}}">{{$info[1]->title}}</a></p>
                     </div>
                 </div>
             </li>
@@ -98,98 +104,58 @@
             <h1>推荐工程</h1>
             <ul class="recommended-list">
                 <li class="recommended-left recommend-1">
-                    <a>
-                        <img src="home/images/72.jpg">
-                        <p>此处是工程标题</p>
+                    <a href="{{url('pro/'.$hot[0]->bid)}}">
+                        <img src="{{$hot[0]->img}}">
+                        <p>{{$hot[0]->title}}</p>
                     </a>
                 </li>
                 <li class="recommended-cnter">
                     <ul>
                         <li class="recommend-2">
-                            <a>
-                                <img src="home/images/73.jpg">
-                                <p>此处是工程标题</p>
+                            <a href="{{url('pro/'.$hot[1]->bid)}}">
+                                <img src="{{$hot[1]->img}}">
+                                <p>{{$hot[1]->title}}</p>
                             </a>
                         </li>
                         <li class="recommend-3">
-                            <a>
-                                <img src="home/images/74.jpg">
-                                <p>此处是工程标题</p>
+                            <a href="{{url('pro/'.$hot[2]->bid)}}">
+                                <img src="{{$hot[2]->img}}">
+                                <p>{{$hot[2]->title}}</p>
                             </a>
                         </li>
                         <li class="recommend-4">
-                            <a>
-                                <img src="home/images/75.jpg">
-                                <p>此处是工程标题</p>
+                            <a href="{{url('pro/'.$hot[4]->bid)}}">
+                                <img src="{{$hot[3]->img}}">
+                                <p>{{$hot[3]->title}}</p>
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="recommend-5 recommended-right">
-                    <a>
-                        <img src="home/images/76.jpg">
-                        <p>此处是工程标题</p>
+                    <a href="{{url('pro/'.$hot[4]->bid)}}">
+                        <img src="{{$hot[4]->img}}">
+                        <p>{{$hot[4]->title}}</p>
                     </a>
                 </li>
             </ul>
             <ul class="bottom">
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/77.jpg">
-                        <p>头像</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/78.jpg">
-                        <p>李白</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/79.jpg">
-                        <p>毛毛</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/80.jpg">
-                        <p>安虫虫</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/81.jpg">
-                        <p>head</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/82.jpg">
-                        <p>开心麻花</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/83.jpg">
-                        <p>回龙观商贩</p>
-                    </a>
-                </li>
-                <li class="bottom-item1">
-                    <a>
-                        <img src="home/images/84.jpg">
-                        <p>沙河村</p>
-                    </a>
-                </li>
+                @foreach($userinfo as $value)
+                    <li class="bottom-item">
+                        <a>
+                            <img src="{{$value -> headpic}}">
+                            <p>{{$value -> nickname}}</p>
+                        </a>
+                    </li>
+                @endforeach
             </ul>
         </div>
         <div class="server">
             <h1>为您服务</h1>
             <ul>
-                <li class="server-item"><img src="home/images/85.jpg"></li>
-                <li class="server-item"><img src="home/images/86.jpg"></li>
-                <li class="server-item"><img src="home/images/87.jpg"></li>
-                <li class="server-item1"><img src="home/images/88.jpg"></li>
+                <li class="server-item"><a href="{{url('/gc')}}"><img src="home/images/85.jpg"></a></li>
+                <li class="server-item"><a href="{{url('/gc')}}"><img src="home/images/86.jpg"></a></li>
+                <li class="server-item"><a href="{{url('/talentlist')}}"><img src="home/images/87.jpg"></a></li>
+                <li class="server-item1"><a href="{{url('/ancself')}}"><img src="home/images/88.jpg"></a></li>
             </ul>
         </div>
         <div class="hot">
@@ -225,77 +191,23 @@
                         <span class="region">区域</span>
                         <span class="talent">人才</span>
                     </p>
+                    @foreach($talent as $value)
                     <p class="talent-item">
-                        <a class="district">昌平区</a>
-                        <a class="talent-name">李先生</a>
+                        <a href="{{url('/talentlist')}}" class="district">{{$value -> tags}}</a>
+                        <a href="{{url('/talent/'.$value->bid)}}" class="talent-name">{{$value -> contact}}</a>
                     </p>
-                    <p class="talent-item">
-                        <a class="district">昌平区</a>
-                        <a class="talent-name">李先生</a>
-                    </p>
-                    <p class="talent-item">
-                        <a class="district">昌平区</a>
-                        <a class="talent-name">李先生</a>
-                    </p>
-                    <p class="talent-item">
-                        <a class="district">昌平区</a>
-                        <a class="talent-name">李先生</a>
-                    </p>
-                    <p class="talent-item1">
-                        <a class="district">昌平区</a>
-                        <a class="talent-name">李先生</a>
-                    </p>
+                    @endforeach
                 </li>
             </ul>
             <ul class="bottom">
+                @foreach($userinfo as $value)
                 <li class="bottom-item">
                     <a>
-                        <img src="home/images/77.jpg">
-                        <p>头像</p>
+                        <img src="{{$value -> headpic}}">
+                        <p>{{$value -> nickname}}</p>
                     </a>
                 </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/78.jpg">
-                        <p>李白</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/79.jpg">
-                        <p>毛毛</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/80.jpg">
-                        <p>安虫虫</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/81.jpg">
-                        <p>head</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/82.jpg">
-                        <p>开心麻花</p>
-                    </a>
-                </li>
-                <li class="bottom-item">
-                    <a>
-                        <img src="home/images/83.jpg">
-                        <p>回龙观商贩</p>
-                    </a>
-                </li>
-                <li class="bottom-item1">
-                    <a>
-                        <img src="home/images/84.jpg">
-                        <p>沙河村</p>
-                    </a>
-                </li>
+                @endforeach
             </ul>
         </div>
         <div class="goods">
