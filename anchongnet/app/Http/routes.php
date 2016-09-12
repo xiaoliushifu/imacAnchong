@@ -25,7 +25,7 @@
 
 //接口路由组
 
-Route::group(['domain' => 'api.anchong.net'], function () {
+Route::group(['domain' => 'apinew.anchong.net'], function () {
     Route::post('/community/chonggou','Api\Community\CommunityController@chonggou');
     Route::post('/business/chonggou','Api\Business\BusinessController@chonggou');
     //商品检索
@@ -319,7 +319,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
 });
 
 //支付宝路由
-Route::group(['domain' => 'pay.anchong.net'], function () {
+Route::group(['domain' => 'paynew.anchong.net'], function () {
     //安虫自营路由组
     Route::group(['middleware'=>'PayAuthen'],function(){
         Route::post('/pay/mobilenotify','Api\Pay\PayController@mobilenotify');
@@ -379,9 +379,12 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::resource('/catag','admin\caTagController');
                 //分类管理路由
                 Route::resource('/goodcate','admin\goodCateController');
-                //分类管理路由
+                //钱袋管理路由
                 Route::resource('/purse','admin\PurseController');
-
+                //签到管理路由
+                Route::resource('/signin','admin\SigninController');
+                //虫豆管理路由
+                Route::resource('/beans','admin\BeansController');
                 /*
                  *   后台广告
                  */
@@ -455,6 +458,8 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::resource('/commodity','admin\commodityController');
             //获取同一分类下的商品的路由
             Route::get('/getsibilingscommodity','admin\commodityController@getSiblings');
+            //获取商品关键字
+            Route::get('/getKeywords','admin\commodityController@getKeywords');
             //获取同一商品下的所有货品的路由
             Route::get('/getsiblingsgood','admin\goodController@getSiblings');
             //获取商品的配套商品的路由
@@ -653,3 +658,4 @@ Route::group(['domain' => 'www.anchong.net'], function () {
 
 //验证码类,需要传入数字
 Route::get('/captcha/{num}', 'CaptchaController@captcha');
+

@@ -16,7 +16,8 @@ class PermissionController extends Controller
 	private $role;
 	private $user;
 	private $permission;
-	public function __construct(){
+	public function __construct()
+	{
 	    //为指定控制器指定中间件
 	    $this->middleware('permission');
 	}

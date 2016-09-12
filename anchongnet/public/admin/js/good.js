@@ -25,7 +25,7 @@ $(function(){
         $.get("/goodcate/"+cid,function(data,status){
             $("#cat").text(data.cat_name);
         });
-        
+
         /**
          * 库存数
          */
@@ -56,6 +56,7 @@ $(function(){
     $(".edit").click(function(){
         $("#goodscat").empty();
         $("#midselect").empty();
+        //有可能有多个分类
         var cid=$(this).attr("data-cid").trim().split(" ");
         var id=$(this).attr("data-id");
         var gid=$(this).attr("data-gid");
@@ -66,6 +67,7 @@ $(function(){
         var one0=0;
         $("#updateform").attr("action","/good/"+id);
         $("#gid").val(id);
+        //多个分类，故需要遍历
         for(var c=0;c<cid.length;c++){
 
             opts='<div class="form-group"><label class="col-sm-2 control-label">商品分类</label><div class="col-sm-10"><div class="row"><div class="col-xs-4"><select class="form-control" id="mainselect'+c+'" name="mainselect'+c+'"></select></div><div class="col-xs-4"><select class="form-control" id="midselect'+c+'" name="midselect'+c+'"></select></div></div></div></div>';
@@ -91,13 +93,18 @@ $(function(){
 
 
         $("#name").empty();
-        $.get("/getsibilingscommodity",{pid:cid[1],sid:sid},function(data,status,c){
+        //暂只传递第一个分类（如果有多个分类的话）
+        $.get("/getsibilingscommodity",{pid:cid[0],sid:sid},function(data,status,c){
             for(var i=0;i<data.length;i++){
                 opt="<option  value="+data[i].goods_id+">"+data[i].title+"</option>";
                 $("#name").append(opt);
             }
             $("#name option[value="+gid+"]").attr("selected",true);
             $("#goodsname").val($("#name option[value="+gid+"]").text());
+        });
+
+    $.get("/getKeywords",{goods_id:gid},function(data,status){
+            $("#keywords").val(data);
         });
 
         $.get("/good/"+id+"/edit",function(data,status){

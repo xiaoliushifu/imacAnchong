@@ -129,6 +129,13 @@ class PurseController extends Controller
             DB::rollback();
             return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'兑换失败']]);
         }
+        //得到券后的过期时间与券本身的过期时间作对比
+        $user_time=time()+7776000;
+        if($coupon_pool_handle->endline>$user_time){
+            $endtime=$user_time;
+        }else{
+            $endtime=$coupon_pool_handle->endline;
+        }
         //优惠券数据
         $coupon_data=[
             'users_id' => $data['guid'],
@@ -138,7 +145,7 @@ class PurseController extends Controller
             'type' => $coupon_pool_handle->type,
             'type2' => $coupon_pool_handle->type2,
             'num' => 1,
-            'end' => (time()+7776000),
+            'end' => $endtime,
         ];
         //插入个人优惠券表
         $cpresult=DB::table('anchong_coupon')->insertGetId($coupon_data);
@@ -172,27 +179,35 @@ class PurseController extends Controller
                 case '1':
                     //统计数量
                     $coupon_count=$this->coupon->Coupon()->whereRaw('users_id = '.$data['guid'].' and end >'.time())->count();
-                    $coupon_cpid=$this->coupon->Coupon()->select('cpid')->whereRaw('users_id = '.$data['guid'].' and end >'.time())->skip((($param['page']-1)*$limit))->take($limit)->get();
+                    $coupon_cpid=$this->coupon->Coupon()->select('cpid','end')->whereRaw('users_id = '.$data['guid'].' and end >'.time())->skip((($param['page']-1)*$limit))->take($limit)->get();
                     //定义数组
-                    $coupon_arr=[];
+                    $coupon_result=[];
                     //遍历出ID
                     foreach ($coupon_cpid as $coupon_id) {
-                        $coupon_arr[]=$coupon_id->cpid;
+                        $coupon_arr=$this->coupon_pool->Coupon()->select($coupon_data)->where('acpid','=',$coupon_id->cpid)->get()->toArray();
+                        //将二维数组遍历并将过期时间加进结果内
+                        foreach ($coupon_arr as $coupon) {
+                            $coupon['endline']=$coupon_id->end;
+                            $coupon_result[]=$coupon;
+                        }
                     };
-                    $coupon_result=$this->coupon_pool->Coupon()->select($coupon_data)->whereIn('acpid',$coupon_arr)->orderBy('acpid','DESC')->get();
                     break;
                 //已过期的优惠券
                 case '2':
                     //统计数量
                     $coupon_count=$this->coupon->Coupon()->whereRaw('users_id = '.$data['guid'].' and end <'.time())->count();
-                    $coupon_cpid=$this->coupon->Coupon()->select('cpid')->whereRaw('users_id = '.$data['guid'].' and end <'.time())->skip((($param['page']-1)*$limit))->take($limit)->get();
+                    $coupon_cpid=$this->coupon->Coupon()->select('cpid','end')->whereRaw('users_id = '.$data['guid'].' and end <'.time())->skip((($param['page']-1)*$limit))->take($limit)->get();
                     //定义数组
                     $coupon_arr=[];
                     //遍历出ID
                     foreach ($coupon_cpid as $coupon_id) {
-                        $coupon_arr[]=$coupon_id->cpid;
+                        $coupon_arr=$this->coupon_pool->Coupon()->select($coupon_data)->where('acpid','=',$coupon_id->cpid)->get()->toArray();
+                        //将二维数组遍历并将过期时间加进结果内
+                        foreach ($coupon_arr as $coupon) {
+                            $coupon['endline']=$coupon_id->end;
+                            $coupon_result[]=$coupon;
+                        }
                     };
-                    $coupon_result=$this->coupon_pool->Coupon()->select($coupon_data)->whereIn('acpid',$coupon_arr)->orderBy('acpid','DESC')->get();
                     break;
                 //不是这两个就是非法操作
                 default:
