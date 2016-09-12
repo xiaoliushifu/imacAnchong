@@ -110,7 +110,6 @@ class commodityController extends Controller
         for($i=0;$i<count($request['midselect']);$i++){
             $type.=bin2hex($request['midselect'][$i])." ";
         };
-
         //向goods表中插入数据并获取刚插入数据的主键
         $gid = DB::table('anchong_goods')->insertGetId(
             [
@@ -188,6 +187,13 @@ class commodityController extends Controller
             }
             $data[0]['keyword']=$str;
         }
+        //商品类型转码
+        $arr=preg_split('#\s#', $data[0]['type'],-1,PREG_SPLIT_NO_EMPTY);
+            $str="";
+            for($i=0;$i<count($arr);$i++){
+                $str.=hex2bin($arr[$i])." ";
+            }
+            $data[0]['type']=$str;
         return $data[0];
     }
 
@@ -253,7 +259,6 @@ class commodityController extends Controller
         for($i=0;$i<count($request['midselect']);$i++){
             $type.=bin2hex($request['midselect'][$i])." ";
         };
-
         $data->keyword=ltrim($keywords);
         $data->type=trim($type);
         $result=$data->save();
@@ -286,7 +291,7 @@ class commodityController extends Controller
             //深度搜索表
             $res['search'] = DB::table('anchong_goods_search')->where('goods_id',$id)->delete();
             $res['specifi'] = DB::table('anchong_goods_specifications')->where('goods_id',$id)->delete();
-        
+
             //再删商品相关的
             $res['goods'] = DB::table('anchong_goods')->where('goods_id',$id)->delete();
             $res['oem'] = DB::table('anchong_goods_oem')->where('goods_id',$id)->delete();
@@ -306,6 +311,15 @@ class commodityController extends Controller
         $type=$request['pid'];
         $data=Goods::Type($type,$request['sid'])->get();
         return $data;
+    }
+
+    /*
+     * 获取商品关键词
+     * */
+    public function getKeywords(Request $request){
+        $goods_id=$request['goods_id'];
+        $keywords=DB::table('anchong_goods')->whereRaw('goods_id='.$goods_id)->pluck('keyword');
+        return $keywords;
     }
 
     /*

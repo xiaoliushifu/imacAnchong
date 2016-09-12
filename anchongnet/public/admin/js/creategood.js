@@ -61,7 +61,7 @@ $(function(){
         //属性
         $("#attrs").empty();
         //获得有关该分类的商品
-        $.get("/getsibilingscommodity",{pid:Level1+'uu'+Level2,sid:sid},function(data,status){
+        $.get("/getsibilingscommodity",{pid:Level2,sid:sid},function(data,status){
             if(data.length==0){
                 $("#name").empty();
                 $("#name").append(nullopt);
@@ -103,7 +103,7 @@ $(function(){
                 }
             }
         });
-        //选择商品时，从goods表里获得商品的关键字和商品id，type字段为商品id
+        //选择商品时，从goods表里获得商品的关键字和商品类型，商品描述
         $.get("/commodity/"+val,function(data,status){
             $("#keyword").val(data.keyword);
             $("#type").val(data.type);

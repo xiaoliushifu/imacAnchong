@@ -70,7 +70,7 @@ $(function(){
             }
         });
     });
-    
+
     /**
      * 表单验证逻辑 工程结束时间项
      */
@@ -82,7 +82,7 @@ $(function(){
 			   },
 		},
     })
-    
+
     //商机的编辑
     $(".edit").click(function(){
         //获取商机的ID
@@ -269,7 +269,7 @@ $(function(){
             });
         }
     });
-    
+
 //点击“广告轮播图”按钮，出现弹框
     $(".advertpic").click(function(){
         $("#advert-bid").val($(this).attr("data-id"));
