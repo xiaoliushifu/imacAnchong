@@ -28,6 +28,10 @@ $(function(){
  	  		   cvalue:{
  	  			   required:true,
  	  			   digits:true,
+ 	  		   },
+ 	  		   endline:{
+ 	  			   required:true,
+ 	  			   dateISO:true,
  	  		   }
  	   },
  	   //自定义错误提示
@@ -42,6 +46,9 @@ $(function(){
 		   		cvalue:{
 		   			required:'面额必须得填吧',
 	 	  			digits:'面额必须得是整数吧',
+	 	  		},
+	 	  		endline:{
+	 	  			dateISO:'日期格式不行 xxxx-xx-xx',
 	 	  		}
  	   }
 	});

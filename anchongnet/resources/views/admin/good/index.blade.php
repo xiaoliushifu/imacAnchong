@@ -229,7 +229,7 @@
                             <input type="hidden" id="goodsname" name="goodsname" value="">
                         </div><!--end form-group-->
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="spetag">货品标签</label>
+                            <label class="col-sm-2 control-label" for="spetag">商品属性</label>
                             <div class="col-sm-6">
                                 <input type="text" name="spetag" id="spetag" class="form-control" required placeholder="如：黄色32码" value="{{ old('spetag') }}" readonly="true"/>
                             </div>
