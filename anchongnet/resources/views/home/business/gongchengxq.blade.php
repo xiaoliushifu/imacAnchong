@@ -30,7 +30,7 @@
 <div class="header">
     <div class="header-container">
         <div class="logo">
-            <img src="../home/images/gongchengxq/logo.jpg"/>
+            <a href="{{url('/')}}"><img src="../home/images/gongchengxq/logo.jpg"/></a>
         </div>
         <div class="search">
             <form class="search-form" method="post">
@@ -63,7 +63,7 @@
     <div class="middle-container">
         <div class="publisher">
             <ul>
-                <li><img src="../home/images/gongchengxq/tx.jpg"/></li>
+                <li><img src="{{$data->img}}"/></li>
                 <li class="publisher-name">{{$data->contact}}</li>
 
                 <li class="server-type">

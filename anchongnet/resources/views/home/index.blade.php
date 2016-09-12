@@ -44,16 +44,16 @@
             <ul class="navigation">
                 <li class="home nav-item"><a href="{{url('/')}}">首页</a></li>
                 <li class="business nav-item">
-                    <a href="{{url('')}}">商机</a>
+                    <a href="{{url('/business')}}">商机</a>
                     <span class="business-triangle"></span>
                     <div class="business-list">
-                        <p><a href="">工程</a></p>
-                        <p><a href="">人才</a></p>
-                        <p><a href="">找货</a></p>
+                        <p><a href="{{url('/gc')}}">工程</a></p>
+                        <p><a href="{{url('/orderlist')}}">人才</a></p>
+                        <p><a href="{{url('/fngoods')}}">找货</a></p>
                     </div>
                 </li>
                 <li class="community nav-item"><a href="{{url('/community')}}">社区</a></li>
-                <li class="equipment nav-item"><a href="{{url('')}}">设备选购</a></li>
+                <li class="equipment nav-item"><a href="{{url('/ancself')}}">设备选购</a></li>
                 <li class="news nav-item"><a href="{{url('/info')}}">资讯</a></li>
             </ul>
         </div>

@@ -31,7 +31,7 @@
 <div class="header-center" >
     <div class="header-main">
         <div class="logo">
-            <img src="home/images/zhaohuo/7.jpg" alt="">
+            <a href="{{url('/')}}"><img src="home/images/zhaohuo/7.jpg" alt=""></a>
         </div>
         <div class="search">
             <div class="searchbar">

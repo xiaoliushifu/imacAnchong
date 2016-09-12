@@ -1,53 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+@extends('inc.home.pcenter.pcenter')
+@section('info')
     <title>发包工程</title>
-    <link rel="stylesheet" type="text/css" href="home/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="home/css/contractwork.css">
-    <script type="text/javascript" src="../home/js/jquery-3.1.0.min.js"></script>
-     <script type="text/javascript" src="home/js/bootstrap.js"></script>
-</head>
-<body>
-<div class="topt">
-    <div class="topt-1">
-        <div class="topt-2"><p>安虫首页</p></div>
-        <div class="topt-3">
-            <ul class="nav navbar-nav">
-                <li>邮箱：www.@anchong.net</li>
-                <li>垂询电话:0317-8155026</li>
-                <li><img src="home/images/mine/6.jpg" alt=""></li>
-                <li style="padding-left: 10px;"><a href="#" class="dropdown-toggle " data-toggle="dropdown">风信子<b class="caret"></b></a>
-                <ul class="dropdown-menu depth_0">
-                        <li><a href="#">网页特效</a></li>
-                        <li><a href="#">音效下载</a></li>
-                        <li><a href="#">网页模板</a></li>
-                        <li><a href="#">flash动画</a></li>
-                    </ul>
+    @endsection
+    @section('content')
 
-
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-<div class="topone">
-    <div class="topone-1">
-        <div class="topone-2">
-            <img src="home/images/mine/60.jpg" alt="">
-        </div>
-        <div class="topone-3">
-            <ul>
-                <li  class="ppp"><a href="{{url('/pcenter')}}" >首页</a><img src="home/images/mine/up.png" alt=""> </li>
-                <li  class="ppp"><a href="{{url('/basics')}}" >个人资料</a><img src="home/images/mine/up.png" alt=""> </li>
-                <li  class="ppp"><a href="{{url('/servermsg')}}" >消息</a><img src="home/images/mine/up.png" alt=""> </li>
-            </ul>
-        </div>
-        <div class="mypublish">
-            <a href=""><img src="home/images/mine/30.jpg" alt=""></a>
-        </div>
-    </div>
-</div>
 <div class="main">
     <div class="mainlf">
         <div class="topll">
@@ -58,37 +15,6 @@
         </div>
         <div class="toppp">
             <ul>
-
-                <script type="text/javascript">
-                    $(document).ready(function() {
-                        $('.inactive').click(function(){
-                            if($(this).siblings('ul').css('display')=='none'){
-                                $(this).parent('li').siblings('li').removeClass('inactives');
-                                $(this).addClass('inactives');
-                                $(this).siblings('ul').slideDown(100).children('li');
-                                if($(this).parents('li').siblings('li').children('ul').css('display')=='block'){
-                                    $(this).parents('li').siblings('li').children('ul').parent('li').children('a').removeClass('inactives');
-                                    $(this).parents('li').siblings('li').children('ul').slideUp(100);
-
-                                }
-                            }else{
-                                //控制自身变成+号
-                                $(this).removeClass('inactives');
-                                //控制自身菜单下子菜单隐藏
-                                $(this).siblings('ul').slideUp(100);
-                                //控制自身子菜单变成+号
-                                $(this).siblings('ul').children('li').children('ul').parent('li').children('a').addClass('inactives');
-                                //控制自身菜单下子菜单隐藏
-                                $(this).siblings('ul').children('li').children('ul').slideUp(100);
-
-                                //控制同级菜单只保持一个是展开的（-号显示）
-                                $(this).siblings('ul').children('li').children('a').removeClass('inactives');
-                            }
-                        })
-                    });
-                </script>
-
-
                 <li><a href="javascript::" class="inactive">我的发布<b class="caret"></b></a>
                     <ul class="ttt" style="display: none">
                         <hr>
@@ -212,75 +138,5 @@
 
     </div>
 <div style="clear: both"></div>
-<div class="foottop">
-    <div class="foottop-1">
-        <div class="foottoplf">
-            <div class="yqlg"><h4>友情链接</h4>
-                <hr>
-            </div>
-              <ul>
-                  <li>
-                      <p><a href="#">中国安防行业网</a></p>
-                      <p><a href="#">华强安防网</a></p>
-                      <p><a href="#">中国安防展览网</a></p>
-                      <p><a href="#">安防英才网</a></p>
-                  </li>
-                  <li>
-                      <p><a href="#">智能交通网</a></p>
-                      <p><a href="#">中国智能化</a></p>
-                      <p><a href="#">中关村在线</a></p>
-                      <p><a href="#">教育装备采购网</a></p>
-                  </li>
-                  <li>
-                      <p><a href="#">中国贸易网</a></p>
-                      <p><a href="#">华强电子网</a></p>
-                      <p><a href="#">研究报告中国测控网</a></p>
-                      <p><a href="#">五金机电网</a></p>
-                  </li>
-                  <li>
-                      <p><a href="#">中国安防展览网</a></p>
-                      <p><a href="#">民营企业网</a></p>
-                      <p><a href="#">中国航空新闻网</a></p>
-                      <p><a href="#">北极星电力网</a></p>
-                  </li>
-              </ul>
-
-        </div>
-        <div class="foottoprg">
-            <div class="erwm" >
-                <h4>下载安虫app客户端</h4>
-                <img src="home/images/mine/1.jpg">
-            </div>
-            <div class="mmm">
-                <h4>安虫微信订阅号</h4>
-                <img src="home/images/mine/2.jpg">
-            </div>
-
-        </div>
-    </div>
-</div>
-<hr class="fff">
-
-<div class="footdown">
-    <div class="footdown-1">
-
-
-                 <div class="ddd">
-                    <p><a href="#">关于安虫</a><span>|</span>
-                        <a href="#">联系我们</a><span>|</span>
-                        <a href="#">帮助中心</a><span>|</span>
-                        <a href="#">服务网点</a><span>|</span>
-                        <a href="#">法律声明</a><span>|</span>
-                        客服热线：400-888-888
-
-                    </p>
-                    <p>Copyright©&nbsp;北京安虫版权所有&nbsp;anchong.net</p>
-                    <p>京ICP备111111号&nbsp;<span>|</span>&nbsp;出版物经营许可证</p>
-
-                  </div>
-
-    </div>
-</div>
-
-</body>
-</html>
+<script type="text/javascript" src="home/js/navleft.js"></script>
+@endsection

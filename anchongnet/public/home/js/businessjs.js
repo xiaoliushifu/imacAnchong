@@ -2,53 +2,16 @@
 $(function(){
 
 //商机主页导航下拉
-
-    $('.buslist').on("click", function(e){
-        $(".cart").show();
-
-        $(document).one("click", function(){
-            $(".cart").hide();
-        });
-
-        e.stopPropagation();
-    });
-    $(".cart").on("click", function(e){
-        e.stopPropagation();
+    $('.buslist').click(function(){
+        $('.cart').toggle();
     });
 
-
-
-    $('.buslist1').on("click", function(e){
-        $(".cart1").show();
-
-        $(document).one("click", function(){
-            $(".cart1").hide();
-        });
-
-        e.stopPropagation();
+    $('.buslist1').click(function(){
+        $('.cart1').toggle();
     });
-    $(".cart1").on("click", function(e){
-        e.stopPropagation();
+    $('.buslist2').click(function(){
+        $('.cart2').toggle();
     });
-
-    $('.buslist2').on("click", function(e){
-        $(".cart2").show();
-
-        $(document).one("click", function(){
-            $(".cart2").hide();
-        });
-
-        e.stopPropagation();
-    });
-    $(".cart2").on("click", function(e){
-        e.stopPropagation();
-    });
-
-
-
-
-
-
 
 })
 

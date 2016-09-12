@@ -27,7 +27,7 @@
 <div class="header-center">
     <div class="header-main">
         <div class="logo">
-            <img src="home/images/shebei/12.jpg" alt="">
+            <a href="{{url('/')}}"><img src="home/images/shebei/12.jpg" alt=""></a>
         </div>
         <div class="search">
             <div class="searchbar">
@@ -362,7 +362,7 @@
 
         <div class="centergoods">
             <div class="subcentergoods">
-                <div class="centergoods-title"><span>F8</span><h3>智能消费</h3></div>
+                <div class="centergoods-title"><span>F8</span><h3>安全配套</h3></div>
                 <div class="centergoods-nav">
                     <ul>
                         <li><a href="">摄像机</a></li>
