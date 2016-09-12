@@ -1,5 +1,7 @@
 
 $(function(){
+
+//商机主页导航下拉
     $('.buslist').click(function(){
         $('.cart').toggle();
     });
@@ -7,13 +9,13 @@ $(function(){
     $('.buslist1').click(function(){
         $('.cart1').toggle();
     });
-
     $('.buslist2').click(function(){
         $('.cart2').toggle();
     });
+
 })
 
-
+//商机主页轮播
 
 $(function(){
     var timer=setInterval(function(){

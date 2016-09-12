@@ -58,8 +58,8 @@
         </div>
         <div class="topone-3">
             <ul>
-                <li  class="ppp"><a href="#" >首页</a><img src="home/images/pcenter/pup.png" alt=""> </li>
-                <li  class="ppp"><a href="#" >个人资料</a><img src="home/images/pcenter/pup.png" alt=""> </li>
+                <li  class="ppp"><a href="{{url('pcenter')}}" >首页</a><img src="home/images/pcenter/pup.png" alt=""> </li>
+                <li  class="ppp"><a href="{{url('/basics')}}" >个人资料</a><img src="home/images/pcenter/pup.png" alt=""> </li>
                 <li  class="ppp"><a href="{{url('/servermsg')}}" >消息</a><img src="home/images/pcenter/pup.png" alt=""> </li>
                 <li  class="ppp"><a href="#" >其他更多吧</a><img src="home/images/pcenter/pup.png" alt=""> </li>
             </ul>
@@ -83,10 +83,10 @@
                     <li><a href="javascript::" class="inactive">我的发布<b class="caret"></b></a>
                         <ul class="list-unstyled ttt" style="display: none">
                         		<hr>
-                            <li><a href="#" class="item">发布工程</a></li>
-                            <li><a href="#" class="item">承接工程</a></li>
-                            <li><a href="#" class="item">发布人才</a></li>
-                            <li><a href="#" class="item">人才自荐</a></li>
+                            <li><a href="{{url('/conwork')}}" class="item">发包工程</a></li>
+                            <li><a href="{{url('/gc')}}" class="item">承接工程</a></li>
+                            <li><a href="{{url('reorder')}}" class="item">发布人才</a></li>
+                            <li><a href="{{url('')}}" class="item">人才自荐</a></li>
                             <li><a href="#" class="inactive active item">找货</a></li>
                         </ul>
                     </li>
@@ -128,7 +128,7 @@
             <div class="col-lg-12 daomain">
                 <ul class="list-unstyled list-inline">
                     <li><a href="{{url('/conwork')}}">发包工程</a></li>
-                    <li><a href="#">承接工程</a></li>
+                    <li><a href="{{url('/gc')}}">承接工程</a></li>
                     <li><a href="{{url('/reorder')}}">发布人才</a></li>
                 </ul>
             </div>
@@ -170,7 +170,7 @@
 </div>
 {{--通用底部--}}
 @include('inc.home.foot')
-<script src="home/js/jquery-3.0.0.min.js"></script>
+<script src="home/js/jquery-3.1.0.min.js"></script>
 <script src="home/js/bootstrap.min.js"></script>
 <script src="home/js/pcenter.js"></script>
 </body>

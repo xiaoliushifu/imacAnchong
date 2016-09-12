@@ -30,7 +30,7 @@
 		<div class="header">
 			<div class="header-container">
 				<div class="logo">
-					<img src="home/images/business/logo.jpg"/>
+					<a href="{{url('/')}}"><img src="home/images/business/logo.jpg"/></a>
 				</div>
 				<div class="search">
 					<form class="search-form" method="post">
@@ -52,7 +52,7 @@
 							</div>
 						</li>
 						<li class="community nav-item"><a href="{{url('/community')}}">社区</a></li>
-						<li class="equipment nav-item"><a href="{{url('')}}">设备选购</a></li>
+						<li class="equipment nav-item"><a href="{{url('/business')}}">设备选购</a></li>
 						<li class="news nav-item"><a href="{{url('/info')}}">资讯</a></li>
 					</ul>
 				</div>	

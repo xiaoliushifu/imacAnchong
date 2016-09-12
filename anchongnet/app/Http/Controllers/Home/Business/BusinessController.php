@@ -63,23 +63,23 @@ class BusinessController extends Controller
 
     public function chat()
     {
-        return view('home.business.releasechat');
+        return view('home.release.releasechat');
     }
 
 
     public function reorder()
     {
-        return view('home.business.releaseorder');
+        return view('home.release.releaseorder');
     }
 
     public function releaseeg()
     {
-        return view('home.business.releaseeg');
+        return view('home.release.releaseeg');
     }
 
     public function fngoods()
     {
-        return view('home.business.releasefngoods');
+        return view('home.release.releasefngoods');
     }
 
     public function ancshop()

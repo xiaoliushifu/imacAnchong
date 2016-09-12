@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>人才列表</title>
     <link rel="stylesheet" href="home/css/rencailist.css">
-    <script src="home/js/jquery-3.0.0.min.js"></script>
+    <script src="home/js/jquery-3.1.0.min.js"></script>
 
 
 </head>
@@ -31,7 +31,7 @@
 <div class="header-center" >
     <div class="header-main">
         <div class="logo">
-            <img src="home/images/zhaohuo/7.jpg" alt="">
+            <a href="{{url('/')}}"><img src="home/images/zhaohuo/7.jpg" alt=""></a>
         </div>
         <div class="search">
             <div class="searchbar">

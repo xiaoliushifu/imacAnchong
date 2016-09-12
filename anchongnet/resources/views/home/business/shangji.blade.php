@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>商机首页</title>
     <link rel="stylesheet" href="home/css/shangjisy.css">
-    <script src="home/js/jquery-3.0.0.min.js"></script>
+    <script src="home/js/jquery-3.1.0.min.js"></script>
     <script src="home/js/businessjs.js"></script>
     <link rel="stylesheet" href="home/css/businessjs.css">
 
@@ -26,7 +26,7 @@
 <div class="header-center">
     <div class="header-main">
         <div class="logo">
-            <img src="home/images/shangji/7.jpg" alt="">
+            <a href="{{url('/')}}"><img src="home/images/shangji/7.jpg" alt=""></a>
         </div>
         <div class="search">
           <div class="searchbar">
@@ -60,7 +60,7 @@
                 <style>
 
                 </style>
-                <li><a href="#">社区</a><img src="home/images/shangji/9.jpg" alt="" class="buslist1"></li>
+                <li><a href="{{url('/community')}}">社区</a><img src="home/images/shangji/9.jpg" alt="" class="buslist1"></li>
                 <div class="cart1">
                     <script>
 
@@ -72,7 +72,7 @@
                     <p><a href="{{url('/sergoods')}}">找货</a></p>
                     <p><a href="{{url('/orderlist')}}">人才</a></p>
                 </div>
-                <li><a href="#">设备选购</a><img src="home/images/shangji/9.jpg" alt="" style="right: 15px;"  class="buslist2"></li>
+                <li><a href="{{url('/ancself')}}">设备选购</a><img src="home/images/shangji/9.jpg" alt="" style="right: 15px;"  class="buslist2"></li>
                 <div class="cart2">
                     <p><a href="{{url('/ancself')}}">安虫自营</a></p>
                     <p><a href="{{url('/sergoods')}}">第三方商城</a></p>
@@ -84,7 +84,7 @@
                 <style>
 
                 </style>
-                <li><a href="#">资讯</a></li>
+                <li><a href="{{url('/info')}}">资讯</a></li>
             </ul>
         </div>
         <div class="publish">
