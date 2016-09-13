@@ -660,7 +660,11 @@ Route::group(['domain' => 'www.anchong.net'], function () {
      * 社区
      */
     //社区首页
-    Route::get('/community','Home\community\CommunityController@index');
+    Route::group(['namespace'=> 'Home\Community'],function (){
+        Route::get('/community','CommunityController@index');
+        Route::get('/chat/{chat_id}','CommunityController@chat');
+    });
+
 });
 
 //验证码类,需要传入数字
