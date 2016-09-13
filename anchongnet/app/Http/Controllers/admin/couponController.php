@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Coupon_pool;
 use DB;
+use Cache;
 
 class couponController extends Controller
 {
@@ -31,7 +32,12 @@ class couponController extends Controller
      */
     public function create()
     {
-        return view('admin/coupon/create');
+        //获得认证通过的商铺列表
+        if (!$datas = Cache::get('opdata')) {
+            $datas = \App\Shop::Audit(2)->get(['sid','name'])->toArray();
+            Cache::add('opdata',$datas,'100');
+        }
+        return view('admin/coupon/create',['opdata'=>$datas,'endline'=>time()+86400*10]);
     }
 
     /**
@@ -43,21 +49,42 @@ class couponController extends Controller
     public function store(Request $req)
     {
         $messages = [
-            'title.between' => '标题应该在:min--:max之间',
             'cvalue.integer' => '面额值得输入整数吧',
             'cvalue.min' => '面额值得大于 :min吧',
             'beans.integer' => '至少得是整数吧',
         ];
         $this->validate($req, [
-            'title' => 'between:5,255',
             'cvalue' => 'integer|min:0',
             'beans' =>'integer|min:0',
         ],$messages);
-        $field=array('title'=>$req['title'], 'cvalue'=>$req['cvalue'], 'beans'=>$req['beans'], 'type'=>$req['type'], 'type2'=>$req['type2']);
-        if (DB::table('anchong_coupon_pool')->insert($field)) {
-            return  view('admin/coupon/create',array('mes'=>'添加成功'));
-        } else {
-            return view('admin/coupon/create',array('mes'=>'添加失败'));
+        //非平台通用
+        $tmp=explode('#@#',$req['shop']);
+        $req['shop']=$tmp[0];
+        $req['title']=$tmp[1];
+        
+        $field=array(
+            'title'=>$req['title'],
+            'target'=>$req['target'],
+            'cvalue'=>$req['cvalue'],
+            'beans'=>$req['beans'],
+            'shop'=>$req['shop'],
+            'type'=>$req['type'],
+            'type2'=>$req['type2'],
+            'endline'=>strtotime($req['endline']),
+        );
+        try{
+            //获得认证通过的商铺列表
+            if (!$datas = Cache::get('opdata')) {
+                $datas = \App\Shop::Audit(2)->get(['sid','name'])->toArray();
+                Cache::add('opdata',$datas,'100');
+            }
+            if (DB::table('anchong_coupon_pool')->insert($field)) {
+                return  view('admin/coupon/create',array('mes'=>'添加成功','opdata'=>$datas, 'endline'=>time()+86400*10));
+            } else {
+                return view('admin/coupon/create',array('mes'=>'添加失败'));
+            }
+        }catch(\Exception $e) {
+            exit($e->getMessage());
         }
         
     }

@@ -76,9 +76,14 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="cvalue">券类型</label>
                                     <div class="col-sm-2">
-                                        <input type="number" name="shop" id="shop" class="form-control" required value="{{ old('shop') }}"  placeholder=""/>
+                                        <select  name="shop" id="shop" class="form-control" required>
+                                        		<option value="0#@#平台通用" tit="通用">平台通用</option>
+                                        		@foreach($opdata as $op) 
+                                        			<option value="{{ $op['sid'] }}#@#{{ $op['name'] }}" >{{ $op['name'] }}</option>
+                                        		@endforeach
+                                        </select>
                                     </div>
-                                    <small>0代表通用，其他请填写商铺id</small>
+                                    <small>0代表通用，其他请选择相关商铺</small>
                                 </div>
                                 <div class="form-group">
                                 		<label class="col-sm-2 control-label">子类型</label>
@@ -99,7 +104,7 @@
                                     <small>关联类型的值，根据子类型的不同，代表不同的意义</small>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="cvalue">起始使用值</label>
+                                    <label class="col-sm-2 control-label" for="target">起始使用值</label>
                                     <div class="col-sm-2">
                                         <input type="number" name="target" id="target" class="form-control" required value="{{ old('target') }}" />
                                     </div>
@@ -112,12 +117,12 @@
                                     </div>
                                     <small>如：满2000减100，就填写100</small>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label class="col-sm-2 control-label" for="title">优惠券标题</label>
                                     <div class="col-sm-3">
-                                        <input type="text" name="title" id="title"  readonly class="form-control" required value="{{ old('title') }}" placeholder="如：满2000减100"/>
+                                        <input type="text" name="title" id="title"  readonly class="form-control"  value="{{ old('title') }}" placeholder="如：满2000减100"/>
                                     </div>
-                                </div>
+                                </div> -->
                                 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="beans">虫豆数</label>
@@ -129,7 +134,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="beans">截止日期</label>
                                     <div class="col-sm-2">
-                                        <input type="number" name="endline" id="endline" class="form-control"  value="{{ old('beans')?: 0 }}" />
+                                        <input type="date" name="endline" id="endline" class="form-control"  value="{{ old('beans')?:  date('Y-m-d',$endline) }}" />
                                     </div>
                                     <small>只填写日期，如：2017-08-08</small>
                                 </div>
