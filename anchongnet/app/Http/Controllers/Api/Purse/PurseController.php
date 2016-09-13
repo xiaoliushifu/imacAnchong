@@ -141,6 +141,7 @@ class PurseController extends Controller
             'users_id' => $data['guid'],
             'cpid' => $param['acpid'],
             'target' => $coupon_pool_handle->target,
+            'cvalue' => $coupon_pool_handle->cvalue,
             'shop' => $coupon_pool_handle->shop,
             'type' => $coupon_pool_handle->type,
             'type2' => $coupon_pool_handle->type2,
@@ -165,7 +166,7 @@ class PurseController extends Controller
     */
     public function mycoupon(Request $request)
     {
-        // try{
+        try{
             //获得app端传过来的json格式的数据转换成数组格式
             $data=$request::all();
             $param=json_decode($data['param'],true);
@@ -216,10 +217,89 @@ class PurseController extends Controller
             }
             //返回结果
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$coupon_count,'list'=>$coupon_result]]);
-        // }catch (\Exception $e) {
-        //     return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
-        // }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
     }
+
+
+    /*
+    *   优惠券使用
+    */
+    public function usecoupon(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //定义商铺ID数组,因为shop为0表示全场通用所有数组初始有0元素
+        $sid_arr=[0];
+        //定义已商铺ID为键数组索引为值的数组
+        $sid_index=[];
+        //定义可用优惠券数组
+        $acp_id=[];
+        //遍历出数据
+        for($i=0;$i<count($param['list']);$i++){
+            $sid_arr[]=$param['list'][$i]['sid'];
+            $sid_index[$param['list'][$i]['sid']]=$i;
+        }
+        //查出该用户下对应店铺的优惠券
+        $coupons_arr=$this->coupon->Coupon()->where('users_id',$data['guid'])->whereRaw('end > '.time())->whereIn('shop',$sid_arr)->select('cpid','target','shop','type','type','type2','end')->get()->toArray();
+        //遍历出所有的优惠券
+        foreach ($coupons_arr as $coupons) {
+            //判断是否是全场通用的券
+            if($coupons['shop'] == 0){
+                //根据总价判断是否可用
+                if($param['total_price'] >= $coupons['target']){
+                    //将可用的优惠券ID和结束时间放入数组
+                    $acp_id[]=['acpid'=>$coupons['cpid'],'endline'=>$coupons['end']];
+                }
+            }else{
+                //如果不是全场通用券就判断它是否符合使用标准
+                $shopcoupon=$param['list'][$sid_index[$coupons['shop']]];
+                //判断是商铺下什么使用类型的券
+                switch ($coupons['type']) {
+                    //如果是商铺通用则执行下面操作
+                    case '1':
+                        //判断是否符合使用条件
+                        if($shopcoupon['shop_price'] >= $coupons['target']){
+                            //将可用的优惠券ID和结束时间放入数组
+                            $acp_id[]=['acpid'=>$coupons['cpid'],'endline'=>$coupons['end']];
+                        }
+                        break;
+                    //如果是商品使用则执行下面操作
+                    case '3':
+                        foreach ($shopcoupon['goods'] as $goodscoupon) {
+                            //判断是否有对应商品可用的优惠券，并且是否符合使用条件
+                            if($coupons['type2'] == $goodscoupon['gid'] && $goodscoupon['price'] >= $coupons['target']){
+                                //将可用的优惠券ID和结束时间放入数组
+                                $acp_id[]=['acpid'=>$coupons['cpid'],'endline'=>$coupons['end']];
+                            }
+                        }
+                        break;
+
+                    default:
+                        # code...
+                        break;
+                }
+            }
+        }
+        //定义优惠券字段
+        $coupon_data=['acpid','title','cvalue','target','shop','type','type2'];
+        //定义数组
+        $coupon_result=[];
+        //遍历出ID
+        foreach ($acp_id as $coupon_id) {
+            $coupon_arr=$this->coupon_pool->Coupon()->select($coupon_data)->where('acpid','=',$coupon_id['acpid'])->get()->toArray();
+            //将二维数组遍历并将过期时间加进结果内
+            foreach ($coupon_arr as $coupon) {
+                $coupon['endline']=$coupon_id['endline'];
+                $coupon_result[]=$coupon;
+            }
+        };
+        //返回结果
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$coupon_result]);
+    }
+
 
     /*
     *   虫豆充值界面

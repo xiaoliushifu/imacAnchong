@@ -297,6 +297,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/purse/couponexchange','Api\Purse\PurseController@couponexchange');
         //我的优惠券
         Route::post('/purse/mycoupon','Api\Purse\PurseController@mycoupon');
+        //优惠券使用
+        Route::post('/purse/usecoupon','Api\Purse\PurseController@usecoupon');
         //虫豆充值页面
         Route::post('/purse/beansrecharge','Api\Purse\PurseController@beansrecharge');
         //虫豆购买
@@ -431,6 +433,8 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::post('/checkorder','admin\orderController@checkorder');
             //获取同一个订单的订单信息的路由
             Route::get('/getsiblingsorder','admin\orderinfoController@getSiblingsOrder');
+            //获取优惠券信息
+            Route::get('/getacpinfo','admin\couponController@couponinfo');
 
             //获取所有物流
             Route::get('/getlogis','admin\logisController@getAll');

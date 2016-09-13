@@ -27,6 +27,10 @@ class OrderController extends Controller
             if(empty($param['address'])){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请填写收货地址']]);
             }
+            //定义优惠券字段
+            $coupon_cvalue=$param['cvalue'];
+            echo $coupon_cvalue;
+            //定义状态
             $true=false;
             //开启事务处理
             DB::beginTransaction();
@@ -54,7 +58,25 @@ class OrderController extends Controller
                     return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
                 }
                 $order_num=rand(10000,99999).substr($data['guid'],0,1).time();
-                $total_price += $orderarr['total_price'];
+                $orderprice=$orderarr['total_price'];
+                $total_price += $orderprice;
+                //判断是否使用优惠券
+                if($coupon_cvalue){
+                    //判断是否是全网通用的
+                    if($param['shop'] == 0){
+                        echo 111;
+                        //订单总价
+                        $orderprice=$orderprice-$coupon_cvalue;
+                        //总价
+                        $total_price=$total_price-$coupon_cvalue;
+                    }elseif($param['shop'] == $orderarr['sid']){
+                        echo $orderarr['sid'];
+                        //订单总价
+                        $orderprice=$orderprice-$coupon_cvalue;
+                        //总价
+                        $total_price=$total_price-$coupon_cvalue;
+                    }
+                }
                 $order_data=[
                     'order_num' => $order_num,
                     'users_id' => $data['guid'],
@@ -63,13 +85,19 @@ class OrderController extends Controller
                     'address' => $param['address'],
                     'name' => $param['name'],
                     'phone' => $param['phone'],
-                    'total_price' => $orderarr['total_price'],
+                    'total_price' => $orderprice,
                     'created_at' => date('Y-m-d H:i:s',$data['time']),
                     'freight' => $orderarr['freight'],
                     'invoice' => $param['invoice'],
                     'customer' => $customers[0]['customer'],
                     'tname' => $name[0]['contact']
                 ];
+                //判断是否使用优惠券
+                if($orderprice < $orderarr['total_price']){
+                    //增加一个字段
+                    $order_data['acpid']=$param['acpid'];
+                    $coupon_cvalue="";
+                }
                 //创建订单的ORM模型
                 $order=new \App\Order();
                 $cart=new \App\Cart();
@@ -78,7 +106,7 @@ class OrderController extends Controller
                 $result=$order->add($order_data);
                 //如果成功
                 if($result){
-                    $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$result,'total_price'=>$orderarr['total_price']]);
+                    $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$result,'total_price'=>$orderprice]);
                     if($payresult){
                         foreach ($orderarr['goods'] as $goodsinfo) {
                             //创建货品表的ORM模型来查询货品数量
@@ -119,13 +147,13 @@ class OrderController extends Controller
                                         $order_result=$orderinfo->add($orderinfo_data);
                                         if($order_result){
                                             $true=true;
-                                            //同时删除购物车
-                                            $resultdel=$cart->cartdel($goodsinfo['cart_id']);
-                                            if($resultdel){
-                                                $true=true;
-                                            }else{
-                                                $true=false;
-                                            }
+                                            // //同时删除购物车
+                                            // $resultdel=$cart->cartdel($goodsinfo['cart_id']);
+                                            // if($resultdel){
+                                            //     $true=true;
+                                            // }else{
+                                            //     $true=false;
+                                            // }
                                         }else{
                                             //假如失败就回滚
                                             DB::rollback();
