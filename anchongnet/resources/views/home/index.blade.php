@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4c23a2537ac97b33bb327404b62ce04220ae6bf5
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,13 +52,8 @@
                     <span class="business-triangle"></span>
                     <div class="business-list">
                         <p><a href="{{url('/gc')}}">工程</a></p>
-<<<<<<< HEAD
                         <p><a href="{{url('/orderlist')}}">人才</a></p>
                         <p><a href="{{url('/fngoods')}}">找货</a></p>
-=======
-                        <p><a href="{{url('orderlist')}}">人才</a></p>
-                        <p><a href="{{url('/sergoods')}}">找货</a></p>
->>>>>>> 1d36002ef5ee52e91ef5a9bc3725df772d72248f
                     </div>
                 </li>
                 <li class="community nav-item"><a href="{{url('/community')}}">社区</a></li>

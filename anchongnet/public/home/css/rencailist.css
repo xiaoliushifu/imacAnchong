@@ -128,17 +128,18 @@
     width: 120px;
     height: 40px;
     text-align: center;
-
+    position: relative;
 }
 .navcontent li a{
-    position: relative;
+
 }
 .navcontent li:hover a{
     color: #ffffff;
 }
 .navcontent li img{
-    position: absolute;bottom: 0px;
-    left: 40px;
+    position: absolute;
+    bottom: 10px;
+    right: 30px;
     display: none;
 }
 .navcontent li:hover img{

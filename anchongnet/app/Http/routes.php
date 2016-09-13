@@ -599,6 +599,8 @@ Route::group(['domain' => 'www.anchong.net'], function () {
         Route::get('/ancself','BusinessController@ancshop');
 //        第三方商城
         Route::get('/thirdshop','BusinessController@thirdshop');
+//        商品列表
+        Route::get('/goodslist','BusinessController@goodslist');
     });
 
 //    个人中心部分路由

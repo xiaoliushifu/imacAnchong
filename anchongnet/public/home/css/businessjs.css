@@ -1,3 +1,7 @@
+.business-triangle{
+    cursor: pointer
+}
+
 .buslist{cursor: pointer}
 .cart{
     position: absolute;
@@ -8,6 +12,8 @@
     text-align: center;
     background:rgba(245,245,245,1);
     z-index: 20;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 .buslist1{cursor: pointer}
@@ -20,20 +26,32 @@
     text-align: center;
     background:rgba(245,245,245,1);
     z-index: 20;
-
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 .cart1 p a ,.cart p a ,.cart2 p a {
     color: #4A4A4A;
     text-decoration: none;
 }
 .buslist2{cursor: pointer}
-.cart2{
+.cart2 {
     position: absolute;
     display: none;
     width: 120px;
     left: 435px;
     top: 217px;
     text-align: center;
-    background:rgba(245,245,245,1);
-    z-index: 20;
+    background: rgba(245, 245, 245, 1);
+    z-index: 820;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.cart2 p:hover{
+    background: #1DABD8;
+}
+.cart p:hover{
+    background: #1DABD8;
+}
+.cart1 p:hover{
+    background: #1DABD8;
 }

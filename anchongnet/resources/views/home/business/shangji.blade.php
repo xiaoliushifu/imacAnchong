@@ -26,13 +26,7 @@
 <div class="header-center">
     <div class="header-main">
         <div class="logo">
-<<<<<<< HEAD
             <a href="{{url('/')}}"><img src="home/images/shangji/7.jpg" alt=""></a>
-=======
-            <a href="{{'/'}}">
-            <img src="home/images/shangji/7.jpg" alt="">
-            </a>
->>>>>>> 1d36002ef5ee52e91ef5a9bc3725df772d72248f
         </div>
         <div class="search">
           <div class="searchbar">
@@ -54,42 +48,25 @@
 
             <ul>
                 <li><a href="{{url('/')}}">首页</a></li>
-                <li><a href="{{url('/business')}}">商机</a><img src="home/images/shangji/9.jpg" alt=" " class="buslist" ></li>
+                <li id="change"><a href="{{url('/business')}}">商机</a><img src="home/images/shangji/9.jpg" alt=" " class="buslist" ></li>
                 <div class="cart">
                     <p><a href="{{url('/gc')}}">工程</a></p>
                     <p><a href="{{url('/sergoods')}}">找货</a></p>
-                    <p><a href="{{url('/orderlist')}}">人才</a></p>
+                    <p><a href="{{url('/talentlist')}}">人才</a></p>
                 </div>
-                <script>
-
-                </script>
-                <style>
-
-                </style>
-                <li><a href="{{url('/community')}}">社区</a><img src="home/images/shangji/9.jpg" alt="" class="buslist1"></li>
+                <li id="change1"><a href="{{url('/community')}}">社区</a><img src="home/images/shangji/9.jpg" alt="" class="buslist1"></li>
                 <div class="cart1">
-                    <script>
-
-                    </script>
-                    <style>
-
-                    </style>
                     <p><a href="{{url('/gc')}}">工程</a></p>
                     <p><a href="{{url('/sergoods')}}">找货</a></p>
                     <p><a href="{{url('/orderlist')}}">人才</a></p>
                 </div>
-                <li><a href="{{url('/ancself')}}">设备选购</a><img src="home/images/shangji/9.jpg" alt="" style="right: 15px;"  class="buslist2"></li>
+                <li id="change2"><a href="{{url('/ancself')}}">设备选购</a><img src="home/images/shangji/9.jpg" alt="" style="right: 15px;"  class="buslist2"></li>
                 <div class="cart2">
                     <p><a href="{{url('/ancself')}}">安虫自营</a></p>
-                    <p><a href="{{url('/sergoods')}}">第三方商城</a></p>
+                    <p><a href="{{url('/thirdshop')}}">第三方商城</a></p>
+                    <p><a href="{{url('/goodslist')}}">商品列表</a></p>
 
                 </div>
-                <script>
-
-                </script>
-                <style>
-
-                </style>
                 <li><a href="{{url('/info')}}">资讯</a></li>
             </ul>
         </div>
@@ -99,7 +76,7 @@
     </div>
 
 </div>
-<div style="clear: both"></div>
+<div style="clear: both;"></div>
 <hr class="nav-underline">
 <div class="adcontent">
     <ul class="banner">
