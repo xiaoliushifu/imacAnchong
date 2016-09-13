@@ -92,5 +92,8 @@ class BusinessController extends Controller
         return view('home.business.thirdparty');
     }
 
-
+    public function goodslist()
+    {
+        return view('home.business.goodslist');
+    }
 }
