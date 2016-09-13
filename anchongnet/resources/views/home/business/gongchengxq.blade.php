@@ -30,13 +30,9 @@
 <div class="header">
     <div class="header-container">
         <div class="logo">
-<<<<<<< HEAD
-            <a href="{{url('/')}}"><img src="../home/images/gongchengxq/logo.jpg"/></a>
-=======
             <a href="{{url('/')}}">
                 <img src="home/images/logo.jpg"/>
             </a>
->>>>>>> 1d36002ef5ee52e91ef5a9bc3725df772d72248f
         </div>
         <div class="search">
             <form class="search-form" method="post">

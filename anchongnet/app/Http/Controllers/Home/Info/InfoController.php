@@ -14,7 +14,7 @@ class InfoController extends Controller
 //    资讯主页
     public function index()
     {
-        $info = Information::paginate(10);
+        $info = Information::orderBy('created_at','desc')->paginate(10);
         return view('home.info.index',compact('info'));
     }
 //  资讯详情页
