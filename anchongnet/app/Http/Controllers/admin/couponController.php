@@ -59,7 +59,7 @@ class couponController extends Controller
         } else {
             return view('admin/coupon/create',array('mes'=>'添加失败'));
         }
-        
+
     }
 
     /**
@@ -133,5 +133,15 @@ class couponController extends Controller
             return DB::table("anchong_coupon_pool")->where('acpid',$req['xid'])->delete();
         }
         return 0;
+    }
+
+    /**
+     *  查询优惠券信息
+     */
+    public function couponinfo(Request $request)
+    {
+        $acpid=$request->acpid;
+        $data=DB::table("anchong_coupon_pool")->where('acpid',$acpid)->select('title','cvalue')->get();
+        return $data;
     }
 }
