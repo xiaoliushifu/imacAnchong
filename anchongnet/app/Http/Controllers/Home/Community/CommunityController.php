@@ -20,14 +20,12 @@ class CommunityController extends Controller
     public function index()
     {
         $chat = Community_release::orderBy('created_at','desc')->paginate(12);
-////        从发布表中获取id
-//        $chat_id = Community_release::select('chat_id')->orderBy('created_at','desc')->paginate(12);
-////        通过id查询并统计评论数
-//        foreach ($chat_id as $value){
-//            $id = $value -> chat_id;
-//            $num = Community_comment::where('chat_id',$id)->count();
-//        }
-        return view('home/community/index',compact('chat'));
+//        通过id查询并统计评论数
+        foreach ($chat as $value){
+            $id = $value -> chat_id;
+            $num[$id] = Community_comment::where('chat_id',$id)->count();
+        }
+        return view('home/community/index',compact('chat','num'));
     }
 //    详情页面
     public function chat($chat_id)

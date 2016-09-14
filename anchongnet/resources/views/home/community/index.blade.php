@@ -53,7 +53,7 @@
                             <p class="content">{{$value -> content}}</p>
                         </a>
                         <p class="comments-share">
-                            <a class="comments" href=""><img src="home/images/chat/talk.png">0</a>
+                            <a class="comments" href=""><img src="home/images/chat/talk.png">{{$num[$value-> chat_id]}}</a>
                             <a class="share" href=""><img src="home/images/chat/share.png"></a>
                         </p>
                     </li>
