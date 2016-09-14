@@ -77,8 +77,8 @@
                                 };
                             ?>
 						    <form action="/coupon" method="get" class="form-horizontal form-inline f-ib">
-						        <input type="number" name="acpid"  placeholder="输入券ID搜索">
-						        <input type="number" name="cvalue"  placeholder="输入券面值搜索">
+						        <input type="number" name="acpid"  placeholder="券ID搜索" style="width:100px">
+						        <input type="number" name="cvalue"  placeholder="券面值搜索" style="width:100px">
 						        <label class="radio-inline">
 									<input type="radio" name="open"  value="2">启用
 								</label>
@@ -86,11 +86,11 @@
 									<input type="radio" name="open" value="1">停用
 								</label>
 								<select name="type"  id="type">
-                                    		<option value="0" >--选择券类型--</option>
+                                    		<option value="0" >--选择子类型--</option>
                                     		<option value="1">通用</option>
-                                    		<option value="2">商铺</option>
+                                    		<option value="2">分类</option>
                                     		<option value="3">商品</option>
-                                    		<option value="4">其他</option>
+                                    		<option value="4">品牌</option>
                                 </select>
 						        <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 						    </form>
@@ -99,12 +99,12 @@
 									<th>券ID</th>
 									<th>券标题</th>
 									<th>券面值</th>
-									<th>使用值</th>
-									<th>券类型</th>
+									<th>起始使用值</th>
+									<th title="0代表全场通用">券类型</th>
 									<th>子类型</th>
 									<th>关联类型</th>
 									<th>截止日期</th>
-									<th>可换虫豆数</th>
+									<th title="0代表不可兑换">可换虫豆数</th>
 									<th>状态</th>
 									<th>操作</th>
 								</tr>
@@ -112,9 +112,9 @@
 								<tr>
 								  <td align="center">{{$data['acpid']}}</td>
 								  <td align="center">{{$data['title']}}</td>
+								  <td align="center">{{$data['cvalue']}}</td>
 								  <td align="center">{{$data['target']}}</td>
 								  <td align="center">{{$data['shop']}}</td>
-								  <td align="center">{{$data['cvalue']}}</td>
 								  <?php 
 								    switch($data['type']){
 								        case 1:
@@ -127,14 +127,14 @@
 								            echo '<td align="center"  value="3">商品</td>';
 								            break;
 								        case 4 :
-							                echo '<td align="center"  value="1">品牌</td>';
+							                echo '<td align="center"  value="4">品牌</td>';
 							                break;
 								        default :
 							                echo '<td align="center"  value="1">通用</td>';
 								    }
 								  ?>
 								  <td align="center">{{$data['type2']}}</td>
-								  <td align="center">{{$data['endline']}}</td>
+								  <td align="center">{{ date('Y-m-d',$data['endline']) }}</td>
 								  <td align="center">{{$data['beans']}}</td>
 								  <td align="center">{{($data['open'])? '启用':'停用'}}</td>
 								  <td align="center">
@@ -183,13 +183,19 @@
                     <div class="form-name form-group">
                             <label for="title" class="col-sm-2 control-label">优惠券标题</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="title" id="title" required>
+                                <input type="text" class="form-control"  readonly name="title" id="title">
                             </div>
                     </div>
                     <div class="form-name form-group">
                             <label for="cvalue" class="col-sm-2 control-label">优惠券面值</label>
                             <div class="col-sm-4">
                                 <input type="number" class="form-control" name="cvalue" id="cvalue" required>
+                            </div>
+                    </div>
+                    <div class="form-name form-group">
+                            <label for="target" class="col-sm-2 control-label">起始使用值</label>
+                            <div class="col-sm-4">
+                                <input type="number" class="form-control" name="target" id="target" required>
                             </div>
                     </div>
                     <div class="form-name form-group">

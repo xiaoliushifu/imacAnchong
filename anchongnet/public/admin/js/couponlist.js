@@ -32,10 +32,11 @@ $(function(){
 		$('#hid').val(hid);
 		$('#title').val(tr.children(':eq(1)').text());
 		$('#cvalue').val(tr.children(':eq(2)').text());
-		$('#beans').val(tr.children(':eq(5)').text());
+		$('#target').val(tr.children(':eq(3)').text());
+		$('#beans').val(tr.children(':eq(8)').text());
 		//类型处理
-		$('#type option[value="'+tr.children(':eq(3)').attr('value').trim()+'"]').attr('selected',true);
-		$('#type2').attr('placeholder',$('#type option[value="'+tr.children(':eq(3)').attr('value').trim()+'"]').attr('tit'));
+//		$('#type option[value="'+tr.children(':eq(3)').attr('value').trim()+'"]').attr('selected',true);
+//		$('#type2').attr('placeholder',$('#type option[value="'+tr.children(':eq(3)').attr('value').trim()+'"]').attr('tit'));
 		$('#myform').attr('action','/coupon/'+hid);
 		
 		//”编辑表单“的验证逻辑
@@ -43,10 +44,6 @@ $(function(){
 	 	   rules:{
 	 	  		   beans:{
 	 	  			   min:0,
-	 	  		   },
-	 	  		   title:{
-	 	  			   required:true,
-	 	  			   minlength:5,
 	 	  		   },
 	 	  		   cvalue:{
 	 	  			   required:true,
@@ -58,10 +55,6 @@ $(function(){
 		 		     beans:{
 			   			min:'输入的值不能小于0！',
 			   		 },
-	 		   		title:{
-			   			required:'标题怎么能不填写呢! ',
-			   			minlength:'标题写得也太少了吧',
-			   		},
 			   		cvalue:{
 			   			required:'面额必须得填吧',
 		 	  			digits:'面额必须得是整数吧',

@@ -10,8 +10,8 @@ $(function(){
 			$('#type2').attr('readonly',true);
 			$('#type').val('1');
 			$('#type').attr('readonly',false);
-			return '';
 		}
+		return;
 	});
 	//子类型
 	$('body').on('change','#type',function(){
