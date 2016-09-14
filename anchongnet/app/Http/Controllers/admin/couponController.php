@@ -128,18 +128,16 @@ class couponController extends Controller
             //其他信息更新
             //先验证
             $messages = [
-                'title.max' => '标题也太长了吧',
                 'cvalue.integer' => '面额值得输入整数吧',
                 'cvalue.min' => '面额值不能小于 :min吧',
                 'beans.integer' => '虫豆数至少得是整数吧',
                 'beans.min' => '虫豆数不能小于 :min吧',
             ];
             $this->validate($req, [
-                'title' => 'max:255',
                 'cvalue' => 'integer|min:0',
                 'beans' =>'integer|min:0',
             ],$messages);
-            $field=array('title'=>$req['title'],'cvalue'=>$req['cvalue'],'beans'=>$req['beans']);
+            $field=array('cvalue'=>$req['cvalue'], 'beans'=>$req['beans'], 'target'=>$req['target']);
             if (DB::table("anchong_coupon_pool")->where('acpid',$req['acpid'])->update($field)) {
                 return back();
             } else {

@@ -73,14 +73,16 @@ class goodController extends Controller
         } else {
             $sid=$this->sid;
         }
-        $keyName=Requester::input('keyName');
-        if ($keyName=="") {
-            $datas=$this->Goods_specifications->where('sid','=',$sid)->orderBy("gid","desc")->paginate(8);
+        $gn=Requester::input('gn');
+        $goodsid=Requester::input('goodsid');
+        if ($goodsid) {
+            $datas=$this->Goods_specifications->where('sid','=',$sid)->Good($goodsid)->orderBy("gid","desc")->paginate(8);
+        } elseif ($gn){
+            $datas = Goods_specifications::Name($gn)->where('sid','=',$sid)->orderBy("gid","desc")->paginate(8);
         } else {
-            $datas = Goods_specifications::Name($keyName)->where('sid','=',$sid)->orderBy("gid","desc")->paginate(8);
+            $datas = $this->Goods_specifications->where('sid','=',$sid)->orderBy("gid","desc")->paginate(8);
         }
-        $args=array("keyName"=>$keyName);
-        return view('admin/good/index',array("datacol"=>compact("args","datas"),"sid"=>$sid));
+        return view('admin/good/index',array("datacol"=>compact("datas"),"sid"=>$sid));
     }
 
     /**

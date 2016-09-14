@@ -63,13 +63,13 @@
                     <div class="box">
                         <div class="box-body">
                             <form action="/good" method="get" class="form-horizontal form-inline f-ib">
-                                <input type="text" name="keyName" value="{{$datacol['args']['keyName']}}" class="form-control" placeholder="货品编号">
+                                <input type="text" name="gn" class="form-control" placeholder="货品编号搜索" style="width:110px">
+                                <input type="text" name="goodsid"  class="form-control" placeholder="商品ID搜索" style="width:110px">
                                 <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
                             </form>
-                            <a href="/good" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
                             <table id="example1" class="table table-bordered table-striped">
                                 <tr>
-                                    <th>货品名称</th>
+                                    <th>货品属性</th>
                                     <th>市场价</th>
                                     <th>会员价</th>
                                     <th>货品编号</th>
@@ -106,7 +106,7 @@
                                 @endforeach
                                 <tr>
                                     <td colspan="5" align="center">
-                                        <?php echo $datacol['datas']->appends($datacol['args'])->setPath("good?sid={$sid}"); ?>
+                                        <?php echo $datacol['datas']->setPath("good?sid={$sid}"); ?>
                                     </td>
                                 </tr>
                             </table>
@@ -183,7 +183,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="right">商品编号</td>
+                            <td align="right">货品编号</td>
                             <td align="left" id="goodsnumbering"></td>
                         </tr>
                     </table>
@@ -276,7 +276,7 @@
                             </div>
                         </div><!--end form-group-->
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="numbering">商品编号</label>
+                            <label class="col-sm-2 control-label" for="numbering">货品编号</label>
                             <div class="col-sm-6">
                                 <input type="text" name="numbering" id="numbering" class="form-control" value="{{ old('numbering') }}" required />
                             </div>
