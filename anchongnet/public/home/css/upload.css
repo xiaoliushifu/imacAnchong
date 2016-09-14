@@ -137,9 +137,8 @@ ul,li{
     text-align: center;
 }
 .upload-content{
-    height: 300px;
+    height: 400px;
     width: 1200px;
-    padding-top: 100px;
     margin: 0 auto;
     outline: 1px solid #606060;
 }

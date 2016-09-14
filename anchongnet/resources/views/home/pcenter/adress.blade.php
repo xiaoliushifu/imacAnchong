@@ -104,9 +104,7 @@
 
     </div>
 <div style="clear: both"></div>
-<<<<<<< HEAD
 @endsection
-=======
 <div class="foottop">
     <div class="foottop-1">
         <div class="foottoplf">
@@ -175,4 +173,3 @@
 
 </body>
 </html>
->>>>>>> 1d36002ef5ee52e91ef5a9bc3725df772d72248f

@@ -40,11 +40,23 @@ $(function(){
                 $('#orderinvoice').text("发票抬头:"+invoice[1]);
             }
         }
+        //判断是否有优惠券
+        if($(this).attr("data-acpid")){
+            //优惠券
+            var acpid=$(this).attr("data-acpid");
+            //优惠券查询
+            $.get("/getacpinfo",{acpid:acpid},function(data,status){
+                if(data[0].title){
+                    acpl='<tr><td width="25%" colspan="2" align="left" valign="middle">优惠券类型：'+data[0].title+'</td><td width="25%" colspan="5" align="left" valign="middle">优惠价格：'+data[0].cvalue+'</td></tr>';
+                    console.log($("#mbody").children().children().last().after(acpl));
+                }
+            });
+        }
         //ajax查询订单详细信息
         $.get("/getsiblingsorder",{num:num},function(data,status){
             //订单总费用的html
-            al='<tr class="orderinfos"><td width="25%" colspan="2" align="left" valign="middle">运费：'+freight+'</td><td width="25%" colspan="5" align="left" valign="middle">总价：'+total_price+'</td></tr>';
-            $("#mbody").prepend(al);
+            al='<tr class="orderinfoss"><td width="25%" colspan="2" align="left" valign="middle">运费：'+freight+'</td><td width="25%" colspan="5" align="left" valign="middle">总价：'+total_price+'</td></tr>';
+            $("#mbody").append(al);
             // //定义类型
             //通过遍历数据在html上显示
             for(var i=0;i<data.length;i++){
@@ -63,7 +75,8 @@ $(function(){
             //标题插入
             cl='<tr><th width="11%">序号</th><th width="27%">商品名称</th><th width="17%">规格</th><th width="10%">型号</th><th width="7%">OEM</th><th width="6%">数量</th><th width="12%">价格</th></tr>';
             $("#mbody").prepend(cl);
-        })
+        });
+
     });
     // 点击 “审核”按钮
     $(".check").click(function(){
