@@ -307,8 +307,13 @@ ul,li{
     font-size: 14px;
     color: #606060;
     margin-bottom: 10px;
+    width: 960px;
+    display: inline-block;
+    vertical-align: middle;
 }
 .replay{
+    display: inline-block;
+    vertical-align: middle;
     float: right;
     font-size: 14px;
     color: #606060;
@@ -322,10 +327,21 @@ ul,li{
     height: 1px;
     width: 1004px;
 }
+.dialogue-content{
+    width: 1044px;
+    margin-left: 155px;
+    background-color: #F5F5F5;
+    vertical-align: middle;
+    border-radius: 5px;
+}
 .dialogue{
+    width: 960px;
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 20px;
     font-size: 14px;
     color: #9b9b9b;
-    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .dialogue i{
     color: #1DABD8;

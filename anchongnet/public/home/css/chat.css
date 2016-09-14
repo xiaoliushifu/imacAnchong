@@ -254,6 +254,7 @@ ul,li{
 }
 .comments img{
     margin-right: 5px;
+    vertical-align: middle;
 }
 .share{
     margin-right: 10px;

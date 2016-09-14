@@ -650,33 +650,45 @@ Route::group(['domain' => 'www.anchong.net'], function () {
         Route::resource('/user/login','Home\User\LoginController');
         //前台重置密码
         Route::resource('/user/forgetpwd','Home\User\ForgetpwdController');
-        //        工程板块
+        //工程板块
         Route::controller('project','home\project\ProjectController');
-
-//        设备选购
+        //设备选购
         Route::controller('equipment','home\equipment\EquipmentController');
     });
 
     /*
-     * 资讯
-     */
-    Route::group(['namespace'=>'Home\Info'],function(){
-        Route::get('/info','InfoController@index');
-        Route::get('/info/{infor_id}','InfoController@info');
-        Route::get('/upload','InfoController@upload');
-        Route::any('/uploadify','InfoController@uploadify');
+    * 资讯
+    */
+        Route::group(['namespace'=>'Home\Info'],function(){
+//        资讯首页
+            Route::get('/info','InfoController@index');
+//        咨询详情页
+            Route::get('/info/{infor_id}','InfoController@info');
+//        干货上传页面
+            Route::get('/upload','InfoController@upload');
+
+            Route::any('/uploadify','InfoController@uploadify');
+        });
+
+
+        /*
+         * 社区
+         */
+
+        Route::group(['namespace'=> 'Home\Community'],function (){
+//        社区首页
+            Route::get('/community','CommunityController@index');
+//        聊聊详情页
+            Route::get('/chat/{chat_id}','CommunityController@chat');
+//        闲聊
+            Route::get('/talk','CommunityController@talk');
+//        问问
+            Route::get('/question','CommunityController@question');
+//            活动
+            Route::get('/activity','CommunityController@activity');
+        });
     });
 
-
-
-    /*
-     * 社区
-     */
-    //社区首页
-    Route::group(['namespace'=> 'Home\Community'],function (){
-        Route::get('/community','CommunityController@index');
-        Route::get('/chat/{chat_id}','CommunityController@chat');
-    });
 
 });
 

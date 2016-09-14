@@ -149,24 +149,18 @@
             <h1>热门社区</h1>
             <ul class="hot-top">
                 <li class="ad">
-                    <a>
+                    <a href="{{url('/community')}}">
                         <img src="home/images/89.jpg">
                     </a>
                 </li>
                 <li class="bbs">
                     <ul>
+                        @foreach($community as $value)
                         <li>
-                            <h3><a>夏日抹抹茶</a></h3>
-                            <p>炎炎夏日，假面舞会，撩你❤798约起来！</p>
+                            <h3><a href="{{url('/chat/'.$value -> chat_id)}}">{{$value -> title}}</a></h3>
+                            <p>{!! $value -> content !!}</p>
                         </li>
-                        <li>
-                            <h3><a>永远年轻，永远热泪盈眶</a></h3>
-                            <p>炎炎夏日，假面舞会，撩你❤798约起来！</p>
-                        </li>
-                        <li>
-                            <h3><a>想行动，永远都不会玩</a></h3>
-                            <p>炎炎夏日，假面舞会，撩你❤798约起来！</p>
-                        </li>
+                        @endforeach
                     </ul>
                 </li>
                 <li class="talent-cont">
