@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>发布找货</title>
-    <link rel="stylesheet" href="home/css/releasefngoods.css">
-    <script src="home/js/jquery-3.0.0.min.js"></script>
+    <link rel="stylesheet" href="../home/css/releasefngoods.css">
+    <script src="../home/js/jquery-3.0.0.min.js"></script>
 
 </head>
 <body>
@@ -15,7 +15,7 @@
             <ul>
                 <li>邮箱：www.@anchong.net</li>
                 <li>垂询电话:0317-8155026</li>
-                <li><img src="home/images/release/6.jpg" alt=""></li>
+                <li><img src="../home/images/release/6.jpg" alt=""></li>
                 <li style="padding-left: 10px;"><a href="#">风信子<b class="caret"></b></a></li>
             </ul>
         </div>
@@ -24,7 +24,7 @@
 <div class="header-center">
     <div class="header-main">
         <div class="logo">
-            <a href="{{url('/')}}"><img src="home/images/release/7.jpg" alt=""></a>
+            <a href="{{url('/')}}"><img src="../home/images/release/7.jpg" alt=""></a>
         </div>
         <div class="search">
             <div class="searchbar">
@@ -42,9 +42,9 @@
         <div class="navcontent">
             <ul>
                 <li><a href="#">首页</a></li>
-                <li><a href="#">商机<img src="home/images/release/9.jpg" alt=""></a></li>
-                <li><a href="#">社区<img src="home/images/release/9.jpg" alt=""></a></li>
-                <li><a href="#">设备选购<img src="home/images/release/9.jpg" alt="" style="left: 70px;"></a></li>
+                <li><a href="#">商机<img src="../home/images/release/9.jpg" alt=""></a></li>
+                <li><a href="#">社区<img src="../home/images/release/9.jpg" alt=""></a></li>
+                <li><a href="#">设备选购<img src="../home/images/release/9.jpg" alt="" style="left: 70px;"></a></li>
                 <li><a href="#">资讯</a></li>
             </ul>
         </div>
@@ -94,14 +94,14 @@
 
             <div class="upload-pic">
                 <ul>
-                    <li><img src="home/images/release/shch.png" alt=""></li>
+                    <li><img src="../home/images/release/shch.png" alt=""></li>
                     <li><img src="" alt=""></li>
                     <li><img src="" alt=""></li>
                     <li><img src="" alt=""></li>
                 </ul>
             </div>
 
-<div class="publish"><input type="submit" value="发布"></div>
+<div class="publish"><input type="submit" value="找货"></div>
 
         </form>
 
@@ -163,11 +163,11 @@
         <div class="foottoprg">
             <div class="rqcode-app" >
                 <h4>下载安虫app客户端</h4>
-                <img src="home/images/release/1.jpg">
+                <img src="../home/images/release/1.jpg">
             </div>
             <div class="rqcode-wx">
                 <h4>安虫微信订阅号</h4>
-                <img src="home/images/release/2.jpg">
+                <img src="../home/images/release/2.jpg">
             </div>
 
         </div>

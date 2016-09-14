@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>发布工程</title>
-    <link rel="stylesheet" href="home/css/releaseeg.css">
-    <script src="home/js/jquery-3.0.0.min.js"></script>
+    <link rel="stylesheet" href="../home/css/releaseeg.css">
+    <script src="../home/js/jquery-3.0.0.min.js"></script>
 
 </head>
 <body>
@@ -15,7 +15,7 @@
             <ul>
                 <li>邮箱：www.@anchong.net</li>
                 <li>垂询电话:0317-8155026</li>
-                <li><img src="home/images/release/6.jpg" alt=""></li>
+                <li><img src="../home/images/release/6.jpg" alt=""></li>
                 <li style="padding-left: 10px;"><a href="#">风信子<b class="caret"></b></a></li>
             </ul>
         </div>
@@ -24,7 +24,7 @@
 <div class="header-center">
     <div class="header-main">
         <div class="logo">
-            <a href="{{url('/')}}"><img src="home/images/release/logo.jpg" alt=""></a>
+            <a href="{{url('/')}}"><img src="../home/images/release/logo.jpg" alt=""></a>
         </div>
         <div class="search">
             <div class="searchbar">
@@ -115,7 +115,7 @@
 
             <div class="upload-pic">
                 <ul>
-                    <li><img src="home/images/release/shch.png" alt=""></li>
+                    <li><img src="../home/images/release/shch.png" alt=""></li>
                     <li><img src="" alt=""></li>
                     <li><img src="" alt=""></li>
                     <li><img src="" alt=""></li>
@@ -184,11 +184,11 @@
         <div class="foottoprg">
             <div class="rqcode-app" >
                 <h4>下载安虫app客户端</h4>
-                <img src="home/images/release/1.jpg">
+                <img src="../home/images/release/1.jpg">
             </div>
             <div class="rqcode-wx">
                 <h4>安虫微信订阅号</h4>
-                <img src="home/images/release/2.jpg">
+                <img src="../home/images/release/2.jpg">
             </div>
 
         </div>

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>人才详情</title>
-    <link rel="stylesheet" href="../home/css/rencaixq.css">
-    <script src="../home/js/jquery-3.0.0.min.js"></script>
+    <link rel="stylesheet" href="/home/css/rencaixq.css">
+    <script src="/home/js/jquery-3.1.0.min.js"></script>
 
 </head>
 <body>
@@ -15,7 +15,7 @@
             <ul>
                 <li>邮箱：www.@anchong.net</li>
                 <li>垂询电话:0317-8155026</li>
-                <li><img src="../home/images/zhaohuo/6.jpg" alt=""></li>
+                <li><img src="/home/images/zhaohuo/6.jpg" alt=""></li>
                 <li style="padding-left: 10px;"><a href="#">风信子<b class="caret"></b></a></li>
             </ul>
         </div>
@@ -24,7 +24,7 @@
 <div class="header-center">
     <div class="header-main">
         <div class="logo">
-            <a href="{{url('/')}}"><img src="../home/images/zhaohuo/7.jpg" alt=""></a>
+            <a href="{{url('/')}}"><img src="/home/images/zhaohuo/7.jpg" alt=""></a>
         </div>
         <div class="search">
             <div class="searchbar">
@@ -44,11 +44,11 @@
     <div class="navc">
         <div class="navcontent">
             <ul>
-                <li><a href="#">首页</a></li>
-                <li><a href="#">商机<img src="../home/images/zhaohuo/9.jpg" alt=""></a></li>
-                <li><a href="#">社区<img src="../home/images/zhaohuo/9.jpg" alt=""></a></li>
-                <li><a href="#">设备选购<img src="../home/images/zhaohuo/9.jpg" alt="" style="left: 70px;"></a></li>
-                <li><a href="#">资讯</a></li>
+                <li><a href="{{url('/')}}">首页</a></li>
+                <li><a href="{{url('/business')}}">商机<img src="/home/images/zhaohuo/9.jpg" alt=""></a></li>
+                <li><a href="{{url('/community')}}">社区<img src="/home/images/zhaohuo/9.jpg" alt=""></a></li>
+                <li><a href="{{url('/equipment')}}">设备选购<img src="/home/images/zhaohuo/9.jpg" alt="" style="left: 70px;"></a></li>
+                <li><a href="{{url('/info')}}">资讯</a></li>
             </ul>
         </div>
 
@@ -120,11 +120,11 @@
         <div class="foottoprg">
             <div class="rqcode-app" >
                 <h4>下载安虫app客户端</h4>
-                <img src="../home/images/zhaohuo/1.jpg">
+                <img src="/home/images/zhaohuo/1.jpg">
             </div>
             <div class="rqcode-wx">
                 <h4>安虫微信订阅号</h4>
-                <img src="../home/images/zhaohuo/2.jpg">
+                <img src="/home/images/zhaohuo/2.jpg">
             </div>
 
         </div>

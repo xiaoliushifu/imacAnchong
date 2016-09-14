@@ -32,9 +32,9 @@
 				<div class="cl"></div>
 				<div class="site-nav">
 					<ul class="navigation">
-						<li class="home"><a href="">首页</a></li>
+						<li class="home"><a href="{{url('/')}}">首页</a></li>
 						<li class="business">
-							<a href="">商机</a>
+							<a href="{{url('/business')}}">商机</a>
 							<span class="business-triangle"></span>
 							<div class="business-list">
 								<p><a href="">工程</a></p>
@@ -42,9 +42,9 @@
 								<p><a href="">找货</a></p>
 							</div>
 						</li>
-						<li class="community"><a href="">社区</a></li>
-						<li class="equipment"><a href="">设备选购</a></li>
-						<li class="news"><a href="">资讯</a></li>
+						<li class="community"><a href="{{url('/community')}}">社区</a></li>
+						<li class="equipment"><a href="{{url('/equipment')}}">设备选购</a></li>
+						<li class="news"><a href="{{url('/info')}}">资讯</a></li>
 						<div class="cl"></div>
 					</ul>
 				</div>	
@@ -58,7 +58,7 @@
 				<div class="work">
 					<a class="contract-work" href=""><img src="../home/images/gongchengxq/发包工程.png"/></a>
 					<a class="package" href=""><img src="../home/images/gongchengxq/承接工程.png"/></a>
-					<a class="release" href="{{url('/releaseeg')}}"><img src="../home/images/gongchengxq/发布工程.png"/></a>
+					<a class="release" href="{{url('/project/create')}}"><img src="../home/images/gongchengxq/发布工程.png"/></a>
 				</div>
 				<div class="nav">
 					<div class="server">
@@ -131,7 +131,7 @@
 						@foreach($data as $g)
 						<ul>
                             <li class="project-preview">
-                                <p class="title"><a href="{{url('pro/'.$g->bid)}}">{{$g->title}}</a></p>
+                                <p class="title"><a href="{{url('project/'.$g->bid)}}">{{$g->title}}</a></p>
                                 <p class="digest"><nobr>{{$g->content}}</nobr></p>
                             </li>
                             <li class="image"><img src="{{$g->img}}"></li>

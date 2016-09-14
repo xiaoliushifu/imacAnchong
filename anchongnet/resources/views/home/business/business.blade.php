@@ -50,21 +50,21 @@
                 <li><a href="{{url('/')}}">首页</a></li>
                 <li id="change"><a href="{{url('/business')}}">商机</a><img src="home/images/shangji/9.jpg" alt=" " class="buslist" ></li>
                 <div class="cart">
-                    <p><a href="{{url('/gc')}}">工程</a></p>
+                    <p><a href="{{url('/project')}}">工程</a></p>
                     <p><a href="{{url('/sergoods')}}">找货</a></p>
-                    <p><a href="{{url('/talentlist')}}">人才</a></p>
+                    <p><a href="{{url('/talent')}}">人才</a></p>
                 </div>
                 <li id="change1"><a href="{{url('/community')}}">社区</a><img src="home/images/shangji/9.jpg" alt="" class="buslist1"></li>
                 <div class="cart1">
-                    <p><a href="{{url('/gc')}}">工程</a></p>
+                    <p><a href="{{url('/project')}}">工程</a></p>
                     <p><a href="{{url('/sergoods')}}">找货</a></p>
-                    <p><a href="{{url('/orderlist')}}">人才</a></p>
+                    <p><a href="{{url('/talent')}}">人才</a></p>
                 </div>
                 <li id="change2"><a href="{{url('/ancself')}}">设备选购</a><img src="home/images/shangji/9.jpg" alt="" style="right: 15px;"  class="buslist2"></li>
                 <div class="cart2">
-                    <p><a href="{{url('/ancself')}}">安虫自营</a></p>
-                    <p><a href="{{url('/thirdshop')}}">第三方商城</a></p>
-                    <p><a href="{{url('/goodslist')}}">商品列表</a></p>
+                    <p><a href="{{url('/equipment')}}">安虫自营</a></p>
+                    <p><a href="{{url('/equipment/thirdshop')}}">第三方商城</a></p>
+                    <p><a href="{{url('/equipment/list')}}">商品列表</a></p>
 
                 </div>
                 <li><a href="{{url('/info')}}">资讯</a></li>
