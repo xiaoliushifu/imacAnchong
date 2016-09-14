@@ -189,6 +189,7 @@ class PurseController extends Controller
                         //将二维数组遍历并将过期时间加进结果内
                         foreach ($coupon_arr as $coupon) {
                             $coupon['endline']=$coupon_id->end;
+                            $coupon['state']=$param['state'];
                             $coupon_result[]=$coupon;
                         }
                     };
@@ -206,6 +207,7 @@ class PurseController extends Controller
                         //将二维数组遍历并将过期时间加进结果内
                         foreach ($coupon_arr as $coupon) {
                             $coupon['endline']=$coupon_id->end;
+                            $coupon['state']=$param['state'];
                             $coupon_result[]=$coupon;
                         }
                     };

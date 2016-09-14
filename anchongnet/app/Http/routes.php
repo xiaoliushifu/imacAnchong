@@ -319,6 +319,12 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/purse/billinfo','Api\Purse\PurseController@billinfo');
         //删除账单
         Route::post('/purse/delbill','Api\Purse\PurseController@delbill');
+
+        /*
+        *   直播模块
+        */
+        //直播测试
+        Route::post('/live/live','Api\Live\LiveController@live');
     });
 });
 

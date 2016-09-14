@@ -417,8 +417,20 @@ class GoodsController extends Controller
                     }
                     break;
             }
+            //判断是否有权限查看会员价，也就是判断是否审核通过
+            $showprice=0;
+            if($data['guid'] == 0){
+                $showprice=0;
+            }else{
+                $users=new \App\Users();
+                //查询用户是否认证
+                $users_auth=$users->quer('certification',['users_id'=>$data['guid']])->toArray();
+                if($users_auth[0]['certification'] == 3){
+                    $showprice=1;
+                }
+            }
             //返回结果
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$goods_count,'list'=>$goods_result]]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$goods_count,'showprice'=>$showprice,'list'=>$goods_result]]);
         }catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
