@@ -22,10 +22,10 @@
         <div class="cl"></div>
         <div class="site-nav">
             <ul class="navigation">
-                <li class="nav-item"><a class="nav-name" href="">所有</a></li>
-                <li class="nav-item"><a class="nav-name" href="">闲聊</a></li>
-                <li class="nav-item"><a class="nav-name" href="">问问</a></li>
-                <li class="nav-item"><a class="nav-name" href="">活动</a></li>
+                <li class="nav-item"><a class="nav-name" href="{{url('/community')}}">所有</a></li>
+                <li class="nav-item"><a class="nav-name" href="{{url('/talk')}}">闲聊</a></li>
+                <li class="nav-item"><a class="nav-name" href="{{url('question')}}">问问</a></li>
+                <li class="nav-item"><a class="nav-name" href="{{url('/activity')}}">活动</a></li>
                 <li class="new-chat" ><a href="{{url('/chat')}}"><img src="../home/images/chat/chat.png"></a></li>
                 <div class="cl"></div>
             </ul>
@@ -65,16 +65,19 @@
                     <li class="comments-replay">
                         <p class="username">{{$value -> name}}</p>
                         <p class="comments-time">{{date("Y-m-d",strtotime($value -> created_at))}}</p>
-                        <p class="comments-info">{{$value -> content}}<a  class="replay" href="">回复</a></p>
+                        <p class="comments-info">{!! $value -> content !!}</p>
+                        <a  class="replay" href="">回复</a>
                         <span class="parting"></span>
-                        @foreach($replay as $k => $v)
-                        <p class="dialogue">
-                            <i>{{$v->name}}</i>回复<i>{{$v -> comname}}</i>:{!! $v->content !!}
-                            <a class="replay">回复</a>
-                        </p>
-                        @endforeach
                     </li>
                 </ul>
+                @endforeach
+                @foreach($replay as $k => $v)
+                    <div class="dialogue-content">
+                    <p class="dialogue">
+                        <i>{{$v->name}}</i>回复<i>{{$v -> comname}}</i>:{!! $v->content !!}
+                    </p>
+                    <a class="replay">回复</a>
+                    </div>
                 @endforeach
             </li>
             <li class="more">

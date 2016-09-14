@@ -414,6 +414,9 @@ h1{
     border-bottom: 1px solid #c5c4c5;
 }
 .bbs h3{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     margin-top: 25px;
     margin-bottom: 10px;
 }
@@ -422,6 +425,9 @@ h1{
     color: #4a4a4a;
 }
 .bbs p{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     font-size: 14px;
     color: #606060;
     margin-bottom: 20px;
