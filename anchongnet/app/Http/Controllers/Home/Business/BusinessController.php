@@ -22,44 +22,13 @@ class BusinessController extends Controller
 //热门招标
         $hot = Business::where('type', 1)->orderBy('created_at', 'asc')->take(5)->get();
 
-        return view('home.business.shangji', compact('bus', 'user', 'hot'));
-    }
-
-    public function project($bid)
-    {
-        $data = Business::find($bid);
-        $data->content = str_replace("\n", "<br>", $data->content);
-        return view('home.business.gongchengxq', compact('data'));
-    }
-
-    public function talent()
-    {
-        $data = Business::where('type', 1)->orderBy('created_at', 'asc')->paginate(15);
-
-        return view('home.business.talent', compact('data'));
-    }
-
-    public function sergoods()
-    {
-        $data = Business::where('type', 5)->orderBy('created_at', 'desc')->paginate(15);
-
-        return view('home.business.zhaohuo', compact('data'));
+        return view('home.business.business', compact('bus', 'user', 'hot'));
     }
 
 
-    public function talentlist()
-    {
-        $data = Business::where('type', 3)->orderBy('created_at', 'desc')->paginate(15);
 
-        return view('home.business.orderlist', compact('data'));
-    }
 
-    public function talentmain($bid)
-    {
-        $data = Business::find($bid);
-        $data->content = str_replace("\n", "<br>", $data->content);
-        return view('home.business.ordermain', compact('data'));
-    }
+
 
     public function chat()
     {
@@ -95,5 +64,10 @@ class BusinessController extends Controller
     public function goodslist()
     {
         return view('home.business.goodslist');
+    }
+
+    public function shenme()
+    {
+        return view('home.business.project-desc');
     }
 }

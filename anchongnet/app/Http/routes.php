@@ -564,7 +564,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
 
 //前台路由
-Route::group(['domain' => 'www.anchong.com'], function () {
+Route::group(['domain' => 'www.anchong.net'], function () {
     //获取商品参数html代码
     Route::get('/getparam','admin\uEditorController@getParam');
     Route::get('/getpackage','admin\uEditorController@getPackage');
@@ -577,31 +577,27 @@ Route::group(['domain' => 'www.anchong.com'], function () {
     Route::group(['namespace'=>'home\Business'],function(){
         //    商机主页
         Route::get('/business','BusinessController@index');
-        //    工程详情
-        Route::get('/pro/{bid}','BusinessController@project');
-        //    工程列表
-        Route::get('/gc','BusinessController@talent');
-        //    找货列表
-        Route::get('/sergoods','BusinessController@sergoods');
-        //    人才列表
-        Route::get('/talentlist','BusinessController@talentlist');
-        //    人才详情
-        Route::get('/talent/{bid}','BusinessController@talentmain');
         //    发布聊聊
         Route::get('/chat','BusinessController@chat');
-        //    发布人才
-        Route::get('/reorder','BusinessController@reorder');
-        //    发布找货
-        Route::get('/fngoods','BusinessController@fngoods');
         //    发布工程
         Route::get('/releaseeg','BusinessController@releaseeg');
-//        设备选购安虫自营
-        Route::get('/ancself','BusinessController@ancshop');
-//        第三方商城
-        Route::get('/thirdshop','BusinessController@thirdshop');
-//        商品列表
-        Route::get('/goodslist','BusinessController@goodslist');
+//
+
     });
+    /*
+      *   找货板块
+      */
+    Route::resource('/sergoods','home\Findgoods\FindgoodsController');
+    /*
+      *   人才板块
+      */
+    Route::resource('/talent','home\Talent\TalentController');
+    /*
+      *   工程板块
+      */
+    Route::resource('/project','home\project\ProjectController');
+
+
 
 //    个人中心部分路由
     Route::group(['namespace'=>'home\Pcenter'],function() {
@@ -648,6 +644,11 @@ Route::group(['domain' => 'www.anchong.com'], function () {
         Route::resource('/user/login','Home\User\LoginController');
         //前台重置密码
         Route::resource('/user/forgetpwd','Home\User\ForgetpwdController');
+        //        工程板块
+        Route::controller('project','home\project\ProjectController');
+
+//        设备选购
+        Route::controller('equipment','home\equipment\EquipmentController');
     });
 
     /*
