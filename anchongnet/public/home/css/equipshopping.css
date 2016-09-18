@@ -231,6 +231,10 @@ overflow: hidden;
     font-weight: bold;
     color: #4a4a4a;
 }
+.goldshoplist{
+    overflow: hidden;
+    border-right: 1px #9b9b9b solid;
+}
 .goldshoplist li {
     display: inline;
     float: left;
@@ -238,6 +242,7 @@ overflow: hidden;
     border-right: none;
     overflow: hidden;
     height: 200px;
+    margin-left: 0.75px;
 }
 .goldshoplist img{
     width: 298px;
@@ -384,6 +389,10 @@ overflow: hidden;
     margin-left: 20px;
     margin-top: 15px;
     line-height:25px;
+}
+.maingoods-one p a{
+    color: #606060;
+    text-decoration: none;
 }
 .maingoods-one p span{
     padding: 0px 5px;

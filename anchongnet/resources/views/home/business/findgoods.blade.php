@@ -47,26 +47,32 @@
         <div class="navcontent">
             <ul>
                 <li><a href="{{url('/')}}">首页</a></li>
-                <li><a href="{{url('/business')}}">商机</a><img src="home/images/zhaohuo/9.jpg" alt="" class="buslist"></li>
-                <div class="cart">
-                    <p><a href="{{url('/project')}}">工程</a></p>
-                    <p><a href="{{url('/sergoods')}}">找货</a></p>
-                    <p><a href="{{url('/talent')}}">人才</a></p>
-                </div>
-                <li><a href="{{url('/community')}}">社区</a><img src="home/images/zhaohuo/9.jpg" alt="" class="buslist1"></li>
-                <div class="cart1">
-                    <p><a href="{{url('/project')}}">工程</a></p>
-                    <p><a href="{{url('/sergoods')}}">找货</a></p>
-                    <p><a href="{{url('/talent')}}">人才</a></p>
-                </div>
-                <li><a href="{{url('/ancself')}}">设备选购</a><img src="home/images/zhaohuo/9.jpg" alt="" style="right: 15px;" class="buslist2"></li>
-                <div class="cart2">
-                    <p><a href="{{url('/equipment')}}">安虫自营</a></p>
-                    <p><a href="{{url('/equipment/thirdshop')}}">第三方商城</a></p>
-                    <p><a href="{{url('/equipment/list')}}">商品列表</a></p>
+                <li><a href="{{url('/business')}}">商机</a><img src="home/images/zhaohuo/9.jpg" alt="" class="buslist">
+                    <div class="cart">
+                        <p><a href="{{url('/project')}}">工程</a></p>
+                        <p><a href="{{url('/sergoods')}}">找货</a></p>
+                        <p><a href="{{url('/talent')}}">人才</a></p>
+                    </div>
+                </li>
+
+                <li><a href="{{url('/community')}}">社区</a><img src="home/images/zhaohuo/9.jpg" alt="" class="buslist1">
+                    <div class="cart1">
+                        <p><a href="{{url('/project')}}">工程</a></p>
+                        <p><a href="{{url('/sergoods')}}">找货</a></p>
+                        <p><a href="{{url('/talent')}}">人才</a></p>
+                    </div>
+                </li>
+
+                <li><a href="{{url('/ancself')}}">设备选购</a><img src="home/images/zhaohuo/9.jpg" alt="" style="right: 15px;" class="buslist2">
+                    <div class="cart2">
+                        <p><a href="{{url('/equipment')}}">安虫自营</a></p>
+                        <p><a href="{{url('/equipment/thirdshop')}}">第三方商城</a></p>
+                        <p><a href="{{url('/equipment/list')}}">商品列表</a></p>
 
 
-                </div>
+                    </div>
+                </li>
+
                 <li><a href="{{url('/info')}}">资讯</a></li>
             </ul>
         </div>

@@ -125,6 +125,9 @@
 .navcontent li:hover a{
     color: #ffffff;
 }
+.navcontent li:hover p a{
+    color: #4A4A4A;
+}
 .navcontent li img{
     position: absolute;
     bottom: 10px;

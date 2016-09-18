@@ -657,7 +657,7 @@ Route::group(['domain' => 'www.anchong.net'], function () {
         //前台重置密码
         Route::resource('/user/forgetpwd','Home\User\ForgetpwdController');
         //工程板块
-        Route::controller('project','home\project\ProjectController');
+//        Route::controller('project','home\project\ProjectController');
         //设备选购
         Route::controller('equipment','home\equipment\EquipmentController');
     });
@@ -682,7 +682,6 @@ Route::group(['domain' => 'www.anchong.net'], function () {
 //        活动
             Route::get('/activity','CommunityController@activity');
         });
-    });
-
+});
 //验证码类,需要传入数字
 Route::get('/captcha/{num}', 'CaptchaController@captcha');
