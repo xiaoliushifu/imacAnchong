@@ -59,8 +59,11 @@
         <ul class="comments-content">
             <li class="comments-show">
                 <p class="all"><img src="../home/images/chat/all.png"></p>
+                @if(count($comment) == 0)
+                    <p class="blank">暂&nbsp;无&nbsp;评&nbsp;论</p>
+                @else
                 @foreach($comment as $key => $value)
-                <ul class="comments-item">
+                    <ul class="comments-item">
                     <li class="comments-icon"><img src="{{$value -> headpic}}"></li>
                     <li class="comments-replay">
                         <p class="username">{{$value -> name}}</p>
@@ -68,18 +71,17 @@
                         <p class="comments-info">{!! $value -> content !!}</p>
                         <a  class="replay" href="">回复</a>
                         <span class="parting"></span>
+                        @for($i=0;$i<(count($replay[$value->comid]));$i++)
+                        <p class="dialogue">
+                            <i class="rpname">{{$replay[$value->comid][$i]->name}}</i>回复<i class="comname">{{$replay[$value->comid][$i] -> comname}}</i>:{!! $replay[$value->comid][$i]-> content !!}
+                        </p>
+                        <a class="replay">回复</a>
+                        @endfor
                     </li>
                 </ul>
                 @endforeach
-                @foreach($replay as $k => $v)
-                    <div class="dialogue-content">
-                    <p class="dialogue">
-                        <i>{{$v->name}}</i>回复<i>{{$v -> comname}}</i>:{!! $v->content !!}
-                    </p>
-                    <a class="replay">回复</a>
-                    </div>
-                @endforeach
             </li>
+            @endif
             <li class="more">
                 <a href=""><img src="../home/images/chat/more.png" alt="点击加载更多"></a>
             </li>

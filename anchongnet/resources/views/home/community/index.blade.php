@@ -27,7 +27,7 @@
                 <li class="nav-item"><a class="nav-name" href="{{url('/talk')}}">闲聊</a></li>
                 <li class="nav-item"><a class="nav-name" href="{{url('/question')}}">问问</a></li>
                 <li class="nav-item"><a class="nav-name" href="{{url('/activity')}}">活动</a></li>
-                <li class="new-chat" ><a href=""><img src="home/images/chat/chat.png"></a></li>
+                <li class="new-chat" ><a href="{{url('/chat')}}"><img src="home/images/chat/chat.png"></a></li>
                 <div class="cl"></div>
             </ul>
         </div>
@@ -48,7 +48,7 @@
                         </p>
                     </li>
                     <li class="chat-content">
-                        <a href="{{url('/chat/'.$value -> chat_id)}}">
+                        <a href="{{url('/community/'.$value -> chat_id)}}">
                             <h3 class="chat-title">{{$value -> title}}</h3>
                             <p class="content">{{$value -> content}}</p>
                         </a>
