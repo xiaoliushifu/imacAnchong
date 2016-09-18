@@ -3,9 +3,11 @@
 	<head>
 		<meta charset="utf-8">
 		<title>工程列表</title>
-		<link rel="stylesheet" type="text/css" href="../home/css/talent.css"/>
 		<script src="../home/js/jquery-3.1.0.min.js"></script>
+		<script src="../home/js/businessjs.js"></script>
 		<script src="../home/js/talent.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../home/css/talent.css"/>
+		<link rel="stylesheet" href="home/css/businessjs.css">
 	</head>
 	<body>
 		<div class="site-top">
@@ -30,26 +32,48 @@
 					</form>
 				</div>
 				<div class="cl"></div>
-				<div class="site-nav">
-					<ul class="navigation">
-						<li class="home"><a href="{{url('/')}}">首页</a></li>
-						<li class="business">
-							<a href="{{url('/business')}}">商机</a>
-							<span class="business-triangle"></span>
-							<div class="business-list">
-								<p><a href="">工程</a></p>
-								<p><a href="">人才</a></p>
-								<p><a href="">找货</a></p>
-							</div>
-						</li>
-						<li class="community"><a href="{{url('/community')}}">社区</a></li>
-						<li class="equipment"><a href="{{url('/equipment')}}">设备选购</a></li>
-						<li class="news"><a href="{{url('/info')}}">资讯</a></li>
-						<div class="cl"></div>
-					</ul>
-				</div>	
+
 			</div>	
 		</div>
+		<div class="navm">
+			<div class="navc">
+				<div class="navcontent">
+					<ul>
+						<li><a href="{{url('/')}}">首页</a></li>
+						<li id="change"><a href="{{url('/business')}}">商机</a><img src="home/images/zhaohuo/9.jpg" alt="" class="buslist">
+							<div class="cart">
+								<p><a href="{{url('/project')}}">工程</a></p>
+								<p><a href="{{url('/sergoods')}}">找货</a></p>
+								<p><a href="{{url('/talent')}}">人才</a></p>
+							</div>
+						</li>
+
+						<li id="change1"><a href="{{url('/community')}}">社区</a><img src="home/images/zhaohuo/9.jpg" alt=""  class="buslist1">
+							<div class="cart1" >
+								<p><a href="{{url('/project')}}">工程</a></p>
+								<p><a href="{{url('/sergoods')}}">找货</a></p>
+								<p><a href="{{url('/talent')}}">人才</a></p>
+							</div>
+						</li>
+
+						<li id="change2"><a href="{{url('/equipment')}}">设备选购</a><img src="home/images/zhaohuo/9.jpg" alt="" style="right: 15px;"  class="buslist2">
+							<div class="cart2">
+								<p><a href="{{url('/equipment')}}">安虫自营</a></p>
+								<p><a href="{{url('/equipment/thirdshop')}}">第三方商城</a></p>
+								<p><a href="{{url('/equipment/list')}}">商品列表</a></p>
+
+							</div>
+						</li>
+
+						<li><a href="{{url('/info')}}">资讯</a></li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+		<div style="clear: both"></div>
+		<hr class="nav-underline">
+
 		<div class="banner">
 			<img src="../home/images/gongchengxq/banner.jpg"/>
 		</div>
@@ -127,6 +151,7 @@
                                 <span class="">></span>
                             </a>
                     </div>
+
 					<div class="project-info">
 						@foreach($data as $g)
 						<ul>

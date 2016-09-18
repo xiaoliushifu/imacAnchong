@@ -48,25 +48,31 @@
 
             <ul>
                 <li><a href="{{url('/')}}">首页</a></li>
-                <li id="change"><a href="{{url('/business')}}">商机</a><img src="home/images/shangji/9.jpg" alt=" " class="buslist" ></li>
-                <div class="cart">
-                    <p><a href="{{url('/project')}}">工程</a></p>
-                    <p><a href="{{url('/sergoods')}}">找货</a></p>
-                    <p><a href="{{url('/talent')}}">人才</a></p>
-                </div>
-                <li id="change1"><a href="{{url('/community')}}">社区</a><img src="home/images/shangji/9.jpg" alt="" class="buslist1"></li>
-                <div class="cart1">
-                    <p><a href="{{url('/project')}}">工程</a></p>
-                    <p><a href="{{url('/sergoods')}}">找货</a></p>
-                    <p><a href="{{url('/talent')}}">人才</a></p>
-                </div>
-                <li id="change2"><a href="{{url('/ancself')}}">设备选购</a><img src="home/images/shangji/9.jpg" alt="" style="right: 15px;"  class="buslist2"></li>
-                <div class="cart2">
-                    <p><a href="{{url('/equipment')}}">安虫自营</a></p>
-                    <p><a href="{{url('/equipment/thirdshop')}}">第三方商城</a></p>
-                    <p><a href="{{url('/equipment/list')}}">商品列表</a></p>
+                <li id="change"><a href="{{url('/business')}}">商机</a><img src="home/images/shangji/9.jpg" alt=" " class="buslist" >
+                    <div class="cart">
+                        <p><a href="{{url('/project')}}">工程</a></p>
+                        <p><a href="{{url('/sergoods')}}">找货</a></p>
+                        <p><a href="{{url('/talent')}}">人才</a></p>
+                    </div>
+                </li>
 
-                </div>
+                <li id="change1"><a href="{{url('/community')}}">社区</a><img src="home/images/shangji/9.jpg" alt="" class="buslist1">
+                    <div class="cart1">
+                        <p><a href="{{url('/project')}}">工程</a></p>
+                        <p><a href="{{url('/sergoods')}}">找货</a></p>
+                        <p><a href="{{url('/talent')}}">人才</a></p>
+                    </div>
+                </li>
+
+                <li id="change2"><a href="{{url('/equipment')}}">设备选购</a><img src="home/images/shangji/9.jpg" alt="" style="right: 15px;"  class="buslist2">
+                    <div class="cart2">
+                        <p><a href="{{url('/equipment')}}">安虫自营</a></p>
+                        <p><a href="{{url('/equipment/thirdshop')}}">第三方商城</a></p>
+                        <p><a href="{{url('/equipment/list')}}">商品列表</a></p>
+
+                    </div>
+                </li>
+
                 <li><a href="{{url('/info')}}">资讯</a></li>
             </ul>
         </div>
@@ -99,7 +105,7 @@
                <p>最新招标</p>
             </div>
             <div class="pro-publish">
-                <a href="{{url('/releaseeg')}}"><img src="home/images/shangji/14.jpg" alt=""></a>
+                <a href="{{url('/project/create')}}"><img src="home/images/shangji/14.jpg" alt=""></a>
             </div>
         </div>
 
@@ -117,7 +123,7 @@
                 <ul>
                     @foreach($bus as $b)
                     <li>
-                        <h4><a href="{{url('pro/'.$b->bid)}}">{{$b->title}}</a></h4>
+                        <h4><a href="{{url('project/'.$b->bid)}}">{{$b->title}}</a></h4>
                         <p><nobr>{{$b->content}}</nobr></p>
                     </li>
                     <hr>
@@ -176,7 +182,7 @@
                 <p>人才信息</p>
             </div>
             <div class="pro-publish">
-                <a href="{{url('/reorder')}}"><img src="home/images/shangji/fbrc.png" alt=""></a>
+                <a href="{{url('/talent/create')}}"><img src="home/images/shangji/fbrc.png" alt=""></a>
             </div>
         </div>
 
@@ -192,27 +198,14 @@
                     <span>人才招聘</span><a href="#">换一批>></a>
                 </div>
                 <ul>
+                    @foreach($talent as $t)
                     <li>
-                        <h4><a href="#">服务类别：监控探测 <span></span>服务区域：深圳市</a></h4>
+                        <h4><a href="{{url('project/'.$t->bid)}}">服务类别：{{$t->tag}} <span></span>服务区域：{{$t->tags}}</a></h4>
 
                     </li>
                     <hr>
-                    <li>
-                        <h4><a href="#">服务类别：监控探测 <span></span>服务区域：深圳市</a></h4>
-                    </li>
-                    <hr>
-                    <li>
-                        <h4><a href="#">服务类别：监控探测 <span></span>服务区域：深圳市</a></h4>
-                    </li>
-                    <hr>
-                    <li>
-                        <h4><a href="#">服务类别：监控探测 <span></span>服务区域：深圳市</a></h4>
-                    </li>
-                    <hr>
-                    <li>
-                        <h4><a href="#">服务类别：监控探测 <span></span>服务区域：深圳市</a></h4>
-                    </li>
-                    <hr>
+                    @endforeach
+
                 </ul>
             </div>
         </div>

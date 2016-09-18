@@ -570,7 +570,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
 
 //前台路由
-Route::group(['domain' => 'www.anchong.net'], function () {
+Route::group(['domain' => 'anchong.hd'], function () {
     //获取商品参数html代码
     Route::get('/getparam','admin\uEditorController@getParam');
     Route::get('/getpackage','admin\uEditorController@getPackage');
@@ -651,7 +651,7 @@ Route::group(['domain' => 'www.anchong.net'], function () {
         //前台重置密码
         Route::resource('/user/forgetpwd','Home\User\ForgetpwdController');
         //工程板块
-        Route::controller('project','home\project\ProjectController');
+//        Route::controller('project','home\project\ProjectController');
         //设备选购
         Route::controller('equipment','home\equipment\EquipmentController');
     });
@@ -687,7 +687,6 @@ Route::group(['domain' => 'www.anchong.net'], function () {
 //            活动
             Route::get('/activity','CommunityController@activity');
         });
-    });
 
 
 });
