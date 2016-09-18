@@ -689,8 +689,5 @@ Route::group(['domain' => 'www.anchong.net'], function () {
         });
     });
 
-
-});
-
 //验证码类,需要传入数字
 Route::get('/captcha/{num}', 'CaptchaController@captcha');
