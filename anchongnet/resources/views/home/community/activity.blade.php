@@ -27,7 +27,7 @@
                 <li class="nav-item"><a class="nav-name" href="{{url('/talk')}}">闲聊</a></li>
                 <li class="nav-item"><a class="nav-name" href="{{url('question')}}">问问</a></li>
                 <li class="nav-item"><a class="nav-name" href="{{url('/activity')}}">活动</a></li>
-                <li class="new-chat" ><a href=""><img src="home/images/chat/chat.png"></a></li>
+                <li class="new-chat" ><a href="{{url('/chat')}}"><img src="home/images/chat/chat.png"></a></li>
                 <div class="cl"></div>
             </ul>
         </div>
@@ -53,7 +53,7 @@
                             <p class="content">{{$value -> content}}</p>
                         </a>
                         <p class="comments-share">
-                            <a class="comments" href=""><img src="home/images/chat/talk.png">28</a>
+                            <a class="comments" href=""><img src="home/images/chat/talk.png">{{$num[$value-> chat_id]}}</a>
                             <a class="share" href=""><img src="home/images/chat/share.png"></a>
                         </p>
                     </li>

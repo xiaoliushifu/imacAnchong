@@ -1,7 +1,9 @@
 .business-triangle{
     cursor: pointer
 }
-
+.navcontent li{
+    position: relative;
+}
 .buslist{cursor: pointer}
 .cart{
     position: absolute;

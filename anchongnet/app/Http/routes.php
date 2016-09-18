@@ -659,38 +659,24 @@ Route::group(['domain' => 'www.anchong.net'], function () {
     /*
     * 资讯
     */
-        Route::group(['namespace'=>'Home\Info'],function(){
-//        资讯首页
-            Route::get('/info','InfoController@index');
-//        咨询详情页
-            Route::get('/info/{infor_id}','InfoController@info');
-//        干货上传页面
-            Route::get('/upload','InfoController@upload');
-
-            Route::any('/uploadify','InfoController@uploadify');
-        });
+        Route::resource('info','Home\Info\InfoController');
 
 
-        /*
-         * 社区
-         */
+    /*
+     * 社区
+    */
 
         Route::group(['namespace'=> 'Home\Community'],function (){
-//        社区首页
-            Route::get('/community','CommunityController@index');
-//        聊聊详情页
-            Route::get('/chat/{chat_id}','CommunityController@chat');
+//        社区
+            Route::resource('community','CommunityController');
 //        闲聊
             Route::get('/talk','CommunityController@talk');
 //        问问
             Route::get('/question','CommunityController@question');
-//            活动
+//        活动
             Route::get('/activity','CommunityController@activity');
         });
     });
-
-
-});
 
 //验证码类,需要传入数字
 Route::get('/captcha/{num}', 'CaptchaController@captcha');

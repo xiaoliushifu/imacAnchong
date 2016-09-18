@@ -27,30 +27,57 @@ class CommunityController extends Controller
         }
         return view('home/community/index',compact('chat','num'));
     }
-//    详情页面
-    public function chat($chat_id)
+//    社区详情页面
+    public function show($chat_id)
     {
         $info    = Community_release::find($chat_id);
-        $comment = Community_comment::where('chat_id',$chat_id)->get();
-        $replay  = Community_reply::where('chat_id',$chat_id)->get();
+        $comment = Community_comment::where('chat_id',$chat_id)->orderBy('comid','desc')->get();
+        foreach ($comment as $value){
+            $comid = $value -> comid;
+            $replay[$comid]  = Community_reply::where('comid',$comid)->orderBy('comid','desc')->get();
+        }
+
         return view('home/community/chat',compact('info','comment','replay'));
     }
+//    评论上传
+    public function store()
+    {
+        
+    }
+//    删除已发布的聊聊
+    public function destory()
+    {
+
+    }
+
 //    闲聊
     public function talk()
     {
         $talk = Community_release::where('tags','闲聊')->orderBy('created_at','desc')->paginate(12);
-        return view('home/community/talk',compact('talk'));
+        foreach ($talk as $value){
+            $id = $value -> chat_id;
+            $num[$id] = Community_comment::where('chat_id',$id)->count();
+        }
+        return view('home/community/talk',compact('talk','num'));
     }
 //    问问
     public function question()
     {
         $question = Community_release::where('tags','问问')->orderBy('created_at','desc')->paginate(12);
-        return view('home/community/question',compact('question'));
+        foreach ($question as $value){
+            $id = $value -> chat_id;
+            $num[$id] = Community_comment::where('chat_id',$id)->count();
+        }
+        return view('home/community/question',compact('question','num'));
     }
 //    活动
     public function activity()
     {
         $activity = Community_release::where('tags','活动')->orderBy('created_at','desc')->paginate(12);
-        return view('home/community/activity',compact('activity'));
+        foreach ($activity as $value){
+            $id = $value -> chat_id;
+            $num[$id] = Community_comment::where('chat_id',$id)->count();
+        }
+        return view('home/community/activity',compact('activity','num'));
     }
 }

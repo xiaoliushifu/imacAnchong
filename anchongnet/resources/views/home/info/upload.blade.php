@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>上传干货</title>
-    <link rel="stylesheet" type="text/css" href="home/css/upload.css"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('home/css/upload.css')}}"/>
     <script src="home/js/jquery-3.1.0.min.js"></script>
 </head>
 <body>
@@ -11,7 +11,7 @@
 <div class="header">
     <div class="header-container">
         <div class="logo">
-            <a href="{{url('/')}}"><img src="{{url('/home/images/logo.jpg')}}"/></a>
+            <a href="{{url('/')}}"><img src="/home/images/logo.jpg"/></a>
         </div>
         <div class="site-nav">
             <ul class="navigation">
@@ -26,7 +26,7 @@
                     </div>
                 </li>
                 <li class="community nav-item"><a href="{{url('/community')}}">社区</a></li>
-                <li class="equipment nav-item"><a href="{{url('/ancself')}}">设备选购</a></li>
+                <li class="equipment nav-item"><a href="{{url('/equipment')}}">设备选购</a></li>
                 <li class="news nav-item"><a href="{{url('/info')}}">资讯</a></li>
             </ul>
         </div>
@@ -43,7 +43,7 @@
             <i class="upload">上传干货</i>
         </div>
         <div class="upload-status">
-            <img src="home/images/info/uploading.png">
+            <img src="/home/images/info/uploading.png">
         </div>
         <div class="upload-content">
             <div class="webuploader-container">

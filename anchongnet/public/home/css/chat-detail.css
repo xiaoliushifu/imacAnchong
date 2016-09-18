@@ -261,6 +261,14 @@ ul,li{
     width: 90px;
     height: 30px;
 }
+.blank{
+    width: 1200px;
+    margin: 10px auto;
+    text-align: center;
+    vertical-align: middle;
+    color: #9b9b9b;
+    font-size: 20px;
+}
 .comments-item{
     margin-top: 40px;
 }
@@ -335,7 +343,7 @@ ul,li{
     border-radius: 5px;
 }
 .dialogue{
-    width: 960px;
+    width: 945px;
     display: inline-block;
     vertical-align: middle;
     padding-left: 20px;
