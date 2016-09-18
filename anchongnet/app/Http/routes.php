@@ -251,10 +251,14 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
         //支付后跳转页面
         Route::any('pay/webreturn','Api\Pay\PayController@webreturn');
+        //余额app支付
+        Route::post('/pay/moneypay','Api\Pay\PayController@moneypay');
 		//微信app支付
         Route::post('/pay/wxapppay','Api\Pay\PayController@wxapppay');
         //支付宝app支付
         Route::post('/pay/aliapppay','Api\Pay\PayController@aliapppay');
+        //余额app订单内支付
+        Route::post('/pay/moneyorderpay','Api\Pay\PayController@moneyorderpay');
         //支付宝app订单内支付
         Route::post('/pay/aliapporderpay','Api\Pay\PayController@aliapporderpay');
         //微信app订单内支付
