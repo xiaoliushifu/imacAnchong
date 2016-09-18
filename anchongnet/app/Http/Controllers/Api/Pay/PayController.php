@@ -30,6 +30,196 @@ class PayController extends Controller
     }
 
     /*
+    *   余额支付
+    */
+    public function moneypay(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        $pay_datas=DB::table('anchong_pay')->select('order_id','total_price')->where('paynum',$param['outTradeNo'])->get();
+        //开启事务处理
+        DB::beginTransaction();
+        $pay_total_price=0;
+        //将订单一个个处理
+        foreach ($pay_datas as $datas) {
+            $pay_total_price+=$datas->total_price;
+            //创建ORM模型
+            $orders=new \App\Order();
+            // 使用通知里的 "商户订单号" 去自己的数据库找到订单
+            $order = $orders->find($datas->order_id);
+            // 如果订单不存在
+            if (!$order) {
+                // 订单没找到，别再通知我了
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败，该订单不存在']]);
+            }
+            // 如果订单存在
+            // 检查订单是否已经更新过支付状态
+            if ($order->state == 2) {
+                // 假设订单字段“支付时间”不为空代表已经支付
+                // 已经支付成功了就不再更新了
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'有商品已付款']]);
+            }
+            // 不是已经支付状态则修改为已经支付状态
+            // 更新支付ID
+            $order->state = 2;
+            $order->paycode="moneypay:".$param['outTradeNo'];
+            //将钱增加到商户冻结资金
+            $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price*0.99);
+            //判断是否加钱成功
+            if($result){
+                // 保存订单
+                $order->save();
+            }else{
+                //假如失败就回滚
+                DB::rollback();
+                // 返回处理完成
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败']]);
+            }
+        }
+        //判断再付款的时候订单是否被恶意
+        if($param['totalFee'] == $pay_total_price){
+            //获取用户句柄
+            $users_handle=$this->users->find($data['guid']);
+            //如果余额不够付款
+            if($users_handle->usable_money < $pay_total_price){
+                //假如失败就回滚
+                DB::rollback();
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'您好，您的可用余额不足，请充值']]);
+            }
+            //将用户余额减去应付款数
+            $surplus=$users_handle->usable_money-$pay_total_price;
+            $users_handle->usable_money=$surplus;
+            $users_handle->save();
+            //生成钱袋订单编号
+            $order_num=rand(1000,9999).substr($data['guid'],0,1).time();
+            //将消费记录插入个人钱袋的消费表
+            $purse_order= DB::table('anchong_purse_order')->insertGetId(
+                [
+                    'order_num' =>$order_num,
+                    'users_id' => $data['guid'],
+                    'pay_num' => "money:".$param['outTradeNo'],
+                    'price' => $pay_total_price,
+                    'action' => 3,
+                    'created_at' => date('Y-m-d H:i:s',$data['time']),
+                    'state' => 2,
+                    'remainder' => $surplus,
+                ]
+            );
+            //假如生成钱袋订单出错
+            if(!$purse_order){
+                //假如失败就回滚
+                DB::rollback();
+                // 返回处理完成
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败']]);
+            }
+            DB::commit();
+            // 返回处理完成
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'支付成功']]);
+        }else{
+            //假如失败就回滚
+            DB::rollback();
+            // 返回处理完成
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败，您的交易金额不合法']]);
+        }
+    }
+
+    /*
+    *   该方法是APP订单内的余额支付接口
+    */
+    public function moneyorderpay(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //开启事务处理
+        DB::beginTransaction();
+        //创建ORM模型
+        $pay=new \App\Pay();
+        //支付单号
+        $paynum=rand(100000,999999).time();
+        $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$param['order_id'],'total_price'=>$param['totalFee']]);
+        //创建ORM模型
+        $orders=new \App\Order();
+        // 使用通知里的 "商户订单号" 去自己的数据库找到订单
+        $order = $orders->find($param['order_id']);
+        $pay_total_price=$order->total_price;
+        //判断再付款的时候订单是否被恶意
+        if($param['totalFee'] != $pay_total_price){
+            //假如失败就回滚
+            DB::rollback();
+            // 返回处理完成
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败，您的交易金额不合法']]);
+        }
+        // 如果订单不存在
+        if (!$order) {
+            //假如失败就回滚
+            DB::rollback();
+            // 订单没找到，别再通知我了
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败，该订单不存在']]);
+        }
+        // 如果订单存在
+        // 检查订单是否已经更新过支付状态
+        if ($order->state == 2) {
+            // 已经支付成功了就不再更新了
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'有商品已付款']]);
+        }
+        // 不是已经支付状态则修改为已经支付状态
+        // 更新支付ID
+        $order->state = 2;
+        $order->paycode="moneypay:".$paynum;
+        //将钱增加到商户冻结资金
+        $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price*0.99);
+        //判断是否加钱成功
+        if($result){
+            // 保存订单
+            $order->save();
+        }else{
+            //假如失败就回滚
+            DB::rollback();
+            // 返回处理完成
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败']]);
+        }
+        //获取用户句柄
+        $users_handle=$this->users->find($data['guid']);
+        //如果余额不够付款
+        if($users_handle->usable_money < $pay_total_price){
+            //假如失败就回滚
+            DB::rollback();
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'您好，您的可用余额不足，请充值']]);
+        }
+        //将用户余额减去应付款数
+        $surplus=$users_handle->usable_money-$pay_total_price;
+        $users_handle->usable_money=$surplus;
+        $users_handle->save();
+        //生成钱袋订单编号
+        $order_num=rand(1000,9999).substr($data['guid'],0,1).time();
+        //将消费记录插入个人钱袋的消费表
+        $purse_order= DB::table('anchong_purse_order')->insertGetId(
+            [
+                'order_num' =>$order_num,
+                'users_id' => $data['guid'],
+                'pay_num' => "money:".$paynum,
+                'price' => $pay_total_price,
+                'action' => 3,
+                'created_at' => date('Y-m-d H:i:s',$data['time']),
+                'state' => 2,
+                'remainder' => $surplus,
+            ]
+        );
+        //假如生成钱袋订单出错
+        if(!$purse_order){
+            //假如失败就回滚
+            DB::rollback();
+            // 返回处理完成
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败']]);
+        }
+        DB::commit();
+        // 返回处理完成
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'支付成功']]);
+    }
+
+    /*
     *   该方法是支付宝的支付接口
     */
     public function alipay()
@@ -218,7 +408,7 @@ class PayController extends Controller
                 $total_price=0;
                 $order_id_arr=$pay->quer(['order_id','total_price'],'paynum ='.$notify->out_trade_no)->toArray();
                  foreach ($order_id_arr as $order_id) {
-                     $total_price +=$order_id['total_price'];
+                    $total_price +=$order_id['total_price'];
                     //创建ORM模型
                     $orders=new \App\Order();
                     // 使用通知里的 "商户订单号" 去自己的数据库找到订单

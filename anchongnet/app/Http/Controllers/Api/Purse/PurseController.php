@@ -357,12 +357,28 @@ class PurseController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'您的可用余额不足请充值']]);
         }
         //将余额减去
-        $users_handle->usable_money=$usable_money-$beans_data[0]->money;
+        $surplus=$usable_money-$beans_data[0]->money;
+        $users_handle->usable_money=$surplus;
         //将虫豆加上
         $users_handle->beans=$beans+$beans_data[0]->beans;
         $result=$users_handle->save();
         //判断是否更新成功
         if($result){
+            //生成钱袋订单编号
+            $order_num=rand(1000,9999).substr($data['guid'],0,1).time();
+            //将消费记录插入个人钱袋的消费表
+            $purse_order= DB::table('anchong_purse_order')->insertGetId(
+                [
+                    'order_num' =>$order_num,
+                    'users_id' => $data['guid'],
+                    'pay_num' => "money:虫豆充值",
+                    'price' => $beans_data[0]->money,
+                    'action' => 3,
+                    'created_at' => date('Y-m-d H:i:s',$data['time']),
+                    'state' => 2,
+                    'remainder' => $surplus,
+                ]
+            );
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'购买成功']]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'购买失败，请重试']]);
