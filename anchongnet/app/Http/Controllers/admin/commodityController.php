@@ -125,17 +125,9 @@ class commodityController extends Controller
             ]
         );
 
-        //判断是否有OEM
-        if($request->oem){
-            //插入oem数据
-            DB::table('anchong_goods_oem')->insertGetId(
-                [
-                     'goods_id'=>$gid,
-                     'value'=>$request->oem
-                ]
-            );
-        }
-
+        //插入oem数据
+        DB::table('anchong_goods_oem')->insert(['goods_id'=>$gid,'value'=>$request->oem]);
+        
         //通过一个for循环向属性表中插入数据
         for($i=0;$i<count($request->attrname);$i++){
             DB::table('anchong_goods_attribute')->insertGetId(
@@ -262,6 +254,14 @@ class commodityController extends Controller
         $data->keyword=ltrim($keywords);
         $data->type=trim($type);
         $result=$data->save();
+        
+        /*oem修改 START*/
+        if ($request['oem']) {
+            //因该功能是后期添加，故照顾以前的数据，有则更新，无则插入
+            $oem = $request['oem'];
+            DB::insert("insert into anchong_goods_oem(`goods_id`,`value`) values('$id','$oem') on duplicate key update value='$oem'");
+        }
+        /*oem的修改 END*/
         if($result){
             return redirect()->back();
         }else{
@@ -373,5 +373,13 @@ class commodityController extends Controller
             $url="";
         }
         return response()->json(['message' => $message, 'isSuccess' => $isSuccess,'url'=>$url]);
+    }
+    
+    /**
+     * 根据商品id获得oem
+     */
+    public function oem(Request $req)
+    {
+       return DB::table('anchong_goods_oem')->whereGoods_id($req->gid)->get();
     }
 }
