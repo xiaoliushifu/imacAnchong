@@ -448,10 +448,10 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::get('/getbrand','admin\shopController@getbrand');
             //获取商铺的主营类别
             Route::get('/getcat','admin\shopController@getcat');
-            //获取所有标签路由
+            //获取所有商机标签路由
             Route::get('/getag','admin\tagController@geTag');
-            //获取同一个分类的所有标签的路由
-            Route::get('/getsiblingstag','admin\caTagController@getSiblings');
+            //由分类得标签
+            Route::get('/getcatag','admin\caTagController@getagByCat');
 
             //获取商品一级或二级分类路由
             Route::get('/getlevel','admin\goodCateController@getsubLevel');

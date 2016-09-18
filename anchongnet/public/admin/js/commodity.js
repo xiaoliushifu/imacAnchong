@@ -33,9 +33,9 @@ $(function(){
 			return data;
 		});
 	};
-	//获取兄弟分类
+	//获取分类标签
 	var getsiblevel = function (level){
-	    	$.get("/getsiblingstag",{cid:level},function(data,status){
+	    	$.get("/getcatag",{cid:level},function(data,status){
 	    		return data;
 	    	});
 	};

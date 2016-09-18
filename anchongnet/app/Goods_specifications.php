@@ -98,7 +98,7 @@ class Goods_specifications extends Model
     }
     
     /*
-     * 根据条件进行商品查询
+     * 根据货品编号查询
      * */
     public function scopeName($query,$keyName)
     {

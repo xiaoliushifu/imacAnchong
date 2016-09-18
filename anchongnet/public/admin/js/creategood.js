@@ -73,7 +73,7 @@ $(function(){
             }
         });
         //获得有关该分类的标签
-        $.get("/getsiblingstag",{cid:val},function(data,status){
+        $.get("/getcatag",{cid:val},function(data,status){
             for(var i=0;i<data.length;i++){
                 var lab='<label><input type="checkbox" name="tag[]" value='+data[i].tag+'>'+data[i].tag+'</label>&nbsp;&nbsp;&nbsp;';
                 $("#checks").append(lab);
