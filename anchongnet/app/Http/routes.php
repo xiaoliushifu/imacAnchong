@@ -135,8 +135,6 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/goods/goodsrelease','Api\Goods\GoodsController@goodsrelease');
         //商品检索标签
         Route::post('/goods/goodstag','Api\Goods\GoodsController@goodstag');
-        //=====一定要删删删=======
-        Route::post('/goods/tagsedit','Api\Goods\GoodsController@tagsedit');
 
         /*
         *   购物车模块

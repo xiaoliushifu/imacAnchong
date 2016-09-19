@@ -29,7 +29,6 @@ class OrderController extends Controller
             }
             //定义优惠券字段
             $coupon_cvalue=$param['cvalue'];
-            echo $coupon_cvalue;
             //定义状态
             $true=false;
             //开启事务处理
@@ -62,17 +61,19 @@ class OrderController extends Controller
                 $total_price += $orderprice;
                 //判断是否使用优惠券
                 if($coupon_cvalue){
-                    //判断是否是全网通用的
-                    if($param['shop'] == 0){
-                        //订单总价
-                        $orderprice=$orderprice-$coupon_cvalue;
-                        //总价
-                        $total_price=$total_price-$coupon_cvalue;
-                    }elseif($param['shop'] == $orderarr['sid']){
-                        //订单总价
-                        $orderprice=$orderprice-$coupon_cvalue;
-                        //总价
-                        $total_price=$total_price-$coupon_cvalue;
+                    if($orderprice > $coupon_cvalue){
+                        //判断是否是全网通用的
+                        if($param['shop'] == 0){
+                            //订单总价
+                            $orderprice=$orderprice-$coupon_cvalue;
+                            //总价
+                            $total_price=$total_price-$coupon_cvalue;
+                        }elseif($param['shop'] == $orderarr['sid']){
+                            //订单总价
+                            $orderprice=$orderprice-$coupon_cvalue;
+                            //总价
+                            $total_price=$total_price-$coupon_cvalue;
+                        }
                     }
                 }
                 $order_data=[
@@ -127,7 +128,8 @@ class OrderController extends Controller
                                 return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>$goodsinfo['goods_name'].'商品已下架']]);
                             }
                             //将每个商品的最低价相加
-                            $goods_total_price+=$goods_num[0]['vip_price'];
+                            $minpric=$goods_num[0]['vip_price']*$goodsinfo['goods_num'];
+                            $goods_total_price+=$minpric;
                             //判断商品是否下架
                             if($goods_num[0]['added'] == 1){
                                 //判断总库存是否足够
@@ -191,7 +193,7 @@ class OrderController extends Controller
                         return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
                     }
                     //判断传输过程中价格有没有被篡改
-                    if($orderprice < $goods_total_price){
+                    if($orderarr['total_price'] < $goods_total_price){
                         //假如失败就回滚
                         DB::rollback();
                         return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'非法的价格，订单生成失败']]);
