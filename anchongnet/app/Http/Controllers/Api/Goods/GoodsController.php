@@ -720,21 +720,4 @@ class GoodsController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
-
-    /*
-    *   =======到时候要删删删=======
-    *   =========现转表使用=========
-    */
-    public function tagsedit(Request $request)
-    {
-        //创建orm模型
-        $goods_type=new \App\Goods_type();
-        $goods_keyword=new \App\Goods_keyword();
-        for($i=2883;$i< 3346;$i++){
-            $datas=DB::table('anchong_goods_keyword')->where('cat_id',$i)->pluck('tags');
-            if($datas){
-                DB::table('anchong_goods_type')->where('cat_id',$i)->update(['tags' => $datas[0]]);
-            }
-        }
-    }
 }
