@@ -4,6 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * 商机标签模型
+ * @author liumingwei
+ *
+ */
 class Tag extends Model
 {
     protected $table = 'anchong_tag';

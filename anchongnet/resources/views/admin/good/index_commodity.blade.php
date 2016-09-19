@@ -66,8 +66,8 @@
                     <div class="box">
                         <div class="box-body">
                             <form action="/commodity" method="get" class="form-horizontal form-inline f-ib">
-                                <input type="text" name="keyName" value="{{$datacol['args']['keyName']}}" class="form-control" placeholder="商品名称">
-                                <input type="text" name="keyName2" value="{{$datacol['args']['keyName2']}}" class="form-control" placeholder="商品ID">
+                                <input type="text" name="keyName"  class="form-control" placeholder="商品名称">
+                                <input type="text" name="keyName2"  class="form-control" placeholder="商品ID">
                                 <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
                             </form>
                             <a href="/commodity" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
@@ -177,6 +177,12 @@
                                 <textarea name="remark" id="remark" class="form-control" rows="5"></textarea>
                             </div>
                         </div>
+    						<div class="form-group">
+                            <label class="col-sm-2 control-label" for="oem">OEM</label>
+                            <div class="col-sm-10">
+                                    <input type="text" name="oem"  id="oem" style="width:250px;"><small>多项请以空格分开，如："中信 定制"</small>
+                            </div>
+                        </div> 
                         <div class="form-group">
                             <label class="col-sm-2 control-label"></label>
                             <div class="col-sm-9">

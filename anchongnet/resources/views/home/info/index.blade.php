@@ -42,7 +42,7 @@
                     </div>
                 </li>
                 <li class="community nav-item"><a href="{{url('/community')}}">社区</a></li>
-                <li class="equipment nav-item"><a href="{{url('/ancself')}}">设备选购</a></li>
+                <li class="equipment nav-item"><a href="{{url('/equipment')}}">设备选购</a></li>
                 <li class="news nav-item"><a href="{{url('/info')}}">资讯</a></li>
             </ul>
         </div>
@@ -61,7 +61,7 @@
                     <li class="share-title">
                         <h2>干货分享</h2>
                         <i>More</i>
-                        <a href="{{url('/upload')}}"><img src="home/images/info/upload.png"></a>
+                        <a href="{{url('/info/create')}}"><img src="home/images/info/upload.png"></a>
                     </li>
                     <span class="parting"></span>
                     <li class="share-item">

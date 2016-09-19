@@ -82,11 +82,10 @@ class goodCateController extends Controller
        $cid=$request['cid'];
        $pid=$this->cat->find($cid)->parent_id;
        //使用缓存
-       //if (!$datas = Cache::get($pid)) {
+       if (!$datas = Cache::get($pid)) {
            $datas=$this->cat->Pids($pid)->get();
-           //\Log::info($datas,['newcat']);
-          // Cache::add($pid,$datas,'60');
-      // }
+           Cache::add($pid,$datas,'60');
+       }
        return $datas;
    }
 

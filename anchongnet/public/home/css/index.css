@@ -136,6 +136,7 @@ h1{
     line-height: 40px;
     text-align: center;
     float: left;
+    position: relative;
 }
 .nav-item a{
     color: #606060;
@@ -154,6 +155,9 @@ h1{
 }
 .business-list{
     display: none;
+    position: absolute;
+    background-color: #1DABD8;
+    width: 120px;
 }
 .site-middle{
     width: 100%;
@@ -234,8 +238,11 @@ h1{
     margin: 0 auto;
 }
 .chart li{
+    text-align: center;
     float: left;
     margin-right: 30px;
+    width:120px;
+    height: 120px;
 }
 .chart::after{
     clear: both;

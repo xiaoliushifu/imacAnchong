@@ -156,7 +156,7 @@
                         @foreach($one as $o)
                         <a href="#">{{$o->cat_name}}</a><span>|</span>
                         @endforeach
-
+                    </p>
                         {{--<a href="#">门禁一体机</a><span>|</span><a href="#">门禁读卡器</a><span>|</span><a--}}
                                 {{--href="#">生物识别</a><span>|</span><a href="#">门禁锁</a><span>|</span><a href="#">电梯控制--}}
                             {{--</a><span>|</span>门禁配套<span>|</span>智能门禁<span>|</span>储物柜锁<span>|</span>门禁电源</p>--}}
@@ -194,10 +194,10 @@
                     <a href=""><img src="home/images/shebei/62.jpg" alt=""></a>
                     <div class="centerlist-title">
                         <p>
-                            @foreach($nav2 as $e)
+                            @foreach($two as $e)
                             <a href="">{{$e->cat_name}}</a><span>|</span>
                             @endforeach
-
+                        </p>
                     </div>
                 </div>
                 <div class="centerlist-two">
@@ -219,11 +219,13 @@
                 <div class="maingoods-title"><span>F3</span><h3>探测报警</h3></div>
                 <div class="maingoods-nav"style="width: 480px;">
                     <ul>
-                        <li><a href="">门窗磁</a></li>
-                        <li><a href="">报警控制器</a></li>
-                        <li><a href="">声光警号</a></li>
-                        <li><a href="">探测器</a></li>
-                        <li><a href="">电子围栏</a></li>
+                        @foreach($nav3 as $r)
+                        <li><a href="">{{$r->cat_name}}</a></li>
+                        @endforeach
+                        {{--<li><a href="">报警控制器</a></li>--}}
+                        {{--<li><a href="">声光警号</a></li>--}}
+                        {{--<li><a href="">探测器</a></li>--}}
+                        {{--<li><a href="">电子围栏</a></li>--}}
                         <li><a href="">更多</a></li>
                     </ul>
                 </div>
@@ -232,7 +234,11 @@
             <div class="maingoods-list">
                 <div class="maingoods-one">
                     <img src="home/images/shebei/59.jpg" alt="">
-                    <p>门禁控制<span>|</span>门禁一体机<span>|</span>门禁读卡器<span>|</span>生物识别<span>|</span>门禁锁<span>|</span>电梯控制<span>|</span>门禁配套<span>|</span>智能门禁<span>|</span>储物柜锁<span>|</span>门禁电源</p>
+                    <p>
+                        @foreach($three as $t)
+                        <a href="#">{{$t->cat_name}}</a><span>|</span>
+                            @endforeach
+                    </p>
                 </div>
                 <div class="maingoods-two"><img src="home/images/shebei/60.jpg" alt=""></div>
                 <div class="maingoods-three">
@@ -246,12 +252,15 @@
         <div class="centergoods">
             <div class="subcentergoods">
                 <div class="centergoods-title"><span>F4</span><h3>巡更巡检</h3></div>
-                <div class="centergoods-nav" style="width: 350px;">
+                <div class="centergoods-nav" style="width: 300px;">
                     <ul>
-                        <li><a href="">信息点</a></li>
-                        <li><a href="">巡更棒</a></li>
-                        <li><a href="">巡检机</a></li>
-                        <li><a href="">通讯座</a></li>
+                        @foreach($nav4 as $u)
+                            <li><a href="">{{$u->cat_name}}</a></li>
+                        @endforeach
+                        {{--<li><a href="">信息点</a></li>--}}
+                        {{--<li><a href="">巡更棒</a></li>--}}
+                        {{--<li><a href="">巡检机</a></li>--}}
+                        {{--<li><a href="">通讯座</a></li>--}}
                         <li><a href="">更多</a></li>
                     </ul>
                 </div>
@@ -261,8 +270,13 @@
                 <div class="centerlist-one">
                     <a href=""><img src="home/images/shebei/62.jpg" alt=""></a>
                     <div class="centerlist-title">
-                        <p><a href="">摄像机</a><span>|</span><a href="">监控器</a><span>|</span><a href="">硬盘</a><span>|</span><a
-                                href="">矩阵</a><span>|</span><a href="">画面处理</a><span>|</span><a href="">操作台</a></p>
+                        <p>
+                            @foreach($four as $i)
+                                <a href="#">{{$i->cat_name}}</a><span>|</span>
+                            @endforeach
+                            {{--<a href="">摄像机</a><span>|</span><a href="">监控器</a><span>|</span><a href="">硬盘</a><span>|</span><a--}}
+                                {{--href="">矩阵</a><span>|</span><a href="">画面处理</a><span>|</span><a href="">操作台</a>--}}
+                        </p>
                     </div>
                 </div>
                 <div class="centerlist-two">
@@ -282,15 +296,18 @@
         <div class="maingoods">
             <div class="submaingoods">
                 <div class="maingoods-title"><span>F5</span><h3>停车管理</h3></div>
-                <div class="maingoods-nav">
+                <div class="maingoods-nav" style="width: 580px;">
                     <ul>
-                        <li><a href="">门禁控制器</a></li>
-                        <li><a href="">门禁一体机</a></li>
-                        <li><a href="">门禁读卡器</a></li>
-                        <li><a href="">生物识别</a></li>
-                        <li><a href="">门禁锁</a></li>
-                        <li><a href="">电梯控制</a></li>
-                        <li><a href="">快速通道</a></li>
+                        @foreach($nav5 as $o)
+                            <li><a href="">{{$o->cat_name}}</a></li>
+                        @endforeach
+                        {{--<li><a href="">门禁控制器</a></li>--}}
+                        {{--<li><a href="">门禁一体机</a></li>--}}
+                        {{--<li><a href="">门禁读卡器</a></li>--}}
+                        {{--<li><a href="">生物识别</a></li>--}}
+                        {{--<li><a href="">门禁锁</a></li>--}}
+                        {{--<li><a href="">电梯控制</a></li>--}}
+                        {{--<li><a href="">快速通道</a></li>--}}
                         <li><a href="">更多</a></li>
                     </ul>
                 </div>
@@ -299,7 +316,12 @@
             <div class="maingoods-list">
                 <div class="maingoods-one">
                     <img src="home/images/shebei/59.jpg" alt="">
-                    <p>门禁控制<span>|</span>门禁一体机<span>|</span>门禁读卡器<span>|</span>生物识别<span>|</span>门禁锁<span>|</span>电梯控制<span>|</span>门禁配套<span>|</span>智能门禁<span>|</span>储物柜锁<span>|</span>门禁电源</p>
+                    <p>
+                        @foreach($five as $p)
+                            <a href="#">{{$p->cat_name}}</a><span>|</span>
+                        @endforeach
+                        {{--门禁控制<span>|</span>门禁一体机<span>|</span>门禁读卡器<span>|</span>生物识别<span>|</span>门禁锁<span>|</span>电梯控制<span>|</span>门禁配套<span>|</span>智能门禁<span>|</span>储物柜锁<span>|</span>门禁电源--}}
+                    </p>
                 </div>
                 <div class="maingoods-two"><img src="home/images/shebei/60.jpg" alt=""></div>
                 <div class="maingoods-three">
@@ -313,14 +335,17 @@
         <div class="centergoods">
             <div class="subcentergoods">
                 <div class="centergoods-title"><span>F6</span><h3>楼宇对讲</h3></div>
-                <div class="centergoods-nav">
+                <div class="centergoods-nav" style="width: 680px;">
                     <ul>
-                        <li><a href="">摄像机</a></li>
-                        <li><a href="">监视器</a></li>
-                        <li><a href="">硬盘</a></li>
-                        <li><a href="">矩阵</a></li>
-                        <li><a href="">画面处理</a></li>
-                        <li><a href="">操作台</a></li>
+                        @foreach($nav6 as $s)
+                            <li><a href="">{{$s->cat_name}}</a></li>
+                        @endforeach
+                        {{--<li><a href="">摄像机</a></li>--}}
+                        {{--<li><a href="">监视器</a></li>--}}
+                        {{--<li><a href="">硬盘</a></li>--}}
+                        {{--<li><a href="">矩阵</a></li>--}}
+                        {{--<li><a href="">画面处理</a></li>--}}
+                        {{--<li><a href="">操作台</a></li>--}}
 
                         <li><a href="">更多</a></li>
                     </ul>
@@ -331,8 +356,13 @@
                 <div class="centerlist-one">
                     <a href=""><img src="home/images/shebei/62.jpg" alt=""></a>
                     <div class="centerlist-title">
-                        <p><a href="">摄像机</a><span>|</span><a href="">监控器</a><span>|</span><a href="">硬盘</a><span>|</span><a
-                                href="">矩阵</a><span>|</span><a href="">画面处理</a><span>|</span><a href="">操作台</a></p>
+                        <p>
+                            @foreach($six as $a)
+                                <a href="#">{{$a->cat_name}}</a><span>|</span>
+                            @endforeach
+                            {{--<a href="">摄像机</a><span>|</span><a href="">监控器</a><span>|</span><a href="">硬盘</a><span>|</span><a--}}
+                                {{--href="">矩阵</a><span>|</span><a href="">画面处理</a><span>|</span><a href="">操作台</a>--}}
+                        </p>
                     </div>
                 </div>
                 <div class="centerlist-two">
@@ -353,15 +383,18 @@
         <div class="maingoods">
             <div class="submaingoods">
                 <div class="maingoods-title"><span>F7</span><h3>智能消费</h3></div>
-                <div class="maingoods-nav">
+                <div class="maingoods-nav" style="width: 180px;">
                     <ul>
-                        <li><a href="">门禁控制器</a></li>
-                        <li><a href="">门禁一体机</a></li>
-                        <li><a href="">门禁读卡器</a></li>
-                        <li><a href="">生物识别</a></li>
-                        <li><a href="">门禁锁</a></li>
-                        <li><a href="">电梯控制</a></li>
-                        <li><a href="">快速通道</a></li>
+                        @foreach($nav7 as $d)
+                            <li><a href="">{{$d->cat_name}}</a></li>
+                        @endforeach
+                        {{--<li><a href="">门禁控制器</a></li>--}}
+                        {{--<li><a href="">门禁一体机</a></li>--}}
+                        {{--<li><a href="">门禁读卡器</a></li>--}}
+                        {{--<li><a href="">生物识别</a></li>--}}
+                        {{--<li><a href="">门禁锁</a></li>--}}
+                        {{--<li><a href="">电梯控制</a></li>--}}
+                        {{--<li><a href="">快速通道</a></li>--}}
                         <li><a href="">更多</a></li>
                     </ul>
                 </div>
@@ -370,7 +403,12 @@
             <div class="maingoods-list">
                 <div class="maingoods-one">
                     <img src="home/images/shebei/59.jpg" alt="">
-                    <p>门禁控制<span>|</span>门禁一体机<span>|</span>门禁读卡器<span>|</span>生物识别<span>|</span>门禁锁<span>|</span>电梯控制<span>|</span>门禁配套<span>|</span>智能门禁<span>|</span>储物柜锁<span>|</span>门禁电源</p>
+                    <p>
+                        @foreach($seven as $f)
+                            <a href="#">{{$f->cat_name}}</a><span>|</span>
+                        @endforeach
+                        {{--门禁控制<span>|</span>门禁一体机<span>|</span>门禁读卡器<span>|</span>生物识别<span>|</span>门禁锁<span>|</span>电梯控制<span>|</span>门禁配套<span>|</span>智能门禁<span>|</span>储物柜锁<span>|</span>门禁电源--}}
+                    </p>
                 </div>
                 <div class="maingoods-two"><img src="home/images/shebei/60.jpg" alt=""></div>
                 <div class="maingoods-three">
@@ -383,15 +421,18 @@
 
         <div class="centergoods">
             <div class="subcentergoods">
-                <div class="centergoods-title"><span>F8</span><h3>安全配套</h3></div>
-                <div class="centergoods-nav">
+                <div class="centergoods-title"><span>F8</span><h3>安防配套</h3></div>
+                <div class="centergoods-nav" style="width: 500px;">
                     <ul>
-                        <li><a href="">摄像机</a></li>
-                        <li><a href="">监视器</a></li>
-                        <li><a href="">硬盘</a></li>
-                        <li><a href="">矩阵</a></li>
-                        <li><a href="">画面处理</a></li>
-                        <li><a href="">操作台</a></li>
+                        @foreach($nav8 as $g)
+                            <li><a href="">{{$g->cat_name}}</a></li>
+                        @endforeach
+                        {{--<li><a href="">摄像机</a></li>--}}
+                        {{--<li><a href="">监视器</a></li>--}}
+                        {{--<li><a href="">硬盘</a></li>--}}
+                        {{--<li><a href="">矩阵</a></li>--}}
+                        {{--<li><a href="">画面处理</a></li>--}}
+                        {{--<li><a href="">操作台</a></li>--}}
 
                         <li><a href="">更多</a></li>
                     </ul>
@@ -402,8 +443,13 @@
                 <div class="centerlist-one">
                     <a href=""><img src="home/images/shebei/62.jpg" alt=""></a>
                     <div class="centerlist-title">
-                        <p><a href="">摄像机</a><span>|</span><a href="">监控器</a><span>|</span><a href="">硬盘</a><span>|</span><a
-                                href="">矩阵</a><span>|</span><a href="">画面处理</a><span>|</span><a href="">操作台</a></p>
+                        <p>
+                            @foreach($eight as $h)
+                                <a href="#">{{$h->cat_name}}</a><span>|</span>
+                            @endforeach
+                            {{--<a href="">摄像机</a><span>|</span><a href="">监控器</a><span>|</span><a href="">硬盘</a><span>|</span><a--}}
+                                {{--href="">矩阵</a><span>|</span><a href="">画面处理</a><span>|</span><a href="">操作台</a>--}}
+                        </p>
                     </div>
                 </div>
                 <div class="centerlist-two">

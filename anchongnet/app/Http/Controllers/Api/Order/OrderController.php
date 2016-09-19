@@ -64,13 +64,11 @@ class OrderController extends Controller
                 if($coupon_cvalue){
                     //判断是否是全网通用的
                     if($param['shop'] == 0){
-                        echo 111;
                         //订单总价
                         $orderprice=$orderprice-$coupon_cvalue;
                         //总价
                         $total_price=$total_price-$coupon_cvalue;
                     }elseif($param['shop'] == $orderarr['sid']){
-                        echo $orderarr['sid'];
                         //订单总价
                         $orderprice=$orderprice-$coupon_cvalue;
                         //总价
@@ -96,6 +94,14 @@ class OrderController extends Controller
                 if($orderprice < $orderarr['total_price']){
                     //增加一个字段
                     $order_data['acpid']=$param['acpid'];
+                    $coupon_id=DB::table('anchong_coupon')->where('users_id',$data['guid'])->where('cpid',$param['acpid'])->where('end','>',time())->pluck('id');
+                    //如果优惠券不可使用
+                    if(!$coupon_id){
+                        //假如失败就回滚
+                        DB::rollback();
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败，该优惠券不可使用']]);
+                    }
+                    DB::table('anchong_coupon')->where('id',$coupon_id[0])->delete();
                     $coupon_cvalue="";
                 }
                 //创建订单的ORM模型
@@ -106,18 +112,22 @@ class OrderController extends Controller
                 $result=$order->add($order_data);
                 //如果成功
                 if($result){
+                    //定义初始商铺总价
+                    $goods_total_price=0;
                     $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$result,'total_price'=>$orderprice]);
                     if($payresult){
                         foreach ($orderarr['goods'] as $goodsinfo) {
                             //创建货品表的ORM模型来查询货品数量
                             $goods_specifications=new \App\Goods_specifications();
-                            $goods_num=$goods_specifications->quer(['title','goods_num','model','added','goods_numbering'],'gid ='.$goodsinfo['gid'])->toArray();
+                            $goods_num=$goods_specifications->quer(['title','vip_price','goods_num','model','added','goods_numbering'],'gid ='.$goodsinfo['gid'])->toArray();
                             //判断商品是否以删除
                             if(empty($goods_num)){
                                 //假如失败就回滚
                                 DB::rollback();
                                 return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>$goodsinfo['goods_name'].'商品已下架']]);
                             }
+                            //将每个商品的最低价相加
+                            $goods_total_price+=$goods_num[0]['vip_price'];
                             //判断商品是否下架
                             if($goods_num[0]['added'] == 1){
                                 //判断总库存是否足够
@@ -179,6 +189,12 @@ class OrderController extends Controller
                         //假如失败就回滚
                         DB::rollback();
                         return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
+                    }
+                    //判断传输过程中价格有没有被篡改
+                    if($orderprice < $goods_total_price){
+                        //假如失败就回滚
+                        DB::rollback();
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'非法的价格，订单生成失败']]);
                     }
                 }else{
                     //假如失败就回滚

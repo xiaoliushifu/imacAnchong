@@ -89,9 +89,6 @@ $(function(){
                 $("#mainselect"+data.cnum+" option[value="+data.parent_id+"]").attr("selected",true);
             });
         }
-
-
-
         $("#name").empty();
         //暂只传递第一个分类（如果有多个分类的话）
         $.get("/getsibilingscommodity",{pid:cid[0],sid:sid},function(data,status,c){
@@ -103,9 +100,9 @@ $(function(){
             $("#goodsname").val($("#name option[value="+gid+"]").text());
         });
 
-    $.get("/getKeywords",{goods_id:gid},function(data,status){
-            $("#keywords").val(data);
-        });
+	    $.get("/getKeywords",{goods_id:gid},function(data,status){
+	            $("#keywords").val(data);
+	    });
 
         $.get("/good/"+id+"/edit",function(data,status){
             $("#spetag").val(data.goods_name);
@@ -152,7 +149,7 @@ $(function(){
                 }
             }
         });
-    });
+    });//过程挺长的
 
     //添加一条 仓储记录 input框
     $("body").on("click",'.addcuspro',function(){
@@ -247,7 +244,10 @@ $(function(){
             }
         });
     });
-
+    
+    /**
+     * 二级分类的事件处理
+     */
     $("#midselect").change(function(){
         var val=$(this).val();
         var sid=$("#sid").val();

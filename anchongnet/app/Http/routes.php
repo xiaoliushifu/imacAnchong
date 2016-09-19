@@ -25,7 +25,7 @@
 
 //接口路由组
 
-Route::group(['domain' => 'api.anchong.net'], function () {
+//Route::group(['domain' => 'api.anchong.net'], function () {
     Route::post('/community/chonggou','Api\Community\CommunityController@chonggou');
     Route::post('/business/chonggou','Api\Business\BusinessController@chonggou');
     //商品检索
@@ -251,10 +251,14 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::any('pay/webnotify','Api\Pay\PayController@webnotify');
         //支付后跳转页面
         Route::any('pay/webreturn','Api\Pay\PayController@webreturn');
+        //余额app支付
+        Route::post('/pay/moneypay','Api\Pay\PayController@moneypay');
 		//微信app支付
         Route::post('/pay/wxapppay','Api\Pay\PayController@wxapppay');
         //支付宝app支付
         Route::post('/pay/aliapppay','Api\Pay\PayController@aliapppay');
+        //余额app订单内支付
+        Route::post('/pay/moneyorderpay','Api\Pay\PayController@moneyorderpay');
         //支付宝app订单内支付
         Route::post('/pay/aliapporderpay','Api\Pay\PayController@aliapporderpay');
         //微信app订单内支付
@@ -326,7 +330,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         //直播测试
         Route::post('/live/live','Api\Live\LiveController@live');
     });
-});
+//});
 
 //支付宝路由
 Route::group(['domain' => 'pay.anchong.net'], function () {
@@ -448,10 +452,10 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::get('/getbrand','admin\shopController@getbrand');
             //获取商铺的主营类别
             Route::get('/getcat','admin\shopController@getcat');
-            //获取所有标签路由
+            //获取所有商机标签路由
             Route::get('/getag','admin\tagController@geTag');
-            //获取同一个分类的所有标签的路由
-            Route::get('/getsiblingstag','admin\caTagController@getSiblings');
+            //由分类得标签
+            Route::get('/getcatag','admin\caTagController@getagByCat');
 
             //获取商品一级或二级分类路由
             Route::get('/getlevel','admin\goodCateController@getsubLevel');
@@ -468,6 +472,8 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::resource('/good','admin\goodController');
             //商品管理路由
             Route::resource('/commodity','admin\commodityController');
+            //得oem由goods_id
+            Route::get('/oem','admin\commodityController@oem');
             //获取同一分类下的商品的路由
             Route::get('/getsibilingscommodity','admin\commodityController@getSiblings');
             //获取商品关键字
@@ -572,108 +578,98 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
 
     //前台安全防护
-    Route::group(['middleware'=>'csrf'],function(){
+    Route::group(['middleware'=>'csrf'],function() {
 
 
 //前台路由
         Route::group(['domain' => 'www.anchong.net'], function () {
             //获取商品参数html代码
-            Route::get('/getparam','admin\uEditorController@getParam');
-            Route::get('/getpackage','admin\uEditorController@getPackage');
+            Route::get('/getparam', 'admin\uEditorController@getParam');
+            Route::get('/getpackage', 'admin\uEditorController@getPackage');
             //获取虫虫资讯
-            Route::get('/information/{infor_id}','Api\Advert\AdvertController@informations');
-            Route::get('/','home\IndexController@index');
+            Route::get('/information/{infor_id}', 'Api\Advert\AdvertController@informations');
+            Route::get('/', 'home\IndexController@index');
 
 
 //商机部分路由
-            Route::group(['namespace'=>'home\Business'],function(){
+            Route::group(['namespace' => 'home\Business'], function () {
                 //    商机主页
-                Route::get('/business','BusinessController@index');
+                Route::get('/business', 'BusinessController@index');
                 //    发布聊聊
-                Route::get('/chat','BusinessController@chat');
-                //    发布工程
-                Route::get('/releaseeg','BusinessController@releaseeg');
-//
-
+                Route::get('/chat', 'BusinessController@chat');
             });
             /*
               *   找货板块
               */
-            Route::resource('/sergoods','home\Findgoods\FindgoodsController');
+            Route::resource('/sergoods', 'home\Findgoods\FindgoodsController');
             /*
               *   人才板块
               */
-            Route::resource('/talent','home\Talent\TalentController');
+            Route::resource('/talent', 'home\Talent\TalentController');
             /*
               *   工程板块
               */
-            Route::resource('/project','home\project\ProjectController');
-
+            Route::resource('/project', 'home\project\ProjectController');
 
 
 //    个人中心部分路由
-            Route::group(['namespace'=>'home\Pcenter'],function() {
+            Route::group(['namespace' => 'home\Pcenter'], function () {
 //        服务消息
-                Route::get('/servermsg','IndexController@servermsg');
+                Route::get('/servermsg', 'IndexController@servermsg');
 //        地址管理
-                Route::get('/adress','IndexController@adress');
+                Route::get('/adress', 'IndexController@adress');
 //        申请商铺
-                Route::get('/applysp','IndexController@applysp');
+                Route::get('/applysp', 'IndexController@applysp');
 //        基本资料
-                Route::get('/basics','IndexController@basics');
+                Route::get('/basics', 'IndexController@basics');
 //        商铺认证
-                Route::get('/honor','IndexController@honor');
+                Route::get('/honor', 'IndexController@honor');
 //        我的发布
-                Route::get('/mypublish','IndexController@publish');
+                Route::get('/mypublish', 'IndexController@publish');
 //        发包工程
-                Route::get('/conwork','IndexController@work');
+                Route::get('/conwork', 'IndexController@work');
 //        上传头像
-                Route::get('/uphead','IndexController@uphead');
+                Route::get('/uphead', 'IndexController@uphead');
 
 
 //        个人中心收藏
 //        商品
-                Route::get('/colgoods','IndexController@colgoods');
+                Route::get('/colgoods', 'IndexController@colgoods');
 //        商铺
-                Route::get('/colshop','IndexController@colshop');
+                Route::get('/colshop', 'IndexController@colshop');
 //        社区
-                Route::get('/colcommunity','IndexController@colcommunity');
+                Route::get('/colcommunity', 'IndexController@colcommunity');
 
 
             });
 
 
+            //个人中心
+            Route::controller('/pcenter', 'Home\Pcenter\IndexController');
+            //前台注册
+            //前台注册
+            Route::resource('/user/register', 'Home\User\RegController');
+            //手机短信
+            Route::post('/user/smsauth', 'Home\User\RegController@smsauth');
+            //前台登录
+            Route::resource('/user/login', 'Home\User\LoginController');
+            //前台重置密码
+            Route::resource('/user/forgetpwd', 'Home\User\ForgetpwdController');
 
-
-        //个人中心
-        Route::controller('/pcenter','Home\Pcenter\IndexController');
-        //前台注册
-        //前台注册
-        Route::resource('/user/register','Home\User\RegController');
-        //手机短信
-        Route::post('/user/smsauth','Home\User\RegController@smsauth');
-        //前台登录
-        Route::resource('/user/login','Home\User\LoginController');
-        //前台重置密码
-        Route::resource('/user/forgetpwd','Home\User\ForgetpwdController');
-
-        //设备选购
-        Route::controller('equipment','home\equipment\EquipmentController');
-
-
-
+            //设备选购
+            Route::controller('equipment', 'home\equipment\EquipmentController');
             /*
             * 资讯
             */
-            Route::group(['namespace'=>'Home\Info'],function(){
+            Route::group(['namespace' => 'Home\Info'], function () {
 //        资讯首页
-                Route::get('/info','InfoController@index');
+                Route::get('/info', 'InfoController@index');
 //        咨询详情页
-                Route::get('/info/{infor_id}','InfoController@info');
+                Route::get('/info/{infor_id}', 'InfoController@info');
 //        干货上传页面
-                Route::get('/upload','InfoController@upload');
+                Route::get('/upload', 'InfoController@upload');
 
-                Route::any('/uploadify','InfoController@uploadify');
+                Route::any('/uploadify', 'InfoController@uploadify');
             });
 
 
@@ -681,25 +677,42 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
              * 社区
              */
 
-            Route::group(['namespace'=> 'Home\Community'],function (){
+            Route::group(['namespace' => 'Home\Community'], function () {
 //        社区首页
-                Route::get('/community','CommunityController@index');
+                Route::get('/community', 'CommunityController@index');
 //        聊聊详情页
-                Route::get('/chat/{chat_id}','CommunityController@chat');
+                Route::get('/chat/{chat_id}', 'CommunityController@chat');
+
+                /*
+                * 资讯
+                */
+                Route::resource('info', 'Home\Info\InfoController');
+
+                Route::get('/question', 'CommunityController@question');
+//        活动
+                Route::get('/activity', 'CommunityController@activity');
+
+            });
+
+            /*
+             * 社区
+           */
+
+            Route::group(['namespace' => 'Home\Community'], function () {
+//        社区
+                Route::resource('community', 'CommunityController');
+
 //        闲聊
-                Route::get('/talk','CommunityController@talk');
+                Route::get('/talk', 'CommunityController@talk');
 //        问问
-                Route::get('/question','CommunityController@question');
+
+                Route::get('/question', 'CommunityController@question');
 //            活动
-                Route::get('/activity','CommunityController@activity');
+                Route::get('/activity', 'CommunityController@activity');
             });
 
 
-
         });
-
-
-});
-
 //验证码类,需要传入数字
-Route::get('/captcha/{num}', 'CaptchaController@captcha');
+        Route::get('/captcha/{num}', 'CaptchaController@captcha');
+    });

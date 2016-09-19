@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>安虫首页</title>
     <link rel="stylesheet" type="text/css" href="home/css/index.css">
+    <script src="home/js/jquery-3.1.0.js"></script>
+    <script src="home/js/indexjs.js"></script>
 </head>
 <body>
 @include('inc.home.site-top')
@@ -38,15 +40,13 @@
                     <a href="{{url('/business')}}">商机</a>
                     <span class="business-triangle"></span>
                     <div class="business-list">
-                        <p><a href="{{url('/gc')}}">工程</a></p>
-                        <p><a href="{{url('/orderlist')}}">人才</a></p>
-                        <p><a href="{{url('/fngoods')}}">找货</a></p>
-                        <p><a href="{{url('orderlist')}}">人才</a></p>
+                        <p><a href="{{url('/project')}}">工程</a></p>
+                        <p><a href="{{url('/talent')}}">人才</a></p>
                         <p><a href="{{url('/sergoods')}}">找货</a></p>
                     </div>
                 </li>
                 <li class="community nav-item"><a href="{{url('/community')}}">社区</a></li>
-                <li class="equipment nav-item"><a href="{{url('/ancself')}}">设备选购</a></li>
+                <li class="equipment nav-item"><a href="{{url('/equipment ')}}">设备选购</a></li>
                 <li class="news nav-item"><a href="{{url('/info')}}">资讯</a></li>
             </ul>
         </div>
@@ -139,10 +139,10 @@
         <div class="server">
             <h1>为您服务</h1>
             <ul>
-                <li class="server-item"><a href="{{url('/gc')}}"><img src="home/images/85.jpg"></a></li>
-                <li class="server-item"><a href="{{url('/gc')}}"><img src="home/images/86.jpg"></a></li>
-                <li class="server-item"><a href="{{url('/talentlist')}}"><img src="home/images/87.jpg"></a></li>
-                <li class="server-item1"><a href="{{url('/ancself')}}"><img src="home/images/88.jpg"></a></li>
+                <li class="server-item"><a href="{{url('/project')}}"><img src="home/images/85.jpg"></a></li>
+                <li class="server-item"><a href="{{url('/project')}}"><img src="home/images/86.jpg"></a></li>
+                <li class="server-item"><a href="{{url('/talent')}}"><img src="home/images/87.jpg"></a></li>
+                <li class="server-item1"><a href="{{url('/sergoods')}}"><img src="home/images/88.jpg"></a></li>
             </ul>
         </div>
         <div class="hot">

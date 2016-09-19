@@ -189,7 +189,7 @@ class AdvertController extends Controller
         $information_data=[
             'title' => $data['title'],
             'img' => $data['pic'][0]['url'],
-            'content' => '<style>img{max-width:100%;}</style>'.$data['param'],
+            'content' => '<style>img{max-width:100%;}</style><h1 class="h1_h1" style="margin: 0px; padding: 0px; border: 0px; font-size: 26px; width: 100%; color: rgb(51, 51, 51); font-weight: normal;">'.$data['title'].'</h1>'.$data['param'],
             'created_at' => date('Y-m-d H:i:s',time())
         ];
         //进行插入

@@ -18,21 +18,35 @@ class InfoController extends Controller
         return view('home.info.index',compact('info'));
     }
 //  资讯详情页
-    public function info($infor_id)
+    public function show($infor_id)
     {
         $info = Information::find($infor_id);
         return view('home.info.info',compact('info'));
     }
 //  干货上传
-    public function upload()
+    public function create()
     {
         return view('home.info.upload');
     }
     
-//    干货上传验证
-    public function uploadify()
+//   保存上传干货数据
+    public function store()
     {
 
     }
-    
+//    编辑干货内容
+    public function edit()
+    {
+        
+    }
+//  保存编辑的内容
+    public function save()
+    {
+        
+    }
+//    删除上传的干货
+    public function destroy()
+    {
+        
+    }
 }
