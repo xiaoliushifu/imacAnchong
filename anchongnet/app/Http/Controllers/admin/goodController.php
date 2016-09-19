@@ -285,15 +285,13 @@ class goodController extends Controller
     {
         DB::beginTransaction();
         $data=$this->Goods_specifications->find($id);
-        $data->goods_id=$request->name;
         //$data->cat_id=$request->midselect;
         $data->goods_name=$request->spetag;
         $data->model=$request->model;
         $data->market_price=$request->marketprice;
         $data->goods_price=$request->costpirce;
         $data->vip_price=$request->viprice;
-        $data->goods_desc=$request->description;
-        $data->title=trim($request->goodsname);
+        $data->goods_desc=$request->description;//商品描述
         //是否上架
         $data->added=$request->status;
         if($request->status==1){
@@ -329,16 +327,10 @@ class goodController extends Controller
             $arr_key=array_merge($arr_key, $this->keyProcess($request->keywords));//关键字
             $arr_key=array_unique($arr_key);
             $keywords=str_replace('20', ' ', bin2hex(implode(' ', $arr_key)));
-            $results=DB::table('anchong_goods_keyword')->where('cat_id', $cat_ids[0])->update(['keyword'=>$keywords]);
-            if($results){
-                //假如成功就提交
-                DB::commit();
-                return redirect()->back();
-            }else{
-                DB::rollback();
-                return redirect()->back();
-            }
-        }else{
+            DB::table('anchong_goods_keyword')->where('cat_id', $cat_ids[0])->update(['keyword'=>$keywords]);
+            DB::commit();
+            return redirect()->back();
+        } else {
             DB::rollback();
             return redirect()->back();
         }

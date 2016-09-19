@@ -443,24 +443,26 @@ class GoodsController extends Controller
         try{
                 $data=$request::all();
                 $param=json_decode($data['param'],true);
-                //分析三个搜索参数
-                /*查询字符串是空格分开的字符串时，目前的处理，拆分留一个*/
-                $param['search'] = preg_split('#\s#',$param['search'],-1,PREG_SPLIT_NO_EMPTY)[0];
-
-                $kl = mb_strlen($param['search'],'utf-8');
-                //需要在录入商品中，添加关键字的时候，注意，空格分开的每个独立的关键字不能超过14个utf-8汉字。
-                if ($kl<1 || $kl>20) {
-                    return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"没有找到相关的商品"]]);
-                }
                 $where=array();
                 //封装where
                 foreach ($param as $key=>$val) {
                     if (!$val) {
                         continue;
                     }
+                    //大写
+                    $val = strtoupper($val);
                     if (in_array($key,['tags','search'])) {
-                        //字母字符转大写,使得有关英文字符的搜索不区分大小写
-                        $where[]="match(`$key`) against('".bin2hex(strtoupper($val))."')";
+                        //分析search
+                        $tmparr = preg_split('#\s#',$val,-1,PREG_SPLIT_NO_EMPTY);
+                        foreach ($tmparr as $k=>$v) {
+                            $kl = strlen($v);
+                            if ($kl < 4 || $kl > 84) {
+                                unset($tmparr[$k]);
+                            }
+                        }
+                        $oristr = implode(' ',$tmparr);
+                        $sp = bin2hex($oristr);
+                        $where[]="match(`$key`) against('".str_replace('20',' ',$sp)."')";
                     }
                     if ($key=='cid') {
                         $where[]="$key='$val'";
@@ -469,7 +471,8 @@ class GoodsController extends Controller
                 $where=implode(' and ',$where);
                 $where = str_replace('`search`', '`keyword`',$where);
                 //缓存判定
-                if (!$result = Cache::get($where)) {
+                if (!$result = Cache::get("search@".$sp)) {
+                    \Log::info($oristr,['search@']);//统计
                     //索引表查询
                     $tmp=DB::select("select `cat_id` from `anchong_goods_keyword` where ".$where);
                     if (!$tmp) {
@@ -502,8 +505,8 @@ class GoodsController extends Controller
                     }
                     $result['total']=count($res);
                     //统计一次该关键字的查询次数
-                    DB::table('anchong_goods_suggestion')->where('str',$param['search'])->increment('qnums');
-                    Cache::add($where,$result,'60');
+                    DB::table('anchong_goods_suggestion')->where('str',$oristr)->increment('qnums');
+                    Cache::add("search@".$sp,$result,'1');
                 }
                 $showprice=0;
                 if ($data['guid'] != 0) {
