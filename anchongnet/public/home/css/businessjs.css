@@ -1,18 +1,10 @@
 .business-triangle{
     cursor: pointer
 }
-<<<<<<< HEAD
 .navcontent li{
     position: relative;
 }
 .buslist{cursor: pointer}
-=======
-
-.buslist{cursor: pointer;
-position: relative;
-
-}
->>>>>>> 8994429f0ab051abce32e18e219fdcc31b671985
 .cart{
     position: absolute;
     display: none;
