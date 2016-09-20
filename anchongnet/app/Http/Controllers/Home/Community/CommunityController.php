@@ -39,16 +39,6 @@ class CommunityController extends Controller
 
         return view('home/community/chat',compact('info','comment','replay'));
     }
-//    评论上传
-    public function store()
-    {
-        
-    }
-//    删除已发布的聊聊
-    public function destory()
-    {
-
-    }
 
 //    闲聊
     public function talk()

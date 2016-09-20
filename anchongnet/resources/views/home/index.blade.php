@@ -91,7 +91,7 @@
             <h1>推荐工程</h1>
             <ul class="recommended-list">
                 <li class="recommended-left recommend-1">
-                    <a href="{{url('pro/'.$hot[0]->bid)}}">
+                    <a href="{{url('project/'.$hot[0]->bid)}}">
                         <img src="{{$hot[0]->img}}">
                         <p>{{$hot[0]->title}}</p>
                     </a>
@@ -99,19 +99,19 @@
                 <li class="recommended-cnter">
                     <ul>
                         <li class="recommend-2">
-                            <a href="{{url('pro/'.$hot[1]->bid)}}">
+                            <a href="{{url('project/'.$hot[1]->bid)}}">
                                 <img src="{{$hot[1]->img}}">
                                 <p>{{$hot[1]->title}}</p>
                             </a>
                         </li>
                         <li class="recommend-3">
-                            <a href="{{url('pro/'.$hot[2]->bid)}}">
+                            <a href="{{url('project/'.$hot[2]->bid)}}">
                                 <img src="{{$hot[2]->img}}">
                                 <p>{{$hot[2]->title}}</p>
                             </a>
                         </li>
                         <li class="recommend-4">
-                            <a href="{{url('pro/'.$hot[4]->bid)}}">
+                            <a href="{{url('project/'.$hot[4]->bid)}}">
                                 <img src="{{$hot[3]->img}}">
                                 <p>{{$hot[3]->title}}</p>
                             </a>
@@ -119,7 +119,7 @@
                     </ul>
                 </li>
                 <li class="recommend-5 recommended-right">
-                    <a href="{{url('pro/'.$hot[4]->bid)}}">
+                    <a href="{{url('project/'.$hot[4]->bid)}}">
                         <img src="{{$hot[4]->img}}">
                         <p>{{$hot[4]->title}}</p>
                     </a>
@@ -142,7 +142,7 @@
                 <li class="server-item"><a href="{{url('/project')}}"><img src="home/images/85.jpg"></a></li>
                 <li class="server-item"><a href="{{url('/project')}}"><img src="home/images/86.jpg"></a></li>
                 <li class="server-item"><a href="{{url('/talent')}}"><img src="home/images/87.jpg"></a></li>
-                <li class="server-item1"><a href="{{url('/sergoods')}}"><img src="home/images/88.jpg"></a></li>
+                <li class="server-item1"><a href="{{url('/')}}"><img src="home/images/88.jpg"></a></li>
             </ul>
         </div>
         <div class="hot">
@@ -157,7 +157,7 @@
                     <ul>
                         @foreach($community as $value)
                         <li>
-                            <h3><a href="{{url('/chat/'.$value -> chat_id)}}">{{$value -> title}}</a></h3>
+                            <h3><a href="{{url('/community/'.$value -> chat_id)}}">{{$value -> title}}</a></h3>
                             <p>{!! $value -> content !!}</p>
                         </li>
                         @endforeach
@@ -174,7 +174,7 @@
                     </p>
                     @foreach($talent as $value)
                     <p class="talent-item">
-                        <a href="{{url('/talentlist')}}" class="district">{{$value -> tags}}</a>
+                        <a href="{{url('/talent')}}" class="district">{{$value -> tags}}</a>
                         <a href="{{url('/talent/'.$value->bid)}}" class="talent-name">{{$value -> contact}}</a>
                     </p>
                     @endforeach

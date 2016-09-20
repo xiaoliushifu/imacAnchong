@@ -46,9 +46,7 @@
             <img src="/home/images/info/uploading.png">
         </div>
         <div class="upload-content">
-            <div class="webuploader-container">
-                <div class=""></div>
-            </div>
+            <div class="picker"></div>
             <p>从我的电脑选择要上传的文档：按住CTRL可以上传多份文档</p>
         </div>
         <div class="tips">

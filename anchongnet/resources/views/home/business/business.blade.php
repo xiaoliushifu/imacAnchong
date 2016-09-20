@@ -137,26 +137,26 @@
          </div>
         <div class="centermain">
             <div class="centermain-left">
-                <a href="{{url('pro/'.$hot[0]->bid)}}"><img src="{{$hot[0]->img}}" alt=""></a>
+                <a href="{{url('project/'.$hot[0]->bid)}}"><img src="{{$hot[0]->img}}" alt=""></a>
                 <div class="centermain-left-title"><p>{{$hot[0]->title}}</p></div>
             </div>
 
             <div class="centermain-center">
                 <div class="center-top">
-                    <a href="{{url('pro/'.$hot[1]->bid)}}"><img src="{{$hot[1]->img}}" alt=""></a>
+                    <a href="{{url('project/'.$hot[1]->bid)}}"><img src="{{$hot[1]->img}}" alt=""></a>
                     <div class="center-top-title"><p>{{$hot[1]->title}}</p></div>
                 </div>
 
                 <div class="center-down">
-                    <a href="{{url('pro/'.$hot[2]->bid)}}"> <img src="{{$hot[2]->img}}" alt=""></a>
+                    <a href="{{url('project/'.$hot[2]->bid)}}"> <img src="{{$hot[2]->img}}" alt=""></a>
 
-                    <a href="{{url('pro/'.$hot[3]->bid)}}"><img src="{{$hot[3]->img}}" alt=""></a>
+                    <a href="{{url('project/'.$hot[3]->bid)}}"><img src="{{$hot[3]->img}}" alt=""></a>
                     <div class="center-down-1"><p>{{$hot[2]->title}}</p></div>
                     <div class="center-down-2"><p>{{$hot[3]->title}}</p></div>
                 </div>
             </div>
             <div class="centermain-right">
-                <a href="{{url('pro/'.$hot[4]->bid)}}"><img src="{{$hot[4]->img}}" alt=""></a>
+                <a href="{{url('project/'.$hot[4]->bid)}}"><img src="{{$hot[4]->img}}" alt=""></a>
                 <div class="centermain-right-title"><p>{{$hot[4]->title}}</p></div>
             </div>
 
