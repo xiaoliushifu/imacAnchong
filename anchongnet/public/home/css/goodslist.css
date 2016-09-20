@@ -337,16 +337,26 @@ overflow: hidden;
     height: 272px;
     padding: 10px 10px;
 }
-.goodsdetail li a{
+
+.goodsdetail li p a{
+    width: 270px;
     font-size: 14px;
     font-weight: bold;
     text-decoration: none;
     color: #606060;
+    text-overflow: ellipsis;
+
 }
+
 .goodsdetail li p{
+    text-overflow: ellipsis;
+    width: 270px;
     margin-left: 10px;
     margin-bottom: 10px;
+    overflow: hidden;
 }
+
+
 .vip{
     font-size: 18px;
     font-weight: bold;

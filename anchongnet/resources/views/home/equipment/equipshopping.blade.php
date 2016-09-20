@@ -49,7 +49,7 @@
             <ul>
                 <li><a href="#">首页</a></li>
                 @foreach($nav as $a)
-                <li><a href="#">{{$a->cat_name}}</a></li>
+                <li><a href="{{url('equipment/list/'.$a->cat_id)}}">{{$a->cat_name}}</a></li>
                 @endforeach
                 {{--<li><a href="#">视频监控</a></li>--}}
                 {{--<li><a href="#">探测报告</a></li>--}}
@@ -151,7 +151,7 @@
             <hr>
             <div class="maingoods-list">
                 <div class="maingoods-one">
-                    <img src="home/images/shebei/59.jpg" alt="">
+                    <img src="" alt="">
                     <p>
                         @foreach($one as $o)
                         <a href="#">{{$o->cat_name}}</a><span>|</span>

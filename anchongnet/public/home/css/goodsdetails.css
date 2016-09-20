@@ -481,6 +481,10 @@ overflow: hidden;
     margin-top: 8px;
     border-radius: 5px;
 }
+.shop-pic img{
+    width: 190px;
+    height: 135px;
+}
 .flagshop{
     background: #F5F5F5;
     text-align: center;

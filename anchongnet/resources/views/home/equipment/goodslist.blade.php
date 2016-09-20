@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>商品列表</title>
-    <link rel="stylesheet" href="../home/css/goodslist.css">
+    <link rel="stylesheet" href="{{asset('home/css/goodslist.css')}}">
 
 </head>
 <body>
@@ -14,10 +14,10 @@
                 <li>邮箱：www.@anchong.net</li>
                 <li><div class="shop-ioc">
                     <a href="">购物车</a>
-                    <a href=""><img src="../home/images/shebei/10.jpg" alt=""  style="width: 16px;height: 40px;margin-top: 0px;margin-left: 2px;"></a>
+                    <a href=""><img src="{{asset('home/images/shebei/10.jpg')}}" alt=""  style="width: 16px;height: 40px;margin-top: 0px;margin-left: 2px;"></a>
                 </div></li>
                 <li>垂询电话:0317-8155026</li>
-                <li><img src="../home/images/shebei/6.jpg" alt=""></li>
+                <li><img src="{{asset('home/images/shebei/6.jpg')}}" alt=""></li>
                 <li style="padding-left: 10px;"><a href="#">风信子<b class="caret"></b></a></li>
             </ul>
         </div>
@@ -26,7 +26,7 @@
 <div class="header-center">
     <div class="header-main">
         <div class="logo">
-            <a href="{{url('/')}}"><img src="../home/images/shebei/12.jpg" alt=""></a>
+            <a href="{{url('/')}}"><img src="{{asset('home/images/shebei/12.jpg')}}" alt=""></a>
         </div>
         <div class="search">
             <div class="searchbar">
@@ -144,10 +144,10 @@
         <div class="afterserver">
            <ul class="afterserver-list">
                <li class="promise" style="width: 180px;">安虫承诺</li>
-               <li><a href=""><img src="../home/images/shebei/保.png" alt="">正品保证</a></li>
-               <li><img src="../home/images/shebei/正.png" alt=""><a href="">正规发票</a></li>
-               <li><img src="../home/images/shebei/定.png" alt=""><a href="">定时送货</a></li>
-               <li><img src="../home/images/shebei/退.png" alt=""><a href="">退换无忧</a></li>
+               <li><a href=""><img src="{{asset('home/images/shebei/保.png')}}" alt="">正品保证</a></li>
+               <li><img src="{{asset('home/images/shebei/正.png')}}" alt=""><a href="">正规发票</a></li>
+               <li><img src="{{asset('home/images/shebei/定.png')}}" alt=""><a href="">定时送货</a></li>
+               <li><img src="{{asset('home/images/shebei/退.png')}}" alt=""><a href="">退换无忧</a></li>
            </ul>
         </div>
 
@@ -155,11 +155,11 @@
                 <li class="ranking" style="width: 180px;">排&nbsp;&nbsp;序</li>
                 <li><a href="">全部</a></li>
                 <li><a href="">销量</a></li>
-                <li class="price"><a href="">价格</a><img src="../home/images/shebei/upp.png" alt=""><img src="../home/images/shebei/don.png" alt=""></li>
+                <li class="price"><a href="">价格</a><img src="{{asset('home/images/shebei/upp.png')}}" alt=""><img src="{{asset('home/images/shebei/don.png')}}" alt=""></li>
 
                 <li style="width: 400px; float: right ;text-align: right;" class="pagmm">
-                    <a href=""><img src="../home/images/shebei/下一页.png" alt=""></a>
-                    <a href=""><img src="../home/images/shebei/上一页.png" alt=""></a>
+                    <a href=""><img src="{{asset('home/images/shebei/下一页.png')}}" alt=""></a>
+                    <a href=""><img src="{{asset('home/images/shebei/上一页.png')}}" alt=""></a>
                 </li>
             </ul>
 
@@ -170,86 +170,88 @@
     <div class="submaindetail">
         <div class="goodsdetail">
             <ul>
+                @foreach( $test as $t)
                 <li>
-                    <a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>
-                    <a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>
-                    <span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>
+                    <a href="{{url('equipment/show/'.$t->goods_id.'/'.$t->gid)}}"><img src="{{$t->pic}}" alt=""></a>
+                    <nobr><p><a href="">{{$t->title}}</a></p></nobr>
+                    <span class="vip">会员价：{{$t->vip_price}}</span><span class="common">价格：￥{{$t->price}}</span>
                 </li>
-                <li>
-                    <a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>
-                    <a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>
-                    <span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>
-                </li>
-                <li>
-                    <a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>
-                    <a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>
-                    <span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>
-                </li>
-                <li>
-                    <a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>
-                    <a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>
-                    <span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>
-                </li>
-                <li>
-                    <a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>
-                    <a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>
-                    <span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>
-                </li>
-                <li>
-                    <a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>
-                    <a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>
-                    <span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>
-                </li>
-                <li>
-                    <a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>
-                    <a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>
-                    <span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>
-                </li>
-                <li>
-                    <a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>
-                    <a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>
-                    <span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>
-                </li>
-                <li>
-                    <a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>
-                    <a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>
-                    <span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>
-                </li>
-                <li>
-                    <a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>
-                    <a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>
-                    <span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>
-                </li>
-                <li>
-                    <a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>
-                    <a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>
-                    <span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>
-                </li>
-                <li>
-                    <a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>
-                    <a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>
-                    <span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>
-                </li>
-                <li>
-                    <a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>
-                    <a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>
-                    <span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>
-                </li>
-                <li>
-                    <a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>
-                    <a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>
-                    <span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>
-                </li>
-                <li>
-                    <a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>
-                    <a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>
-                    <span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>
-                </li>
-                <li>
-                    <a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>
-                    <a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>
-                    <span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>
-                </li>
+                @endforeach
+                {{--<li>--}}
+                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
+                    {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
+                    {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
+                    {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
+                    {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
+                    {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
+                    {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
+                    {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
+                    {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
+                    {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
+                    {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
+                    {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
+                    {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
+                    {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
+                    {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
+                    {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
+                {{--</li>--}}
             </ul>
         </div>
 
