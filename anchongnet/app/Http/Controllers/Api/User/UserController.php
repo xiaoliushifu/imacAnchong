@@ -220,23 +220,107 @@ class UserController extends Controller
         if ($validator->fails())
         {
             return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'密码小于六位']]);
+        }
+        //redis的验证码
+        if(Cache::get($param['phone'].'变更验证') != $param['phonecode']){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData'=>['Message'=>'手机验证错误']]);
+        }
+        Cache::forget($param['phone'].'变更验证');
+        $password_data=[
+            'password' => Hash::make($param['password'])
+        ];
+        $users_login=new \App\Users_login();
+        $result=$users_login->updatepassword($param['phone'],$password_data);
+        if($result){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'密码修改成功']]);
         }else{
-            //redis的验证码
-            if(Cache::get($param['phone'].'变更验证') == $param['phonecode']){
-                Cache::forget($param['phone'].'变更验证');
-                $password_data=[
-                    'password' => Hash::make($param['password'])
-                ];
-                $users_login=new \App\Users_login();
-                $result=$users_login->updatepassword($param['phone'],$password_data);
-                if($result){
-                    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'密码修改成功']]);
-                }else{
-                    return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'密码修改失败']]);
-                }
-            }else{
-                return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData'=>['Message'=>'手机验证错误']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'密码修改失败']]);
+        }
+    }
+
+    /*
+    *   修改密码
+    */
+    public function editpassword(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //验证用户传过来的数据是否合法
+        $validator = Validator::make($param,
+        [
+            'oldpassword' => 'required|min:6',
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required',
+        ]
+        );
+        //如果出错返回出错信息，如果正确执行下面的操作
+        if ($validator->fails())
+        {
+            $messages = $validator->errors();
+            if($messages->has('oldpassword')){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'旧密码输入不正确']]);
+            }else if($messages->has('password')){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'新密码不能为空，且不能小于6位']]);
+            }else if($messages->has('password_confirmation')){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'两次新密码不一致']]);
             }
+        }
+        //验证旧密码是否正确
+        if (!Auth::attempt(['users_id' => $data['guid'], 'password' => $param['oldpassword']]))
+        {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'旧密码输入不正确']]);
+        }
+        //更新密码
+        $result=DB::table('anchong_users_login')->where('users_id', $data['guid'])->update(['password' => Hash::make($param['password'])]);
+        //判断是否更新成功
+        if($result){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'密码修改成功']]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'密码修改失败']]);
+        }
+    }
+
+    /*
+    *   支付密码设置
+    */
+    public function paypassword(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //验证用户传过来的数据是否合法
+        $validator = Validator::make($param,
+        [
+            'phone' => 'required',
+            'password' => 'required|digits:6',
+            'phonecode' => 'required',
+        ]
+        );
+        //如果出错返回出错信息，如果正确执行下面的操作
+        if ($validator->fails())
+        {
+            $messages = $validator->errors();
+            if($messages->has('password')){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'密码必须为六位数字']]);
+            }else if($messages->has('phone')){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'手机号不能为空']]);
+            }else if($messages->has('phonecode')){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'手机验证码不能为空']]);
+            }
+        }
+        //判断手机验证码是否正确
+        if(Cache::get($param['phone'].'身份验证') != $param['phonecode']){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData'=>['Message'=>'手机验证错误']]);
+        }
+        Cache::forget($param['phone'].'身份验证');
+        //更新密码
+        $result=DB::table('anchong_users')->where('phone', $param['phone'])->update(['password' => md5($param['password'])]);
+        //判断是否更新成功
+        if($result){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'密码设置成功']]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>2,'ResultData'=>['Message'=>'密码设置失败']]);
         }
     }
 }

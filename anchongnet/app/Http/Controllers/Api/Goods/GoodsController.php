@@ -17,7 +17,7 @@ use Illuminate\Support\Collection;
 class GoodsController extends Controller
 {
     /*
-    *   商品发布
+    *   商品发布(暂时未使用)
     */
     public function goodsrelease(Request $request)
     {

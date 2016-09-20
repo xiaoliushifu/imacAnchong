@@ -12,6 +12,7 @@ use Log;
 use EasyWeChat\Payment\Order;
 use QrCode;
 use Cache;
+use Hash;
 
 /*
 *   支付控制器
@@ -37,6 +38,16 @@ class PayController extends Controller
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
         $param=json_decode($data['param'],true);
+        //取出支付密码
+        $paypassword=DB::table('anchong_users')->where('users_id',$data['guid'])->pluck('password');
+        //判断用户是否设置支付密码
+        if(!$paypassword[0]){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请先设置支付密码']]);
+        }
+        //判断支付密码是否可用(后期做大以后一定记得控制错误次数)
+        if($paypassword[0] != md5($param['paypassword'])){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>4,'ResultData'=>['Message'=>'支付密码错误']]);
+        }
         $pay_datas=DB::table('anchong_pay')->select('order_id','total_price')->where('paynum',$param['outTradeNo'])->get();
         //开启事务处理
         DB::beginTransaction();
@@ -132,6 +143,16 @@ class PayController extends Controller
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
         $param=json_decode($data['param'],true);
+        //取出支付密码
+        $paypassword=DB::table('anchong_users')->where('users_id',$data['guid'])->pluck('password');
+        //判断用户是否设置支付密码
+        if(!$paypassword[0]){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请先设置支付密码']]);
+        }
+        //判断支付密码是否可用(后期做大以后一定记得控制错误次数)
+        if($paypassword[0] != md5($param['paypassword'])){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>4,'ResultData'=>['Message'=>'支付密码错误']]);
+        }
         //开启事务处理
         DB::beginTransaction();
         //创建ORM模型
