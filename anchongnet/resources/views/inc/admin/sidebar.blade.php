@@ -31,6 +31,7 @@
     				<li><a href="/permission/role"><i class="fa fa-circle-o"></i> 角色设置</a></li>
     				<li><a href="/permission/cp"><i class="fa fa-circle-o"></i> 权限添加</a></li>
     				<li><a href="/permission/cr"><i class="fa fa-circle-o"></i> 角色添加</a></li>
+    				<li><a href="/search/page"><i class="fa fa-circle-o"></i> 商品搜索</a></li>
     			</ul>
     		</li>
     		<li class="treeview" id="treecoupon">

@@ -438,7 +438,7 @@ class GoodsController extends Controller
     /*
     *   根据商品关键字，进行搜索
     */
-    public function goodssearch(Request $request)
+    static public function goodssearch(Request $request)
     {
         try{
                 $data=$request::all();
@@ -471,7 +471,7 @@ class GoodsController extends Controller
                 $where=implode(' and ',$where);
                 $where = str_replace('`search`', '`keyword`',$where);
                 //缓存判定
-                if (!$result = Cache::get("search@".$sp)) {
+                if (!$result = Cache::tags('s')->get("search@".$sp)) {
                     \Log::info($oristr,['search@']);//统计
                     //索引表查询
                     $tmp=DB::select("select `cat_id` from `anchong_goods_keyword` where ".$where);
@@ -506,7 +506,7 @@ class GoodsController extends Controller
                     $result['total']=count($res);
                     //统计一次该关键字的查询次数
                     DB::table('anchong_goods_suggestion')->where('str',$oristr)->increment('qnums');
-                    Cache::add("search@".$sp,$result,'1');
+                    Cache::tags('s')->add("search@".$sp,$result,'60');
                 }
                 $showprice=0;
                 if ($data['guid'] != 0) {
