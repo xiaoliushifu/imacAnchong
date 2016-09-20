@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>商品详情</title>
-    <link rel="stylesheet" href="../home/css/goodsdetails.css">
+    <link rel="stylesheet" href="{{asset('home/css/goodsdetails.css')}}">
     <script src="../js/jquery-3.1.0.min.js"></script>
 
 </head>
@@ -71,19 +71,19 @@
         <div class="main">
             <div class="top-main">
                 <div class="top-main-left">
-                    <div class="mastermap"><img src="../home/images/shebei/15.jpg" alt=""></div>
+                    <div class="mastermap"><img src="{{$img[0]->img_url}}" alt=""></div>
                     <ul class="detailmap">
-                        <li><img src="../home/images/shebei/16.jpg" alt=""></li>
-                        <li><img src="../home/images/shebei/17.jpg" alt=""></li>
-                        <li><img src="../home/images/shebei/18.jpg" alt=""></li>
-                        <li><img src="../home/images/shebei/19.jpg" alt=""></li>
-                        <li><img src="../home/images/shebei/20.jpg" alt=""></li>
+                        <li><img src="{{$img[0]->thumb_url}}" alt=""></li>
+                        <li><img src="{{$img[1]->thumb_url}}" alt=""></li>
+                        <li><img src="{{$img[2]->thumb_url}}" alt=""></li>
+                        <li><img src="{{$img[3]->thumb_url}}" alt=""></li>
+                        <li><img src="{{$img[4]->thumb_url}}" alt=""></li>
                     </ul>
                 </div>
                 <div class="top-main-right">
                     <div class="goodstitle">
-                        <h3>无线声光防盗报警器家用防盗器红外线报警..</h3>
-                        <p>高音超响 爆闪红灯 声光大作 无需布线 扩展方便</p>
+                        <h3>{{$data->title}}.</h3>
+                        <p>{{$data->desc}}</p>
                     </div>
                     <div class="goodsprice">
                         <p>价格：￥289</p>
@@ -169,8 +169,8 @@
         <div class="main-right">
            <div class="flagshop">
                <div class="flagshop-main">
-               <div class="shop-title"><h4>安尼维尔旗舰店</h4><a href="">进入店铺</a></div>
-               <div class="shop-pic"><img src="../home/images/shebei/28.jpg" alt=""></div>
+               <div class="shop-title"><h4>{{$shop[0]->name}}</h4><a href="">进入店铺</a></div>
+               <div class="shop-pic"><img src="{{$shop[0]->img}}" alt=""></div>
 
                <div class="shop-server">
                    <ul>
@@ -205,14 +205,15 @@
         <div style="clear: both"></div>
         <hr>
           <div class="introductionpic">
-              <img src="../home/images/shebei/31.jpg" alt="">
-              <img src="../home/images/shebei/32.jpg" alt="">
-              <img src="../home/images/shebei/33.jpg" alt="">
-              <img src="../home/images/shebei/34.jpg" alt="">
-              <img src="../home/images/shebei/35.jpg" alt="">
-              <img src="../home/images/shebei/36.jpg" alt="">
-              <img src="../home/images/shebei/37.jpg" alt="">
-              <img src="../home/images/shebei/38.jpg" alt="">
+
+              <img src=" {{$data->images}}" alt="">
+              {{--<img src="../home/images/shebei/32.jpg" alt="">--}}
+              {{--<img src="../home/images/shebei/33.jpg" alt="">--}}
+              {{--<img src="../home/images/shebei/34.jpg" alt="">--}}
+              {{--<img src="../home/images/shebei/35.jpg" alt="">--}}
+              {{--<img src="../home/images/shebei/36.jpg" alt="">--}}
+              {{--<img src="../home/images/shebei/37.jpg" alt="">--}}
+              {{--<img src="../home/images/shebei/38.jpg" alt="">--}}
           </div>
 
 

@@ -25,7 +25,7 @@
 
 //接口路由组
 
-//Route::group(['domain' => 'api.anchong.net'], function () {
+Route::group(['domain' => 'api.anchong.net'], function () {
     Route::post('/community/chonggou','Api\Community\CommunityController@chonggou');
     Route::post('/business/chonggou','Api\Business\BusinessController@chonggou');
     //商品检索
@@ -328,7 +328,7 @@
         //直播测试
         Route::post('/live/live','Api\Live\LiveController@live');
     });
-//});
+});
 
 //支付宝路由
 Route::group(['domain' => 'pay.anchong.net'], function () {

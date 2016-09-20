@@ -30,7 +30,7 @@ class TalentController extends Controller
 
     public function show($bid)
     {
-                $data = Business::find($bid);
+         $data = Business::find($bid);
         $data->content = str_replace("\n", "<br>", $data->content);
         return view('home.talent.talentmain', compact('data'));
 

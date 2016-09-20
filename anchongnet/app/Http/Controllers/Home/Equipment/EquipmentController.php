@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Home\Equipment;
 
 
 use App\Category;
+use App\Goods;
 use App\Goods_brand;
+use App\Goods_thumb;
+use App\Goods_type;
+use App\Shop;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -13,6 +17,7 @@ class EquipmentController extends Controller
 {
     public function getIndex()
     {
+
 
 //        金牌店铺
         $brand = Goods_brand::orderBy('brand_id','asc')->take(4)->get();
@@ -42,16 +47,22 @@ class EquipmentController extends Controller
         $nav8 = Category::where(['is_show'=>1,'parent_id'=>8])->take(7)->get();
         $eight = Category::where(['is_show'=>1,'parent_id'=>8])->get();
         return view('home.equipment.equipshopping',compact('brand','nav','one',
-            'nav1','nav2','two','nav3','three','nav4','four','nav5','five','nav6','six','nav7','seven','nav8','eight'));
+            'nav1','nav2','two','nav3','three','nav4','four','nav5','five','nav6','six','nav7','seven','nav8','eight','test'));
    }
 
-    public function getList()
+    public function getList($cat_id)
     {
-        return view('home.equipment.goodslist');
+    $test = Goods_type::where('other_id',$cat_id)->orderBy('cat_id','desc')->paginate(16);
+
+     return view('home.equipment.goodslist',compact('test'));
     }
-    public function getShow()
+    public function getShow($goods_id,$gid)
     {
-        return view('home.equipment.goodsdetals');
+        $data = Goods::find($goods_id);
+       $img = Goods_thumb::where('gid',$gid)->get();
+         $shop = Shop::where('sid',$data->sid)->get();
+
+        return view('home.equipment.goodsdetals',compact('data','img','shop'));
     }
     public function getThirdshop()
     {
