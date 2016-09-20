@@ -69,6 +69,7 @@
                             </form>
                             <table id="example1" class="table table-bordered table-striped">
                                 <tr>
+                                    <th>商品ID</th>
                                     <th>货品属性</th>
                                     <th>市场价</th>
                                     <th>会员价</th>
@@ -78,6 +79,7 @@
                                 </tr>
                                 @foreach ($datacol['datas'] as $data)
                                     <tr>
+                                        <td align="center">{{$data['goods_id']}}</td>
                                         <td align="center">{{$data['goods_name']}}</td>
                                         <td align="center">{{$data['market_price']}}</td>
                                         <td align="center">{{$data['vip_price']}}</td>

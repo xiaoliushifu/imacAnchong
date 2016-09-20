@@ -106,7 +106,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="name">选择商品</label>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-8">
                                         <select class="form-control" id="name" name="name" required>
                                             <option value="">请选择</option>
                                         </select>
