@@ -48,8 +48,12 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/user/register','Api\User\UserController@register');
         //用户登录的接口
         Route::post('/user/login','Api\User\UserController@login');
-        //用户修改密码的接口
+        //用户忘记密码的接口
         Route::post('/user/forgetpassword','Api\User\UserController@forgetpassword');
+        //用户修改密码的接口
+        Route::post('/user/editpassword','Api\User\UserController@editpassword');
+        //用户设置支付密码
+        Route::post('/user/paypassword','Api\User\UserController@paypassword');
         //获得用户资料
         Route::post('/user/getmessage','Api\User\UsermessagesController@show');
         //修改用户资料

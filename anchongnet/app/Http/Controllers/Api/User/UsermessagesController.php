@@ -158,6 +158,7 @@ class UsermessagesController extends Controller
 						'shoplogo'=>$shoplogo,
 						'shopid'=>$shopid,
 						'beans' => $users_handle->beans,
+						'paypassword' => $users_handle->password?1:0,
 					],
 				]
 			);

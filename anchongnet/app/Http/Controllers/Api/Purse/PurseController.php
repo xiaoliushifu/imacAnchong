@@ -141,7 +141,6 @@ class PurseController extends Controller
             'users_id' => $data['guid'],
             'cpid' => $param['acpid'],
             'target' => $coupon_pool_handle->target,
-            'cvalue' => $coupon_pool_handle->cvalue,
             'shop' => $coupon_pool_handle->shop,
             'type' => $coupon_pool_handle->type,
             'type2' => $coupon_pool_handle->type2,
