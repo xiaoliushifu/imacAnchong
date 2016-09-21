@@ -207,6 +207,7 @@
                             </table>
                         </div>
                         <div class="clearfix"></div>
+                        <small class="text-danger">商品属性请谨慎修改，若修改请先删除已有的货品</small>
                     </div>
                     <hr>
                     <h5 class="text-center">图片信息</h5>

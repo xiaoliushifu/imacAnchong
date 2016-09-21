@@ -171,21 +171,13 @@ class commodityController extends Controller
     {
         $this->goods=new Goods();
         $data=$this->goods->where('goods_id',$id)->get(array('keyword','type','desc'));
-        if (!preg_match('#[\x{4e00}-\x{9fa5}]#u',$data[0]['keyword'])){
-            $arr=preg_split('#\s#', $data[0]['keyword'],-1,PREG_SPLIT_NO_EMPTY);
-            $str="";
-            for($i=0;$i<count($arr);$i++){
-                $str.=hex2bin($arr[$i])." ";
-            }
-            $data[0]['keyword']=$str;
-        }
         //商品类型转码
         $arr=preg_split('#\s#', $data[0]['type'],-1,PREG_SPLIT_NO_EMPTY);
-            $str="";
-            for($i=0;$i<count($arr);$i++){
-                $str.=hex2bin($arr[$i])." ";
-            }
-            $data[0]['type']=$str;
+        $str="";
+        for($i=0;$i<count($arr);$i++){
+            $str.=hex2bin($arr[$i])." ";
+        }
+        $data[0]['type']=$str;
         return $data[0];
     }
 
@@ -199,15 +191,6 @@ class commodityController extends Controller
     {
         $this->goods=new Goods();
         $data=$this->goods->find($id);
-        //给个缓冲期，使得编辑时仍能看到关键字
-        if (!preg_match('#[\x{4e00}-\x{9fa5}]#u',$data['keyword'])){
-            $arr=preg_split('#\s#', $data['keyword'],-1,PREG_SPLIT_NO_EMPTY);
-            $str="";
-            for($i=0;$i<count($arr);$i++){
-                $str.=hex2bin($arr[$i])." ";
-            }
-            $data['keyword']=$str;
-        }
 //         $arr0=explode(" ",$data['type']);
 //         $type="";
 //         for($j=0;$j<count($arr0);$j++){
@@ -262,6 +245,9 @@ class commodityController extends Controller
             DB::insert("insert into anchong_goods_oem(`goods_id`,`value`) values('$id','$oem') on duplicate key update value='$oem'");
         }
         /*oem的修改 END*/
+        /*商品属性修改START*/
+        
+        /*商品属性修改END*/
         if($result){
             return redirect()->back();
         }else{
