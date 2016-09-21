@@ -46,78 +46,75 @@ class BusinessController extends Controller
     			}else{
                     return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'商机发布失败']]);
                 }
-            }else{
-                //创建用户表通过电话查询出用户电话
-                $users=new \App\Users();
-                $users_phone=$users->quer('phone',['users_id'=>$data['guid']])->toArray();
-                //判断用户数据表中是否有电话联系方式
-                if($users_phone[0]['phone']){
-                    $users_message=new \App\Usermessages();
-                    $users_contact=$users_message->quer('contact',['users_id'=>$data['guid']])->toArray();
-                    //判断用户信息表中是否有联系人姓名
-                    if($users_contact){
-                        $tags_arr=explode(' ',$param['tags']);
-                        $tags="";
-                        if(!empty($tags_arr)){
-                            foreach ($tags_arr as $tag_arr) {
-                                $tags.=bin2hex($tag_arr)." ";
-                            }
-                        }
-                        //定义图片变量
-                        $imgs="";
-                        //判断是否有图片
-                        if($param['pic']){
-                            foreach ($param['pic'] as $pic) {
-                                $urls = str_replace('.oss-','.img-',$pic);
-                                $imgs.=$urls.'#@#';
-                            }
-                        }
-                        if(empty($param['endtime'])){
-                            $business_data=[
-                                'users_id' => $data['guid'],
-                                'title' => $param['title'],
-                                'type' => $param['type'],
-                                'created_at' => date('Y-m-d H:i:s',$data['time']),
-                                'content' => $param['content'],
-                                'tag' => $param['tag'],
-                                'tags' => $param['tags'],
-                                'tags_match' => $tags,
-                                'phone' => $users_phone[0]['phone'],
-                                'contact' => $users_contact[0]['contact'],
-                                'img'  => $imgs,
-                            ];
-                        }else{
-                            $business_data=[
-                                'users_id' => $data['guid'],
-                                'title' => $param['title'],
-                                'type' => $param['type'],
-                                'created_at' => date('Y-m-d H:i:s',$data['time']),
-                                'content' => $param['content'],
-                                'tag' => $param['tag'],
-                                'tags' => $param['tags'],
-                                'tags_match' => $tags,
-                                'endtime' => strtotime($param['endtime']),
-                                'phone' => $users_phone[0]['phone'],
-                                'contact' => $users_contact[0]['contact'],
-                                'img'  => $imgs,
-                            ];
-                        }
-                        //创建插入方法
-                        $business=new \App\Business();
-                        $result=$business->add($business_data);
-                        //orm模型操作数据库会返回true或false,如果操作失败则返回错误信息
-                        if($result){
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'发布信息成功']]);
-                        }else{
-
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请重新发布信息']]);
-                        }
-                    }else{
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请完善个人信息中的联系方式']]);
-                    }
-                }else{
-                    return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请完善个人信息中的联系方式']]);
+            }
+            //创建用户表通过电话查询出用户电话
+            $users=new \App\Users();
+            $users_phone=$users->quer('phone',['users_id'=>$data['guid']])->toArray();
+            //判断用户数据表中是否有电话联系方式
+            if(!$users_phone[0]['phone']){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请完善个人信息中的联系方式']]);
+            }
+            $users_message=new \App\Usermessages();
+            $users_contact=$users_message->quer('contact',['users_id'=>$data['guid']])->toArray();
+            //判断用户信息表中是否有联系人姓名
+            if(!$users_contact){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请完善个人信息中的联系方式']]);
+            }
+            $tags_arr=explode(' ',$param['tags']);
+            $tags="";
+            if(!empty($tags_arr)){
+                foreach ($tags_arr as $tag_arr) {
+                    $tags.=bin2hex($tag_arr)." ";
                 }
+            }
+            //定义图片变量
+            $imgs="";
+            //判断是否有图片
+            if($param['pic']){
+                foreach ($param['pic'] as $pic) {
+                    $urls = str_replace('.oss-','.img-',$pic);
+                    $imgs.=$urls.'#@#';
+                }
+            }
+            if(empty($param['endtime'])){
+                $business_data=[
+                    'users_id' => $data['guid'],
+                    'title' => $param['title'],
+                    'type' => $param['type'],
+                    'created_at' => date('Y-m-d H:i:s',$data['time']),
+                    'content' => $param['content'],
+                    'tag' => $param['tag'],
+                    'tags' => $param['tags'],
+                    'tags_match' => $tags,
+                    'phone' => $users_phone[0]['phone'],
+                    'contact' => $users_contact[0]['contact'],
+                    'img'  => $imgs,
+                ];
+            }else{
+                $business_data=[
+                    'users_id' => $data['guid'],
+                    'title' => $param['title'],
+                    'type' => $param['type'],
+                    'created_at' => date('Y-m-d H:i:s',$data['time']),
+                    'content' => $param['content'],
+                    'tag' => $param['tag'],
+                    'tags' => $param['tags'],
+                    'tags_match' => $tags,
+                    'endtime' => strtotime($param['endtime']),
+                    'phone' => $users_phone[0]['phone'],
+                    'contact' => $users_contact[0]['contact'],
+                    'img'  => $imgs,
+                ];
+            }
+            //创建插入方法
+            $business=new \App\Business();
+            $result=$business->add($business_data);
+            //orm模型操作数据库会返回true或false,如果操作失败则返回错误信息
+            if($result){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'发布信息成功']]);
+            }else{
+
+                return response()->json(['serverTime'=>time(),'ServerNo'=>8,'ResultData'=>['Message'=>'请重新发布信息']]);
             }
         }catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
