@@ -97,9 +97,11 @@
                             <div class="colorcat"><span>颜色分类：</span></div>
                             <div class="suit">
                                 <ul>
-                                    <li><span>铁血警卫*6+报警主机</span></li>
-                                    <li><span>铁血警卫*6+报警主机</span></li>
-                                    <li><span>铁血警卫*6+报警主机</span></li>
+                                    @foreach($type as $p)
+                                    <li><span>{{$p->goods_name}}</span></li>
+                                    @endforeach
+                                    {{--<li><span>铁血警卫*6+报警主机</span></li>--}}
+                                    {{--<li><span>铁血警卫*6+报警主机</span></li>--}}
                                 </ul>
                             </div>
                         </div>

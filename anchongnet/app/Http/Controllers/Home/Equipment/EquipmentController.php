@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Home\Equipment;
 use App\Category;
 use App\Goods;
 use App\Goods_brand;
+use App\Goods_specifications;
 use App\Goods_thumb;
 use App\Goods_type;
 use App\Shop;
@@ -61,8 +62,9 @@ class EquipmentController extends Controller
         $data = Goods::find($goods_id);
        $img = Goods_thumb::where('gid',$gid)->get();
          $shop = Shop::where('sid',$data->sid)->get();
+         $type = Goods_specifications::where('goods_id',$goods_id)->get();
 
-        return view('home.equipment.goodsdetals',compact('data','img','shop'));
+        return view('home.equipment.goodsdetals',compact('data','img','shop','type'));
     }
     public function getThirdshop()
     {
