@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1abb6d4c5683201901dadf84f6dba978",
+    "hash": "44e4bc17cfd95523ffa17a1f43787ef1",
     "content-hash": "fadb88d8ee232b3b53af273269375a63",
     "packages": [
         {
@@ -938,16 +938,16 @@
         },
         {
             "name": "jpush/jpush",
-            "version": "v3.5.1",
+            "version": "v3.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jpush/jpush-api-php-client.git",
-                "reference": "0b150b25f2fb8a4070eaa9fe69b6ed9fa73d117b"
+                "reference": "34bcdc1e8a45db640085e41ed0bc34b37e9b0370"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/jpush/jpush-api-php-client/0b150b25f2fb8a4070eaa9fe69b6ed9fa73d117b.zip",
-                "reference": "0b150b25f2fb8a4070eaa9fe69b6ed9fa73d117b",
+                "url": "https://packagist.phpcomposer.com/files/jpush/jpush-api-php-client/34bcdc1e8a45db640085e41ed0bc34b37e9b0370.zip",
+                "reference": "34bcdc1e8a45db640085e41ed0bc34b37e9b0370",
                 "shasum": ""
             },
             "require": {
@@ -977,7 +977,7 @@
             ],
             "description": "JPush API PHP Client",
             "homepage": "https://github.com/jpush/jpush-api-php-client",
-            "time": "2016-08-28 04:06:46"
+            "time": "2016-09-20 09:29:09"
         },
         {
             "name": "laravel/framework",

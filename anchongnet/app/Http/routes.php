@@ -590,7 +590,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::get('/getpackage', 'admin\uEditorController@getPackage');
             //获取虫虫资讯
             Route::get('/information/{infor_id}', 'Api\Advert\AdvertController@informations');
-            Route::get('/', 'home\IndexController@index');
+            Route::get('/', 'Home\IndexController@index');
 
 
 //商机部分路由
@@ -659,7 +659,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::resource('/user/forgetpwd', 'Home\User\ForgetpwdController');
 
             //设备选购
-            Route::controller('equipment', 'home\equipment\EquipmentController');
+            Route::controller('/equipment', 'Home\Equipment\EquipmentController');
             /*
             * 资讯
             */
@@ -678,7 +678,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             /*
              * 社区
              */
-
+			Route::resource('/info', 'Home\Info\InfoController');
             Route::group(['namespace' => 'Home\Community'], function () {
 //        社区首页
                 Route::get('/community', 'CommunityController@index');
@@ -688,8 +688,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 /*
                 * 资讯
                 */
-                Route::resource('info', 'Home\Info\InfoController');
-
+              
                 Route::get('/question', 'CommunityController@question');
 //        活动
                 Route::get('/activity', 'CommunityController@activity');
@@ -718,3 +717,4 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 //验证码类,需要传入数字
         Route::get('/captcha/{num}', 'CaptchaController@captcha');
     });
+

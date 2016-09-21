@@ -178,77 +178,77 @@
                 </li>
                 @endforeach
                 {{--<li>--}}
-                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><img src="/home/images/shebei/40.jpg" alt=""></a>--}}
                     {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
                     {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
                 {{--</li>--}}
                 {{--<li>--}}
-                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><img src="/home/images/shebei/40.jpg" alt=""></a>--}}
                     {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
                     {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
                 {{--</li>--}}
                 {{--<li>--}}
-                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><img src="/home/images/shebei/40.jpg" alt=""></a>--}}
                     {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
                     {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
                 {{--</li>--}}
                 {{--<li>--}}
-                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><img src="/home/images/shebei/40.jpg" alt=""></a>--}}
                     {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
                     {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
                 {{--</li>--}}
                 {{--<li>--}}
-                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><img src="/home/images/shebei/40.jpg" alt=""></a>--}}
                     {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
                     {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
                 {{--</li>--}}
                 {{--<li>--}}
-                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><img src="/home/images/shebei/40.jpg" alt=""></a>--}}
                     {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
                     {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
                 {{--</li>--}}
                 {{--<li>--}}
-                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><img src="/home/images/shebei/40.jpg" alt=""></a>--}}
                     {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
                     {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
                 {{--</li>--}}
                 {{--<li>--}}
-                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><img src="/home/images/shebei/40.jpg" alt=""></a>--}}
                     {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
                     {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
                 {{--</li>--}}
                 {{--<li>--}}
-                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><img src="/home/images/shebei/40.jpg" alt=""></a>--}}
                     {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
                     {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
                 {{--</li>--}}
                 {{--<li>--}}
-                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><img src="/home/images/shebei/40.jpg" alt=""></a>--}}
                     {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
                     {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
                 {{--</li>--}}
                 {{--<li>--}}
-                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><img src="/home/images/shebei/40.jpg" alt=""></a>--}}
                     {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
                     {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
                 {{--</li>--}}
                 {{--<li>--}}
-                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><img src="/home/images/shebei/40.jpg" alt=""></a>--}}
                     {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
                     {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
                 {{--</li>--}}
                 {{--<li>--}}
-                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><img src="/home/images/shebei/40.jpg" alt=""></a>--}}
                     {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
                     {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
                 {{--</li>--}}
                 {{--<li>--}}
-                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><img src="/home/images/shebei/40.jpg" alt=""></a>--}}
                     {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
                     {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
                 {{--</li>--}}
                 {{--<li>--}}
-                    {{--<a href=""><img src="../home/images/shebei/40.jpg" alt=""></a>--}}
+                    {{--<a href=""><img src="/home/images/shebei/40.jpg" alt=""></a>--}}
                     {{--<a href=""><p>奥多建瓯餐厅吊灯美食水晶灯卧室专用</p></a>--}}
                     {{--<span class="vip">会员价：460.00</span><span class="common">价格：￥499</span>--}}
                 {{--</li>--}}
