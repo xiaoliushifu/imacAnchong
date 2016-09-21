@@ -223,8 +223,8 @@
                             <h3>热搜榜<i class="icon1"></i></h3>
                             <ul>
                                 <li><a href="">门禁</a></li>
-                                <li><a href="">魔士龙</a></li>
-                                <li><a href="">魔士龙</a></li>
+                                <li><a href="">摩仕龙</a></li>
+                                <li><a href="">摩仕龙</a></li>
                                 <li><a href="">摄像头</a></li>
                                 <li><a href="">停车管理</a></li>
                                 <li><a href="">停车管理</a></li>

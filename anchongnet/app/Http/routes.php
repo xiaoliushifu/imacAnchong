@@ -590,11 +590,11 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::get('/getpackage', 'admin\uEditorController@getPackage');
             //获取虫虫资讯
             Route::get('/information/{infor_id}', 'Api\Advert\AdvertController@informations');
-            Route::get('/', 'home\IndexController@index');
+            Route::get('/', 'Home\IndexController@index');
 
 
 //商机部分路由
-            Route::group(['namespace' => 'home\Business'], function () {
+            Route::group(['namespace' => 'Home\Business'], function () {
                 //    商机主页
                 Route::get('/business', 'BusinessController@index');
 
@@ -602,19 +602,19 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             /*
               *   找货板块
               */
-            Route::resource('/sergoods', 'home\Findgoods\FindgoodsController');
+            Route::resource('/sergoods', 'Home\Findgoods\FindgoodsController');
             /*
               *   人才板块
               */
-            Route::resource('/talent', 'home\Talent\TalentController');
+            Route::resource('/talent', 'Home\Talent\TalentController');
             /*
               *   工程板块
               */
-            Route::resource('/project', 'home\project\ProjectController');
+            Route::resource('/project', 'Home\project\ProjectController');
 
 
 //    个人中心部分路由
-            Route::group(['namespace' => 'home\Pcenter'], function () {
+            Route::group(['namespace' => 'Home\Pcenter'], function () {
 //        服务消息
                 Route::get('/servermsg', 'IndexController@servermsg');
 //        地址管理
@@ -658,14 +658,14 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::resource('/user/forgetpwd', 'Home\User\ForgetpwdController');
 
             //设备选购
-            Route::controller('equipment', 'home\equipment\EquipmentController');
+            Route::controller('equipment', 'Home\equipment\EquipmentController');
             /*
             * 资讯
             */
             Route::group(['namespace' => 'Home\Info'], function () {
 
-                Route::resource('info', 'InfoController');
-
+                Route::resource('/info', 'InfoController');
+//        问问
                 Route::get('/question', 'CommunityController@question');
 //        活动
                 Route::get('/activity', 'CommunityController@activity');
@@ -683,11 +683,9 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::get('/question', 'CommunityController@question');
 //        活动
                 Route::get('/activity', 'CommunityController@activity');
+//        聊聊资源路由
+                Route::resource('/chat','ChatController');
             });
-            /*
-             * 发布聊聊
-             */
-            Route::resource('/chat','Home\Community\ChatController');
 
 
         });
