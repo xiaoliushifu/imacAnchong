@@ -32,14 +32,14 @@ class InfoController extends Controller
 //   保存上传干货数据
     public function store()
     {
-
+        echo "11";
     }
-//    编辑干货内容
+//    修改干货内容
     public function edit()
     {
         
     }
-//  保存编辑的内容
+//  更新干货的内容
     public function save()
     {
         

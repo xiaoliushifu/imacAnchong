@@ -688,7 +688,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 /*
                 * 资讯
                 */
-              
+
                 Route::get('/question', 'CommunityController@question');
 //        活动
                 Route::get('/activity', 'CommunityController@activity');
@@ -717,4 +717,3 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 //验证码类,需要传入数字
         Route::get('/captcha/{num}', 'CaptchaController@captcha');
     });
-
