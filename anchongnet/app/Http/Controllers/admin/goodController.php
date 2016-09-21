@@ -319,7 +319,7 @@ class goodController extends Controller
                 return redirect()->back();
             }
             //得到货品的分类ID
-            $cat_ids=DB::table('anchong_goods_type')->where('gid',$id)->pluck('cat_id');
+            $cat_id=DB::table('anchong_goods_type')->where('gid',$id)->pluck('cat_id')[0];
             //更新操作时，关键字处理
             $arr_key=array();
             $arr_key=array_merge($arr_key, $this->keyProcess($request->spetag));//属性
@@ -327,7 +327,7 @@ class goodController extends Controller
             $arr_key=array_merge($arr_key, $this->keyProcess($request->keywords));//关键字
             $arr_key=array_unique($arr_key);
             $keywords=str_replace('20', ' ', bin2hex(implode(' ', $arr_key)));
-            DB::table('anchong_goods_keyword')->where('cat_id', $cat_ids[0])->update(['keyword'=>$keywords]);
+            DB::table('anchong_goods_keyword')->where('cat_id', $cat_id)->update(['keyword'=>$keywords]);
             DB::commit();
             return redirect()->back();
         } else {
