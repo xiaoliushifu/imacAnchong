@@ -185,6 +185,7 @@ class OrderController extends Controller
                         return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
                     }
                     $true=true;
+<<<<<<< HEAD
                      //同时删除购物车
                      $resultdel=$cart->cartdel($goodsinfo['cart_id']);
                      if($resultdel){
@@ -192,6 +193,15 @@ class OrderController extends Controller
                      }else{
                          $true=false;
                      }
+=======
+                    //同时删除购物车
+                    $resultdel=$cart->cartdel($goodsinfo['cart_id']);
+                    if($resultdel){
+                        $true=true;
+                    }else{
+                        $true=false;
+                    }
+>>>>>>> 2cc4403697407d73dc14e19f62a979a25d905ae8
                 }
                 //判断传输过程中价格有没有被篡改
                 if($orderarr['total_price'] < $goods_total_price){

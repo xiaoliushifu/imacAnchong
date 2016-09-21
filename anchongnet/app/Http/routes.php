@@ -615,7 +615,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
 
 //    个人中心部分路由
-            Route::group(['namespace' => 'home\Pcenter'], function () {
+            Route::group(['namespace' => 'Home\Pcenter'], function () {
 //        服务消息
                 Route::get('/servermsg', 'IndexController@servermsg');
 //        地址管理
