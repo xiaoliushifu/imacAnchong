@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1abb6d4c5683201901dadf84f6dba978",
-    "content-hash": "fadb88d8ee232b3b53af273269375a63",
+    "hash": "a8261581513d4188682b9db68097551c",
+    "content-hash": "ae03372fdf2b9520eff715dca655ed9f",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -938,16 +938,16 @@
         },
         {
             "name": "jpush/jpush",
-            "version": "v3.5.1",
+            "version": "v3.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jpush/jpush-api-php-client.git",
-                "reference": "0b150b25f2fb8a4070eaa9fe69b6ed9fa73d117b"
+                "reference": "34bcdc1e8a45db640085e41ed0bc34b37e9b0370"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/jpush/jpush-api-php-client/0b150b25f2fb8a4070eaa9fe69b6ed9fa73d117b.zip",
-                "reference": "0b150b25f2fb8a4070eaa9fe69b6ed9fa73d117b",
+                "url": "https://packagist.phpcomposer.com/files/jpush/jpush-api-php-client/34bcdc1e8a45db640085e41ed0bc34b37e9b0370.zip",
+                "reference": "34bcdc1e8a45db640085e41ed0bc34b37e9b0370",
                 "shasum": ""
             },
             "require": {
@@ -977,7 +977,7 @@
             ],
             "description": "JPush API PHP Client",
             "homepage": "https://github.com/jpush/jpush-api-php-client",
-            "time": "2016-08-28 04:06:46"
+            "time": "2016-09-20 09:29:09"
         },
         {
             "name": "laravel/framework",
@@ -1865,6 +1865,65 @@
                 "random"
             ],
             "time": "2016-03-18 20:34:03"
+        },
+        {
+            "name": "pili-engineering/pili-sdk-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pili-engineering/pili-sdk-php.git",
+                "reference": "2f6692f62dc1b6f4c5d494ff4393c5fd8c058b57"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/pili-engineering/pili-sdk-php/2f6692f62dc1b6f4c5d494ff4393c5fd8c058b57.zip",
+                "reference": "2f6692f62dc1b6f4c5d494ff4393c5fd8c058b57",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Pili": "lib/",
+                    "Qiniu": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pili Engineering",
+                    "homepage": "https://github.com/pili-engineering"
+                }
+            ],
+            "description": "Pili Streaming Cloud server-side library for PHP.",
+            "homepage": "https://github.com/pili-engineering/pili-sdk-php",
+            "keywords": [
+                "cloud",
+                "dash",
+                "hdl",
+                "hds",
+                "hls",
+                "pili",
+                "qiniu",
+                "rtmp",
+                "streaming",
+                "web-service"
+            ],
+            "time": "2016-06-30 14:33:07"
         },
         {
             "name": "pimple/pimple",
@@ -4594,7 +4653,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "latrell/alipay": 20,
-        "lokielse/omnipay-unionpay": 20
+        "lokielse/omnipay-unionpay": 20,
+        "pili-engineering/pili-sdk-php": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

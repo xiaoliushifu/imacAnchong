@@ -615,7 +615,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
 
 //    个人中心部分路由
-            Route::group(['namespace' => 'home\Pcenter'], function () {
+            Route::group(['namespace' => 'Home\Pcenter'], function () {
 //        服务消息
                 Route::get('/servermsg', 'IndexController@servermsg');
 //        地址管理
@@ -659,7 +659,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::resource('/user/forgetpwd', 'Home\User\ForgetpwdController');
 
             //设备选购
-            Route::controller('equipment', 'home\equipment\EquipmentController');
+            Route::controller('/equipment', 'Home\Equipment\EquipmentController');
             /*
             * 资讯
             */
