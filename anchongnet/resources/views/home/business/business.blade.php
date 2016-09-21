@@ -68,7 +68,7 @@
                     <div class="cart2">
                         <p><a href="{{url('/equipment')}}">安虫自营</a></p>
                         <p><a href="{{url('/equipment/thirdshop')}}">第三方商城</a></p>
-                        <p><a href="{{url('/equipment/list')}}">商品列表</a></p>
+
 
                     </div>
                 </li>

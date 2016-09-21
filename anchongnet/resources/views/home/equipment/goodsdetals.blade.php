@@ -16,10 +16,10 @@
                 <li>邮箱：www.@anchong.net</li>
                 <li><div class="shop-ioc">
                     <a href="">购物车</a>
-                    <a href=""><img src="../home/images/shebei/10.jpg" alt=""  style="width: 16px;height: 40px;margin-top: 0px;margin-left: 2px;"></a>
+                    <a href=""><img src="{{asset('home/images/shebei/10.jpg')}}" alt=""  style="width: 16px;height: 40px;margin-top: 0px;margin-left: 2px;"></a>
                 </div></li>
                 <li>垂询电话:0317-8155026</li>
-                <li><img src="../home/images/shebei/6.jpg" alt=""></li>
+                <li><img src="{{asset('home/images/shebei/6.jpg')}}" alt=""></li>
                 <li style="padding-left: 10px;"><a href="#">风信子<b class="caret"></b></a></li>
             </ul>
         </div>
@@ -29,7 +29,7 @@
     <div class="header-main">
         <div class="logo">
             <a href="{{url('/')}}">
-                <img src="../home/images/logo.jpg"/>
+                <img src="{{asset('home/images/logo.jpg')}}"/>
             </a>
         </div>
         <div class="search">
@@ -48,14 +48,9 @@
         <div class="navcontent">
             <ul>
                 <li><a href="#">首页</a></li>
-                <li><a href="#">智能门禁</a></li>
-                <li><a href="#">视频监控</a></li>
-                <li><a href="#">探测报告</a></li>
-                <li><a href="#">巡更巡检</a></li>
-                <li><a href="#">停车管理</a></li>
-                <li><a href="#">楼宇对讲</a></li>
-                <li><a href="#">智能消费</a></li>
-                <li><a href="#">安防配套</a></li>
+                @foreach($nav as $a)
+                    <li><a href="{{url('equipment/list/'.$a->cat_id)}}">{{$a->cat_name}}</a></li>
+                @endforeach
             </ul>
         </div>
 
@@ -73,11 +68,26 @@
                 <div class="top-main-left">
                     <div class="mastermap"><img src="{{$img[0]->img_url}}" alt=""></div>
                     <ul class="detailmap">
+                        @if(is($img[0]))
                         <li><img src="{{$img[0]->thumb_url}}" alt=""></li>
-                        <li><img src="{{$img[1]->thumb_url}}" alt=""></li>
-                        <li><img src="{{$img[2]->thumb_url}}" alt=""></li>
-                        <li><img src="{{$img[3]->thumb_url}}" alt=""></li>
-                        <li><img src="{{$img[4]->thumb_url}}" alt=""></li>
+                        @endif
+                            @if(isset($img[1]))
+                                <li><img src="{{$img[1]->thumb_url}}" alt=""></li>
+                            @endif
+                            @if(isset($img[2]))
+                                <li><img src="{{$img[2]->thumb_url}}" alt=""></li>
+                            @endif
+                            @if(isset($img[3]))
+                                <li><img src="{{$img[3]->thumb_url}}" alt=""></li>
+                            @endif
+                            @if(isset($img[4]))
+                                <li><img src="{{$img[4]->thumb_url}}" alt=""></li>
+                            @endif
+                        {{--<li><img src="{{$img[1]->thumb_url}}" alt=""></li>--}}
+                        {{--<li><img src="{{$img[2]->thumb_url}}" alt=""></li>--}}
+                        {{--<li><img src="{{$img[3]->thumb_url}}" alt=""></li>--}}
+                        {{--<li><img src="{{$img[4]->thumb_url}}" alt=""></li>--}}
+
                     </ul>
                 </div>
                 <div class="top-main-right">
@@ -86,19 +96,19 @@
                         <p>{{$data->desc}}</p>
                     </div>
                     <div class="goodsprice">
-                        <p>价格：￥289</p>
-                        <p><span>会员价：￥260.00</span></p>
-                        <div class="store"><a href=""><img src="../home/images/shebei/clection.png" alt=""></a><a href="">商品收藏</a></div>
+                        <p>价格：￥{{$price[0]->price}}</p>
+                        <p><span>会员价：￥{{$price[0]->vip_price}}</span></p>
+                        <div class="store"><a href=""><img src="{{asset('home/images/shebei/clection.png')}}" alt=""></a><a href="">商品收藏</a></div>
                     </div>
                     <form action="" method="">
                     <div class="goodstype">
                         <p class="yfkd">运费：北京 ∨ 快递:￥0</p>
                         <div class="goods-color">
-                            <div class="colorcat"><span>颜色分类：</span></div>
+                            <div class="colorcat"><span>{{$type[0]->name}}：</span></div>
                             <div class="suit">
                                 <ul>
-                                    @foreach($type as $p)
-                                    <li><span>{{$p->goods_name}}</span></li>
+                                    @foreach($name as $p)
+                                    <li><span>{{$p}}</span></li>
                                     @endforeach
                                     {{--<li><span>铁血警卫*6+报警主机</span></li>--}}
                                     {{--<li><span>铁血警卫*6+报警主机</span></li>--}}
@@ -106,20 +116,27 @@
                             </div>
                         </div>
                         <div class="goods-size">
-                            <div class="sizecat"><span>尺寸:</span></div>
+                            @if(isset($type[1]))
+                            <div class="sizecat"><span>{{$type[1]->name}}:</span></div>
+
                             <div class="sizetype">
                                 <ul>
-                                    <li><span>#30</span></li>
-                                    <li><span></span></li>
-                                    <li><span></span></li>
-                                    <li><span></span></li>
+
+                                    @foreach($size as $b)
+                                    <li><span>{{$b}}</span></li>
+                                    @endforeach
+
+                                    {{--<li><span></span></li>--}}
+                                    {{--<li><span></span></li>--}}
+                                    {{--<li><span></span></li>--}}
                                 </ul>
                             </div>
+                            @endif
                         </div>
                         <div class="goods-nub">
                             <div class="nubcat"><span>数量:</span></div>
                             <div class="nubtype">
-                               <img src="../home/images/shebei/22.jpg" alt=""><input type="text"><img src="../home/images/shebei/21.jpg" alt="">
+                               <img src="{{asset('home/images/shebei/22.jpg')}}" alt=""><input type="text"><img src="{{asset('home/images/shebei/21.jpg')}}" alt="">
 
                             </div>
                         </div>
@@ -137,33 +154,37 @@
                 <hr class="lins">
              <div class="recommond">
                  <ul>
-                     <li><a href="">配套产品</a></li>
+
                      <li><a href="">推荐产品</a></li>
+                     <li><a href="">配套产品</a></li>
                  </ul>
 
              </div>
                 <div class="detailpic">
                     <ul>
+                        @foreach($related as $r)
                         <li>
-                            <img src="../home/images/shebei/26.jpg" alt="">
-                            <p>价格:136</p>
+                            <a href="{{url('equipment/show/'.$r->goods_id.'/'.$r->gid)}}">
+                            <img src="{{$r->pic}}" alt=""></a>
+                            <p>价格:{{$r->price}}</p>
                         </li>
-                        <li>
-                            <img src="../home/images/shebei/27.jpg" alt="">
-                            <p>价格:136</p>
-                        </li>
-                        <li>
-                            <img src="../home/images/shebei/25.jpg" alt="">
-                            <p>价格:136</p>
-                        </li>
-                        <li>
-                            <img src="../home/images/shebei/24.jpg" alt="">
-                            <p>价格:136</p>
-                        </li>
-                        <li>
-                            <img src="../home/images/shebei/23.jpg" alt="">
-                            <p>价格:136</p>
-                        </li>
+                        @endforeach
+                        {{--<li>--}}
+                            {{--<img src="../home/images/shebei/27.jpg" alt="">--}}
+                            {{--<p>价格:136</p>--}}
+                        {{--</li>--}}
+                        {{--<li>--}}
+                            {{--<img src="../home/images/shebei/25.jpg" alt="">--}}
+                            {{--<p>价格:136</p>--}}
+                        {{--</li>--}}
+                        {{--<li>--}}
+                            {{--<img src="../home/images/shebei/24.jpg" alt="">--}}
+                            {{--<p>价格:136</p>--}}
+                        {{--</li>--}}
+                        {{--<li>--}}
+                            {{--<img src="../home/images/shebei/23.jpg" alt="">--}}
+                            {{--<p>价格:136</p>--}}
+                        {{--</li>--}}
                     </ul>
                 </div>
             </div>
@@ -184,11 +205,11 @@
            </div>
             <div class="see"><div class="seeline"><hr></div><p>看了又看</p><div class="seeline"><hr></div></div>
 
-            <div class="flagpic"><img src="../home/images/shebei/29.jpg" alt="">
-                <div class="flagpic-price"><p>￥：480</p></div>
+            <div class="flagpic"><img src="{{$hot[0]->pic}}" alt="">
+                <div class="flagpic-price"><p>￥：{{$hot[0]->price}}</p></div>
             </div>
-            <div class="flagpic" style="margin-top: 20px;"><img src="../home/images/shebei/30.jpg" alt="">
-                <div class="flagpic-price"><p>￥：180</p></div>
+            <div class="flagpic" style="margin-top: 20px;"><img src="{{$hot[1]->pic}}" alt="">
+                <div class="flagpic-price"><p>￥：{{$hot[1]->price}}</p></div>
             </div>
         </div>
        <div style="clear: both"></div>
@@ -277,11 +298,11 @@
         <div class="foottoprg">
             <div class="rqcode-app" >
                 <h4>下载安虫app客户端</h4>
-                <img src="../home/images/shebei/1.jpg">
+                <img src="{{asset('home/images/shebei/1.jpg')}}">
             </div>
             <div class="rqcode-wx">
                 <h4>安虫微信订阅号</h4>
-                <img src="../home/images/shebei/2.jpg">
+                <img src="{{asset('home/images/shebei/2.jpg')}}">
             </div>
 
         </div>
