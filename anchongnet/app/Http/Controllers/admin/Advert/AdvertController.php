@@ -183,6 +183,9 @@ class AdvertController extends Controller
     {
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
+        if (!isset($data['pic'])) {
+            return view("admin/advert/create_news",array('mes'=>"图片必须上传呀！"));
+        }
         //创建订单的ORM模型
         $information=new \App\Information();
         //定义传过来的内容
