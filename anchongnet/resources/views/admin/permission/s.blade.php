@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>a</title>
+	<title>缓存与搜索</title>
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<!-- Bootstrap 3.3.5 -->
@@ -58,9 +58,10 @@
 						        <button type="submit" class="btn btn-primary">线上搜索</button>
 						    </form>-->
 						    <form action="/search/key" method="post" >
-						        <input type="text" name="q"  value='磁力锁' style="width:300px">&nbsp;
+						        <input type="text" name="q"  placeholder="磁力锁" style="width:300px">&nbsp;
 						        <button type="submit" class="btn btn-primary">go</button>
 						        <button type="button" class="btn btn-primary" onclick="my()">清除缓存</button>
+						        <small class="text-danger">为性能考虑，请慎重使用“清除缓存”功能</small>
 						    </form>
 						    <span>{{$ori}}---{{$hex}}</span>
 							<table id="example1" class="table table-bordered table-striped">

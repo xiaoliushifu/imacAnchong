@@ -52,9 +52,9 @@ $(function(){
     
     
     $(".edit").click(function() {
-        $("#stock").empty();
-        $("#sups").empty();
-        $("#futuresups").empty();
+        $("#stock").empty();//库存部分
+        $("#sups").empty();	//配套商品部分
+        $("#futuresups").empty();//配套商品输入框
         
         var o = $(this);
         var tr = o.parents('tr');

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>第三方商城</title>
-    <link rel="stylesheet" href="../home/css/thirdparty.css">
+    <link rel="stylesheet" href="/home/css/thirdparty.css">
 
 </head>
 <body>

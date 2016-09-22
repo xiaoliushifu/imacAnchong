@@ -137,12 +137,20 @@ ul,li{
     text-align: center;
 }
 .upload-content{
-    height: 400px;
+    height: 300px;
     width: 1200px;
     margin: 0 auto;
+    padding-top: 100px;
     outline: 1px solid #606060;
 }
-
+#picker{
+    margin: 0 auto;
+    width: 300px;
+    height: 100px;
+}
+.webuploader-element-invisible{
+    display: none;
+}
 .upload-content p{
     margin-top: 30px;
     text-align: center;

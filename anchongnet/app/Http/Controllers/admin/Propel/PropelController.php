@@ -47,7 +47,7 @@ class PropelController extends Controller
         $app_key="5cfcdf6659fca3e33dde79cc";
         $master_secret="b6d1612108cbd489e379e25e";
         //点三个参数可以传日志位置
-        $client = new \JPush\Client($app_key, $master_secret, $_SERVER['DOCUMENT_ROOT'].'../storage/jpush.log');
+        $client = new \JPush\Client($app_key, $master_secret, $_SERVER['DOCUMENT_ROOT'].'/../storage/jpush.log');
         $push = $client->push();
         //设置推送的平台
         $platform = array('ios', 'android');

@@ -82,19 +82,21 @@
                                     <label class="col-sm-2 control-label text-right">详情图片<br></label>
                                     <div id="detailbox" class="col-sm-10">
                                         <div id="detail"></div>
+                                        <small class="hidden text-danger">图片必须上传</small>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
                                 <br><br>
                                 <div class="gal form-group">
-                                    <label class="col-sm-2 control-label text-right">新闻内容<br></label>
+                                    <label class="col-sm-2 control-label text-right">资讯详情<br></label>
                                     <div class="col-sm-8">
                                         @include('UEditor::head')
                                         <!-- 加载编辑器的容器 -->
                                         <script id="container" name="param" type="text/plain">{{ old('param') }}</script>
                                         <script>
-                                            UE.getEditor('container');
+                                            var ue = UE.getEditor('container');
                                         </script>
+                                        <small class="hidden text-danger">资讯详情不写点啥吗</small>
                                     </div>
                                 </div>
                                 <br><br>

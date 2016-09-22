@@ -126,7 +126,7 @@ class AdvertController extends Controller
             }
             //判断结果是否为空
             if(!empty($ad_result_pic) && !empty($ad_infor_result) && !empty($list) && !empty($ad_result_area) && !empty($list_all)){
-                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['pic'=>$ad_result_pic,'information'=>$ad_infor_result,'informationurl'=>'http://www.anchong.net/information/','recommend'=>$list,'recent'=>$ad_result_area,'hotproject'=>$list_all,'showphone'=>$showphone]]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['pic'=>$ad_result_pic,'information'=>$ad_infor_result,'informationurl'=>'http://api.anchong.net/information/','recommend'=>$list,'recent'=>$ad_result_area,'hotproject'=>$list_all,'showphone'=>$showphone]]);
             }else{
                 return response()->json(['serverTime'=>time(),'ServerNo'=>161,'ResultData'=>['Message'=>'加载失败，请刷新']]);
             }
@@ -333,7 +333,7 @@ class AdvertController extends Controller
                 $list=null;
                 $list['total']=$infor_result['total'];
                 $list['list']=$infor_result['list'];
-                $list['url']='http://www.anchong.net/information/';
+                $list['url']='http://api.anchong.net/information/';
                 //只为第一页添加缓存
                 if($param['page'] == 1){
                     //将查询结果加入缓存

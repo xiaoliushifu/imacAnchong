@@ -26,8 +26,11 @@
 //接口路由组
 
 Route::group(['domain' => 'api.anchong.net'], function () {
-    Route::post('/community/chonggou','Api\Community\CommunityController@chonggou');
-    Route::post('/business/chonggou','Api\Business\BusinessController@chonggou');
+    //获取商品参数html代码
+    Route::get('/getparam', 'admin\uEditorController@getParam');
+    Route::get('/getpackage', 'admin\uEditorController@getPackage');
+    //获取虫虫资讯
+    Route::get('/information/{infor_id}', 'Api\Advert\AdvertController@informations');
     //商品检索
     Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
     //智能提示
@@ -585,12 +588,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
 //前台路由
         Route::group(['domain' => 'www.anchong.net'], function () {
-            //获取商品参数html代码
-            Route::get('/getparam', 'admin\uEditorController@getParam');
-            Route::get('/getpackage', 'admin\uEditorController@getPackage');
-            //获取虫虫资讯
-            Route::get('/information/{infor_id}', 'Api\Advert\AdvertController@informations');
-            Route::get('/', 'home\IndexController@index');
+            Route::get('/', 'Home\IndexController@index');
 
 
 //商机部分路由
@@ -678,7 +676,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             /*
              * 社区
              */
-
+			Route::resource('/info', 'Home\Info\InfoController');
             Route::group(['namespace' => 'Home\Community'], function () {
 //        社区首页
                 Route::get('/community', 'CommunityController@index');
@@ -688,7 +686,6 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 /*
                 * 资讯
                 */
-                Route::resource('info', 'Home\Info\InfoController');
 
                 Route::get('/question', 'CommunityController@question');
 //        活动

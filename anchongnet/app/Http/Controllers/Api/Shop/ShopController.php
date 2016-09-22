@@ -97,6 +97,16 @@ class ShopController extends Controller
 
         //提交事务
         DB::commit();
+        //创建推送的ORM
+        $propel=new \App\Http\Controllers\admin\Propel\PropelmesgController();
+        //进行推送
+        try{
+            //推送消息
+            $propel->apppropel('13730593861','商铺开通审核','有人提交商铺申请了，快去审核吧');
+        }catch (\Exception $e) {
+            //返回给客户端数据
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'申请成功，请等待审核']]);
+        }
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'申请成功，请等待审核']]);
     }
 

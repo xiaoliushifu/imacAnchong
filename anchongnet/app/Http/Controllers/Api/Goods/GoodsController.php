@@ -571,8 +571,8 @@ class GoodsController extends Controller
                 //进行数据拼接
                 $result['goodspic']=$picarr;
                 $result['detailpic']=$goodsresult[0]['images'];
-                $result['parameterpic']="http://www.anchong.net/getparam?gid=".$param['goods_id'];
-                $result['datapic']="http://www.anchong.net/getpackage?gid=".$param['goods_id'];
+                $result['parameterpic']="http://api.anchong.net/getparam?gid=".$param['goods_id'];
+                $result['datapic']="http://api.anchong.net/getpackage?gid=".$param['goods_id'];
                 $result['collection']=$collresult;
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
             }else{
@@ -655,7 +655,7 @@ class GoodsController extends Controller
             $param=json_decode($data['param'],true);
             //创建ORM模型
             $Goods_attribute=new \App\Goods_attribute();
-            $oem_result=DB::table('anchong_goods_oem')->select('value')->where('goods_id','=',$param['goods_id'])->get();
+            $oem_result=DB::table('anchong_goods_oem')->where('goods_id','=',$param['goods_id'])->pluck('value');
             $results=$Goods_attribute->quer(['name','value'],'goods_id ='.$param['goods_id'])->toArray();
             //定义一个商品属性的空数组
             $goodsvalue=null;
@@ -671,9 +671,10 @@ class GoodsController extends Controller
                 $goodsvalue[]=['name'=>$attribute['name'],'value'=>$typearr];
                 $typearr=null;
             }
-            if($oem_result){
+            //判断是否有oem
+            if($oem_result && $oem_result[0]){
                 //组合oem
-                $oem_arr=explode(' ',trim($oem_result[0]->value));
+                $oem_arr=explode(' ',trim($oem_result[0]));
                 foreach($oem_arr as $oem_arrs){
                     if($oem_arrs){
                         $oemarr[]=$oem_arrs;
