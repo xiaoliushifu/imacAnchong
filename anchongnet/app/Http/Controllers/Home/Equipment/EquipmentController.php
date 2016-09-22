@@ -80,7 +80,6 @@ class EquipmentController extends Controller
         if(isset($type[1])){
             $size = explode(' ',$type[1]->value);
         }
-//        dd($type);
 //        得到商品价格
           $price = Goods_type::where(['goods_id'=>$goods_id,'gid'=>$gid])->get();
         //推荐部分
@@ -90,8 +89,11 @@ class EquipmentController extends Controller
 //
         return view('home.equipment.goodsdetals',compact('data','img','shop','price','related','hot','nav','adress','name','size','type'));
     }
-    public function getThirdshop()
+    public function getThirdshop($sid)
     {
-        return view('home.equipment.thirdparty');
+        $data = Goods_type::where('sid',$sid)->orderBy('updated_at','desc')->paginate(16);
+//        dd($data);
+
+        return view('home.equipment.thirdparty',compact('data'));
     }
 }

@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\DB;
 */
 class BusinessController extends Controller
 {
+    /**
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
 //        最新招标

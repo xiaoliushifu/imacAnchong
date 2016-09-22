@@ -142,7 +142,7 @@
 						<span class="rank">排序</span>
 						<span class="hot-rank">热门排序</span>
 						<ul class="pages-turn">
-                            <a href="" class="pageup">
+                            <a href="{{}}" class="pageup">
                                 <span class=""><</span>
                                 <span class="">&nbsp;上一页</span>
                             </a>

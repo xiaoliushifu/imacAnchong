@@ -584,13 +584,13 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
 
 //前台路由
-        Route::group(['domain' => 'www.anchong.net'], function () {
+        Route::group(['domain' => 'anchong.hd'], function () {
             //获取商品参数html代码
             Route::get('/getparam', 'admin\uEditorController@getParam');
             Route::get('/getpackage', 'admin\uEditorController@getPackage');
             //获取虫虫资讯
             Route::get('/information/{infor_id}', 'Api\Advert\AdvertController@informations');
-            Route::get('/', 'home\IndexController@index');
+            Route::get('/', 'Home\IndexController@index');
 
 
 //商机部分路由
@@ -658,11 +658,37 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::resource('/user/forgetpwd', 'Home\User\ForgetpwdController');
 
             //设备选购
-            Route::controller('equipment', 'home\equipment\EquipmentController');
+            Route::controller('/equipment', 'Home\Equipment\EquipmentController');
             /*
             * 资讯
             */
             Route::group(['namespace' => 'Home\Info'], function () {
+
+
+//        资讯首页
+                Route::get('/info', 'InfoController@index');
+//        咨询详情页
+                Route::get('/info/{infor_id}', 'InfoController@info');
+//        干货上传页面
+                Route::get('/upload', 'InfoController@upload');
+
+                Route::any('/uploadify', 'InfoController@uploadify');
+            });
+
+
+            /*
+             * 社区
+             */
+			Route::resource('/info', 'Home\Info\InfoController');
+            Route::group(['namespace' => 'Home\Community'], function () {
+//        社区首页
+                Route::get('/community', 'CommunityController@index');
+//        聊聊详情页
+                Route::get('/chat/{chat_id}', 'CommunityController@chat');
+
+                /*
+                * 资讯
+                */
 
                 Route::resource('info', 'InfoController');
 //        问问

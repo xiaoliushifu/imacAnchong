@@ -9,7 +9,7 @@
         "laravel/framework": "5.2.*",
         "barryvdh/laravel-debugbar": "^2.2",
         "gregwar/captcha": "1.*",
-        "predis/predis":"~1.0.1",
+        "predis/predis":"1.0.*",
         "qiniu/php-sdk": "^7.0",
         "aliyuncs/oss-sdk-php": "^2.0",
 		"intervention/image": "^2.3",
@@ -19,7 +19,8 @@
         "simplesoftwareio/simple-qrcode": "~1",
         "ignited/laravel-omnipay": "2.*",
         "lokielse/omnipay-unionpay": "dev-master",
-        "jpush/jpush": "v3.5.*"
+        "jpush/jpush": "v3.5.*",
+        "pili-engineering/pili-sdk-php": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

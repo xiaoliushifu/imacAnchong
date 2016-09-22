@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>上传干货</title>
     <link rel="stylesheet" type="text/css" href="{{asset('home/css/upload.css')}}"/>
-    <script src="home/js/jquery-3.1.0.min.js"></script>
+    <script src="/home/js/jquery-3.1.0.js"></script>
 </head>
 <body>
 @include('inc.home.top')
@@ -46,9 +46,9 @@
             <img src="/home/images/info/uploading.png">
         </div>
         <div class="upload-content">
-            <div class="webuploader-container">
-                <div class=""></div>
-            </div>
+
+                <div id="fileList" class="uploader-list"></div>
+                <div id="picker"></div>
             <p>从我的电脑选择要上传的文档：按住CTRL可以上传多份文档</p>
         </div>
         <div class="tips">
@@ -61,4 +61,6 @@
 </div>
 @include('inc.home.site-foot')
 </body>
+<script src="/home/js/webuploader.js"></script>
+<script src="/home/js/uploader.js"></script>
 </html>

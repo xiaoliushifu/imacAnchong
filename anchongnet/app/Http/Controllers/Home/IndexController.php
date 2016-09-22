@@ -14,7 +14,7 @@ use App\Http\Controllers\Controller;
 /*
  * 前端首页控制器
  */
-class indexController extends Controller
+class IndexController extends Controller
 {
 //    前端页面
     public function index(){

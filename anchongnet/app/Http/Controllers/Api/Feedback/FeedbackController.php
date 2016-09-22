@@ -180,10 +180,11 @@ class FeedbackController extends Controller
     */
     public function androidupdate(Request $request)
     {
-        return response()->json(['varsionName'=>"1.1.5",'varsionCode'=>15,'Description'=>"更新介绍:
-1.优化会员认证功能
-2.优化商机页工程、人才、找货功能
-3.优化我的里面关于我们的功能
-4.修复其他小BUG提示用户体验度",'downloadUrl'=>"http://anchongres.oss-cn-hangzhou.aliyuncs.com/android/app-net-anchong-1.1.6.encrypted_signed_Aligned.apk"]);
+        return response()->json(['varsionName'=>"2.0.1",'varsionCode'=>22,'Description'=>"更新介绍:
+1.新增钱袋模块-余额、签到、虫豆、优惠券
+2.优化了加入购物车界面
+3.加入了清除缓存功能
+4.新增了支付设置的功能
+5.还有其他功能等着您来发现",'downloadUrl'=>"http://anchongres.oss-cn-hangzhou.aliyuncs.com/android/app-anchong-new-2.0.1.encrypted_signed_Aligned.apk"]);
     }
 }

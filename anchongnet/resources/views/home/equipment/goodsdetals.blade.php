@@ -68,7 +68,7 @@
                 <div class="top-main-left">
                     <div class="mastermap"><img src="{{$img[0]->img_url}}" alt=""></div>
                     <ul class="detailmap">
-                        @if(is($img[0]))
+                        @if(isset($img[0]))
                         <li><img src="{{$img[0]->thumb_url}}" alt=""></li>
                         @endif
                             @if(isset($img[1]))
@@ -192,7 +192,7 @@
         <div class="main-right">
            <div class="flagshop">
                <div class="flagshop-main">
-               <div class="shop-title"><h4>{{$shop[0]->name}}</h4><a href="">进入店铺</a></div>
+               <div class="shop-title"><h4>{{$shop[0]->name}}</h4><a href="{{url('equipment/thirdshop/'.$shop[0]->sid)}}">进入店铺</a></div>
                <div class="shop-pic"><img src="{{$shop[0]->img}}" alt=""></div>
 
                <div class="shop-server">

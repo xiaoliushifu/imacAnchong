@@ -562,10 +562,10 @@ class PayController extends Controller
       //获得app传过来的参数
       $data=$request::all();
       // 验证请求。
-      if (! app('alipay.mobile')->verify()) {
+      //if (! app('alipay.mobile')->verify()) {
 
-          return 'fail';
-      }
+        //  return 'fail';
+     // }
 
       // 判断通知类型。
       switch ($data['trade_status']) {

@@ -388,6 +388,9 @@ overflow: hidden;
 .goodsdetail li p{
     margin-left: 10px;
     margin-bottom: 10px;
+    width: 280px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .vip{
     font-size: 18px;
