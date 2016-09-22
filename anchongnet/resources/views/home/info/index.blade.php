@@ -128,8 +128,8 @@
                             <a class="hot-order"> 热门排序</a>
                         </li>
                         <li class="paging">
-                            <a class="pageup"><img src="home/images/pageup.png"></a>
-                            <a class="pagedown"><img src="home/images/pagedown.png"></a>
+                            <a class="pageup" href="{{$info->previousPageUrl()}}"><img src="home/images/pageup.png"></a>
+                            <a class="pagedown" href="{{$info->nextPageUrl()}}"><img src="home/images/pagedown.png"></a>
                         </li>
                     </ul>
                 </li>
@@ -161,10 +161,10 @@
                 <i>共有{{$info->lastpage()}}页，</i>
                 <i class="blank">
                     去第
-                    <input class="page-num" type="text">
+                    <input class="page-num" type="text" value="{{$info->currentPage()}}">
                     页
                 </i>
-                <input class="page-btn" type="button" value="确定">
+                <input class="page-btn" type="submit" value="确定">
             </ul>
             <div class="cl"></div>
     </div>

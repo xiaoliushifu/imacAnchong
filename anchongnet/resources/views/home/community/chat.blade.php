@@ -51,7 +51,7 @@
                     {!! $info -> content !!}
                 </p>
                 <p class="comments-share">
-                    <a class="comments" href=""><img src="../home/images/chat/talk.png"></a>
+                    <a class="comments" href="#comments"><img src="../home/images/chat/talk.png"></a>
                     <a class="share" href=""><img src="../home/images/chat/share.png"></a>
                 </p>
             </li>
@@ -92,7 +92,7 @@
                         <div>
                             <form>
                                 <i>我也有话要说……</i>
-                                <textarea  class="replay-content"></textarea>
+                                <textarea id="comments" name="comments" class="replay-content"></textarea>
                                 <a class="send"><img src="../home/images/chat/send.png" ></a>
                                 <a class="emoticon"><img src="../home/images/chat/emoticon.png"></a>
                             </form>

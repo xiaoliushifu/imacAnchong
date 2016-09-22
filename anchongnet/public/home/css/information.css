@@ -374,6 +374,8 @@ ul,li{
     width: 20px;
     height: 20px;
     border: 1px solid #9b9b9b;
+    text-align: center;
+    line-height: 20px;
 }
 .blank{
     margin-left: 10px;

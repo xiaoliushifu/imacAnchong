@@ -53,7 +53,7 @@
                             <p class="content">{{$value -> content}}</p>
                         </a>
                         <p class="comments-share">
-                            <a class="comments" href=""><img src="home/images/chat/talk.png">{{$num[$value-> chat_id]}}</a>
+                            <a class="comments" href="{{url('/community/'.$value -> chat_id).'/#comments'}}"><img src="home/images/chat/talk.png">{{$num[$value-> chat_id]}}</a>
                             <a class="share" href=""><img src="home/images/chat/share.png"></a>
                         </p>
                     </li>
@@ -69,7 +69,9 @@
                 <i>共有{{$chat -> lastpage()}}页，</i>
                 <i class="blank">
                     去第
-                    <input class="page-num" type="text">
+                    <from action="#">
+                    <input class="page-num" type="text" value="{{$chat->currentPage()}}">
+                    </from>
                     页
                 </i>
                 <input class="page-btn" type="button" value="确定">
