@@ -15,7 +15,7 @@
             <img src="home/images/7.jpg"/>
         </div>
         <div class="search">
-            <form class="search-form" method="post">
+            <form class="search-form" method="get">
                 <select class="area">
                     <option value="北京">北京</option>
                 </select>

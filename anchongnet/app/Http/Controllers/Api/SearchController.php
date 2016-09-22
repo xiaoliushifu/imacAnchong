@@ -73,8 +73,12 @@ class SearchController extends Controller
         $hex = bin2hex($ori);
         Cache::tags('s')->forget('search@'.$hex);
         $res = Goods\GoodsController::goodssearch($req);
+        $res = $res->getData(true);
+        if ($res['ServerNo'] != 0) {
+            return view('admin/permission/s',['res'=>[],'ori'=>$ori,'hex'=>$hex.'---无结果']);
+        }
         //var_dump($res->getData(true)['ResultData']);
-        return view('admin/permission/s',['res'=>$res->getData(true)['ResultData']['list'],'hex'=>$hex,'ori'=>$ori]);
+        return view('admin/permission/s',['res'=>$res['ResultData']['list'],'ori'=>$ori,'hex'=>$hex]);
     }
     
     /**

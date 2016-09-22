@@ -578,13 +578,8 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
 
 
-
-    //前台安全防护
-    Route::group(['middleware'=>'csrf'],function() {
-
-
 //前台路由
-        Route::group(['domain' => 'www.anchong.net'], function () {
+        Route::group(['domain' => 'www.anchong.net','middleware'=>'csrf'], function () {
             //获取商品参数html代码
             Route::get('/getparam', 'admin\uEditorController@getParam');
             Route::get('/getpackage', 'admin\uEditorController@getPackage');
@@ -692,4 +687,3 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
         });
 //验证码类,需要传入数字
         Route::get('/captcha/{num}', 'CaptchaController@captcha');
-    });
