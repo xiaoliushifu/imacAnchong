@@ -26,11 +26,6 @@
 //接口路由组
 
 Route::group(['domain' => 'api.anchong.net'], function () {
-    //获取商品参数html代码
-    Route::get('/getparam', 'admin\uEditorController@getParam');
-    Route::get('/getpackage', 'admin\uEditorController@getPackage');
-    //获取虫虫资讯
-    Route::get('/information/{infor_id}', 'Api\Advert\AdvertController@informations');
     //商品检索
     Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
     //智能提示
@@ -588,6 +583,11 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
 //前台路由
         Route::group(['domain' => 'www.anchong.net'], function () {
+            //获取商品参数html代码
+            Route::get('/getparam', 'admin\uEditorController@getParam');
+            Route::get('/getpackage', 'admin\uEditorController@getPackage');
+            //获取虫虫资讯
+            Route::get('/information/{infor_id}', 'Api\Advert\AdvertController@informations');
             Route::get('/', 'Home\IndexController@index');
 
 

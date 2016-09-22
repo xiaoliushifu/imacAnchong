@@ -571,8 +571,8 @@ class GoodsController extends Controller
                 //进行数据拼接
                 $result['goodspic']=$picarr;
                 $result['detailpic']=$goodsresult[0]['images'];
-                $result['parameterpic']="http://api.anchong.net/getparam?gid=".$param['goods_id'];
-                $result['datapic']="http://api.anchong.net/getpackage?gid=".$param['goods_id'];
+                $result['parameterpic']="http://www.anchong.net/getparam?gid=".$param['goods_id'];
+                $result['datapic']="http://www.anchong.net/getpackage?gid=".$param['goods_id'];
                 $result['collection']=$collresult;
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
             }else{
