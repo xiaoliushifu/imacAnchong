@@ -61,6 +61,7 @@ class EquipmentController extends Controller
 
     $test = Goods_type::where('other_id',$cat_id)->orderBy('cat_id','desc')->paginate(16);
 
+
      return view('home.equipment.goodslist',compact('test','nav','adress'));
     }
     public function getShow($goods_id,$gid)
@@ -70,8 +71,14 @@ class EquipmentController extends Controller
 //        通过goods_id商品详情
 
         $data = Goods::find($goods_id);
+        $dd = explode(' ',$data->type);
+      $ss = hex2bin($dd[0]);
+        dd($ss);
+
+
 //        通过$gid找到缩略图
        $img = Goods_thumb::where('gid',$gid)->get();
+
         //通过sid找到哪家商铺
          $shop = Shop::where('sid',$data->sid)->get();
 //        商品规格分类
@@ -91,9 +98,11 @@ class EquipmentController extends Controller
     }
     public function getThirdshop($sid)
     {
+        //住导航
+        $nav = Category::orderBy('cat_id','asc')->take(8)->get();
         $data = Goods_type::where('sid',$sid)->orderBy('updated_at','desc')->paginate(16);
 //        dd($data);
 
-        return view('home.equipment.thirdparty',compact('data'));
+        return view('home.equipment.thirdparty',compact('data','nav'));
     }
 }

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>商品详情</title>
     <link rel="stylesheet" href="{{asset('home/css/goodsdetails.css')}}">
-    <script src="../js/jquery-3.1.0.min.js"></script>
-
+    <script src="{{asset('home/js/jquery-3.1.0.min.js')}}"></script>
+    <script src="{{asset('home/js/goodsdetail.js')}}"></script>
 </head>
 <body>
 <div class="nav-top">
@@ -47,7 +47,7 @@
     <div class="navc">
         <div class="navcontent">
             <ul>
-                <li><a href="#">首页</a></li>
+                <li><a href="{{url('/equipment')}}">首页</a></li>
                 @foreach($nav as $a)
                     <li><a href="{{url('equipment/list/'.$a->cat_id)}}">{{$a->cat_name}}</a></li>
                 @endforeach
@@ -66,28 +66,20 @@
         <div class="main">
             <div class="top-main">
                 <div class="top-main-left">
-                    <div class="mastermap"><img src="{{$img[0]->img_url}}" alt=""></div>
-                    <ul class="detailmap">
-                        @if(isset($img[0]))
-                        <li><img src="{{$img[0]->thumb_url}}" alt=""></li>
-                        @endif
-                            @if(isset($img[1]))
-                                <li><img src="{{$img[1]->thumb_url}}" alt=""></li>
-                            @endif
-                            @if(isset($img[2]))
-                                <li><img src="{{$img[2]->thumb_url}}" alt=""></li>
-                            @endif
-                            @if(isset($img[3]))
-                                <li><img src="{{$img[3]->thumb_url}}" alt=""></li>
-                            @endif
-                            @if(isset($img[4]))
-                                <li><img src="{{$img[4]->thumb_url}}" alt=""></li>
-                            @endif
-                        {{--<li><img src="{{$img[1]->thumb_url}}" alt=""></li>--}}
-                        {{--<li><img src="{{$img[2]->thumb_url}}" alt=""></li>--}}
-                        {{--<li><img src="{{$img[3]->thumb_url}}" alt=""></li>--}}
-                        {{--<li><img src="{{$img[4]->thumb_url}}" alt=""></li>--}}
 
+                    <div class="mastermap"><img src="{{$img[0]->img_url}}" alt="" id="tail"></div>
+                    <ul class="detailmap">
+                        @foreach( $img as $i=>$k)
+                            <li class="thumb{{$i}}"><img src="{{$k->thumb_url}}" alt=""></li>
+                            <script type="text/javascript">
+                                $(document).ready(function(){
+                                    var i = " .thumb{{$i}}";
+                                    $(i).click(function(){
+                                        $("#tail").attr("src","{{$k->thumb_url}}");
+                                    });
+                                });
+                            </script>
+                        @endforeach
                     </ul>
                 </div>
                 <div class="top-main-right">
@@ -110,8 +102,7 @@
                                     @foreach($name as $p)
                                     <li><span>{{$p}}</span></li>
                                     @endforeach
-                                    {{--<li><span>铁血警卫*6+报警主机</span></li>--}}
-                                    {{--<li><span>铁血警卫*6+报警主机</span></li>--}}
+
                                 </ul>
                             </div>
                         </div>
@@ -126,9 +117,6 @@
                                     <li><span>{{$b}}</span></li>
                                     @endforeach
 
-                                    {{--<li><span></span></li>--}}
-                                    {{--<li><span></span></li>--}}
-                                    {{--<li><span></span></li>--}}
                                 </ul>
                             </div>
                             @endif
@@ -169,22 +157,7 @@
                             <p>价格:{{$r->price}}</p>
                         </li>
                         @endforeach
-                        {{--<li>--}}
-                            {{--<img src="../home/images/shebei/27.jpg" alt="">--}}
-                            {{--<p>价格:136</p>--}}
-                        {{--</li>--}}
-                        {{--<li>--}}
-                            {{--<img src="../home/images/shebei/25.jpg" alt="">--}}
-                            {{--<p>价格:136</p>--}}
-                        {{--</li>--}}
-                        {{--<li>--}}
-                            {{--<img src="../home/images/shebei/24.jpg" alt="">--}}
-                            {{--<p>价格:136</p>--}}
-                        {{--</li>--}}
-                        {{--<li>--}}
-                            {{--<img src="../home/images/shebei/23.jpg" alt="">--}}
-                            {{--<p>价格:136</p>--}}
-                        {{--</li>--}}
+
                     </ul>
                 </div>
             </div>
@@ -208,9 +181,11 @@
             <div class="flagpic"><img src="{{$hot[0]->pic}}" alt="">
                 <div class="flagpic-price"><p>￥：{{$hot[0]->price}}</p></div>
             </div>
+            @if(isset($hot[1]))
             <div class="flagpic" style="margin-top: 20px;"><img src="{{$hot[1]->pic}}" alt="">
                 <div class="flagpic-price"><p>￥：{{$hot[1]->price}}</p></div>
             </div>
+                @endif
         </div>
        <div style="clear: both"></div>
 
@@ -218,9 +193,9 @@
             <hr>
             <div class="introduction-list">
                 <ul>
-                    <li><a href="">商品详情</a></li>
-                    <li><a href="">规格参数</a></li>
-                    <li><a href="">相关资料</a></li>
+                    <li class="mainpic"><button>商品详情</button> </li>
+                    <li class="param"><button>规格参数</button></li>
+                    <li class="package"><button>相关资料</button></li>
                 </ul>
             </div>
 
@@ -229,14 +204,10 @@
         <hr>
           <div class="introductionpic">
 
-              <img src=" {{$data->images}}" alt="">
-              {{--<img src="../home/images/shebei/32.jpg" alt="">--}}
-              {{--<img src="../home/images/shebei/33.jpg" alt="">--}}
-              {{--<img src="../home/images/shebei/34.jpg" alt="">--}}
-              {{--<img src="../home/images/shebei/35.jpg" alt="">--}}
-              {{--<img src="../home/images/shebei/36.jpg" alt="">--}}
-              {{--<img src="../home/images/shebei/37.jpg" alt="">--}}
-              {{--<img src="../home/images/shebei/38.jpg" alt="">--}}
+              <img src=" {{$data->images}}" alt="" id="mainpic">
+              <div id="param" style="display:none;">{!!$data->param!!}</div>
+              <div id="package" style="display: none;"> {!! $data->package !!}</div>
+
           </div>
 
 
@@ -330,6 +301,7 @@
 
     </div>
 </div>
+
 
 
 </body>
