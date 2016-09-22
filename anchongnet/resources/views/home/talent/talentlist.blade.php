@@ -160,8 +160,8 @@
                 <a href="#">热门排序</a>
             </div>
             <div class="partpage">
-                &lt;<a href="{{url('/talent/'.$data->currentPage()+1)}}">下一页</a>
-                <a href="#">上一页</a>&gt;
+                &lt;<a href="{{$data->nextPageUrl()}}">下一页</a>
+                <a href="{{$data->previousPageUrl()}}">上一页</a>&gt;
             </div>
         </div>
         <hr>

@@ -346,8 +346,11 @@ overflow: hidden;
     text-align: center;
     border: 1px #606060 solid;
     border-radius: 10px;
-    width: 78px;
+   overflow: hidden;
     height: 25px;margin-right: 10px;
+}
+.sizetype li span{
+    margin: 0px 20px;
 }
 .sizetype li:hover{
     border: 1px #f53745 solid;
@@ -446,14 +449,17 @@ overflow: hidden;
     margin-bottom: 10px;
 }
 .detailpic img{
+    background:#601d85;
     width: 130px;
     height: 130px;
+    border: 1px #9b9b9b solid;
 }
 .detailpic li{
     display: inline;
     float: left;
     text-align: center;
     margin-right: 50px;
+
 
 }
 .detailpic p{
@@ -595,11 +601,14 @@ overflow: hidden;
     line-height: 40px;
     border-top: 2px #ffffff solid;
 }
-.introduction-list li a{
+.introduction-list button{
     font-size: 14px;
     font-weight: bold;
     color: #606060;
     text-decoration: none;
+    background: none;
+    border: none;
+    outline: none;
 }
 .introduction-list li:hover {
     border-top-color: #f53745;

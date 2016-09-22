@@ -657,13 +657,29 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             */
             Route::group(['namespace' => 'Home\Info'], function () {
 
-                Route::resource('info', 'InfoController');
-//        问问
-                Route::get('/question', 'CommunityController@question');
-//        活动
-                Route::get('/activity', 'CommunityController@activity');
+
+//        资讯首页
+                Route::get('/info', 'InfoController@index');
+//        咨询详情页
+                Route::get('/info/{infor_id}', 'InfoController@info');
+//        干货上传页面
+                Route::get('/upload', 'InfoController@upload');
+
+                Route::any('/uploadify', 'InfoController@uploadify');
             });
 
+
+                /*
+                * 资讯
+                */
+            Route::group(['namespace' => 'Home\Info'], function () {
+
+                Route::resource('info', 'InfoController');
+                // 问问
+                Route::get('/question', 'CommunityController@question');
+                // 活动
+                Route::get('/activity', 'CommunityController@activity');
+            });
             /*
              * 社区
            */

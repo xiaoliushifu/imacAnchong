@@ -142,11 +142,11 @@
 						<span class="rank">排序</span>
 						<span class="hot-rank">热门排序</span>
 						<ul class="pages-turn">
-                            <a href="" class="pageup">
+                            <a href="{{$data->previousPageUrl()}}" class="pageup">
                                 <span class=""><</span>
                                 <span class="">&nbsp;上一页</span>
                             </a>
-                            <a href="" class="pagedown">
+                            <a href="{{$data->nextPageUrl()}}" class="pagedown">
                                 <span class="">下一页&nbsp;</span>
                                 <span class="">></span>
                             </a>

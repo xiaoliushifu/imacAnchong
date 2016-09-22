@@ -388,6 +388,9 @@ overflow: hidden;
 .goodsdetail li p{
     margin-left: 10px;
     margin-bottom: 10px;
+    width: 280px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .vip{
     font-size: 18px;
@@ -452,6 +455,27 @@ overflow: hidden;
     width: 50px;
     color: #9b9b9b;
     margin-left: 20px;
+}
+.pagination{
+    width: 700px;
+    height: 60px;
+    line-height: 60px;
+    float: left;
+    text-align: right;
+    color: #9b9b9b;
+    margin-top: 30px;
+
+}
+.pagination li{
+    display: inline;
+    border: 1px #9b9b9b solid;
+    padding: 3px 7px;
+    margin: 0px 5px;
+}
+.pagination li a{
+    text-decoration: none;
+    color:#606060;
+    font-size: 16px;
 }
 
 
