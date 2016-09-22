@@ -3,6 +3,7 @@
     <meta charset="utf-8">
     <title>社区</title>
     <link rel="stylesheet" type="text/css" href="home/css/chat.css"/>
+    <script src="home/js/jquery-3.1.0.js"></script>
 </head>
 <body>
 @include('inc.home.site-top')
@@ -69,12 +70,10 @@
                 <i>共有{{$chat -> lastpage()}}页，</i>
                 <i class="blank">
                     去第
-                    <from action="#">
-                    <input class="page-num" type="text" value="{{$chat->currentPage()}}">
-                    </from>
+                    <input name="page" class="page-num" onchange="changePage(this)" type="text" value="{{$chat->currentPage()}}">
                     页
                 </i>
-                <input class="page-btn" type="button" value="确定">
+                <a class="page-btn" href="">确定</a>
             </ul>
             <div class="cl"></div>
         </div>
@@ -82,4 +81,15 @@
 </div>
 @include('inc.home.site-foot')
 </body>
+<script>
+    {{--获取用户输入的页数，然后更改a标签的链接--}}
+    function changePage(obj) {
+        var num = $(obj).val();
+        if(!isNaN(num)&&num>0&&num<={{$chat->lastpage()}}){
+            $('.page-btn').attr('href','http://www.anchong.net/community?page='+num);
+        }else{
+            alert('请输入数字并小于等于"{{$chat->lastpage()}}"');
+        }
+    }
+</script>
 </html>

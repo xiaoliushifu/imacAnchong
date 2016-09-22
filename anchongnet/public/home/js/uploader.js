@@ -11,7 +11,7 @@ $(function(){
         swf: 'Uploader.swf',
 
         // 文件接收服务端。
-        server: '',
+        server: '/info',
 
         // 选择文件的按钮。可选。
         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
@@ -24,7 +24,7 @@ $(function(){
             title:'Doucments',
             extensions:'doc,docx,ppt,ppts,xls,xlsx,wps,pdf,txt',
             mimeTypes:'application/pdf,text/plain,application/msword,application/vnd.ms-excel,application/vnd.ms-powerpoint'
-        }
+        },
     });
     //上传进度
     uploader.on( 'uploadProgress', function( file, percentage ) {

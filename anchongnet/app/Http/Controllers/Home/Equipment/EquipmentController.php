@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Home\Equipment;
 
 use App\Category;
 use App\Goods;
+use App\Goods_attribute;
 use App\Goods_brand;
+use App\Goods_specifications;
 use App\Goods_thumb;
 use App\Goods_type;
 use App\Shop;
@@ -52,17 +54,41 @@ class EquipmentController extends Controller
 
     public function getList($cat_id)
     {
+        //住导航
+        $nav = Category::orderBy('cat_id','asc')->take(8)->get();
+        //所在位置
+       $adress = Category::find($cat_id);
+
     $test = Goods_type::where('other_id',$cat_id)->orderBy('cat_id','desc')->paginate(16);
 
-     return view('home.equipment.goodslist',compact('test'));
+     return view('home.equipment.goodslist',compact('test','nav','adress'));
     }
     public function getShow($goods_id,$gid)
     {
-        $data = Goods::find($goods_id);
-       $img = Goods_thumb::where('gid',$gid)->get();
-         $shop = Shop::where('sid',$data->sid)->get();
+        //住导航
+        $nav = Category::orderBy('cat_id','asc')->take(8)->get();
+//        通过goods_id商品详情
 
-        return view('home.equipment.goodsdetals',compact('data','img','shop'));
+        $data = Goods::find($goods_id);
+//        通过$gid找到缩略图
+       $img = Goods_thumb::where('gid',$gid)->get();
+        //通过sid找到哪家商铺
+         $shop = Shop::where('sid',$data->sid)->get();
+//        商品规格分类
+         $type = Goods_attribute::where('goods_id',$goods_id)->get();
+        $name = explode(' ',$type[0]->value);
+        if(isset($type[1])){
+            $size = explode(' ',$type[1]->value);
+        }
+//        dd($type);
+//        得到商品价格
+          $price = Goods_type::where(['goods_id'=>$goods_id,'gid'=>$gid])->get();
+        //推荐部分
+         $related = Goods_type::where('cid',$price[0]->cid)->take(5)->orderBy('updated_at','desc')->get();
+//        看了又看
+        $hot = Goods_type::where('cid',$price[0]->cid)->take(2)->orderBy('updated_at','asc')->get();
+//
+        return view('home.equipment.goodsdetals',compact('data','img','shop','price','related','hot','nav','adress','name','size','type'));
     }
     public function getThirdshop()
     {
