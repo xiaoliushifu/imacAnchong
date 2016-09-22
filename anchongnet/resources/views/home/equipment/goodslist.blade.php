@@ -44,14 +44,9 @@
         <div class="navcontent">
             <ul>
                 <li><a href="#">首页</a></li>
-                <li><a href="#">智能门禁</a></li>
-                <li><a href="#">视频监控</a></li>
-                <li><a href="#">探测报告</a></li>
-                <li><a href="#">巡更巡检</a></li>
-                <li><a href="#">停车管理</a></li>
-                <li><a href="#">楼宇对讲</a></li>
-                <li><a href="#">智能消费</a></li>
-                <li><a href="#">安防配套</a></li>
+                @foreach($nav as $a)
+                    <li><a href="{{url('equipment/list/'.$a->cat_id)}}">{{$a->cat_name}}</a></li>
+                @endforeach
             </ul>
         </div>
 
@@ -63,7 +58,7 @@
 
 <div class="centermain">
     <div class="submain">
-         <div class="adress"><p>您的位置：首页>设备选购><span>门禁监控</span></p></div>
+         <div class="adress"><p>您的位置：首页>设备选购><span>{{$adress->cat_name}}</span></p></div>
 
         <script>
             $(document).ready(function(){
