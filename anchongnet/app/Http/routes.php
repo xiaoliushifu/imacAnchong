@@ -26,8 +26,6 @@
 //接口路由组
 
 Route::group(['domain' => 'api.anchong.net'], function () {
-    Route::post('/community/chonggou','Api\Community\CommunityController@chonggou');
-    Route::post('/business/chonggou','Api\Business\BusinessController@chonggou');
     //商品检索
     Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
     //智能提示

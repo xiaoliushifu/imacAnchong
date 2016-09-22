@@ -16,6 +16,8 @@ class UserIndiviController extends Controller
 	private $auth;
 	private $user;
 	private $qua;
+	private $propel;
+
 	/*
 	 * 构造方法
 	 */
@@ -82,6 +84,15 @@ class UserIndiviController extends Controller
         				DB::table('anchong_users')->where('users_id', $id)->update(['certification' => 1]);
         				//提交事务
         				DB::commit();
+						$this->propel=new \App\Http\Controllers\admin\Propel\PropelmesgController();
+						//进行推送
+						try{
+	                        //推送消息
+	                        $this->propel->apppropel('13730593861','认证审核','有人提交认证了，快去审核吧');
+	                    }catch (\Exception $e) {
+							//返回给客户端数据
+	        				return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'认证提交成功，请等待审核！！']]);
+						}
         				//返回给客户端数据
         				return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'认证提交成功，请等待审核！！']]);
         		}

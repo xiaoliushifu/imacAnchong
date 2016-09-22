@@ -21,6 +21,7 @@ class PayController extends Controller
 {
     //定义变量
     private $users;
+    private $propel;
 
     /*
     *   执行构造方法将orm模型初始化
@@ -28,6 +29,7 @@ class PayController extends Controller
     public function __construct()
     {
         $this->users=new \App\Users();
+        $this->propel=new \App\Http\Controllers\admin\Propel\PropelmesgController();
     }
 
     /*
@@ -56,7 +58,7 @@ class PayController extends Controller
         foreach ($pay_datas as $datas) {
             $pay_total_price+=$datas->total_price;
             //创建ORM模型
-            $orders=new \App\Order();
+            $orders = new \App\Order();
             // 使用通知里的 "商户订单号" 去自己的数据库找到订单
             $order = $orders->find($datas->order_id);
             // 如果订单不存在
@@ -88,7 +90,7 @@ class PayController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败']]);
             }
         }
-        //判断再付款的时候订单是否被恶意
+        //判断再付款的时候订单是否被恶意修改
         if($param['totalFee'] == $pay_total_price){
             //获取用户句柄
             $users_handle=$this->users->find($data['guid']);
@@ -562,10 +564,10 @@ class PayController extends Controller
       //获得app传过来的参数
       $data=$request::all();
       // 验证请求。
-      //if (! app('alipay.mobile')->verify()) {
+      if (! app('alipay.mobile')->verify()) {
 
-        //  return 'fail';
-     // }
+         return 'fail';
+     }
 
       // 判断通知类型。
       switch ($data['trade_status']) {
