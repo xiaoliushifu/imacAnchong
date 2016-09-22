@@ -584,14 +584,9 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             //获取虫虫资讯
             Route::get('/information/{infor_id}', 'Api\Advert\AdvertController@informations');
             Route::get('/', 'Home\IndexController@index');
-
-
-//商机部分路由
-
-                //    商机主页
-                Route::get('/business', 'Home\Business\BusinessController@index');
-
-
+            });
+            //商机主页
+            Route::get('/business', 'Home\Business\BusinessController@index');
             /*
               *   找货板块
               */
@@ -652,6 +647,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
             //设备选购
             Route::controller('/equipment', 'Home\Equipment\EquipmentController');
+
             /*
             * 资讯
             */
@@ -685,19 +681,17 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
            */
 
             Route::group(['namespace' => 'Home\Community'], function () {
-            //社区
+                //社区
                 Route::resource('community', 'CommunityController');
-//        闲聊
+                //闲聊
                 Route::get('/talk', 'CommunityController@talk');
-//        问问
+                //问问
                 Route::get('/question', 'CommunityController@question');
-//            活动
+                //活动
                 Route::get('/activity', 'CommunityController@activity');
-   //        聊聊资源路由
+                //发布聊聊
                 Route::resource('/chat','ChatController');
             });
-
-
         });
 //验证码类,需要传入数字
         Route::get('/captcha/{num}', 'CaptchaController@captcha');

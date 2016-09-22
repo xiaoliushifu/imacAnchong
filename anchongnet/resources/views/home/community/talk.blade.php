@@ -3,6 +3,7 @@
     <meta charset="utf-8">
     <title>闲聊</title>
     <link rel="stylesheet" type="text/css" href="home/css/chat.css"/>
+    <script src="home/js/jquery-3.1.0.js"></script>
 </head>
 <body>
 @include('inc.home.site-top')
@@ -48,12 +49,12 @@
                         </p>
                     </li>
                     <li class="chat-content">
-                        <a href="{{url('/chat/'.$value -> chat_id)}}">
+                        <a href="{{url('/community/'.$value -> chat_id)}}">
                             <h3 class="chat-title">{{$value -> title}}</h3>
                             <p class="content">{{$value -> content}}</p>
                         </a>
                         <p class="comments-share">
-                            <a class="comments" href=""><img src="home/images/chat/talk.png">{{$num[$value-> chat_id]}}</a>
+                            <a class="comments" href="{{url('/community/'.$value -> chat_id).'/#comments'}}"><img src="home/images/chat/talk.png">{{$num[$value-> chat_id]}}</a>
                             <a class="share" href=""><img src="home/images/chat/share.png"></a>
                         </p>
                     </li>
@@ -69,10 +70,10 @@
                 <i>共有{{$talk -> lastpage()}}页，</i>
                 <i class="blank">
                     去第
-                    <input class="page-num" type="text">
+                    <input name="page" class="page-num" onchange="changePage(this)" type="text" value="{{$talk->currentPage()}}">
                     页
                 </i>
-                <input class="page-btn" type="button" value="确定">
+                <a class="page-btn" href="">确定</a>
             </ul>
             <div class="cl"></div>
         </div>
@@ -80,4 +81,15 @@
 </div>
 @include('inc.home.site-foot')
 </body>
+<script>
+    {{--获取用户输入的页数，然后更改a标签的链接--}}
+    function changePage(obj) {
+        var num = $(obj).val();
+        if(!isNaN(num)&&num>0&&num<={{$talk->lastpage()}}){
+            $('.page-btn').attr('href','http://www.anchong.net/talk?page='+num);
+        }else{
+            alert('请输入数字并小于等于"{{$talk->lastpage()}}"');
+        }
+    }
+</script>
 </html>
