@@ -41,8 +41,7 @@
 <div class="site-middle">
     <div class="middle-content">
         <div class="middle-top" style="margin-top: 20px">
-            <h3 style="text-align: center">{{$info->title}}</h3>
-            <p style="margin-top: 10px">{!! $info->content !!}</p>
+            {!! $info->content !!}
         </div>
     </div>
 </div>

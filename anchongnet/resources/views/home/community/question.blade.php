@@ -73,7 +73,7 @@
                     <input name="page" class="page-num" onchange="changePage(this)" type="text" value="{{$question->currentPage()}}">
                     页
                 </i>
-                <a class="page-btn" href="">确定</a>
+                <a class="page-btn" href="{{$question->url($question->currentPage())}}">确定</a>
             </ul>
             <div class="cl"></div>
         </div>
