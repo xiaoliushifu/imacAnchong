@@ -20,12 +20,26 @@ class checkShopController extends Controller
             return 'unauthorized';
         }
         $sid=$request['sid'];
+        //查出用户的手机号
+        $users_id=DB::table('anchong_shops')->where('sid',$sid)->pluck('users_id');
+        $phone=DB::table('anchong_users')->where('users_id',$users_id[0])->pluck('phone');
         if ($request['certified']=="yes") {
             DB::table('anchong_shops')->where('sid', $sid)->update(['audit' => 2]);
             DB::table('anchong_users')->where('users_id', $request['users_id'])->update(['sid' => $sid]);
+            $mes='您提交的商铺申请已经审核通过，快去体验新功能吧';
         } else {
             DB::table('anchong_shops')->where('sid', $sid)->delete();
+            $mes='您提交的商铺申请未通过审核，请重新提交';
         };
+        //创建推送的ORM
+		$propel=new \App\Http\Controllers\admin\Propel\PropelmesgController();
+		//进行推送
+		try{
+			//推送消息
+			$propel->apppropel($phone[0],'商铺申请进度',$mes);
+		}catch (\Exception $e) {
+			return "设置成功";
+		}
         return "设置成功";
     }
 }
