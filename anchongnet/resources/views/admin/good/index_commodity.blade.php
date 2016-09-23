@@ -70,7 +70,6 @@
                                 <input type="text" name="keyName2"  class="form-control" placeholder="商品ID">
                                 <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
                             </form>
-                            <a href="/commodity" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
                             <table id="example1" class="table table-bordered table-striped">
                                 <tr>
                                     <th width="20%">商品ID</th>
@@ -140,7 +139,8 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="keyword">关键字</label>
                             <div class="col-sm-9">
-                                <input type="text" name="keyword" id="keyword" class="form-control" />
+                                <!--  <input type="text" name="keyword" id="keyword" class="form-control" /> -->
+                                <textarea name="keyword" id="keyword" class="form-control" rows="8"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -207,7 +207,7 @@
                             </table>
                         </div>
                         <div class="clearfix"></div>
-                        <small class="text-danger">商品属性请谨慎修改，若修改请先删除已有的货品</small>
+                        <small class="text-danger">商品属性不可修改，若修改请重新录入商品</small>
                     </div>
                     <hr>
                     <h5 class="text-center">图片信息</h5>

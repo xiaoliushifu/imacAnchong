@@ -54,17 +54,6 @@ class commodityController extends Controller
         } else {
             $datas=$this->goods->where('sid','=',$this->sid)->orderBy("goods_id","desc")->paginate(8);
         }
-        //缓冲期
-        foreach ($datas as &$row) {
-            if (!preg_match('#[\x{4e00}-\x{9fa5}]#u',$row['keyword'])){
-                $arr=preg_split('#\s#', $row['keyword'],-1,PREG_SPLIT_NO_EMPTY);
-                $str="";
-                for($i=0;$i<count($arr);$i++){
-                    $str.=hex2bin($arr[$i])." ";
-                }
-                $row['keyword']=$str;
-            }
-        }
         $args=array("keyName"=>$keyName,"keyName2"=>$keyName2);
         return view('admin/good/index_commodity',array("datacol"=>compact("args","datas"),"sid"=>$this->sid));
     }

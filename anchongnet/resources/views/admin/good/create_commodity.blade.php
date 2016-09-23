@@ -98,7 +98,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="name">商品名称</label>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-6">
                                         <input type="text" name="name" id="name" class="form-control" required value="{{ old('name') }}" />
                                     </div>
                                 </div><!--end form-group-->
@@ -111,7 +111,8 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="keyword">关键字</label>
                                     <div class="col-sm-3">
-                                        <input type="text" name="keyword" id="keyword" class="form-control" placeholder="多个关键字之间请用空格隔开" value="{{ old('keyword') }}" />
+                                        <!--  <input type="text" name="keyword" id="keyword" class="form-control" placeholder="多个关键字之间请用空格隔开" value="{{ old('keyword') }}" />-->
+                                        <textarea name="keyword" id="keyword" class="form-control" placeholder="多个关键字之间请用空格隔开" rows="5">{{ old('keyword') }}</textarea>
                                     </div>
                                 </div><!--end form-group-->
                                 <div class="form-group">
@@ -149,7 +150,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="name">OEM</label>
                                     <div class="col-sm-3">
-                                        <input type="text" name="oem" id="oem" class="form-control" style="width:500px;" placeholder="多个属性值之间请用空格隔开，最后一个属性为订制。如：中信 订制" value="{{ old('oem') }}" />
+                                        <input type="text" name="oem" id="oem" class="form-control" style="width:500px;" placeholder="多个属性值之间请用空格隔开，最后一个值为订制。如：中信 订制" value="{{ old('oem') }}" />
                                     </div>
                                 </div>
                                 <div class="form-group hidden suptemp">
@@ -196,7 +197,7 @@
                                                     <option value="">请选择</option>
                                                 </select>
                                             </div>
-                                            <div class="col-xs-2">
+                                            <div class="col-xs-5">
                                                 <select class="form-control supname" name="supname[]">
                                                     <option value="">请选择</option>
                                                 </select>
@@ -213,7 +214,7 @@
                                 </ul>
                                 <div class="gal form-group">
                                     <label class="col-sm-2 control-label text-right">商品详情图片<br></label>
-                                    <div id="detailbox" class="col-sm-10">
+                                    <div id="detailbox" class="col-sm-10"><small class="hidden text-danger">详情图片必须得来一张</small>
                                         <div id="detail"></div>
                                     </div>
                                     <div class="clearfix"></div>

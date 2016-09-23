@@ -62,7 +62,6 @@
 						        <button type="submit" class="btn btn-primary">go</button>
 						        <button type="button" class="btn btn-primary" onclick="my()">清除缓存</button>
 						        <small class="text-danger">为性能考虑，请慎重使用“清除【搜索缓存】”功能</small>
-						        <small class="text-danger">为性能考虑，请慎重使用“清除缓存”功能</small>
 						    </form>
 						    <span>{{$ori}}---{{$hex}}</span>
 							<table id="example1" class="table table-bordered table-striped">

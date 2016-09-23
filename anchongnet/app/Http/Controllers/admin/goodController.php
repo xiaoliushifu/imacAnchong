@@ -372,6 +372,7 @@ class goodController extends Controller
 
     /*
      * 获取属于同一商品的所有货品
+     * 在添加商品页面，选择配套商品时会调用它
      * */
     public function getSiblings(Request $request)
     {

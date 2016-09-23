@@ -50,7 +50,9 @@ $(function(){
     });
     
     
-    
+    /**
+     * 商品编辑
+     */
     $(".edit").click(function() {
         $("#stock").empty();//库存部分
         $("#sups").empty();	//配套商品部分
@@ -85,7 +87,7 @@ $(function(){
                 $("#sups").append(sup);
             }
         });
-        /*----获取商品属性信息，暂不可编辑----*/
+        /*----获取商品属性信息，只读，暂不可编辑----*/
         $.get('/getsiblingsattr', {gid: id}, function (data, status) {
             for (var i = 0; i < data.length; i++) {
                 var line = '<tr class="line"> <td> <input type="text" class="attrname form-control" value="' + data[i].name + '" /> </td> <td><textarea rows="5" class="attrvalue form-control">' + data[i].value + '</textarea> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" data-id="' + data[i].atid + '" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除" data-id="' + data[i].atid + '"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';

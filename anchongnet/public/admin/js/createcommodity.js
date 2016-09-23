@@ -22,7 +22,7 @@ $(function(){
         $(this).parent().siblings("div").find(".name").empty();
         $(this).parent().siblings("div").find(".midselect").append(defaultopt);
         if(val==""){
-        	return;
+        		return;
         }else{
             $.get("/getlevel",{pid:parseInt(val)},function(data,status){
                 if(data.length==0){
@@ -38,7 +38,7 @@ $(function(){
         }
     });
 
-    /*----添加分类，把隐藏域的副本，稍微调整即可得---*/
+    /*----添加一条分类，把隐藏域的副本，稍微调整即可得---*/
     
     $("body").on("click",".add button",function(){
         var tem=$(".catemplate").clone().removeClass("hidden").removeClass("catemplate");
@@ -91,14 +91,17 @@ $(function(){
     //添加配套商品部分，选中商品时获取该商品的第一条货品
     $("body").on("change",".supname",function(){
         var txt=$(this).find("option:selected").text();
+        //用隐藏域保存选中的配套商品名
         $(this).siblings(".goodsname").val(txt);
         var val=$(this).val();
         $(this).siblings(".supval").empty();
         $(".waitforspe").removeClass("waitforspe");
         $(this).addClass("waitforspe");
+        //会获得所有货品数据，但是只显示第一条，有点浪费带宽了
         $.get('/getsiblingsgood',{'good':val},function(data,status){
             var spe;
             if(data.length==0){
+            		//配套商品的货品即使为空，也得在数据库表中占用一条记录
                 spe='<input type="hidden" name="gid[]" value=" "><input type="hidden" name="title[]" value=" "><input type="hidden" name="price[]" value=" "><input type="hidden" name="img[]" value=" ">';
             }else{
                 spe='<input type="hidden" name="gid[]" value='+data[0].gid+'><input type="hidden" name="title[]" value="'+data[0].title+'"><input type="hidden" name="price[]" value='+data[0].market_price+'><input type="hidden" name="img[]" value='+data[0].goods_img+'>';
@@ -107,7 +110,7 @@ $(function(){
         })
     });
 
-    //添加配套商品
+    //添加配套商品输入框
     $("body").on("click",".addsup",function(){
         var suptem=$(".suptemp").clone().removeClass("hidden").removeClass("suptemp");
         $("#img").before(suptem);
@@ -116,10 +119,22 @@ $(function(){
     //删除配套商品
     $("body").on("click",".minusup",function(){
         $(this).parents(".form-group").remove();
-    })
+    });
+    
+    /**
+	 * 表单验证部分
+	 */
+	$('body').on('submit','form',function(){
+		//已经上传的商城详情图片的数量
+		var len=$("#img").find("li").length;
+		if (len < 1) {
+			$('small:eq(0)').removeClass('hidden');
+			return false;
+		}
+	});
 });
 
-/*商品图片添加*/
+/*商品详情图片添加*/
 $('#detail').diyUpload({
     url:'/img',
     formData:{
@@ -128,6 +143,10 @@ $('#detail').diyUpload({
     success:function( data ) {
         console.info( data.message );
         var len=$("#img").find("li").length;
+        if (len == 1) {
+    			alert('只上传一张图片即可');
+    			return;
+        }
         var lis='<li> <input type="hidden" name="pic['+len+'][url]" value="'+data.url+'"> <input type="hidden" name="pic['+len+'][imgtype]" value="1"> </li>';
         $("#img").append(lis);
     },
