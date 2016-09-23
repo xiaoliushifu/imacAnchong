@@ -584,7 +584,6 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             //获取虫虫资讯
             Route::get('/information/{infor_id}', 'Api\Advert\AdvertController@informations');
             Route::get('/', 'Home\IndexController@index');
-            });
             //商机主页
             Route::get('/business', 'Home\Business\BusinessController@index');
             /*
