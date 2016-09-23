@@ -632,6 +632,16 @@ class PurseController extends Controller
         $result=$this->purse_order->add($order_data);
         //判断是否成功
         if($result){
+            //创建推送的ORM
+            $propel=new \App\Http\Controllers\admin\Propel\PropelmesgController();
+            //进行推送
+            try{
+                //推送消息
+                $propel->apppropel('13730593861','提现申请','有人进行提现申请了，快去看看吧');
+            }catch (\Exception $e) {
+                //返回给客户端数据
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'申请成功，请等待审核']]);
+            }
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['remark'=>$order_data['remark'],'account'=>$param['account'],'price'=>$param['price']]]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'提现失败']]);
