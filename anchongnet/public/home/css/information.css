@@ -172,6 +172,10 @@ ul,li{
     height: 0;
     visibility:hidden;
 }
+.h1_h1{
+    text-align: center;
+    margin-bottom: 10px;
+}
 .banner img{
     width: 790px;
     height: 390px;
