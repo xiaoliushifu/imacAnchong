@@ -72,8 +72,9 @@ class EquipmentController extends Controller
 
         $data = Goods::find($goods_id);
         $dd = explode(' ',$data->type);
-      $ss = hex2bin($dd[0]);
-        dd($ss);
+
+
+
 
 
 //        通过$gid找到缩略图
@@ -101,7 +102,7 @@ class EquipmentController extends Controller
         //住导航
         $nav = Category::orderBy('cat_id','asc')->take(8)->get();
         $data = Goods_type::where('sid',$sid)->orderBy('updated_at','desc')->paginate(16);
-//        dd($data);
+
 
         return view('home.equipment.thirdparty',compact('data','nav'));
     }
