@@ -165,6 +165,7 @@
     <div class="submaindetail">
         <div class="goodsdetail">
             <ul>
+
                 @foreach( $test as $t)
                 <li>
                     <a href="{{url('equipment/show/'.$t->goods_id.'/'.$t->gid)}}"><img src="{{$t->pic}}" alt=""></a>
@@ -172,6 +173,14 @@
                     <span class="vip">会员价：{{$t->vip_price}}</span><span class="common">价格：￥{{$t->price}}</span>
                 </li>
                 @endforeach
+
+                    @foreach( $det as $d)
+                        <li>
+                            <a href="{{url('equipment/show/'.$d->goods_id.'/'.$d->gid)}}"><img src="{{$d->pic}}" alt=""></a>
+                            <nobr><p><a href="{{url('equipment/show/'.$d->goods_id.'/'.$d->gid)}}">{{$d->title}}</a></p></nobr>
+                            <span class="vip">会员价：{{$d->vip_price}}</span><span class="common">价格：￥{{$d->price}}</span>
+                        </li>
+                    @endforeach
 
             </ul>
         </div>
@@ -181,6 +190,7 @@
         <div class="paging" >
             <div class="">
                 {{$test->links()}}
+                {{$det->links()}}
                 {{--&lt;<a href="#">下一页</a> <span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><a href="#">上一页</a>&gt;--}}
             </div>
             <div class="paging-right">

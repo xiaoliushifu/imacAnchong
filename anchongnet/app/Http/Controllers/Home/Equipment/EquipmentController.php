@@ -14,6 +14,7 @@ use App\Shop;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class EquipmentController extends Controller
 {
@@ -60,9 +61,9 @@ class EquipmentController extends Controller
        $adress = Category::find($cat_id);
 
     $test = Goods_type::where('other_id',$cat_id)->orderBy('cat_id','desc')->paginate(16);
-
-
-     return view('home.equipment.goodslist',compact('test','nav','adress'));
+        $aa = bin2hex($cat_id);
+$det = Goods_type::whereRaw("match(`cid`)against(?)",[$aa])->paginate(16);
+     return view('home.equipment.goodslist',compact('test','nav','adress','det'));
     }
     public function getShow($goods_id,$gid)
     {
@@ -71,10 +72,6 @@ class EquipmentController extends Controller
 //        通过goods_id商品详情
 
         $data = Goods::find($goods_id);
-        $dd = explode(' ',$data->type);
-      $ss = hex2bin($dd[0]);
-        dd($ss);
-
 
 //        通过$gid找到缩略图
        $img = Goods_thumb::where('gid',$gid)->get();
@@ -101,7 +98,7 @@ class EquipmentController extends Controller
         //住导航
         $nav = Category::orderBy('cat_id','asc')->take(8)->get();
         $data = Goods_type::where('sid',$sid)->orderBy('updated_at','desc')->paginate(16);
-//        dd($data);
+
 
         return view('home.equipment.thirdparty',compact('data','nav'));
     }

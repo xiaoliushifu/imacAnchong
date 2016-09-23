@@ -178,11 +178,11 @@
            </div>
             <div class="see"><div class="seeline"><hr></div><p>看了又看</p><div class="seeline"><hr></div></div>
 
-            <div class="flagpic"><img src="{{$hot[0]->pic}}" alt="">
+            <div class="flagpic"><a href="{{url('equipment/show/'.$hot[0]->goods_id.'/'.$hot[0]->gid)}}"><img src="{{$hot[0]->pic}}" alt=""></a>
                 <div class="flagpic-price"><p>￥：{{$hot[0]->price}}</p></div>
             </div>
             @if(isset($hot[1]))
-            <div class="flagpic" style="margin-top: 20px;"><img src="{{$hot[1]->pic}}" alt="">
+            <div class="flagpic" style="margin-top: 20px;"><a href="{{url('equipment/show/'.$hot[1]->goods_id.'/'.$hot[1]->gid)}}"><img src="{{$hot[1]->pic}}" alt=""></a>
                 <div class="flagpic-price"><p>￥：{{$hot[1]->price}}</p></div>
             </div>
                 @endif
