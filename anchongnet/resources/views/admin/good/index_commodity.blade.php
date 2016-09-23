@@ -294,6 +294,7 @@
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
 <script src="/admin/js/jquery.form.js"></script>
+<script src="/admin/js/functions.js"></script>
 <script src="/admin/js/commodity.js"></script>
 </body>
 </html>

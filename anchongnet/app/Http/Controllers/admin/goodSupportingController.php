@@ -11,11 +11,6 @@ use DB;
 class goodSupportingController extends Controller
 {
     private $gs;
-    public function __construct()
-    {
-        $this->gs=new GoodSupporting();
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -101,6 +96,7 @@ class goodSupportingController extends Controller
      */
     public function destroy($id)
     {
+        $this->gs=new GoodSupporting();
         $data=$this->gs->find($id);
         $data->delete();
         return "删除成功";
@@ -112,6 +108,7 @@ class goodSupportingController extends Controller
      */
     public function getSupcom(Request $request)
     {
+        $this->gs=new GoodSupporting();
         $field=['goods_name','supid'];
         return $this->gs->Good($request->gid)->get($field);
     }

@@ -4,20 +4,13 @@ namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
 use DB;
 use App\Goods_attribute;
 
 class attrController extends Controller
 {
     private $attr;
-    public function __construct()
-    {
-        $this->attr=new Goods_attribute();
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -88,6 +81,7 @@ class attrController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->attr=new Goods_attribute();
         $data=$this->attr->find($id);
         $data->name=$request->name;
         $data->value=$request->value;
@@ -104,6 +98,7 @@ class attrController extends Controller
      */
     public function destroy($id)
     {
+        $this->attr=new Goods_attribute();
         $data=$this->attr->find($id);
         $data->delete();
         return "删除成功";
@@ -114,6 +109,7 @@ class attrController extends Controller
      * */
     public function getSiblings(Request $request)
     {
+        $this->attr=new Goods_attribute();
         $gid=$request->gid;
         $datas=$this->attr->Good($gid)->get();
         return $datas;

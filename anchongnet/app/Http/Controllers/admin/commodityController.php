@@ -234,9 +234,7 @@ class commodityController extends Controller
             DB::insert("insert into anchong_goods_oem(`goods_id`,`value`) values('$id','$oem') on duplicate key update value='$oem'");
         }
         /*oem的修改 END*/
-        /*商品属性修改START*/
-        
-        /*商品属性修改END*/
+        //属性信息不在此处更新，在编辑页单独修改
         if($result){
             return redirect()->back();
         }else{

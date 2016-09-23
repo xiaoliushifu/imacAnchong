@@ -10,36 +10,6 @@ var Level1='';
 var Level2='';
 $(function(){
 	
-	//自定义转码函数
-	var hex2bin = function(data){
-	    var data = (data || '') + '';
-	    var tmpStr = '';
-	    if (data.length % 2) {
-	        console && console.log('hex2bin(): Hexadecimal input string must have an even length');
-	        return false;
-	    }
-	    if (/[^\da-z]/ig.test(data)) {
-	        console && console.log('hex2bin(): Input string must be hexadecimal string');
-	        return false;
-	    }
-	    for (var i = 0, j = data.length; i < j; i += 2) {
-	        tmpStr += '%' + data[i] + data[i + 1];
-	    }
-	    return decodeURIComponent(tmpStr);
-	}
-	//获取子分类
-	var getsublevel = function (plevel){
-		$.get("/getlevel",{pid:plevel},function(data,status){
-			return data;
-		});
-	};
-	//获取分类标签
-	var getsiblevel = function (level){
-	    	$.get("/getcatag",{cid:level},function(data,status){
-	    		return data;
-	    	});
-	};
-	
     //加载一级分类
     var one0=0;
     $.get("/getlevel",{pid:one0},function(data,status){
@@ -90,7 +60,7 @@ $(function(){
         /*----获取商品属性信息，只读，暂不可编辑----*/
         $.get('/getsiblingsattr', {gid: id}, function (data, status) {
             for (var i = 0; i < data.length; i++) {
-                var line = '<tr class="line"> <td> <input type="text" class="attrname form-control" value="' + data[i].name + '" /> </td> <td><textarea rows="5" class="attrvalue form-control">' + data[i].value + '</textarea> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" data-id="' + data[i].atid + '" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除" data-id="' + data[i].atid + '"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
+                var line = '<tr class="line"> <td> <input type="text" class="attrname form-control" value="' + data[i].name + '" /> </td> <td><textarea rows="3" class="attrvalue form-control">' + data[i].value + '</textarea> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" data-id="' + data[i].atid + '" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除" data-id="' + data[i].atid + '"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
                 $("#stock").append(line);
             }
         });
@@ -103,7 +73,7 @@ $(function(){
         });
         
         //获取二级分类信息，因为该商品有可能属于多个分类，故循环
-        for (var f=0;f<arr.length;f++) {
+        for (var f=0; f<arr.length; f++) {
 	        	tmpcat = cat.clone(true);
 	        	$("#catarea").append(tmpcat);
 	            //如果凑巧这个二级分类信息已经有了
@@ -113,8 +83,7 @@ $(function(){
 		            $.ajax({
 		            	url:'/getsiblingscat?a='+Math.random(),
 		            	data:{cid:Level2},
-		            	async:false,//同步
-		            	cache:false,
+		            	async:false,//同步(只有获得分类信息后，才能处理接下来的数据)
 		            	success:function(data){
 		            		Level1 = data[0].parent_id;
 		            		for(var i in data){
@@ -138,7 +107,7 @@ $(function(){
     });
 
     	/**
-    	 * {{--商品删除--}}
+    	 * 商品删除
     	 */
     	$(".del").click(function(){
     		 if(confirm("确定要删除该商品，删除该商品会把相关的货品也一并删除？")){
@@ -158,7 +127,7 @@ $(function(){
     	});
     
     
-    /*----添加分类----*/
+    /*----添加一组分类----*/
     $("body").on("click",".add button",function(){
         var tem=$(".catemplate").clone().removeClass("hidden").removeClass("catemplate");
         $("#catarea").append(tem);
@@ -174,7 +143,7 @@ $(function(){
         }
     });
 
-    //添加配套商品输入框
+    //添加一组配套商品输入框
     $(".addsup").click(function(){
         var suptem=$(".suptemp").clone().removeClass("hidden").removeClass("suptemp");
         $("#futuresups").append(suptem);
@@ -182,29 +151,33 @@ $(function(){
 
     //保存配套信息
     $("body").on("click",".save",function(){
-        var goodsid=$(this).parentsUntil(".form-group").find(".supname").val();
-        if(goodsid==""){
+    		//检测配套商品id
+        var currobj=$(this).parentsUntil(".form-group");
+        var goodsid=currobj.find(".supname").val();
+        if (goodsid=="") {
             alert("请选择商品");
-        }else{
+            return;
+        } else {
             var agid=$("#gid").val();
-            var goodname=$(this).parentsUntil(".form-group").find(".goodsname").val();
-            var gid=$(this).parentsUntil(".form-group").find(".gid").val();
-            var title=$(this).parentsUntil(".form-group").find(".title").val();
-            var price=$(this).parentsUntil(".form-group").find(".price").val();
-            var img=$(this).parentsUntil(".form-group").find(".img").val();
+            var goodname=currobj.find(".goodsname").val();//商品名
+            var gid=currobj.find(".gid").val();//货品id
+            var title=currobj.find(".title").val();//货品title
+            var price=currobj.find(".price").val();//货品市场价
+            var img=currobj.find(".img").val();//货品图
             $.post("/goodsupporting",{"goodsid":goodsid,"goodsname":goodname,"gid":gid,"title":title,"price":price,"img":img,"agid":agid},function(data,status){
                 alert(data.message);
+                //里面显示
                 var sup='<li class="list-group-item">'+data.name+'<button type="button" data-id='+data.id+' class="delsup btn btn-warning btn-xs pull-right glyphicon glyphicon-minus" title="删除条配套信息"></button></li>';
                 $("#sups").append(sup);
             })
         }
     });
 
+    //删除一条配套信息输入框
     $("body").on("click",".delone",function(){
         $(this).parents(".form-group").remove();
     });
-
-    /*----删除配套信息----*/
+    /*----删除一条配套信息----*/
     $("body").on("click",".delsup",function(){
         if(confirm("确定要删除该条配套信息吗？")){
             $(this).parent().addClass("waitfordel");
@@ -220,7 +193,7 @@ $(function(){
         }
     });
 
-    //添加配套商品的时候选择二级分类获取对应的分类下的商品
+    //配套商品部分，选择二级分类时获取对应的分类下的商品
     $("body").on("change",".midforsup",function(){
         var val=$(this).val();
         var sid=$("#sid").val();
@@ -259,12 +232,18 @@ $(function(){
         })
     });
 
+    	/**
+    	 * 添加一条商品属性输入框
+    	 */
     $("body").on("click", '.addcuspro', function () {
         var len = $(".line").length;
-        var line = '<tr class="line"> <td> <input type="text" class="attrname form-control" /> </td> <td><textarea rows="5" class="attrvalue form-control" required></textarea> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
+        var line = '<tr class="line"> <td> <input type="text" class="attrname form-control" /> </td> <td><textarea rows="3" class="attrvalue form-control" required></textarea> </td> <td> <button type="button" class="addcuspro btn-sm btn-link" title="添加"> <span class="glyphicon glyphicon-plus"></span> </button> <button type="button" class="savestock btn-sm btn-link" title="保存"> <span class="glyphicon glyphicon-save"></span> </button> <button type="button" class="delcuspro btn-sm btn-link" title="删除"> <span class="glyphicon glyphicon-minus"></span> </button> </td> </tr>';
         $("#stock").append(line);
     });
 
+    	/**
+    	 * 保存商品属性
+    	 */
     $("body").on("click", '.savestock', function () {
         var aname = $(this).parentsUntil("#stock").find(".attrname").val();
         var avalue = $(this).parentsUntil("#stock").find(".attrvalue").val();
@@ -281,6 +260,7 @@ $(function(){
             $(this).attr("id", "save");
             $("#del").attr("id", "");
             $(this).siblings(".delcuspro").attr("id", "del");
+            //添加属性
             if (id == undefined) {
                 $.ajax({
                     url: "/attr",
@@ -292,6 +272,7 @@ $(function(){
                         $("#del").attr("data-id", response.id);
                     }
                 });
+            //修改属性
             } else {
                 $.ajax({
                     url: "/attr/" + id,
@@ -305,10 +286,19 @@ $(function(){
         }
     });
 
+    	/**
+    	 * 删除商品属性
+    	 */
     $("body").on("click", '.delcuspro', function () {
         if (confirm("你确定要删除该条属性信息吗？")) {
             var id = $(this).attr("data-id");
+            //标记为waitfordel，使得删除方便。
             $(this).parents(".line").addClass("waitfordel");
+            if (typeof id == "undefined") {
+            		$(".waitfordel").remove();
+            		return ;
+            }
+            //如果只是一个框子，则直接删除即可
             $.ajax({
                 url: "/attr/" + id,
                 type: 'DELETE',

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 use Request as Requester;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Category;
 use Cache;
@@ -27,7 +26,7 @@ class goodCateController extends Controller
      */
     public function index()
     {
-      $keyName=Requester::input('keyName');
+        $keyName=Requester::input('keyName');
         if($keyName==""){
             $datas=$this->cat->paginate(8);
         }else{
@@ -46,9 +45,9 @@ class goodCateController extends Controller
         $cid=$request['cid'];
         $pid=$this->cat->find($cid)->parent_id;
         //缓存使用
-        if (!$datas = Cache::get($pid)) {
+        if (!$datas =  Cache::get($pid)) {
             $datas=$this->cat->Pids($pid)->get();
-            Cache::add($pid,$datas,'60');
+            Cache::add($pid,$datas,'600');
         }
         $datas = $datas->toArray();
         $result['cnum']=$request['id'];
@@ -67,7 +66,7 @@ class goodCateController extends Controller
         //缓存的使用
         if (!$datas = Cache::get($pid)) {
             $datas = Category::Pids($pid)->get();
-            Cache::add($pid,$datas,'60');
+            Cache::add($pid,$datas,'600');
         }
         $result['cnum']=$request['id'];
         $result['datas']=$datas;
@@ -83,8 +82,8 @@ class goodCateController extends Controller
        $pid=$this->cat->find($cid)->parent_id;
        //使用缓存
        if (!$datas = Cache::get($pid)) {
-           $datas=$this->cat->Pids($pid)->get();
-           Cache::add($pid,$datas,'60');
+           $datas=$this->cat->Pids( $pid )->get();
+           Cache::add($pid,$datas,'600');
        }
        return $datas;
    }
@@ -92,13 +91,12 @@ class goodCateController extends Controller
    /*
     * 获取指定分类的子分类的方法
     * */
-   public function getsubLevel(Request $request)
+   public function getsubLevel(Request $req)
    {
-       $pid=$request['pid'];
-       //使用缓存，获取pid=0-8
+       $pid=$req['pid'];
        if (!$datas = Cache::get($pid)) {
-           $datas = Category::Pids($pid)->get(['cat_id','cat_name']);
-           Cache::add($pid,$datas,'60');
+           $datas = Category::Pids($pid)->get();
+           Cache::add($pid,$datas,'600');
        }
        return $datas;
    }
@@ -112,7 +110,7 @@ class goodCateController extends Controller
         //加入缓存
         if (!$datas = Cache::get('level2')) {
             $datas = Category::Level2()->get();
-            Cache::add('level2',$datas,'60');
+            Cache::add('level2',$datas,'600');
         }
         return $datas;
     }
@@ -143,7 +141,6 @@ class goodCateController extends Controller
         $this->cat->parent_id=$request['parent'];
         $result=$this->cat->save();
         if ($result) {
-            //清除缓存
             Cache::forget('category_catinfo_result');
             return redirect()->back();
         } else {
@@ -193,7 +190,7 @@ class goodCateController extends Controller
         $data->parent_id=$request['parent'];
         $result=$data->save();
         if($result){
-            //清除缓存
+          //清除缓存
             Cache::forget('category_catinfo_result'.$request['parent']);
             return redirect()->back();
         }else{
@@ -225,21 +222,21 @@ class goodCateController extends Controller
         }
         $result=$data->delete();
         if($result){
-            //清除缓存
+          //清除缓存
             Cache::forget('category_catinfo_result1');
-            //清除缓存
+          //清除缓存
             Cache::forget('category_catinfo_result2');
-            //清除缓存
+          //清除缓存
             Cache::forget('category_catinfo_result3');
-            //清除缓存
+          //清除缓存
             Cache::forget('category_catinfo_result4');
-            //清除缓存
+          //清除缓存
             Cache::forget('category_catinfo_result5');
-            //清除缓存
+          //清除缓存
             Cache::forget('category_catinfo_result6');
-            //清除缓存
+          //清除缓存
             Cache::forget('category_catinfo_result7');
-            //清除缓存
+          //清除缓存
             Cache::forget('category_catinfo_result8');
             return "删除成功";
         }else{

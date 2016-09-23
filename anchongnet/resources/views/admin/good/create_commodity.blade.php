@@ -103,7 +103,7 @@
                                     </div>
                                 </div><!--end form-group-->
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="description">副标题</label>
+                                    <label class="col-sm-2 control-label" for="description">商品描述</label>
                                     <div class="col-sm-3">
                                         <textarea name="description" id="description" class="form-control" rows="5">{{ old('description') }}</textarea>
                                     </div>
