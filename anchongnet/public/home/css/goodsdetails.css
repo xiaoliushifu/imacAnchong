@@ -314,13 +314,14 @@ overflow: hidden;
     display: inline;
     float: left;
     margin-left: 20px;
+    text-align: center;
 }
 .suit li:hover{
     border: 1px #f53745 solid;
     color: #f53745;
 }
 .suit span{
-    margin-left: 30px;
+
 }
 .goods-size{
     width: 500px;
@@ -566,10 +567,12 @@ overflow: hidden;
     margin-left: 40px;
     position: relative;
     margin-top: 10px;
+    border: 1px #9b9b9b solid;
 }
 .flagpic img{
     width: 200px;
     height: 200px;
+
 }
 .flagpic-price{
     position: absolute;

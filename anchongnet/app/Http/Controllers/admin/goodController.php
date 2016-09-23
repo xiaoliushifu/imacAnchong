@@ -361,6 +361,9 @@ class goodController extends Controller
             $res['keyword'] = DB::table('anchong_goods_keyword')->whereIn('cat_id',$cid)->delete();
             //\Log::info($res,array('good_del'));
             DB::commit();
+            //搜索缓存删除
+            Cache::tags('s')->flush();
+            //应该只删除有关的缓存
             return '删除成功';
         } catch (\Exception $e) {
             return '删除失败';

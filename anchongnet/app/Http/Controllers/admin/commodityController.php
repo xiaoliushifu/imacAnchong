@@ -284,6 +284,9 @@ class commodityController extends Controller
             $res['attr'] = DB::table('anchong_goods_attribute')->where('goods_id',$id)->delete();
             $res['supp'] = DB::table('anchong_goods_supporting')->where('assoc_gid',$id)->delete();
             DB::commit();
+            
+            //搜索缓存删除
+            Cache::tags('s')->flush();
             return '删除商品成功';
         } catch (\Exception $e) {
             return '商品删除有误';

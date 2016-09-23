@@ -26,8 +26,6 @@
 //接口路由组
 
 Route::group(['domain' => 'api.anchong.net'], function () {
-    Route::post('/community/chonggou','Api\Community\CommunityController@chonggou');
-    Route::post('/business/chonggou','Api\Business\BusinessController@chonggou');
     //商品检索
     Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
     //智能提示
@@ -578,27 +576,19 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
 
 
-
-    //前台安全防护
-    Route::group(['middleware'=>'csrf'],function() {
-
-
 //前台路由
-        Route::group(['domain' => 'anchong.hd'], function () {
+
+
+
+        Route::group(['domain' => 'www.anchong.net','middleware'=>'csrf'], function () {
             //获取商品参数html代码
             Route::get('/getparam', 'admin\uEditorController@getParam');
             Route::get('/getpackage', 'admin\uEditorController@getPackage');
             //获取虫虫资讯
             Route::get('/information/{infor_id}', 'Api\Advert\AdvertController@informations');
             Route::get('/', 'Home\IndexController@index');
-
-
-//商机部分路由
-
-                //    商机主页
-                Route::get('/business', 'Home\Business\BusinessController@index');
-
-
+            //商机主页
+            Route::get('/business', 'Home\Business\BusinessController@index');
             /*
               *   找货板块
               */
@@ -659,21 +649,6 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
             //设备选购
             Route::controller('/equipment', 'Home\Equipment\EquipmentController');
-            /*
-            * 资讯
-            */
-            Route::group(['namespace' => 'Home\Info'], function () {
-
-
-//        资讯首页
-                Route::get('/info', 'InfoController@index');
-//        咨询详情页
-                Route::get('/info/{infor_id}', 'InfoController@info');
-//        干货上传页面
-                Route::get('/upload', 'InfoController@upload');
-
-                Route::any('/uploadify', 'InfoController@uploadify');
-            });
 
 
                 /*
@@ -682,30 +657,24 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::group(['namespace' => 'Home\Info'], function () {
 
                 Route::resource('info', 'InfoController');
-                // 问问
-                Route::get('/question', 'CommunityController@question');
-                // 活动
-                Route::get('/activity', 'CommunityController@activity');
+
             });
             /*
              * 社区
            */
 
             Route::group(['namespace' => 'Home\Community'], function () {
-            //社区
+                //社区
                 Route::resource('community', 'CommunityController');
-//        闲聊
+                //闲聊
                 Route::get('/talk', 'CommunityController@talk');
-//        问问
+                //问问
                 Route::get('/question', 'CommunityController@question');
-//            活动
+                //活动
                 Route::get('/activity', 'CommunityController@activity');
-   //        聊聊资源路由
+                //发布聊聊
                 Route::resource('/chat','ChatController');
             });
-
-
         });
 //验证码类,需要传入数字
         Route::get('/captcha/{num}', 'CaptchaController@captcha');
-    });

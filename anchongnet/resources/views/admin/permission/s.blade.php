@@ -61,6 +61,7 @@
 						        <input type="text" name="q"  placeholder="磁力锁" style="width:300px">&nbsp;
 						        <button type="submit" class="btn btn-primary">go</button>
 						        <button type="button" class="btn btn-primary" onclick="my()">清除缓存</button>
+						        <small class="text-danger">为性能考虑，请慎重使用“清除【搜索缓存】”功能</small>
 						        <small class="text-danger">为性能考虑，请慎重使用“清除缓存”功能</small>
 						    </form>
 						    <span>{{$ori}}---{{$hex}}</span>
@@ -84,7 +85,7 @@
 								      <button type="button" class="view btn btn-default btn-xs"  >操作</button>
 								  </td>
 								</tr>
-								@endforeach  
+								@endforeach
 							</table>
 						</div>
 					</div>

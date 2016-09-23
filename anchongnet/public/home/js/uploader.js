@@ -24,7 +24,7 @@ $(function(){
             title:'Doucments',
             extensions:'doc,docx,ppt,ppts,xls,xlsx,wps,pdf,txt',
             mimeTypes:'application/pdf,text/plain,application/msword,application/vnd.ms-excel,application/vnd.ms-powerpoint'
-        }
+        },
     });
     //上传进度
     uploader.on( 'uploadProgress', function( file, percentage ) {

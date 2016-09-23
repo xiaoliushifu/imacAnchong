@@ -136,14 +136,9 @@
                 <div class="maingoods-nav">
                     <ul>
                         @foreach($nav1 as $q)
-                        <li><a href="">{{$q->cat_name}}</a></li>
+                        <li><a href="{{url('equipment/list/'.$q->cat_id)}}">{{$q->cat_name}}</a></li>
                         @endforeach
-                        {{--<li><a href="">门禁一体机</a></li>--}}
-                        {{--<li><a href="">门禁读卡器</a></li>--}}
-                        {{--<li><a href="">生物识别</a></li>--}}
-                        {{--<li><a href="">门禁锁</a></li>--}}
-                        {{--<li><a href="">电梯控制</a></li>--}}
-                        {{--<li><a href="">快速通道</a></li>--}}
+
                         <li><a href="">更多</a></li>
                     </ul>
                 </div>
@@ -154,12 +149,10 @@
                     <img src="" alt="">
                     <p>
                         @foreach($one as $o)
-                        <a href="#">{{$o->cat_name}}</a><span>|</span>
+                        <a href="{{url('equipment/list/'.$o->cat_id)}}">{{$o->cat_name}}</a><span>|</span>
                         @endforeach
                     </p>
-                        {{--<a href="#">门禁一体机</a><span>|</span><a href="#">门禁读卡器</a><span>|</span><a--}}
-                                {{--href="#">生物识别</a><span>|</span><a href="#">门禁锁</a><span>|</span><a href="#">电梯控制--}}
-                            {{--</a><span>|</span>门禁配套<span>|</span>智能门禁<span>|</span>储物柜锁<span>|</span>门禁电源</p>--}}
+
                 </div>
                 <div class="maingoods-two"><img src="home/images/shebei/60.jpg" alt=""></div>
                 <div class="maingoods-three">
@@ -176,13 +169,9 @@
                 <div class="centergoods-nav">
                     <ul>
                         @foreach($nav2 as $w)
-                        <li><a href="#">{{$w->cat_name}}</a></li>
+                        <li><a href="{{url('equipment/list/'.$w->cat_id)}}">{{$w->cat_name}}</a></li>
                         @endforeach
-                        {{--<li><a href="">监视器</a></li>--}}
-                        {{--<li><a href="">硬盘</a></li>--}}
-                        {{--<li><a href="">矩阵</a></li>--}}
-                        {{--<li><a href="">画面处理</a></li>--}}
-                        {{--<li><a href="">操作台</a></li>--}}
+
 
                         <li><a href="">更多</a></li>
                     </ul>
@@ -195,7 +184,7 @@
                     <div class="centerlist-title">
                         <p>
                             @foreach($two as $e)
-                            <a href="">{{$e->cat_name}}</a><span>|</span>
+                            <a href="{{url('equipment/list/'.$e->cat_id)}}">{{$e->cat_name}}</a><span>|</span>
                             @endforeach
                         </p>
                     </div>
@@ -220,12 +209,9 @@
                 <div class="maingoods-nav"style="width: 480px;">
                     <ul>
                         @foreach($nav3 as $r)
-                        <li><a href="">{{$r->cat_name}}</a></li>
+                        <li><a href="{{url('equipment/list/'.$r->cat_id)}}">{{$r->cat_name}}</a></li>
                         @endforeach
-                        {{--<li><a href="">报警控制器</a></li>--}}
-                        {{--<li><a href="">声光警号</a></li>--}}
-                        {{--<li><a href="">探测器</a></li>--}}
-                        {{--<li><a href="">电子围栏</a></li>--}}
+
                         <li><a href="">更多</a></li>
                     </ul>
                 </div>
@@ -236,7 +222,7 @@
                     <img src="home/images/shebei/59.jpg" alt="">
                     <p>
                         @foreach($three as $t)
-                        <a href="#">{{$t->cat_name}}</a><span>|</span>
+                        <a href="{{url('equipment/list/'.$t->cat_id)}}>{{$t->cat_name}}</a><span>|</span>
                             @endforeach
                     </p>
                 </div>
@@ -255,12 +241,9 @@
                 <div class="centergoods-nav" style="width: 300px;">
                     <ul>
                         @foreach($nav4 as $u)
-                            <li><a href="">{{$u->cat_name}}</a></li>
+                            <li><a href="{{url('equipment/list/'.$u->cat_id)}}">{{$u->cat_name}}</a></li>
                         @endforeach
-                        {{--<li><a href="">信息点</a></li>--}}
-                        {{--<li><a href="">巡更棒</a></li>--}}
-                        {{--<li><a href="">巡检机</a></li>--}}
-                        {{--<li><a href="">通讯座</a></li>--}}
+
                         <li><a href="">更多</a></li>
                     </ul>
                 </div>
@@ -272,7 +255,7 @@
                     <div class="centerlist-title">
                         <p>
                             @foreach($four as $i)
-                                <a href="#">{{$i->cat_name}}</a><span>|</span>
+                                <a href="{{url('equipment/list/'.$i->cat_id)}}">{{$i->cat_name}}</a><span>|</span>
                             @endforeach
                             {{--<a href="">摄像机</a><span>|</span><a href="">监控器</a><span>|</span><a href="">硬盘</a><span>|</span><a--}}
                                 {{--href="">矩阵</a><span>|</span><a href="">画面处理</a><span>|</span><a href="">操作台</a>--}}
@@ -298,16 +281,10 @@
                 <div class="maingoods-title"><span>F5</span><h3>停车管理</h3></div>
                 <div class="maingoods-nav" style="width: 580px;">
                     <ul>
-                        @foreach($nav5 as $o)
-                            <li><a href="">{{$o->cat_name}}</a></li>
+                        @foreach($nav5 as $m)
+                            <li><a href="{{url('equipment/list/'.$m->cat_id)}}">{{$m->cat_name}}</a></li>
                         @endforeach
-                        {{--<li><a href="">门禁控制器</a></li>--}}
-                        {{--<li><a href="">门禁一体机</a></li>--}}
-                        {{--<li><a href="">门禁读卡器</a></li>--}}
-                        {{--<li><a href="">生物识别</a></li>--}}
-                        {{--<li><a href="">门禁锁</a></li>--}}
-                        {{--<li><a href="">电梯控制</a></li>--}}
-                        {{--<li><a href="">快速通道</a></li>--}}
+
                         <li><a href="">更多</a></li>
                     </ul>
                 </div>
@@ -318,9 +295,8 @@
                     <img src="home/images/shebei/59.jpg" alt="">
                     <p>
                         @foreach($five as $p)
-                            <a href="#">{{$p->cat_name}}</a><span>|</span>
+                            <a href="{{url('equipment/list/'.$p->cat_id)}}">{{$p->cat_name}}</a><span>|</span>
                         @endforeach
-                        {{--门禁控制<span>|</span>门禁一体机<span>|</span>门禁读卡器<span>|</span>生物识别<span>|</span>门禁锁<span>|</span>电梯控制<span>|</span>门禁配套<span>|</span>智能门禁<span>|</span>储物柜锁<span>|</span>门禁电源--}}
                     </p>
                 </div>
                 <div class="maingoods-two"><img src="home/images/shebei/60.jpg" alt=""></div>
@@ -338,14 +314,9 @@
                 <div class="centergoods-nav" style="width: 680px;">
                     <ul>
                         @foreach($nav6 as $s)
-                            <li><a href="">{{$s->cat_name}}</a></li>
+                            <li><a href="{{url('equipment/list/'.$s->cat_id)}}">{{$s->cat_name}}</a></li>
                         @endforeach
-                        {{--<li><a href="">摄像机</a></li>--}}
-                        {{--<li><a href="">监视器</a></li>--}}
-                        {{--<li><a href="">硬盘</a></li>--}}
-                        {{--<li><a href="">矩阵</a></li>--}}
-                        {{--<li><a href="">画面处理</a></li>--}}
-                        {{--<li><a href="">操作台</a></li>--}}
+
 
                         <li><a href="">更多</a></li>
                     </ul>
@@ -358,10 +329,9 @@
                     <div class="centerlist-title">
                         <p>
                             @foreach($six as $a)
-                                <a href="#">{{$a->cat_name}}</a><span>|</span>
+                                <a href="{{url('equipment/list/'.$a->cat_id)}}">{{$a->cat_name}}</a><span>|</span>
                             @endforeach
-                            {{--<a href="">摄像机</a><span>|</span><a href="">监控器</a><span>|</span><a href="">硬盘</a><span>|</span><a--}}
-                                {{--href="">矩阵</a><span>|</span><a href="">画面处理</a><span>|</span><a href="">操作台</a>--}}
+
                         </p>
                     </div>
                 </div>
@@ -386,15 +356,9 @@
                 <div class="maingoods-nav" style="width: 180px;">
                     <ul>
                         @foreach($nav7 as $d)
-                            <li><a href="">{{$d->cat_name}}</a></li>
+                            <li><a href="{{url('equipment/list/'.$d->cat_id)}}">{{$d->cat_name}}</a></li>
                         @endforeach
-                        {{--<li><a href="">门禁控制器</a></li>--}}
-                        {{--<li><a href="">门禁一体机</a></li>--}}
-                        {{--<li><a href="">门禁读卡器</a></li>--}}
-                        {{--<li><a href="">生物识别</a></li>--}}
-                        {{--<li><a href="">门禁锁</a></li>--}}
-                        {{--<li><a href="">电梯控制</a></li>--}}
-                        {{--<li><a href="">快速通道</a></li>--}}
+
                         <li><a href="">更多</a></li>
                     </ul>
                 </div>
@@ -405,9 +369,9 @@
                     <img src="home/images/shebei/59.jpg" alt="">
                     <p>
                         @foreach($seven as $f)
-                            <a href="#">{{$f->cat_name}}</a><span>|</span>
+                            <a href="{{url('equipment/list/'.$f->cat_id)}}">{{$f->cat_name}}</a><span>|</span>
                         @endforeach
-                        {{--门禁控制<span>|</span>门禁一体机<span>|</span>门禁读卡器<span>|</span>生物识别<span>|</span>门禁锁<span>|</span>电梯控制<span>|</span>门禁配套<span>|</span>智能门禁<span>|</span>储物柜锁<span>|</span>门禁电源--}}
+
                     </p>
                 </div>
                 <div class="maingoods-two"><img src="home/images/shebei/60.jpg" alt=""></div>
@@ -425,14 +389,8 @@
                 <div class="centergoods-nav" style="width: 500px;">
                     <ul>
                         @foreach($nav8 as $g)
-                            <li><a href="">{{$g->cat_name}}</a></li>
+                            <li><a href="{{url('equipment/list/'.$g->cat_id)}}">{{$g->cat_name}}</a></li>
                         @endforeach
-                        {{--<li><a href="">摄像机</a></li>--}}
-                        {{--<li><a href="">监视器</a></li>--}}
-                        {{--<li><a href="">硬盘</a></li>--}}
-                        {{--<li><a href="">矩阵</a></li>--}}
-                        {{--<li><a href="">画面处理</a></li>--}}
-                        {{--<li><a href="">操作台</a></li>--}}
 
                         <li><a href="">更多</a></li>
                     </ul>
@@ -445,10 +403,9 @@
                     <div class="centerlist-title">
                         <p>
                             @foreach($eight as $h)
-                                <a href="#">{{$h->cat_name}}</a><span>|</span>
+                                <a href="{{url('equipment/list/'.$h->cat_id)}}">{{$h->cat_name}}</a><span>|</span>
                             @endforeach
-                            {{--<a href="">摄像机</a><span>|</span><a href="">监控器</a><span>|</span><a href="">硬盘</a><span>|</span><a--}}
-                                {{--href="">矩阵</a><span>|</span><a href="">画面处理</a><span>|</span><a href="">操作台</a>--}}
+
                         </p>
                     </div>
                 </div>

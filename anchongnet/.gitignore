@@ -12,3 +12,4 @@ cache/services.php
 .idea/
 .idea
 .env.example
+uploads/
