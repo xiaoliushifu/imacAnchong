@@ -6,6 +6,7 @@ use App\Business;
 use App\Community_release;
 use App\Information;
 use App\Usermessages;
+use EasyWeChat\Staff\Session;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;

@@ -18,8 +18,8 @@
                     <a href=""><img src="home/images/shebei/10.jpg" alt=""  style="width: 16px;height: 40px;margin-top: 0px;margin-left: 2px;"></a>
                 </div></li>
                 <li>垂询电话:0317-8155026</li>
-                <li><img src="home/images/shebei/6.jpg" alt=""></li>
-                <li style="padding-left: 10px;"><a href="#">风信子<b class="caret"></b></a></li>
+                <li><img src="{{$msg[0]->headpic}}" alt=""></li>
+                <li style="padding-left: 10px;"><a href="#">{{$msg[0]->nickname}}<b class="caret"></b></a></li>
             </ul>
         </div>
     </div>
@@ -51,13 +51,7 @@
                 @foreach($nav as $a)
                 <li><a href="{{url('equipment/list/'.$a->cat_id)}}">{{$a->cat_name}}</a></li>
                 @endforeach
-                {{--<li><a href="#">视频监控</a></li>--}}
-                {{--<li><a href="#">探测报告</a></li>--}}
-                {{--<li><a href="#">巡更巡检</a></li>--}}
-                {{--<li><a href="#">停车管理</a></li>--}}
-                {{--<li><a href="#">楼宇对讲</a></li>--}}
-                {{--<li><a href="#">智能消费</a></li>--}}
-                {{--<li><a href="#">安防配套</a></li>--}}
+
             </ul>
         </div>
 
@@ -95,9 +89,6 @@
             @foreach($brand as $b)
             <li><a href=""><img src="{{$b->brand_logo}}" alt=""></a></li>
             @endforeach
-            {{--<li><a href=""><img src="home/images/shebei/48.jpg" alt=""></a></li>--}}
-            {{--<li><a href=""><img src="home/images/shebei/49.jpg" alt=""></a></li>--}}
-            {{--<li style="border-right: 1px #9b9b9b solid;"><a href=""><img src="home/images/shebei/50.jpg" alt=""></a></li>--}}
         </div>
         <div style="clear:both;"></div>
         <div class="hotgoods">
@@ -257,8 +248,6 @@
                             @foreach($four as $i)
                                 <a href="{{url('equipment/list/'.$i->cat_id)}}">{{$i->cat_name}}</a><span>|</span>
                             @endforeach
-                            {{--<a href="">摄像机</a><span>|</span><a href="">监控器</a><span>|</span><a href="">硬盘</a><span>|</span><a--}}
-                                {{--href="">矩阵</a><span>|</span><a href="">画面处理</a><span>|</span><a href="">操作台</a>--}}
                         </p>
                     </div>
                 </div>

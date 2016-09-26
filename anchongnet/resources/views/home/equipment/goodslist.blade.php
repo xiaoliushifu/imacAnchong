@@ -153,8 +153,22 @@
                 <li class="price"><a href="">价格</a><img src="{{asset('home/images/shebei/upp.png')}}" alt=""><img src="{{asset('home/images/shebei/don.png')}}" alt=""></li>
 
                 <li style="width: 400px; float: right ;text-align: right;" class="pagmm">
-                    <a href="{{$test->nextPageUrl()}}"><img src="{{asset('home/images/shebei/下一页.png')}}" alt=""></a>
-                    <a href="{{$test->previousPageUrl()}}"><img src="{{asset('home/images/shebei/上一页.png')}}" alt=""></a>
+                    <a href="
+                    @if(isset($test))
+                    {{$test->nextPageUrl()}}
+                            @endif
+                            @if(isset($det))
+                    {{$det->nextPageUrl()}}
+                            @endif
+                            "><img src="{{asset('home/images/shebei/下一页.png')}}" alt=""></a>
+                    <a href="
+                    @if(isset($test))
+                    {{$test->previousPageUrl()}}
+                            @endif
+                            @if(isset($det))
+                    {{$det->previousPageUrl()}}
+                            @endif
+                            "><img src="{{asset('home/images/shebei/上一页.png')}}" alt=""></a>
                 </li>
             </ul>
 
@@ -165,7 +179,7 @@
     <div class="submaindetail">
         <div class="goodsdetail">
             <ul>
-
+                 @if(isset($test))
                 @foreach( $test as $t)
                 <li>
                     <a href="{{url('equipment/show/'.$t->goods_id.'/'.$t->gid)}}"><img src="{{$t->pic}}" alt=""></a>
@@ -173,7 +187,8 @@
                     <span class="vip">会员价：{{$t->vip_price}}</span><span class="common">价格：￥{{$t->price}}</span>
                 </li>
                 @endforeach
-
+                @endif
+                     @if(isset($det))
                     @foreach( $det as $d)
                         <li>
                             <a href="{{url('equipment/show/'.$d->goods_id.'/'.$d->gid)}}"><img src="{{$d->pic}}" alt=""></a>
@@ -181,6 +196,7 @@
                             <span class="vip">会员价：{{$d->vip_price}}</span><span class="common">价格：￥{{$d->price}}</span>
                         </li>
                     @endforeach
+                         @endif
 
             </ul>
         </div>
@@ -189,12 +205,25 @@
 
         <div class="paging" >
             <div class="">
+                     @if(isset($test))
                 {{$test->links()}}
+                     @endif
+                @if(isset($det))
                 {{$det->links()}}
+                @endif
+
                 {{--&lt;<a href="#">下一页</a> <span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><a href="#">上一页</a>&gt;--}}
             </div>
             <div class="paging-right">
-                <span>共有{{$test->lastpage()}}页，去第 <input type="text"></span> <button type="submit">确定</button>
+                <span>共有
+                    @if(isset($test))
+                        {{$test->lastpage()}}
+                    @endif
+                    @if(isset($det))
+                        {{$det->lastpage()}}
+                    @endif
+
+                    页，去第 <input type="text"></span> <button type="submit">确定</button>
             </div>
         </div>
     </div>

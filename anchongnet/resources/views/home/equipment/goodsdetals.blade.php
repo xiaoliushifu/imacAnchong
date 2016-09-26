@@ -114,7 +114,9 @@
                                 <ul>
 
                                     @foreach($size as $b)
+                                        @if(count($b))
                                     <li><span>{{$b}}</span></li>
+                                        @endif
                                     @endforeach
 
                                 </ul>

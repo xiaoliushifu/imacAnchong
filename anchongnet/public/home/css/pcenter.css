@@ -140,7 +140,11 @@
 
 .fbgc img{
 	width:130px;
-	height:83;
+    height: 83px;;
 	float:right;
 	text-align:right;
+}
+.dropdown-menu li {
+    width: 120px;
+    height: 30px;
 }

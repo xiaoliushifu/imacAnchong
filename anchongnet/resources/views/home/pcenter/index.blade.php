@@ -29,17 +29,15 @@
                     <li>邮箱：www@anchong.net</li>
                     <li>购物车 <span class="glyphicon glyphicon-shopping-cart"></span></li>
                     <li class="active">咨询电话：010-888888</li>
-                    <li><img class="img-circle" src="home/images/pcenter/p6.jpg"></li>
+                    <li><img class="img-circle" src="{{$msg[0]->headpic}}"></li>
                     <li class="dropdown" style="margin-left: 10px;">
                         <a href="#" class="dropdown-toggle yhm" data-toggle="dropdown">
-                            风信子 <b class="caret"></b>
+                           {{$msg[0]->nickname}}<b class="caret"></b>
                         </a>
-                        <ul class="dropdown-menu ">
-                            <li><a href="#"  class="text-center">Jasper Report</a></li>
-                            <li class="divider"  class="text-center"></li>
-                            <li><a href="#"  class="text-center">分离的链接</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#"  class="text-center">另一个分离的链接</a></li>
+                        <ul class="dropdown-menu text-center">
+                            <li><a href="#"  class="text-center">个人资料</a></li>
+                            <li><a href="#"  class="text-center">购物车</a></li>
+                            <li><a href="{{url('/quit')}}"  class="text-center">退出</a></li>
                         </ul>
                     </li>
 
@@ -80,7 +78,7 @@
             <!-- 左侧导航区 -->
             <div class="col-lg-12 toppp">
                 <ul class="list-unstyled text-center">
-                    <li><a href="javascript::" class="inactive">我的发布<b class="caret"></b></a>
+                    <li><a href="javascript:" class="inactive">我的发布<b class="caret"></b></a>
                         <ul class="list-unstyled ttt" style="display: none">
                         		<hr>
                             <li><a href="{{url('/conwork')}}" class="item">发包工程</a></li>
@@ -91,7 +89,7 @@
                         </ul>
                     </li>
                     <hr>
-                    <li><a href="javascript::" class="inactive">我的收藏<b class="caret"></b></a>
+                    <li><a href="javascript:" class="inactive">我的收藏<b class="caret"></b></a>
                       <ul class="list-unstyled ttt" style="display: none">
                           <hr>
                           <li><a href="{{url('/colgoods')}}" class="item">商品</a></li>
@@ -100,7 +98,7 @@
                       </ul>
                     </li>
                     <hr>
-                    <li><a href="javascript::" class="inactive">我的订单<b class="caret"></b></a>
+                    <li><a href="javascript:" class="inactive">我的订单<b class="caret"></b></a>
                         <ul class="list-unstyled ttt" style="display: none">
                             <hr>
                             <li><a href="#" class="inactive active">美协机关</a>
