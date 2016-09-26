@@ -70,7 +70,8 @@ class LoginController extends Controller
             return Redirect::back()->withInput()->with('errormessage','账号未注册!');
         } else {
             if ($data['captchapic'] == Session::get($data['captchanum'].'adminmilkcaptcha')) {
-                if (Auth::attempt(['username' => $username, 'password' => $password])) {
+                if ( $user = Auth::attempt(['username' => $username, 'password' => $password])) {
+                   session(['user'=>$username]);
                     return Redirect::to('/');
                 } else {
                     return Redirect::back()->withInput()->with('errormessage','账号密码错误');
@@ -124,5 +125,11 @@ class LoginController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function quit()
+    {
+        session(['user'=>null]);
+        return redirect('/');
     }
 }

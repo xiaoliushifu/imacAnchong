@@ -16,13 +16,13 @@
 
                 <li>邮箱：www.@anchong.net</li>
                 <li>垂询电话:0317-8155026</li>
-                <li><img src="home/images/mine/6.jpg" alt=""></li>
-                <li style="padding-left: 10px;"><a href="#" class="dropdown-toggle " data-toggle="dropdown">风信子<b class="caret"></b></a>
+                <li><img src="" alt=""></li>
+                <li style="padding-left: 10px;"><a href="#" class="dropdown-toggle " data-toggle="dropdown"><b class="caret"></b></a>
                     <ul class="dropdown-menu depth_0 downlist">
-                        <li><a href="#">网页特效</a></li>
-                        <li><a href="#">音效下载</a></li>
-                        <li><a href="#">网页模板</a></li>
-                        <li><a href="#">flash动画</a></li>
+                        <li><a href="{{url('pcenter')}}">个人首页</a></li>
+                        <li><a href="{{url('servermsg')}}">个人消息</a></li>
+                        <li><a href="{{url('/basics')}}">个人资料</a></li>
+                        <li><a href="{{url('/quit')}}">退出登录</a></li>
                     </ul>
 
 

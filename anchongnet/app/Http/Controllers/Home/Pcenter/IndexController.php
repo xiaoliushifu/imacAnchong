@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Home\Pcenter;
 
+use App\Usermessages;
+use App\Users;
 use Illuminate\Http\Request;
 use App\Business;
 use App\Http\Controllers\Controller;
@@ -10,8 +12,12 @@ class IndexController extends Controller
 {
     private $business;
     public function getIndex()
-    {
-        return view('home.pcenter.index');
+  {
+     $user =Users::where('phone',[session('user')])->get();
+
+      $msg = Usermessages::where('users_id',$user[0]->users_id)->get();
+
+        return view('home.pcenter.index',compact('msg'));
     }
     
     public function getFbgc()
@@ -60,21 +66,6 @@ class IndexController extends Controller
     public function uphead()
     {
         return view('home.pcenter.head');
-    }
-//收藏商品
-    public function colgoods()
-    {
-        return view('home.pcenter.collectgoods');
-}
-//    收藏商铺
-    public function colshop()
-    {
-        return view('home.pcenter.collectshop');
-    }
-//    收藏社区
-    public function colcommunity()
-    {
-        return view('home.pcenter.collectcommunity');
     }
 
 

@@ -57,12 +57,19 @@ class EquipmentController extends Controller
     {
         //住导航
         $nav = Category::orderBy('cat_id','asc')->take(8)->get();
+
         //所在位置
        $adress = Category::find($cat_id);
+      if($cat_id<9){
+          $test = Goods_type::where('other_id',$cat_id)->orderBy('cat_id','desc')->paginate(16);
+      }else{
+          $aa = bin2hex($cat_id);
+          $det = Goods_type::whereRaw("match(`cid`)against(?)",[$aa])->paginate(16);
 
-    $test = Goods_type::where('other_id',$cat_id)->orderBy('cat_id','desc')->paginate(16);
-        $aa = bin2hex($cat_id);
-$det = Goods_type::whereRaw("match(`cid`)against(?)",[$aa])->paginate(16);
+      }
+
+
+
      return view('home.equipment.goodslist',compact('test','nav','adress','det'));
     }
     public function getShow($goods_id,$gid)
@@ -91,6 +98,7 @@ $det = Goods_type::whereRaw("match(`cid`)against(?)",[$aa])->paginate(16);
 //        看了又看
         $hot = Goods_type::where('cid',$price[0]->cid)->take(2)->orderBy('updated_at','asc')->get();
 //
+
         return view('home.equipment.goodsdetals',compact('data','img','shop','price','related','hot','nav','adress','name','size','type'));
     }
     public function getThirdshop($sid)
