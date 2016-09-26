@@ -4,7 +4,7 @@
     <title>社区</title>
     <link rel="stylesheet" type="text/css" href="home/css/chat.css"/>
     <script src="home/js/jquery-3.1.0.js"></script>
-    <script src="home/layer/layer.js"></script>
+
 </head>
 <body>
 @include('inc.home.site-top')
@@ -54,7 +54,7 @@
                             <h3 class="chat-title">{{$value -> title}}</h3>
                             <p class="content">{{$value -> content}}</p>
                         </a>
-                        <div class="share bdsharebuttonbox" data-tag="share_1"><a class="bds_more" data-cmd="more"></a></div>
+                        {{--<div class="share bdsharebuttonbox" data-tag="share_1"><a class="bds_more" data-cmd="more"></a></div>--}}
                         <p class="comments-share">
                             <a class="comments" href="{{url('/community/'.$value -> chat_id).'/#comments'}}"><img src="home/images/chat/talk.png">{{$num[$value-> chat_id]}}</a>
                         </p>
@@ -90,25 +90,35 @@
         if(!isNaN(num)&&num>0&&num<={{$chat->lastpage()}}){
             $('.page-btn').attr('href','http://www.anchong.net/community?page='+num);
         }else{
-            layer.alert('请输入数字并小于等于"{{$chat->lastpage()}}"');
+            alert('请输入数字大于0并小于等于{{$chat->lastpage()}}');
+            $('.page-num').val({{$chat->currentPage()}});
         }
     }
-    window._bd_share_config = {
-        common : {
-            bdText : '',
-            bdDesc : '',
-            bdUrl : '',
-        },
-        share : [{
-            "bdSize" : 16
-        }],
-    }
-    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
-    $(".bds_more").css({
-        "height":"18px",
-        "line-height":"18px",
-        "margin":"0",
-        "backgroundImage":"url(http://www.anchong.net/home/images/chat/share.png)"
-    });
+    $(function () {
+//        window._bd_share_config = {
+//            common : {
+//                bdText : '',
+//                bdDesc : '',
+//                bdUrl : '',
+//            },
+//            share : [{
+//                "bdSize" : 16
+//            }],
+//        }
+//        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+//        $(".bds_more").css({
+//            "height":"18px",
+//            "line-height":"18px",
+//            "margin":"0",
+//            "backgroundImage":"url(http://www.anchong.net/home/images/chat/share.png)"
+//        });
+
+        $('.page-num').keypress(function (e) {
+            if (e.keyCode == 13) {
+                location.href = 'http://www.anchong.net/community?page='+ $(this).val();
+            }
+        });
+    })
+
 </script>
 </html>

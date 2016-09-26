@@ -5,6 +5,7 @@
     <title>资讯</title>
     <link rel="stylesheet" type="text/css" href="home/css/information.css"/>
     <script src="home/js/jquery-3.1.0.js"></script>
+    <script src="home/org/layer/layer.js"></script>
 </head>
 <body>
 @include('inc.home.top')
@@ -170,8 +171,16 @@
         if(!isNaN(num)&&num>0&&num<={{$info->lastpage()}}){
             $('.page-btn').attr('href','http://www.anchong.net/info?page='+num);
         }else{
-            alert('请输入数字并小于等于"{{$info->lastpage()}}"');
+            layer.alert('请输入数字大于0并小于等于{{$info->lastpage()}}');
+            $('.page-num').val({{$info->currentPage()}});
         }
     }
+    $(function () {
+        $('.page-num').keypress(function (e) {
+            if (e.keyCode == 13) {
+                location.href = 'http://www.anchong.net/info?page='+ $(this).val();
+            }
+        });
+    })
 </script>
 </html>
