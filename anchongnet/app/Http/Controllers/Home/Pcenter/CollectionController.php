@@ -19,7 +19,8 @@ class CollectionController extends Controller
         $user =Users::where('phone',[session('user')])->get();
         $col = Collection::where(['users_id'=>$user[0]->users_id,'coll_type'=>1])->get();
         foreach($col as $b){
-            $sss = Goods_type::where('gid',$b->coll_id)->get();
+            $sss = Goods_type::whereRaw('gid',[$b->coll_id])->get();
+            dd($sss);
         }
 
         return view('home.pcenter.collectgoods');
