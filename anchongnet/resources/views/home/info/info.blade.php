@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>资讯</title>
+    <title>安虫资讯-{{$info->title}}</title>
     <link rel="stylesheet" type="text/css" href="{{url('../home/css/information.css')}}"/>
 </head>
 <body>

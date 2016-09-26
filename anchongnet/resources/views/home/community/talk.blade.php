@@ -89,7 +89,15 @@
             $('.page-btn').attr('href','http://www.anchong.net/talk?page='+num);
         }else{
             alert('请输入数字并小于等于"{{$talk->lastpage()}}"');
+            $('.page-num').val({{$talk->currentPage()}});
         }
     }
+    $(function () {
+        $('.page-num').keypress(function (e) {
+            if (e.keyCode == 13) {
+                location.href = 'http://www.anchong.net/talk?page='+ $(this).val();
+            }
+        });
+    })
 </script>
 </html>

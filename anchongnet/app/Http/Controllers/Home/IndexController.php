@@ -6,6 +6,7 @@ use App\Business;
 use App\Community_release;
 use App\Information;
 use App\Usermessages;
+use App\Users;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
