@@ -30,8 +30,9 @@ class orderController extends Controller
 
         //通过Auth获取当前登录用户的id
         $this->uid=Auth::user()['users_id'];
-        //通过用户获取商铺id
-        $this->sid=Shop::Uid($this->uid)->sid;
+        if (!is_null($this->uid)){//通过用户获取商铺id
+            $this->sid=Shop::Uid($this->uid)->sid;
+        }
     }
 
     /**
