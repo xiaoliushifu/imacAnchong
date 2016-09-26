@@ -57,6 +57,16 @@
     				<li><a href="/beans"><i class="fa fa-circle-o"></i>虫豆充值</a></li>
     			</ul>
     		</li>
+    		<li class="treeview" id="treefeedback">
+			<a href="#">
+				<i class="fa fa-edit"></i>
+				<span>意见反馈</span>
+				<i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="treeview-menu">
+				<li><a href="/feedback/show"><i class="fa fa-circle-o"></i>反馈查看</a></li>
+			</ul>
+		</li>
     	    @endif
 		<li class="treeview" id="treeshop">
 			<a href="#">
@@ -153,16 +163,6 @@
 				<li><a href="/businesss"><i class="fa fa-circle-o"></i>所有商机</a></li>
 				<li><a href="/business"><i class="fa fa-circle-o"></i>我的商机</a></li>
 				<li><a href="/business/create"><i class="fa fa-circle-o"></i>发布商机</a></li>
-			</ul>
-		</li>
-		<li class="treeview" id="treefeedback">
-			<a href="#">
-				<i class="fa fa-edit"></i>
-				<span>意见反馈</span>
-				<i class="fa fa-angle-left pull-right"></i>
-			</a>
-			<ul class="treeview-menu">
-				<li><a href="/feedback/show"><i class="fa fa-circle-o"></i>反馈查看</a></li>
 			</ul>
 		</li>
 	</ul>
