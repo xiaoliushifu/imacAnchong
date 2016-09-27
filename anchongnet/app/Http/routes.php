@@ -327,8 +327,10 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         /*
         *   直播模块
         */
-        //直播测试
-        Route::post('/live/live','Api\Live\LiveController@live');
+        //生成直播
+        Route::post('/live/createlive','Api\Live\LiveController@createlive');
+        //生成网易云信聊天室
+        Route::post('/live/createroom','Api\Live\LiveController@createroom');
     });
 });
 
