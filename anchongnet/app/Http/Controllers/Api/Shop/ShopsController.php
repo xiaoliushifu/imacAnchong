@@ -32,7 +32,7 @@ class ShopsController extends Controller
             $result=$goods_specifications->limitquer($goods_specifications_data,'sid ='.$param['sid'].' and added ='.$param['added']);
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该商铺修整中，请稍后查看']]);
         }
     }
 
@@ -137,7 +137,7 @@ class ShopsController extends Controller
             $result=$goods_specifications->limitquer($goods_specifications_data,$sql);
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'商铺筛选暂不可用']]);
         }
     }
 
@@ -204,7 +204,7 @@ class ShopsController extends Controller
                 }
             }
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该商品暂不可操作']]);
         }
     }
 
@@ -269,7 +269,7 @@ class ShopsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'订单查询失败']]);
             }
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该商铺订单暂不可查看']]);
         }
     }
 
@@ -321,7 +321,7 @@ class ShopsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'操作失败']]);
             }
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该订单暂不可操作']]);
         }
     }
 
@@ -414,7 +414,7 @@ class ShopsController extends Controller
                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'获取商铺信息失败，请检查网络并刷新']]);
            }
        }catch (\Exception $e) {
-           return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+           return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该商铺修整中，暂不可查看']]);
        }
     }
 
@@ -476,7 +476,7 @@ class ShopsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'修改失败']]);
             }
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'暂不可修改商铺信息']]);
         }
     }
 
@@ -590,7 +590,7 @@ class ShopsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[],'showprice'=>0]]);
             }
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该商铺修整中，暂不可查看']]);
         }
     }
 
@@ -637,7 +637,7 @@ class ShopsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[],'showprice'=>0]]);
             }
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该商铺修整中，暂不可查看']]);
         }
     }
 
@@ -684,7 +684,7 @@ class ShopsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[],'showprice'=>0]]);
             }
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该商铺修整中，暂不可查看']]);
         }
     }
 
@@ -711,7 +711,7 @@ class ShopsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'获取快递公司数据失败']]);
             }
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该商铺修整中，暂不可查看']]);
         }
     }
 }

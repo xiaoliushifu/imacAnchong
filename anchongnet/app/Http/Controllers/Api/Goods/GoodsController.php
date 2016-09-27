@@ -185,7 +185,7 @@ class GoodsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'暂无商品，敬请期待']]);
             }
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该分类商品编辑中，请稍后访问']]);
         }
     }
 
@@ -247,7 +247,7 @@ class GoodsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'请求失败，请刷新']]);
             }
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该分类商品编辑中，请稍后访问']]);
         }
     }
 
@@ -269,7 +269,7 @@ class GoodsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'该分类没有检索标签']]);
             }
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'商品标签修改中，请稍后访问']]);
         }
     }
 
@@ -431,7 +431,7 @@ class GoodsController extends Controller
             //返回结果
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$goods_count,'showprice'=>$showprice,'list'=>$goods_result]]);
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'筛选功能维护中，请稍后访问']]);
         }
     }
 
@@ -519,7 +519,7 @@ class GoodsController extends Controller
                 $result['showprice']=$showprice;
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
             } catch (\Exception $e) {
-                return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'搜索功能维护中，请稍后访问']]);
             }
     }
 
@@ -579,7 +579,7 @@ class GoodsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'该商品暂不出售']]);
             }
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该商品修改中，请稍后访问']]);
         }
     }
 
@@ -617,7 +617,7 @@ class GoodsController extends Controller
                 }
             }
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该商品修改中，请稍后访问']]);
         }
     }
 
@@ -640,7 +640,7 @@ class GoodsController extends Controller
     			return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
     		}
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该商品修改中，请稍后访问']]);
         }
     }
 
@@ -693,7 +693,7 @@ class GoodsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'规格信息获取失败，请刷新']]);
             }
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该商品分类修改中，请稍后访问']]);
         }
     }
 
@@ -721,7 +721,7 @@ class GoodsController extends Controller
             }
             return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'商品无库存，联系客服']]);
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该商品修改中，请稍后访问']]);
         }
     }
 }

@@ -451,10 +451,14 @@ class PurseController extends Controller
                 $users_handle->day=2;
                 $users_handle->sign_time=$nowtime;
             }else{
+                //假如签到一轮之后就从第一天开始
+                if($users_handle->day == 7){
+                    $users_handle->day=1;
+                }
                 //如果没有断签
                 $sign_beans = DB::table('anchong_signin')->where('signin_id', $users_handle->day)->pluck('beans');
-                //假如连续签到天数大于5
-                if($users_handle->day > 5){
+                //假如连续签到天数大于6
+                if($users_handle->day > 6){
                     //将连续签到天数变成1
                     $users_handle->day=1;
                     $users_handle->sign_time=$nowtime;
