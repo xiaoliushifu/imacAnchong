@@ -6,27 +6,7 @@
     <link rel="stylesheet" type="text/css" href="home/css/confirmation.css">
 </head>
 <body>
-<div class="site-top">
-    <div class="top-container">
-        <i><a class="index" href="">安虫首页</a></i>
-        <ul class="info">
-            <li>邮箱:<a href="mailto:www@anchong.net">www@anchong.net</a></li>
-            <li><a href="">购物车<i class="carticon"></i></a></li>
-            <li class="tel">垂询电话：0317-8155026</li>
-            <li>
-                <img class="little-tx" src="home/images/cart/tx.jpg"/>
-                <span class="userinfo">
-                    {{session('name')}}
-                    <span class="info-triangle"></span>
-                    <div class="cart">
-                        <p><a href="">购物车</a></p>
-                        <p><a href="">收藏夹</a></p>
-                    </div>
-                </span>
-            </li>
-        </ul>
-    </div>
-</div>
+@include('inc.home.top')
 <div class="header">
     <div class="header-container">
         <div class="logo">

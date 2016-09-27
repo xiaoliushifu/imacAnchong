@@ -9,19 +9,7 @@
     <script src="../home/js/businessjs.js"></script>
 </head>
 <body>
-<div class="nav-top">
-    <div class="centerbar">
-
-        <div class="navmain">
-            <ul>
-                <li>邮箱：www.@anchong.net</li>
-                <li>垂询电话:0317-8155026</li>
-                <li><img src="/home/images/zhaohuo/6.jpg" alt=""></li>
-                <li style="padding-left: 10px;"><a href="#">风信子<b class="caret"></b></a></li>
-            </ul>
-        </div>
-    </div>
-</div>
+@include('inc.home.top')
 <div class="header-center">
     <div class="header-main">
         <div class="logo">
@@ -54,20 +42,13 @@
                     </div>
                 </li>
 
-                <li id="change1"><a href="{{url('/community')}}">社区</a><img src="/home/images/zhaohuo/9.jpg" alt=""  class="buslist1">
-                    <div class="cart1">
-                        <p><a href="{{url('/project')}}">工程</a></p>
-                        <p><a href="{{url('/sergoods')}}">找货</a></p>
-                        <p><a href="{{url('/talent')}}">人才</a></p>
-                    </div>
+                <li id="change1"><a href="{{url('/community')}}">社区</a>
+
                 </li>
 
                 <li id="change2"><a href="{{url('/equipment')}}">设备选购</a><img src="/home/images/zhaohuo/9.jpg" alt="" style="right: 15px;"  class="buslist2">
                     <div class="cart2">
                         <p><a href="{{url('/equipment')}}">安虫自营</a></p>
-                        <p><a href="{{url('/equipment/thirdshop')}}">第三方商城</a></p>
-                        <p><a href="{{url('/equipment/list')}}">商品列表</a></p>
-
                     </div>
                 </li>
 

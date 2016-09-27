@@ -28,9 +28,9 @@ class commodityController extends Controller
     {
         //通过Auth获取当前登录用户的id
         $this->uid=Auth::user()['users_id'];
-        //通过用户获取商铺id
-        $this->sid=Shop::Uid($this->uid)->sid;
-
+        if (!is_null($this->uid)){//通过用户获取商铺id
+            $this->sid=Shop::Uid($this->uid)->sid;
+        }
         $this->accessKeyId="HJjYLnySPG4TBdFp";
         $this->accessKeySecret="Ifv0SNWwch5sgFcrM1bDthqyy4BmOa";
         $this->endpoint="oss-cn-hangzhou.aliyuncs.com";

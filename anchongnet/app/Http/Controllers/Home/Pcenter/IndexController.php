@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Home\Pcenter;
 
+use App\Feedback_reply;
+use App\Http\Controllers\Home\CommonController;
 use App\Usermessages;
 use App\Users;
 use Illuminate\Http\Request;
 use App\Business;
-use App\Http\Controllers\Controller;
 
-class IndexController extends Controller
+class IndexController extends CommonController
 {
     private $business;
     public function getIndex()
@@ -16,6 +17,7 @@ class IndexController extends Controller
      $user =Users::where('phone',[session('user')])->first();
 
     $msg = Usermessages::where('users_id',$user->users_id)->first();
+
 
         return view('home.pcenter.index',compact('msg'));
     }
@@ -30,7 +32,10 @@ class IndexController extends Controller
     //        服务消息
     public function servermsg()
     {
-        return view('home.pcenter.servermsg');
+        $user =Users::where('phone',[session('user')])->first();
+        $messages = Feedback_reply::where('users_id',$user->users_id)->get();
+
+        return view('home.pcenter.servermsg',compact('messages'));
     }
 //        地址管理
     public function adress()

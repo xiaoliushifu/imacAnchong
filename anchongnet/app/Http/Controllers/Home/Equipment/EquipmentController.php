@@ -10,13 +10,12 @@ use App\Goods_brand;
 use App\Goods_specifications;
 use App\Goods_thumb;
 use App\Goods_type;
+use App\Http\Controllers\Home\CommonController;
 use App\Shop;
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
 
-class EquipmentController extends Controller
+class EquipmentController extends CommonController
 {
     public function getIndex()
     {

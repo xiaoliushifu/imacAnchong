@@ -10,25 +10,7 @@
 
 </head>
 <body>
-<div class="nav-top">
-    <div class="centerbar">
-
-        <div class="navmain">
-            <ul >
-                <li>邮箱：www.@anchong.net</li>
-                <li>垂询电话:0317-8155026</li>
-                <li><img src="home/images/zhaohuo/6.jpg" alt=""></li>
-                <li style="padding-left: 10px; position: relative;"><a href="#">风信子<b class="caret" id="ss"></b></a></li>
-            </ul>
-            <ul id="hh" class="topdown" >
-                <li><a href="#">买卖情况</a></li>
-                <li><a href="#">在线物流</a></li>
-                <li><a href="#">售后服务</a></li>
-            </ul>
-
-        </div>
-    </div>
-</div>
+@include('inc.home.top')
 <div class="header-center" >
     <div class="header-main">
         <div class="logo">
@@ -61,12 +43,8 @@
                     </div>
                 </li>
 
-                <li id="change1"><a href="{{url('/community')}}">社区</a><img src="home/images/zhaohuo/9.jpg" alt=""  class="buslist1">
-                    <div class="cart1" >
-                        <p><a href="{{url('/project')}}">工程</a></p>
-                        <p><a href="{{url('/sergoods')}}">找货</a></p>
-                        <p><a href="{{url('/talent')}}">人才</a></p>
-                    </div>
+                <li id="change1"><a href="{{url('/community')}}">社区</a>
+
                 </li>
 
                 <li id="change2"><a href="{{url('/equipment')}}">设备选购</a><img src="home/images/zhaohuo/9.jpg" alt="" style="right: 15px;"  class="buslist2">

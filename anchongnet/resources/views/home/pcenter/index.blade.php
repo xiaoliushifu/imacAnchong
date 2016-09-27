@@ -70,10 +70,10 @@
         <div class="col-lg-3">
             <div class="col-lg-12 topll">
             	<!-- 美女一个 -->
-                <img src="home/images/pcenter/p61.jpg" alt="">
-                <p>风信子</p>
-                <p>QQ：888888888888</p>
-                <p>邮箱：88888888888@qq.com</p>
+                <img src="{{$msg->headpic}}" alt="">
+                <p>{{$msg->nickname}}</p>
+                <p>QQ：{{$msg->qq}}</p>
+                <p>邮箱：{{$msg->email}}</p>
             </div>
             <!-- 左侧导航区 -->
             <div class="col-lg-12 toppp">

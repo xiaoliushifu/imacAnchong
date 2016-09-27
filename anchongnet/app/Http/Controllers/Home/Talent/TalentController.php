@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Home\Talent;
 
 use App\Business;
+use App\Http\Controllers\Home\CommonController;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
-class TalentController extends Controller
+class TalentController extends CommonController
 {
     public function index()
     {

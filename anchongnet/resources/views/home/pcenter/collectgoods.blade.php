@@ -9,14 +9,14 @@
 <div class="main">
     <div class="mainlf">
         <div class="topll">
-            <img src="home/images/collect/61.jpg" alt="">
-            <p>风信子</p>
-            <p>QQ：888888888888</p>
-            <p>邮箱：88888888888@qq.com</p>
+            <img src="{{$msg->headpic}}" alt="">
+            <p>{{$msg->nickname}}</p>
+            <p>QQ：{{$msg->qq}}</p>
+            <p>邮箱：{{$msg->email}}</p>
         </div>
         <div class="toppp">
             <ul>
-                <li><a href="javascript::" class="inactive">我的发布<b class="caret"></b></a>
+                <li><a href="javascript:" class="inactive">我的发布<b class="caret"></b></a>
                     <ul class="ttt" style="display: none">
                         <hr>
                         <li><a href="{{url('/conwork')}}" class="inactive active">发包工程</a></li>
@@ -29,7 +29,7 @@
 
                 </li>
                 <hr>
-                <li><a href="javascript::" class="inactive">我的收藏<b class="caret"></b></a>
+                <li><a href="javascript:" class="inactive">我的收藏<b class="caret"></b></a>
                     <ul class="ttt" style="display: none">
                         <hr>
                         <li><a href="{{url('/colgoods')}}" class="inactive active">商品</a></li>
@@ -38,7 +38,7 @@
                     </ul>
                 </li>
                 <hr>
-                <li><a href="javascript::" class="inactive">我的订单<b class="caret"></b></a>
+                <li><a href="javascript:" class="inactive">我的订单<b class="caret"></b></a>
                     <ul class="ttt" style="display: none">
                         <hr>
                         <li><a href="#" class="inactive active">美协机关</a>
@@ -75,175 +75,17 @@
         <div class="contmain">
 
             <ul>
-                <li><a href="#">
-                    <img src="home/images/collect/62.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
+                @foreach($colg as $c)
+
+                <li><a href="{{url('equipment/show/'.$c->goods_id.'/'.$c->gid)}}">
+                    <img src="{{$c->pic}}" alt="">
+                    <p><strong>{{$c->title}}</strong></p>
                 </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
+                    <p style="font-size: 20px;color: #f53745;">￥{{$c->price}}</p>
 
                 </li>
-                <li><a href="#">
-                    <img src="home/images/collect/63.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-                <li><a href="#">
-                    <img src="home/images/collect/64.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-
-                <li style="margin-right: 0px;float: right;"><a href="#">
-                    <img src="home/images/collect/66.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-
-
+                @endforeach
             </ul>
-            <ul>
-                <li><a href="#">
-                    <img src="home/images/collect/62.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-                <li><a href="#">
-                    <img src="home/images/collect/63.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-                <li><a href="#">
-                    <img src="home/images/collect/64.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-
-                <li style="margin-right: 0px;float: right;"><a href="#">
-                    <img src="home/images/collect/66.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-
-
-            </ul>
-
-            <ul>
-                <li><a href="#">
-                    <img src="home/images/collect/62.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-                <li><a href="#">
-                    <img src="home/images/collect/63.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-                <li><a href="#">
-                    <img src="home/images/collect/64.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-
-                <li style="margin-right: 0px;float: right;"><a href="#">
-                    <img src="home/images/collect/66.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-
-
-            </ul>
-
-            <ul>
-                <li><a href="#">
-                    <img src="home/images/collect/62.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-                <li><a href="#">
-                    <img src="home/images/collect/63.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-                <li><a href="#">
-                    <img src="home/images/collect/64.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-
-                <li style="margin-right: 0px;float: right;"><a href="#">
-                    <img src="home/images/collect/66.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-
-
-            </ul>
-
-            <ul>
-                <li><a href="#">
-                    <img src="home/images/collect/62.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-                <li><a href="#">
-                    <img src="home/images/collect/63.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-                <li><a href="#">
-                    <img src="home/images/collect/64.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-
-                <li style="margin-right: 0px;float: right;"><a href="#">
-                    <img src="home/images/collect/66.jpg" alt="">
-                    <p><strong>普通一拓扑达&nbsp;&nbsp;普通双磁力锁停车管理系统</strong></p>
-                </a>
-                    <p style="font-size: 20px;color: #f53745;">￥130.00</p>
-
-                </li>
-
-
-            </ul>
-
-
         </div>
 
     </div>

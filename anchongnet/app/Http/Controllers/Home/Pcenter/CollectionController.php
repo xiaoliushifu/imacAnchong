@@ -4,31 +4,36 @@ namespace App\Http\Controllers\Home\Pcenter;
 
 use App\Collection;
 use App\Goods_type;
+use App\Shop;
 use App\Users;
 use Illuminate\Http\Request;
-
+use App\Http\Controllers\Home\CommonController;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
-class CollectionController extends Controller
+
+class CollectionController extends CommonController
 {
     //收藏商品
     public function colgoods()
     {
 
-        $user =Users::where('phone',[session('user')])->get();
-        $col = Collection::where(['users_id'=>$user[0]->users_id,'coll_type'=>1])->get();
-        foreach($col as $b){
-            $sss = Goods_type::whereRaw('gid',[$b->coll_id])->get();
-            dd($sss);
-        }
+        $user =Users::where('phone',[session('user')])->first();
+        $col = Collection::where(['users_id'=>$user->users_id,'coll_type'=>1])->get(['coll_id'])->toArray();
 
-        return view('home.pcenter.collectgoods');
+
+            $colg= Goods_type::wherein('gid',$col)->get();
+
+
+        return view('home.pcenter.collectgoods',compact('colg'));
     }
 //    收藏商铺
     public function colshop()
     {
-        return view('home.pcenter.collectshop');
+        $user =Users::where('phone',[session('user')])->first();
+        $col = Collection::where(['users_id'=>$user->users_id,'coll_type'=>2])->get(['coll_id'])->toArray();
+             $shop = Shop::wherein('sid',$col)->get();
+
+        return view('home.pcenter.collectshop',compact('shop'));
     }
 //    收藏社区
     public function colcommunity()

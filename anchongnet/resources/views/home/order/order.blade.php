@@ -8,25 +8,7 @@
 		<script src="{{asset('/home/js/order.js')}}" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body>
-		<div class="site-top">
-			<div class="top-container">
-				<a class="index" href="#">安虫首页</a>
-				<ul class="info">
-					<li class="mail">邮箱：<a href="mailto:www@anchong.net">www@anchong.net</a></li>
-					<li class="tel">垂询电话：0317-8155026</li>
-					<li>
-						<img class="little-tx" src="home/images/order/tx.jpg"/>
-						<span class="userinfo">
-							<span class="info-triangle"></span>
-							<div class="cart">
-								<p><a href="">购物车</a></p>
-								<p><a href="">收藏夹</a></p>
-							</div>
-						</span>
-					</li>
-				</ul>
-			</div>
-		</div>
+	@include('inc.home.top')
 		<div class="site-header">
 			<div class="header-container">
 				<img src="home/images/order/logo.png"/>

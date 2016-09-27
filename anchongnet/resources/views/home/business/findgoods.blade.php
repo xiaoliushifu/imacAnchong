@@ -10,19 +10,7 @@
 
 </head>
 <body>
-<div class="nav-top">
-    <div class="centerbar">
-
-        <div class="navmain">
-            <ul>
-                <li>邮箱：www.@anchong.net</li>
-                <li>垂询电话:0317-8155026</li>
-                <li><img src="home/images/zhaohuo/6.jpg" alt=""></li>
-                <li style="padding-left: 10px;"><a href="#">风信子<b class="caret"></b></a></li>
-            </ul>
-        </div>
-    </div>
-</div>
+@include('inc.home.top')
 <div class="header-center">
     <div class="header-main">
         <div class="logo">

@@ -7,10 +7,10 @@
 <div class="main">
     <div class="mainlf">
         <div class="topll">
-            <img src="home/images/mine/61.jpg" alt="">
-            <p>风信子</p>
-            <p>QQ：888888888888</p>
-            <p>邮箱：88888888888@qq.com</p>
+            <img src="{{$msg->headpic}}" alt="">
+            <p>{{$msg->nickname}}</p>
+            <p>QQ：{{$msg->qq}}</p>
+            <p>邮箱：{{$msg->email}}</p>
         </div>
         <div class="toppp">
             <ul>
@@ -31,10 +31,12 @@
         </div>
         <div class="msgcenter">
             <div class="msgcenterpic"><a href=""><img src="home/images/mine/34.jpg" alt=""></a></div>
+            @foreach($messages as $m)
             <div class="msgcentermain">
-                <a href=""><h4>安虫向你发出推送请求</h4></a>
-                <p>大减价，啊啊啊啊啊，大家快来啊， gogogogogogog。。。。快来买！！！！</p>
+                <a href=""><h4>{{$m->title}}</h4></a>
+                <p>{{$m->content}}</p>
             </div>
+            @endforeach
               <div style="clear: both;"></div>
             <hr>
         </div>

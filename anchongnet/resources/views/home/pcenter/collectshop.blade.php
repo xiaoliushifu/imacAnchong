@@ -9,14 +9,14 @@
 <div class="main">
     <div class="mainlf">
         <div class="topll">
-            <img src="home/images/collect/61.jpg" alt="">
-            <p>风信子</p>
-            <p>QQ：888888888888</p>
-            <p>邮箱：88888888888@qq.com</p>
+            <img src="{{$msg->headpic}}" alt="">
+            <p>{{$msg->nickname}}</p>
+            <p>QQ：{{$msg->qq}}</p>
+            <p>邮箱：{{$msg->email}}</p>
         </div>
         <div class="toppp">
             <ul>
-                <li><a href="javascript::" class="inactive">我的发布<b class="caret"></b></a>
+                <li><a href="javascript:" class="inactive">我的发布<b class="caret"></b></a>
                     <ul class="ttt" style="display: none">
                         <hr>
                         <li><a href="{{url('/conwork')}}" class="inactive active">发包工程</a></li>
@@ -29,7 +29,7 @@
 
                 </li>
                 <hr>
-                <li><a href="javascript::" class="inactive">我的收藏<b class="caret"></b></a>
+                <li><a href="javascript:" class="inactive">我的收藏<b class="caret"></b></a>
                     <ul class="ttt" style="display: none">
                         <hr>
                         <li><a href="{{url('/colgoods')}}" class="inactive active">商品</a></li>
@@ -38,7 +38,7 @@
                     </ul>
                 </li>
                 <hr>
-                <li><a href="javascript::" class="inactive">我的订单<b class="caret"></b></a>
+                <li><a href="javascript:" class="inactive">我的订单<b class="caret"></b></a>
                     <ul class="ttt" style="display: none">
                         <hr>
                         <li><a href="#" class="inactive active">美协机关</a>
@@ -72,46 +72,14 @@
 
             </ul>
         </div>
+    @foreach($shop as $s)
        <div class="conmm">
-       <div class="conpp"> <a href="#"><img src="home/images/collect/80.jpg" alt=""></a>
+       <div class="conpp"> <a href="{{url('equipment/thirdshop/'.$s->sid)}}"><img src="{{$s->img}}" alt=""></a>
        </div>
-       <div class="conww"> <p>暗宠自己家的店铺</p></div>                  
+       <div class="conww"><a href="{{url('equipment/thirdshop/'.$s->sid)}}"><p>{{$s->name}}</p></a></div>
 </div>
-<div class="conmm">
-       <div class="conpp"> <a href="#"><img src="home/images/collect/82.jpg" alt=""></a>
-       </div>
-       <div class="conww"> <p>暗宠自己家的店铺</p></div>                  
-</div>
-<div class="conmm">
-       <div class="conpp"> <a href="#"><img src="home/images/collect/83.jpg" alt=""></a>
-       </div>
-       <div class="conww"> <p>暗宠自己家的店铺</p></div>                  
-</div>
-<div class="conmm">
-       <div class="conpp"> <a href="#"><img src="home/images/collect/80.jpg" alt=""></a>
-       </div>
-       <div class="conww"> <p>暗宠自己家的店铺</p></div>                  
-</div>
-<div class="conmm">
-       <div class="conpp"> <a href="#"><img src="home/images/collect/82.jpg" alt=""></a>
-       </div>
-       <div class="conww"> <p>暗宠自己家的店铺</p></div>                  
-</div>
-<div class="conmm">
-       <div class="conpp"> <a href="#"><img src="home/images/collect/83.jpg" alt=""></a>
-       </div>
-       <div class="conww"> <p>暗宠自己家的店铺</p></div>                  
-</div>
-<div class="conmm">
-       <div class="conpp"> <a href="#"><img src="home/images/collect/81.jpg" alt=""></a>
-       </div>
-       <div class="conww"> <p>暗宠自己家的店铺</p></div>                  
-</div>
-<div class="conmm">
-       <div class="conpp"> <a href="#"><img src="home/images/collect/80.jpg" alt=""></a>
-       </div>
-       <div class="conww"> <p>暗宠自己家的店铺</p></div>                  
-</div>
+    @endforeach
+
 </div>
 </div>
 <div style="clear: both"></div>

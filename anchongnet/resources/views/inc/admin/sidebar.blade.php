@@ -1,8 +1,8 @@
 <section class="sidebar">
 	<!-- sidebar menu: : style can be found in sidebar.less -->
-
-	<ul class="sidebar-menu">
-		@if(Auth::user()['user_rank']==3)
+	{{--直接从模板分配变量--}}
+	<ul class="sidebar-menu" attr="{{$ur = Auth::user()['user_rank']}}">
+		@if( $ur ==3)
 		<li class="treeview" id="treeuser">
 			<a href="#">
 				<i class="fa fa-user"></i> <span>用户管理</span> <i class="fa fa-angle-left pull-right"></i>
@@ -57,6 +57,16 @@
     				<li><a href="/beans"><i class="fa fa-circle-o"></i>虫豆充值</a></li>
     			</ul>
     		</li>
+    		<li class="treeview" id="treefeedback">
+			<a href="#">
+				<i class="fa fa-edit"></i>
+				<span>意见反馈</span>
+				<i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="treeview-menu">
+				<li><a href="/feedback/show"><i class="fa fa-circle-o"></i>反馈查看</a></li>
+			</ul>
+		</li>
     	    @endif
 		<li class="treeview" id="treeshop">
 			<a href="#">
@@ -138,7 +148,9 @@
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
+				@if($ur==3)
 				<li><a href="/releases"><i class="fa fa-circle-o"></i>所有聊聊</a></li>
+				@endif
 				<li><a href="/release"><i class="fa fa-circle-o"></i>我的发布</a></li>
 				<li><a href="/release/create"><i class="fa fa-circle-o"></i>添加发布</a></li>
 			</ul>
@@ -150,19 +162,11 @@
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
+				@if($ur==3)
 				<li><a href="/businesss"><i class="fa fa-circle-o"></i>所有商机</a></li>
+				@endif
 				<li><a href="/business"><i class="fa fa-circle-o"></i>我的商机</a></li>
 				<li><a href="/business/create"><i class="fa fa-circle-o"></i>发布商机</a></li>
-			</ul>
-		</li>
-		<li class="treeview" id="treefeedback">
-			<a href="#">
-				<i class="fa fa-edit"></i>
-				<span>意见反馈</span>
-				<i class="fa fa-angle-left pull-right"></i>
-			</a>
-			<ul class="treeview-menu">
-				<li><a href="/feedback/show"><i class="fa fa-circle-o"></i>反馈查看</a></li>
 			</ul>
 		</li>
 	</ul>

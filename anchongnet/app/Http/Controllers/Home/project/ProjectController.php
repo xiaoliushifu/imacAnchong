@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Home\project;
 
 use App\Business;
+use App\Http\Controllers\Home\CommonController;
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
-class ProjectController extends Controller
+class ProjectController extends CommonController
 {
     public function Index()
     {

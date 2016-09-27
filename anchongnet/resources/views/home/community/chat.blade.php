@@ -1,11 +1,14 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>聊聊详情</title>
+    <title>安虫社区-{{$info -> title}}</title>
     <link rel="stylesheet" type="text/css" href="../home/css/chat-detail.css"/>
+    <script src="../home/js/jquery-3.1.0.js"></script>
+    <script src="../home/org/qqface/jquery.qqFace.js"></script>
+    <script src="../home/js/chat-detail.js"></script>
 </head>
 <body>
-@include('inc.home.site-top')
+@include('inc.home.top')
 <div class="header">
     <div class="header-container">
         <div class="logo">
@@ -50,9 +53,9 @@
                 <p class="content">
                     {!! $info -> content !!}
                 </p>
+                <div class="share bdsharebuttonbox" data-tag="share_1"><a class="bds_more" data-cmd="more"></a></div>
                 <p class="comments-share">
-                    <a class="comments" href="#comments"><img src="../home/images/chat/talk.png"></a>
-                    <a class="share" href=""><img src="../home/images/chat/share.png"></a>
+                    <a class="comments" href="#comments"><img src="/home/images/chat/talk.png">{{$num}}</a>
                 </p>
             </li>
         </ul>
@@ -90,11 +93,13 @@
                     <li class="replay-icon"><img src="../home/images/chat/p61.jpg"></li>
                     <li class="replay-dist">
                         <div>
+                            <div id="show"></div>
                             <form>
+                                {{csrf_field()}}
                                 <i>我也有话要说……</i>
                                 <textarea id="comments" name="comments" class="replay-content"></textarea>
                                 <a class="send"><img src="../home/images/chat/send.png" ></a>
-                                <a class="emoticon"><img src="../home/images/chat/emoticon.png"></a>
+                                <a class="emotion"><img src="../home/images/chat/emoticon.png"></a>
                             </form>
                         </div>
                     </li>

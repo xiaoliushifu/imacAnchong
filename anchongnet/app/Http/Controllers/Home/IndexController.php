@@ -8,14 +8,11 @@ use App\Information;
 use App\Usermessages;
 use EasyWeChat\Staff\Session;
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
 /*
  * 前端首页控制器
  */
-class IndexController extends Controller
+class IndexController extends CommonController
 {
 //    前端页面
     public function index(){
@@ -25,6 +22,7 @@ class IndexController extends Controller
         $userinfo = Usermessages::take(8)->orderBy('updated_at','desc')->get();
         $community = Community_release::take(3)->orderBy('created_at','desc')->get();
         return view('home.index',compact('hot','info','talent','userinfo','community'));
+
     }
 }
 
