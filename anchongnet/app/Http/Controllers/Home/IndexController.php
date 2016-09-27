@@ -5,10 +5,7 @@ namespace App\Http\Controllers\Home;
 use App\Business;
 use App\Community_release;
 use App\Information;
-use App\Usermessages;
-use App\Users;
 use EasyWeChat\Staff\Session;
-use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
