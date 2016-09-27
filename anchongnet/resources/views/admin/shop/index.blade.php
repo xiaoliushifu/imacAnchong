@@ -75,7 +75,9 @@
 		                    <a href="/shop" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
+									<th width="6%">属主ID</th>
 									<th width="13%">名称</th>
+									<th width="6%">申请时间</th>
 									<th width="20%">店铺简介</th>
 									<th width="18%">经营地</th>
 									<th width="6%">店铺缩略图</th>
@@ -85,7 +87,9 @@
 								</tr>
 								@foreach ($datacol['datas'] as $data)
 								<tr>
+								    <td align="center">{{$data['users_id']}}</td>
 								    <td align="center">{{$data['name']}}</td>
+								    <td align="center">{{date('Y/m/d',empty($data['created_at'])?0:$data['created_at'])}}</td>
 									<td align="center">{{$data['introduction']}}</td>
 									<td align="center">{{$data['premises']}}</td>
 									<td align="center">

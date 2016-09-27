@@ -63,16 +63,17 @@
 									<input type="radio" name="users_rank" id="level0" class="level" value="1">普通会员
 								</label>
 								<label class="radio-inline">
-									<input type="radio" name="users_rank" id="level1" class="level" value="2">商家
+									<input type="radio" name="users_rank" id="level1" class="level" value="2">认证会员
 								</label>
 						      <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 						    </form>
 		                    <a href="/users" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
-									<th>ID</th>
+									<th>用户ID</th>
 									<th>电话</th>
 									<th>邮箱</th>
+									<th>注册时间</th>
 									<th>用户等级</th>
 								</tr>
 								@foreach ($datacol['datas'] as $data)
@@ -80,19 +81,19 @@
 								  <td align="center">{{$data['users_id']}}</td>
 								  <td align="center">{{$data['phone']}}</td>
 								  <td align="center">{{$data['email']}}</td>
+								  <td align="center">{{date('Y-m-d',$data['ctime'])}}</td>
 								  <td align="center">
 								  <?php
 								  switch ($data['users_rank']){
 									  case 1:
-									  echo $data['id'];
-									  echo "普通会员";
-									  break;
+        									  echo "普通会员";
+        									  break;
 									  case 2:
-									  echo "商户";
-									  break;
+        									  echo "认证会员";
+        									  break;
 									  case 3:
-									  echo "管理员";
-									  break;
+        									  echo "管理员";
+        									  break;
 								  }?>
 								  </td>
 								</tr>

@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8">
     <title>闲聊</title>
-    <link rel="stylesheet" type="text/css" href="home/css/chat.css"/>
+    <link rel="stylesheet" type="text/css" href="home/css/chat.css"/>>
     <script src="home/js/jquery-3.1.0.js"></script>
 </head>
 <body>
@@ -89,8 +89,15 @@
             $('.page-btn').attr('href','http://www.anchong.net/activity?page='+num);
         }else{
             alert('请输入数字并小于等于"{{$activity->lastpage()}}"');
+            $('.page-num').val({{$activity->currentPage()}});
         }
-
     }
+    $(function () {
+        $('.page-num').keypress(function (e) {
+            if (e.keyCode == 13) {
+                location.href = 'http://www.anchong.net/activity?page='+ $(this).val();
+            }
+        });
+    })
 </script>
 </html>

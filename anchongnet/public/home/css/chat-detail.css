@@ -229,7 +229,8 @@ ul,li{
 .comments-share{
     margin-top: 10px;
     text-align: right;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
+    float: right;
 }
 .comments img,.share img{
     vertical-align: middle;
@@ -243,9 +244,17 @@ ul,li{
 }
 .comments img{
     margin-right: 5px;
+    vertical-align: middle;
 }
 .share{
     margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    float: right;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .comments-content{
     width: 1200px;

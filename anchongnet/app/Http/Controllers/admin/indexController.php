@@ -19,6 +19,10 @@ class indexController extends Controller
     {
         //通过Auth获取当前登录用户的id
         $uid=Auth::user()['users_id'];
+        if($uid != 1) {
+            //页面后期再统一
+            return view('admin.indexforVendor',["neworder"=>0,'feedback'=>0,'newshop'=>0,'newauth'=>0,'last_time'=>0,"datacol"=>0]);
+        }
         //通过用户获取商铺id
         $sid=Shop::Uid($uid)->sid;
         //通过用户id获取上次登录时间

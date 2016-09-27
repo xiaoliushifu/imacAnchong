@@ -47,7 +47,7 @@
 	<div class="content-wrapper">
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
-			<h1>会员认证</h1>
+			<h1>认证列表</h1>
 		</section>
 
 		<!-- Main content -->
@@ -58,15 +58,15 @@
 						<div class="box-body">
 						    <form action="/cert" method="get" class="form-horizontal form-inline f-ib">
 						        <input type="number" name="id"  placeholder="用户ID" class="form-control input-sm" value="{{$datacol['args']['id']}}">&nbsp;
-								审核状态：
+								认证状态：
 								<label class="radio-inline">
-									<input type="radio" name="auth_status" id="status1" class="status" value="1">待审核
+									<input type="radio" name="auth_status" id="status1" class="status" value="1">待认证
 								</label>
 								<label class="radio-inline">
 									<input type="radio" name="auth_status" id="status2" class="status" value="2">未通过
 								</label>
 								<label class="radio-inline">
-									<input type="radio" name="auth_status" id="status3" class="status" value="3">已通过
+									<input type="radio" name="auth_status" id="status3" class="status" value="3">已认证
 								</label>
 						        <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 
@@ -88,14 +88,14 @@
 								  <?php
 								  switch($data['auth_status']){
 									  case 1:
-									  echo "待审核";
-									  break;
+        									  echo "待认证";
+        									  break;
 									  case 2:
-									  echo "审核未通过";
-									  break;
+        									  echo "未通过";
+        									  break;
 									  case 3:
-									  echo "审核已通过";
-									  break;
+        									  echo "已认证";
+        									  break;
 								  }
 								  ?>
 								  </td>
