@@ -13,9 +13,9 @@ class IndexController extends Controller
     private $business;
     public function getIndex()
   {
-     $user =Users::where('phone',[session('user')])->get();
+     $user =Users::where('phone',[session('user')])->first();
 
-      $msg = Usermessages::where('users_id',$user[0]->users_id)->get();
+    $msg = Usermessages::where('users_id',$user->users_id)->first();
 
         return view('home.pcenter.index',compact('msg'));
     }

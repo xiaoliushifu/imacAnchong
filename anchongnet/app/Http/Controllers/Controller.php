@@ -15,12 +15,16 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
 
-//    public function __construct()
-//    {
-//        $user =Users::where('phone',[session('user')])->get();
-//        $msg = Usermessages::where('users_id',$user[0]->users_id)->get();
-//        View::share('msg',$msg);
-//    }
+    public function __construct()
+    {
+        $pus = session('user');
+        if(isset($pus)){
+            $user =Users::where('phone',[session('user')])->first();
+            $msg = Usermessages::where('users_id',$user->users_id)->first();
+            View::share('msg',$msg);
+        }
+
+    }
 
 
 
