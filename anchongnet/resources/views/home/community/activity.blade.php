@@ -6,7 +6,7 @@
     <script src="home/js/jquery-3.1.0.js"></script>
 </head>
 <body>
-@include('inc.home.site-top')
+@include('inc.home.top')
 <div class="header">
     <div class="header-container">
         <div class="logo">

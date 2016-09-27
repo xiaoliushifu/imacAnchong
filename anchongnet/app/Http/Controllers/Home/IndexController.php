@@ -7,14 +7,11 @@ use App\Category;
 use App\Community_release;
 use App\Information;
 use EasyWeChat\Staff\Session;
-use EasyWeChat\Staff\Session;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
 /*
  * 前端首页控制器
  */
-class IndexController extends Controller
+class IndexController extends CommonController
 {
 //    前端页面
     public function index(){

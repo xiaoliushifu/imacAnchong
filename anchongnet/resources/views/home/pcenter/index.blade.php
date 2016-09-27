@@ -29,10 +29,10 @@
                     <li>邮箱：www@anchong.net</li>
                     <li>购物车 <span class="glyphicon glyphicon-shopping-cart"></span></li>
                     <li class="active">咨询电话：010-888888</li>
-                    <li><img class="img-circle" src="{{$msg[0]->headpic}}"></li>
+                    <li><img class="img-circle" src="{{$msg->headpic}}"></li>
                     <li class="dropdown" style="margin-left: 10px;">
                         <a href="#" class="dropdown-toggle yhm" data-toggle="dropdown">
-                           {{$msg[0]->nickname}}<b class="caret"></b>
+                           {{$msg->nickname}}<b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu text-center">
                             <li><a href="#"  class="text-center">个人资料</a></li>
@@ -70,10 +70,10 @@
         <div class="col-lg-3">
             <div class="col-lg-12 topll">
             	<!-- 美女一个 -->
-                <img src="home/images/pcenter/p61.jpg" alt="">
-                <p>风信子</p>
-                <p>QQ：888888888888</p>
-                <p>邮箱：88888888888@qq.com</p>
+                <img src="{{$msg->headpic}}" alt="">
+                <p>{{$msg->nickname}}</p>
+                <p>QQ：{{$msg->qq}}</p>
+                <p>邮箱：{{$msg->email}}</p>
             </div>
             <!-- 左侧导航区 -->
             <div class="col-lg-12 toppp">

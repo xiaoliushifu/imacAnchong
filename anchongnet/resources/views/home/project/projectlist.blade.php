@@ -10,16 +10,7 @@
 		<link rel="stylesheet" href="home/css/businessjs.css">
 	</head>
 	<body>
-		<div class="site-top">
-			<div class="top-container">
-				<ul class="info">
-					<li class="tel">垂询电话：010-88888888</li>
-					<li>
-						<a href="{{url('/user/login')}}">登陆</a>/<a href="{{url('/user/register')}}">注册</a>
-					</li>
-				</ul>
-			</div>
-		</div>
+	@include('inc.home.top')
 		<div class="header">
 			<div class="header-container">
 				<div class="logo">
@@ -48,20 +39,12 @@
 							</div>
 						</li>
 
-						<li id="change1"><a href="{{url('/community')}}">社区</a><img src="home/images/zhaohuo/9.jpg" alt=""  class="buslist1">
-							<div class="cart1" >
-								<p><a href="{{url('/project')}}">工程</a></p>
-								<p><a href="{{url('/sergoods')}}">找货</a></p>
-								<p><a href="{{url('/talent')}}">人才</a></p>
-							</div>
+						<li id="change1"><a href="{{url('/community')}}">社区</a>
 						</li>
 
 						<li id="change2"><a href="{{url('/equipment')}}">设备选购</a><img src="home/images/zhaohuo/9.jpg" alt="" style="right: 15px;"  class="buslist2">
 							<div class="cart2">
 								<p><a href="{{url('/equipment')}}">安虫自营</a></p>
-								<p><a href="{{url('/equipment/thirdshop')}}">第三方商城</a></p>
-								<p><a href="{{url('/equipment/list')}}">商品列表</a></p>
-
 							</div>
 						</li>
 

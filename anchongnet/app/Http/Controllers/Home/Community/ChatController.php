@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Home\Community;
 
+use App\Http\Controllers\Home\CommonController;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
-class ChatController extends Controller
+
+class ChatController extends CommonController
 {
     //发布聊聊页面
     public function index()

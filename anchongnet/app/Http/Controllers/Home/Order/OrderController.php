@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Home\Order;
 
+use App\Http\Controllers\Home\CommonController;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
-class OrderController extends Controller
+class OrderController extends CommonController
 {
     public function index()
     {

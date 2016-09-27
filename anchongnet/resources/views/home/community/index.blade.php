@@ -7,7 +7,7 @@
 
 </head>
 <body>
-@include('inc.home.site-top')
+@include('inc.home.top')
 <div class="header">
     <div class="header-container">
         <div class="logo">

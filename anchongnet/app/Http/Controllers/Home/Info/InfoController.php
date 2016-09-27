@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Home\Info;
 
+use App\Http\Controllers\Home\CommonController;
 use App\Information;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 
-class InfoController extends Controller
+class InfoController extends CommonController
 {
     //资讯主页
     public function index()
