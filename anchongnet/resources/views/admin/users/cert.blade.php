@@ -76,6 +76,7 @@
 								<tr>
 									<th>用户ID</th>
 									<th>认证名称</th>
+									<th>申请时间</th>
 									<th>认证状态</th>
 									<th>查看资质</th>
 									<th>操作</th>
@@ -84,6 +85,7 @@
 								<tr>
 								  <td align="center">{{$data['users_id']}}</td>
 								  <td align="center">{{$data['auth_name']}}</td>
+								  <td align="center">{{$data['created_at']}}</td>
 								  <td align="center">
 								  <?php
 								  switch($data['auth_status']){

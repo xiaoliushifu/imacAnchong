@@ -49,6 +49,7 @@
                 <li class="community nav-item"><a href="{{url('/community')}}">社区</a></li>
                 <li class="equipment nav-item"><a href="{{url('/equipment ')}}">设备选购</a></li>
                 <li class="news nav-item"><a href="{{url('/info')}}">资讯</a></li>
+                <li class="news nav-item"><a href="http://app.anchong.net">安虫App下载</a></li>
             </ul>
         </div>
     </div>

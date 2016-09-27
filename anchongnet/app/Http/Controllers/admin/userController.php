@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
-use Request as Requester;
 use App\Users;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Pagination\Paginator;
 
 class userController extends Controller
 {
@@ -20,21 +17,22 @@ class userController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $req)
     {
-		$keyPhone=Requester::input("phone");
-		$keyLevel=Requester::input("users_rank");
+		$keyPhone=$req["phone"];
+		$keyLevel=$req["users_rank"];
+		$keyID=$req["uid"];
 
-        if($keyPhone=="" && $keyLevel==""){
-		    $datas=$this->user->orderBy("users_id","desc")->paginate(8);
-		}else if(empty($keyLevel)){
-			$datas = Users::Phone($keyPhone)->orderBy("users_id","desc")->paginate(8);
-		}else if(empty($keyPhone)){
+        if ($keyID) {
+            $datas = Users::IDs($keyID)->orderBy("users_id","desc")->paginate(8);
+		} elseif ($keyPhone) {
+		    $datas = Users::Phone($keyPhone)->orderBy("users_id","desc")->paginate(8);
+		} elseif ($keyLevel) {
 			$datas = Users::Level($keyLevel)->orderBy("users_id","desc")->paginate(8);
-		}else{
-			$datas = Users::Phone($keyPhone)->Level($keyLevel)->orderBy("users_id","desc")->paginate(8);
+		} else {
+			$datas = $this->user->orderBy("users_id","desc")->paginate(8);
 		}
-		$args=array("phone"=>$keyPhone,"users_rank"=>$keyLevel);
+		$args=array("users_rank"=>$keyLevel);
 		return view('admin/users/index',array("datacol"=>compact("args","datas")));
     }
 
@@ -88,7 +86,7 @@ class userController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $req, $id)
     {
         //
     }

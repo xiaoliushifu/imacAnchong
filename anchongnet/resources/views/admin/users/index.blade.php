@@ -57,7 +57,8 @@
 					<div class="box">
 						<div class="box-body">
 						    <form action="/users" method="get" class="form-horizontal form-inline f-ib">
-						      <input type="number" name="phone"  placeholder="手机号码" class="form-control input-sm" value="{{$datacol['args']['phone']}}">&nbsp;
+						      <input type="number" name="phone"  placeholder="手机号码"  style="width:120px">&nbsp;
+						      <input type="number" name="uid"  placeholder="用户ID" style="width:100px">&nbsp;
 						        会员等级：
 								<label class="radio-inline">
 									<input type="radio" name="users_rank" id="level0" class="level" value="1">普通会员
@@ -67,7 +68,6 @@
 								</label>
 						      <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 						    </form>
-		                    <a href="/users" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
 									<th>用户ID</th>
