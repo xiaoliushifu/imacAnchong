@@ -3,42 +3,31 @@
 namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
-use Request as Requester;
 use App\Auth;
 use App\Qua;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Pagination\Paginator;
 
 class certController extends Controller
 {
-	private $auth;
 	private $qua;
-	public function __construct()
-	{
-		$this->auth=new Auth();
-		$this->qua=new Qua();
-	}
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $req)
     {
-        $keyId=Requester::input("id");
-		$keyStatus=Requester::input("auth_status");
+        $kId=$req["id"];
+		$kStatus=$req["auth_status"];
 
-        if ($keyId=="" && $keyStatus=="") {
-		    $datas=$this->auth->orderBy("auth_status","asc")->orderBy("id","desc")->paginate(8);
-		} elseif (empty($keyStatus)) {
-			$datas = Auth::Users($keyId)->orderBy("id","desc")->paginate(8);
-		} elseif (empty($keyId)) {
-			$datas = Auth::Status($keyStatus)->orderBy("auth_status","asc")->orderBy("id","desc")->paginate(8);
+        if ($kId) {
+		    $datas = Auth::Users($kId)->orderBy("id","desc")->paginate(8);
+		} elseif ($kStatus) {
+			$datas = Auth::Status($kStatus)->orderBy("id","desc")->paginate(8);
 		} else {
-			$datas = Auth::Users($keyId)->Status($keyStatus)->orderBy("id","desc")->paginate(8);
+			$datas=Auth::orderBy("id","desc")->paginate(8);
 		}
-		$args=array("id"=>$keyId,"auth_status"=>$keyStatus);
+		$args=array("id"=>$kId,"auth_status"=>$kStatus);
 		return view('admin/users/cert',array("datacol"=>compact("args","datas")));
     }
 
