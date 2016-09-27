@@ -143,7 +143,7 @@
                 <li class="server-item"><a href="{{url('/project')}}"><img src="home/images/85.jpg"></a></li>
                 <li class="server-item"><a href="{{url('/project')}}"><img src="home/images/86.jpg"></a></li>
                 <li class="server-item"><a href="{{url('/talent')}}"><img src="home/images/87.jpg"></a></li>
-                <li class="server-item1"><a href="{{url('/')}}"><img src="home/images/88.jpg"></a></li>
+                <li class="server-item1"><a href="{{url('/equipment')}}"><img src="home/images/88.jpg"></a></li>
             </ul>
         </div>
         <div class="hot">
@@ -212,12 +212,9 @@
                         <li class="classify">
                             <h3>八大类<i class="icon"></i></h3>
                             <ul>
-                                <li><a href="">智能门禁</a></li>
-                                <li><a href="">停车管理</a></li>
-                                <li><a href="">探测报警</a></li>
-                                <li><a href="">巡更巡警</a></li>
-                                <li><a href="">安防配套</a></li>
-                                <li><a href="">楼宇对讲</a></li>
+                                @foreach($nav as $a)
+                                    <li><a href="{{url('equipment/list/'.$a->cat_id)}}">{{$a->cat_name}}</a></li>
+                                @endforeach
                             </ul>
                         </li>
                         <li class="top-search">

@@ -572,9 +572,8 @@ h1{
 }
 .classify li{
     margin-top: 10px;
-    margin-left: 20px;
+    margin-left: 15px;
     float: left;
-    width: 80px;
 }
 .classify a,.top-search a{
     color: #4a4a4a;

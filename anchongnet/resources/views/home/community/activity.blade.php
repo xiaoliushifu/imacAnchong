@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8">
     <title>闲聊</title>
-    <link rel="stylesheet" type="text/css" href="home/css/chat.css"/>>
+    <link rel="stylesheet" type="text/css" href="home/css/chat.css"/>
     <script src="home/js/jquery-3.1.0.js"></script>
 </head>
 <body>
@@ -55,7 +55,6 @@
                         </a>
                         <p class="comments-share">
                             <a class="comments" href="{{url('/community/'.$value -> chat_id).'/#comments'}}"><img src="home/images/chat/talk.png">{{$num[$value-> chat_id]}}</a>
-                            <a class="share" href=""><img src="home/images/chat/share.png"></a>
                         </p>
                     </li>
                 </ul>
@@ -85,7 +84,7 @@
     {{--获取用户输入的页数，然后更改a标签的链接--}}
     function changePage(obj) {
         var num = $(obj).val();
-        if(!isNaN(num)&&num>0&&num<={{$activity->lastpage()}}){
+        if((/^(\+|-)?\d+$/.test(num))&&num>0&&num<={{$activity->lastpage()}}){
             $('.page-btn').attr('href','http://www.anchong.net/activity?page='+num);
         }else{
             alert('请输入数字并小于等于"{{$activity->lastpage()}}"');
@@ -94,7 +93,7 @@
     }
     $(function () {
         $('.page-num').keypress(function (e) {
-            if (e.keyCode == 13) {
+            if ((/^(\+|-)?\d+$/.test(num))&&num>0&&num<={{$activity->lastpage()}}&&e.keyCode == 13) {
                 location.href = 'http://www.anchong.net/activity?page='+ $(this).val();
             }
         });
