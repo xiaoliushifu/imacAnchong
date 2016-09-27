@@ -579,13 +579,17 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 //前台路由
 
 
-
-        Route::group(['domain' => 'www.anchong.net','middleware'=>'csrf'], function () {
+        Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {
             //获取商品参数html代码
             Route::get('/getparam', 'admin\uEditorController@getParam');
             Route::get('/getpackage', 'admin\uEditorController@getPackage');
             //获取虫虫资讯
             Route::get('/information/{infor_id}', 'Api\Advert\AdvertController@informations');
+            //前台登录
+            Route::resource('/user/login', 'Home\User\LoginController');
+//            个人退出
+            Route::get('/quit', 'Home\User\LoginController@quit');
+//            首页
             Route::get('/', 'Home\IndexController@index');
             //商机主页
             Route::get('/business', 'Home\Business\BusinessController@index');
@@ -603,8 +607,11 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::resource('/project', 'Home\project\ProjectController');
 
 
-//    个人中心部分路由
-            Route::group(['namespace' => 'Home\Pcenter'], function () {
+//        个人中心部分路由
+            Route::group(['namespace' => 'Home\Pcenter','middleware'=>['loginhome']], function () {
+
+//        个人中心
+                Route::controller('/pcenter', 'IndexController');
 //        服务消息
                 Route::get('/servermsg', 'IndexController@servermsg');
 //        地址管理
@@ -621,13 +628,11 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::get('/conwork', 'IndexController@work');
 //        上传头像
                 Route::get('/uphead', 'IndexController@uphead');
-
-
 //        个人中心收藏
 //        商品
-                Route::get('/colgoods', 'IndexController@colgoods');
+                Route::get('/colgoods', 'CollectionController@colgoods');
 //        商铺
-                Route::get('/colshop', 'IndexController@colshop');
+                Route::get('/colshop', 'CollectionController@colshop');
 //        社区
                 Route::get('/colcommunity', 'IndexController@colcommunity');
 
@@ -635,15 +640,12 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             });
 
 
-            //个人中心
-            Route::controller('/pcenter', 'Home\Pcenter\IndexController');
             //前台注册
             //前台注册
             Route::resource('/user/register', 'Home\User\RegController');
             //手机短信
             Route::post('/user/smsauth', 'Home\User\RegController@smsauth');
-            //前台登录
-            Route::resource('/user/login', 'Home\User\LoginController');
+
             //前台重置密码
             Route::resource('/user/forgetpwd', 'Home\User\ForgetpwdController');
 

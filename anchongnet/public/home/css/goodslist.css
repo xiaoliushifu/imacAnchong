@@ -329,8 +329,8 @@ overflow: hidden;
 }
 .goodsdetail ul{
     width: 1230px;
-    height: 1445px;
-
+   overflow: hidden;
+    padding-bottom: 4px;
 }
 .goodsdetail li img{
     width: 272px;
@@ -373,11 +373,14 @@ overflow: hidden;
 
 .maindetail{
     width: 100%;
-   height: 1510px;
+ overflow: hidden;
+    margin-bottom: 10px;
+
 }
 .submaindetail{
     width: 1215px;
-   height: 1510px;
+ overflow: hidden;
+    margin-bottom: 10px;
     margin: 0 auto;
 }
 .paging{
@@ -409,7 +412,7 @@ overflow: hidden;
     width: 500px;
     height: 60px;
     line-height: 60px;
-    float: left;
+    float: right;
     text-align: right;
     color: #9b9b9b;
 }

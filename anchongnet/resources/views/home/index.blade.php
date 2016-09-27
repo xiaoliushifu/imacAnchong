@@ -14,6 +14,7 @@
         <div class="logo">
             <img src="home/images/7.jpg"/>
         </div>
+
         <div class="search">
             <form class="search-form" method="get">
                 <select class="area">

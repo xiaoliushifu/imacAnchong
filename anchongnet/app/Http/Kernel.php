@@ -19,6 +19,7 @@ class Kernel extends HttpKernel
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+
     ];
 
     /**
@@ -59,5 +60,6 @@ class Kernel extends HttpKernel
 		'permission' =>\App\Http\Middleware\Backpermission::class,
 		'anchong' =>\App\Http\Middleware\Anchong::class,
         'csrf' =>\App\Http\Middleware\VerifyCsrfToken::class,
+        'loginhome'=>\App\Http\Middleware\LoginHome::class,
     ];
 }

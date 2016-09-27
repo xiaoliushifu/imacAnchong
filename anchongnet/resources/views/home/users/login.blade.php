@@ -50,6 +50,7 @@
     <div class="control-group text-left">
       <input type="checkbox" name="remember_me" id="remember_me" value="true" checked="checked" /> 记住我
       <a href="/user/forgetpwd">忘记密码</a>
+
     </div>
     </form></div>
         </div>
