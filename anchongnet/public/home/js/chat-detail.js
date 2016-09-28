@@ -23,4 +23,16 @@ $(function () {
         assign:'comments', //给输入框赋值
         path:'../home/org/qqface/face/'    //表情图片存放的路径
     })
+    $(".send").click(function(){
+        var str = $("#comments").val();
+        $("comments-item").html(replace_em(str));
+    });
 })
+//替换成表情
+function replace_em(str){
+    str = str.replace(/</g,'<；');
+    str = str.replace(/>/g,'>；');
+    str = str.replace(/ /g,'<；br/>；');
+    str = str.replace(/[em_([0-9]*)]/g,'<img src="../home/org/qqface/face/$1.gif" border="0" />');
+    return str;
+}

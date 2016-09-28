@@ -7,23 +7,10 @@
 
 </head>
 <body>
-<div class="nav-top">
-    <div class="centerbar">
-
-        <div class="navmain">
-            <ul>
-                <li>邮箱：www.@anchong.net</li>
-                <li><div class="shop-ioc">
-                    <a href="">购物车</a>
-                    <a href=""><img src="{{asset('../home/images/shebei/10.jpg')}}" alt=""  style="width: 16px;height: 40px;margin-top: 0px;margin-left: 2px;"></a>
-                </div></li>
-                <li>垂询电话:0317-8155026</li>
-                <li><img src="{{asset('../home/images/shebei/6.jpg')}}" alt=""></li>
-                <li style="padding-left: 10px;"><a href="#">风信子<b class="caret"></b></a></li>
-            </ul>
-        </div>
-    </div>
-</div>
+@include('inc.home.top',['page'=>' <li><div class="shop-ioc">
+            <a href="">购物车</a>
+            <a href=""><img src="../../home/images/shebei/10.jpg" alt=""  style="width: 16px;height: 40px;margin-top: 0px;margin-left: 2px;"></a>
+        </div></li>'])
 <div class="header-center">
     <div class="header-main">
         <div class="logo">

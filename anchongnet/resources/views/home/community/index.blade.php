@@ -7,7 +7,7 @@
 
 </head>
 <body>
-@include('inc.home.site-top')
+@include('inc.home.top')
 <div class="header">
     <div class="header-container">
         <div class="logo">
@@ -87,7 +87,7 @@
     {{--获取用户输入的页数，然后更改a标签的链接--}}
     function changePage(obj) {
         var num = $(obj).val();
-        if(!isNaN(num)&&num>0&&num<={{$chat->lastpage()}}){
+        if((/^(\+|-)?\d+$/.test(num))&&num>0&&num<={{$chat->lastpage()}}){
             $('.page-btn').attr('href','http://www.anchong.net/community?page='+num);
         }else{
             alert('请输入数字大于0并小于等于{{$chat->lastpage()}}');
@@ -114,7 +114,7 @@
 //        });
 
         $('.page-num').keypress(function (e) {
-            if (e.keyCode == 13) {
+            if ((/^(\+|-)?\d+$/.test(num))&&num>0&&num<={{$chat->lastpage()}}&&e.keyCode == 13) {
                 location.href = 'http://www.anchong.net/community?page='+ $(this).val();
             }
         });

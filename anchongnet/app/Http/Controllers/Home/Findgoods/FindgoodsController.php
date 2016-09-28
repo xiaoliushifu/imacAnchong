@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Home\Findgoods;
 
 use App\Business;
+use App\Http\Controllers\Home\CommonController;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
-class FindgoodsController extends Controller
+class FindgoodsController extends CommonController
 {
 //    找货列表
     public function index()

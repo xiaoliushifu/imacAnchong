@@ -107,11 +107,14 @@
 .contmain li{width: 218px;height: 300px;border: 1px #9b9b9b solid;
     text-align:left;padding: 0px;background: #ffffff;margin-right: 9px;margin-bottom: 10px;display: inline;float: left;}
 .contmain img{width: 200px;height: 200px;margin: 10px 10px;}
-.contmain ul {width: 910px;overflow: hidden;}
-.contmain p{padding: 0px 5px;font-size: 14px;color: #606060;margin-bottom: 5px;}
+.contmain ul {width: 920px;overflow: hidden;padding-left: 3px;padding-top: 3px;}
+.contmain p{padding: 0px 5px;font-size: 14px;
+    color: #606060;margin-bottom: 5px;width:210px;
+    height: 40px;overflow: hidden;text-overflow: ellipsis; }
 .contmain a{text-decoration: none;}
-.contmain li:hover{border: 2px #1DABD8 solid;}
-.contmain{width: 910px;padding: 0px;margin-left: 10px;overflow: hidden;}
+.contmain li:hover{outline: 2px #1DABD8 solid;border: 1px #1DABD8 solid }
+.contmain li:hover a{text-decoration: none;}
+.contmain{width: 920px;padding: 0px;margin-left:8px;overflow: hidden;}
 .nav > li > a:hover, .nav > li > a:focus {
     text-decoration: none;
    

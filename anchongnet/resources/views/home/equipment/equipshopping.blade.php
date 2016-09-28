@@ -7,23 +7,11 @@
 
 </head>
 <body>
-<div class="nav-top">
-    <div class="centerbar">
+@include('inc.home.top',['page'=>' <li><div class="shop-ioc">
+            <a href="">购物车</a>
+            <a href=""><img src="home/images/shebei/10.jpg" alt=""  style="width: 16px;height: 40px;margin-top: 0px;margin-left: 2px;"></a>
+        </div></li>'])
 
-        <div class="navmain">
-            <ul>
-                <li>邮箱：www.@anchong.net</li>
-                <li><div class="shop-ioc">
-                    <a href="">购物车</a>
-                    <a href=""><img src="home/images/shebei/10.jpg" alt=""  style="width: 16px;height: 40px;margin-top: 0px;margin-left: 2px;"></a>
-                </div></li>
-                <li>垂询电话:0317-8155026</li>
-                <li><img src="home/images/shebei/6.jpg" alt=""></li>
-                <li style="padding-left: 10px;"><a href="#">风信子<b class="caret"></b></a></li>
-            </ul>
-        </div>
-    </div>
-</div>
 <div class="header-center">
     <div class="header-main">
         <div class="logo">
@@ -49,7 +37,7 @@
             <ul>
                 <li><a href="#">首页</a></li>
                 @foreach($nav as $a)
-                <li><a href="{{url('equipment/list/'.$a->cat_id)}}">{{$a->cat_name}}</a></li>
+                    <li><a href="{{url('equipment/list/'.$a->cat_id)}}">{{$a->cat_name}}</a></li>
                 @endforeach
                 {{--<li><a href="#">视频监控</a></li>--}}
                 {{--<li><a href="#">探测报告</a></li>--}}

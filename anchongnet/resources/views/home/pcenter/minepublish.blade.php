@@ -9,10 +9,10 @@
      <div class="main">
          <div class="mainlf">
              <div class="topll">
-                 <img src="home/images/mine/61.jpg" alt="">
-                 <p>风信子</p>
-                 <p>QQ：888888888888</p>
-                 <p>邮箱：88888888888@qq.com</p>
+                 <img src="{{$msg->headpic}}" alt="">
+                 <p>{{$msg->nickname}}</p>
+                 <p>QQ：{{$msg->qq}}</p>
+                 <p>邮箱：{{$msg->email}}</p>
              </div>
              <div class="toppp">
                  <ul>

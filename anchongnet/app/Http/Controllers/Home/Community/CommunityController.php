@@ -5,16 +5,16 @@ namespace App\Http\Controllers\Home\Community;
 use App\Community_comment;
 use App\Community_release;
 use App\Community_reply;
+use App\Http\Controllers\Home\CommonController;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 
 /*
  * 社区前端控制器
  */
-class CommunityController extends Controller
+class CommunityController extends CommonController
 {
     //    社区首页
     public function index()

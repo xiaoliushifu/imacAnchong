@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Home\Business;
 
 use App\Business;
+use App\Http\Controllers\Home\CommonController;
 use App\Usermessages;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
 /*
 *   前端商机模块的控制器
 */
-class BusinessController extends Controller
+class BusinessController extends CommonController
 {
     /**
      *
