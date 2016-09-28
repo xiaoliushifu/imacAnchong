@@ -124,7 +124,7 @@ class goodController extends Controller
 
         //智能提示 来自商品名
         $arr_key=array_merge($arr_key,preg_split('#\s#', $request->commodityname,-1,PREG_SPLIT_NO_EMPTY));
-        //将商品分类转码之后插入数据库，为将来分词索引做准备
+        //商品的所有分类，注意，商品可属于多个分类。
         $cids=explode(' ',rtrim($request->type));
         $cid="";
         $catid="";

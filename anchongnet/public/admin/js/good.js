@@ -54,6 +54,8 @@ $(function(){
 
     //货品列表页 点击编辑按钮
     $(".edit").click(function(){
+    		//ajax全局设置同步处理(多分类时尤其明显）
+    		$.ajaxSetup({async:false});
         $("#goodscat").empty();
         $("#midselect").empty();
         //有可能有多个分类
@@ -69,11 +71,10 @@ $(function(){
         $("#gid").val(id);
         //多个分类，故需要遍历
         for(var c=0;c<cid.length;c++){
-
             opts='<div class="form-group"><label class="col-sm-2 control-label">商品分类</label><div class="col-sm-10"><div class="row"><div class="col-xs-4"><select class="form-control" id="mainselect'+c+'" name="mainselect'+c+'"></select></div><div class="col-xs-4"><select class="form-control" id="midselect'+c+'" name="midselect'+c+'"></select></div></div></div></div>';
 
             $("#goodscat").append(opts);
-            //获取一级分类信息
+            //获取一级分类信息,也就是八大类
             $.get("/newgetlevel",{pid:one0,id:c},function(data,status){
                 for(var i=0;i<data.datas.length;i++){
                     opt="<option  value="+data.datas[i].cat_id+">"+data.datas[i].cat_name+"</option>";
@@ -96,8 +97,8 @@ $(function(){
                 opt="<option  value="+data[i].goods_id+">"+data[i].title+"</option>";
                 $("#name").append(opt);
             }
-            $("#name option[value="+gid+"]").attr("selected",true);
-            $("#goodsname").val($("#name option[value="+gid+"]").text());
+            $("#name option[value="+gid+"]").attr("selected",true);//商品名选中
+            $("#goodsname").val($("#name option[value="+gid+"]").text());//隐藏项目
         });
 
 	    $.get("/getKeywords",{goods_id:gid},function(data,status){
@@ -225,52 +226,23 @@ $(function(){
         }
     });
 
-    var nullopt="<option value=''>无数据，请重选上级分类</option>";
-    var defaultopt="<option value=''>请选择</option>";
-    $("body").on("change",'#mainselect',function(){
-        var val=$(this).val();
-        $("#midselect").empty();
-        $("#midselect").append(defaultopt);
-        $("#name").empty();
-        $("#name").append(defaultopt);
-        $.get("/getlevel",{pid:parseInt(val)},function(data,status){
-            if(data.length==0){
-                $("#midselect").append(nullopt);
-            }else{
-                for(var i=0;i<data.length;i++){
-                    opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
-                    $("#midselect").append(opt);
-                }
-            }
-        });
-    });
-    
-    /**
-     * 二级分类的事件处理
-     */
-    $("#midselect").change(function(){
-        var val=$(this).val();
-        var sid=$("#sid").val();
-        $("#name").empty();
-        $("#name").append(defaultopt);
-        $.get("/getsibilingscommodity",{pid:parseInt(val),sid:sid},function(data,status){
-            if(data.length==0){
-                $("#name").empty();
-                $("#name").append(nullopt);
-            }else{
-                for(var i=0;i<data.length;i++){
-                    opt="<option  value="+data[i].goods_id+">"+data[i].title+"</option>";
-                    $("#name").append(opt);
-                }
-            }
-        });
-    });
-
     //当gallery模块点击的时候执行事件转移
     $("body").on("click",'.gallery',function(){
         $(this).siblings(".pic").click();
     });
-
+    
+    //使得货品编辑时，各个分类信息不可更改。
+    $('#goodscat').on('change','select',function(){
+    		$(this).val($(this).find('option[selected="selected"]').val());
+    		console.log('分类信息不可修改');
+    		return false;
+    });
+    //所属商品不可更改，但仍可通过修改商品，在货品页--编辑-保存即可达到修改所属商品名目的
+    $('#name').change(function(){
+	    	$(this).val($(this).find('option[selected="selected"]').val());
+	    	console.log('货品所属商品不可修改');
+	    	return false;
+    });
     //编辑货品图片
     $("body").on("change",'.pic',function(){
         var id=$(this).attr("data-id");

@@ -103,9 +103,11 @@ $(function(){
                 }
             }
         });
-        //选择商品时，从goods表里获得商品的关键字和商品类型，商品描述
+        //选择商品时，从goods表里获得商品的关键字和商品类型，商品描述。
         $.get("/commodity/"+val,function(data,status){
             $("#keyword").val(data.keyword);
+            //注意，这里的商品分类，是重新从商品表里获得，所以录入一条货品时，
+            //它的分类信息实际保存的是所属商品的所有分类，而不是页面显示的一个分类。
             $("#type").val(data.type);
             $("#desc").val(data.desc);
         });

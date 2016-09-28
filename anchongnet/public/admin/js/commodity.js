@@ -129,12 +129,21 @@ $(function(){
     
     /*----添加一组分类----*/
     $("body").on("click",".add button",function(){
+    		/*分类信息不可更改*/
+		console.log('分类信息不可更改');
+		return false;
+		/*分类信息不可更改*/
         var tem=$(".catemplate").clone().removeClass("hidden").removeClass("catemplate");
         $("#catarea").append(tem);
     });
 
     /*----删除分类----*/
     $("body").on("click",".minus button",function(){
+    		/*分类信息不可更改*/
+    		console.log('分类信息不可更改');
+    		return false;
+    		/*分类信息不可更改*/
+    	
         var len=$("#catarea").find(".form-group").length;
         if(len==1){
             alert("不能删除仅有的分类信息！");
@@ -142,6 +151,37 @@ $(function(){
             $(this).parentsUntil("#catarea").remove();
         }
     });
+    
+  //设计实现：商品编辑时，使得商品的分类信息不可更改。
+    $('#catarea').on('change','select',function(){
+    		console.log('商品分类信息不可更改');
+    		$(this).val($(this).find('option[selected="selected"]').val());
+    		return false;
+    });
+    /**注释，使得商品分类不可修改**/
+//    var nullopt="<option value=''>无数据，请重选上级分类</option>";
+//    var defaultopt="<option value=''>请选择</option>";
+//    $("body").on("change",".mainselect",function(){
+//        var val=$(this).val();
+//        $(".waitforopt").removeClass("waitforopt");
+//        $(this).parent().siblings("div").find(".midselect").empty().addClass("waitforopt");
+//        $(this).parent().siblings("div").find(".midselect").append(defaultopt);
+//        if(val==""){
+//        	return;
+//        }else{
+//            $.get("/getlevel",{pid:parseInt(val)},function(data,status){
+//                if(data.length==0){
+//                    $(".waitforopt").find(".midselect").empty();
+//                    $(".waitforopt").append(nullopt);
+//                }else{
+//                    for(var i=0;i<data.length;i++){
+//                        opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
+//                        $(".waitforopt").append(opt);
+//                    }
+//                }
+//            });
+//        }
+//    });
 
     //添加一组配套商品输入框
     $(".addsup").click(function(){
@@ -305,30 +345,6 @@ $(function(){
                 success: function (result) {
                     alert(result);
                     $(".waitfordel").remove();
-                }
-            });
-        }
-    });
-
-    var nullopt="<option value=''>无数据，请重选上级分类</option>";
-    var defaultopt="<option value=''>请选择</option>";
-    $("body").on("change",".mainselect",function(){
-        var val=$(this).val();
-        $(".waitforopt").removeClass("waitforopt");
-        $(this).parent().siblings("div").find(".midselect").empty().addClass("waitforopt");
-        $(this).parent().siblings("div").find(".midselect").append(defaultopt);
-        if(val==""){
-        	return;
-        }else{
-            $.get("/getlevel",{pid:parseInt(val)},function(data,status){
-                if(data.length==0){
-                    $(".waitforopt").find(".midselect").empty();
-                    $(".waitforopt").append(nullopt);
-                }else{
-                    for(var i=0;i<data.length;i++){
-                        opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
-                        $(".waitforopt").append(opt);
-                    }
                 }
             });
         }
