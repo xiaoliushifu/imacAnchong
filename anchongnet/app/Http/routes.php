@@ -575,7 +575,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
     });
             //前台路由
 
-            Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {
+            Route::group(['domain' => 'anchong.hd','middleware'=>['csrf']], function () {
             //获取商品参数html代码
             Route::get('/getparam', 'admin\uEditorController@getParam');
             Route::get('/getpackage', 'admin\uEditorController@getPackage');

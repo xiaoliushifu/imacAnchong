@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>第三方商城</title>
     <link rel="stylesheet" href="/home/css/thirdparty.css">
+    <script src="{{asset('home/js/jquery-3.1.0.min.js')}}"></script>
 
 </head>
 <body>

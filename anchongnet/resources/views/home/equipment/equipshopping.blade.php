@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>设备选购</title>
     <link rel="stylesheet" href="home/css/equipshopping.css">
+    <script src="home/js/jquery-3.1.0.min.js"></script>
 
 </head>
 <body>
