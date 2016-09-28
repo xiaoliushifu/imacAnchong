@@ -67,21 +67,19 @@
                 @else
                 @foreach($comment as $key => $value)
                     <ul class="comments-item">
-                    <li class="comments-icon"><img src="{{$value -> headpic}}"></li>
-                    <li class="comments-replay">
-                        <p class="username">{{$value -> name}}</p>
-                        <p class="comments-time">{{date("Y-m-d",strtotime($value -> created_at))}}</p>
-                        <p class="comments-info">{!! $value -> content !!}</p>
-                        <a  class="replay" href="">回复</a>
-                        <span class="parting"></span>
-                        @for($i=0;$i<(count($replay[$value->comid]));$i++)
-                        <p class="dialogue">
-                            <i class="rpname">{{$replay[$value->comid][$i]->name}}</i>回复<i class="comname">{{$replay[$value->comid][$i] -> comname}}</i>:{!! $replay[$value->comid][$i]-> content !!}
-                        </p>
-                        <a class="replay">回复</a>
-                        @endfor
-                    </li>
-                </ul>
+                        <li class="comments-icon"><img src="{{$value -> headpic}}"></li>
+                        <li class="comments-replay">
+                            <p class="username">{{$value -> name}}</p>
+                            <p class="comments-time">{{date("Y-m-d",strtotime($value -> created_at))}}</p>
+                            <p class="comments-info">{!! $value -> content !!}</p>
+                            <a  class="replay" href="">回复</a>
+                            <span class="parting"></span>
+                            @for($i=0;$i<(count($replay[$value->comid]));$i++)
+                                <p class="dialogue"><i class="rpname">{{$replay[$value->comid][$i]->name}}</i>回复<i class="comname">{{$replay[$value->comid][$i] -> comname}}</i>:{!! $replay[$value->comid][$i]-> content !!}</p>
+                                <a class="replay">回复</a>
+                            @endfor
+                        </li>
+                    </ul>
                 @endforeach
             </li>
             @endif
