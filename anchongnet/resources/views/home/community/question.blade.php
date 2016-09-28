@@ -93,7 +93,7 @@
     }
     $(function () {
         $('.page-num').keypress(function (e) {
-            if ((/^(\+|-)?\d+$/.test(num))&&num>0&&num<={{$question->lastpage()}}&&e.keyCode == 13) {
+            if (e.keyCode == 13) {
                 location.href = 'http://www.anchong.net/question?page='+ $(this).val();
             }
         });

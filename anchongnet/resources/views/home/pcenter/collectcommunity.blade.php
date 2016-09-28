@@ -68,128 +68,68 @@
                 <li><a href="{{url('/colgoods')}}">商品</a></li>
                 <li><a href="{{url('/colshop')}}">商铺</a></li>
                 <li><a href="{{url('/colcommunity')}}" style="font-weight: bold;color: #1DACD8;">社区</a></li>
-
-
             </ul>
         </div>
-        <div class="pingll">
-            <div class="grrq">
-                <img src="home/images/collect/37.jpg">
-                <p class="mingzi"><a href="#" >风信子</a></p>
-                <p> <span class="rqzt">18/</span>6</p>
-            </div>
-            <div class="pgl">
-                <h5>萨科技大阿达</h5>
-                
-                    <div class="jiao"><img src="home/images/collect/42.jpg"></div>
-                    <div class="shuxie">
-                     <p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdasdaasdsadadadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                    </p>
-                    </div>
-                    <div class=" fenx"><a href=""><img src="home/images/collect/32.jpg" alt=""></a><span>28</span></div>
-                    <div class=" kongx"><a href=""><img src="home/images/collect/35.jpg" alt=""></a></div>
-              
-            </div>
-        </div> 
-          <div class="pingll">
-            <div class="grrq">
-                <img src="home/images/collect/36.jpg">
-                <p class="mingzi"><a href="#" >风信子</a></p>
-                <p> <span class="rqzt">18/</span>6</p>
-            </div>
-            <div class="pgl">
-                <h5>萨科技大阿达</h5>
-                
-                    <div class="jiao"><img src="home/images/collect/42.jpg"></div>
-                    <div class="shuxie">
-                     <p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdasdaasdsadadadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                    </p>
-                    </div>
-                    <div class=" fenx"><a href=""><img src="home/images/collect/32.jpg" alt=""></a><span>28</span></div>
-                    <div class=" kongx"><a href=""><img src="home/images/collect/35.jpg" alt=""></a></div>
-              
-            </div>
-        </div>       
-          <div class="pingll">
-            <div class="grrq">
-                <img src="home/images/collect/61.jpg">
-                <p class="mingzi"><a href="#" >风信子</a></p>
-                <p> <span class="rqzt">18/</span>6</p>
-            </div>
-            <div class="pgl">
-                <h5>萨科技大阿达</h5>
-                
-                    <div class="jiao"><img src="home/images/collect/42.jpg"></div>
-                    <div class="shuxie">
-                     <p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdasdaasdsadadadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                    </p>
-                    </div>
-                    <div class=" fenx"><a href=""><img src="home/images/collect/32.jpg" alt=""></a><span>28</span></div>
-                    <div class=" kongx"><a href=""><img src="home/images/collect/35.jpg" alt=""></a></div>
-              
-            </div>
-        </div>       
-          <div class="pingll">
-            <div class="grrq">
-                <img src="home/images/collect/38.jpg">
-                <p class="mingzi"><a href="#" >风信子</a></p>
-                <p> <span class="rqzt">18/</span>6</p>
-            </div>
-            <div class="pgl">
-                <h5>萨科技大阿达</h5>
-                
-                    <div class="jiao"><img src="home/images/collect/42.jpg"></div>
-                    <div class="shuxie">
-                     <p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdasdaasdsadadadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                    </p>
-                    </div>
-                    <div class=" fenx"><a href=""><img src="home/images/collect/32.jpg" alt=""></a><span>28</span></div>
-                    <div class=" kongx"><a href=""><img src="home/images/collect/35.jpg" alt=""></a></div>
-              
-            </div>
-        </div>       
-          <div class="pingll">
-            <div class="grrq">
-                <img src="home/images/collect/37.jpg">
-                <p class="mingzi"><a href="#" >风信子</a></p>
-                <p> <span class="rqzt">18/</span>6</p>
-            </div>
-            <div class="pgl">
-                <h5>萨科技大阿达</h5>
-                
-                    <div class="jiao"><img src="home/images/collect/42.jpg"></div>
-                    <div class="shuxie">
-                     <p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdasdaasdsadadadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                    </p>
-                    </div>
-                    <div class=" fenx"><a href=""><img src="home/images/collect/32.jpg" alt=""></a><span>28</span></div>
-                    <div class=" kongx"><a href=""><img src="home/images/collect/35.jpg" alt=""></a></div>
-              
-            </div>
-        </div>       
-          <div class="pingll">
-            <div class="grrq">
-                <img src="home/images/collect/36.jpg">
-                <p class="mingzi"><a href="#" >风信子</a></p>
-                <p> <span class="rqzt">18/</span>6</p>
-            </div>
-            <div class="pgl">
-                <h5>萨科技大阿达</h5>
-                
-                    <div class="jiao"><img src="home/images/collect/42.jpg"></div>
-                    <div class="shuxie">
-                     <p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdasdaasdsadadadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                    </p>
-                    </div>
-                    <div class=" fenx"><a href=""><img src="home/images/collect/32.jpg" alt=""></a><span>28</span></div>
-                    <div class=" kongx"><a href=""><img src="home/images/collect/35.jpg" alt=""></a></div>
-              
-            </div>
-        </div>             
-    </div>
-
-
+        <ul class="chat-info">
+            @foreach($community as $value)
+                <li class="chat-item">
+                    <ul class="chat-show">
+                        <li class="userinfo">
+                            <p><img class="portrait" src="{{$value ->  headpic}}"></p>
+                            <p class="name">{{$value -> name}}</p>
+                            <p class="date">
+                                <i class="day">{{date("d",strtotime($value -> created_at))}}/</i>
+                                <i class="month">{{date("m",strtotime($value -> created_at))}}</i>
+                            </p>
+                        </li>
+                        <li class="chat-content">
+                            <a href="{{url('/community/'.$value -> chat_id)}}">
+                                <h3 class="chat-title">{{$value -> title}}</h3>
+                                <p class="content">{{$value -> content}}</p>
+                            </a>
+                            <p class="comments-share">
+                                <a class="comments" href="{{url('/community/'.$value -> chat_id).'/#comments'}}"><img src="home/images/chat/talk.png">{{$num[$value-> chat_id]}}</a>
+                            </p>
+                            <div style="clear: both"></div>
+                        </li>
+                    </ul>
+                </li>
+            @endforeach
+        </ul>
+        <div class="pages">
+            <ul class="page-select">
+                {!! $community -> links() !!}
+            </ul>
+            <ul class="page-skip">
+                <i>共有{{$community -> lastpage()}}页，</i>
+                <i class="blank">
+                    去第
+                    <input name="page" class="page-num" onchange="changePage(this)" type="text" value="{{$community->currentPage()}}">
+                    页
+                </i>
+                <a class="page-btn" href="{{$community->url($community->currentPage())}}">确定</a>
+            </ul>
+            <div class="cl"></div>
+        </div>
     </div>
 <div style="clear: both"></div>
 <script type="text/javascript" src="home/js/navleft.js"></script>
+<script>
+    function changePage(obj) {
+        var num = $(obj).val();
+        if((/^(\+|-)?\d+$/.test(num))&&num>0&&num<={{$community->lastpage()}}){
+            $('.page-btn').attr('href','http://www.anchong.net/colcommunity?page='+num);
+        }else{
+            alert('请输入数字大于0并小于等于{{$community->lastpage()}}');
+            $('.page-num').val({{$community->currentPage()}});
+        }
+    }
+    $(function () {
+        $('.page-num').keypress(function (e) {
+            if ((/^(\+|-)?\d+$/.test(num))&&num>0&&num<={{$community->lastpage()}}&&e.keyCode == 13) {
+                location.href = 'http://www.anchong.net/colcommunity?page='+ $(this).val();
+            }
+        });
+    })
+</script>
 @endsection

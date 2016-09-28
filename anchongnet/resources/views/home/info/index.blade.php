@@ -177,7 +177,7 @@
     }
     $(function () {
         $('.page-num').keypress(function (e) {
-            if ((/^(\+|-)?\d+$/.test(num))&&num>0&&num<={{$info->lastpage()}}&&e.keyCode == 13) {
+            if (e.keyCode == 13) {
                 location.href = 'http://www.anchong.net/info?page='+ $(this).val();
             }
         });

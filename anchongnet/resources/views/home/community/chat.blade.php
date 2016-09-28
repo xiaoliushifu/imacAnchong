@@ -5,7 +5,6 @@
     <link rel="stylesheet" type="text/css" href="../home/css/chat-detail.css"/>
     <script src="../home/js/jquery-3.1.0.js"></script>
     <script src="../home/org/qqface/jquery.qqFace.js"></script>
-    <script src="../home/js/chat-detail.js"></script>
 </head>
 <body>
 @include('inc.home.top')
@@ -96,7 +95,7 @@
                                 {{csrf_field()}}
                                 <i>我也有话要说……</i>
                                 <textarea id="comments" name="comments" class="replay-content"></textarea>
-                                <a class="send"><img src="../home/images/chat/send.png" ></a>
+                                <button class="send"><img src="../home/images/chat/send.png" ></button>
                                 <a class="emotion"><img src="../home/images/chat/emoticon.png"></a>
                             </form>
                         </div>
@@ -108,4 +107,39 @@
 </div>
 @include('inc.home.site-foot')
 </body>
+<script>
+    $(function () {
+        window._bd_share_config = {
+            common : {
+                bdText : $('.content').text(),
+                bdDesc : $('.chat-title').text(),
+                bdUrl : '',
+                bdSign: 'on',
+                bdPic:'{{$info->img}}'
+            },
+            share : [{
+                "bdSize" : 16
+            }],
+        }
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+        $(".bds_more").css({
+            "height":"18px",
+            "line-height":"18px",
+            "margin":"0",
+            "backgroundImage":"url(http://www.anchong.net/home/images/chat/share.png)"
+        });
+        $(".emotion").qqFace({
+            assign:'comments', //给输入框赋值
+            path:'../home/org/qqface/face/'    //表情图片存放的路径
+        })
+    })
+    //替换成表情
+    function replace_em(str){
+        str = str.replace(/\</g,'&lt;');
+        str = str.replace(/\>/g,'&gt;');
+        str = str.replace(/\n/g,'<br/>');
+        str = str.replace(/\[em_([0-9]*)\]/g,'<img src="../home/org/qqface/face/$1.gif" border="0" />');
+        return str;
+    }
+</script>
 </html>

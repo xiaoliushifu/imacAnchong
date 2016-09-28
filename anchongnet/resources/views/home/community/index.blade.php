@@ -4,7 +4,6 @@
     <title>社区</title>
     <link rel="stylesheet" type="text/css" href="home/css/chat.css"/>
     <script src="home/js/jquery-3.1.0.js"></script>
-
 </head>
 <body>
 @include('inc.home.top')
@@ -114,7 +113,7 @@
 //        });
 
         $('.page-num').keypress(function (e) {
-            if ((/^(\+|-)?\d+$/.test(num))&&num>0&&num<={{$chat->lastpage()}}&&e.keyCode == 13) {
+            if (e.keyCode == 13) {
                 location.href = 'http://www.anchong.net/community?page='+ $(this).val();
             }
         });

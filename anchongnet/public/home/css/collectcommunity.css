@@ -1,4 +1,10 @@
 *{margin: 0px;padding: 0px;list-style: none;}
+i{
+    font-style: normal;
+}
+a{
+    text-decoration: none;
+}
 .topt{width: 100%;height: 40px;background: #F5F5F5;}
 .topt-1{width: 1200px;height: 40px;margin:0px auto;line-height: 40px; }
 .topt-2 {overflow: hidden;width: 150px;float: left;height: 40px;}
@@ -40,27 +46,170 @@
 .daomain li {display: inline;}
 .daomain li a{font-size: 18px;color: #4a4a4a;padding-right: 60px;text-decoration: none;margin-left: 20px;}
 .daomain li a:hover{font-size: 20px;color: #1DABD8;}
-.pingll{width: 910px;height:160px;margin-left: 10px;margin-bottom: 30px;}
-.grrq img{width: 80px;height: 80px;}
-.grrq{width: 80px;height: 160px;padding: 0px;margin-top: 10px;float: left;text-align: center;}
-.grrq img{width: 80px;height: 80px;border-radius: 50%;}
-
-.ttt li:hover{background: #1DABD8;}
-.pgl{background:#f5f5f5;float: right;border-radius: 10px;width: 810px;height:120px;position: relative;margin-top: 40px;}
-.shuxie{width: 810px;height: 120px;}
-.shuxie p{word-wrap: break-word; overflow: hidden;padding-left: 30px;}
-.pgl h5{margin:10px 0px 20px 30px;}
-.jiao{float: left;position: absolute;left: -20px;bottom: -0.5px;}
-
-.fenx{position: absolute;right: 50px;bottom: 10px;}
-.fenx img{margin-bottom: -5px;}
-.kongx{position: absolute;right: 5px;bottom: 5px;}
-
-
-.mingzi{margin: 10px 0px;}
-.mingzi a{font-size: 14px;color:#0f0f0f;text-decoration: none;}
-.rqzt{font-size: 35px;}
-.pglntp h5{padding-left: 10px;margin:10px 0px; }
+.chat-info{
+    width: 907px;
+    margin-left: 10px;
+}
+.chat-item{
+    height: 160px;
+    margin-top: 20px;
+}
+.chat-show li{
+    display: inline-block;
+    vertical-align: top;
+}
+.userinfo{
+    width: 100px;
+}
+.userinfo p{
+    text-align: center;
+}
+.portrait{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+.name{
+    font-size: 14px;
+    color: #4a4a4a;
+}
+.date{
+    margin-top: 10px;
+}
+.day{
+    font-size: 32px;
+    color: #4a4a4a;
+}
+.month{
+    font-size: 20px;
+    color: #4a4a4a;
+}
+.chat-content{
+    margin-top: 30px;
+    margin-left: 30px;
+    width: 770px;
+    background-color: #F5F5F5;
+    position: relative;
+    border-radius: 5px;
+}
+.chat-content::before{
+    content: "";
+    position: absolute;
+    right: 100%;
+    top:0;
+    background: url("../images/chat/icon.png");
+    width: 30px;
+    height: 40px;
+}
+.chat-title{
+    margin-left: 10px;
+    margin-top: 10px;
+    color: #4a4a4a;
+}
+.content{
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #4a4a4a;
+    text-overflow: ellipsis;
+    white-space:nowrap;
+    overflow: hidden;
+}
+.comments-share{
+    margin-top: 10px;
+    text-align: right;
+    margin-bottom: 10px;
+    float: right;
+}
+.comments img,.share img{
+    vertical-align: middle;
+}
+.comments{
+    margin-right: 20px;
+}
+.comments{
+    color: #606060;
+    font-size: 14px;
+}
+.comments img{
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.share{
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    float: right;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.pages{
+    width: 1180px;
+    height: 80px;
+    margin: 0 auto;
+}
+.page-select{
+    margin-left: 380px;
+    margin-top: 40px;
+    float:left ;
+}
+.page-select li{
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    outline: 1px solid #9b9b9b;
+    margin-left: 10px;
+}
+.pagesup{
+    margin-right: 20px;
+}
+.pagesdown{
+    margin-left: 20px;
+}
+.pages-num{
+    text-align: center;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    outline: 1px solid #c5c4c5;
+}
+.page-select a{
+    font-size: 14px;
+    color:#9b9b9b;
+}
+.page-skip{
+    font-size: 14px;
+    color: #9b9b9b;
+    margin-top: 40px;
+    float: right;
+}
+.page-num{
+    width: 20px;
+    height: 20px;
+    border: 1px solid #9b9b9b;
+    text-align: center;
+    line-height: 20px;
+}
+.blank{
+    margin-left: 10px;
+    margin-right: 20px;
+}
+.page-btn{
+    width: 50px;
+    text-align: center;
+    color: #9b9b9b;
+    background-color: #FFFFFF;
+    border: 1px solid #9b9b9b;
+    line-height: 20px;
+    margin-right: 10px;
+}
 
 .foottop{width: 100%;height: 175px;background: #f5f5f5;margin-top: 120px;padding-bottom: 5px;}
 .foottop-1{width: 1200px;height: 175px;margin: 0px auto;}
