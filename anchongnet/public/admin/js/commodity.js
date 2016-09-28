@@ -240,7 +240,7 @@ $(function(){
         $("#checked").attr("id","");
         $(this).parentsUntil(".form-group").find(".supname").attr("id","checked");
         $(this).parentsUntil(".form-group").find(".supname").empty().append(defaultopt);
-        $.get("/getsibilingscommodity",{pid:parseInt(val),sid:sid},function(data,status){
+        $.get("/getcommodity",{pid:parseInt(val),sid:sid},function(data,status){
             if(data.length==0){
                 $("#checked").empty();
                 $("#checked").append(nullopt);

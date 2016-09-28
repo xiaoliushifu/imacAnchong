@@ -61,7 +61,7 @@ $(function(){
         //属性
         $("#attrs").empty();
         //获得有关该分类的商品
-        $.get("/getsibilingscommodity",{pid:Level2,sid:sid},function(data,status){
+        $.get("/getcommodity",{pid:Level2,sid:sid},function(data,status){
             if(data.length==0){
                 $("#name").empty();
                 $("#name").append(nullopt);

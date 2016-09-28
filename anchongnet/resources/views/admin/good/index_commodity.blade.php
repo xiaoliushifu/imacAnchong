@@ -133,7 +133,7 @@
                         <div class="form-name form-group">
                             <label for="title" class="col-sm-2 control-label">商品名称</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="title" id="title" required>
+                                <textarea class="form-control" name="title" id="title" rows="3" required></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -207,7 +207,7 @@
                             </table>
                         </div>
                         <div class="clearfix"></div>
-                        <small class="text-danger">商品属性不可修改，若修改请重新录入商品</small>
+                        <small class="text-danger">商品属性请谨慎修改，若修改请先删除相关货品再修改属性</small>
                     </div>
                     <hr>
                     <h5 class="text-center">图片信息</h5>

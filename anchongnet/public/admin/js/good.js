@@ -92,7 +92,7 @@ $(function(){
         }
         $("#name").empty();
         //暂只传递第一个分类（如果有多个分类的话）
-        $.get("/getsibilingscommodity",{pid:cid[0],sid:sid},function(data,status,c){
+        $.get("/getcommodity",{pid:cid[0],sid:sid},function(data,status,c){
             for(var i=0;i<data.length;i++){
                 opt="<option  value="+data[i].goods_id+">"+data[i].title+"</option>";
                 $("#name").append(opt);

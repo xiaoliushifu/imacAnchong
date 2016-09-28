@@ -115,7 +115,9 @@ class commodityController extends Controller
         );
 
         //插入oem数据
-        DB::table('anchong_goods_oem')->insert(['goods_id'=>$gid,'value'=>$request->oem]);
+        if ($request->oem) {
+            DB::table('anchong_goods_oem')->insert(['goods_id'=>$gid,'value'=>$request->oem]);
+        }
         
         //通过一个for循环向属性表中插入数据
         for($i=0;$i<count($request->attrname);$i++){
@@ -283,7 +285,7 @@ class commodityController extends Controller
     /*
      * 根据分类信息获取商品
      * */
-    public function getSiblings(Request $request){
+    public function getBycat(Request $request){
         $type=$request['pid'];
         $data=Goods::Type($type,$request['sid'])->get();
         return $data;

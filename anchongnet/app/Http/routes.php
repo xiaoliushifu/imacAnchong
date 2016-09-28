@@ -477,7 +477,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             //得oem由goods_id
             Route::get('/oem','admin\commodityController@oem');
             //获取同一分类下的商品的路由
-            Route::get('/getsibilingscommodity','admin\commodityController@getSiblings');
+            Route::get('/getcommodity','admin\commodityController@getBycat');
             //获取商品关键字
             Route::get('/getKeywords','admin\commodityController@getKeywords');
             //获取同一商品下的所有货品的路由
