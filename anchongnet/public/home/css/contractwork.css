@@ -78,6 +78,9 @@
     font-size: 14px;
     color: #606060;
     text-overflow: ellipsis;
+    width: 600px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .center-right{
     width: 150px;

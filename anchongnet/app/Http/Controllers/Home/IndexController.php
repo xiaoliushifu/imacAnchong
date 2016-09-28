@@ -23,5 +23,6 @@ class IndexController extends CommonController
         $community = Community_release::take(3)->orderBy('created_at','desc')->get();
         $nav = Category::orderBy('cat_id','asc')->take(8)->get();
         return view('home.index',compact('hot','info','talent','userinfo','community','nav'));
+
     }
 }

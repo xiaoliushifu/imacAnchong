@@ -2,21 +2,47 @@ $(function(){
 
 //商机主页导航下拉
     $('.buslist').click(function(){
-        $('.cart').toggle();
-        $('.cart1').hide();
-        $('.cart2').hide();
+
+
+        $('.cart2').slideUp();
     });
 
 
-    $('.buslist1').click(function(){
-        $('.cart1').toggle();
-        $('.cart').hide();
-        $('.cart2').hide();
-    });
+
     $('.buslist2').click(function(){
-        $('.cart2').toggle();
-        $('.cart').hide();
-        $('.cart1').hide();
+        $('.cart').slideUp();
+    });
+    $(".buslist").on("click", function(e){
+        if($(".cart").is(":hidden")){
+            $(".cart").slideDown();
+        }else{
+            $(".cart").slideUp();
+        }
+
+        $(document).one("click", function(){
+            $(".cart").slideUp();
+        });
+
+        e.stopPropagation();
+    });
+    $(".cart").on("click", function(e){
+        e.stopPropagation();
+    });
+    $(".buslist2").on("click", function(e){
+        if($(".cart2").is(":hidden")){
+            $(".cart2").slideDown();
+        }else{
+            $(".cart2").slideUp();
+        }
+
+        $(document).one("click", function(){
+            $(".cart2").slideUp();
+        });
+
+        e.stopPropagation();
+    });
+    $(".cart2").on("click", function(e){
+        e.stopPropagation();
     });
 
 

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>商品列表</title>
     <link rel="stylesheet" href="{{asset('home/css/goodslist.css')}}">
+    <script src="home/js/jquery-3.1.0.min.js"></script>
 
 </head>
 <body>

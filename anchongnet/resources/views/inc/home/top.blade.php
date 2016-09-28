@@ -14,9 +14,9 @@
                     <li style="padding-left: 10px; position: relative;"><a href="#">{{$msg->nickname}}<b class="caret" id="ss"></b></a></li>
                 </ul>
                 <ul id="hh" class="topdown" >
-                    <li><a href="#">买卖情况</a></li>
-                    <li><a href="#">在线物流</a></li>
-                    <li><a href="#">售后服务</a></li>
+                    <li><a href="{{url('pcenter')}}">个人中心</a></li>
+                    <li><a href="{{url('/basics')}}">修改资料</a></li>
+                    <li><a href="{{url('/quit')}}">退出登录</a></li>
                 </ul>
 
             </div>
@@ -37,6 +37,25 @@
     </div>
 </div>
 @endif
+<script>
+    $("#ss").on("click", function(e){
+        if($("#hh").is(":hidden")){
+            $("#hh").slideDown();
+        }else{
+            $("#hh").slideUp();
+        }
+
+        $(document).one("click", function(){
+            $("#hh").slideUp();
+        });
+
+        e.stopPropagation();
+    });
+    $("#hh").on("click", function(e){
+        e.stopPropagation();
+    });
+
+</script>
 <style>
     .nav-top{
         width: 100%;
@@ -58,6 +77,7 @@
         padding-left: 20px;
         font-size: 12px;
         color: #4a4a4a;
+        text-align: center;
     }
     .navmain li a {
         color: #4a4a4a;
@@ -82,17 +102,22 @@
     .topdown{
         display: none;
         width: 100px;
-        height: 120px;
+        height: 110px;
         background:#fff5d4;
         position: absolute;
-        top:40px;right: 60px;
+        top:40px;right: 40px;
         text-align: center;
+        z-index: 1000;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
     }
     .topdown li{
         display:list-item;
         height: 30px;
         line-height: 30px;
         text-align: center;
+        overflow: hidden;
+        padding-right: 24px;;
     }
     .topdown li:hover{
      background: #e8e8e8;

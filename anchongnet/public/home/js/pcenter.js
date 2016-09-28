@@ -18,14 +18,14 @@ $(document).ready(function() {
     /**
      * 单项点击 内容展示
      */
-    $('.item').on('click',function(event){
-    		alert($(this).text());
-    		$.get('/pcenter/fbgc',{name:'aaa',age:20},function(data){
-    			//编写逻辑
-    		});
-    		//阻止默认动作
-    		event.preventDefault();
-    });
+    //$('.item').on('click',function(event){
+    //		alert($(this).text());
+    //		$.get('/pcenter/fbgc',{name:'aaa',age:20},function(data){
+    //			//编写逻辑
+    //		});
+    //		//阻止默认动作
+    //		event.preventDefault();
+    //});
     
     /**
      * 其他方法

@@ -180,6 +180,6 @@
 
 <!--底部-->
 @include('inc.home.footer')
-<script src="home/js/orderlist.js"></script>
+
 </body>
 </html>

@@ -1,8 +1,13 @@
 @extends('inc.home.pcenter.pcenter')
 @section('info')
-    <title>我的发布</title>
+    <title>发布人才</title>
     <link rel="stylesheet" type="text/css" href="home/css/minepublish.css">
     @endsection
+@section('publish')
+    <div class="publish" style="position: absolute;top: 5px;right: 0px;">
+        <a href="{{url('talent/create')}}"><img src="home/images/pcenter/publish.jpg" alt=""></a>
+    </div>
+@endsection
  @section('content')
 
 
@@ -16,12 +21,12 @@
              </div>
              <div class="toppp">
                  <ul>
-                     <li><a href="javascript::" class="inactive">我的发布<b class="caret"></b></a>
+                     <li><a href="javascript:" class="inactive">我的发布<b class="caret"></b></a>
                          <ul class="ttt" style="display: none">
                              <hr>
                              <li><a href="{{url('/conwork')}}" class="inactive active">发包工程</a></li>
-                             <li><a href="{{url('/conwork')}}" class="inactive active">承接工程</a></li>
-                             <li><a href="{{url('/reoder')}}" class="inactive active">发布人才</a></li>
+                             <li><a href="{{url('/continuepro')}}" class="inactive active">承接工程</a></li>
+                             <li><a href="{{url('/pubtalent')}}" class="inactive active">发布人才</a></li>
                              <li><a href="{{url('/mypublish')}}" class="inactive active">人才自荐</a></li>
                              <li><a href="{{url('/fngoods')}}" class="inactive active">找货</a></li>
 
@@ -29,7 +34,7 @@
 
                      </li>
                      <hr>
-                     <li><a href="javascript::" class="inactive">我的收藏<b class="caret"></b></a>
+                     <li><a href="javascript:" class="inactive">我的收藏<b class="caret"></b></a>
                          <ul class="ttt" style="display: none">
                              <hr>
                              <li><a href="{{url('/colgoods')}}" class="inactive active">商品</a></li>
@@ -38,7 +43,7 @@
                          </ul>
                      </li>
                      <hr>
-                     <li><a href="javascript::" class="inactive">我的订单<b class="caret"></b></a>
+                     <li><a href="javascript:" class="inactive">我的订单<b class="caret"></b></a>
                          <ul class="ttt" style="display: none">
                              <hr>
                              <li><a href="#" class="inactive active">美协机关</a>
@@ -65,52 +70,30 @@
          <div class="mainrg">
              <div class=" daomain">
                  <ul>
-                     <li><a href="#" >发包工程</a></li>
-                     <li><a href="#">承接工程</a></li>
-                     <li><a href="#" >发布人才</a></li>
-                     <li><a href="#" style="color: #1DABD8;font-size: 20px;font-weight: bold;">人才自荐</a></li>
-                     <li><a href="#">找货</a></li>
+                     <li><a href="{{url('conwork')}}">发包工程</a></li>
+                     <li><a href="{{url('/continuepro')}}">承接工程</a></li>
+                     <li><a href="{{url('/pubtalent')}}"  style="color: #1DABD8;font-size: 20px;
+                font-weight: bold;">发布人才</a></li>
+                     <li><a href="{{url('/mypublish')}}">人才自荐</a></li>
+                     <li><a href="{{url('fngoods')}}">找货</a></li>
 
 
                  </ul>
              </div>
-
+             @foreach($pro as $p)
              <div class="centermain">
                  <div class="center-left">
-                     <a href=""><img src="home/images/mine/66.jpg" alt=""></a>
-                     <p><a href="">周先生</a></p>
+                     <a href="{{url('project/'.$p->bid)}}"><img src="{{$p->img}}" alt=""></a>
+                     <p><a href="{{url('project/'.$p->bid)}}">{{$p->contact}}</a></p>
                  </div>
                  <div class="center-right">
-                     <h4><a href="">发布标题</a></h4>
-                     <p>发布内容发布内容发布内容发容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容</p>
+                     <h4><a href="{{url('project/'.$p->bid)}}">{{$p->title}}</a></h4>
+                    <nobr><p>{{$p->content}}</p></nobr>
                  </div>
 
              </div>
-
-             <div class="centermain">
-                 <div class="center-left">
-                     <a href=""><img src="home/images/mine/66.jpg" alt=""></a>
-                     <p><a href="">周先生</a></p>
-                 </div>
-                 <div class="center-right">
-                     <h4><a href="">发布标题</a></h4>
-                     <p>发布内容发布内容发布内容发容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容</p>
-                 </div>
-
-             </div>
-
-
-             <div class="centermain">
-                 <div class="center-left">
-                     <a href=""><img src="home/images/mine/66.jpg" alt=""></a>
-                     <p><a href="">周先生</a></p>
-                 </div>
-                 <div class="center-right">
-                     <h4><a href="">发布标题</a></h4>
-                     <p>发布内容发布内容发布内容发容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容发布内容</p>
-                 </div>
-
-             </div>
+          @endforeach
+             <div class="text-center" style="margin-top: 30px;">  {{$pro->links()}}</div>
 
 
 
