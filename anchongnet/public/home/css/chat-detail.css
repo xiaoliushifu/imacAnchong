@@ -413,6 +413,8 @@ ul,li{
 }
 .send{
     margin-right: 10px;
+    border: none;
+    background: #ffffff;
 }
 .footer-top{
     width: 100%;

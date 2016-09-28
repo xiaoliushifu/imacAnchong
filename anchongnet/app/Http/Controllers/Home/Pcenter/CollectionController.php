@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Home\Pcenter;
 
 use App\Collection;
+use App\Community_collect;
+use App\Community_comment;
+use App\Community_release;
 use App\Goods_type;
 use App\Shop;
 use App\Users;
@@ -19,11 +22,7 @@ class CollectionController extends CommonController
 
         $user =Users::where('phone',[session('user')])->first();
         $col = Collection::where(['users_id'=>$user->users_id,'coll_type'=>1])->get(['coll_id'])->toArray();
-
-
-            $colg= Goods_type::wherein('gid',$col)->get();
-
-
+        $colg= Goods_type::wherein('gid',$col)->get();
         return view('home.pcenter.collectgoods',compact('colg'));
     }
 //    收藏商铺
@@ -35,10 +34,17 @@ class CollectionController extends CommonController
 
         return view('home.pcenter.collectshop',compact('shop'));
     }
-//    收藏社区
+    //收藏社区
     public function colcommunity()
     {
-        return view('home.pcenter.collectcommunity');
+        $user =Users::where('phone',[session('user')])->first();
+        $collect = Community_collect::where('users_id',$user->users_id)->get(['chat_id'])->toArray();
+        $community = Community_release::wherein('chat_id',$collect)->paginate(6);
+        foreach ($community as $value){
+            $id = $value -> chat_id;
+            $num[$id] = Community_comment::where('chat_id',$id)->count();
+        }
+        return view('home.pcenter.collectcommunity',compact('community','num'));
     }
 
 }
