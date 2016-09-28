@@ -113,18 +113,18 @@ class PropelController extends Controller
             //2 为个人
             case '2':
             //当用户未登陆时，无法为个人推送消息，这时会发生异常，捕获异常并处理
-            //try{
-                $response = $push->setPlatform($platform)
-                    ->addAlias($alias)
-                    ->iosNotification($alert, $ios_notification)
-                    ->androidNotification($alert, $android_notification)
-                    ->message($content, $message)
-                    ->options($options)
-                    ->send();
-                    return Redirect::back()->withInput()->with('errormessage','个人推送成功');
-                // }catch (\Exception $e) {
-                //     return Redirect::back()->withInput()->with('errormessage','该用户未登陆');
-                // }
+                try{
+                    $response = $push->setPlatform($platform)
+                        ->addAlias($alias)
+                        ->iosNotification($alert, $ios_notification)
+                        ->androidNotification($alert, $android_notification)
+                        ->message($content, $message)
+                        ->options($options)
+                        ->send();
+                        return Redirect::back()->withInput()->with('errormessage','个人推送成功');
+                }catch (\Exception $e) {
+                    return Redirect::back()->withInput()->with('errormessage','该用户未登陆');
+                }
                 break;
             default:
                 return Redirect::back()->withInput()->with('errormessage','非法推送');

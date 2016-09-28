@@ -26,6 +26,9 @@
 //接口路由组
 
 Route::group(['domain' => 'api.anchong.net'], function () {
+    Route::post('/live/createlive','Api\Live\LiveController@createlive');
+    //生成网易云信聊天室
+    Route::post('/live/createroom','Api\Live\LiveController@createroom');
     //商品检索
     Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
     //智能提示
@@ -328,9 +331,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         *   直播模块
         */
         //生成直播
-        Route::post('/live/createlive','Api\Live\LiveController@createlive');
-        //生成网易云信聊天室
-        Route::post('/live/createroom','Api\Live\LiveController@createroom');
+
     });
 });
 
