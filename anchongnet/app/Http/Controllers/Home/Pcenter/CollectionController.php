@@ -24,7 +24,7 @@ class CollectionController extends CommonController
             $colg= Goods_type::wherein('gid',$col)->get();
 
 
-        return view('home.pcenter.collectgoods',compact('colg'));
+        return view('home.pcenter.minecollect.collectgoods',compact('colg'));
     }
 //    收藏商铺
     public function colshop()
@@ -33,12 +33,12 @@ class CollectionController extends CommonController
         $col = Collection::where(['users_id'=>$user->users_id,'coll_type'=>2])->get(['coll_id'])->toArray();
              $shop = Shop::wherein('sid',$col)->get();
 
-        return view('home.pcenter.collectshop',compact('shop'));
+        return view('home.pcenter.minecollect.collectshop',compact('shop'));
     }
 //    收藏社区
     public function colcommunity()
     {
-        return view('home.pcenter.collectcommunity');
+        return view('home.pcenter.minecollect.collectcommunity');
     }
 
 }

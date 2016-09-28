@@ -575,9 +575,8 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::post('/feedback/feedbackview','admin\Feedback\FeedbackController@feedbackview');
         });
     });
-            //前台路由
-
-            Route::group(['domain' => 'anchong.hd','middleware'=>['csrf']], function () {
+//前台路由
+ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {
             //获取商品参数html代码
             Route::get('/getparam', 'admin\uEditorController@getParam');
             Route::get('/getpackage', 'admin\uEditorController@getPackage');
@@ -612,12 +611,19 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::get('/basics', 'IndexController@basics');
             //商铺认证
             Route::get('/honor', 'IndexController@honor');
-            //我的发布
-            Route::get('/mypublish', 'IndexController@publish');
-            //发包工程
-            Route::get('/conwork', 'IndexController@work');
             //上传头像
             Route::get('/uphead', 'IndexController@uphead');
+            //人才自荐
+            Route::get('/mypublish', 'PublishController@publish');
+            //我发布的人才
+             Route::get('/pubtalent', 'PublishController@pubtalent');
+            //发包工程
+            Route::get('/conwork', 'PublishController@work');
+            //承接工程
+            Route::get('/continuepro', 'PublishController@continu');
+            //我的找货
+            Route::get('/fngoods', 'PublishController@myfgoods');
+
 
             //个人中心收藏
             //商品
@@ -656,6 +662,6 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
              //发布聊聊
              Route::resource('/chat','ChatController');
             });
-            });
-             //验证码类,需要传入数字
-             Route::get('/captcha/{num}', 'CaptchaController@captcha');
+  });
+ //验证码类,需要传入数字
+ Route::get('/captcha/{num}', 'CaptchaController@captcha');

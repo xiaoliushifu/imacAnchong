@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Home\Pcenter;
 
+use App\Address;
+use App\Collection;
 use App\Feedback_reply;
+use App\Goods_type;
 use App\Http\Controllers\Home\CommonController;
 use App\Usermessages;
 use App\Users;
@@ -15,11 +18,13 @@ class IndexController extends CommonController
     public function getIndex()
   {
      $user =Users::where('phone',[session('user')])->first();
-
     $msg = Usermessages::where('users_id',$user->users_id)->first();
+      $col = Collection::where(['users_id'=>$user->users_id,'coll_type'=>1])->get(['coll_id'])->toArray();
 
 
-        return view('home.pcenter.index',compact('msg'));
+      $colg= Goods_type::wherein('gid',$col)->paginate(12);
+
+        return view('home.pcenter.index',compact('msg','colg'));
     }
     
     public function getFbgc()
@@ -40,7 +45,10 @@ class IndexController extends CommonController
 //        地址管理
     public function adress()
     {
-        return view('home.pcenter.adress');
+        $user =Users::where('phone',[session('user')])->first();
+        $adress = Address::where('users_id',$user->users_id)->get();
+//           dd($adress);
+        return view('home.pcenter.adress',compact('adress'));
     }
     //        申请商铺
     public function applysp()
@@ -57,16 +65,7 @@ class IndexController extends CommonController
     {
         return view('home.pcenter.honor');
     }
-    //        我的发布
-    public function publish()
-    {
-        return view('home.pcenter.minepublish');
-    }
-    //        发包工程
-    public function work()
-    {
-        return view('home.pcenter.contractwork');
-    }
+
 //        上传头像
     public function uphead()
     {

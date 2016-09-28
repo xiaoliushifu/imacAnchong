@@ -6,6 +6,7 @@ use App\Business;
 use App\Category;
 use App\Community_release;
 use App\Information;
+use App\Usermessages;
 use EasyWeChat\Staff\Session;
 use App\Http\Requests;
 /*
@@ -22,5 +23,6 @@ class IndexController extends CommonController
         $community = Community_release::take(3)->orderBy('created_at','desc')->get();
         $nav = Category::orderBy('cat_id','asc')->take(8)->get();
         return view('home.index',compact('hot','info','talent','userinfo','community','nav'));
+
     }
 }

@@ -10,12 +10,13 @@
 <body>
 <div class="topt">
     <div class="topt-1">
-        <div class="topt-2"><p><a href="{{url('/')}}">安虫首页</a></p></div>
+        <div class="topt-2"><p><a href="{{url('/')}}" style="color:#606060;">安虫首页</a></p></div>
         <div class="topt-3">
             <ul class="nav navbar-nav">
 
                 <li>邮箱：www.@anchong.net</li>
                 <li>垂询电话:0317-8155026</li>
+                <li>购物车 <span class="glyphicon glyphicon-shopping-cart"></span> </li>
                 <li><img src={{$msg->headpic}} alt=""></li>
                 <li style="padding-left: 10px;"><a href="#" class="dropdown-toggle " data-toggle="dropdown">{{$msg->nickname}}<b class="caret"></b></a>
                     <ul class="dropdown-menu depth_0 downlist">
@@ -32,7 +33,7 @@
     </div>
 </div>
 <div class="topone">
-    <div class="topone-1">
+    <div class="topone-1"  style="position: relative;">
         <div class="topone-2">
             <img src="home/images/mine/60.jpg" alt="">
         </div>
@@ -42,6 +43,7 @@
                 <li  class="ppp"><a href="{{url('/basics')}}" >个人资料</a><img src="home/images/mine/up.png" alt=""> </li>
                 <li  class="ppp"><a href="{{url('/servermsg')}}" >消息</a><img src="home/images/mine/up.png" alt=""> </li>
             </ul>
+           @yield('publish')
         </div>
 
     </div>

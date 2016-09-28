@@ -50,7 +50,8 @@
                         <span>详细地址：</span><input type="text" value="于辛庄村天利家园#300"onfocus="javascript:if(this.value=='于辛庄村天利家园#300')this.value='';">
                     </li>
                     <div class="install">
-                        <img src="home/images/mine/选择.png" alt=""><button type="submit">设为默认收获地址</button>
+                        <img src="home/images/mine/选择.png" alt=""><span>设为默认收获地址</span>
+                        <button type="submit">保存</button>
                     </div>
                 </form>
             </div>
@@ -64,38 +65,44 @@
                     <th class="name">收货人</th>
                     <th  class="badress">所在地区</th>
                     <th class="xadress">详细地址</th>
-                    <th>邮政编码</th>
-                    <th>手机</th>
-                    <th>操作</th>
-                    <th>    </th>
+
+                    <th style="text-align: center;">手机</th>
+                    <th style="text-align: center;">操作</th>
+                    <th  style="text-align: center;">    </th>
                 </tr>
+                @foreach($adress as $d)
                 <tr>
-                    <td class="name">风信子</td>
-                    <td class="badress">北京市昌平区回龙观</td>
-                    <td class="xadress">沙河镇天利家园#300</td>
-                    <td class="nub">000000</td>
-                    <td class="phone">13888888888</td>
+                    <td class="name">{{$d->add_name}}</td>
+                    <td class="badress">{{$d->region}}</td>
+                    <td class="xadress">{{$d->address}}</td>
+
+                    <td class="phone">{{$d->phone}}</td>
                     <td class="xiugai"><a href="">修改</a><span>|</span><a href="">删除</a></td>
+                    @if($d->isdefault==1)
                     <td class="moren"><img src="home/images/mine/默认.png" alt=""></td>
+                        @else
+                        <td class="moren"></td>
+                        @endif
                 </tr>
-                <tr>
-                    <td class="name">风信子</td>
-                    <td class="badress">北京市昌平区回龙观</td>
-                    <td class="xadress">沙河镇天利家园#300</td>
-                    <td class="nub">000000</td>
-                    <td  class="phone">13888888888</td>
-                    <td class="xiugai"><a href="">修改</a><span>|</span><a href="">删除</a></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="name">风信子</td>
-                    <td class="badress">北京市昌平区回龙观</td>
-                    <td class="xadress">沙河镇天利家园#300</td>
-                    <td class="nub">000000</td>
-                    <td class="phone">13888888888</td>
-                    <td class="xiugai"><a href="">修改</a><span>|</span><a href="">删除</a></td>
-                    <td></td>
-                </tr>
+                @endforeach
+                {{--<tr>--}}
+                    {{--<td class="name">风信子</td>--}}
+                    {{--<td class="badress">北京市昌平区回龙观</td>--}}
+                    {{--<td class="xadress">沙河镇天利家园#300</td>--}}
+                    {{--<td class="nub">000000</td>--}}
+                    {{--<td  class="phone">13888888888</td>--}}
+                    {{--<td class="xiugai"><a href="">修改</a><span>|</span><a href="">删除</a></td>--}}
+                    {{--<td></td>--}}
+                {{--</tr>--}}
+                {{--<tr>--}}
+                    {{--<td class="name">风信子</td>--}}
+                    {{--<td class="badress">北京市昌平区回龙观</td>--}}
+                    {{--<td class="xadress">沙河镇天利家园#300</td>--}}
+                    {{--<td class="nub">000000</td>--}}
+                    {{--<td class="phone">13888888888</td>--}}
+                    {{--<td class="xiugai"><a href="">修改</a><span>|</span><a href="">删除</a></td>--}}
+                    {{--<td></td>--}}
+                {{--</tr>--}}
             </table>
         </div>
 

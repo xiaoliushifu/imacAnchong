@@ -96,16 +96,22 @@
     margin-left: 30px;
 }
 .install button{
-  background: none;
-    border: none;
-    margin-left: 20px;
-    color: #606060;
+  background: #1DABD8;
+   border: none;
+   margin-left: 100px;
+    color: #FFFFFF;
+    width: 80px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 5px;
 }
-.install button:hover{
-    color: #1DABD8;
-}
+
 .install{
     margin-top: 20px;
+}
+.install span{
+    margin-left: 20px;
 }
 .notes{
     width: 910px;

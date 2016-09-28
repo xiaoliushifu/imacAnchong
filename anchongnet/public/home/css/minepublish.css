@@ -103,6 +103,9 @@
     color: #606060;
     margin-right: 20px;
     letter-spacing: 1px;
+    width: 600px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .center-right h4{
     margin-top: 40px;
