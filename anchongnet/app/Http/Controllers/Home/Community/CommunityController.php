@@ -6,9 +6,7 @@ use App\Community_comment;
 use App\Community_release;
 use App\Community_reply;
 use App\Http\Controllers\Home\CommonController;
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
 
 /*
@@ -19,7 +17,10 @@ class CommunityController extends CommonController
     //    社区首页
     public function index()
     {
-        $chat = Community_release::orderBy('created_at','desc')->paginate(12);
+        $page = Input::get(['page']);
+        $chat = Cache::remember('chat'.$page,'600',function (){
+            return Community_release::orderBy('created_at','desc')->paginate(12);
+        });
         //通过id查询并统计评论数
         foreach ($chat as $value){
             $id = $value -> chat_id;
@@ -46,7 +47,10 @@ class CommunityController extends CommonController
     //闲聊
     public function talk()
     {
-        $talk = Community_release::where('tags','闲聊')->orderBy('created_at','desc')->paginate(12);
+        $page = Input::get(['page']);
+        $talk = Cache::remember('talk'.$page,'600',function (){
+            return Community_release::where('tags','闲聊')->orderBy('created_at','desc')->paginate(12);
+        });
         foreach ($talk as $value){
             $id = $value -> chat_id;
             $num[$id] = Community_comment::where('chat_id',$id)->count();
@@ -56,7 +60,10 @@ class CommunityController extends CommonController
     //问问
     public function question()
     {
-        $question = Community_release::where('tags','问问')->orderBy('created_at','desc')->paginate(12);
+        $page = Input::get(['page']);
+        $question = Cache::remember('question'.$page,'600',function (){
+            return Community_release::where('tags','问问')->orderBy('created_at','desc')->paginate(12);
+        });
         foreach ($question as $value){
             $id = $value -> chat_id;
             $num[$id] = Community_comment::where('chat_id',$id)->count();
@@ -66,7 +73,10 @@ class CommunityController extends CommonController
     //活动
     public function activity()
     {
-        $activity = Community_release::where('tags','活动')->orderBy('created_at','desc')->paginate(12);
+        $page = Input::get(['page']);
+        $activity = Cache::remember('activity'.$page,'600',function (){
+           return Community_release::where('tags','活动')->orderBy('created_at','desc')->paginate(12);
+        });
         foreach ($activity as $value){
             $id = $value -> chat_id;
             $num[$id] = Community_comment::where('chat_id',$id)->count();

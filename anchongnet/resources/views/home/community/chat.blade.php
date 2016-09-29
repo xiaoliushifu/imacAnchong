@@ -71,7 +71,7 @@
                             <p class="username">{{$value -> name}}</p>
                             <p class="comments-time">{{date("Y-m-d",strtotime($value -> created_at))}}</p>
                             <p class="comments-info">{!! $value -> content !!}</p>
-                            <a  class="replay" href="">回复</a>
+                            <a  class="replay">回复</a>
                             <span class="parting"></span>
                             @for($i=0;$i<(count($replay[$value->comid]));$i++)
                                 <p class="dialogue"><i class="rpname">{{$replay[$value->comid][$i]->name}}</i>回复<i class="comname">{{$replay[$value->comid][$i] -> comname}}</i>:{!! $replay[$value->comid][$i]-> content !!}</p>
@@ -91,7 +91,7 @@
                     <li class="replay-dist">
                         <div>
                             <div id="show"></div>
-                            <form>
+                            <form class="">
                                 {{csrf_field()}}
                                 <i>我也有话要说……</i>
                                 <textarea id="comments" name="comments" class="replay-content"></textarea>
