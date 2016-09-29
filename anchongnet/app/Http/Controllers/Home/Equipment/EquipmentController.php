@@ -1,20 +1,17 @@
 <?php
 
 namespace App\Http\Controllers\Home\Equipment;
-
-
 use App\Category;
 use App\Goods;
 use App\Goods_attribute;
 use App\Goods_brand;
-use App\Goods_specifications;
 use App\Goods_thumb;
 use App\Goods_type;
 use App\Http\Controllers\Home\CommonController;
 use App\Shop;
-use Illuminate\Http\Request;
 use App\Http\Requests;
-
+use Cache;
+use Illuminate\Support\Facades\Input;
 class EquipmentController extends CommonController
 {
     public function getIndex()
@@ -103,10 +100,13 @@ class EquipmentController extends CommonController
     public function getThirdshop($sid)
     {
         //住导航
-        $nav = Category::orderBy('cat_id','asc')->take(8)->get();
-        $data = Goods_type::where('sid',$sid)->orderBy('updated_at','desc')->paginate(16);
-
-
-        return view('home.equipment.thirdparty',compact('data','nav'));
+        $navthird = Cache::remember('navthird',10,function(){
+           return Category::orderBy('cat_id','asc')->take(8)->get();
+        });
+        $page = Input::get(['page']);
+          $thirdlist = Cache::remember('thirdlist'.$page,10,function() use ($sid){
+         return  Goods_type::where('sid',$sid)->orderBy('updated_at','desc')->paginate(16);
+       });
+        return view('home.equipment.thirdparty',compact('thirdlist','navthird'));
     }
 }

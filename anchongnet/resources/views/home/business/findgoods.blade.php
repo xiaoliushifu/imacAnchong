@@ -86,7 +86,7 @@
             </div>
         </div>
         <hr>
-        @foreach($data as $z)
+        @foreach($fglist as $z)
 <div class="main">
     <div class="main-title">
         <h4><a href="#">{{$z->title}}</a></h4>
@@ -99,9 +99,9 @@
 
 
 <div class="paging" >
-    {{$data->links()}}
+    {{$fglist->links()}}
     <div class="paging-right">
-        <span>共有{{$data->lastPage()}}页，去第 <input type="text"></span> <button type="button">确定</button>
+        <span>共有{{$fglist->lastPage()}}页，去第 <input type="text"></span> <button type="button">确定</button>
     </div>
 </div>
 

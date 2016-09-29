@@ -125,18 +125,18 @@
 						<span class="rank">排序</span>
 						<span class="hot-rank">热门排序</span>
 						<ul class="pages-turn">
-                            <a href="{{$data->previousPageUrl()}}" class="pageup">
+                            <a href="{{$projectlist->previousPageUrl()}}" class="pageup">
                                 <span class=""><</span>
                                 <span class="">&nbsp;上一页</span>
                             </a>
-                            <a href="{{$data->nextPageUrl()}}" class="pagedown">
+                            <a href="{{$projectlist->nextPageUrl()}}" class="pagedown">
                                 <span class="">下一页&nbsp;</span>
                                 <span class="">></span>
                             </a>
                     </div>
 
 					<div class="project-info">
-						@foreach($data as $g)
+						@foreach($projectlist as $g)
 						<ul>
                             <li class="project-preview">
                                 <p class="title"><a href="{{url('project/'.$g->bid)}}">{{$g->title}}</a></p>
@@ -149,9 +149,9 @@
 
 					</div>
 					<div class="pages">
-						{{$data->links()}}
+						{{$projectlist->links()}}
                         <ul class="page-skip">
-                            <i>共有{{$data->lastpage()}}页，</i>
+                            <i>共有{{$projectlist->lastpage()}}页，</i>
                             <i class="blank">
                                 去第
                                 <input class="page-num" type="text">
