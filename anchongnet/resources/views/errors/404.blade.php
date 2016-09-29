@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset='utf-8'>
         <title>Not Found.</title>
         <style>
             html, body {
@@ -34,7 +35,7 @@
         <div class="container">
             <div class="content">
                 <div class="title">404 Not Found.</div>
-                <small>是不是地址写错了？</small>
+                <small>是不是地址写错了，要不重新从<a href="/">安虫首页</a>开始？</small>
             </div>
         </div>
     </body>
