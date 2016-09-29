@@ -3,9 +3,6 @@
 namespace App\Http\Controllers\Home\Community;
 
 use App\Http\Controllers\Home\CommonController;
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 
 
 class ChatController extends CommonController

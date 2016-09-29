@@ -601,39 +601,39 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
             // 个人中心部分路由
 
             Route::group(['namespace' => 'Home\Pcenter','middleware'=>['loginhome']], function () {
-            //个人中心
-            Route::controller('/pcenter', 'IndexController');
-            // 服务消息
-            Route::get('/servermsg', 'IndexController@servermsg');
-            //地址管理
-            Route::get('/adress', 'IndexController@adress');
-            //申请商铺
-            Route::get('/applysp', 'IndexController@applysp');
-            //基本资料
-            Route::get('/basics', 'IndexController@basics');
-            //商铺认证
-            Route::get('/honor', 'IndexController@honor');
-            //上传头像
-            Route::get('/uphead', 'IndexController@uphead');
-            //人才自荐
-            Route::get('/mypublish', 'PublishController@publish');
-            //我发布的人才
-             Route::get('/pubtalent', 'PublishController@pubtalent');
-            //发包工程
-            Route::get('/conwork', 'PublishController@work');
-            //承接工程
-            Route::get('/continuepro', 'PublishController@continu');
-            //我的找货
-            Route::get('/fngoods', 'PublishController@myfgoods');
+                //个人中心
+                Route::controller('/pcenter', 'IndexController');
+                // 服务消息
+                Route::get('/servermsg', 'IndexController@servermsg');
+                //地址管理
+                Route::get('/adress', 'IndexController@adress');
+                //申请商铺
+                Route::get('/applysp', 'IndexController@applysp');
+                //基本资料
+                Route::get('/basics', 'IndexController@basics');
+                //商铺认证
+                Route::get('/honor', 'IndexController@honor');
+                //上传头像
+                Route::get('/uphead', 'IndexController@uphead');
+                //人才自荐
+                Route::get('/mypublish', 'PublishController@publish');
+                //我发布的人才
+                 Route::get('/pubtalent', 'PublishController@pubtalent');
+                //发包工程
+                Route::get('/conwork', 'PublishController@work');
+                //承接工程
+                Route::get('/continuepro', 'PublishController@continu');
+                //我的找货
+                Route::get('/fngoods', 'PublishController@myfgoods');
 
 
-            //个人中心收藏
-            //商品
-            Route::get('/colgoods', 'CollectionController@colgoods');
-            //商铺
-            Route::get('/colshop', 'CollectionController@colshop');
-            //社区
-            Route::get('/colcommunity', 'CollectionController@colcommunity');
+                //个人中心收藏
+                //商品
+                Route::get('/colgoods', 'CollectionController@colgoods');
+                //商铺
+                Route::get('/colshop', 'CollectionController@colshop');
+                //社区
+                Route::get('/colcommunity', 'CollectionController@colcommunity');
 
             });
             //前台注册

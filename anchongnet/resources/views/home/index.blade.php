@@ -72,8 +72,8 @@
                 <div class="information">
                     <p class="title"><a href=""><img src="home/images/info.png"></a></p>
                     <div class="hot-info">
-                        <p><img src="home/images/hot.png"><a href="{{url('/info/'.$info[0]->infor_id)}}">{{$info[0]->title}}</a></p>
-                        <p><img src="home/images/hot.png"><a href="{{url('/info/'.$info[1]->infor_id)}}">{{$info[1]->title}}</a></p>
+                        <p><img src="home/images/hot.png"><a href="{{url('/info/'.$iinfo[0]->infor_id)}}">{{$iinfo[0]->title}}</a></p>
+                        <p><img src="home/images/hot.png"><a href="{{url('/info/'.$iinfo[1]->infor_id)}}">{{$iinfo[1]->title}}</a></p>
                     </div>
                 </div>
             </li>
@@ -93,42 +93,42 @@
             <h1>推荐工程</h1>
             <ul class="recommended-list">
                 <li class="recommended-left recommend-1">
-                    <a href="{{url('project/'.$hot[0]->bid)}}">
-                        <img src="{{$hot[0]->img}}">
-                        <p>{{$hot[0]->title}}</p>
+                    <a href="{{url('project/'.$ihot[0]->bid)}}">
+                        <img src="{{$ihot[0]->img}}">
+                        <p>{{$ihot[0]->title}}</p>
                     </a>
                 </li>
                 <li class="recommended-cnter">
                     <ul>
                         <li class="recommend-2">
-                            <a href="{{url('project/'.$hot[1]->bid)}}">
-                                <img src="{{$hot[1]->img}}">
-                                <p>{{$hot[1]->title}}</p>
+                            <a href="{{url('project/'.$ihot[1]->bid)}}">
+                                <img src="{{$ihot[1]->img}}">
+                                <p>{{$ihot[1]->title}}</p>
                             </a>
                         </li>
                         <li class="recommend-3">
-                            <a href="{{url('project/'.$hot[2]->bid)}}">
-                                <img src="{{$hot[2]->img}}">
-                                <p>{{$hot[2]->title}}</p>
+                            <a href="{{url('project/'.$ihot[2]->bid)}}">
+                                <img src="{{$ihot[2]->img}}">
+                                <p>{{$ihot[2]->title}}</p>
                             </a>
                         </li>
                         <li class="recommend-4">
-                            <a href="{{url('project/'.$hot[4]->bid)}}">
-                                <img src="{{$hot[3]->img}}">
-                                <p>{{$hot[3]->title}}</p>
+                            <a href="{{url('project/'.$ihot[4]->bid)}}">
+                                <img src="{{$ihot[3]->img}}">
+                                <p>{{$ihot[3]->title}}</p>
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="recommend-5 recommended-right">
-                    <a href="{{url('project/'.$hot[4]->bid)}}">
-                        <img src="{{$hot[4]->img}}">
-                        <p>{{$hot[4]->title}}</p>
+                    <a href="{{url('project/'.$ihot[4]->bid)}}">
+                        <img src="{{$ihot[4]->img}}">
+                        <p>{{$ihot[4]->title}}</p>
                     </a>
                 </li>
             </ul>
             <ul class="bottom">
-                @foreach($userinfo as $value)
+                @foreach($iuserinfo as $value)
                     <li class="bottom-item">
                         <a>
                             <img src="{{$value -> headpic}}">
@@ -157,7 +157,7 @@
                 </li>
                 <li class="bbs">
                     <ul>
-                        @foreach($community as $value)
+                        @foreach($icommunity as $value)
                         <li>
                             <h3><a href="{{url('/community/'.$value -> chat_id)}}">{{$value -> title}}</a></h3>
                             <p>{!! $value -> content !!}</p>
@@ -174,7 +174,7 @@
                         <span class="region">区域</span>
                         <span class="talent">人才</span>
                     </p>
-                    @foreach($talent as $value)
+                    @foreach($italent as $value)
                     <p class="talent-item">
                         <a href="{{url('/talent')}}" class="district">{{$value -> tags}}</a>
                         <a href="{{url('/talent/'.$value->bid)}}" class="talent-name">{{$value -> contact}}</a>
@@ -183,7 +183,7 @@
                 </li>
             </ul>
             <ul class="bottom">
-                @foreach($userinfo as $value)
+                @foreach($iuserinfo as $value)
                 <li class="bottom-item">
                     <a>
                         <img src="{{$value -> headpic}}">
@@ -213,7 +213,7 @@
                         <li class="classify">
                             <h3>八大类<i class="icon"></i></h3>
                             <ul>
-                                @foreach($nav as $a)
+                                @foreach($inav as $a)
                                     <li><a href="{{url('equipment/list/'.$a->cat_id)}}">{{$a->cat_name}}</a></li>
                                 @endforeach
                             </ul>
