@@ -42,7 +42,7 @@ $(function(){
             $("#tag").val(data.tag);
             $("#catname").val(data.cat_name);
         });
-        $.get("/getsiblingscat",{cid:cid},function(data,status){
+        $.get("/getSib",{cid:cid},function(data,status){
             $("#midselect").empty();
             for(var i=0;i<data.length;i++){
                 opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";

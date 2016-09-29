@@ -81,7 +81,7 @@ $(function(){
 	        	if(!catsibs[Level2]) {
 	        		//不存在时只得跑一趟了
 		            $.ajax({
-		            	url:'/getsiblingscat?a='+Math.random(),
+		            	url:'/getSib?a='+Math.random(),
 		            	data:{cid:Level2},
 		            	async:false,//同步(只有获得分类信息后，才能处理接下来的数据)
 		            	success:function(data){

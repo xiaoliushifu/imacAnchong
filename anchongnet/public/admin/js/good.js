@@ -1,7 +1,21 @@
 /**
  * Created by lengxue on 2016/4/24.
  */
+var Level1=[];//Level1[0]是所有一级分类，Level1[1]是一级分类下的子分类
 $(function(){
+	
+	/*
+	 * 页面初始化时候加载一级分类
+	 * */
+	 $.get("/getlevel",{pid:0},function(data,status){
+	 		Level1[0]=data;
+	 		var opt;
+	     for(var i=0;i<data.length;i++){
+	         opt+="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
+	     }
+	     $("#mainselect").append(opt);
+	 });
+	
     //通过类ID查看货品的缩影信息
     $(".view").click(function(){
         //
@@ -39,19 +53,6 @@ $(function(){
         });
     });
 
-    /*
-    * 页面初始化时候将分类加载进来
-    * */
-    //加载一级分类
-    var opt;
-    var one0=0;
-    $.get("/getlevel",{pid:one0},function(data,status){
-        for(var i=0;i<data.length;i++){
-            opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
-            $("#mainselect").append(opt);
-        }
-    });
-
     //货品列表页 点击编辑按钮
     $(".edit").click(function(){
     		//ajax全局设置同步处理(多分类时尤其明显）
@@ -63,35 +64,41 @@ $(function(){
         var id=$(this).attr("data-id");
         var gid=$(this).attr("data-gid");
         var sid=$("#sid").val();
-        var opts;
-        var firstPid;
         var opt;
         var one0=0;
         $("#updateform").attr("action","/good/"+id);
         $("#gid").val(id);
         //多个分类，故需要遍历
         for(var c=0;c<cid.length;c++){
-            opts='<div class="form-group"><label class="col-sm-2 control-label">商品分类</label><div class="col-sm-10"><div class="row"><div class="col-xs-4"><select class="form-control" id="mainselect'+c+'" name="mainselect'+c+'"></select></div><div class="col-xs-4"><select class="form-control" id="midselect'+c+'" name="midselect'+c+'"></select></div></div></div></div>';
-
-            $("#goodscat").append(opts);
-            //获取一级分类信息,也就是八大类
-            $.get("/newgetlevel",{pid:one0,id:c},function(data,status){
-                for(var i=0;i<data.datas.length;i++){
-                    opt="<option  value="+data.datas[i].cat_id+">"+data.datas[i].cat_name+"</option>";
-                    $("#mainselect"+data.cnum).append(opt);
-                }
-            });
-            $.get("/newgetsiblingscat",{cid:cid[c],id:c},function(data,status){
-                for(var i=0;i<data.datas.length;i++){
-                    opt="<option  value="+data.datas[i].cat_id+">"+data.datas[i].cat_name+"</option>";
-                    $("#midselect"+data.cnum).append(opt);
-                }
-                $("#midselect"+data.cnum+" option[value="+data.cid+"]").attr("selected",true);
-                $("#mainselect"+data.cnum+" option[value="+data.parent_id+"]").attr("selected",true);
+        	$("#goodscat").append('<div class="form-group"><label class="col-sm-2 control-label">商品分类</label><div class="col-sm-10"><div class="row"><div class="col-xs-4"><select class="form-control" id="mainselect'+c+'" name="mainselect'+c+'"></select></div><div class="col-xs-4"><select class="form-control" id="midselect'+c+'" name="midselect'+c+'"></select></div></div></div></div>');
+            //一级分类信息是否缓存,也就是八大类
+            if(Level1[0] == null) {
+	            $.get("/getlevel",{pid:0},function(data,status){
+	            		Level1[0]=data;
+	            });
+            }
+            //分类信息的一级分类部分
+            opt='';
+            for(var i=0;i<Level1[0].length;i++){
+                opt +="<option  value="+Level1[0][i].cat_id+">"+Level1[0][i].cat_name+"</option>";
+            }
+            $("#mainselect"+c).append(opt);
+            
+            //一条分类信息的二级分类部分（含父类id)
+            opt='';
+            $.get("/getSib",{cid:cid[c]},function(data,status){
+	            for(var i=0;i<data.length;i++){
+	                opt+="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
+	            }
+	            $("#midselect"+c).append(opt);
+	            //设置选中项
+	            $("#midselect"+c+" option[value="+cid[c]+"]").attr("selected",true);
+	            $("#mainselect"+c+" option[value="+data[0].parent_id+"]").attr("selected",true);
             });
         }
+        //商品名称部分
         $("#name").empty();
-        //暂只传递第一个分类（如果有多个分类的话）
+        //由第一个分类获取（如果有多个分类的话）
         $.get("/getcommodity",{pid:cid[0],sid:sid},function(data,status,c){
             for(var i=0;i<data.length;i++){
                 opt="<option  value="+data[i].goods_id+">"+data[i].title+"</option>";
@@ -100,11 +107,11 @@ $(function(){
             $("#name option[value="+gid+"]").attr("selected",true);//商品名选中
             $("#goodsname").val($("#name option[value="+gid+"]").text());//隐藏项目
         });
-
+        	//关键字部分
 	    $.get("/getKeywords",{goods_id:gid},function(data,status){
 	            $("#keywords").val(data);
 	    });
-
+	    //货品的其他信息
         $.get("/good/"+id+"/edit",function(data,status){
             $("#spetag").val(data.goods_name);
             $("#model").val(data.model);
@@ -128,7 +135,7 @@ $(function(){
                 $("#stocktr").append(line);
             }
         });
-
+        //货品的图片信息
         $.get("/getgoodthumb",{gid:id},function(data,status) {
             $(".notem").remove();
             var gallery;

@@ -37,43 +37,6 @@ class goodCateController extends Controller
     }
 
     /*
-     * 获取某个二级分类的所有兄弟分类的方法
-     * 即获取同一个一级分类下的所有二级分类的方法
-     * */
-    public function newgetSiblings(Request $request)
-    {
-        $cid=$request['cid'];
-        $pid=$this->cat->find($cid)->parent_id;
-        //缓存使用
-        if (!$datas =  Cache::get($pid)) {
-            $datas=$this->cat->Pids($pid)->get();
-            Cache::add($pid,$datas,'600');
-        }
-        $datas = $datas->toArray();
-        $result['cnum']=$request['id'];
-        $result['datas']=$datas;
-        $result['cid']=$cid;
-        $result['parent_id']=$pid;
-        return $result;
-    }
-
-    /*
-     * 获取指定一级或二级分类的方法
-     * */
-    public function newgetsubLevel(Request $request)
-    {
-        $pid=$request['pid'];
-        //缓存的使用
-        if (!$datas = Cache::get($pid)) {
-            $datas = Category::Pids($pid)->get();
-            Cache::add($pid,$datas,'600');
-        }
-        $result['cnum']=$request['id'];
-        $result['datas']=$datas;
-        return $result;
-    }
-
-    /*
     * 由二级分类获取同一个父分类下的所有二级分类的方法
     * */
    public function getSiblings(Request $request)

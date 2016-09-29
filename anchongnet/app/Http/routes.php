@@ -462,14 +462,10 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
             //获取商品一级或二级分类路由
             Route::get('/getlevel','admin\goodCateController@getsubLevel');
-            //获取商品一级或二级分类路由
-            Route::get('/newgetlevel','admin\goodCateController@newgetsubLevel');
             //获取商品所有二级分类路由
             Route::get('/getlevel2','admin\goodCateController@getLevel2');
             //获取同一个一级分类下的所有二级分类的路由
-            Route::get('/getsiblingscat','admin\goodCateController@getSiblings');
-            //获取同一个一级分类下的所有二级分类的路由
-            Route::get('/newgetsiblingscat','admin\goodCateController@newgetSiblings');
+            Route::get('/getSib','admin\goodCateController@getSiblings');
 
             //货品管理路由
             Route::resource('/good','admin\goodController');
