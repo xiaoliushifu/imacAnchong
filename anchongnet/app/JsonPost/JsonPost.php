@@ -13,7 +13,7 @@ class JsonPost
     //初始化orm
     public function __construct(){
 		$this->AppKey='84d534824dad63f32935708bea55a434';
-		$this->AppSecret='aa2a4af56756';
+		$this->AppSecret='1b6c4c10648f';
 	}
 
     /*
