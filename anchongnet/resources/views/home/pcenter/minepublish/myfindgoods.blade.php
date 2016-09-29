@@ -80,7 +80,7 @@
 
             </ul>
         </div>
-        @foreach($pro as $p)
+        @foreach($pubfg as $p)
         <div class="centermain">
             <div class="center-left">
                 <h3><a href="javascrpt:">{{$p->title}}</a></h3>
@@ -96,7 +96,7 @@
 
 
 
-        <div class="text-center" style="margin-top: 30px;">  {{$pro->links()}}</div>
+        <div class="text-center" style="margin-top: 30px;">  {{$pubfg->links()}}</div>
 
     </div>
 

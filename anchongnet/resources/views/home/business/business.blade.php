@@ -102,7 +102,7 @@
                     <span>工程信息</span><a href="#">换一批>></a>
                 </div>
                 <ul>
-                    @foreach($bus as $b)
+                    @foreach($businvit as $b)
                     <li>
                         <h4><a href="{{url('project/'.$b->bid)}}">{{$b->title}}</a></h4>
                         <p><nobr>{{$b->content}}</nobr></p>
@@ -118,27 +118,27 @@
          </div>
         <div class="centermain">
             <div class="centermain-left">
-                <a href="{{url('project/'.$hot[0]->bid)}}"><img src="{{$hot[0]->img}}" alt=""></a>
-                <div class="centermain-left-title"><p>{{$hot[0]->title}}</p></div>
+                <a href="{{url('project/'.$bushot[0]->bid)}}"><img src="{{$bushot[0]->img}}" alt=""></a>
+                <div class="centermain-left-title"><p>{{$bushot[0]->title}}</p></div>
             </div>
 
             <div class="centermain-center">
                 <div class="center-top">
-                    <a href="{{url('project/'.$hot[1]->bid)}}"><img src="{{$hot[1]->img}}" alt=""></a>
-                    <div class="center-top-title"><p>{{$hot[1]->title}}</p></div>
+                    <a href="{{url('project/'.$bushot[1]->bid)}}"><img src="{{$bushot[1]->img}}" alt=""></a>
+                    <div class="center-top-title"><p>{{$bushot[1]->title}}</p></div>
                 </div>
 
                 <div class="center-down">
-                    <a href="{{url('project/'.$hot[2]->bid)}}"> <img src="{{$hot[2]->img}}" alt=""></a>
+                    <a href="{{url('project/'.$bushot[2]->bid)}}"> <img src="{{$bushot[2]->img}}" alt=""></a>
 
-                    <a href="{{url('project/'.$hot[3]->bid)}}"><img src="{{$hot[3]->img}}" alt=""></a>
-                    <div class="center-down-1"><p>{{$hot[2]->title}}</p></div>
-                    <div class="center-down-2"><p>{{$hot[3]->title}}</p></div>
+                    <a href="{{url('project/'.$bushot[3]->bid)}}"><img src="{{$bushot[3]->img}}" alt=""></a>
+                    <div class="center-down-1"><p>{{$bushot[2]->title}}</p></div>
+                    <div class="center-down-2"><p>{{$bushot[3]->title}}</p></div>
                 </div>
             </div>
             <div class="centermain-right">
-                <a href="{{url('project/'.$hot[4]->bid)}}"><img src="{{$hot[4]->img}}" alt=""></a>
-                <div class="centermain-right-title"><p>{{$hot[4]->title}}</p></div>
+                <a href="{{url('project/'.$bushot[4]->bid)}}"><img src="{{$bushot[4]->img}}" alt=""></a>
+                <div class="centermain-right-title"><p>{{$bushot[4]->title}}</p></div>
             </div>
 
         </div>
@@ -147,7 +147,7 @@
         </div>
         <div class="ranking">
             <ul>
-                @foreach($user as $r)
+                @foreach($bususer as $r)
                 <li class="">
                     <a href="#">
                     <img src="{{$r->headpic}}" alt="">
@@ -179,7 +179,7 @@
                     <span>人才招聘</span><a href="#">换一批>></a>
                 </div>
                 <ul>
-                    @foreach($talent as $t)
+                    @foreach($bustalent as $t)
                     <li>
                         <h4><a href="{{url('project/'.$t->bid)}}">服务类别：{{$t->tag}} <span></span>服务区域：{{$t->tags}}</a></h4>
 

@@ -614,15 +614,13 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
                 //人才自荐
                 Route::get('/mypublish', 'PublishController@publish');
                 //我发布的人才
-                 Route::get('/pubtalent', 'PublishController@pubtalent');
+                Route::get('/pubtalent', 'PublishController@pubtalent');
                 //发包工程
                 Route::get('/conwork', 'PublishController@work');
                 //承接工程
                 Route::get('/continuepro', 'PublishController@continu');
                 //我的找货
                 Route::get('/fngoods', 'PublishController@myfgoods');
-
-
                 //个人中心收藏
                 //商品
                 Route::get('/colgoods', 'CollectionController@colgoods');
@@ -644,21 +642,20 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
             Route::controller('/equipment', 'Home\Equipment\EquipmentController');
             //资讯
             Route::group(['namespace' => 'Home\Info'], function () {
-                Route::resource('info', 'InfoController');
-                });
-
+                 Route::resource('info', 'InfoController');
+             });
             //社区
             Route::group(['namespace' => 'Home\Community'], function () {
-             //社区
-             Route::resource('community', 'CommunityController');
-             //闲聊
-             Route::get('/talk', 'CommunityController@talk');
-             //问问
-             Route::get('/question', 'CommunityController@question');
-             //活动
-             Route::get('/activity', 'CommunityController@activity');
-             //发布聊聊
-             Route::resource('/chat','ChatController');
+                 //社区
+                 Route::resource('community', 'CommunityController');
+                 //闲聊
+                 Route::get('/talk', 'CommunityController@talk');
+                 //问问
+                 Route::get('/question', 'CommunityController@question');
+                 //活动
+                 Route::get('/activity', 'CommunityController@activity');
+                 //发布聊聊
+                 Route::resource('/chat','ChatController');
             });
 });
  //验证码类,需要传入数字

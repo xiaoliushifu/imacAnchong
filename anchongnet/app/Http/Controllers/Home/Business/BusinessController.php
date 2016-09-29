@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Home\Business;
 use App\Business;
 use App\Http\Controllers\Home\CommonController;
 use App\Usermessages;
+<<<<<<< HEAD
+=======
+use App\Http\Requests;
+use Cache;
+>>>>>>> fc88a448ebe4f3bbf4e2ebde7f9ba10f0294febd
 
 /*
 *   前端商机模块的控制器
@@ -18,14 +23,21 @@ class BusinessController extends CommonController
     public function index()
     {
 //        最新招标
-        $bus = Business::where('type', 1)->orderBy('created_at', 'desc')->take(5)->get();
-        $user = Usermessages::orderBy('users_id', 'asc')->take(8)->get();
-//热门招标
-        $hot = Business::where('type', 1)->orderBy('created_at', 'asc')->take(5)->get();
+        $value = Cache::remember('bus-invit',5,function(){
+           return  Business::where('type', 1)->orderBy('created_at', 'desc')->take(5)->get();
+        });
+          $users = Cache::remember('bus-user',5,function(){
+         return Usermessages::orderBy('users_id', 'asc')->take(8)->get();
+    });
+        //热门招标
+        $hot = Cache::remember('bus-hot',5,function(){
+         return Business::where('type', 1)->orderBy('created_at', 'asc')->take(5)->get();
+        });
 //人才招聘
-        $talent = Business::where('type',4)->orderBy('created_at','desc')->take(5)->get();
-
-        return view('home.business.business', compact('bus', 'user', 'hot','talent'));
+        $talent = Cache::remember('bus-talent',5,function(){
+            return Business::where('type',4)->orderBy('created_at','desc')->take(5)->get();
+        });
+        return view('home.business.business', ['businvit'=>$value,'bushot'=>$hot,'bustalent'=>$talent,'bususer'=>$users]);
     }
 
 

@@ -79,7 +79,7 @@
 
             </ul>
         </div>
-        @foreach($pro as $p)
+        @foreach($pubwork as $p)
         <div class="centermain">
             <div class="center-left">
                 <h3><a href="{{url('project/'.$p->bid)}}">{{$p->title}}</a></h3>
@@ -94,7 +94,7 @@
         @endforeach
 
 
-        <div class="text-center" style="margin-top: 30px;">  {{$pro->links()}}</div>
+        <div class="text-center" style="margin-top: 30px;">  {{$pubwork->links()}}</div>
 
 
 

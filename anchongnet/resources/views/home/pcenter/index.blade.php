@@ -78,7 +78,7 @@
             <div class="contmain">
 
                 <ul>
-                    @foreach($colg as $c)
+                    @foreach($pcenter as $c)
 
                         <li><a href="{{url('equipment/show/'.$c->goods_id.'/'.$c->gid)}}">
                                 <img src="{{$c->pic}}" alt="">
@@ -89,6 +89,7 @@
                         </li>
                     @endforeach
                 </ul>
+                <div class="text-center" style="margin-top: 30px;">  {{$pcenter->links()}}</div>
             </div>
 
         </div>

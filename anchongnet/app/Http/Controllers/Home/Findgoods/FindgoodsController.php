@@ -5,18 +5,22 @@ namespace App\Http\Controllers\Home\Findgoods;
 use App\Business;
 use App\Http\Controllers\Home\CommonController;
 use Illuminate\Http\Request;
-
+use Cache;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Input;
 
 class FindgoodsController extends CommonController
 {
 //    找货列表
     public function index()
     {
+         $page= Input::get(['page']);
+        $fglist = Cache::remember('fglist'.$page,10,function(){
+            return  Business::where('type', 5)->orderBy('created_at', 'desc')->paginate(15);
+        });
 
-        $data = Business::where('type', 5)->orderBy('created_at', 'desc')->paginate(15);
 
-        return view('home.business.findgoods', compact('data'));
+        return view('home.business.findgoods', compact('fglist'));
     }
 //新建发布列表表单
     public function create()

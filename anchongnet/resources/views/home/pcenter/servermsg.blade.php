@@ -31,7 +31,7 @@
         </div>
         <div class="msgcenter">
             <div class="msgcenterpic"><a href=""><img src="home/images/mine/34.jpg" alt=""></a></div>
-            @foreach($messages as $m)
+            @foreach($serverm as $m)
             <div class="msgcentermain">
                 <a href=""><h4>{{$m->title}}</h4></a>
                 <p>{{$m->content}}</p>

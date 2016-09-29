@@ -70,7 +70,7 @@
                     <th style="text-align: center;">操作</th>
                     <th  style="text-align: center;">    </th>
                 </tr>
-                @foreach($adress as $d)
+                @foreach($addrs as $d)
                 <tr>
                     <td class="name">{{$d->add_name}}</td>
                     <td class="badress">{{$d->region}}</td>
@@ -85,24 +85,7 @@
                         @endif
                 </tr>
                 @endforeach
-                {{--<tr>--}}
-                    {{--<td class="name">风信子</td>--}}
-                    {{--<td class="badress">北京市昌平区回龙观</td>--}}
-                    {{--<td class="xadress">沙河镇天利家园#300</td>--}}
-                    {{--<td class="nub">000000</td>--}}
-                    {{--<td  class="phone">13888888888</td>--}}
-                    {{--<td class="xiugai"><a href="">修改</a><span>|</span><a href="">删除</a></td>--}}
-                    {{--<td></td>--}}
-                {{--</tr>--}}
-                {{--<tr>--}}
-                    {{--<td class="name">风信子</td>--}}
-                    {{--<td class="badress">北京市昌平区回龙观</td>--}}
-                    {{--<td class="xadress">沙河镇天利家园#300</td>--}}
-                    {{--<td class="nub">000000</td>--}}
-                    {{--<td class="phone">13888888888</td>--}}
-                    {{--<td class="xiugai"><a href="">修改</a><span>|</span><a href="">删除</a></td>--}}
-                    {{--<td></td>--}}
-                {{--</tr>--}}
+
             </table>
         </div>
 

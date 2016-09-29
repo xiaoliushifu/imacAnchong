@@ -11,20 +11,20 @@ use App\Usermessages;
 use App\Users;
 use Illuminate\Http\Request;
 use App\Business;
-
+use Cache;
 class IndexController extends CommonController
 {
     private $business;
     public function getIndex()
   {
-     $user =Users::where('phone',[session('user')])->first();
-    $msg = Usermessages::where('users_id',$user->users_id)->first();
-      $col = Collection::where(['users_id'=>$user->users_id,'coll_type'=>1])->get(['coll_id'])->toArray();
+      $pcenter = Cache::remember('pcenter',10,function(){
+          $user =Users::where('phone',[session('user')])->first();
+          $col = Collection::where(['users_id'=>$user->users_id,'coll_type'=>1])->get(['coll_id'])->toArray();
+       return  Goods_type::wherein('gid',$col)->paginate(12);
+      });
 
 
-      $colg= Goods_type::wherein('gid',$col)->paginate(12);
-
-        return view('home.pcenter.index',compact('msg','colg'));
+        return view('home.pcenter.index',compact('pcenter'));
     }
     
     public function getFbgc()
@@ -37,18 +37,22 @@ class IndexController extends CommonController
     //        服务消息
     public function servermsg()
     {
-        $user =Users::where('phone',[session('user')])->first();
-        $messages = Feedback_reply::where('users_id',$user->users_id)->get();
+        $serverm = Cache::remember('serverm',10,function(){
+            $user =Users::where('phone',[session('user')])->first();
+            return  Feedback_reply::where('users_id',$user->users_id)->get();
+        });
 
-        return view('home.pcenter.servermsg',compact('messages'));
+
+        return view('home.pcenter.servermsg',compact('serverm'));
     }
 //        地址管理
     public function adress()
     {
-        $user =Users::where('phone',[session('user')])->first();
-        $adress = Address::where('users_id',$user->users_id)->get();
-//           dd($adress);
-        return view('home.pcenter.adress',compact('adress'));
+        $addrs = Cache::remember('addrs',10,function(){
+            $user =Users::where('phone',[session('user')])->first();
+            return Address::where('users_id',$user->users_id)->get();
+        });
+        return view('home.pcenter.adress',compact('addrs'));
     }
     //        申请商铺
     public function applysp()

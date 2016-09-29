@@ -36,7 +36,7 @@
         <div class="navcontent">
             <ul>
                 <li><a href="{{url('/equipment')}}">首页</a></li>
-                @foreach($nav as $a)
+                @foreach($navthird as $a)
                     <li><a href="{{url('equipment/list/'.$a->cat_id)}}">{{$a->cat_name}}</a></li>
                 @endforeach
             </ul>
@@ -136,8 +136,8 @@
                 <li class="price"><a href="">价格</a><img src="{{asset('../home/images/shebei/upp.png')}}" alt=""><img src="{{asset('../home/images/shebei/don.png')}}" alt=""></li>
 
                 <li style="width: 400px; float: right ;text-align: right;" class="pagmm">
-                    <a href="{{$data->nextPageUrl()}}"><img src="{{asset('../home/images/shebei/下一页.png')}}" alt=""></a>
-                    <a href="{{$data->previousPageUrl()}}"><img src="{{asset('../home/images/shebei/上一页.png')}}" alt=""></a>
+                    <a href="{{$thirdlist->nextPageUrl()}}"><img src="{{asset('../home/images/shebei/下一页.png')}}" alt=""></a>
+                    <a href="{{$thirdlist->previousPageUrl()}}"><img src="{{asset('../home/images/shebei/上一页.png')}}" alt=""></a>
                 </li>
             </ul>
 
@@ -148,7 +148,7 @@
     <div class="submaindetail">
         <div class="goodsdetail">
             <ul>
-                @foreach($data as $d)
+                @foreach($thirdlist as $d)
                 <li>
                     <a href="{{url('equipment/show/'.$d->goods_id.'/'.$d->gid)}}"><img src="{{$d->pic}}" alt=""></a>
                     <a href="{{url('equipment/show/'.$d->goods_id.'/'.$d->gid)}}"><nobr><p>{{$d->title}}</p></nobr></a>
@@ -163,11 +163,11 @@
 
         <div class="paging" >
             <div class="">
-                {{$data->links()}}
+                {{$thirdlist->links()}}
 
             </div>
             <div class="paging-right">
-                <span>共有{{$data->lastpage()}}页，去第 <input type="text"></span> <button type="submit">确定</button>
+                <span>共有{{$thirdlist->lastpage()}}页，去第 <input type="text"></span> <button type="submit">确定</button>
             </div>
         </div>
     </div>
