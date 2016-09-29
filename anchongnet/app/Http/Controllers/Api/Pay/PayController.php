@@ -61,6 +61,8 @@ class PayController extends Controller
             $orders = new \App\Order();
             // 使用通知里的 "商户订单号" 去自己的数据库找到订单
             $order = $orders->find($datas->order_id);
+            $sid[]=$order->sid;
+            $users_id=$order->users_id;
             // 如果订单不存在
             if (!$order) {
                 // 订单没找到，别再通知我了
@@ -126,7 +128,10 @@ class PayController extends Controller
                 // 返回处理完成
                 return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败']]);
             }
+            //进行提交
             DB::commit();
+            //进行推送通知
+            $this->propleinfo($sid,$users_id);
             // 返回处理完成
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'支付成功']]);
         }else{
@@ -436,6 +441,9 @@ class PayController extends Controller
                     $orders=new \App\Order();
                     // 使用通知里的 "商户订单号" 去自己的数据库找到订单
                     $order = $orders->find($order_id['order_id']);
+                    //拿到用户的ID和商铺的ID
+                    $sid[]=$order->sid;
+                    $users_id=$order->users_id;
                     // 如果订单不存在
                     if (!$order) {
                         // 告诉微信，我已经处理完了，订单没找到，别再通知我了
@@ -474,6 +482,8 @@ class PayController extends Controller
                 }
                 if($total_price == ($notify->total_fee/100)){
                     DB::commit();
+                    //进行推送通知
+                    $this->propleinfo($sid,$users_id);
                     // 返回处理完成
                     return true;
                 }else{
@@ -588,6 +598,9 @@ class PayController extends Controller
                        //进行订单操作
                        // 使用通知里的 "商户订单号" 去自己的数据库找到订单
                        $order = $orders->find($order_id['order_id']);
+                       //拿到用户的ID和商铺的ID
+                       $sid[]=$order->sid;
+                       $users_id=$order->users_id;
                        // 如果订单不存在
                        if (!$order) {
                            // 我已经处理完了，订单没找到，别再通知我了
@@ -620,6 +633,8 @@ class PayController extends Controller
                 //假如价格比对成功就提交
                 if($total_price == $data['total_fee']){
                     DB::commit();
+                    //进行推送通知
+                    $this->propleinfo($sid,$users_id,'success');
                     return 'success';
                 }else{
                     //假如失败就回滚
@@ -653,6 +668,8 @@ class PayController extends Controller
                     //保存订单
                     $purse_order_handle->save();
                     DB::commit();
+                    //进行推送通知
+                    $this->propleinfo($sid,$users_id);
                     // 返回处理完成
                     return 'success';
                 }else{
@@ -680,6 +697,9 @@ class PayController extends Controller
                       //进行订单操作
                       // 使用通知里的 "商户订单号" 去自己的数据库找到订单
                       $order = $orders->find($order_id['order_id']);
+                      //拿到用户的ID和商铺的ID
+                      $sid[]=$order->sid;
+                      $users_id=$order->users_id;
                       // 如果订单不存在
                       if (!$order) {
                           // 我已经处理完了，订单没找到，别再通知我了
@@ -712,6 +732,8 @@ class PayController extends Controller
                //假如价格比对成功就提交
                if($total_price == $data['total_fee']){
                    DB::commit();
+                   //进行推送通知
+                   $this->propleinfo($sid,$users_id);
                    return 'success';
                }else{
                    //假如失败就回滚
@@ -785,5 +807,35 @@ class PayController extends Controller
        }
 
        return view('test');
+   }
+
+   /*
+   *    该方法提供了订单付款成功之后的推送服务
+   */
+   private function propleinfo($sids,$users_id)
+   {
+       //处理成功给用户和商户推送消息
+       try{
+           foreach ($sids as $sid) {
+               if($sid == 1){
+                   //推送消息
+                   $this->propel->apppropel('13730593861','商品购买通知','有人购买了安虫的商品了，快去后台查看吧！');
+               }
+           }
+
+           //推送消息
+           $this->propel->apppropel($this->users->find($users_id)->phone,'订单通知','您的订单已支付成功！');
+           DB::table('anchong_feedback_reply')->insertGetId(
+               [
+                   'title' => '订单通知',
+                   'content' => '您于'.date('Y-m-d H:i:s',time()).'购买的商品已支付成功，等待发货中',
+                   'users_id' => $users_id,
+               ]
+            );
+            return true;
+       }catch (\Exception $e) {
+           // 返回处理完成
+           return true;
+       }
    }
 }

@@ -14,6 +14,9 @@ use Cache;
 */
 class ShopsController extends Controller
 {
+    //定义一些变量
+    private $propel;
+
     /*
     *   商铺货品查看
     */
@@ -314,6 +317,10 @@ class ShopsController extends Controller
             if($result){
                 //假如成功就提交
                 DB::commit();
+                //如果是发货的话就推送信息
+                if($param['action'] != 6){
+                    $this->propleinfo($param['order_id'],$param['order_num']);
+                }
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'操作成功']]);
             }else{
                 //假如失败就回滚
@@ -712,6 +719,35 @@ class ShopsController extends Controller
             }
         }catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该商铺修整中，暂不可查看']]);
+        }
+    }
+
+    /*
+    *    该方法提供了订单的推送服务
+    */
+    private function propleinfo($order_id,$order_num)
+    {
+        //处理成功给用户和商户推送消息
+        try{
+            //创建ORM模型
+            $order=new \App\Order();
+            $users=new \App\Users();
+            $this->propel=new \App\Http\Controllers\admin\Propel\PropelmesgController();
+            //查出该用户的ID
+            $users_id=$order->find($order_id)->users_id;
+            //推送消息
+            $this->propel->apppropel($users->find($users_id)->phone,'订单发货通知','您的订单'.$order_num.'已发货，请及保持手机畅通！');
+            DB::table('anchong_feedback_reply')->insertGetId(
+                [
+                    'title' => '发货通知',
+                    'content' => '您订单编号为'.$order_num.'的订单已发货，感谢您对安虫平台的支持！',
+                    'users_id' => $users_id,
+                ]
+             );
+             return true;
+        }catch (\Exception $e) {
+            // 返回处理完成
+            return true;
         }
     }
 }

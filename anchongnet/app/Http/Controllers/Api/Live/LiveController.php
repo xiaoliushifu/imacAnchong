@@ -45,10 +45,11 @@ class LiveController extends Controller
 
         //尝试运行开启七牛直播，并看该用户是否已开启直播
         try {
+            //如果该用户已生成了直播就直接获取
             $stream=$this->hub->getStream("z1.chongzai.".md5($data['guid']));
-            var_dump($stream->rtmpLiveUrls());
-            echo $stream->rtmpPublishUrl();
             $streams=$stream->toJSONString();
+            // var_dump($stream->rtmpLiveUrls());
+            // echo $stream->rtmpPublishUrl();
             // //清空当前所有流
             // $stream=$this->hub->listStreams();
             // foreach ($stream['items'] as $StreamObj) {
@@ -57,7 +58,7 @@ class LiveController extends Controller
             // exit;
         } catch (\Exception $e) {
             //假如用户未开始直播，尝试生成新直播
-            try{
+            //try{
                 //定义直播生成的数据
                 $title           = md5($data['guid']);     // 选填，默认自动生成，定义为用户的ID
                 $publishKey      = "anchongnet2016";     // 选填，默认自动生成
@@ -75,14 +76,17 @@ class LiveController extends Controller
                         [
                             'users_id' => $data['guid'],
                             'room_url' => $urls['ORIGIN'],
+                            'title' => $param['title'],
+                            'images' => str_replace('.oss-','.img-',$param['images']),
+                            'topic' => $param['topic'],
                         ]
                     );
                 }else{
                     return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"直播开启失败"]]);
                 }
-            } catch (\Exception $e) {
-                return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>"直播开启失败"]]);
-            }
+            // } catch (\Exception $e) {
+            //     return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>"直播开启失败"]]);
+            // }
         }
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['stream'=>$streams]]);
     }

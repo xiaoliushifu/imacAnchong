@@ -162,13 +162,15 @@ class orderController extends Controller
         }
         $data=$this->order->find($request['orderid']);
         $data->state=3;
+        $users_id=$data->users_id;
+        $order_num=$data->order_num;
         $data->save();
 
-        $datainfo=$this->orderinfo->Num($request['ordernum'])->first();
-        if($datainfo){
-            $datainfo->state=3;
-            $datainfo->save();
-        }
+        // $datainfo=$this->orderinfo->Num($request['ordernum'])->first();
+        // if($datainfo){
+        //     $datainfo->state=3;
+        //     $datainfo->save();
+        // }
 
         if($request['ship']=="logistics"){
             $this->gl->logisticsnum=$request['lognum'];
@@ -176,6 +178,33 @@ class orderController extends Controller
             $this->gl->company=$request['logistics'];
             $this->gl->save();
         }
+        $this->propleinfo($users_id,'订单发货通知','您订单编号为'.$order_num.'的订单已发货，感谢您对安虫平台的支持！');
         return "发货成功";
+    }
+
+    /*
+    *    该方法提供了订单的推送服务
+    */
+    private function propleinfo($users_id,$title,$Message)
+    {
+        //处理成功给用户和商户推送消息
+        try{
+            //创建ORM模型
+            $users=new \App\Users();
+            $this->propel=new \App\Http\Controllers\admin\Propel\PropelmesgController();
+            //推送消息
+            $this->propel->apppropel($users->find($users_id)->phone,$title,$Message);
+            DB::table('anchong_feedback_reply')->insertGetId(
+                [
+                    'title' => $title,
+                    'content' => $Message,
+                    'users_id' => $users_id,
+                ]
+             );
+             return true;
+        }catch (\Exception $e) {
+            // 返回处理完成
+            return true;
+        }
     }
 }
