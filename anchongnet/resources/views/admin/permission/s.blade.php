@@ -58,7 +58,7 @@
 						        <button type="submit" class="btn btn-primary">线上搜索</button>
 						    </form>-->
 						    <form action="/search/key" method="post" >
-						        <input type="text" name="q"  placeholder="磁力锁" style="width:300px">&nbsp;
+						        <input type="text" name="q"  id="q"  placeholder="磁力锁" style="width:300px">&nbsp;
 						        <button type="submit" class="btn btn-primary">go</button>
 						        <button type="button" class="btn btn-primary" onclick="my()">清除缓存</button>
 						        <small class="text-danger">为性能考虑，请慎重使用“清除【搜索缓存】”功能</small>
@@ -101,11 +101,18 @@
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
 <script>
-	function my(){
-		$.post('/search/del',function(data){
-			$('button[type="button"]').text('缓存清除了');
-		});
-	}
+function my(){
+	$.post('/search/del',function(data){
+		$('button[type="button"]').text('缓存清除了');
+	});
+}
+$('form').submit(function(){
+    			if(!$('#q').val()){
+    				alert('不行，没有输入不能搜！');
+    				return false;
+    			}
+		}
+);
 </script>
 </body>
 </html>
