@@ -5,12 +5,8 @@ namespace App\Http\Controllers\Home\Business;
 use App\Business;
 use App\Http\Controllers\Home\CommonController;
 use App\Usermessages;
-<<<<<<< HEAD
-=======
 use App\Http\Requests;
 use Cache;
->>>>>>> fc88a448ebe4f3bbf4e2ebde7f9ba10f0294febd
-
 /*
 *   前端商机模块的控制器
 */
