@@ -29,9 +29,9 @@ class IndexController extends CommonController
             return Usermessages::take(8)->orderBy('updated_at','desc')->get();
         });
         $community = Cache::remember('indexcommunity','600',function (){
-            Community_release::take(3)->orderBy('created_at','desc')->get();
+            return Community_release::take(3)->orderBy('created_at','desc')->get();
         });
-        $nav = Cache::remember('indexcommunity','600',function (){
+        $nav = Cache::remember('indexnav','600',function (){
            return Category::orderBy('cat_id','asc')->take(8)->get();
         });
         return view('home.index',['ihot'=>$hot,'italent'=>$talent,'iinfo'=>$info,'iuserinfo'=>$userinfo,'icommunity'=>$community,'inav'=>$nav]);

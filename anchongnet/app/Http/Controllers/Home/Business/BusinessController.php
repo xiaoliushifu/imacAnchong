@@ -5,11 +5,7 @@ namespace App\Http\Controllers\Home\Business;
 use App\Business;
 use App\Http\Controllers\Home\CommonController;
 use App\Usermessages;
-<<<<<<< HEAD
-=======
-use App\Http\Requests;
-use Cache;
->>>>>>> fc88a448ebe4f3bbf4e2ebde7f9ba10f0294febd
+use Illuminate\Support\Facades\Cache;
 
 /*
 *   前端商机模块的控制器
@@ -33,7 +29,7 @@ class BusinessController extends CommonController
         $hot = Cache::remember('bus-hot',5,function(){
          return Business::where('type', 1)->orderBy('created_at', 'asc')->take(5)->get();
         });
-//人才招聘
+        //人才招聘
         $talent = Cache::remember('bus-talent',5,function(){
             return Business::where('type',4)->orderBy('created_at','desc')->take(5)->get();
         });
