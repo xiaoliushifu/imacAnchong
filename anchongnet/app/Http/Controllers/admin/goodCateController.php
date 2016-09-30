@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
-use Request as Requester;
 use App\Http\Controllers\Controller;
 use App\Category;
 use Cache;
@@ -24,15 +23,15 @@ class goodCateController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $req)
     {
-        $keyName=Requester::input('keyName');
-        if($keyName==""){
+        $k=$req['keyName'];
+        if ($k) {
+            $datas = Category::Name($k)->paginate(8);
+        } else {
             $datas=$this->cat->paginate(8);
-        }else{
-            $datas = Category::Name($keyName)->paginate(8);
         }
-        $args=array("keyName"=>$keyName);
+        $args=array("keyName"=>$k);
         return view('admin/cate/index',array("datacol"=>compact("args","datas")));
     }
 
@@ -41,14 +40,11 @@ class goodCateController extends Controller
     * */
    public function getSiblings(Request $request)
    {
-       $cid=$request['cid'];
-       $pid=$this->cat->find($cid)->parent_id;
+       $pid=$this->cat->find($request['cid'])->parent_id;
        //使用缓存
-       if (!$datas = Cache::get($pid)) {
-           $datas=$this->cat->Pids( $pid )->get();
-           Cache::add($pid,$datas,'600');
-       }
-       return $datas;
+       return Cache::remember($pid,'600',function () use ($pid) {
+                        return $this->cat->Pids( $pid )->get();
+                  });
    }
 
    /*
@@ -57,11 +53,9 @@ class goodCateController extends Controller
    public function getsubLevel(Request $req)
    {
        $pid=$req['pid'];
-       if (!$datas = Cache::get($pid)) {
-           $datas = Category::Pids($pid)->get();
-           Cache::add($pid,$datas,'600');
-       }
-       return $datas;
+      return Cache::remember($pid,'600',function () use ($pid) {
+                    return $this->cat->Pids( $pid )->get();
+                 });
    }
 
 
@@ -71,11 +65,9 @@ class goodCateController extends Controller
     public function getLevel2()
     {
         //加入缓存
-        if (!$datas = Cache::get('level2')) {
-            $datas = Category::Level2()->get();
-            Cache::add('level2',$datas,'600');
-        }
-        return $datas;
+        return Cache::remember('level2',600,function() {
+                        return Category::Level2()->get();
+                   });
     }
 
     /**

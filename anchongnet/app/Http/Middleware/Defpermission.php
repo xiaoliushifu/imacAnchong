@@ -21,10 +21,9 @@ class Defpermission
         //绑定 “权限验证回调”
         $gate = app(\Illuminate\Contracts\Auth\Access\Gate::class);
         
-        if (!$permissions = \Cache::get('pcall')) {
-            $permissions = Permission::with('roles')->get();
-            \Cache::add('pcall',$permissions,'360');
-        }
+        $permissions = \Cache::remember('pcall','360',function(){
+            return  Permission::with('roles')->get();
+        });
         foreach ($permissions as $permission) {
             $gate->define($permission->name, function($user) use ($permission) {
                 return $user->hasPermission($permission);
