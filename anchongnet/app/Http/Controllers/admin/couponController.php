@@ -33,10 +33,9 @@ class couponController extends Controller
     public function create()
     {
         //获得认证通过的商铺列表
-        if (!$datas = Cache::get('opdata')) {
-            $datas = \App\Shop::Audit(2)->get(['sid','name'])->toArray();
-            Cache::add('opdata',$datas,'100');
-        }
+        $datas = Cache::remember('shop_audit_2',100,function(){
+                        return  \App\Shop::Audit(2)->get(['sid','name'])->toArray();
+                      });
         return view('admin/coupon/create',['opdata'=>$datas,'endline'=>time()+86400*10]);
     }
 
@@ -73,11 +72,9 @@ class couponController extends Controller
             'endline'=>strtotime($req['endline']),
         );
         try{
-            //获得认证通过的商铺列表
-            if (!$datas = Cache::get('opdata')) {
-                $datas = \App\Shop::Audit(2)->get(['sid','name'])->toArray();
-                Cache::add('opdata',$datas,'100');
-            }
+            $datas = Cache::remember('shop_audit_2',100,function(){
+                        return  \App\Shop::Audit(2)->get(['sid','name'])->toArray();
+                      });
             if (DB::table('anchong_coupon_pool')->insert($field)) {
                 return  view('admin/coupon/create',array('mes'=>'添加成功','opdata'=>$datas, 'endline'=>time()+86400*10));
             } else {
