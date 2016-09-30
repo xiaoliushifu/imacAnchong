@@ -6,7 +6,6 @@ use App\Business;
 use App\Http\Controllers\Home\CommonController;
 use App\Usermessages;
 use Illuminate\Support\Facades\Cache;
-
 /*
 *   前端商机模块的控制器
 */
