@@ -108,14 +108,29 @@ class UserController extends Controller
                             'password' => Hash::make($param['password']),
                             'username' => $param['phone'],
                             'token' => md5($param['phone']),
+                            'netease_token' => md5($usersid.$param['phone']),
                             'user_rank'=>1
                         ];
+
                         $users_login=new \App\Users_login();
+                        //创建ORM
+                        $JsonPost=new \App\JsonPost\JsonPost();
+                        //网易云信
+                        $url  = "https://api.netease.im/nimserver/user/create.action";
+                        //生成账号的数据
+                        $datas = 'accid='.$param['phone'].'&token='.$users_login_data['netease_token'];
+                        list($return_code, $return_content) = $JsonPost->http_post_data($url, $datas);
+                        //判断是否请求成功
+                        if($return_code != 200){
+                            //假如失败就回滚
+                            DB::rollback();
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>3,'ResultData'=>['Message'=>'为了您的安全，请重新注册']]);
+                        }
                         //假如插入成功
                         if($users_login->add($users_login_data)){
                             //假如成功就提交
                             DB::commit();
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['certification'=>0,'users_rank'=>1,'token'=>$users_login_data['token'],'guid'=> $users_login_data['users_id']]]);
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['certification'=>0,'users_rank'=>1,'token'=>$users_login_data['token'],'guid'=> $users_login_data['users_id'],'netease_token'=>$users_login_data['netease_token']]]);
                         }else{
                             //假如失败就回滚
                             DB::rollback();
@@ -166,14 +181,14 @@ class UserController extends Controller
             //生成随机Token
             $token=md5($username.time());
             //登录以后通过账号查询用户ID
-            $user_data = $users_login->quer(['users_id'],['username' =>$username])->toArray();
+            $user_data = $users_login->quer(['users_id','netease_token'],['username' =>$username])->toArray();
             //插入新TOKEN
             if($users_login->addToken(['token'=>$token],$user_data[0]['users_id'])){
                 //创建用户表对象
                 $users=new \App\Users();
                 //通过用户ID查出来用户权限等级和商家认证
                 $users_info=$users->quer(['users_rank','certification'],['users_id'=>$user_data[0]['users_id']]);
-                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['certification'=>$users_info[0]['certification'],'users_rank'=>$users_info[0]['users_rank'],'token'=>$token,'guid'=> $user_data[0]['users_id']]]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['certification'=>$users_info[0]['certification'],'users_rank'=>$users_info[0]['users_rank'],'token'=>$token,'guid'=> $user_data[0]['users_id'],'netease_token'=>$user_data[0]['netease_token']]]);
             }else{
                 return response()->json(['serverTime'=>time(),'ServerNo'=>6,'ResultData'=>['Message'=>'当前Token已过期']]);
             }
