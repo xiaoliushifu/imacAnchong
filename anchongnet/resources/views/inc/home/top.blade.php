@@ -11,13 +11,15 @@
                     @endif
                     <li>垂询电话:0317-8155026</li>
                     <li><img src="{{$msg->headpic}}" alt=""></li>
-                    <li style="padding-left: 10px; position: relative;"><a href="#">{{$msg->nickname}}<b class="caret" id="ss"></b></a></li>
+                    <li style="padding-left: 10px; position: relative;"><a href="#">{{$msg->nickname}}<b class="caret" id="ss"></b></a>
+                        <ul id="hh" class="topdown" >
+                            <li><a href="{{url('pcenter')}}">个人中心</a></li>
+                            <li><a href="{{url('/basics')}}">修改资料</a></li>
+                            <li><a href="{{url('/quit')}}">退出登录</a></li>
+                        </ul>
+                    </li>
                 </ul>
-                <ul id="hh" class="topdown" >
-                    <li><a href="{{url('pcenter')}}">个人中心</a></li>
-                    <li><a href="{{url('/basics')}}">修改资料</a></li>
-                    <li><a href="{{url('/quit')}}">退出登录</a></li>
-                </ul>
+
 
             </div>
         </div>
@@ -105,7 +107,8 @@
         height: 110px;
         background:#fff5d4;
         position: absolute;
-        top:40px;right: 40px;
+        top:40px;
+        left: -25px;;
         text-align: center;
         z-index: 1000;
         border-bottom-left-radius: 5px;

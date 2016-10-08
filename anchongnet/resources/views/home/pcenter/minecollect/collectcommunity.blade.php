@@ -16,7 +16,7 @@
         </div>
         <div class="toppp">
             <ul>
-                <li><a href="javascript::" class="inactive">我的发布<b class="caret"></b></a>
+                <li><a href="javascript:" class="inactive">我的发布<b class="caret"></b></a>
                     <ul class="ttt" style="display: none">
                         <hr>
                         <li><a href="{{url('/conwork')}}" class="inactive active">发包工程</a></li>
@@ -29,7 +29,7 @@
 
                 </li>
                 <hr>
-                <li><a href="javascript::" class="inactive">我的收藏<b class="caret"></b></a>
+                <li><a href="javascript:" class="inactive">我的收藏<b class="caret"></b></a>
                     <ul class="ttt" style="display: none">
                         <hr>
                         <li><a href="{{url('/colgoods')}}" class="inactive active">商品</a></li>
@@ -38,13 +38,13 @@
                     </ul>
                 </li>
                 <hr>
-                <li><a href="javascript::" class="inactive">我的订单<b class="caret"></b></a>
+                <li><a href="javascript:" class="inactive">我的订单<b class="caret"></b></a>
                     <ul class="ttt" style="display: none">
                         <hr>
-                        <li><a href="#" class="inactive active">美协机关</a>
+                        <li><a href="#" class="inactive active">未完成订单</a>
 
                         </li>
-                        <li><a href="#" class="inactive active">中国文联美术艺术中心</a>
+                        <li><a href="#" class="inactive active">已完成订单</a>
 
                     </ul>
 

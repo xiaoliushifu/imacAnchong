@@ -23,7 +23,7 @@ class CollectionController extends CommonController
         $user =Users::where('phone',[session('user')])->first();
         $col = Collection::where(['users_id'=>$user->users_id,'coll_type'=>1])->get(['coll_id'])->toArray();
         $colg= Goods_type::wherein('gid',$col)->get();
-        return view('home.pcenter.collectgoods',compact('colg'));
+        return view('home.pcenter.minecollect.collectgoods',compact('colg'));
     }
 //    收藏商铺
     public function colshop()
@@ -44,7 +44,7 @@ class CollectionController extends CommonController
             $id = $value -> chat_id;
             $num[$id] = Community_comment::where('chat_id',$id)->count();
         }
-        return view('home.pcenter.collectcommunity',compact('community','num'));
+        return view('home.pcenter.minecollect.collectcommunity',compact('community','num'));
     }
 
 }
