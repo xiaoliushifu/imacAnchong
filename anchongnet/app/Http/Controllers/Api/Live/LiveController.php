@@ -47,6 +47,7 @@ class LiveController extends Controller
         try {
             //如果该用户已生成了直播就直接获取
             $stream=$this->hub->getStream("z1.chongzai.".md5($data['guid']));
+            $PublishUrl=$stream->rtmpPublishUrl();
             $streams=$stream->toJSONString();
             // var_dump($stream->rtmpLiveUrls());
             // echo $stream->rtmpPublishUrl();
@@ -58,7 +59,7 @@ class LiveController extends Controller
             // exit;
         } catch (\Exception $e) {
             //假如用户未开始直播，尝试生成新直播
-            //try{
+            try{
                 //定义直播生成的数据
                 $title           = md5($data['guid']);     // 选填，默认自动生成，定义为用户的ID
                 $publishKey      = "anchongnet2016";     // 选填，默认自动生成
@@ -84,11 +85,11 @@ class LiveController extends Controller
                 }else{
                     return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"直播开启失败"]]);
                 }
-            // } catch (\Exception $e) {
-            //     return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>"直播开启失败"]]);
-            // }
+            } catch (\Exception $e) {
+                return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>"直播开启失败"]]);
+            }
         }
-        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['stream'=>$streams]]);
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['stream'=>$streams,'PublishUrl'=>$PublishUrl]]);
     }
 
     /*
@@ -121,8 +122,10 @@ class LiveController extends Controller
             }
             //网易云信
             $url  = "https://api.netease.im/nimserver/chatroom/create.action";
-            //$data = 'accid='.$param['phone'].'&name='.$usersmessage[0]['nickname'].'&icon='.$headpic;
-            $datas="creator=13462344969&name=zhibo";
+            // $datas = 'accid=13718638641';
+            // $datas = 'accid=13581968973&token=123321';
+            // $datas = 'accid=13581968973&name=小刘师傅&icon=http://anchongres.oss-cn-hangzhou.aliyuncs.com/headpic/placeholder120@3x.png&token=e10adc3949ba59abbe56e057f20f883e';
+            $datas="creator=".$param['phone']."&name=zhibo";
             list($return_code, $return_content) = $this->JsonPost->http_post_data($url, $datas);
             //将字符串形式的json解析为数组
             $result=json_decode($return_content,true);
@@ -138,7 +141,7 @@ class LiveController extends Controller
                     'header' => $headpic
                 ]
             );
-            //判断是否插入成功
+            // 判断是否插入成功
             if(!$id){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"直播开启失败"]]);
             }
