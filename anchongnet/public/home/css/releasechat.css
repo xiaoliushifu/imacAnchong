@@ -346,12 +346,12 @@
     padding-left: 95px;
 }
 .rqcode-app h4{
-    margin: 15px 0px;
+    margin: 12px 0px;
     font-size: 20px;
     color: #4a4a4a;
 }
 .rqcode-wx h4{
-    margin: 15px 0px;
+    margin: 12px 0px;
     font-size: 20px;
     color: #4a4a4a;
 }
@@ -379,7 +379,7 @@
     text-decoration: none;
 }
 .foottoplf li p{
-    margin-bottom: 10px;
+    margin-bottom: 7px;
 }
 .downline{
     border-bottom: 5px #9b9b9b solid;

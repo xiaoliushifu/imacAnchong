@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="{{asset('home/css/upload.css')}}"/>
     <script src="/home/js/jquery-3.1.0.js"></script>
     <script src="/home/js/webuploader.js"></script>
+    <link rel="stylesheet" href="{{asset('home/css/top.css')}}">
+    <script src="../home/js/top.js"></script>
 </head>
 <body>
 @include('inc.home.top')

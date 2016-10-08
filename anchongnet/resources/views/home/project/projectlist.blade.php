@@ -8,6 +8,9 @@
 		<script src="../home/js/talent.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" type="text/css" href="../home/css/talent.css"/>
 		<link rel="stylesheet" href="home/css/businessjs.css">
+		<link rel="stylesheet" href="home/css/footer.css">
+		<link rel="stylesheet" href="{{asset('home/css/top.css')}}">
+		<script src="{{asset('home/js/top.js')}}"></script>
 	</head>
 	<body>
 	@include('inc.home.top')
