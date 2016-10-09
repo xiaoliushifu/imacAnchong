@@ -16,9 +16,9 @@
             </a>
         </div>
         <div class="search">
-            <form class="search-form" method="post">
+            <form class="search-form">
                 <input type="text" name="search" class="search-text" placeholder="找工程&nbsp;找人才&nbsp;聊生活" />
-                <input type="submit" value="搜索" class="search-btn"/>
+                <input value="搜索" class="search-btn"/>
             </form>
         </div>
         <div class="cl"></div>
@@ -54,7 +54,7 @@
                             <p class="content">{{$value -> content}}</p>
                         </a>
                         <p class="comments-share">
-                            <a class="comments" href="{{url('/community/'.$value -> chat_id).'/#comments'}}"><img src="home/images/chat/talk.png">{{$num[$value-> chat_id]}}</a>
+                            <a class="comments" href="{{url('/community/'.$value -> chat_id).'/#comments'}}"><img src="home/images/chat/talk.png">{{$anum[$value-> chat_id]}}</a>
                         </p>
                     </li>
                 </ul>

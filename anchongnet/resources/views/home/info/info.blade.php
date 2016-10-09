@@ -13,9 +13,9 @@
             <a href="{{url('/')}}"><img src="{{url('/home/images/logo.jpg')}}"/></a>
         </div>
         <div class="search">
-            <form class="search-form" method="post">
+            <form class="search-form">
                 <input type="text" name="search" class="search-text"/>
-                <input type="submit" value="搜索" class="search-btn"/>
+                <input value="搜索" class="search-btn"/>
             </form>
         </div>
         <div class="cl"></div>

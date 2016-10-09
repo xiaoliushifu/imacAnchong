@@ -22,7 +22,7 @@
                 </select>
                 <span class="upright"></span>
                 <input type="text" name="search" class="search-text" placeholder="找工程&nbsp;找人才&nbsp;聊生活" />
-                <input type="submit" value="搜索" class="search-btn"/>
+                <input value="搜索" class="search-btn"/>
             </form>
             <ul class="hot-words">
                 <li class="hot-word-title">热门搜索：</li>

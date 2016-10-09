@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Input;
  */
 class CommunityController extends CommonController
 {
-    //    社区首页
+    /*
+     * 社区首页
+     */
     public function index()
     {
         $page = Input::get(['page']);
@@ -24,11 +26,15 @@ class CommunityController extends CommonController
         //通过id查询并统计评论数
         foreach ($chat as $value){
             $id = $value -> chat_id;
-            $num[$id] = Community_comment::where('chat_id',$id)->count();
+            $cnum[$id]= Cache::remember('cnum'.$id,'600',function ()use($id){
+               return Community_comment::where('chat_id',$id)->count();
+            });
         }
-        return view('home/community/index',compact('chat','num'));
+        return view('home/community/index',compact('chat','cnum'));
     }
-    //社区详情页面
+    /*
+     * 社区详情页面
+     */
     public function show($chat_id)
     {
         //获取主题
@@ -36,7 +42,7 @@ class CommunityController extends CommonController
         //获取评论
         $comment = Community_comment::where('chat_id',$chat_id)->orderBy('comid','desc')->get();
         //评论数
-        $num=Community_comment::where('chat_id',$chat_id)->count();
+        $num = count($comment);
         foreach ($comment as $value){
             $comid = $value -> comid;
             $replay[$comid]  = Community_reply::where('comid',$comid)->orderBy('comid','desc')->get();
@@ -44,7 +50,9 @@ class CommunityController extends CommonController
         return view('home/community/chat',compact('info','comment','replay','num'));
     }
 
-    //闲聊
+   /*
+    * 闲聊页面
+    */
     public function talk()
     {
         $page = Input::get(['page']);
@@ -53,11 +61,15 @@ class CommunityController extends CommonController
         });
         foreach ($talk as $value){
             $id = $value -> chat_id;
-            $num[$id] = Community_comment::where('chat_id',$id)->count();
+            $tnum[$id] =Cache::remember('tnum'.$id,'600',function () use($id){
+                return Community_comment::where('chat_id',$id)->count();
+            });
         }
-        return view('home/community/talk',compact('talk','num'));
+        return view('home/community/talk',compact('talk','tnum'));
     }
-    //问问
+    /*
+     * 问答页面
+     */
     public function question()
     {
         $page = Input::get(['page']);
@@ -66,11 +78,15 @@ class CommunityController extends CommonController
         });
         foreach ($question as $value){
             $id = $value -> chat_id;
-            $num[$id] = Community_comment::where('chat_id',$id)->count();
+            $qnum[$id] =Cache::remember('qnum'.$id,'600',function () use($id){
+                return Community_comment::where('chat_id',$id)->count();
+            });
         }
-        return view('home/community/question',compact('question','num'));
+        return view('home/community/question',compact('question','qnum'));
     }
-    //活动
+    /*
+     * 活动页面
+     */
     public function activity()
     {
         $page = Input::get(['page']);
@@ -79,8 +95,17 @@ class CommunityController extends CommonController
         });
         foreach ($activity as $value){
             $id = $value -> chat_id;
-            $num[$id] = Community_comment::where('chat_id',$id)->count();
+            $anum[$id] =Cache::remember('anum'.$id,'600',function () use($id){
+                return Community_comment::where('chat_id',$id)->count();
+            });
         }
-        return view('home/community/activity',compact('activity','num'));
+        return view('home/community/activity',compact('activity','anum'));
+    }
+    /*
+     * 提交主题评论
+     */
+    public function store()
+    {
+
     }
 }
