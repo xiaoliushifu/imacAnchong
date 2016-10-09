@@ -88,6 +88,7 @@
 }
 .searchbar{
     margin-top: 25px;
+    position: relative;
 }
 .searchbar li{
     width: 80px;
@@ -127,7 +128,7 @@
     width: 1902px;
     height: 100px;
     margin: 0px auto;
-    position: relative;
+
 }
 .ad img{
     width: 1902px;
@@ -141,8 +142,8 @@
     background: #f53745;
     border-radius: 5px;
     position: absolute;
-    right: 281px;
-    top: 37px;
+    right: 10px;
+    top: 200px;
 }
 .ad li a{
     font-size: 14px;
