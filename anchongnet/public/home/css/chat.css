@@ -120,13 +120,14 @@ ul,li{
 }
 .search-btn{
     width: 80px;
-    height: 42px;
+    height: 40px;
     background-color: #1DABD8;
     border: none;
     border-radius: 5px;
     position: absolute;
     top:0;
     right: 0;
+    text-align: center;
 }
 .site-nav{
     width: 1220px;

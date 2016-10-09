@@ -125,6 +125,7 @@ ul,li{
     position: relative;
     top:0;
     right: 85px;
+    text-align: center;
 }
 .site-nav{
     width: 1220px;

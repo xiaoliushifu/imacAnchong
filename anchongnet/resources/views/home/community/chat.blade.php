@@ -7,7 +7,7 @@
     <script src="../home/org/qqface/jquery.qqFace.js"></script>
     <link rel="stylesheet" href="home/css/top.css">
     <script src="home/js/top.js"></script>
-
+    <script src="../home/js/chat.js"></script>
 </head>
 <body>
 @include('inc.home.top')
@@ -19,9 +19,9 @@
             </a>
         </div>
         <div class="search">
-            <form class="search-form" method="post">
+            <form class="search-form">
                 <input type="text" name="search" class="search-text" placeholder="找工程&nbsp;找人才&nbsp;聊生活" />
-                <input type="submit" value="搜索" class="search-btn"/>
+                <input value="搜索" class="search-btn"/>
             </form>
         </div>
         <div class="cl"></div>
@@ -86,7 +86,7 @@
             </li>
             @endif
             <li class="more">
-                <a href=""><img src="../home/images/chat/more.png" alt="点击加载更多"></a>
+                <img src="../home/images/chat/more.png" alt="点击加载更多">
             </li>
             <li class="replay-area">
                 <ul>
@@ -94,12 +94,25 @@
                     <li class="replay-dist">
                         <div>
                             <div id="show"></div>
-                            <form class="">
+                            <form class="publish-comment">
                                 {{csrf_field()}}
                                 <i>我也有话要说……</i>
-                                <textarea id="comments" name="comments" class="replay-content"></textarea>
-                                <button class="send"><img src="../home/images/chat/send.png" ></button>
+                                <textarea  disabled="disabled" id="comments" name="content" class="replay-content">请您登陆后评论</textarea>
+                                <a class="send" onclick="Comments()"><img src="../home/images/chat/send.png" ></a>
                                 <a class="emotion"><img src="../home/images/chat/emoticon.png"></a>
+                                @if(session('user'))
+                                    <script>
+                                        $(function () {
+                                            $('#comments').removeAttr("disabled");
+                                            $('#comments').html("");
+                                        })
+                                    </script>
+                                    <input type="hidden" name="name" value="{{$msg->nickname}}">
+                                    <input type="hidden" name="headpic" value="{{$msg->headpic}}">
+                                    <input type="hidden" name="users_id" value="{{$msg->users_id}}">
+                                    <input type="hidden" name="chat_id" value="{{$info->chat_id}}">
+                                    <input type="hidden" name="'created_at" value="{{date('Y-m-d H:i:s')}}">
+                                @endif
                             </form>
                         </div>
                     </li>
@@ -134,7 +147,7 @@
         $(".emotion").qqFace({
             assign:'comments', //给输入框赋值
             path:'../home/org/qqface/face/'    //表情图片存放的路径
-        })
+        });
     })
     //替换成表情
     function replace_em(str){

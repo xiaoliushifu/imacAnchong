@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="home/css/cart.css">
     <link rel="stylesheet" href="home/css/top.css">
     <script src="home/js/top.js"></script>
-
+    <script src="home/js/jquery-3.1.0.js"></script>
 </head>
 <body>
 @include('inc.home.top')
@@ -21,7 +21,7 @@
         <div class="search">
             <form class="search-form" method="post">
                 <input type="text" name="search" class="search-text" placeholder="找工程&nbsp;找人才&nbsp;聊生活" />
-                <input type="submit" value="搜索" class="search-btn"/>
+                <input value="搜索" class="search-btn"/>
             </form>
         </div>
         <div class="cl"></div>
@@ -174,7 +174,7 @@
                 合计（不含运费）
                 <i class="count-price">4013.00</i>
             </li>
-            <li><a class="pay" href="">去结算</a></li>
+            <li><a class="pay" href="{{url('/cartconfirm')}}">去结算</a></li>
             <div class="cl"></div>
         </ul>
     </div>

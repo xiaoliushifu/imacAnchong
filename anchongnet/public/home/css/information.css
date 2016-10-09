@@ -116,6 +116,7 @@ ul,li{
     position: absolute;
     top:0;
     right: 0;
+    text-align: center;
 }
 .navigation::after{
     clear: both;
