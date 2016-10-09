@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Session,Redirect,Request,Hash,Auth;
 use DB;
 use App\Shop;
-use Illuminate\Pagination\Paginator;
 
 class indexController extends Controller
 {
@@ -67,14 +65,23 @@ class indexController extends Controller
                 $users=new \App\Users();
                 $rank=$users->quer('users_rank',['users_id'=>Auth::user()['users_id']])->toArray();
                 //判断会员的权限是否是管理员
-                if ($rank[0]['users_rank'] == 3 || $rank[0]['users_rank']==2) {
+                if ($rank[0]['users_rank'] == 3) {
                     //创建orm
                     $users_login=new \App\Users_login();
                     $users_login->addToken(['last_login'=>Auth::user()['new_login']],Auth::user()['users_id']);
                     $users_login->addToken(['new_login'=>time()],Auth::user()['users_id']);
                     return Redirect::intended('/');
+                //会员认证通过users_rank是2，但认证通过不代表开通商铺。
+                } elseif ($rank[0]['users_rank'] == 2) {
+                    if (!$shop = Shop::Uid(Auth::user()['users_id'])) {
+                        Auth::logout();
+                        return Redirect::back();
+                    }
+                    $users_login=new \App\Users_login();
+                    $users_login->addToken(['last_login'=>Auth::user()['new_login']],Auth::user()['users_id']);
+                    $users_login->addToken(['new_login'=>time()],Auth::user()['users_id']);
+                    return Redirect::intended('/');
                 } else {
-                    //假如会员权限不够就清除登录状态并退出
                     Auth::logout();
                     return Redirect::back();
                 }

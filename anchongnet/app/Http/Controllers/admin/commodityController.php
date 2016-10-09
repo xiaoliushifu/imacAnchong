@@ -28,9 +28,6 @@ class commodityController extends Controller
     {
         //通过Auth获取当前登录用户的id
         $this->uid=Auth::user()['users_id'];
-        if (!is_null($this->uid)){//通过用户获取商铺id
-            $this->sid=Shop::Uid($this->uid)->sid;
-        }
         $this->accessKeyId="HJjYLnySPG4TBdFp";
         $this->accessKeySecret="Ifv0SNWwch5sgFcrM1bDthqyy4BmOa";
         $this->endpoint="oss-cn-hangzhou.aliyuncs.com";
@@ -47,6 +44,12 @@ class commodityController extends Controller
         $this->goods=new Goods();
         $keyName=$req->get('keyName');
         $keyName2=$req->get('keyName2');
+        if (!is_null($this->uid)) {//通过用户获取商铺id
+            if (!$shop = Shop::Uid($this->uid)) {
+                return "你还没有开通商铺";
+            }
+            $this->sid=$shop->sid;
+        }
         if ($keyName2) {
             $datas=$this->goods->where('sid','=',$this->sid)->where('goods_id',$keyName2)->paginate(1);
         } elseif ($keyName) {
@@ -65,6 +68,9 @@ class commodityController extends Controller
      */
     public function create()
     {
+        if (!is_null($this->uid)){//通过用户获取商铺id
+            $this->sid=Shop::Uid($this->uid)->sid;
+        }
         return view("admin/good/create_commodity",array('sid'=>$this->sid));
     }
 
@@ -81,7 +87,9 @@ class commodityController extends Controller
          * 所以需要开启事务处理
          * */
         DB::beginTransaction();
-
+        if (!is_null($this->uid)){//通过用户获取商铺id
+            $this->sid=Shop::Uid($this->uid)->sid;
+        }
         //替换，多字节字符替换
         $str = str_replace(array(',','，',';','；','.','。'),' ',$request->keyword);
         //拆分，按照空白拆分
@@ -181,16 +189,7 @@ class commodityController extends Controller
     public function edit($id)
     {
         $this->goods=new Goods();
-        $data=$this->goods->find($id);
-//         $arr0=explode(" ",$data['type']);
-//         $type="";
-//         for($j=0;$j<count($arr0);$j++){
-//             if($arr0[$j] !== ""){
-//                 $type.=pack("H*",$arr0[$j])." ";
-//             }
-//         };
-//         $data['type']=$type;
-        return $data;
+        return $this->goods->find($id);
     }
 
     /**
@@ -237,9 +236,9 @@ class commodityController extends Controller
         }
         /*oem的修改 END*/
         //属性信息不在此处更新，在编辑页单独修改
-        if($result){
+        if ($result) {
             return redirect()->back();
-        }else{
+        } else {
             return "更新失败，请返回重试";
         }
     }
@@ -285,7 +284,8 @@ class commodityController extends Controller
     /*
      * 根据分类信息获取商品
      * */
-    public function getBycat(Request $request){
+    public function getBycat(Request $request)
+    {
         $type=$request['pid'];
         $data=Goods::Type($type,$request['sid'])->get();
         return $data;
