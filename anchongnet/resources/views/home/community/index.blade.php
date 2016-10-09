@@ -4,6 +4,9 @@
     <title>社区</title>
     <link rel="stylesheet" type="text/css" href="home/css/chat.css"/>
     <script src="home/js/jquery-3.1.0.js"></script>
+    <link rel="stylesheet" href="home/css/top.css">
+    <script src="home/js/top.js"></script>
+
 </head>
 <body>
 @include('inc.home.top')

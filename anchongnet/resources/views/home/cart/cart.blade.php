@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <title>购物车</title>
     <link rel="stylesheet" type="text/css" href="home/css/cart.css">
+    <link rel="stylesheet" href="home/css/top.css">
+    <script src="home/js/top.js"></script>
+
 </head>
 <body>
 @include('inc.home.top')

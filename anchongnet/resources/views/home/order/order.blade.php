@@ -6,6 +6,8 @@
 		<link rel="stylesheet" type="text/css" href="home/css/order.css"/>
 		<script src="{{asset('/home/js/jquery-3.1.0.js')}}"></script>
 		<script src="{{asset('/home/js/order.js')}}" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" href="{{asset('home/css/top.css')}}">
+		<script src="{{asset('home/js/top.js')}}"></script>
 	</head>
 	<body>
 	@include('inc.home.top')

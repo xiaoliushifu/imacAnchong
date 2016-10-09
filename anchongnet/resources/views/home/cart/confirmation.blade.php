@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>订单确认</title>
     <link rel="stylesheet" type="text/css" href="home/css/confirmation.css">
+    <link rel="stylesheet" href="home/css/top.css">
+    <script src="home/js/top.js"></script>
 </head>
 <body>
 @include('inc.home.top')

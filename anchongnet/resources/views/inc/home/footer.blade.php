@@ -1,5 +1,4 @@
-
-<div class="foottop" style="padding-bottom: 5px;">
+<div class="foottop">
     <div class="foottop-1">
         <div class="foottoplf">
             <div class="link"><h4>友情链接</h4>
@@ -36,11 +35,11 @@
         <div class="foottoprg">
             <div class="rqcode-app" >
                 <h4>下载安虫app客户端</h4>
-                <img src="home/images/zhaohuo/1.jpg">
+                <img src="{{asset('../home/images/shebei/1.jpg')}}">
             </div>
             <div class="rqcode-wx">
                 <h4>安虫微信订阅号</h4>
-                <img src="home/images/zhaohuo/2.jpg">
+                <img src="{{asset('../home/images/shebei/2.jpg')}}">
             </div>
 
         </div>

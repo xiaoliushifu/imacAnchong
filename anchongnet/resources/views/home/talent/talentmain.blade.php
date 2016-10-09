@@ -7,6 +7,9 @@
     <script src="/home/js/jquery-3.1.0.min.js"></script>
     <link rel="stylesheet" href="../home/css/businessjs.css">
     <script src="../home/js/businessjs.js"></script>
+    <link rel="stylesheet" href="{{asset('home/css/top.css')}}">
+    <script src="{{asset('home/js/top.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('home/css/footer.css')}}">
 </head>
 <body>
 @include('inc.home.top')

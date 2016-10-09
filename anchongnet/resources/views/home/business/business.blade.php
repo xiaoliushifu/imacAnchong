@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <title>商机首页</title>
     <link rel="stylesheet" href="home/css/shangjisy.css">
-    <script src="home/js/jquery-3.1.0.min.js"></script>
-    <script src="home/js/businessjs.js"></script>
     <link rel="stylesheet" href="home/css/businessjs.css">
-
+    <link rel="stylesheet" href="home/css/top.css">
 </head>
 <body>
 @include('inc.home.top')
@@ -195,7 +193,8 @@
 </div>
 
 @include('inc.home.footer')
-
-
+<script src="home/js/jquery-3.1.0.min.js"></script>
+<script src="home/js/businessjs.js"></script>
+<script src="home/js/top.js"></script>
 </body>
 </html>
