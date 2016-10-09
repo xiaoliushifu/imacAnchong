@@ -97,7 +97,7 @@
                                     </div><!--end col-sm-10-->
                                 </div><!--end form-group-->
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">选择分类标签</label>
+                                    <label class="col-sm-2 control-label">分类标签</label>
                                     <div class="col-sm-3">
                                         <div class="checkbox" id="checks">
 

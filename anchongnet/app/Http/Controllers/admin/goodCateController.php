@@ -88,6 +88,11 @@ class goodCateController extends Controller
      */
     public function store(Request $request)
     {
+        $mess = ['unique' => '分类已重复'];
+        $this->validate($request, [
+            'catname' =>'unique:anchong_goods_cat,cat_name',
+        ],$mess);
+        
         $this->cat->cat_name=$request['catname'];
         $this->cat->keyword=$request['keyword'];
         $this->cat->sort_order=$request['sort'];
@@ -136,13 +141,18 @@ class goodCateController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $mess = ['unique' => '分类已重复'];
+        //排除cat_id=$id的记录
+        $this->validate($request, [
+            'catname' =>"unique:anchong_goods_cat,cat_name,$id,cat_id"
+        ],$mess);
         $data=$this->cat->find($id);
         $data->cat_name=$request['catname'];
         $data->keyword=$request['keyword'];
         $data->cat_desc=$request['description'];
         $data->sort_order=$request['sort'];
         $data->is_show=$request['ishow'];
-        $data->parent_id=$request['parent'];
+        //$data->parent_id=$request['parent']; //分类层级暂不修改
         $result=$data->save();
         if($result){
           //清除缓存

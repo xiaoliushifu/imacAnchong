@@ -55,6 +55,15 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-body">
+                        		@if (count($errors) > 0)
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <form action="/goodcate" method="get" class="form-horizontal form-inline f-ib">
                                 <input type="text" name="keyName" value="{{$datacol['args']['keyName']}}" class="form-control" placeholder="分类名称">
                                 <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
@@ -99,10 +108,9 @@
                                             ?>
                                         </td>
                                         <td align="center">
-                                            <button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['cat_id']}}" data-pid="{{$data['parent_id']}}"data-toggle="modal" data-target="#myView">查看子分类</button>
-                                            <button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['cat_id']}}" data-pid="{{$data['parent_id']}}" data-toggle="modal" data-target="#myModal">编辑</button>
+                                            <button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['cat_id']}}" data-pid="{{$data['parent_id']}}" data-toggle="modal" data-target="#myView">查看子分类</button>
+                                            <button type="button" class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['cat_id']}}" data-pid="{{$data['parent_id']}}" data-toggle="modal" data-target="#myModal">编辑</button>
                                             <button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['cat_id']}}" data-pid="{{$data['parent_id']}}">删除</button>
-                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -183,8 +191,7 @@
                         <div class="form-group" id="par">
                             <label for="parent" class="col-sm-2 control-label">父级分类</label>
                             <div class="col-sm-9">
-                                <select class="form-control" name="parent" id="par0">
-                                </select>
+                                <select class="form-control" name="parent" id="par0"></select>
                             </div>
                         </div>
                         <div class="form-group">

@@ -49,11 +49,20 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-body">
+                        		@if (count($errors) > 0)
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <form role="form" class="form-horizontal" action="/goodcate" method="post">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">分类名称</label>
                                     <div class="col-sm-5">
-                                        <input type="text" name="catname" class="form-control" required />
+                                        <input type="text" name="catname" id="catname" class="form-control" required />
                                     </div>
                                 </div><!--end form-group-->
                                 <div class="form-group">
@@ -71,7 +80,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">分类描述</label>
                                     <div class="col-sm-5">
-                                        <textarea name="description" class="form-control"  rows="5"></textarea>
+                                        <textarea name="description"  id="description" class="form-control"  rows="5"></textarea>
                                     </div>
                                 </div><!--end form-group-->
                                 <div class="form-group" id="par">
