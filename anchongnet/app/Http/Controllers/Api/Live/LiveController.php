@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Qiniu\Utils;
 use Qiniu\Auth;
+use Validator;
 use DB;
 
 /*
@@ -48,7 +49,19 @@ class LiveController extends Controller
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request->all();
         $param=json_decode($data['param'],true);
-
+        //对接收的数据进行验证
+        $validator = Validator::make($param,
+            [
+                'title' => 'required|between:2,120'
+            ]
+        );
+        //验证失败时返回错误信息
+		if ($validator->fails()) {
+			$messages = $validator->errors();
+			if ($messages->has('title')) {
+			    return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'直播标题不能超过60个汉字起不小于2个字！']]);
+			}
+		}
         //尝试运行开启七牛直播，并看该用户是否已开启直播
         try {
             //如果该用户已生成了直播就直接获取
@@ -180,6 +193,141 @@ class LiveController extends Controller
             //返回结果
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
         }
+    }
+
+    /*
+    *   重播列表
+    */
+    public function relivelist(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request->all();
+        $param=json_decode($data['param'],true);
+        //默认每页数量
+        $limit=5;
+        //定义查询数据
+        $live_data=['room_id','room_url','title','users_id','images','header','nick','sum'];
+        //统计数量
+        $live_count=$this->Live_Restart->Live()->count();
+        $live_list=$this->Live_Restart->Live()->select($live_data)->skip((($param['page']-1)*$limit))->take($limit)->get();
+        //判断是否有人直播
+        if($live_count>0 && $live_list){
+            //返回结果
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$live_count,'list'=>$live_list]]);
+        }else{
+            //返回结果
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
+        }
+    }
+
+    /*
+    *   直播搜索功能
+    */
+    public function livesearch(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request->all();
+        $param=json_decode($data['param'],true);
+        //对接收的数据进行验证
+        $validator = Validator::make($param,
+            [
+                'search' => 'required|between:2,60'
+            ]
+        );
+        //验证失败时返回错误信息
+		if ($validator->fails()) {
+			$messages = $validator->errors();
+			if ($messages->has('search')) {
+			    return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'搜索内容不能小于2个字符']]);
+			}
+		}
+        //取出搜索内容
+        $search=$param['search'];
+        //定义查询数据
+        $live_data=['room_id','room_url','title','users_id','header','nick','images'];
+        //查出数据
+        $live_list=$this->Live_Start->Live()->select($live_data)->whereRaw("title like '%".$search."%'")->get();
+        //返回结果
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => $live_list]);
+    }
+
+    /*
+    *   主播搜索功能
+    */
+    public function anchorsearch(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request->all();
+        $param=json_decode($data['param'],true);
+        //对接收的数据进行验证
+        $validator = Validator::make($param,
+            [
+                'search' => 'required|between:2,60'
+            ]
+        );
+        //验证失败时返回错误信息
+		if ($validator->fails()) {
+			$messages = $validator->errors();
+			if ($messages->has('search')) {
+			    return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'搜索内容不能小于2个字符']]);
+			}
+		}
+        //取出搜索内容
+        $search=$param['search'];
+        //判断用户传入的是数字还是其他的
+        if(is_numeric($search)){
+            $search=ltrim($search,0);
+            $anchors=DB::table('anchong_usermessages')->where('users_id',$search)->select('headpic','users_id','nickname')->get();
+            //返回结果
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => $anchors]);
+        }else{
+            $anchors=DB::table('anchong_usermessages')->where('nickname',$search)->select('headpic','users_id','nickname')->get();
+            //返回结果
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => $anchors]);
+        }
+    }
+
+    /*
+    *   重播搜索功能
+    */
+    public function relivesearch(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request->all();
+        $param=json_decode($data['param'],true);
+        //默认每页数量
+        $limit=5;
+        //对接收的数据进行验证
+        $validator = Validator::make($param,
+            [
+                'search' => 'required|between:2,60'
+            ]
+        );
+        //验证失败时返回错误信息
+		if ($validator->fails()) {
+			$messages = $validator->errors();
+			if ($messages->has('search')) {
+			    return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'搜索内容不能小于2个字符']]);
+			}
+		}
+        //取出搜索内容
+        $search=$param['search'];
+        $count=DB::select("select count(*) as count from `v_restart_search` where `title` like '%$search%' ");
+        $cb_arr=DB::select("select `cb_id` from `v_restart_search` where `title` like '%$search%' order by sum desc limit ".($param['page']-1)*$limit.",".$limit);
+        if($count[0]->count == 0 && empty($cb_arr)){
+            //返回结果
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
+        }
+        //定义重播的ID数组
+        $cb_id_arr=[];
+        foreach ($cb_arr as $cb_id) {
+            $cb_id_arr[]=$cb_id->cb_id;
+        }
+        //定义查询数据
+        $live_data=['room_id','room_url','title','users_id','header','nick','images','sum'];
+        $live_list=DB::table('v_restart')->whereIn('cb_id',$cb_id_arr)->select($live_data)->get();
+
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['total'=>$count,'list'=>$live_list]]);
     }
 
     /*

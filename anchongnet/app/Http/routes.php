@@ -26,9 +26,7 @@
 //接口路由组
 
 Route::group(['domain' => 'api.anchong.net'], function () {
-    Route::post('/live/createlive','Api\Live\LiveController@createlive');
-    //生成网易云信聊天室
-    Route::post('/live/createroom','Api\Live\LiveController@createroom');
+
     //商品检索
     Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
     //智能提示
@@ -331,8 +329,19 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         *   直播模块
         */
         //生成直播
+        Route::post('/live/createlive','Api\Live\LiveController@createlive');
+        //生成网易云信聊天室
+        Route::post('/live/createroom','Api\Live\LiveController@createroom');
         //直播列表
         Route::post('/live/livelist','Api\Live\LiveController@livelist');
+        //重播列表
+        Route::post('/live/relivelist','Api\Live\LiveController@relivelist');
+        //直播搜索
+        Route::post('/live/livesearch','Api\Live\LiveController@livesearch');
+        //主播搜索
+        Route::post('/live/anchorsearch','Api\Live\LiveController@anchorsearch');
+        //重播搜索
+        Route::post('/live/relivesearch','Api\Live\LiveController@relivesearch');
         //个人重播列表
         Route::post('/live/mylivelist','Api\Live\LiveController@mylivelist');
         //生成网易云信聊天室
