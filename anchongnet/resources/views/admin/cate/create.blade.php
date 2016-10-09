@@ -49,6 +49,15 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-body">
+                        		@if (count($errors) > 0)
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <form role="form" class="form-horizontal" action="/goodcate" method="post">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">分类名称</label>

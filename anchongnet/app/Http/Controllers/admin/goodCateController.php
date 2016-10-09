@@ -88,6 +88,11 @@ class goodCateController extends Controller
      */
     public function store(Request $request)
     {
+        $mess = ['unique' => '分类已重复'];
+        $this->validate($request, [
+            'catname' =>'unique:anchong_goods_cat,cat_name',
+        ],$mess);
+        
         $this->cat->cat_name=$request['catname'];
         $this->cat->keyword=$request['keyword'];
         $this->cat->sort_order=$request['sort'];
