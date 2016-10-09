@@ -423,16 +423,19 @@ width: 233px;
     margin: 0px 15px;
 }
 
+/*底部*/
 .foottop{
     width: 100%;
     height: 175px;
     background: #f5f5f5;
     margin-top: 140px;
+    padding-bottom: 5px;
 }
 .foottop-1{
     width: 1200px;
     height: 175px;
     margin: 0px auto;
+
 }
 .foottoplf{
     width: 700px;
@@ -444,6 +447,7 @@ width: 233px;
     float: left;
     text-align: left;
     padding-right: 80px;
+
 }
 .foottoprg{
     width: 500px;
@@ -456,14 +460,16 @@ width: 233px;
     height: 175px;
     text-align: center;
     padding-left: 95px;
+
 }
 .rqcode-app h4{
-    margin: 15px 0px;
+    margin: 12px 0px;
     font-size: 20px;
     color: #4a4a4a;
+
 }
 .rqcode-wx h4{
-    margin: 15px 0px;
+    margin: 12px 0px;
     font-size: 20px;
     color: #4a4a4a;
 }
@@ -491,7 +497,7 @@ width: 233px;
     text-decoration: none;
 }
 .foottoplf li p{
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 .downline{
     border-bottom: 5px #9b9b9b solid;
@@ -536,7 +542,6 @@ width: 233px;
     border-right: 4px solid transparent;
     border-left: 4px solid transparent;
 }
-
 
 
 

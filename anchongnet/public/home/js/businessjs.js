@@ -46,31 +46,6 @@ $(function(){
     });
 
 
-    //$(document).ready(function(){
-    //    $(".buslist").click(function(){
-    //        $("#change").css("background","#1DABD8");
-    //        $("#change1").css("background","none");
-    //
-    //        $("#change2").css("background","none");
-    //    });
-    //    $(".buslist1").click(function(){
-    //        $("#change").css("background","none");
-    //        $("#change1").css("background","#1DABD8");
-    //        $("#change2").css("background","none");
-    //    });
-    //    $(".buslist2").click(function(){
-    //        $("#change1").css("background","none");
-    //        $("#change2").css("background","#1DABD8");
-    //        $("#change").css("background","none");
-    //    });
-    //
-    //});
-
-
-
-
-
-
 })
 
 //商机主页轮播

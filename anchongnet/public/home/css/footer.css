@@ -1,0 +1,121 @@
+
+
+/*底部*/
+.foottop{
+    width: 100%;
+    height: 175px;
+    background: #f5f5f5;
+    margin-top: 140px;
+    padding-bottom: 5px;
+}
+.foottop-1{
+    width: 1200px;
+    height: 175px;
+    margin: 0px auto;
+
+}
+.foottoplf{
+    width: 700px;
+    height: 175px;
+    float: left;
+}
+.foottoplf li{
+    display: inline;
+    float: left;
+    text-align: left;
+    padding-right: 80px;
+
+}
+.foottoprg{
+    width: 500px;
+    height: 175px;
+    float: right;
+}
+.rqcode-app{
+    float:left;
+    width: 200px;
+    height: 175px;
+    text-align: center;
+    padding-left: 95px;
+
+}
+.rqcode-app h4{
+    margin: 12px 0px;
+    font-size: 20px;
+    color: #4a4a4a;
+    font-family: "微软雅黑";
+}
+.rqcode-wx h4{
+    margin: 12px 0px;
+    font-size: 20px;
+    color: #4a4a4a;
+}
+.rqcode-wx{
+    float:right;
+    width: 200px;
+    height: 175px;
+    text-align: center;
+    padding-left: 30px;
+    margin-right: -25px;
+}
+.link h4{
+    font-size: 20px;
+    color: #4a4a4a;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.link hr{
+    margin-left: -5px;
+    margin-bottom: 15px;
+}
+.foottoplf li a{
+    font-size: 12px;
+    color: #737373;
+    text-decoration: none;
+}
+.foottoplf li p{
+    margin-bottom: 7px;
+}
+.downline{
+    border-bottom: 5px #9b9b9b solid;
+    width: 100%;
+}
+.footdown{
+    width: 100%;
+    height: 150px;
+    background: #4a4a4a;
+}
+.footdown-1{
+    width: 1200px;
+    height: 150px;
+    margin:0px auto;
+    text-align: center;
+}
+.about{
+    padding-top: 15px;
+}
+.about p a {
+    font-size: 12px;
+    color:#f7f7f7;
+    text-decoration: none;
+}
+.about p{
+    font-size: 12px;
+    color:#f7f7f7;
+    text-decoration: none;
+    margin: 15px 0px;
+}
+.about p span{
+    margin: 0px 20px;
+}
+.caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-top: 4px dashed;
+    border-top: 4px solid \9;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}

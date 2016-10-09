@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <title>找货</title>
     <link rel="stylesheet" href="home/css/zhaohuo.css">
-    <script src="/home/js/jquery-3.1.0.min.js"></script>
-    <script src="home/js/businessjs.js"></script>
     <link rel="stylesheet" href="home/css/businessjs.css">
-
+    <link rel="stylesheet" href="home/css/top.css">
 </head>
 <body>
 @include('inc.home.top')
@@ -51,7 +49,7 @@
                     </div>
                 </li>
 
-                <li><a href="{{url('/ancself')}}">设备选购</a><img src="home/images/zhaohuo/9.jpg" alt="" style="right: 15px;" class="buslist2">
+                <li><a href="{{url('/equipment')}}">设备选购</a><img src="home/images/zhaohuo/9.jpg" alt="" style="right: 15px;" class="buslist2">
                     <div class="cart2">
                         <p><a href="{{url('/equipment')}}">安虫自营</a></p>
                         <p><a href="{{url('/equipment/thirdshop')}}">第三方商城</a></p>
@@ -112,10 +110,9 @@
 </div>
 
 @include('inc.home.footer')
-
-
-
-
+<script src="/home/js/jquery-3.1.0.min.js"></script>
+<script src="home/js/businessjs.js"></script>
+<script src="home/js/top.js"></script>
 
 </body>
 </html>
