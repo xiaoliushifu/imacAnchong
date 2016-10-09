@@ -7,6 +7,7 @@ $(function(){
 	 * 获取当前分类信息
 	 */
     $(".edit").click(function(){
+    		//当前分类信息
         var id=parseInt($(this).attr("data-id"));
         $("#myform").attr("action","/goodcate/"+id);
         $.get("/goodcate/"+id+"/edit",function(data,status){
@@ -22,32 +23,25 @@ $(function(){
                     $("#show1")[0].checked=true;
                     break;
             }
-        })
-    });
-
-    /**
-     * 当前分类的父级分类信息获取
-     */
-    $(".edit").click(function(){
+        });
+        //分类层级信息
         $("#par0").empty();
-        var defaultopt="<option value='0'>无</option>";
-        $("#par0").append(defaultopt);
-        var opt;
         var pid=$(this).attr("data-pid");
-        var one0=0;
-        $.get("/getlevel",{pid:one0},function(data,status){
+        var opt;
+        $.get("/getlevel",{pid:0},function(data,status){
+        		$("#par0").append("<option value='0' >无上级</option>");
             for(var i=0;i<data.length;i++){
-                opt="<option class='opt' value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
-                $("#par0").append(opt);
+                opt+="<option value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
             }
-            //当前分类有父级时
-            if (pid != one0) {
-            	$(".opt[value='" + pid + "']").attr("id","cur");
-                $("#cur")[0].selected=true;
-            }
+            $("#par0").append(opt);
+            $("#par0 option[value='" + pid + "']").attr("selected",true);
         });
     });
-
+    //分类层次信息不可改
+    $('#par').on('change','select',function(){
+    		$(this).val($(this).find('option[selected="selected"]').val());
+		return false;
+    });
     /**
      * 点击查看子分类
      */
