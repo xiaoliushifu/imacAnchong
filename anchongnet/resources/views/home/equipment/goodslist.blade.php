@@ -204,6 +204,8 @@
                 {{--&lt;<a href="#">下一页</a> <span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><a href="#">上一页</a>&gt;--}}
             </div>
             <div class="paging-right">
+                <form action="{{url('gopage/eqpage/'.$cat_id)}}" method="post">
+                    {{csrf_field()}}
                 <span>共有
                     @if(isset($eqlistmain))
                         {{$eqlistmain->lastpage()}}
@@ -212,7 +214,8 @@
                         {{$det->lastpage()}}
                     @endif
 
-                    页，去第 <input type="text"></span> <button type="submit">确定</button>
+                    页，去第 <input type="text" name="page"></span> <button type="submit">确定</button>
+                </form>
             </div>
         </div>
     </div>

@@ -63,7 +63,13 @@
             </ul>
         </div>
         <div class="publish">
-            <a href="{{url('/sergoods/create')}}"><img src="home/images/zhaohuo/8.jpg" alt=""></a>
+            <a href="
+            @if(isset($msg))
+            {{url('/sergoods/create')}}
+                    @else
+            {{url('/user/login')}}
+                    @endif
+                    "><img src="home/images/zhaohuo/8.jpg" alt=""></a>
         </div>
     </div>
 
@@ -99,7 +105,10 @@
 <div class="paging" >
     {{$fglist->links()}}
     <div class="paging-right">
-        <span>共有{{$fglist->lastPage()}}页，去第 <input type="text"></span> <button type="button">确定</button>
+        <form action="{{url('gopage/fgpage')}}" method="post">
+            {{csrf_field()}}
+        <span>共有{{$fglist->lastPage()}}页，去第 <input type="text" name="page"></span> <button type="submit">确定</button>
+        </form>
     </div>
 </div>
 

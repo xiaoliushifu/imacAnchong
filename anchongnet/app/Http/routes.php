@@ -596,6 +596,8 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
             Route::get('/business', 'Home\Business\BusinessController@index');
             //找货板块
             Route::resource('/sergoods', 'Home\Findgoods\FindgoodsController');
+            //页码跳转
+            Route::controller('/gopage', 'PageController');
             //人才板块
             Route::resource('/talent', 'Home\Talent\TalentController');
             //工程板块
