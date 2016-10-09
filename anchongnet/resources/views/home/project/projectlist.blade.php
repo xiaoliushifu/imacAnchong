@@ -3,14 +3,11 @@
 	<head>
 		<meta charset="utf-8">
 		<title>工程列表</title>
-		<script src="../home/js/jquery-3.1.0.min.js"></script>
-		<script src="../home/js/businessjs.js"></script>
-		<script src="../home/js/talent.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" type="text/css" href="../home/css/talent.css"/>
 		<link rel="stylesheet" href="home/css/businessjs.css">
 		<link rel="stylesheet" href="home/css/footer.css">
 		<link rel="stylesheet" href="{{asset('home/css/top.css')}}">
-		<script src="{{asset('home/js/top.js')}}"></script>
+
 	</head>
 	<body>
 	@include('inc.home.top')
@@ -68,7 +65,13 @@
 				<div class="work">
 					<a class="contract-work" href=""><img src="../home/images/gongchengxq/发包工程.png"/></a>
 					<a class="package" href=""><img src="../home/images/gongchengxq/承接工程.png"/></a>
-					<a class="release" href="{{url('/project/create')}}"><img src="../home/images/gongchengxq/发布工程.png"/></a>
+					<a class="release" href="
+					 @if(isset($msg))
+					{{url('/project/create')}}
+					@else
+					{{url('/user/login')}}
+					@endif
+							"><img src="../home/images/gongchengxq/发布工程.png"/></a>
 				</div>
 				<div class="nav">
 					<div class="server">
@@ -154,13 +157,18 @@
 					<div class="pages">
 						{{$projectlist->links()}}
                         <ul class="page-skip">
+							<form action="{{url('gopage/gcpage')}}" method="post">
+								{{csrf_field()}}
                             <i>共有{{$projectlist->lastpage()}}页，</i>
                             <i class="blank">
                                 去第
-                                <input class="page-num" type="text">
+                                <input class="page-num" type="text" name="page">
                                 页
                             </i>
-                            <input class="page-btn" type="button" value="确定">
+
+
+							<button class="busb" type="submit">确定</button>
+							</form>
                         </ul>
                         <div class="cl"></div>
 					</div>
@@ -168,6 +176,9 @@
 			</div>
 		</div>
 	@include('inc.home.footer')
-		<script src="home/js/orderlist.js"></script>
+	<script src="../home/js/jquery-3.1.0.min.js"></script>
+	<script src="../home/js/businessjs.js"></script>
+	<script src="../home/js/talent.js" type="text/javascript" charset="utf-8"></script>
+	<script src="home/js/orderlist.js"></script>
 	</body>
 </html>

@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <title>人才列表</title>
     <link rel="stylesheet" href="home/css/rencailist.css">
-    <script src="home/js/jquery-3.1.0.min.js"></script>
-    <script src="home/js/businessjs.js"></script>
     <link rel="stylesheet" href="home/css/businessjs.css">
     <link rel="stylesheet" href="{{asset('home/css/top.css')}}">
-    <script src="{{asset('home/js/top.js')}}"></script>
     <link rel="stylesheet" href="{{asset('home/css/footer.css')}}">
 </head>
 <body>
@@ -77,7 +74,13 @@
                 <a href="{{url('/talent/create')}}">人才发布</a><a href="#">人才招聘</a>
             </div>
             <div class="publish-right">
-                <a href="{{url('/talent/create')}}"><img src="home/images/zhaohuo/36.jpg" alt=""></a>
+                <a href="
+                 @if(isset($msg))
+                {{url('/talent/create')}}
+                @else
+                {{url('/user/login')}}
+                @endif
+                        "><img src="home/images/zhaohuo/36.jpg" alt=""></a>
             </div>
         </div>
 
@@ -166,7 +169,10 @@
         <div class="paging" >
            {{$data->links()}}
             <div class="paging-right">
-                <span>共有{{$data->lastpage()}}页，去第 <input type="text"></span> <button type="button">确定</button>
+                <form action="{{url('gopage/tlpage')}}" method="post">
+                {{csrf_field()}}
+                <span>共有{{$data->lastpage()}}页，去第 <input type="text" name="page"></span> <button type="submit">确定</button>
+                </form>
             </div>
         </div>
 
@@ -182,6 +188,9 @@
 
 <!--底部-->
 @include('inc.home.footer')
-
+<script src="home/js/jquery-3.1.0.min.js"></script>
+<script src="home/js/businessjs.js"></script>
+<script src="{{asset('home/js/top.js')}}"></script>
+<script src="home/js/orderlist.js"></script>
 </body>
 </html>

@@ -167,7 +167,10 @@
 
             </div>
             <div class="paging-right">
-                <span>共有{{$thirdlist->lastpage()}}页，去第 <input type="text"></span> <button type="submit">确定</button>
+                <form action="{{url('gopage/thpage/'.$sid)}}" method="post">
+                    {{csrf_field()}}
+                <span>共有{{$thirdlist->lastpage()}}页，去第 <input type="text" name="page"></span> <button type="submit">确定</button>
+                </form>
             </div>
         </div>
     </div>

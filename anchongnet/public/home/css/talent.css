@@ -517,3 +517,8 @@ ul,li{
 	border: 1px #1DABD8 solid;
 	border-bottom: 2px #1DABD8 solid;
 }
+.busb{
+	width: 50px;
+	color: #9b9b9b;
+	margin-left: 20px;
+}

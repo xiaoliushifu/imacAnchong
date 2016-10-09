@@ -85,7 +85,7 @@ class EquipmentController extends CommonController
               return Goods_type::whereRaw("match(`cid`)against(?)",[$aa])->paginate(16);
           });
       }
-     return view('home.equipment.goodslist',compact('eqlistmain','navll','eqlistaddress','det'));
+     return view('home.equipment.goodslist',compact('eqlistmain','navll','eqlistaddress','det','cat_id'));
     }
     public function getShow($goods_id,$gid)
     {
@@ -140,6 +140,6 @@ class EquipmentController extends CommonController
           $thirdlist = Cache::remember('thirdlist'.$page,10,function() use ($sid){
          return  Goods_type::where('sid',$sid)->orderBy('updated_at','desc')->paginate(16);
        });
-        return view('home.equipment.thirdparty',compact('thirdlist','navthird'));
+        return view('home.equipment.thirdparty',compact('thirdlist','navthird','sid'));
     }
 }
