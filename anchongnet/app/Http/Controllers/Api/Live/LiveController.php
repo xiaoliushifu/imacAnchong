@@ -22,6 +22,9 @@ class LiveController extends Controller
     private $SECRET_KEY;
     //定义七牛云空间实例化的对象
     private $hub;
+    //定义ORM模型
+    private $Live_Start;
+    private $Live_Restart;
 
     /*
     *   执行构造方法将orm模型初始化
@@ -35,6 +38,9 @@ class LiveController extends Controller
         $credentials = new \Qiniu\Credentials($this->ACCESS_KEY, $this->SECRET_KEY);
         //实例化他的推流空间对象
         $this->hub = new \Pili\Hub($credentials, "chongzai");
+        //实例化orm
+        $this->Live_Start =new \App\Live_Start();
+        $this->Live_Restart=new \App\Live_Restart();
     }
 
     public function createlive(Request $request)
@@ -149,5 +155,100 @@ class LiveController extends Controller
         } catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>"直播开启失败"]]);
         }
+    }
+
+    /*
+    *   直播列表
+    */
+    public function livelist(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request->all();
+        $param=json_decode($data['param'],true);
+        //默认每页数量
+        $limit=5;
+        //定义查询数据
+        $live_data=['room_id','room_url','title','users_id','header','nick','images'];
+        //统计数量
+        $live_count=$this->Live_Start->Live()->count();
+        $live_list=$this->Live_Start->Live()->select($live_data)->skip((($param['page']-1)*$limit))->take($limit)->get();
+        //判断是否有人直播
+        if($live_count>0 && $live_list){
+            //返回结果
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$live_count,'list'=>$live_list]]);
+        }else{
+            //返回结果
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
+        }
+    }
+
+    /*
+    *   个人重播列表
+    */
+    public function mylivelist(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request->all();
+        $param=json_decode($data['param'],true);
+        //默认每页数量
+        $limit=5;
+        $user_data=DB::table('anchong_usermessages')->where('users_id',$param['guid'])->select('nickname','headpic')->get();
+        //定义查询数据
+        $live_data=['room_id','room_url','title','users_id','images','sum'];
+        $living=DB::table('v_start')->where('users_id',$param['guid'])->select('room_id','room_url','title','users_id','images')->get();
+        //统计数量
+        $live_count=$this->Live_Restart->Live()->where('users_id',$param['guid'])->count();
+        $live_list=$this->Live_Restart->Live()->where('users_id',$param['guid'])->select($live_data)->skip((($param['page']-1)*$limit))->take($limit)->get()->toArray();
+        //如果该人在直播就把正在直播的信息放到第一位
+        if(count($living) >0){
+            $living[0]->sum=null;
+            array_unshift($live_list,$living[0]);
+            $live_count +=1;
+        }
+        //判断是否有往日的重播
+        if($live_count>0 && $live_list){
+            //返回结果
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['nickname'=>$user_data[0]->nickname,'headpic'=>$user_data[0]->headpic,'total'=>$live_count,'list'=>$live_list]]);
+        }else{
+            //返回结果
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
+        }
+    }
+
+    /*
+    *   网易云信脚本注册器
+    *   用完删除
+    */
+    public function regnetease(Request $request)
+    {
+        // $users=DB::table('anchong_usermessages')->lists('users_id');
+        // $account=DB::table('anchong_users_login')->select('username','users_id')->get();
+        // foreach ($account as $username) {
+        //     if(in_array($username->users_id,$users)){
+        //         $result=DB::table('anchong_usermessages')->where('users_id',$username->users_id)->update(['account'=>$username->username]);
+        //         if(!$result){
+        //             echo $username->users_id."===";
+        //         }
+        //     }
+        // }
+
+        $users=DB::table('anchong_usermessages')->select('nickname','account','headpic','users_id')->get();
+        //var_dump($users);
+        foreach ($users as $users_info) {
+            //网易云信
+            $url  = "https://api.netease.im/nimserver/user/create.action";
+            $datas = 'accid='.($users_info->account).'&name='.($users_info->nickname?$users_info->nickname:$users_info->account).'&icon='.($users_info->headpic?$users_info->headpic:'http://anchongres.oss-cn-hangzhou.aliyuncs.com/headpic/placeholder120@3x.png').'&token=3c374b5bc7a7d5235cde6426487d8a3c';
+            list($return_code, $return_content) = $this->JsonPost->http_post_data($url, $datas);
+            //判断是否请求成功
+            if($return_code != 200){
+                echo $users_info->account.'====';
+            }else {
+                $result=DB::table('anchong_users_login')->where('users_id',$users_info->users_id)->update(['netease_token'=>'3c374b5bc7a7d5235cde6426487d8a3c']);
+                if(!$result){
+                    echo $users_info->account.'====';
+                }
+            }
+        }
+
     }
 }

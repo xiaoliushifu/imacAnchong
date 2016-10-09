@@ -11,18 +11,22 @@ use Validator;
 use App\Order;
 use App\Shop;
 use App\Users_login;
+use DB;
 
 use OSS\OssClient;
 use OSS\Core\OssException;
 
 class UsermessagesController extends Controller
 {
+	//定义变量
+    private $JsonPost;
 	private $usermessages;
 	private $user;
 	private $order;
 	private $shop;
 	private $login;
 	public function __construct(){
+		$this->JsonPost=new \App\JsonPost\JsonPost();
 		$this->usermessages=new usermessages();
 		$this->user=new Users();
 		$this->order=new Order();
@@ -205,8 +209,11 @@ class UsermessagesController extends Controller
 				return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'该昵称已被注册，请更换昵称']]);
 			}
 		} else {
+			//查出用户账号
+			$account=DB::table('anchong_users_login')->where('users_id', $id)->pluck('username');
 		    //库中无，则是添加资料
 			if (count($message_data)==0) {
+				$this->usermessages->account=$account[0];
 				$this->usermessages->users_id = $id;
 				if ($param['nickname']!=null) {
 					$this->usermessages->nickname = $param['nickname'];
@@ -220,13 +227,35 @@ class UsermessagesController extends Controller
 				if ($param['contact']!=null) {
 					$this->usermessages->contact = $param['contact'];
 				}
-
+				//网易云信
+	            $url  = "https://api.netease.im/nimserver/user/create.action";
+	            $datas = 'accid='.($account[0]).'&name='.($param['nickname']?$param['nickname']:$account[0]).'&token=3c374b5bc7a7d5235cde6426487d8a3c';
+	            list($return_code, $return_content) = $this->JsonPost->http_post_data($url, $datas);
+	            //判断是否请求成功
+	            if($return_code != 200){
+	                return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'更新失败']]);
+	            }else {
+					//对数据库进行更新
+	                $results=DB::table('anchong_users_login')->where('users_id',$id)->update(['netease_token'=>'3c374b5bc7a7d5235cde6426487d8a3c']);
+					//更新失败就返回
+					if(!$results){
+						return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'更新失败']]);
+					}
+	            }
 				$result=$this->usermessages->save();
 			} else {
 			    //库中有，则是修改资料
 				$user=usermessages::where('users_id', '=', $id)->first();
 				if ($param['nickname']!=null) {
 					$user->nickname = $param['nickname'];
+					//网易云信
+		            $url  = "https://api.netease.im/nimserver/user/create.action";
+					$datas = 'accid='.($account[0]).'&name='.($param['nickname']);
+		            list($return_code, $return_content) = $this->JsonPost->http_post_data($url, $datas);
+		            //判断是否请求成功
+		            if($return_code != 200){
+		                return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'更新失败']]);
+		            }
 				}
 				if ($param['qq']!=null) {
 					$user->qq = $param['qq'];
@@ -296,16 +325,41 @@ class UsermessagesController extends Controller
 			$url = str_replace('.oss-','.img-',$urls);
 			//判断该表是否有该用户
 			$num=$this->usermessages->countquer('users_id ='.$id);
+			//查出该用户的账号
+			$account=DB::table('anchong_users_login')->where('users_id', $id)->pluck('username');
 			//假如没有该用户则创建该用户
 			if($num == 0){
 				//创建新的一条数据并插入头像
 				$this->usermessages->users_id=$id;
 				$this->usermessages->headpic=$url;
+				//网易云信
+	            $url  = "https://api.netease.im/nimserver/user/create.action";
+	            $datas = 'accid='.($account[0]).'&icon='.($url).'&token=3c374b5bc7a7d5235cde6426487d8a3c';
+	            list($return_code, $return_content) = $this->JsonPost->http_post_data($url, $datas);
+	            //判断是否请求成功
+	            if($return_code != 200){
+	                return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'头像上传失败']]);
+	            }else {
+					//对数据库进行更新
+	                $results=DB::table('anchong_users_login')->where('users_id',$id)->update(['netease_token'=>'3c374b5bc7a7d5235cde6426487d8a3c']);
+					//更新失败就返回
+					if(!$results){
+						return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'头像上传失败']]);
+					}
+	            }
 				$result=$this->usermessages->save();
 			}elseif($num == 1){
 				//更新数据
 				$data=Usermessages::where('users_id', '=', $id)->first();
 				$data->headpic=$url;
+				//网易云信
+				$url  = "https://api.netease.im/nimserver/user/create.action";
+				$datas = 'accid='.($account[0]).'&icon='.($url);
+				list($return_code, $return_content) = $this->JsonPost->http_post_data($url, $datas);
+				//判断是否请求成功
+				if($return_code != 200){
+					return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'头像更新失败']]);
+				}
 				$result=$data->save();
 			}
 			//假如头像插入成功

@@ -331,6 +331,12 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         *   直播模块
         */
         //生成直播
+        //直播列表
+        Route::post('/live/livelist','Api\Live\LiveController@livelist');
+        //个人重播列表
+        Route::post('/live/mylivelist','Api\Live\LiveController@mylivelist');
+        //生成网易云信聊天室
+        Route::post('/live/regnetease','Api\Live\LiveController@regnetease');
 
     });
 });
