@@ -332,6 +332,10 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/live/createlive','Api\Live\LiveController@createlive');
         //生成网易云信聊天室
         Route::post('/live/createroom','Api\Live\LiveController@createroom');
+        //结束直播
+        Route::post('/live/endlive','Api\Live\LiveController@endlive');
+        //直播保存
+        Route::post('/live/savelive','Api\Live\LiveController@savelive');
         //直播列表
         Route::post('/live/livelist','Api\Live\LiveController@livelist');
         //重播列表
@@ -344,6 +348,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/live/relivesearch','Api\Live\LiveController@relivesearch');
         //个人重播列表
         Route::post('/live/mylivelist','Api\Live\LiveController@mylivelist');
+        //重播删除
+        Route::post('/live/dellive','Api\Live\LiveController@dellive');
         //生成网易云信聊天室
         Route::post('/live/regnetease','Api\Live\LiveController@regnetease');
 

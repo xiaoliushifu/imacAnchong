@@ -17,7 +17,7 @@ class Ad extends Model
     protected $primaryKey = 'ad_id';
 
     /*
-    *   收藏查询内容
+    *   分页查询内容
     */
     public function quer($field,$type,$pos,$limit)
     {
@@ -25,7 +25,7 @@ class Ad extends Model
     }
 
     /*
-    *   收藏查询内容
+    *   简单查询内容
     */
     public function simplequer($field,$type)
     {
