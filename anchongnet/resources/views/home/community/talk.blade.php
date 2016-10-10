@@ -6,7 +6,7 @@
     <script src="home/js/jquery-3.1.0.js"></script>
     <link rel="stylesheet" href="home/css/top.css">
     <script src="home/js/top.js"></script>
-
+    <script src="../home/org/layer/layer.js"></script>
 </head>
 <body>
 @include('inc.home.top')
@@ -90,7 +90,7 @@
         if((/^(\+|-)?\d+$/.test(num))&&num>0&&num<={{$talk->lastpage()}}){
             $('.page-btn').attr('href','http://www.anchong.net/talk?page='+num);
         }else{
-            alert('请输入数字并小于等于"{{$talk->lastpage()}}"');
+            layer.alert('请输入数字并小于等于"{{$talk->lastpage()}}"',{offset: ['150px', '821px']});
             $('.page-num').val({{$talk->currentPage()}});
         }
     }

@@ -106,6 +106,7 @@ ul,li{
     width:418px;
     height: 40px;
     line-height: 40px;
+    outline:none;
 }
 .search-btn{
     width: 80px;

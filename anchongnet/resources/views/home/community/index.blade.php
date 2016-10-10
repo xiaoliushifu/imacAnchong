@@ -6,7 +6,7 @@
     <script src="home/js/jquery-3.1.0.js"></script>
     <link rel="stylesheet" href="home/css/top.css">
     <script src="home/js/top.js"></script>
-
+    <script src="../home/org/layer/layer.js"></script>
 </head>
 <body>
 @include('inc.home.top')
@@ -92,7 +92,7 @@
         if((/^(\+|-)?\d+$/.test(num))&&num>0&&num<={{$chat->lastpage()}}){
             $('.page-btn').attr('href','http://www.anchong.net/community?page='+num);
         }else{
-            alert('请输入数字大于0并小于等于{{$chat->lastpage()}}');
+            layer.alert('请输入数字大于0并小于等于{{$chat->lastpage()}}',{offset: ['150px', '821px']});
             $('.page-num').val({{$chat->currentPage()}});
         }
     }

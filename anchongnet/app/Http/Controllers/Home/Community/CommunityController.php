@@ -45,7 +45,7 @@ class CommunityController extends CommonController
         $num = count($comment);
         foreach ($comment as $value){
             $comid = $value -> comid;
-            $replay[$comid]  = Community_reply::where('comid',$comid)->orderBy('comid','desc')->get();
+            $replay[$comid]  = Community_reply::where('comid',$comid)->orderBy('reid','desc')->get();
         }
         return view('home/community/chat',compact('info','comment','replay','num'));
     }
@@ -106,6 +106,19 @@ class CommunityController extends CommonController
      */
     public function store()
     {
-
+        $input = Input::except('_token');
+        $re = Community_comment::create($input);
+        if($re){
+            $msg =[
+                'status' => 0,
+                'msg' => '发表评论成功'
+            ];
+        }else{
+            $msg =[
+                'status' => 1,
+                'msg' => '发表评论失败，请稍后再试'
+            ];
+        }
+        return $msg;
     }
 }
