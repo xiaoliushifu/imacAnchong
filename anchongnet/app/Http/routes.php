@@ -370,17 +370,12 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
 
 //后台路由
 Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function () {
-        //搜索
+        //商品搜索
         Route::controller('/search','Api\SearchController');
-        //注册相关
-        Route::any('/userregister', 'admin\indexController@userregister');
-        Route::any('/zhuce', 'admin\indexController@zhuce');
         //支付宝
         Route::get('/pay/alipay','Api\Pay\PayController@alipay');
-        //验证码类,需要传入数字
-        Route::get('/captcha/{num}', 'CaptchaController@captcha');
-        //登录检查
-        Route::any('/checklogin','admin\indexController@checklogin');
+        //登录提交
+        Route::post('/checklogin',['uses'=>'admin\indexController@checklogin']);
         //加中间件的路由组
         Route::group(['middleware' => 'LoginAuthen'], function () {
                 //首页路由
@@ -589,7 +584,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
     });
             //前台路由
 
-Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {
+Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf','tmp']], function () {
             //获取商品参数html代码
             Route::get('/getparam', 'admin\uEditorController@getParam');
             Route::get('/getpackage', 'admin\uEditorController@getPackage');
