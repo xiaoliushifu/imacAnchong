@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /*
-*   该模型是操作商机表的模块
+*   该模型是操作反馈回复表的模块
 */
 class Feedback_reply extends Model
 {

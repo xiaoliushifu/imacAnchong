@@ -135,7 +135,7 @@ class CommunityController extends Controller
             } else {
                 //创建用户表通过电话查询出用户电话
                 $users_message=new \App\Usermessages();
-                $users_nickname=$users_message->quer(['nickname','headpic'],['users_id'=>$data['guid']])->toArray();
+                $users_nickname=$users_message->quer(['account','nickname','headpic'],['users_id'=>$data['guid']])->toArray();
                 //判断用户信息表中是否有联系人姓名
                 try{
                     if(!$users_nickname[0]['nickname']){
@@ -167,7 +167,7 @@ class CommunityController extends Controller
                     DB::table('anchong_community_release')->where('chat_id','=',$param['chat_id'])->increment('comnum',1);
                     try{
                         //推送消息
-                        $this->propel->apppropel($this->user->find($param['users_id'])->phone,'聊聊评论',$users_nickname[0]['nickname'].'  评论了您的聊聊:'.$param['title']);
+                        $this->propel->apppropel($users_nickname[0]['account'],'聊聊评论',$users_nickname[0]['nickname'].'  评论了您的聊聊:'.$param['title']);
                     }catch (\Exception $e) {
                         //查出第一张图片
                         $picstr=$this->community_release->find($param['chat_id'])->img;
@@ -262,7 +262,7 @@ class CommunityController extends Controller
                 if($ture){
                     try{
                         //推送消息
-                        $this->propel->apppropel($this->user->find($param['users_id'])->phone,'聊聊评论回复',$users_nickname[0]['nickname'].'  回复了您的评论:'.$param['reply_content']);
+                        $this->propel->apppropel($users_nickname[0]['account'],'聊聊评论回复',$users_nickname[0]['nickname'].'  回复了您的评论:'.$param['reply_content']);
                     }catch (\Exception $e) {
                         //查出第一张图片与标题
                         $handle=$this->community_release->find($param['chat_id']);

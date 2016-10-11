@@ -102,6 +102,8 @@ class LiveController extends Controller
                             'title' => $param['title'],
                             'images' => str_replace('.oss-','.img-',$param['images']),
                             'topic' => $param['topic'],
+                            'header' => $param['header'],
+                            'nick' => $param['nick']
                         ]
                     );
                 }else{

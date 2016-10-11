@@ -33,7 +33,7 @@ class Goods_keyword extends Model
     public  $timestamps=false;
 
     /*
-     * 分类筛选
+     * 获取分类筛选的商品对象
      */
     public function scopeGoods($query,$sql)
     {

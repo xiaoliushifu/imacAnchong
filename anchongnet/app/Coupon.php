@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/*
+*   该模型是操作优惠券表的模块
+*/
 class Coupon extends Model
 {
     protected $table = 'anchong_coupon';
@@ -13,7 +16,7 @@ class Coupon extends Model
     public  $timestamps=false;
 
     /*
-    *   查询
+    *   查询优惠券信息
     */
     public function quer($field,$quer_data)
     {
@@ -29,7 +32,7 @@ class Coupon extends Model
     }
 
     /*
-    *   判断是否有数据
+    *   判断是否有优惠券数据
     */
     public function countquer($type)
     {

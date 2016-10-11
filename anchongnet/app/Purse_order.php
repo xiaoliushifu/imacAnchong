@@ -63,7 +63,7 @@ class Purse_order extends Model
     }
 
     /*
-    *   查询信息，有分页
+    *   查询钱袋信息，有分页
     */
     public function pagequer($field,$type,$pos,$limit)
     {
@@ -71,7 +71,7 @@ class Purse_order extends Model
     }
 
     /*
-    *   该方法是更新商机信息
+    *   该方法是更新钱袋订单信息
     */
     public function purseupdate($id,$data)
     {

@@ -47,10 +47,10 @@ class Users_login extends Model implements AuthenticatableContract,
     /*
     *   该方法是添加登录用户账号密码的方法，在注册成功之后会返回用户Token和用户ID还有用户权限
     */
-    public function add($user_data)
+    public function add($data)
     {
         //将数据存入登录表
-        $this->fill($user_data);
+        $this->fill($data);
         if($this->save()){
             return true;
         }else{
@@ -59,17 +59,18 @@ class Users_login extends Model implements AuthenticatableContract,
     }
 
     /*
-    *   登陆时的显示用户的token和用户id
+    *   根据条件查询用户登录表
     */
-    public function quer($field, $quer_data)
+    public function quer($field, $type)
     {
-        return $this->select($field)->where($quer_data)->get();
+        return $this->select($field)->where($type)->get();
     }
 
     /*
-    *   登陆是更新token
+    *   登陆时更新token
     */
-    public function addToken($user_data, $users_id){
+    public function addToken($user_data, $users_id)
+    {
         $user=$this->where('users_id', '=', $users_id);
         if($user->update($user_data)){
             return true;
@@ -82,7 +83,8 @@ class Users_login extends Model implements AuthenticatableContract,
     /*
     *   获得用户token
     */
-    public function querToken($guid){
+    public function querToken($guid)
+    {
         return $this->select('token')->where('users_id',$guid)->get()->toArray();
     }
 

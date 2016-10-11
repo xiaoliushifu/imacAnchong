@@ -34,7 +34,7 @@ class Goods_thumb extends Model
     protected $primaryKey = 'tid';
 
     /*
-    *   分类查询
+    *   商品图片查询
     */
     public function quer($field,$type)
     {
@@ -66,7 +66,7 @@ class Goods_thumb extends Model
             return false;
         }
     }
-    
+
     /*
      * 根据条件进行缩略图搜索
      * */
@@ -74,5 +74,5 @@ class Goods_thumb extends Model
     {
         return $query->where('gid', '=', $keyGid);
     }
-    
+
 }

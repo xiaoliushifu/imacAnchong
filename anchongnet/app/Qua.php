@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/*
+*   该模型是操作会员认证数据表的模块
+*/
 class Qua extends Model
 {
     protected $table = 'anchong_qua';
