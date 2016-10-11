@@ -3,9 +3,9 @@
 <head>
     @yield('info')
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="home/css/bootstrap.css">
-    <script type="text/javascript" src="home/js/jquery-3.1.0.min.js"></script>
-    <script type="text/javascript" src="home/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('home/css/bootstrap.css')}}">
+    <script type="text/javascript" src="{{asset('home/js/jquery-3.1.0.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('home/js/bootstrap.js')}}"></script>
 </head>
 <body>
 <div class="topt">
@@ -16,7 +16,7 @@
 
                 <li>邮箱：www.@anchong.net</li>
                 <li>垂询电话:0317-8155026</li>
-                <a href="{{url('/cart')}}"><li>购物车<span class="glyphicon glyphicon-shopping-cart"></span></li></a>
+               <li> <a href="{{url('/cart')}}">购物车<span class="glyphicon glyphicon-shopping-cart"></span></a></li>
                 <li><img src={{$msg->headpic}} alt=""></li>
                 <li style="padding-left: 10px;"><a href="#" class="dropdown-toggle " data-toggle="dropdown">{{$msg->nickname}}<b class="caret"></b></a>
                     <ul class="dropdown-menu depth_0 downlist">
@@ -35,13 +35,13 @@
 <div class="topone">
     <div class="topone-1"  style="position: relative;">
         <div class="topone-2">
-            <img src="home/images/mine/60.jpg" alt="">
+            <img src="{{asset('home/images/mine/60.jpg')}}" alt="">
         </div>
         <div class="topone-3">
             <ul>
-                <li  class="ppp"><a href="{{url('/pcenter')}}" >首页</a><img src="home/images/mine/up.png" alt=""> </li>
-                <li  class="ppp"><a href="{{url('/basics')}}" >个人资料</a><img src="home/images/mine/up.png" alt=""> </li>
-                <li  class="ppp"><a href="{{url('/servermsg')}}" >消息</a><img src="home/images/mine/up.png" alt=""> </li>
+                <li  class="ppp"><a href="{{url('/pcenter')}}" >首页</a><img src="{{asset('home/images/mine/up.png')}}" alt=""> </li>
+                <li  class="ppp"><a href="{{url('/basics')}}" >个人资料</a><img src="{{asset('home/images/mine/up.png')}}" alt=""> </li>
+                <li  class="ppp"><a href="{{url('/servermsg')}}" >消息</a><img src="{{asset('home/images/mine/up.png')}}" alt=""> </li>
             </ul>
            @yield('publish')
         </div>
@@ -92,11 +92,11 @@
         <div class="foottoprg">
             <div class="erwm" >
                 <h4>下载安虫app客户端</h4>
-                <img src="home/images/mine/1.jpg">
+                <img src="{{asset('home/images/mine/1.jpg')}}">
             </div>
             <div class="mmm">
                 <h4>安虫微信订阅号</h4>
-                <img src="home/images/mine/2.jpg">
+                <img src="{{asset('home/images/mine/2.jpg')}}">
             </div>
 
         </div>

@@ -590,7 +590,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
     });
             //前台路由
 
-Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf','tmp']], function () {
+Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {
             //获取商品参数html代码
             Route::get('/getparam', 'admin\uEditorController@getParam');
             Route::get('/getpackage', 'admin\uEditorController@getPackage');
@@ -620,7 +620,7 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf','tmp']], funct
                 // 服务消息
                 Route::get('/servermsg', 'IndexController@servermsg');
                 //地址管理
-                Route::get('/adress', 'IndexController@adress');
+                Route::resource('/adress', 'AddressController');
                 //申请商铺
                 Route::get('/applysp', 'IndexController@applysp');
                 //基本资料

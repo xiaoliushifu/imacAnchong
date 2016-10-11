@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Home\Pcenter;
-use App\Address;
 use App\Collection;
 use App\Feedback_reply;
 use App\Goods_type;
@@ -9,6 +8,8 @@ use App\Http\Controllers\Home\CommonController;
 use App\Users;
 use App\Business;
 use Cache;
+use Illuminate\Support\Facades\Input;
+
 class IndexController extends CommonController
 {
     private $business;
@@ -39,17 +40,7 @@ class IndexController extends CommonController
         });
         return view('home.pcenter.servermsg',compact('serverm'));
     }
-    /*
-     * 地址管理
-    */
-        public function adress()
-    {
-        $addrs = Cache::remember('addrs',10,function(){
-        $user =Users::where('phone',[session('user')])->first();
-        return Address::where('users_id',$user->users_id)->get();
-        });
-        return view('home.pcenter.adress',compact('addrs'));
-    }
+
     /*
      * 申请商铺
      */

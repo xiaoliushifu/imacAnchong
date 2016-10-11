@@ -318,6 +318,5 @@
     </div>
 </div>
 @include('inc.home.site-foot')
-</div>
 </body>
 </html>
