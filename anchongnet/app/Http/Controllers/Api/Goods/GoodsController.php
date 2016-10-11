@@ -462,7 +462,7 @@ class GoodsController extends Controller
                         }
                         //经过滤后是否仍有关键字
                         if (!$tmparr) {
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"没有找到相关商品2"]]);
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"没有找到相关商品"]]);
                         }
                         $oristr = implode(' ',$tmparr);
                         $sp = bin2hex($oristr);

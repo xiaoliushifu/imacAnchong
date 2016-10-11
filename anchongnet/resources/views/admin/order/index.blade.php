@@ -159,7 +159,7 @@
 		<!-- /.content -->
 	</div>
 
-	<!-- 发货清单 -->
+	{{--打印订单，弹框--}}
 	<div class="modal fade" id="myView" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -212,7 +212,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- Modal -->
+	{{--审核通过与否，弹窗口--}}
 	<div class="modal fade" id="myCheck" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -231,7 +231,7 @@
 			</div>
 		</div>
 	</div>
-
+	{{--发货方式选择，弹窗口--}}
 	<div class="modal fade" id="mySend" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
