@@ -15,7 +15,7 @@ class Goods_logistics extends Model
     public $timestamps = false;
 
     /*
-    *   物流查询
+    *   物流数量查询
     */
     public function quer($type)
     {
@@ -36,7 +36,7 @@ class Goods_logistics extends Model
         }
     }
     /*
-    *   取消物流
+    *   删除物流信息
     */
     public function del($type)
     {

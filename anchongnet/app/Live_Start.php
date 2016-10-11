@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/*
+*   该模型是操作直播表的模块
+*/
 class Live_Start extends Model
 {
     protected $table = 'v_start';

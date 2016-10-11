@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/*
+*   该模型是操作用户信息表的模块
+*/
 class Usermessages extends Model
 {
     protected $table = 'anchong_usermessages';
@@ -18,9 +21,9 @@ class Usermessages extends Model
     /*
     *   查询联系人姓名
     */
-    public function quer($field,$quer_data)
+    public function quer($field,$type)
     {
-        return $this->select($field)->where($quer_data)->get();
+        return $this->select($field)->where($type)->get();
     }
 
     /*

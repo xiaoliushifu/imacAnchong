@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/*
+*   该模型是操作虫虫资讯表的模块
+*/
 class Information extends Model
 {
     protected $table = 'anchong_information';
@@ -59,7 +62,7 @@ class Information extends Model
      }
 
      /*
-     *   更新信息
+     *   该方法是更新更新资讯信息
      */
      public function newsupdate($id,$data)
      {
@@ -72,7 +75,7 @@ class Information extends Model
      }
 
      /*
-     *   删除聊聊信息
+     *   删除资讯信息
      */
      public function infordel($id)
      {

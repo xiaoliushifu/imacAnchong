@@ -11,7 +11,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Redirect;
 /*
-*   该模型是操作用户表的，改模型里面提供了插入用户数据和删除修改数据的方��?
+*   该模型是操作用户表的，改模型里面提供了插入用户数据和删除修改数据的方法
 */
 class Users extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
@@ -45,10 +45,10 @@ class Users extends Model implements AuthenticatableContract,
      /*
      *   添加用户信息
      */
-     public function add($user_data)
+     public function add($data)
      {
         //将用户信息添加入用户表
-        $this->fill($user_data);
+        $this->fill($data);
         if($this->save()){
             return $this->users_id;
         }else{
@@ -59,9 +59,9 @@ class Users extends Model implements AuthenticatableContract,
     /*
     *   查询用户数据
     */
-    public function quer($field,$quer_data)
+    public function quer($field,$type)
     {
-        return $this->select($field)->where($quer_data)->get();
+        return $this->select($field)->where($type)->get();
     }
 
 

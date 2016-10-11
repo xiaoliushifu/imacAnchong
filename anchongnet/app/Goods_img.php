@@ -4,11 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/*
+*   该模型是操作商品图片表的模块
+*/
 class Goods_img extends Model
 {
     protected $table = 'anchong_goods_img';
     protected $primaryKey = 'iid';
     public $timestamps = false;
+    //可以批量赋值的属性
     protected $fillable = ['gid','url','type'];
 
     /*
@@ -20,7 +24,7 @@ class Goods_img extends Model
     }
 
     /*
-    *   图片查询
+    *   商品图片查询
     */
     public function quer($field,$type)
     {
