@@ -5,9 +5,9 @@
     <link rel="stylesheet" type="text/css" href="../home/css/chat-detail.css"/>
     <script src="../home/js/jquery-3.1.0.js"></script>
     <script src="../home/org/qqface/jquery.qqFace.js"></script>
-    <link rel="stylesheet" href="home/css/top.css">
-    <script src="home/js/top.js"></script>
-    <script src="../home/js/chat.js"></script>
+    <link rel="stylesheet" href="../home/css/top.css">
+    <script src="../home/js/top.js"></script>
+    <script src="../home/org/layer/layer.js"></script>
 </head>
 <body>
 @include('inc.home.top')
@@ -71,15 +71,38 @@
                     <ul class="comments-item">
                         <li class="comments-icon"><img src="{{$value -> headpic}}"></li>
                         <li class="comments-replay">
+                            <div>
                             <p class="username">{{$value -> name}}</p>
                             <p class="comments-time">{{date("Y-m-d",strtotime($value -> created_at))}}</p>
                             <p class="comments-info">{!! $value -> content !!}</p>
                             <a  class="replay">回复</a>
+                            </div>
                             <span class="parting"></span>
                             @for($i=0;$i<(count($replay[$value->comid]));$i++)
+                                <div>
                                 <p class="dialogue"><i class="rpname">{{$replay[$value->comid][$i]->name}}</i>回复<i class="comname">{{$replay[$value->comid][$i] -> comname}}</i>:{!! $replay[$value->comid][$i]-> content !!}</p>
                                 <a class="replay">回复</a>
+                                </div>
                             @endfor
+                            <form class="publish-replay">
+                                <i id="append"></i>
+                                <textarea id="replay" name="content"></textarea>
+                                <a><img src="../home/images/chat/send.png" ></a>
+                                <a><img src="../home/images/chat/emoticon.png"></a>
+                                <input type="hidden" name="created_at" value="{{date('Y-m-d H:i:s')}}">
+                                <input type="hidden" name="chat_id" value="{{$info->chat_id}}">
+                                @if(session('user'))
+                                    <input type="hidden" name="uers_id" value="{{$msg->users_id}}">
+                                    <input type="hidden" name="headpic" value="{{$msg->headpic}}">
+                                    <input type="hidden" name="name" value="{{$msg->nickname}}">
+                                    <input type="hidden" name="comname">
+                                    <script>
+                                        $(function () {
+                                            $('.replay').attr('onclick','Replay(this)');
+                                        })
+                                    </script>
+                                @endif
+                            </form>
                         </li>
                     </ul>
                 @endforeach
@@ -98,20 +121,24 @@
                                 {{csrf_field()}}
                                 <i>我也有话要说……</i>
                                 <textarea  disabled="disabled" id="comments" name="content" class="replay-content">请您登陆后评论</textarea>
-                                <a class="send" onclick="Comments()"><img src="../home/images/chat/send.png" ></a>
+                                <a class="send"><img src="../home/images/chat/send.png" ></a>
                                 <a class="emotion"><img src="../home/images/chat/emoticon.png"></a>
+                                <input type="hidden" name="chat_id" value="{{$info->chat_id}}">
+                                <input type="hidden" name="created_at" value="{{date('Y-m-d H:i:s')}}">
                                 @if(session('user'))
                                     <script>
                                         $(function () {
                                             $('#comments').removeAttr("disabled");
                                             $('#comments').html("");
+                                            $('.send').attr('onclick','Comments()');
+                                            $('.replay-icon img').attr('src','{{$msg->headpic}}')
                                         })
                                     </script>
                                     <input type="hidden" name="name" value="{{$msg->nickname}}">
                                     <input type="hidden" name="headpic" value="{{$msg->headpic}}">
                                     <input type="hidden" name="users_id" value="{{$msg->users_id}}">
                                     <input type="hidden" name="chat_id" value="{{$info->chat_id}}">
-                                    <input type="hidden" name="'created_at" value="{{date('Y-m-d H:i:s')}}">
+                                    <input type="hidden" name="created_at" value="{{date('Y-m-d H:i:s')}}">
                                 @endif
                             </form>
                         </div>
@@ -156,6 +183,23 @@
         str = str.replace(/\n/g,'<br/>');
         str = str.replace(/\[em_([0-9]*)\]/g,'<img src="../home/org/qqface/face/$1.gif" border="0" />');
         return str;
+    }
+    function Comments() {
+        $.ajax({
+            url:"/community",
+            type:"POST",
+            data:$('.publish-comment').serialize(),
+            success: function(msg) {
+                layer.alert(msg.msg, {offset: ['150px', '821px']});
+                setTimeout("window.location.reload()",5000);
+            },
+            error:function (msg) {
+                layer.alert(msg.msg, {offset: ['150px', '821px']});
+            }
+        })
+    }
+    function Replay(obj) {
+
     }
 </script>
 </html>

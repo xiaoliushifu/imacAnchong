@@ -332,6 +332,10 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/live/createlive','Api\Live\LiveController@createlive');
         //生成网易云信聊天室
         Route::post('/live/createroom','Api\Live\LiveController@createroom');
+        //结束直播
+        Route::post('/live/endlive','Api\Live\LiveController@endlive');
+        //直播保存
+        Route::post('/live/savelive','Api\Live\LiveController@savelive');
         //直播列表
         Route::post('/live/livelist','Api\Live\LiveController@livelist');
         //重播列表
@@ -344,6 +348,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/live/relivesearch','Api\Live\LiveController@relivesearch');
         //个人重播列表
         Route::post('/live/mylivelist','Api\Live\LiveController@mylivelist');
+        //重播删除
+        Route::post('/live/dellive','Api\Live\LiveController@dellive');
         //生成网易云信聊天室
         Route::post('/live/regnetease','Api\Live\LiveController@regnetease');
 
@@ -370,17 +376,12 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
 
 //后台路由
 Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function () {
-        //搜索
+        //商品搜索
         Route::controller('/search','Api\SearchController');
-        //注册相关
-        Route::any('/userregister', 'admin\indexController@userregister');
-        Route::any('/zhuce', 'admin\indexController@zhuce');
         //支付宝
         Route::get('/pay/alipay','Api\Pay\PayController@alipay');
-        //验证码类,需要传入数字
-        Route::get('/captcha/{num}', 'CaptchaController@captcha');
-        //登录检查
-        Route::any('/checklogin','admin\indexController@checklogin');
+        //登录提交
+        Route::post('/checklogin',['uses'=>'admin\indexController@checklogin']);
         //加中间件的路由组
         Route::group(['middleware' => 'LoginAuthen'], function () {
                 //首页路由
@@ -589,7 +590,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
     });
             //前台路由
 
-Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {
+Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf','tmp']], function () {
             //获取商品参数html代码
             Route::get('/getparam', 'admin\uEditorController@getParam');
             Route::get('/getpackage', 'admin\uEditorController@getPackage');

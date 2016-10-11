@@ -64,6 +64,9 @@ class LiveController extends Controller
 		}
         //尝试运行开启七牛直播，并看该用户是否已开启直播
         try {
+            //查出用户的直播ID
+            $zb=DB::table('v_start')->where('users_id',$data['guid'])->pluck('zb_id');
+            $zb_id=$zb[0];
             //如果该用户已生成了直播就直接获取
             $stream=$this->hub->getStream("z1.chongzai.".md5($data['guid']));
             $PublishUrl=$stream->rtmpPublishUrl();
@@ -92,7 +95,7 @@ class LiveController extends Controller
                 //判断是否有查看直播的地址
                 if(!empty($urls) && $urls['ORIGIN']){
                     //将数据插入表中
-                    DB::table('v_start')->insertGetId(
+                    $zb_id=DB::table('v_start')->insertGetId(
                         [
                             'users_id' => $data['guid'],
                             'room_url' => $urls['ORIGIN'],
@@ -108,7 +111,7 @@ class LiveController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>"直播开启失败"]]);
             }
         }
-        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['stream'=>$streams,'PublishUrl'=>$PublishUrl]]);
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['stream'=>$streams,'zb_id'=>$zb_id]]);
     }
 
     /*
@@ -171,6 +174,97 @@ class LiveController extends Controller
     }
 
     /*
+    *   关闭直播
+    */
+    public function endlive(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request->all();
+        $param=json_decode($data['param'],true);
+        //从直播里面删除该数据
+        $del=DB::table('v_start')->where('zb_id',$param['zb_id'])->delete();
+        //判断是否成功关闭直播数据
+        if($del){
+            try{
+                //如果该用户已生成了直播就直接获取
+                $stream=$this->hub->getStream("z1.chongzai.".md5($data['guid']));
+                $stream->delete();
+            } catch (\Exception $e) {
+                return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'关闭失败']]);
+            }
+            //返回结果
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=> ['Message'=>'关闭成功']]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'关闭失败']]);
+        }
+    }
+
+    /*
+    *   保存直播
+    */
+    public function savelive(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request->all();
+        $param=json_decode($data['param'],true);
+        //保存七牛流
+        try {
+
+            $name      = $param['title'].'.mp4'; // 必填
+            $format    = 'mp4';           // 必填
+            $start     = $param['start_time'];      // 必填, 单位为秒, 为UNIX时间戳
+            $end       = $param['end_time'];      // 必填, 单位为秒, 为UNIX时间戳
+            $notifyUrl = NULL;            // 选填
+
+            //如果该用户已生成了直播就直接获取
+            $stream=$this->hub->getStream("z1.chongzai.".md5($data['guid']));
+            $result = $stream->saveAs($name, $format, $start, $end, $notifyUrl = NULL); # => Array
+            //判断是否有数据
+            if(!$result){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'保存失败']]);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'保存失败']]);
+        }
+        //开启事务处理
+        DB::beginTransaction();
+        //插入重播表
+        $restart_id=DB::table('v_restart')->insertGetId(
+            [
+                'title' => $param['title'],
+                'room_id' => $param['room_id'],
+                'header' => $param['header'],
+                'nick' => $param['nickname'],
+                'sum' => $param['sum'],
+                'users_id' => $param['users_id'],
+                'room_url' => $result['targetUrl'],
+                'm3u8_url' => $result['url'],
+                'live_time' => $param['live_time'],
+            ]
+        );
+        //插入搜索表
+        $restart_search=DB::table('v_restart_search')->insertGetId(
+            [
+                'title' => $param['title'],
+                'cb_id' => $restart_id,
+                'sum' => $param['sum'],
+                'users_id' => $param['users_id'],
+            ]
+        );
+        //判断两个表是否插入成功并关闭直播数据
+        if($restart_id && $restart_search){
+            //进行提交
+            DB::commit();
+            //返回结果
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=> ['Message'=>'保存成功']]);
+        }else{
+            //假如失败就回滚
+            DB::rollback();
+            return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'保存失败']]);
+        }
+    }
+
+    /*
     *   直播列表
     */
     public function livelist(Request $request)
@@ -206,7 +300,7 @@ class LiveController extends Controller
         //默认每页数量
         $limit=5;
         //定义查询数据
-        $live_data=['room_id','room_url','title','users_id','images','header','nick','sum'];
+        $live_data=['room_id','room_url','title','users_id','images','header','nick','sum','m3u8_url'];
         //统计数量
         $live_count=$this->Live_Restart->Live()->count();
         $live_list=$this->Live_Restart->Live()->select($live_data)->skip((($param['page']-1)*$limit))->take($limit)->get();
@@ -324,7 +418,7 @@ class LiveController extends Controller
             $cb_id_arr[]=$cb_id->cb_id;
         }
         //定义查询数据
-        $live_data=['room_id','room_url','title','users_id','header','nick','images','sum'];
+        $live_data=['room_id','room_url','title','users_id','header','nick','images','sum','m3u8_url'];
         $live_list=DB::table('v_restart')->whereIn('cb_id',$cb_id_arr)->select($live_data)->get();
 
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['total'=>$count,'list'=>$live_list]]);
@@ -342,15 +436,18 @@ class LiveController extends Controller
         $limit=5;
         $user_data=DB::table('anchong_usermessages')->where('users_id',$param['guid'])->select('nickname','headpic')->get();
         //定义查询数据
-        $live_data=['room_id','room_url','title','users_id','images','sum'];
-        $living=DB::table('v_start')->where('users_id',$param['guid'])->select('room_id','room_url','title','users_id','images')->get();
+        $live_data=['cb_id','room_id','room_url','title','users_id','images','sum','m3u8_url'];
+        $living=DB::table('v_start')->where('users_id',$param['guid'])->select('zb_id','room_id','room_url','title','users_id','images')->get();
         //统计数量
         $live_count=$this->Live_Restart->Live()->where('users_id',$param['guid'])->count();
         $live_list=$this->Live_Restart->Live()->where('users_id',$param['guid'])->select($live_data)->skip((($param['page']-1)*$limit))->take($limit)->get()->toArray();
+
         //如果该人在直播就把正在直播的信息放到第一位
         if(count($living) >0){
             $living[0]->sum=null;
-            array_unshift($live_list,$living[0]);
+            if($param['page'] == 1){
+                array_unshift($live_list,$living[0]);
+            }
             $live_count +=1;
         }
         //判断是否有往日的重播
@@ -360,6 +457,25 @@ class LiveController extends Controller
         }else{
             //返回结果
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
+        }
+    }
+
+    /*
+    *   个人重播删除
+    */
+    public function dellive(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request->all();
+        $param=json_decode($data['param'],true);
+        //从直播里面删除该数据
+        $del=$this->Live_Restart->destroy($param['cb_id']);
+        //判断是否成功删除
+        if($del){
+            //返回结果
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=> ['Message'=>'删除成功']]);
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'删除失败']]);
         }
     }
 

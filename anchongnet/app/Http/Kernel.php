@@ -60,6 +60,7 @@ class Kernel extends HttpKernel
 		'permission' =>\App\Http\Middleware\Backpermission::class,
 		'anchong' =>\App\Http\Middleware\Anchong::class,
         'csrf' =>\App\Http\Middleware\VerifyCsrfToken::class,
+        'tmp' =>\App\Http\Middleware\PCtmp::class,
         'loginhome'=>\App\Http\Middleware\LoginHome::class,
     ];
 }
