@@ -71,9 +71,10 @@ class indexController extends Controller
                     $users_login->addToken(['last_login'=>Auth::user()['new_login']],Auth::user()['users_id']);
                     $users_login->addToken(['new_login'=>time()],Auth::user()['users_id']);
                     return Redirect::intended('/');
-                //会员认证通过users_rank是2，但认证通过不代表开通商铺。
+                //会员认证通过users_rank是2，但认证通过不代表开通商铺,仍拒绝。
                 } elseif ($rank[0]['users_rank'] == 2) {
-                    if (!$shop = Shop::Uid(Auth::user()['users_id'])) {
+                    $res = DB::table('anchong_shops')->where('users_id',Auth::user()['users_id'])->where('audit',2)->first();
+                    if (!$res) {
                         Auth::logout();
                         return Redirect::back();
                     }
@@ -101,40 +102,5 @@ class indexController extends Controller
         //清除登录状态
         Auth::logout();
         return Redirect::intended('/');
-    }
-
-    /*
-    *   注册
-    */
-    public function userregister(Request $request)
-    {
-        //开启事务处理
-        DB::beginTransaction();
-        $data=$request::all();
-        //清除登录状态
-        $users_login=new \App\Users_login();
-        $users=new \App\Users();
-        $users_data=[
-            'phone' => $data['username'],
-            'ctime' => time(),
-        ];
-        $usersid=$users->add($users_data);
-        $users_login_data=[
-            'users_id' => $usersid,
-            'password' => Hash::make($data['password']),
-            'username' => $data['username'],
-            'token' => md5($data['username']),
-            'user_rank' => 2,
-        ];
-        $result=$users_login->add($users_login_data);
-        if ($result) {
-            //假如成功就提交
-            DB::commit();
-            return '注册成功';
-        } else {
-            //假如失败就回滚
-            DB::rollback();
-            return '注册失败';
-        }
     }
 }
