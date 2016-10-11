@@ -121,4 +121,21 @@ class CommunityController extends CommonController
         }
         return $msg;
     }
+    public function replay()
+    {
+        $input = Input::except('_token');
+        $re = Community_reply::create($input);
+        if($re){
+            $data =[
+                'status' => 0,
+                'msg' => '发表评论成功'
+            ];
+        }else{
+            $data =[
+                'status' => 1,
+                'msg' => '发表评论失败，请稍后再试'
+            ];
+        }
+        return $data;
+    }
 }

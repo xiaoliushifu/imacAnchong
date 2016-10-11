@@ -11,6 +11,7 @@ class CartController extends CommonController
      */
     public function index()
     {
+
        return view('home/cart/cart');
     }
     /*
@@ -18,10 +19,7 @@ class CartController extends CommonController
      */
     public function confirm()
     {
-//        $address = Cache::remember('address',10,function(){
-//            $user =Users::where('phone',[session('user')])->first();
-//            return Address::where('users_id',$user->users_id)->get();
-//        });
+
         return view('home/cart/confirmation',compact('address'));
     }
 }
