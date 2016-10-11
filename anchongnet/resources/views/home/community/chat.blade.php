@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../home/css/top.css">
     <script src="../home/js/top.js"></script>
     <script src="../home/org/layer/layer.js"></script>
+    <script src="../home/js/chat.js"></script>
 </head>
 <body>
 @include('inc.home.top')
@@ -75,6 +76,7 @@
                                 <p class="username">{{$value -> name}}</p>
                                 <p class="comments-time">{{date("Y-m-d",strtotime($value -> created_at))}}</p>
                                 <p class="comments-info">{!! $value -> content !!}</p>
+                                <p class="comid" style="display: none">{{$value -> comid}}</p>
                                 <a  class="replay">回复</a>
                             </div>
                             <span class="parting"></span>
@@ -84,25 +86,6 @@
                                     <a class="replay">回复</a>
                                 </div>
                             @endfor
-                            <form class="publish-replay">
-                                <i id="append"></i>
-                                <textarea id="replay" name="content"></textarea>
-                                <a><img src="../home/images/chat/send.png" ></a>
-                                <a><img src="../home/images/chat/emoticon.png"></a>
-                                <input type="hidden" name="created_at" value="{{date('Y-m-d H:i:s')}}">
-                                <input type="hidden" name="chat_id" value="{{$info->chat_id}}">
-                                @if(session('user'))
-                                    <input type="hidden" name="uers_id" value="{{$msg->users_id}}">
-                                    <input type="hidden" name="headpic" value="{{$msg->headpic}}">
-                                    <input type="hidden" name="name" value="{{$msg->nickname}}">
-                                    <input type="hidden" name="comname">
-                                    <script>
-                                        $(function () {
-                                            $('.replay').attr('onclick','Replay(this)');
-                                        })
-                                    </script>
-                                @endif
-                            </form>
                         </li>
                     </ul>
                 @endforeach
@@ -116,11 +99,10 @@
                     <li class="replay-icon"><img src="../home/images/chat/p61.jpg"></li>
                     <li class="replay-dist">
                         <div>
-                            <div id="show"></div>
                             <form class="publish-comment">
                                 {{csrf_field()}}
                                 <i>我也有话要说……</i>
-                                <textarea  disabled="disabled" id="comments" name="content" class="replay-content">请您登陆后评论</textarea>
+                                <textarea  disabled="disabled" id="comments" name="content" class="replay-content" style="text-align: center;font-size: 20px" placeholder="请登录后评论"></textarea>
                                 <a class="send"><img src="../home/images/chat/send.png" ></a>
                                 <a class="emotion"><img src="../home/images/chat/emoticon.png"></a>
                                 <input type="hidden" name="chat_id" value="{{$info->chat_id}}">
@@ -131,7 +113,9 @@
                                             $('#comments').removeAttr("disabled");
                                             $('#comments').html("");
                                             $('.send').attr('onclick','Comments()');
-                                            $('.replay-icon img').attr('src','{{$msg->headpic}}')
+                                            $('.replay-icon img').attr('src','{{$msg->headpic}}');
+                                            $('.replay-content').attr("style",'');
+                                            $('.replay-content').attr("placeholder","");
                                         })
                                     </script>
                                     <input type="hidden" name="name" value="{{$msg->nickname}}">
@@ -139,6 +123,38 @@
                                     <input type="hidden" name="users_id" value="{{$msg->users_id}}">
                                     <input type="hidden" name="chat_id" value="{{$info->chat_id}}">
                                     <input type="hidden" name="created_at" value="{{date('Y-m-d H:i:s')}}">
+                                @endif
+                            </form>
+                            <form class="publish-replay">
+                                {{csrf_field()}}
+                                <i id="append"></i>
+                                <textarea id="replay" name="content"></textarea>
+                                <a class="send-replay"><img src="../home/images/chat/send.png" ></a>
+                                <a class="emotions"><img src="../home/images/chat/emoticon.png"></a>
+                                <input type="hidden" name="created_at" value="{{date('Y-m-d H:i:s')}}">
+                                <input type="hidden" name="chat_id" value="{{$info->chat_id}}">
+                                @if(session('user'))
+                                    <input type="hidden" name="users_id" value="{{$msg->users_id}}">
+                                    <input type="hidden" name="headpic" value="{{$msg->headpic}}">
+                                    <input type="hidden" name="name" value="{{$msg->nickname}}">
+                                    <input id="comname" type="hidden" name="comname">
+                                    <input id="comid" type="hidden" name="comid">
+                                    <script>
+                                        $(function () {
+                                            $('.replay').attr({
+                                                'onclick':'Replay(this)',
+                                                'href':'#replay'
+                                            });
+                                        })
+                                    </script>
+                                    @else
+                                    <script>
+                                        $(function () {
+                                            $('.replay').click(function () {
+                                                layer.alert("请您登陆后再进行回复",{offset:['150px','821px']});
+                                            });
+                                        })
+                                    </script>
                                 @endif
                             </form>
                         </div>
@@ -165,16 +181,6 @@
             }],
         }
         with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
-        $(".bds_more").css({
-            "height":"18px",
-            "line-height":"18px",
-            "margin":"0",
-            "backgroundImage":"url(http://www.anchong.net/home/images/chat/share.png)"
-        });
-        $(".emotion").qqFace({
-            assign:'comments', //给输入框赋值
-            path:'../home/org/qqface/face/'    //表情图片存放的路径
-        });
     })
     //替换成表情
     function replace_em(str){
@@ -183,28 +189,6 @@
         str = str.replace(/\n/g,'<br/>');
         str = str.replace(/\[em_([0-9]*)\]/g,'<img src="../home/org/qqface/face/$1.gif" border="0" />');
         return str;
-    }
-    function Comments() {
-        $.ajax({
-            url:"/community",
-            type:"POST",
-            data:$('.publish-comment').serialize(),
-            success: function(msg) {
-                layer.alert(msg.msg, {offset: ['150px', '821px']});
-                setTimeout("window.location.reload()",5000);
-            },
-            error:function (msg) {
-                layer.alert(msg.msg, {offset: ['150px', '821px']});
-            }
-        })
-    }
-    function Replay(obj) {
-        var name = $(obj).parent("div").children().first().attr("class");
-        if(name == "username"){
-
-        }else{
-
-        }
     }
 </script>
 </html>
