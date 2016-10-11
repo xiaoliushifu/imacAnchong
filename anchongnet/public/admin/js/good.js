@@ -145,6 +145,7 @@ $(function(){
                 }else{
                     gallery='<li class="notem"> <div class="gallery text-center"> <img src="'+data[i].thumb_url+'" class="img"> </div> <input type="file" name="file" class="pic" data-id="'+data[i].tid+'" data-gid="'+data[i].gid+'"> </li>';
                 }
+                //加到按钮前
                 $("#addforgood").before(gallery);
             }
             for(var i=0;i<$(".gallerys").length;i++){

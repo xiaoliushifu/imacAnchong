@@ -2,6 +2,10 @@
  * Created by lengxue on 2016/4/27.
  */
 $(function(){
+	
+	/**
+	 * '打印订单'按钮
+	 */
     $(".view").click(function(){
          $(".orderinfos").empty();
          //为了打印让后面页面隐藏
@@ -78,7 +82,9 @@ $(function(){
         });
 
     });
-    // 点击 “审核”按钮
+    /**
+     * 点击 “审核”按钮，查看审核数据
+     */
     $(".check").click(function(){
         $("#cbody").empty();
         var num=$(this).attr("data-num");
@@ -93,7 +99,9 @@ $(function(){
         $("#pass").attr("data-id",id).attr("data-num",num);
         $("#fail").attr("data-id",id).attr("data-num",num);
     });
-    //假如点击审核通过执行post
+    /**
+     * 假如点击审核通过执行post
+     */
     $("#pass").click(function(){
         if(confirm("确定要审核通过吗？")){
             //订单ID和订单编号
@@ -106,7 +114,9 @@ $(function(){
             })
         }
     });
-    //假如点击审核不通过执行post
+    /**
+     * //假如点击审核不通过执行post
+     */
     $("#fail").click(function(){
         if(confirm("确定审核不通过吗？")){
             //订单ID
@@ -118,9 +128,11 @@ $(function(){
            })
         }
     });
+    
     $("#viewclose").click(function(){
         location.reload();
     });
+    
     //发货操作
     $(".shipbtn").click(function(){
         var id=$(this).attr("data-id");
@@ -128,6 +140,7 @@ $(function(){
         $("#orderid").val(id);
         $("#ordernum").val(num);
     });
+    
     //在弹出的 发货框 远程获取物流项目
     $("#inlineRadio2").click(function(){
         $("#logs").empty();
@@ -139,10 +152,12 @@ $(function(){
             }
         })
     });
+    
     //选择“手动发货”时，“物流发货”隐藏
     $("#inlineRadio1").click(function(){
         $("#logistics").addClass("hidden");
     });
+    
     //弹框中，确认 手动发货还是物流发货
     $("#go").click(function(){
         $("#goform").ajaxSubmit({

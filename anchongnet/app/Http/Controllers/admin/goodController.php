@@ -65,14 +65,13 @@ class goodController extends Controller
      */
     public function index()
     {
+        //商铺id来源有两个，管理员查看；商铺属主查看
+        $sid=$this->sid;
         if (Input::has('sid')) {
-            //只允许有 “添加货品”权限的家伙
-            if (Requester::user()['user_rank'] !=3 || Gate::denies('create-goods')) {
-                return back();
+            //管理员可看，但sid在地址栏中显示，安全不？
+            if (Requester::user()['user_rank'] ==3 ) {
+                $sid=Input::get('sid');
             }
-            $sid=Input::get('sid');
-        } else {
-            $sid=$this->sid;
         }
         $gn=Requester::input('gn');
         $goodsid=Requester::input('goodsid');

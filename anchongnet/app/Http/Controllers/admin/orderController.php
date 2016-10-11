@@ -5,7 +5,6 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use Request as Requester;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Order;
 use App\Orderinfo;
@@ -38,14 +37,15 @@ class orderController extends Controller
     /**
 	 * 后台订单管理列表
 	 */
-    public function index(){
-        $keyNum=Requester::input('keyNum');
-        if($keyNum==""){
+    public function index()
+    {
+        $kn=Requester::input('keyNum');
+        if ($kn) {
+            $datas = Order::num($kn,$this->sid)->orderBy("order_id","desc")->paginate(8);
+        } else {
             $datas=$this->order->where("sid","=",$this->sid)->orderBy("order_id","desc")->paginate(8);
-        }else{
-            $datas = Order::num($keyNum,$this->sid)->orderBy("order_id","desc")->paginate(8);
         }
-        $args=array("keyNum"=>$keyNum);
+        $args=array("keyNum"=>$kn);
         return view('admin/order/index',array("datacol"=>compact("args","datas")));
     }
 
