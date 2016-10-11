@@ -120,11 +120,11 @@ class EquipmentController extends CommonController
            return  Goods_type::where(['goods_id'=>$goods_id,'gid'=>$gid])->get();
         });
 //推荐部分
-        $related = Cache::remember('goodsre'.$gid,10,function() use($price){
+        $related = Cache::remember('goodsre'.$gid.$goods_id,10,function() use($price){
            return   Goods_type::where('cid',$price[0]->cid)->take(5)->orderBy('updated_at','desc')->get();
         });
 //看了又看
-        $hot = Cache::remember('goodshot'.$gid,10,function() use($price){
+        $hot = Cache::remember('goodshot'.$gid.$goods_id,10,function() use($price){
            return   Goods_type::where('cid',$price[0]->cid)->take(2)->orderBy('updated_at','asc')->get();
         });
 

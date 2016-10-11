@@ -1,7 +1,7 @@
 @extends('inc.home.pcenter.pcenter')
 @section('info')
     <title>地址管理</title>
-    <link rel="stylesheet" type="text/css" href="home/css/adress.css">
+    <link rel="stylesheet" type="text/css" href="{{asset('home/css/adress.css')}}">
 
     @section('content')
 <div class="main">
@@ -31,26 +31,40 @@
         </div>
 
           <div class="newadress"><p>新增收货地址</p></div>
-            <div class="detail">
-                <form action="" method="">
+        @if(count($errors)>0)
+            <div class="mark" style="margin-left: 10px;">
+                @if(is_object($errors))
+                    @foreach($errors->all() as $error)
+                        <p style="padding-left: 100px;"> {{$error}}</p>
+                    @endforeach
+                @else
+                    <p>{{$errors}}</p>
+                @endif
+            </div>
+        @endif
+
+        <div class="detail">
+                <form action="@if(isset($field)){{url('adress/'.$field->id)}} @else {{url('adress')}} @endif" method="post">
+                    @if(isset($field))<input type="hidden"name="_method" value="put"> @endif
+                    {{csrf_field()}}
                 <li>
-                    <span>收货人：</span><input type="text" value="风信子" onfocus="javascript:if(this.value=='风信子')this.value='';">
+                    <span>收货人：</span><input type="text" name="add_name" @if(isset($field)) value="{{$field->add_name}}" @else placeholder="风信子" @endif>
                 </li>
                     <li>
-                        <span>联系电话：</span><input type="text" value="13888888888" onfocus="javascript:if(this.value=='13888888888')this.value='';">
+                        <span>联系电话：</span><input type="text" name="phone" @if(isset($field)) value="{{$field->phone}}" @else placeholder="13888888888" @endif >
                     </li>
                     <li>
-                    <span>所在地区：</span><input type="text" value="北京市昌平区沙河镇"onfocus="javascript:if(this.value=='北京市昌平区沙河镇')this.value='';">
+                    <span>所在地区：</span><input type="text" name="region" @if(isset($field)) value="{{$field->region}}" @else placeholder="北京市昌平区沙河镇" @endif >
                         <div class="caret"></div>
                 </li>
                     <li>
-                        <span>邮政编码：</span><input type="text" value="010028"onfocus="javascript:if(this.value=='010028')this.value='';">
+                        <span>邮政编码：</span><input type="text"@if(isset($field)) value="" @else placeholder="010028" @endif >
                     </li>
                     <li style="height: 90px;">
-                        <span>详细地址：</span><input type="text" value="于辛庄村天利家园#300"onfocus="javascript:if(this.value=='于辛庄村天利家园#300')this.value='';">
+                        <span>详细地址：</span><input type="text" name="address" @if(isset($field)) value="{{$field->address}}" @else placeholder="于辛庄村天利家园#300" @endif >
                     </li>
                     <div class="install">
-                        <img src="home/images/mine/选择.png" alt=""><span>设为默认收获地址</span>
+                        <label><input type="radio" id="cat"   name="isdefault"   value="1" onclick= "if(this.c==1){this.c=0;this.checked=0}else{this.c=1}"c="0"><span>设为默认收获地址</span></label>
                         <button type="submit">保存</button>
                     </div>
                 </form>
@@ -77,15 +91,33 @@
                     <td class="xadress">{{$d->address}}</td>
 
                     <td class="phone">{{$d->phone}}</td>
-                    <td class="xiugai"><a href="">修改</a><span>|</span><a href="">删除</a></td>
+                    <td class="xiugai"><a href="{{url('adress/'.$d->id.'/edit')}}">修改</a><span>|</span><a href="javascript:;" onclick="delAddress({{$d->id}})">删除</a></td>
                     @if($d->isdefault==1)
-                    <td class="moren"><img src="home/images/mine/默认.png" alt=""></td>
+                    <td class="moren"><img src="{{asset('home/images/mine/默认.png')}}" alt=""></td>
                         @else
                         <td class="moren"></td>
                         @endif
                 </tr>
                 @endforeach
+                <script>
+                    function delAddress(id){
 
+                        if(window.confirm('你确定删除此条地址记录吗？')){
+                            $.post("{{url('adress/')}}/"+id,{'_method':'delete','_token':"{{csrf_token()}}"},function(data){
+                                if (data.status==0){
+                                    alert(data.info)
+                                    location.href = location.href
+                                }else {
+                                    alert(data.info)
+                                }
+                            });
+                        }else{
+                            return false;
+                        }
+
+
+                    }
+                </script>
             </table>
         </div>
 
@@ -94,5 +126,6 @@
 
     </div>
 <div style="clear: both"></div>
+
 @endsection
 

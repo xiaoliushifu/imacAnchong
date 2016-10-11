@@ -620,7 +620,7 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
                 // 服务消息
                 Route::get('/servermsg', 'IndexController@servermsg');
                 //地址管理
-                Route::get('/adress', 'IndexController@adress');
+                Route::resource('/adress', 'AddressController');
                 //申请商铺
                 Route::get('/applysp', 'IndexController@applysp');
                 //基本资料

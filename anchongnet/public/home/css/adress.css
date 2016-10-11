@@ -112,7 +112,16 @@
 }
 .install span{
     margin-left: 20px;
+    padding-top: 3px;
+   float: left;
 }
+.install input{
+    width: 20px;
+    height: 20px;
+
+    float: left;
+}
+
 .notes{
     width: 910px;
     height: 60px;
