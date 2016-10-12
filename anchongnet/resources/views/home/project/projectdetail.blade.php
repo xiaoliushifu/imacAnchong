@@ -77,7 +77,15 @@
                 </li>
                 <li class="contact">
                     <span class="contact-tel">联系电话：</span>
+                    @if(count($status) == 0)
                     <span class="contact-info">认证后可查看联系方式</span>
+                    @else
+                        @for($i=0;$i<count($status);$i++)
+                            @if($status[$i]->auth_status == "3")
+                                <span class="contact-info">{{$data->phone}}</span>
+                            @endif
+                        @endfor
+                    @endif
                 </li>
             </ul>
         </div>

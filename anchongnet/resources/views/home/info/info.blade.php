@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>安虫资讯-{{$info->title}}</title>
+    <title>安虫资讯-{{$information->title}}</title>
     <link rel="stylesheet" type="text/css" href="{{url('../home/css/information.css')}}"/>
     <script src="/home/js/jquery-3.1.0.js"></script>
     <link rel="stylesheet" href="../home/css/top.css">
@@ -44,7 +44,7 @@
 <div class="site-middle">
     <div class="middle-content">
         <div class="middle-top" style="margin-top: 20px">
-            {!! $info->content !!}
+            {!! $information->content !!}
         </div>
     </div>
 </div>
