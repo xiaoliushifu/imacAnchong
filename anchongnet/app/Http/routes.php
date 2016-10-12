@@ -300,6 +300,10 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/purse/beansindex','Api\Purse\PurseController@beansindex');
         //优惠券兑换
         Route::post('/purse/couponexchange','Api\Purse\PurseController@couponexchange');
+        //优惠券兑换码兑换
+        Route::post('/purse/cpexchange','Api\Purse\PurseController@cpexchange');
+        //注册优惠券兑换码
+        Route::post('/purse/regboot','Api\Purse\PurseController@regboot');
         //我的优惠券
         Route::post('/purse/mycoupon','Api\Purse\PurseController@mycoupon');
         //优惠券使用
@@ -324,6 +328,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/purse/billinfo','Api\Purse\PurseController@billinfo');
         //删除账单
         Route::post('/purse/delbill','Api\Purse\PurseController@delbill');
+
 
         /*
         *   直播模块

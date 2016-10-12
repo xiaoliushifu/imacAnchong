@@ -146,10 +146,7 @@ class LiveController extends Controller
             }
             //网易云信
             $url  = "https://api.netease.im/nimserver/chatroom/create.action";
-            // $datas = 'accid=13718638641';
-            // $datas = 'accid=13581968973&token=123321';
-            // $datas = 'accid=13581968973&name=小刘师傅&icon=http://anchongres.oss-cn-hangzhou.aliyuncs.com/headpic/placeholder120@3x.png&token=e10adc3949ba59abbe56e057f20f883e';
-            $datas="creator=".$param['phone']."&name=zhibo";
+            $datas="creator=".$param['phone']."&name=".$usersmessage[0]['nickname']."的直播间";
             list($return_code, $return_content) = $this->JsonPost->http_post_data($url, $datas);
             //将字符串形式的json解析为数组
             $result=json_decode($return_content,true);
@@ -238,10 +235,11 @@ class LiveController extends Controller
                 'header' => $param['header'],
                 'nick' => $param['nickname'],
                 'sum' => $param['sum'],
-                'users_id' => $param['users_id'],
+                'users_id' => $data['guid'],
                 'room_url' => $result['targetUrl'],
                 'm3u8_url' => $result['url'],
                 'live_time' => $param['live_time'],
+                'images' => str_replace('.oss-','.img-',$param['images'])
             ]
         );
         //插入搜索表
@@ -250,7 +248,7 @@ class LiveController extends Controller
                 'title' => $param['title'],
                 'cb_id' => $restart_id,
                 'sum' => $param['sum'],
-                'users_id' => $param['users_id'],
+                'users_id' => $data['guid'],
             ]
         );
         //判断两个表是否插入成功并关闭直播数据
@@ -262,6 +260,7 @@ class LiveController extends Controller
         }else{
             //假如失败就回滚
             DB::rollback();
+            //返回结果
             return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'保存失败']]);
         }
     }
@@ -280,7 +279,7 @@ class LiveController extends Controller
         $live_data=['room_id','room_url','title','users_id','header','nick','images'];
         //统计数量
         $live_count=$this->Live_Start->Live()->count();
-        $live_list=$this->Live_Start->Live()->select($live_data)->skip((($param['page']-1)*$limit))->take($limit)->get();
+        $live_list=$this->Live_Start->Live()->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->get();
         //判断是否有人直播
         if($live_count>0 && $live_list){
             //返回结果
@@ -305,7 +304,7 @@ class LiveController extends Controller
         $live_data=['room_id','room_url','title','users_id','images','header','nick','sum','m3u8_url'];
         //统计数量
         $live_count=$this->Live_Restart->Live()->count();
-        $live_list=$this->Live_Restart->Live()->select($live_data)->skip((($param['page']-1)*$limit))->take($limit)->get();
+        $live_list=$this->Live_Restart->Live()->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->get();
         //判断是否有人直播
         if($live_count>0 && $live_list){
             //返回结果
@@ -442,7 +441,7 @@ class LiveController extends Controller
         $living=DB::table('v_start')->where('users_id',$param['guid'])->select('zb_id','room_id','room_url','title','users_id','images')->get();
         //统计数量
         $live_count=$this->Live_Restart->Live()->where('users_id',$param['guid'])->count();
-        $live_list=$this->Live_Restart->Live()->where('users_id',$param['guid'])->select($live_data)->skip((($param['page']-1)*$limit))->take($limit)->get()->toArray();
+        $live_list=$this->Live_Restart->Live()->where('users_id',$param['guid'])->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->get()->toArray();
 
         //如果该人在直播就把正在直播的信息放到第一位
         if(count($living) >0){
@@ -458,7 +457,7 @@ class LiveController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['nickname'=>$user_data[0]->nickname,'headpic'=>$user_data[0]->headpic,'total'=>$live_count,'list'=>$live_list]]);
         }else{
             //返回结果
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['nickname'=>$user_data[0]->nickname,'headpic'=>$user_data[0]->headpic,'total'=>0,'list'=>[]]]);
         }
     }
 
@@ -479,42 +478,5 @@ class LiveController extends Controller
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'删除失败']]);
         }
-    }
-
-    /*
-    *   网易云信脚本注册器
-    *   用完删除
-    */
-    public function regnetease(Request $request)
-    {
-        // $users=DB::table('anchong_usermessages')->lists('users_id');
-        // $account=DB::table('anchong_users_login')->select('username','users_id')->get();
-        // foreach ($account as $username) {
-        //     if(in_array($username->users_id,$users)){
-        //         $result=DB::table('anchong_usermessages')->where('users_id',$username->users_id)->update(['account'=>$username->username]);
-        //         if(!$result){
-        //             echo $username->users_id."===";
-        //         }
-        //     }
-        // }
-
-        $users=DB::table('anchong_usermessages')->select('nickname','account','headpic','users_id')->get();
-        //var_dump($users);
-        foreach ($users as $users_info) {
-            //网易云信
-            $url  = "https://api.netease.im/nimserver/user/create.action";
-            $datas = 'accid='.($users_info->account).'&name='.($users_info->nickname?$users_info->nickname:$users_info->account).'&icon='.($users_info->headpic?$users_info->headpic:'http://anchongres.oss-cn-hangzhou.aliyuncs.com/headpic/placeholder120@3x.png').'&token=3c374b5bc7a7d5235cde6426487d8a3c';
-            list($return_code, $return_content) = $this->JsonPost->http_post_data($url, $datas);
-            //判断是否请求成功
-            if($return_code != 200){
-                echo $users_info->account.'====';
-            }else {
-                $result=DB::table('anchong_users_login')->where('users_id',$users_info->users_id)->update(['netease_token'=>'3c374b5bc7a7d5235cde6426487d8a3c']);
-                if(!$result){
-                    echo $users_info->account.'====';
-                }
-            }
-        }
-
     }
 }
