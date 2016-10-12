@@ -93,7 +93,7 @@ class orderinfoController extends Controller
         //
     }
 
-    public function getSiblingsOrder(Request $request)
+    public function orderdetail(Request $request)
     {
         if (Gate::denies('order-ship')) {
             //因作为ajax返回，返回空对象

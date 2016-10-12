@@ -460,8 +460,8 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::post('/ordership','admin\orderController@orderShip');
             //订单审核路由
             Route::post('/checkorder','admin\orderController@checkorder');
-            //获取同一个订单的订单信息的路由
-            Route::get('/getsiblingsorder','admin\orderinfoController@getSiblingsOrder');
+            //获取订单详情的路由
+            Route::get('/orderinfo','admin\orderinfoController@orderdetail');
             //获取优惠券信息
             Route::get('/getacpinfo','admin\couponController@couponinfo');
 

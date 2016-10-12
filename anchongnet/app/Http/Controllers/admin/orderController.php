@@ -128,7 +128,7 @@ class orderController extends Controller
         //开启事务处理
         DB::beginTransaction();
         //判断是否通过退货
-        if($request->isPass==="yes"){
+        if ($request->isPass==="pass") {
             //若通过退货则改变订单状态并将商品数量还原
             $datasarr=$this->orderinfo->where('order_num','=',$request->num)->get()->toArray();
             //遍历得到的结果
@@ -140,7 +140,7 @@ class orderController extends Controller
             }
             //改变订单状态为已退款
             $data->state=5;
-        }else{
+        } else {
             //改变订单状态为代发货
             $data->state=3;
         }
@@ -160,8 +160,8 @@ class orderController extends Controller
         if (Gate::denies('order-ship')) {
             return back();
         }
+        //改状态为'3待收货'
         $data=$this->order->find($request['orderid']);
-        //既然已发货，改状态为'3待收货'
         $data->state=3;
         $users_id=$data->users_id;
         $order_num=$data->order_num;
@@ -175,7 +175,7 @@ class orderController extends Controller
         //物流发货方式
         if ($request['ship'] == "logistics") {
             $this->gl=new Goods_logistics();
-            $this->gl->logisticsnum=$request['lognum'];
+            $this->gl->logisticsnum=$request['lognum'];//物流单号，需我们手动填写
             $this->gl->order_id=$request['orderid'];
             $this->gl->company=$request['logistics'];
             $this->gl->save();

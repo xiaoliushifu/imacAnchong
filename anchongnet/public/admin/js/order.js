@@ -3,6 +3,7 @@
  */
 $(function(){
 	
+	var GlobalObj=[];
 	/**
 	 * '打印订单'按钮
 	 */
@@ -57,7 +58,7 @@ $(function(){
             });
         }
         //ajax查询订单详细信息
-        $.get("/getsiblingsorder",{num:num},function(data,status){
+        $.get("/orderinfo",{num:num},function(data,status){
             //订单总费用的html
             al='<tr class="orderinfoss"><td width="25%" colspan="2" align="left" valign="middle">运费：'+freight+'</td><td width="25%" colspan="5" align="left" valign="middle">总价：'+total_price+'</td></tr>';
             $("#mbody").append(al);
@@ -83,52 +84,47 @@ $(function(){
 
     });
     /**
-     * 点击 “审核”按钮，获得审核数据
+     * 点击 “审核”按钮，获得审核数据(订单详情)
      */
     $(".check").click(function(){
         $("#cbody").empty();
+        var dl='';
         var num=$(this).attr("data-num");
-        var dl;
         var id=$(this).attr("data-id");
-        //由订单号获得订单详情数据
-        $.get("/getsiblingsorder",{num:num},function(data,status){
-            for(var i=0;i<data.length;i++){
-                dl='<dl class="dl-horizontal"> <dt>订单编号</dt> <dd>'+data[i].order_num+'</dd> <dt>商品名称</dt> <dd>'+data[i].goods_name+'</dd> <dt>规格型号</dt> <dd>'+data[i].goods_type+'</dd> <dt>商品数量</dt> <dd>'+data[i].goods_num+'</dd> <dt>商品价格</dt> <dd>'+data[i].goods_price+'</dd></dl>';
-                $("#cbody").append(dl);
-            }
-        });
         //两个按钮准备好
         $("#pass").attr("data-id",id).attr("data-num",num);
         $("#fail").attr("data-id",id).attr("data-num",num);
-    });
-    /**
-     * 假如点击审核通过执行post
-     */
-    $("#pass").click(function(){
-        if(confirm("确定要审核通过吗？")){
-            //订单ID和订单编号
-            var id=$(this).attr("data-id");
-            var num=$(this).attr("data-num");
-            //进行ajax请求
-            $.post('/checkorder',{'oid':id,'num':num,'isPass':"yes"},function(data,status){
-                alert(data);
-                location.reload();
-            })
+        //由订单号获得订单详情数据
+        if (!GlobalObj[id]) {
+	        	$.get("/orderinfo",{num:num},function(data,status){
+	        		GlobalObj[id]=data;//Cache
+	            for(var i=0;i<data.length;i++){
+	                dl+='<dl class="dl-horizontal"> <dt>订单编号</dt> <dd>'+data[i].order_num+'</dd> <dt>商品名称</dt> <dd>'+data[i].goods_name+'</dd> <dt>规格型号</dt> <dd>'+data[i].goods_type+'</dd> <dt>商品数量</dt> <dd>'+data[i].goods_num+'</dd> <dt>商品价格</dt> <dd>'+data[i].goods_price+'</dd></dl>';
+	            }
+	            $("#cbody").append(dl);
+	        });
+        } else {
+        		data=GlobalObj[id];
+        		for(var i=0;i<data.length;i++){
+                dl+='<dl class="dl-horizontal"> <dt>订单编号</dt> <dd>'+data[i].order_num+'</dd> <dt>商品名称</dt> <dd>'+data[i].goods_name+'</dd> <dt>规格型号</dt> <dd>'+data[i].goods_type+'</dd> <dt>商品数量</dt> <dd>'+data[i].goods_num+'</dd> <dt>商品价格</dt> <dd>'+data[i].goods_price+'</dd></dl>';
+            }
+        		$("#cbody").append(dl);
         }
     });
     /**
-     * 假如点击审核不通过执行post
+     * 统一'通过|不通过'按钮
      */
-    $("#fail").click(function(){
-        if(confirm("确定审核不通过吗？")){
-            //订单ID
-           var id=$(this).attr("data-id");
-           //进行ajax请求
-           $.post('/checkorder',{'oid':id,'isPass':"no"},function(data,status){
-               alert(data);
-               location.reload();
-           })
-        }
+    $('.modal-footer').on('click','button',function(){
+	    	if(confirm("确定"+$(this).text()+"审核吗？")){
+	    		//订单ID和订单编号
+	        var id=$(this).attr("data-id");
+	        var num=$(this).attr("data-num");
+	    		var pdata={'oid':id,'num':num,'isPass':$(this).attr('id')};
+	    		$.post('/checkorder',pdata,function(data,status){
+	                console.log(data);
+	                location.reload();
+	         });
+	    	};
     });
     
     /**
@@ -146,24 +142,28 @@ $(function(){
         $("#ordernum").val(num);
     });
     
-    //在发货方式弹框中，当选择'物流'时
-    $("#inlineRadio2").click(function(){
-        $("#logs").empty();
-        $.get("/getlogis",function(data,status){
-            for(var i=0;i<data.length;i++){
-                var opt='<option value='+data[i].name+'>'+data[i].name+'</option>';
-                $("#logs").append(opt);
-                $("#logistics").removeClass("hidden");
-            }
-        })
-    });
+    /**
+     * 发货方式选择
+     */
+    $("input:radio[name='ship']").change(function (){
+    			if ($(this).val() == 'logistics') {
+    				$("#logs").empty();
+    		        $.get("/getlogis",function(data,status){
+    		        		var opt='';
+    		            for (var i=0;i<data.length;i++) {
+    		                opt+='<option value='+data[i].name+'>'+data[i].name+'</option>';
+    		            }
+    		            $("#logs").append(opt);
+		            $("#logistics").removeClass("hidden");
+    		        });
+    			} else {
+    				$("#logistics").addClass("hidden");
+    			}
+    	});
     
-    //选择“手动发货”时，“物流发货”隐藏
-    $("#inlineRadio1").click(function(){
-        $("#logistics").addClass("hidden");
-    });
-    
-    //弹框中，点击'发货'按钮
+  /**
+   * 弹框中，点击'发货'按钮
+   */
     $("#go").click(function(){
         $("#goform").ajaxSubmit({
             type:'post',
@@ -174,4 +174,5 @@ $(function(){
             },
         });
     });
+    
 });
