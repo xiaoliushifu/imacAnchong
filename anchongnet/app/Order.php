@@ -51,7 +51,7 @@ class Order extends Model
     }
 
     /*
-    *   该方法是订单添加
+    *   该方法是订单生成
     */
     public function add($cart_data)
     {

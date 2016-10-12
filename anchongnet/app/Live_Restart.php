@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/*
+*   该模型是操作重播表的模块
+*/
 class Live_Restart extends Model
 {
     protected $table = 'v_restart';

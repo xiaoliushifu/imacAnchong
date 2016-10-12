@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/*
+*   该模型是操作优惠券券池表的模块
+*/
 class Coupon_pool extends Model
 {
     protected $table = 'anchong_coupon_pool';

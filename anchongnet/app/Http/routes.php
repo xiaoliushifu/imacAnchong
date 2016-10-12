@@ -675,6 +675,8 @@ Route::group(['namespace' => 'Home\Cart','middleware'=>['loginhome']], function 
             Route::group(['namespace' => 'Home\Community'], function () {
                  //社区
                  Route::resource('/community', 'CommunityController');
+                 //回复评论
+                 Route::post('/replay',"CommunityController@replay");
                  //闲聊
                  Route::get('/talk', 'CommunityController@talk');
                  //问问

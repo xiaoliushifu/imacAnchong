@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/*
+*   该模型是操作商铺表的模块
+*/
 class Shop extends Model
 {
     protected $table = 'anchong_shops';
@@ -51,9 +54,6 @@ class Shop extends Model
     public function shopsupdate($id,$data)
     {
         $cartnum=$this->find($id);
-        // print_r($data);
-        // var_dump($cartnum);
-        // exit;
         if($cartnum->update($data)){
             return true;
         }else{

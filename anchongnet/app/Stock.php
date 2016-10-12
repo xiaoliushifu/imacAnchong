@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/*
+*   该模型是操作区域库存表的模块
+*/
 class Stock extends Model
 {
     protected $table = 'anchong_goods_stock';

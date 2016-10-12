@@ -5,7 +5,6 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use Request as Requester;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Order;
 use App\Orderinfo;
@@ -26,7 +25,6 @@ class orderController extends Controller
     {
         $this->order=new Order();
         $this->orderinfo=new Orderinfo();
-        $this->gl=new Goods_logistics();
 
         //通过Auth获取当前登录用户的id
         $this->uid=Auth::user()['users_id'];
@@ -38,14 +36,15 @@ class orderController extends Controller
     /**
 	 * 后台订单管理列表
 	 */
-    public function index(){
-        $keyNum=Requester::input('keyNum');
-        if($keyNum==""){
+    public function index()
+    {
+        $kn=Requester::input('keyNum');
+        if ($kn) {
+            $datas = Order::num($kn,$this->sid)->orderBy("order_id","desc")->paginate(8);
+        } else {
             $datas=$this->order->where("sid","=",$this->sid)->orderBy("order_id","desc")->paginate(8);
-        }else{
-            $datas = Order::num($keyNum,$this->sid)->orderBy("order_id","desc")->paginate(8);
         }
-        $args=array("keyNum"=>$keyNum);
+        $args=array("keyNum"=>$kn);
         return view('admin/order/index',array("datacol"=>compact("args","datas")));
     }
 
@@ -118,7 +117,7 @@ class orderController extends Controller
     }
 
     /*
-     * 审核订单的方法
+     * 审核订单，ajax调用
      * */
     public function checkorder(Request $request)
     {
@@ -153,6 +152,7 @@ class orderController extends Controller
 
     /*
      * 订单发货的方法
+     * 由订单列表页，点击"发货",选择完发货方式后执行
      * */
     public function orderShip(Request $request)
     {
@@ -161,6 +161,7 @@ class orderController extends Controller
             return back();
         }
         $data=$this->order->find($request['orderid']);
+        //既然已发货，改状态为'3待收货'
         $data->state=3;
         $users_id=$data->users_id;
         $order_num=$data->order_num;
@@ -171,8 +172,9 @@ class orderController extends Controller
         //     $datainfo->state=3;
         //     $datainfo->save();
         // }
-
-        if($request['ship']=="logistics"){
+        //物流发货方式
+        if ($request['ship'] == "logistics") {
+            $this->gl=new Goods_logistics();
             $this->gl->logisticsnum=$request['lognum'];
             $this->gl->order_id=$request['orderid'];
             $this->gl->company=$request['logistics'];

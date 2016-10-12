@@ -43,10 +43,10 @@ class Orderinfo extends Model
     /*
     *   该方法是订单详细信息添加
     */
-    public function add($cart_data)
+    public function add($data)
     {
        //将订单数据添加入数据表
-       $this->fill($cart_data);
+       $this->fill($data);
        if($this->save()){
            return true;
        }else{

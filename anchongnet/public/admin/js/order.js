@@ -2,6 +2,10 @@
  * Created by lengxue on 2016/4/27.
  */
 $(function(){
+	
+	/**
+	 * '打印订单'按钮
+	 */
     $(".view").click(function(){
          $(".orderinfos").empty();
          //为了打印让后面页面隐藏
@@ -78,22 +82,28 @@ $(function(){
         });
 
     });
-    // 点击 “审核”按钮
+    /**
+     * 点击 “审核”按钮，获得审核数据
+     */
     $(".check").click(function(){
         $("#cbody").empty();
         var num=$(this).attr("data-num");
         var dl;
         var id=$(this).attr("data-id");
+        //由订单号获得订单详情数据
         $.get("/getsiblingsorder",{num:num},function(data,status){
             for(var i=0;i<data.length;i++){
                 dl='<dl class="dl-horizontal"> <dt>订单编号</dt> <dd>'+data[i].order_num+'</dd> <dt>商品名称</dt> <dd>'+data[i].goods_name+'</dd> <dt>规格型号</dt> <dd>'+data[i].goods_type+'</dd> <dt>商品数量</dt> <dd>'+data[i].goods_num+'</dd> <dt>商品价格</dt> <dd>'+data[i].goods_price+'</dd></dl>';
                 $("#cbody").append(dl);
             }
         });
+        //两个按钮准备好
         $("#pass").attr("data-id",id).attr("data-num",num);
         $("#fail").attr("data-id",id).attr("data-num",num);
     });
-    //假如点击审核通过执行post
+    /**
+     * 假如点击审核通过执行post
+     */
     $("#pass").click(function(){
         if(confirm("确定要审核通过吗？")){
             //订单ID和订单编号
@@ -106,7 +116,9 @@ $(function(){
             })
         }
     });
-    //假如点击审核不通过执行post
+    /**
+     * 假如点击审核不通过执行post
+     */
     $("#fail").click(function(){
         if(confirm("确定审核不通过吗？")){
             //订单ID
@@ -118,17 +130,23 @@ $(function(){
            })
         }
     });
+    
+    /**
+     * '别针'按钮
+     */
     $("#viewclose").click(function(){
         location.reload();
     });
-    //发货操作
+    
+    //点击'发货'按钮，弹出发货方式选择页
     $(".shipbtn").click(function(){
         var id=$(this).attr("data-id");
         var num=$(this).attr("data-num");
         $("#orderid").val(id);
         $("#ordernum").val(num);
     });
-    //在弹出的 发货框 远程获取物流项目
+    
+    //在发货方式弹框中，当选择'物流'时
     $("#inlineRadio2").click(function(){
         $("#logs").empty();
         $.get("/getlogis",function(data,status){
@@ -139,11 +157,13 @@ $(function(){
             }
         })
     });
+    
     //选择“手动发货”时，“物流发货”隐藏
     $("#inlineRadio1").click(function(){
         $("#logistics").addClass("hidden");
     });
-    //弹框中，确认 手动发货还是物流发货
+    
+    //弹框中，点击'发货'按钮
     $("#go").click(function(){
         $("#goform").ajaxSubmit({
             type:'post',

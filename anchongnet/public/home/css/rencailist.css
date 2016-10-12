@@ -65,6 +65,7 @@
     height: 39px;
     border: 1px #1DABD8 solid;
     border-radius: 5px;
+    outline: none;
 }
 .btn{
     background: #1DABD8;

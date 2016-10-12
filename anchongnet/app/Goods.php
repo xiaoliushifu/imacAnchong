@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /*
-*   商品表
+*   该模型是操作商品表的模块
 */
 class Goods extends Model
 {
@@ -34,7 +34,7 @@ class Goods extends Model
     protected $guarded = ['goods_id'];
     protected  $primaryKey='goods_id';
     /*
-    *   分类查询
+    *   商品查询
     */
     public function quer($field,$type)
     {
@@ -63,16 +63,25 @@ class Goods extends Model
         return $query->where('title', 'like', "%{$keyName}%");
     }
 
+    /*
+    *   根据分类进行商品查询
+    */
     public function scopeType($query,$keyType,$keySid)
     {
         return $query->whereRaw("match(`type`) against(?)",array(bin2hex($keyType)) )->where('sid','=',$keySid);
     }
-    
+
+    /*
+    *   根据分类和商铺进行商品查询
+    */
     public function scopeMType($query,$keyType,$keySid)
     {
         return $query->whereRaw("`type`=? ", array($keyType))->where('sid','=',$keySid);
     }
 
+    /*
+    *   根据分类进行商品查询三条数据
+    */
     public function getGoodsByType($type)
     {
         return $this->whereRaw("match(`type`) against(?)",array(bin2hex($type)) )->take(3)->get();

@@ -456,9 +456,13 @@ class GoodsController extends Controller
                         $tmparr = preg_split('#\s#',$val,-1,PREG_SPLIT_NO_EMPTY);
                         foreach ($tmparr as $k=>$v) {
                             $kl = strlen($v);
-                            if ($kl < 4 || $kl > 84) {
+                            if ($kl < 2 || $kl > 84) {
                                 unset($tmparr[$k]);
                             }
+                        }
+                        //经过滤后是否仍有关键字
+                        if (!$tmparr) {
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"没有找到相关商品"]]);
                         }
                         $oristr = implode(' ',$tmparr);
                         $sp = bin2hex($oristr);
