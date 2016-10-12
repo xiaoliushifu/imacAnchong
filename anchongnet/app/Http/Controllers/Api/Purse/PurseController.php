@@ -105,8 +105,6 @@ class PurseController extends Controller
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request::all();
         $param=json_decode($data['param'],true);
-        //开启事务处理
-        DB::beginTransaction();
         //获取优惠券句柄
         $coupon_pool_handle=$this->coupon_pool->find($param['acpid']);
         $coupon_pool_beans=$coupon_pool_handle->beans;
@@ -122,6 +120,8 @@ class PurseController extends Controller
         }
         //剩余虫豆数量
         $users_handle->beans=$users_handle->beans-$coupon_pool_beans;
+        //开启事务处理
+        DB::beginTransaction();
         //保存获得结果
         $result=$users_handle->save();
         if(!$result){
@@ -707,7 +707,89 @@ class PurseController extends Controller
         if($result){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>"删除成功"]]);
         }else{
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>"删除失败"]]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>"删除失败"]]);
         }
+    }
+
+    /*
+    *   优惠券兑换码兑换
+    */
+    public function cpexchange(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        //看看优惠券兑换码是否真实
+        $datas=DB::table("anchong_coupon_exchange")->select('c_num','acpid')->where('cp_num',$param['cp_num'])->get();
+        //判断是否有优惠券
+        if($datas){
+            $count=DB::table("anchong_coupon")->where('users_id',$data['guid'])->where('cpid',$datas[0]->acpid)->count();
+            //判断该用户是否已拥有该优惠券
+            if($count > 0){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>"您已拥有该类型的优惠券了，请不要重复兑换！"]]);
+            }
+            $cp_data=DB::table("anchong_coupon_pool")->select('endline','target')->where('acpid',$datas[0]->acpid)->get();
+            //得到券后的过期时间与券本身的过期时间作对比
+            $user_time=time()+7776000;
+            if($cp_data[0]->endline > $user_time){
+                $endtime=$user_time;
+            }else{
+                $endtime=$cp_data[0]->endline;
+            }
+            //优惠券数据
+            $coupon_data=[
+                'users_id' => $data['guid'],
+                'cpid' => $datas[0]->acpid,
+                'target' => $cp_data[0]->target,
+                'shop' => 0,
+                'type' => 1,
+                'type2' => "",
+                'num' => 1,
+                'end' => $endtime,
+            ];
+            //开启事务处理
+            DB::beginTransaction();
+            //插入个人优惠券表
+            $cpresult=DB::table('anchong_coupon')->insertGetId($coupon_data);
+            //判断是否插入成功
+            if(!$cpresult){
+                //假如失败就回滚
+                DB::rollback();
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'兑换失败']]);
+            }
+            //删除该优惠券
+            $delresult=DB::table('anchong_coupon_exchange')->where('c_num',$datas[0]->c_num)->delete();
+            //如果删除不成功
+            if(!$delresult){
+                //假如失败就回滚
+                DB::rollback();
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'兑换失败']]);
+            }
+            //假如成功就提交
+            DB::commit();
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'兑换成功']]);
+
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>"该兑换码已兑换"]]);
+        }
+    }
+
+    /*
+    *   优惠券兑换码注册机
+    */
+    public function regboot(Request $request)
+    {
+        $time=time();
+        for($i=6501;$i<7001;$i++){
+            // $str=$i.$time;
+            // $md5=md5($str);
+            // $arr=str_split($md5,4);
+            // $num=$arr[2]."-".$arr[3]."-".$arr[4]."-".$arr[5];
+            // $id=DB::table("anchong_coupon_exchange")->insertGetId(['cp_num'=>$num]);
+            // echo $id."\n";
+            DB::table('anchong_coupon_exchange')->where('c_num',$i)->update(['acpid'=>65]);
+        }
+        // $num=DB::table("anchong_coupon_exchange")->count();
+        // echo $num;
     }
 }
