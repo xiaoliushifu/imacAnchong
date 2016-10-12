@@ -20,13 +20,13 @@ class CommunityController extends CommonController
     public function index()
     {
         $page = Input::get(['page']);
-        $chat = Cache::remember('chat'.$page,'600',function (){
+        $chat = Cache::remember('chat'.$page,600,function (){
             return Community_release::orderBy('created_at','desc')->paginate(12);
         });
         //通过id查询并统计评论数
         foreach ($chat as $value){
             $id = $value -> chat_id;
-            $cnum[$id]= Cache::remember('cnum'.$id,'600',function ()use($id){
+            $cnum[$id]= Cache::remember('cnum'.$id,600,function ()use($id){
                return Community_comment::where('chat_id',$id)->count();
             });
         }
@@ -56,12 +56,12 @@ class CommunityController extends CommonController
     public function talk()
     {
         $page = Input::get(['page']);
-        $talk = Cache::remember('talk'.$page,'600',function (){
+        $talk = Cache::remember('talk'.$page,600,function (){
             return Community_release::where('tags','闲聊')->orderBy('created_at','desc')->paginate(12);
         });
         foreach ($talk as $value){
             $id = $value -> chat_id;
-            $tnum[$id] =Cache::remember('tnum'.$id,'600',function () use($id){
+            $tnum[$id] =Cache::remember('tnum'.$id,600,function () use($id){
                 return Community_comment::where('chat_id',$id)->count();
             });
         }

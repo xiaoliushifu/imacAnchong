@@ -73,7 +73,15 @@
                 <h4>{{$data->contact}}</h4>
                 <p>服务类别：{{$data->title}}</p>
                 <p>服务区域：{{$data->tag}}</p>
-                <p>联系方式：<a href="#">认证后可查看联系方式</a></p>
+                @if(count($status) == 0)
+                    <p>联系方式：<a>认证后可查看联系方式</a></p>
+                @else
+                    @for($i=0;$i<count($status);$i++)
+                        @if($status[$i]->auth_status == "3")
+                            <p>联系方式：<a>{{$data->phone}}</a></p>
+                        @endif
+                    @endfor
+                @endif
             </div>
             <div class="main-right">
                 <h4>个人介绍</h4>
