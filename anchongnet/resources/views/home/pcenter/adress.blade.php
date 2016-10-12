@@ -64,9 +64,33 @@
                         <span>详细地址：</span><input type="text" name="address" @if(isset($field)) value="{{$field->address}}" @else placeholder="于辛庄村天利家园#300" @endif >
                     </li>
                     <div class="install">
-                        <label><input type="radio" id="cat"   name="isdefault"   value="1" onclick= "if(this.c==1){this.c=0;this.checked=0}else{this.c=1}"c="0"><span>设为默认收获地址</span></label>
+                        <label><input type="radio" id="id"   name="isdefault"   @if(isset($field)) value="{{$field->isdefault}}"@else value="1"  @endif><span>设为默认收获地址</span></label>
                         <button type="submit">保存</button>
                     </div>
+                        <SCRIPT LANGUAGE="JavaScript">
+                            $(document).ready(function(){
+                                var old = null; //用来保存原来的对象
+                                $("input[name='isdefault']").each(function(){//循环绑定事件
+                                    if(this.checked){
+                                        old = this; //如果当前对象选中，保存该对象
+                                    }
+                                    this.onclick = function(){
+                                        if(this == old){//如果点击的对象原来是选中的，取消选中
+                                            this.checked = false;
+                                            old = null;
+                                        } else{
+                                            old = this;
+                                        }
+                                    }
+                                });
+                            });
+
+                        </SCRIPT>
+                    @if(isset($field))
+                            <script>
+                                $("input[name='isdefault'][value='1']").attr("checked",true);
+                            </script>
+                        @endif
                 </form>
             </div>
         <hr style="margin-left: 10px;">

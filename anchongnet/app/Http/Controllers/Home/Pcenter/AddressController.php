@@ -11,23 +11,24 @@ use Illuminate\Support\Facades\Validator;
 class AddressController extends CommonController
 {
     /*
-     * 地址管理
+     * 地址管理主页
     */
     public function index()
     {
-         Cache::remember('addrs',10,function(){
+//         Cache::remember('addrs',10,function(){
         $user =Users::where('phone',[session('user')])->first();
         $addrs =Address::where('users_id',$user->users_id)->get();
-        });
+//        });
         return view('home.pcenter.adress',compact('addrs'));
     }
+    /*
+     * 添加提交，验证
+    */
     public function store()
     {
-
         $input = Input::except('_token');
         $user =Users::where('phone',[session('user')])->first();
         $input['users_id']= $user->users_id;
-
         $rules = [
                'add_name'=> 'required',
                 'phone'=> 'required|min:11',
@@ -64,7 +65,9 @@ class AddressController extends CommonController
         }
 
     }
-
+    /*
+     * 删除提交
+    */
     public function destroy($id)
     {
         $re = Address::where('id',$id)->delete();
@@ -82,20 +85,44 @@ class AddressController extends CommonController
         return $data;
 
     }
-
+    /*
+     * 编辑取值
+    */
     public function edit($id)
     {
         $user =Users::where('phone',[session('user')])->first();
         $addrs =Address::where('users_id',$user->users_id)->get();
         $field = Address::find($id);
+
         return view('home.pcenter.adress',compact('field','addrs'));
     }
-
+    /*
+     * 编辑修改提交
+    */
     public function update($id)
     {
+        $upda = Input::except('_token','_method');
 
+        if(isset($upda['isdefault'])){
+            $user =Users::where('phone',[session('user')])->first();
+            $mo = Address::where(['users_id'=>$user->users_id,'isdefault'=>1])->first();
+            if(isset($mo)){
+                $mo-> update(['isdefault'=>0]);
+            }
+            $upda['isdefault']=1;
 
-        
+        $dbs = Address::where('id',$id)->update($upda);
+
+        }else{
+            $upda['isdefault']= 0;
+            $dbs = Address::where('id',$id)->update($upda);
+
+        }
+        if($dbs){
+            return redirect('adress');
+        }else{
+            return back()->with('errors','地址修改失败！');
+        }
     }
     
     
