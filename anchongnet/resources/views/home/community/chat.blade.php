@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>安虫社区-{{$info -> title}}</title>
+    <title>安虫社区-{{$cminfo -> title}}</title>
     <link rel="stylesheet" type="text/css" href="../home/css/chat-detail.css"/>
     <script src="../home/js/jquery-3.1.0.js"></script>
     <script src="../home/org/qqface/jquery.qqFace.js"></script>
@@ -43,32 +43,32 @@
         <ul class="chat-info">
             <li class="chat-item">
                 <div>
-                    <img class="portrait" src="{{$info -> headpic}}">
-                    <p class="name">{{$info -> name}}</p>
+                    <img class="portrait" src="{{$cminfo -> headpic}}">
+                    <p class="name">{{$cminfo -> name}}</p>
                     <p class="date">
-                        <i class="day">{{date("d",strtotime($info -> created_at))}}/</i>
-                        <i class="month">{{date("m",strtotime($info -> created_at))}}</i>
+                        <i class="day">{{date("d",strtotime($cminfo -> created_at))}}/</i>
+                        <i class="month">{{date("m",strtotime($cminfo -> created_at))}}</i>
                     </p>
                 </div>
             </li>
             <li class="chat-content">
-                <h3 class="chat-title">{{$info -> title}}</h3>
+                <h3 class="chat-title">{{$cminfo -> title}}</h3>
                 <p class="content">
-                    {!! $info -> content !!}
+                    {!! $cminfo -> content !!}
                 </p>
                 <div class="share bdsharebuttonbox" data-tag="share_1"><a class="bds_more" data-cmd="more"></a></div>
                 <p class="comments-share">
-                    <a class="comments" href="#comments"><img src="/home/images/chat/talk.png">{{$num}}</a>
+                    <a class="comments" href="#comments"><img src="/home/images/chat/talk.png">{{$cmnum}}</a>
                 </p>
             </li>
         </ul>
         <ul class="comments-content">
             <li class="comments-show">
                 <p class="all"><img src="../home/images/chat/all.png"></p>
-                @if(count($comment) == 0)
+                @if(count($cmcomment) == 0)
                     <p class="blank">暂&nbsp;无&nbsp;评&nbsp;论</p>
                 @else
-                @foreach($comment as $key => $value)
+                @foreach($cmcomment as $key => $value)
                     <ul class="comments-item">
                         <li class="comments-icon"><img src="{{$value -> headpic}}"></li>
                         <li class="comments-replay">
@@ -80,9 +80,9 @@
                                 <a  class="replay">回复</a>
                             </div>
                             <span class="parting"></span>
-                            @for($i=0;$i<(count($replay[$value->comid]));$i++)
+                            @for($i=0;$i<(count($cmreplay[$value->comid]));$i++)
                                 <div>
-                                    <p class="dialogue"><i class="rpname">{{$replay[$value->comid][$i]->name}}</i>回复<i class="comname">{{$replay[$value->comid][$i] -> comname}}</i>:{!! $replay[$value->comid][$i]-> content !!}</p>
+                                    <p class="dialogue"><i class="rpname">{{$cmreplay[$value->comid][$i]->name}}</i>回复<i class="comname">{{$cmreplay[$value->comid][$i] -> comname}}</i>:{!! $cmreplay[$value->comid][$i]-> content !!}</p>
                                     <a class="replay">回复</a>
                                 </div>
                             @endfor
@@ -105,7 +105,7 @@
                                 <textarea  disabled="disabled" id="comments" name="content" class="replay-content" style="text-align: center;font-size: 20px" placeholder="请登录后评论"></textarea>
                                 <a class="send"><img src="../home/images/chat/send.png" ></a>
                                 <a class="emotion"><img src="../home/images/chat/emoticon.png"></a>
-                                <input type="hidden" name="chat_id" value="{{$info->chat_id}}">
+                                <input type="hidden" name="chat_id" value="{{$cminfo->chat_id}}">
                                 <input type="hidden" name="created_at" value="{{date('Y-m-d H:i:s')}}">
                                 @if(session('user'))
                                     <script>
@@ -121,7 +121,7 @@
                                     <input type="hidden" name="name" value="{{$msg->nickname}}">
                                     <input type="hidden" name="headpic" value="{{$msg->headpic}}">
                                     <input type="hidden" name="users_id" value="{{$msg->users_id}}">
-                                    <input type="hidden" name="chat_id" value="{{$info->chat_id}}">
+                                    <input type="hidden" name="chat_id" value="{{$cminfo->chat_id}}">
                                     <input type="hidden" name="created_at" value="{{date('Y-m-d H:i:s')}}">
                                 @endif
                             </form>
@@ -132,7 +132,7 @@
                                 <a class="send-replay"><img src="../home/images/chat/send.png" ></a>
                                 <a class="emotions"><img src="../home/images/chat/emoticon.png"></a>
                                 <input type="hidden" name="created_at" value="{{date('Y-m-d H:i:s')}}">
-                                <input type="hidden" name="chat_id" value="{{$info->chat_id}}">
+                                <input type="hidden" name="chat_id" value="{{$cminfo->chat_id}}">
                                 @if(session('user'))
                                     <input type="hidden" name="users_id" value="{{$msg->users_id}}">
                                     <input type="hidden" name="headpic" value="{{$msg->headpic}}">
@@ -174,7 +174,7 @@
                 bdDesc : $('.chat-title').text(),
                 bdUrl : '',
                 bdSign: 'on',
-                bdPic:'{{$info->img}}'
+                bdPic:'{{$cminfo->img}}'
             },
             share : [{
                 "bdSize" : 16

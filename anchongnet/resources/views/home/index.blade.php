@@ -296,10 +296,9 @@
         <div class="exhibition">
             <h1>展会活动</h1>
             <ul>
-                <li><a href=""><img src="home/images/102.jpg"></a></li>
-                <li><a href=""><img src="home/images/103.jpg"></a></li>
-                <li><a href=""><img src="home/images/104.jpg"></a></li>
-                <li><a href=""><img src="home/images/105.jpg"></a></li>
+                @foreach($inactivity as $value)
+                <li><a href="{{url('/community/'.$value -> chat_id)}}"><img src="{{$value -> img}}"></a></li>
+                @endforeach
             </ul>
         </div>
         <div class="cooperative">
