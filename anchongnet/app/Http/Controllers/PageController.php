@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Controllers\Home\CommonController;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
 
-class PageController extends Controller
+class PageController extends CommonController
 {
     /*
      *找货跳转页面
@@ -21,6 +22,11 @@ class PageController extends Controller
     {
         $input = Input::get(['page']);
         return redirect('project?page='.$input);
+    }
+    public function postGlpage()
+    {
+        $input = Input::get(['page']);
+        return redirect('gopage/lepro?page='.$input);
     }
     /*
      *人才跳转页面
@@ -46,4 +52,6 @@ class PageController extends Controller
         $input = Input::get(['page']);
         return redirect('equipment/list/'.$cat_id.'?page='.$input);
     }
+
+
 }

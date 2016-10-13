@@ -63,8 +63,8 @@
 		<div class="site-middle">
 			<div class="middle-container">
 				<div class="work">
-					<a class="contract-work" href=""><img src="../home/images/gongchengxq/发包工程.png"/></a>
-					<a class="package" href=""><img src="../home/images/gongchengxq/承接工程.png"/></a>
+					<a class="contract-work" href="{{url('project')}}"><img src="../home/images/gongchengxq/发包工程.png"/></a>
+					<a class="package" href="{{url('serproject/lepro')}}"><img src="../home/images/gongchengxq/承接工程.png"/></a>
 					<a class="release" href="
 					 @if(isset($msg))
 					{{url('/project/create')}}
@@ -74,56 +74,39 @@
 							"><img src="../home/images/gongchengxq/发布工程.png"/></a>
 				</div>
 				<div class="nav">
+
 					<div class="server">
-						<ul class="server-type">
-							<li class="type-title" style="width:180px">服务类别</li>
-							<li class="type-list">探测监控</li>
-							<li class="type-list">防护保障</li>
-							<li class="type-list">探测报警</li>
-							<li class="type-list">弱电工程</li>
-							<li class="type-list">呼救器</li>
-							<li class="type-list">楼宇对讲</li>
-							<li class="type-list">快速通道</li>
-							<li class="show-list"><span id="flip">展开 <b class="caret"></b></span></li>
-                            <div class="cl"></div>
-						</ul>
-						<ul class="server-type" id="yy" style="display: none;">
-							<li><a href="#">按时打算</a></li>
-							<li><a href="#">探测监视</a></li>
-							<li><a href="#">防护保障</a></li>
-							<li><a href="#">探测报警</a></li>
-							<li><a href="#">弱电工程</a></li>
-							<li><a href="#">呼救器</a></li>
-							<li><a href="#">楼宇对讲</a></li>
-							<li ><a href="#">快速通道</a></li>
-							<li><a href="#">楼宇对讲</a></li>
-							<li ><a href="#">快速通道</a></li>
-						</ul>
-						<ul class="server-area">
-							<li class="area-title" style="width:180px">区&nbsp;&nbsp;域</li>
-							<li class="area-list">北京市</li>
-							<li class="area-list">上海市</li>
-							<li class="area-list">武汉市</li>
-							<li class="area-list">保定市</li>
-							<li class="area-list">石家庄</li>
-							<li class="area-list">衡水市</li>
-							<li class="area-list">邢台市</li>
-							<li class="show-list"><span id="show">展开<b class="caret"></b></span></li>
-                            <div class="cl"></div>
-						</ul>
-						<ul class="server-type" id="adress" style="display: none">
-							<li><a href="#">北京市</a></li>
-							<li><a href="#">上海市</a></li>
-							<li><a href="#">武汉市</a></li>
-							<li><a href="#">保定市</a></li>
-							<li><a href="#">石家庄市</a></li>
-							<li><a href="#">衡水市</a></li>
-							<li><a href="#">邢台市</a></li>
-							<li><a href="#">北京市</a></li>
-							<li><a href="#">上海市</a></li>
-							<li><a href="#">武汉市</a></li>
+						<hr style="border-bottom: 5px #9b9b9b solid;">
+						<ul class="server-type" style="border-bottom: 1px #9b9b9b solid;height: 50px;">
+							<li class="type-title"><span>服务类别</span></li>
+							@foreach($serprocate as $s)
+								<li><a href="{{url('server/sertalent/'.$s->id)}}">{{$s->tag}}</a></li>
+							@endforeach
+
+							<li class="downmenue" style="width: 80px;height: 50px;float: right;font-size: 14px;color:#606060;"><span  id="flip" >展开 <b class="caret"></b></span> </li>
 						</ul>
 
+						<ul class="server-type" id="yy" style="display: none;float: left;">
+							@foreach($lastadpro as $m)
+								<li><a href="{{url('server/sertalent/'.$m->id)}}">{{$m->tag}}</a></li>
+							@endforeach
+						</ul>
+
+						<ul class="server-type" style="float: left">
+							<li class="type-title-1"><span>区域</span></li>
+							@foreach($serpro as $a)
+								<li><a href="{{url('server/sertalent/'.$a->id)}}">{{$a->tag}}</a></li>
+							@endforeach
+							<li class="downmenue" style="width: 80px;height: 50px;float: right;font-size: 14px;color:#606060;"><span  id="show" >展开 <b class="caret"></b></span></li>
+						</ul>
+						<ul class="server-type" id="adress" style="display: none;float: left;overflow: hidden;">
+							@foreach($lastserpro as $d)
+								<li><a href="{{url('server/sertalent/'.$d->id)}}">{{$d->tag}}</a></li>
+							@endforeach
+
+						</ul>
+						<div style="clear: both;"></div>
+						<hr style="border-bottom: 1px #9b9b9b solid;">
 					</div>
 				</div>
 				<div class="project-list">
