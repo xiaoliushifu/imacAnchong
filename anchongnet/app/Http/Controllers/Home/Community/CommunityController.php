@@ -38,16 +38,22 @@ class CommunityController extends CommonController
     public function show($chat_id)
     {
         //获取主题
-        $info    = Community_release::find($chat_id);
+        $cminfo    = Cache::tags('cminfo')->remember('cminfo'.$chat_id,600,function () use($chat_id){
+            return Community_release::find($chat_id);
+        });
         //获取评论
-        $comment = Community_comment::where('chat_id',$chat_id)->orderBy('comid','desc')->get();
+        $cmcomment = Cache::tags('cmcomment')->remember('cmcomment'.$chat_id,600,function () use($chat_id){
+            return Community_comment::where('chat_id',$chat_id)->orderBy('comid','desc')->get();
+        });
         //评论数
-        $num = count($comment);
-        foreach ($comment as $value){
+        $cmnum = count($cmcomment);
+        foreach ($cmcomment as $value){
             $comid = $value -> comid;
-            $replay[$comid]  = Community_reply::where('comid',$comid)->orderBy('reid','desc')->get();
+            $cmreplay[$comid]  = Cache::tags('cmreplay')->remember('cmreplay',600,function () use($comid){
+                return Community_reply::where('comid',$comid)->orderBy('reid','desc')->get();
+            });
         }
-        return view('home/community/chat',compact('info','comment','replay','num'));
+        return view('home/community/chat',compact('cminfo','cmcomment','cmreplay','cmnum'));
     }
 
    /*
@@ -56,12 +62,12 @@ class CommunityController extends CommonController
     public function talk()
     {
         $page = Input::get(['page']);
-        $talk = Cache::remember('talk'.$page,600,function (){
+        $talk = Cache::tags('talk')->remember('talk'.$page,600,function (){
             return Community_release::where('tags','闲聊')->orderBy('created_at','desc')->paginate(12);
         });
         foreach ($talk as $value){
             $id = $value -> chat_id;
-            $tnum[$id] =Cache::remember('tnum'.$id,600,function () use($id){
+            $tnum[$id] =Cache::tags('tnum')->remember('tnum'.$id,600,function () use($id){
                 return Community_comment::where('chat_id',$id)->count();
             });
         }
@@ -73,12 +79,12 @@ class CommunityController extends CommonController
     public function question()
     {
         $page = Input::get(['page']);
-        $question = Cache::remember('question'.$page,'600',function (){
+        $question = Cache::tags('question')->remember('question'.$page,'600',function (){
             return Community_release::where('tags','问问')->orderBy('created_at','desc')->paginate(12);
         });
         foreach ($question as $value){
             $id = $value -> chat_id;
-            $qnum[$id] =Cache::remember('qnum'.$id,'600',function () use($id){
+            $qnum[$id] =Cache::tags('qnum')->remember('qnum'.$id,'600',function () use($id){
                 return Community_comment::where('chat_id',$id)->count();
             });
         }
@@ -90,12 +96,12 @@ class CommunityController extends CommonController
     public function activity()
     {
         $page = Input::get(['page']);
-        $activity = Cache::remember('activity'.$page,'600',function (){
+        $activity = Cache::tags('activity')->remember('activity'.$page,'600',function (){
            return Community_release::where('tags','活动')->orderBy('created_at','desc')->paginate(12);
         });
         foreach ($activity as $value){
             $id = $value -> chat_id;
-            $anum[$id] =Cache::remember('anum'.$id,'600',function () use($id){
+            $anum[$id] =Cache::tags('anum')->remember('anum'.$id,'600',function () use($id){
                 return Community_comment::where('chat_id',$id)->count();
             });
         }
@@ -106,7 +112,7 @@ class CommunityController extends CommonController
      */
     public function store()
     {
-        $input = Input::except('_token');
+        $input = Input::except('_token');//去掉token值
         $re = Community_comment::create($input);
         if($re){
             $msg =[
@@ -121,9 +127,12 @@ class CommunityController extends CommonController
         }
         return $msg;
     }
+    /*
+     * 提交回复信息
+     */
     public function replay()
     {
-        $input = Input::except('_token');
+        $input = Input::except('_token');//去掉token值
         $re = Community_reply::create($input);
         if($re){
             $data =[

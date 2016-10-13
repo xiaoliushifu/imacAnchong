@@ -17,7 +17,7 @@ class InfoController extends CommonController
     public function index()
     {
         $page = Input::get(['page']);
-        $info = Cache::remember('info'.$page,600,function (){
+        $info = Cache::tags('info')->remember('info'.$page,600,function (){
             return Information::orderBy('created_at','desc')->paginate(10);
         });
         return view('home.info.index',compact('info'));
@@ -27,7 +27,7 @@ class InfoController extends CommonController
      */
     public function show($infor_id)
     {
-        $information = Cache::remember('information'.$infor_id,600,function () use($infor_id){
+        $information = Cache::tags('information')->remember('information'.$infor_id,600,function () use($infor_id){
             return Information::find($infor_id);
         });
         return view('home.info.info',compact('information'));
