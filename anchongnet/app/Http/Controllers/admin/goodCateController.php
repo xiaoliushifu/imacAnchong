@@ -7,10 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Category;
 use Cache;
 
+/**
+*   该控制器包含了商品分类性模块的操作
+*/
 class goodCateController extends Controller
 {
     private $cat;
-    /*
+    /**
      * 构造方法
      * */
     public function __construct()
@@ -35,9 +38,12 @@ class goodCateController extends Controller
         return view('admin/cate/index',array("datacol"=>compact("args","datas")));
     }
 
-    /*
+    /**
     * 由二级分类获取同一个父分类下的所有二级分类的方法
-    * */
+    *
+    * @param  $request('cid'分类ID)
+    * @return \Illuminate\Http\Response
+    */
    public function getSiblings(Request $request)
    {
        $pid=$this->cat->find($request['cid'])->parent_id;
@@ -47,9 +53,12 @@ class goodCateController extends Controller
                   });
    }
 
-   /*
+   /**
     * 获取指定分类的子分类的方法
-    * */
+    *
+    * @param  $request('pid'父分类ID)
+    * @return \Illuminate\Http\Response
+    */
    public function getsubLevel(Request $req)
    {
        $pid=$req['pid'];
@@ -59,9 +68,12 @@ class goodCateController extends Controller
    }
 
 
-    /*
+    /**
      * 获取所有非顶级分类的方法，目前只有两级分类
-     * */
+     *
+     * @param  无
+     * @return \Illuminate\Http\Response
+     */
     public function getLevel2()
     {
         //加入缓存
@@ -83,7 +95,7 @@ class goodCateController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('catname'分类名,'keyword'关键字,'sort'排序,'description'描述,'ishow'是否显示,'parent'父ID)
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -92,7 +104,7 @@ class goodCateController extends Controller
         $this->validate($request, [
             'catname' =>'unique:anchong_goods_cat,cat_name',
         ],$mess);
-        
+
         $this->cat->cat_name=$request['catname'];
         $this->cat->keyword=$request['keyword'];
         $this->cat->sort_order=$request['sort'];
@@ -111,7 +123,7 @@ class goodCateController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id分类ID
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -123,7 +135,7 @@ class goodCateController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id分类ID
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -135,7 +147,7 @@ class goodCateController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('catname'分类名,'keyword'关键字,'sort'排序,'description'描述,'ishow'是否显示,'parent'父ID)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -166,7 +178,7 @@ class goodCateController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id分类ID
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

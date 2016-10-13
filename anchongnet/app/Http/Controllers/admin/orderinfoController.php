@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Orderinfo;
 use Gate;
 
+/**
+*   该控制器包含了订单详情模块的操作
+*/
 class orderinfoController extends Controller
 {
     private $orderinfo;
@@ -40,7 +43,7 @@ class orderinfoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -73,7 +76,7 @@ class orderinfoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -93,6 +96,12 @@ class orderinfoController extends Controller
         //
     }
 
+    /**
+    *   订单详细内容
+    *
+    * @param  $request('num'订单编号)
+    * @return \Illuminate\Http\Response
+    */
     public function orderdetail(Request $request)
     {
         if (Gate::denies('order-ship')) {

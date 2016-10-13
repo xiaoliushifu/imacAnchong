@@ -44,6 +44,9 @@ class LiveController extends Controller
         $this->Live_Restart=new \App\Live_Restart();
     }
 
+    /*
+    *   生成七牛直播对象
+    */
     public function createlive(Request $request)
     {
         //获得app端传过来的json格式的数据转换成数组格式
@@ -209,7 +212,7 @@ class LiveController extends Controller
         //保存七牛流
         try {
 
-            $name      = $param['title'].'.mp4'; // 必填
+            $name      = $data['guid'].time().'.mp4'; // 必填
             $format    = 'mp4';           // 必填
             $start     = $param['start_time'];      // 必填, 单位为秒, 为UNIX时间戳
             $end       = $param['end_time'];      // 必填, 单位为秒, 为UNIX时间戳

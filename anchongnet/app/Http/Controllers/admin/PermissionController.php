@@ -11,6 +11,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Pagination\Paginator;
 
+/**
+*   该控制器包含了权限模块的操作
+*/
 class PermissionController extends Controller
 {
 	private $role;
@@ -37,7 +40,7 @@ class PermissionController extends Controller
 			$datas = $this->role->where('label','like',"%".$nm."%")->paginate(6);
 		}
 		$args=array("nm"=>$nm);
-		return view('admin/permission/p',array("datacol"=>compact("args","datas")));	
+		return view('admin/permission/p',array("datacol"=>compact("args","datas")));
     }
 
     /**
@@ -53,24 +56,24 @@ class PermissionController extends Controller
         $args=array("phone"=>1);
         return view('admin/permission/createperm',array("datacol"=>compact("datas","args")));
     }
-    
+
     /**
      *执行 权限添加 的提交处理 insert permission
-     * @param Request $req
+     * @param $request('label'分类,'name'名字,'description'描述)
      */
-    
+
     public function postIp(Request $req)
     {
         //来个权限模型
         $this->permission = new Permission();
-        
+
         $this->permission->label=$req->label;
         $this->permission->name=$req->name;
         $this->permission->description=$req->description;
         $this->permission->save();
         echo "OK";
     }
-    
+
     /**
      * 创建新角色页面 create role
      *
@@ -84,7 +87,7 @@ class PermissionController extends Controller
         $args=array("phone"=>1);
         return view('admin/permission/createrole',array("datacol"=>compact("datas","args")));
     }
-    
+
     /**
      * 执行 新角色添加 insert role
      *
@@ -100,7 +103,7 @@ class PermissionController extends Controller
         $this->role->save();
         echo "OK";
     }
-    
+
     /**
      * 角色设置页
      *
@@ -116,10 +119,10 @@ class PermissionController extends Controller
             $datas=$this->user->Phone($phone)->paginate(8);
         }
         $args=array("phone"=>$phone);
-        
+
         return view('admin/permission/r',array("datacol"=>compact("datas","args")));
     }
-    
+
     /**
      * ajax获得全部权限待编辑
      *
@@ -138,7 +141,7 @@ class PermissionController extends Controller
        $res2 = DB::table('anchong_permissions')->whereNotIn('id',$tmp)->get(array('id','label'));
        return array($res1,$res2);
     }
-    
+
     /**
      * ajax获得全部角色待编辑
      *
@@ -157,7 +160,7 @@ class PermissionController extends Controller
         $res2 = DB::table('anchong_roles')->whereNotIn('id',$tmp)->get(array('id','label'));
         return array($res1,$res2);
     }
-    
+
     /**
      * 更新某个角色的全部权限
      * @param Request $req
@@ -182,9 +185,9 @@ class PermissionController extends Controller
         }catch(\Exception $e) {
             exit("权限设置有误");
         }
-        
+
     }
-    
+
     /**
      * 更新某个用户的全部角色,由ajax调用
      * @param Request $req

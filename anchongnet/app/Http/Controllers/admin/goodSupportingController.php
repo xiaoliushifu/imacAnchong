@@ -8,6 +8,9 @@ use App\Http\Controllers\Controller;
 use App\GoodSupporting;
 use DB;
 
+/**
+*   该控制器包含了配套货品模块的操作
+*/
 class goodSupportingController extends Controller
 {
     private $gs;
@@ -34,7 +37,7 @@ class goodSupportingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('goodsid'商品ID,'gid'货品ID,'title'标题,'price'价格,'img'图片,'agid'配套ID,'goods_name'商品名)
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -79,7 +82,7 @@ class goodSupportingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -91,7 +94,7 @@ class goodSupportingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id配套ID
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -101,10 +104,12 @@ class goodSupportingController extends Controller
         $data->delete();
         return "删除成功";
     }
-    
+
     /**
      * 商品编辑页，ajax获得配套商品
-     * @param Request $request
+     *
+     * @param  $request('gid'商品ID)
+     * @return \Illuminate\Http\Response
      */
     public function getSupcom(Request $request)
     {

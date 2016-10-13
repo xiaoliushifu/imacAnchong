@@ -37,7 +37,7 @@ class goodController extends Controller
     private $uid;
     private $sid;
 
-    /*
+    /**
      * 构造方法
      * */
     public function __construct()
@@ -102,7 +102,7 @@ class goodController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\
+     * @param  $request('attr'货品名称数组,'type'货品类型,'sid'所属商铺,'name'商品ID,'model'型号,'marketprice'市场价,'costpirce'进价,'viprice'会员价,'status'货品状态,'numbering'货品编号,'commodityname'商品名,'keyword'商品关键字,'tag'货品标签,'pic'货品图片)
      * @return \Illuminate\Http\Response
      */
     public function store(\App\Http\Requests\GoodCreateRequest $request)
@@ -199,9 +199,9 @@ class goodController extends Controller
            DB::insert("insert into anchong_goods_suggestion (`str`) values ('$k') on duplicate key update snums=snums+1");
        }
 
-       /*清除关键字缓存操作*/
+       /**清除关键字缓存操作*/
 
-        /*
+        /**
          * 向仓库表中插入
          * 因为采购无仓储权限，只插入一条记录，留待后续仓储更改
          */
@@ -221,7 +221,7 @@ class goodController extends Controller
 //         $gdata->goods_num=$total;
 //         $gdata->save();
 
-        /*
+        /**
          * 通过一个for循环向缩略图表中插入数据
          */
         for($i=0;$i<count($request['pic']);$i++){
@@ -253,7 +253,7 @@ class goodController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id货品ID
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -265,7 +265,7 @@ class goodController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id货品ID
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -277,7 +277,7 @@ class goodController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('spetag'货品名称,'goodsname'商品名,'model'型号,'marketprice'市场价,'costpirce'进价,'viprice'会员价,'status'货品状态,'numbering'货品编号,'keyword'商品关键字,'description'商品描述)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -339,7 +339,7 @@ class goodController extends Controller
     /**
      * 货品的删除
      *
-     * @param  int  $id
+     * @param  int  $id货品ID
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -370,19 +370,25 @@ class goodController extends Controller
         }
     }
 
-    /*
+    /**
      * 获取属于同一商品的所有货品
      * 在添加商品页面，选择配套商品时会调用它
-     * */
+     *
+     * @param  $request('good'商品ID)
+     * @return \Illuminate\Http\Response
+     */
     public function getSiblings(Request $request)
     {
         $datas=$this->Goods_specifications->Good($request->good)->get();
         return $datas;
     }
 
-    /*
+    /**
      * 编辑货品时候添加图片
-     * */
+     *
+     * @param  $request('file'文件对象,'gid'货品ID)
+     * @return \Illuminate\Http\Response
+     */
     public function addpic(Request $request)
     {
         $fileType=$_FILES['file']['type'];
@@ -435,9 +441,12 @@ class goodController extends Controller
         }
         return response()->json(['message' => $message, 'isSuccess' => $isSuccess,'url'=>$url,'tid'=>$tid]);
     }
-    
+
     /**
      * 关键字封装方法
+     *
+     * @param  字符串  $str关键字
+     * @return \Illuminate\Http\Response
      */
     private function keyProcess($str)
     {

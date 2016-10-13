@@ -6,15 +6,20 @@ use Illuminate\Http\Request;
 use App\Users;
 use App\Http\Controllers\Controller;
 
+/**
+*   该控制器包含了用户信息模块的操作
+*/
 class userController extends Controller
 {
 	private $user;
-	public function __construct(){
+	public function __construct()
+	{
 		$this->user=new Users();
 	}
     /**
      * Display a listing of the resource.
      *
+	 * $request('phone'电话号码,'users_rank'用户等级,'uid'用户ID)
      * @return \Illuminate\Http\Response
      */
     public function index(Request $req)
@@ -49,7 +54,7 @@ class userController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -82,7 +87,7 @@ class userController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

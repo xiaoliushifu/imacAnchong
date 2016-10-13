@@ -15,6 +15,9 @@ use App\Exp;
 use App\Shop;
 use App\Goods_logistics;
 
+/**
+*   该控制器包含了订单模块的操作
+*/
 class orderController extends Controller
 {
     private $order;
@@ -36,7 +39,10 @@ class orderController extends Controller
 
     /**
 	 * 后台订单管理列表
-	 */
+     *
+     * @param  input('KEYNUM'区分查询数据的关键字)
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $kn=Requester::input('keyNum');
@@ -51,6 +57,9 @@ class orderController extends Controller
 
     /**
      * 显示后台添加订单页面
+     *
+     * @param  $request('','','','','')
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -60,7 +69,7 @@ class orderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -91,8 +100,8 @@ class orderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  $request('status'订单状态)
+     * @param  int  $id订单ID
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -117,9 +126,12 @@ class orderController extends Controller
     {
     }
 
-    /*
+    /**
      * 审核订单，ajax调用
-     * */
+     *
+     * @param  $request('isPass'是否退货,'num'订单标号,'gid'货品ID,'oid'订单ID)
+     * @return \Illuminate\Http\Response
+     */
     public function checkorder(Request $request)
     {
         //获取订单ID
@@ -151,11 +163,14 @@ class orderController extends Controller
         return "操作成功";
     }
 
-    /*
+    /**
      * 订单发货的方法
      * 由订单列表页，点击"发货",选择完发货方式后执行
-     * */
-    public function orderShip(Request $req)
+     *
+     * @param  $request('orderid'订单ID,'ship'行为参数,'lognum'物流单号,'logistics'企业)
+     * @return \Illuminate\Http\Response
+     */
+    public function orderShip(Request $request)
     {
         //权限判定
         if (Gate::denies('order-ship')) {
@@ -190,12 +205,12 @@ class orderController extends Controller
         $data=$this->order->find($req['orderid']);
         $data->state=3;
         $data->save();
-        
+
         $this->propleinfo($data->users_id,'订单发货通知','您订单编号为'.$data->order_num.'的订单已发货，感谢您对安虫平台的支持！');
         return $res['reason'];
     }
 
-    
+
     /*
      * 由聚合回调，用于安虫下单后，接收其有关订单状态的信息
      * */
@@ -211,19 +226,19 @@ class orderController extends Controller
         //物流发货方式
         return 'success';
     }
-    
+
     /*
      * 由聚合回调，用于安虫下单后，接收其有关物流状态的信息
      * */
     public function postWl(Request $req)
     {
         if(1){
-    
+
         }
         //物流发货方式
         return $res['reason'];
     }
-    
+
     /*
      * 取消物流订单的方法
      * */
@@ -240,7 +255,7 @@ class orderController extends Controller
         if ($res['error_code']!='0') {//正常撤单
             return $res['reason'];
         }
-        
+
         //取得订单信息
         $data=$this->order->find($req['orderid']);
         //改回状态为'2待发货'
@@ -249,10 +264,14 @@ class orderController extends Controller
         $this->propleinfo($data->users_id,'发货取消通知','您订单编号为'.$data->order_num.'的订单已停止发货，感谢您对安虫平台的支持！');
         return $res['reason'];
     }
-    
-    
-    /*
+
+    /**
     *    该方法提供了订单的推送服务
+    *
+    * @param  用户ID  $users_id
+    * @param  标题    $title
+    * @param  信息    $message
+    * @return \Illuminate\Http\Response
     */
     private function propleinfo($users_id,$title,$Message)
     {

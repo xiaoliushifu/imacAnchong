@@ -11,6 +11,9 @@ use App\Goods_img;
 use OSS\OssClient;
 use OSS\Core\OssException;
 
+/**
+*   该控制器包含了商品图片模块的操作
+*/
 class ImgController extends Controller
 {
     private $img;
@@ -52,7 +55,7 @@ class ImgController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('file'文件对象)
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -137,8 +140,8 @@ class ImgController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  $request('file'文件对象)
+     * @param  int  $id图片ID
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -202,7 +205,7 @@ class ImgController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id货品图片ID
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -212,10 +215,14 @@ class ImgController extends Controller
         return "删除成功";
     }
 
-    /*
+    /**
      * 获取同一个商品的所有图片的方法
-     * */
-    public function getGoodImg(Request $request){
+     *
+     * @param  $request('gid'货品ID)
+     * @return \Illuminate\Http\Response
+     */
+    public function getGoodImg(Request $request)
+    {
         $datas=$this->img->Gid($request->gid)->get();
         return $datas;
     }

@@ -7,12 +7,16 @@ use App\Auth;
 use App\Qua;
 use App\Http\Controllers\Controller;
 
+/**
+*   该控制器包含了会员认证模块的操作
+*/
 class certController extends Controller
 {
 	private $qua;
     /**
      * Display a listing of the resource.
      *
+	 * @param  $request('id'资质ID,'auth_status'认证状态)
      * @return \Illuminate\Http\Response
      */
     public function index(Request $req)
@@ -44,7 +48,7 @@ class certController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -55,7 +59,7 @@ class certController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id认证ID
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -77,7 +81,7 @@ class certController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

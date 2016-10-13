@@ -14,6 +14,9 @@ use OSS\OssClient;
 use OSS\Core\OssException;
 use DB;
 
+/**
+*   该控制器包含了货品图片模块的操作
+*/
 class thumbController extends Controller
 {
     private $thumb;
@@ -24,7 +27,7 @@ class thumbController extends Controller
     private $endpoint;
     private $bucket;
 
-    /*
+    /**
      * 在构造函数中初始化model
      * */
     public function __construct()
@@ -61,7 +64,7 @@ class thumbController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('file'文件对象,'','','','')
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -131,8 +134,8 @@ class thumbController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  $request('file'文件对象)
+     * @param  int  $id图片ID
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -195,7 +198,7 @@ class thumbController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id图片ID
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -205,10 +208,14 @@ class thumbController extends Controller
         return "删除成功";
     }
 
-    /*
+    /**
      * 获取指定商品的缩略图
-     * */
-    public function getGoodThumb(Request $request){
+     *
+     * @param  $request('gid'货品ID)
+     * @return \Illuminate\Http\Response
+     */
+    public function getGoodThumb(Request $request)
+    {
         $gid=$request['gid'];
         $data=Goods_thumb::Gid($gid)->get();
         return $data;

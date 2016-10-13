@@ -14,6 +14,9 @@ use DB;
 use OSS\OssClient;
 use OSS\Core\OssException;
 
+/**
+*   该控制器包含了商机模块的操作
+*/
 class businessController extends Controller
 {
     private $business;
@@ -88,7 +91,7 @@ class businessController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('pic'图片数组,'uid'用户ID,'title'标题,'content'内容,'phone'电话,'tag'标签,'contact'联系人,'type'类型,'area'区域,'endtime'结束时间)
      * @return \Illuminate\Http\Response
      */
     public function store(\App\Http\Requests\StoreBusinessRequest $request)
@@ -130,7 +133,7 @@ class businessController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id商机ID
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -144,7 +147,7 @@ class businessController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id商机ID
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -156,7 +159,7 @@ class businessController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('title'标题,'content'内容,'phone'电话,'tag'标签,'contact'联系人,'type'类型,'area'区域,'endtime'结束时间)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -180,7 +183,7 @@ class businessController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id商机ID
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -190,6 +193,13 @@ class businessController extends Controller
         return "删除成功";
     }
 
+   /**
+    * 图片修改
+    *
+    * @param  $request('file'文件对象)
+    * @param  int  $id商机ID
+    * @return \Illuminate\Http\Response
+    */
     public function editpic(Request $request,$id)
     {
         $fileType=$_FILES['file']['type'];
@@ -254,8 +264,11 @@ class businessController extends Controller
         return response()->json(['message' => $message, 'isSuccess' => $isSuccess,'url'=>$url,'imgs'=>$imgs]);
     }
 
-    /*
+    /**
     *   商机图片查看
+    *
+    * @param  int  $id商机ID
+    * @return \Illuminate\Http\Response
     */
     public function imgshow($id)
     {
@@ -272,8 +285,12 @@ class businessController extends Controller
         return [$img_arr,$data[0]['img'],$id];
     }
 
-    /*
+    /**
      *  删除制定商机的图片
+     *
+     * @param  $request('img'图片数组)
+     * @param  int  $id商机ID
+     * @return \Illuminate\Http\Response
      */
     public function delpic(Request $request,$id)
     {

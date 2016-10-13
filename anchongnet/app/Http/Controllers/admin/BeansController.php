@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB;
 
-/*
+/**
 *   该控制器操作后台虫豆模块
 */
 class BeansController extends Controller
@@ -38,7 +38,7 @@ class BeansController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -71,8 +71,8 @@ class BeansController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  $request('beans'虫豆数量,'money'金额)
+     * @param  int  $id虫豆注册表ID主键
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -100,7 +100,7 @@ class BeansController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id虫豆注册表ID主键
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

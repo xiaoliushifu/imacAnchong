@@ -13,7 +13,7 @@ use DB;
 class CollectController extends Controller
 {
     /*
-    *   收藏
+    *   收藏商品或商铺
     */
     public function addcollect(Request $request)
     {
@@ -49,7 +49,7 @@ class CollectController extends Controller
     }
 
     /*
-    *   取消收藏
+    *   取消收藏商品或商铺
     */
     public function delcollect(Request $request)
     {

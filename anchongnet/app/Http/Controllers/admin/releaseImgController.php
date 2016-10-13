@@ -10,6 +10,9 @@ use App\Http\Controllers\Controller;
 use OSS\OssClient;
 use OSS\Core\OssException;
 
+/**
+*   该控制器包含了社区聊聊图片模块的操作
+*/
 class releaseImgController extends Controller
 {
     private $coimg;
@@ -49,7 +52,7 @@ class releaseImgController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('file'文件对象)
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -120,8 +123,8 @@ class releaseImgController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  $request('file'文件对象,'','','','')
+     * @param  int  $id聊聊ID
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -191,7 +194,7 @@ class releaseImgController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id聊聊ID
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -201,7 +204,12 @@ class releaseImgController extends Controller
         return "删除成功";
     }
 
-    //获取指定发布的图片方法
+    /**
+     *   获取指定发布的图片方法
+     *
+     * @param  $request('cid'图片id)
+     * @return \Illuminate\Http\Response
+     */
     public function getImg(Request $request)
     {
         $chat=$request['cid'];

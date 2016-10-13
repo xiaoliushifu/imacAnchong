@@ -8,12 +8,18 @@ use App\Auth;
 use Gate;
 use App\Http\Controllers\Controller;
 
+/**
+*   该控制器包含了认证审核模块的操作
+*/
 class CheckController extends Controller
 {
 	private $auth;
-    /*
+    /**
 	 * 审核用户认证
-	 */
+	 *
+     * @param  $request('$id'用户表ID)
+     * @return \Illuminate\Http\Response
+     */
 	public function check(Request $request)
 	{
 	    //权限判定

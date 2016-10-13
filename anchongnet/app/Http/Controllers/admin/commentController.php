@@ -8,6 +8,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Community_comment;
 
+/**
+*   该控制器包含了聊聊评论模块的操作
+*/
 class commentController extends Controller
 {
     private $comment;
@@ -41,7 +44,7 @@ class commentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -74,7 +77,7 @@ class commentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -86,7 +89,7 @@ class commentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id评论ID
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

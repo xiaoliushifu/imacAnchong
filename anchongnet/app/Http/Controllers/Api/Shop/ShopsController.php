@@ -390,7 +390,6 @@ class ShopsController extends Controller
         }
     }
 
-
     /*
     *   我的店铺
     */

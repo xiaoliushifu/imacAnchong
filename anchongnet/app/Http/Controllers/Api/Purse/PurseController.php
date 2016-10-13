@@ -223,7 +223,6 @@ class PurseController extends Controller
         }
     }
 
-
     /*
     *   优惠券使用
     */
@@ -300,7 +299,6 @@ class PurseController extends Controller
         //返回结果
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$coupon_result]);
     }
-
 
     /*
     *   虫豆充值界面

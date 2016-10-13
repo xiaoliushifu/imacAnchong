@@ -10,7 +10,7 @@ use Auth;
 use DB;
 use Redirect;
 
-/*
+/**
 *   后台意见反馈模块
 */
 class FeedbackController extends Controller
@@ -22,14 +22,18 @@ class FeedbackController extends Controller
     private $uid;
 
     //初始化orm
-    public function __construct(){
+    public function __construct()
+    {
 		$this->propel=new \App\Http\Controllers\admin\Propel\PropelmesgController();
 		$this->user=new \App\Users();
         $this->feedback=new \App\Feedback();
     }
 
-    /*
+    /**
     *   后台意见反馈查看
+    *
+    * @param  无
+    * @return \Illuminate\Http\Response
     */
     public function show()
     {
@@ -39,8 +43,11 @@ class FeedbackController extends Controller
         return view('admin/feedback/index',array("datacol"=>compact("datas")));
     }
 
-    /*
+    /**
     *   反馈图片查看
+    *
+    * @param  int  $id图片ID
+    * @return \Illuminate\Http\Response
     */
     public function imgshow($id)
     {
@@ -50,8 +57,11 @@ class FeedbackController extends Controller
         return $data;
     }
 
-    /*
+    /**
     *   反馈图片查看
+    *
+    * @param  int  $id反馈ID
+    * @return \Illuminate\Http\Response
     */
     public function feedbackdel($id)
     {
@@ -73,8 +83,11 @@ class FeedbackController extends Controller
         }
     }
 
-    /*
+    /**
     *   反馈用户已查看并修改状态
+    *
+    * @param  $request('feed_id'反馈ID,'users_id'用户ID,'title'标题)
+    * @return \Illuminate\Http\Response
     */
     public function feedbackview(Request $request)
     {
@@ -114,8 +127,12 @@ class FeedbackController extends Controller
         }
     }
 
-    /*
+    /**
     *   修改状态
+    *
+    * @param  $request(无)
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
     */
     public function feedbackedit(Request $request,$id)
     {
@@ -131,8 +148,11 @@ class FeedbackController extends Controller
         }
     }
 
-    /*
+    /**
     *   反馈回复
+    *
+    * @param  $request('feed_id'反馈ID,'users_id'用户ID,'title'标题,'content'内容,'reward'奖励)
+    * @return \Illuminate\Http\Response
     */
     public function feedbackreply(Request $request)
     {
@@ -174,6 +194,5 @@ class FeedbackController extends Controller
             DB::rollback();
             return Redirect::intended('/feedback/show')->withInput()->with('commentresult','回复失败');
         }
-
     }
 }
