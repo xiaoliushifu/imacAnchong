@@ -613,6 +613,10 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
             Route::resource('/sergoods', 'Home\Findgoods\FindgoodsController');
             //页码跳转
             Route::controller('/gopage', 'PageController');
+            //人才服务，区域管理
+            Route::controller('/server', 'Home\Talent\ServerController');
+            //工程服务，区域管理
+            Route::controller('/serproject', 'Home\project\SerproController');
             //人才板块
             Route::resource('/talent', 'Home\Talent\TalentController');
             //工程板块

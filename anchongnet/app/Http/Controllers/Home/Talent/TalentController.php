@@ -4,13 +4,17 @@ namespace App\Http\Controllers\Home\Talent;
 use App\Auth;
 use App\Business;
 use App\Http\Controllers\Home\CommonController;
+use App\Tag;
 use App\Users;
 class TalentController extends CommonController
 {
     public function index()
     {
         $data = Business::where('type', 3)->orderBy('created_at', 'desc')->paginate(15);
-        return view('home.talent.talentlist', compact('data'));
+        $adrcate = Tag::where('type_id',0)->orderBy('id','asc')->take(7)->get();
+        $addcate = Tag::where('type_id',0)->orderBy('id','desc')->take(20)->get();
+        $sercate = Tag::where('type_id',3)->orderBy('id','asc')->get();
+        return view('home.talent.talentlist', compact('data','adrcate','addcate','sercate'));
     }
 
     public function create()

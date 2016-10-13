@@ -208,6 +208,7 @@
 .server{
     width: 1200px;
  overflow: hidden;
+
 }
 .server hr{
     border-bottom: 5px #9b9b9b solid;
