@@ -8,6 +8,9 @@ use App\Http\Controllers\Controller;
 use DB;
 use App\Goods_attribute;
 
+/**
+*   该控制器包含了商品属性模块的操作
+*/
 class attrController extends Controller
 {
     private $attr;
@@ -34,7 +37,7 @@ class attrController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('gid'商品,'name'名字,'value'内容)
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -75,8 +78,8 @@ class attrController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  $request('name'名字,'varle'内容)
+     * @param  int  $id主键ID
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -93,7 +96,7 @@ class attrController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id主键ID
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -104,9 +107,12 @@ class attrController extends Controller
         return "删除成功";
     }
 
-    /*
+    /**
      * 获取同一个商品的所有属性信息
-     * */
+     *
+     * @param  $request('商品ID')
+     * @return \Illuminate\Http\Response
+     */
     public function getSiblings(Request $request)
     {
         $this->attr=new Goods_attribute();

@@ -11,6 +11,9 @@ use App\Business_img;
 use OSS\OssClient;
 use OSS\Core\OssException;
 
+/**
+*   该控制器包含了商机图片模块的操作
+*/
 class busimgController extends Controller
 {
     private $bimg;
@@ -49,7 +52,7 @@ class busimgController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('file'文件对象)
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -118,8 +121,8 @@ class busimgController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  $request('file'文件对象)
+     * @param  int  $id该商机ID
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -179,17 +182,23 @@ class busimgController extends Controller
 
     }
 
-    /*
+    /**
      * 删除制定商机的所有图片
-     * */
+     *
+     * @param  $request('','','','','')
+     * @return \Illuminate\Http\Response
+     */
     public function delpic(Request $request)
     {
 
     }
 
-    /*
+    /**
      * 获取指定商机的图片
-     * */
+     *
+     * @param  $request('','','','','')
+     * @return \Illuminate\Http\Response
+     */
     public function getImg(Request $request)
     {
 

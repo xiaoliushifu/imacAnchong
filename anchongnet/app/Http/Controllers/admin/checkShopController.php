@@ -8,11 +8,17 @@ use App\Http\Controllers\Controller;
 use DB;
 use Gate;
 
+/**
+*   该控制器包含了商铺审核模块的操作
+*/
 class checkShopController extends Controller
 {
-    /*
+    /**
      * 商铺审核方法
-     * */
+     *
+     * @param  $request('sid'商铺ID)
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $request)
     {
         //是否有 “审核商铺"   权限

@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB;
 
-/*
+/**
 *   该控制器操作后台签到模块
 */
 class SigninController extends Controller
@@ -37,7 +37,7 @@ class SigninController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -70,7 +70,7 @@ class SigninController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('beans'虫豆,'day'天数)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Goods_tag;
 use DB;
 
+/*
+*   该控制器是商品标签模块
+*/
 class caTagController extends Controller
 {
     private $catag;
@@ -43,12 +46,12 @@ class caTagController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('tag'标签,'midselect'分类ID,'catname'分类名)
      * @return \Illuminate\Http\Response
      */
     public function store(Request $req)
     {
-        
+
         //判重,由于unique{tag,cat_id}。即同一个二级分类下不允许有重复标签。
         if (DB::table('anchong_goods_tag')->whereTagAndCat_id($req->tag, $req->midselect)->first()) {
             return view("admin/tag/create_cat")->with('mes','标签不可重复！');
@@ -66,7 +69,7 @@ class caTagController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id标签ID
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -90,8 +93,8 @@ class caTagController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  $request('tag'标签,'midselect'分类ID,'catname'分类名)
+     * @param  int  $id标签ID
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -111,7 +114,7 @@ class caTagController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id标签ID
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -124,9 +127,12 @@ class caTagController extends Controller
         return "删除成功";
     }
 
-    /*
+    /**
      * 获取同一个分类的所有路由的方法
-     * */
+     *
+     * @param  $request('cid'分类ID)
+     * @return \Illuminate\Http\Response
+     */
     public function getagByCat(Request $request)
     {
         $datas=Goods_tag::Cat($request->cid)->get();

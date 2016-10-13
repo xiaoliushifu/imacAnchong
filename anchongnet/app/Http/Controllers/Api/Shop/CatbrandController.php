@@ -6,17 +6,26 @@ use App\Http\Controllers\Controller;
 use App\Brand;
 use App\Category;
 
+/*
+*   该控制器包含了商铺品牌模块的操作
+*/
 class CatbrandController extends Controller
 {
     private $brand;
     private $cat;
-
+    
+    /*
+	 *  创建ORM
+	 */
     public function __construct()
     {
         $this->brand=new Brand();
         $this->cat=new Category();
     }
 
+    /*
+	 *	 查询商铺品牌模块
+	 */
     public function index()
     {
         $cat=[];

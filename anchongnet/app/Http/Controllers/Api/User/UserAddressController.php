@@ -8,6 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Address;
 use DB;
 
+/*
+*   该控制器包含了用户收货地址模块的操作
+*/
 class UserAddressController extends Controller
 {
     private $address;

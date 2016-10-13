@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use JPush\Client;
 use Redirect;
 
-/*
+/**
 *   该控制器包含了消息推送模块的操作
 */
 class PropelController extends Controller
@@ -37,7 +37,7 @@ class PropelController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('type'类型,'title'标题,'content'内容)
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -157,7 +157,7 @@ class PropelController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

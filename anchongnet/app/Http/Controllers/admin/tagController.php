@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Tag;
 use Cache;
 
+/**
+*   该控制器包含了商机标签模块的操作
+*/
 class tagController extends Controller
 {
     private $tag;
@@ -52,7 +55,7 @@ class tagController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('tag'标签,'type'类型)
      * @return \Illuminate\Http\Response
      */
     public function store(\App\Http\Requests\TagPostRequest $request)
@@ -72,7 +75,7 @@ class tagController extends Controller
                 break;
             //承接工程标签
             case '2':
-                Cache::forget('business_search_result_tag2');                                
+                Cache::forget('business_search_result_tag2');
                 break;
             //发布人才
             case '3':
@@ -119,7 +122,7 @@ class tagController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -131,7 +134,8 @@ class tagController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id标签ID
+     * @param  $request('','','','','')
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $id)
@@ -167,9 +171,12 @@ class tagController extends Controller
         return "删除成功";
     }
 
-    /*
+    /**
      * 异步获取所有标签的接口
-     * */
+     *
+     * @param  无
+     * @return \Illuminate\Http\Response
+     */
     public function geTag()
     {
         $datas=$this->tag->get();

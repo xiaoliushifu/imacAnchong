@@ -14,6 +14,9 @@ use Auth;
 use App\Shop;
 use App\Goods_logistics;
 
+/**
+*   该控制器包含了订单模块的操作
+*/
 class orderController extends Controller
 {
     private $order;
@@ -35,7 +38,10 @@ class orderController extends Controller
 
     /**
 	 * 后台订单管理列表
-	 */
+     *
+     * @param  input('KEYNUM'区分查询数据的关键字)
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $kn=Requester::input('keyNum');
@@ -50,6 +56,9 @@ class orderController extends Controller
 
     /**
      * 显示后台添加订单页面
+     *
+     * @param  $request('','','','','')
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -59,7 +68,7 @@ class orderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -90,8 +99,8 @@ class orderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  $request('status'订单状态)
+     * @param  int  $id订单ID
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -116,9 +125,12 @@ class orderController extends Controller
     {
     }
 
-    /*
+    /**
      * 审核订单，ajax调用
-     * */
+     *
+     * @param  $request('isPass'是否退货,'num'订单标号,'gid'货品ID,'oid'订单ID)
+     * @return \Illuminate\Http\Response
+     */
     public function checkorder(Request $request)
     {
         //获取订单ID
@@ -150,10 +162,13 @@ class orderController extends Controller
         return "操作成功";
     }
 
-    /*
+    /**
      * 订单发货的方法
      * 由订单列表页，点击"发货",选择完发货方式后执行
-     * */
+     *
+     * @param  $request('orderid'订单ID,'ship'行为参数,'lognum'物流单号,'logistics'企业)
+     * @return \Illuminate\Http\Response
+     */
     public function orderShip(Request $request)
     {
         //权限判定
@@ -184,8 +199,13 @@ class orderController extends Controller
         return "发货成功";
     }
 
-    /*
+    /**
     *    该方法提供了订单的推送服务
+    *
+    * @param  用户ID  $users_id
+    * @param  标题    $title
+    * @param  信息    $message
+    * @return \Illuminate\Http\Response
     */
     private function propleinfo($users_id,$title,$Message)
     {

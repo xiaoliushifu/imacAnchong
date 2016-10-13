@@ -11,6 +11,9 @@ use App\Http\Controllers\Controller;
 use Validator;
 use DB;
 
+/*
+*   该控制器包含了用户认证模块的操作
+*/
 class UserIndiviController extends Controller
 {
 	private $auth;

@@ -7,8 +7,8 @@ use Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-/*
-*   该控制器操作后台钱袋模块
+/**
+*   该控制器包含了钱袋模块的操作
 */
 class PurseController extends Controller
 {
@@ -17,7 +17,7 @@ class PurseController extends Controller
     private $users;
     private $propel;
 
-    /*
+    /**
     *   执行构造方法将orm模型初始化
     */
     public function __construct()
@@ -66,7 +66,7 @@ class PurseController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -77,7 +77,7 @@ class PurseController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id钱袋订单ID
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -105,8 +105,8 @@ class PurseController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  无
+     * @param  int  $id钱袋订单ID
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)

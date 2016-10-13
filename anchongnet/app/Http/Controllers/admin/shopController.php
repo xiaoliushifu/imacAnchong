@@ -11,6 +11,9 @@ use App\Mainbrand;
 use App\ShopCat;
 use Gate;
 
+/**
+*   该控制器包含了商铺模块的操作
+*/
 class shopController extends Controller
 {
     private $shop;
@@ -62,7 +65,7 @@ class shopController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -95,7 +98,7 @@ class shopController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -115,9 +118,12 @@ class shopController extends Controller
         //
     }
 
-    /*
+    /**
      * 根据店铺id获取店铺的主营品牌
-     * */
+     *
+     * @param  $request('sid'商铺ID)
+     * @return \Illuminate\Http\Response
+     */
     public function getbrand(Request $request)
     {
         $this->mb=new Mainbrand();
@@ -126,9 +132,12 @@ class shopController extends Controller
         return $datas;
     }
 
-    /*
+    /**
      * 根据店铺id查找店铺的主营类别
-     * */
+     *
+     * @param  $request('sid'商铺ID)
+     * @return \Illuminate\Http\Response
+     */
     public function getcat(Request $request)
     {
         $this->shopcat=new ShopCat();
@@ -137,8 +146,11 @@ class shopController extends Controller
         return $datas;
     }
 
-    /*
+    /**
     *   修改店铺状态
+    *
+    * @param  $request('sid'商铺ID)
+    * @return \Illuminate\Http\Response
     */
     public function shopstate(Request $request)
     {

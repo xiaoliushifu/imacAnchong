@@ -13,6 +13,9 @@ use App\Community_img;
 use Auth;
 use DB;
 
+/**
+*   该控制器包含了社区聊聊模块的操作
+*/
 class releaseController extends Controller
 {
     private $release;
@@ -81,7 +84,7 @@ class releaseController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('pic'图片数组,'uid'用户ID,'name'名字,'title'标题,'content'内容,'headpic'头像,'tag'标签)
      * @return \Illuminate\Http\Response
      */
     public function store(\App\Http\Requests\StoreReleaseRequest $request)
@@ -145,7 +148,7 @@ class releaseController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id聊聊ID
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -158,8 +161,8 @@ class releaseController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  $request('title'标题,'content'内容)
+     * @param  int  $id聊聊ID
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -175,7 +178,7 @@ class releaseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id聊聊ID
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -204,8 +207,11 @@ class releaseController extends Controller
         }
     }
 
-    /*
+    /**
     *   社区图片查看
+    *
+    * @param  int  $id聊聊ID
+    * @return \Illuminate\Http\Response
     */
     public function imgshow($id)
     {

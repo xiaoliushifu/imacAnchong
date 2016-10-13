@@ -8,6 +8,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Community_reply;
 
+/**
+*   该控制器包含了聊聊回复模块的操作
+*/
 class replyController extends Controller
 {
     private $reply;
@@ -39,7 +42,7 @@ class replyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('comid'聊聊ID,'name'名字,'content'内容,'headpic'头像,'chat'聊聊ID,'comname'评论人)
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -79,7 +82,7 @@ class replyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('','','','','')
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

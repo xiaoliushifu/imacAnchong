@@ -16,6 +16,9 @@ use DB;
 use OSS\OssClient;
 use OSS\Core\OssException;
 
+/*
+*   该控制器包含了用户信息模块的操作
+*/
 class UsermessagesController extends Controller
 {
 	//定义变量

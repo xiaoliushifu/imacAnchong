@@ -7,6 +7,9 @@ use App\Shops_logistics;
 use Gate;
 use Cache;
 
+/**
+*   该控制器包含了物流模块的操作
+*/
 class logisController extends Controller
 {
     private $logis;
@@ -43,7 +46,7 @@ class logisController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('name'物流名)
      * @return \Illuminate\Http\Response
      */
     public function store(\App\Http\Requests\StoreLogisRequest $request)
@@ -65,7 +68,7 @@ class logisController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id物流ID
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -88,8 +91,8 @@ class logisController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  $request('name'物流名)
+     * @param  int  $id物流ID
      * @return \Illuminate\Http\Response
      */
     public function update(\App\Http\Requests\StoreLogisRequest $request, $id)
@@ -99,7 +102,7 @@ class logisController extends Controller
             //特殊处理，不返回back();
             return '权限不足';
         }
-        
+
         $data=$this->logis->find($id);
         $data->name=$request->name;
         $data->save();
@@ -110,7 +113,7 @@ class logisController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id物流ID
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -125,7 +128,12 @@ class logisController extends Controller
         return "删除成功";
     }
 
-    //获取所有物流的方法
+    /**
+    *   获取所有物流的方法
+    *
+    * @param  无
+    * @return \Illuminate\Http\Response
+    */
     public function getAll()
     {
         //权限判定

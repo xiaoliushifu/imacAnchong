@@ -17,7 +17,7 @@ use App\Stock;
 use App\Goods_type;
 use App\Shop;
 
-/*
+/**
 *   该控制器包含了广告模块的操作
 */
 class AdvertController extends Controller
@@ -26,14 +26,18 @@ class AdvertController extends Controller
     public function __construct()
     {
         //广告处理已加入安虫自营路由组，故此处可注之
-//         $this->middleware('anchong');
+        //$this->middleware('anchong');
         $this->accessKeyId=env('ALIOSS_ACCESSKEYId');
         $this->accessKeySecret=env('ALIOSS_ACCESSKEYSECRET');
         $this->endpoint=env('ALIOSS_ENDPOINT');
         $this->bucket=env('ALIOSS_BUCKET');
     }
-    /*
+
+    /**
      * 编辑广告时添加图片
+     *
+     * @param  $request('file'文件对象,'adid'广告ID,'goods_id'商品ID,'gid'货品ID)
+     * @return \Illuminate\Http\Response
      */
     public function addpic(Request $request)
     {
@@ -109,8 +113,11 @@ class AdvertController extends Controller
 
     }
 
-    /*
+    /**
     *   该方法是商机热门推广
+    *
+    * @param  $request('bid'商铺ID,'recommend'推荐状态)
+    * @return \Illuminate\Http\Response
     */
     public function businessadvert(Request $request)
     {
@@ -143,8 +150,11 @@ class AdvertController extends Controller
         }
     }
 
-    /*
+    /**
     *   发布资讯页面
+    *
+    * @param  无
+    * @return \Illuminate\Http\Response
     */
     public function newsshow()
     {
@@ -154,8 +164,11 @@ class AdvertController extends Controller
         return view("admin/advert/create_news");
     }
 
-    /*
+    /**
     *   查看资讯页面
+    *
+    * @param  无
+    * @return \Illuminate\Http\Response
     */
     public function newsindex()
     {
@@ -165,8 +178,11 @@ class AdvertController extends Controller
         return view("admin/advert/index",array('datacol'=>$datas));
     }
 
-    /*
+    /**
     *   商机广告
+    *
+    * @param  无
+    * @return \Illuminate\Http\Response
     */
     public function busiadvert()
     {
@@ -176,8 +192,11 @@ class AdvertController extends Controller
         return view("admin/advert/business");
     }
 
-    /*
+    /**
     *   发布资讯
+    *
+    * @param  $request('pic'图片数组,'title'标题,'img'单一图片,'param'发布内容)
+    * @return \Illuminate\Http\Response
     */
     public function releasenews(Request $request)
     {
@@ -207,8 +226,11 @@ class AdvertController extends Controller
         }
     }
 
-    /*
+    /**
     *   资讯修改
+    *
+    * @param  $request('title'标题,'newsimg'新闻图片,'infor_id'资讯ID)
+    * @return \Illuminate\Http\Response
     */
     public function inforupdate(Request $request)
     {
@@ -229,8 +251,11 @@ class AdvertController extends Controller
         }
     }
 
-    /*
+    /**
     *   单个资讯查看
+    *
+    * @param  int  $id资讯ID
+    * @return \Illuminate\Http\Response
     */
     public function firstinfor($infor_id)
     {
@@ -240,8 +265,11 @@ class AdvertController extends Controller
         return $datas;
     }
 
-    /*
+    /**
     *   删除单个资讯
+    *
+    * @param  int  $id资讯ID
+    * @return \Illuminate\Http\Response
     */
     public function infordel($infor_id)
     {

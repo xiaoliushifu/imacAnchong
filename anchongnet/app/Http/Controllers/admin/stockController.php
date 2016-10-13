@@ -11,6 +11,9 @@ use App\Goods_specifications;
 use DB;
 use Gate;
 
+/**
+*   该控制器包含了区域仓储模块的操作
+*/
 class stockController extends Controller
 {
     private $stock;
@@ -44,7 +47,7 @@ class stockController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('gid'货品ID,'location'货位号,'regionum'数量)
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -105,8 +108,8 @@ class stockController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  $request('location'货位号,'regionum'货品数量)
+     * @param  int  $id货品ID
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -141,7 +144,7 @@ class stockController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id库存ID
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -152,18 +155,26 @@ class stockController extends Controller
         return "删除成功";
     }
 
-    /*
+    /**
      * 更新货品的总库存
-     * */
-    public function getTotal(Request $request){
+     *
+     * @param  $request('货品ID')
+     * @return \Illuminate\Http\Response
+     */
+    public function getTotal(Request $request)
+    {
         $gid=$request->gid;
         $this->total($gid);
     }
 
-    /*
+    /**
      * 更新指定货品总库存的私有方法
-     * */
-    private function total($gid){
+     *
+     * @param  int  $id货品ID
+     * @return \Illuminate\Http\Response
+     */
+    private function total($gid)
+    {
         $total=0;
         $datas=$this->stock->Good($gid)->get();
         for($i=0;$i<count($datas);$i++){
@@ -174,10 +185,14 @@ class stockController extends Controller
         $good->save();
     }
 
-    /*
+    /**
      * 根据条件返回指定库存记录
-     * */
-    public function getStock(Request $request){
+     *
+     * @param  $request('gid'货品ID)
+     * @return \Illuminate\Http\Response
+     */
+    public function getStock(Request $request)
+    {
         $data=Stock::Good($request['gid'])->get();
         return $data;
     }

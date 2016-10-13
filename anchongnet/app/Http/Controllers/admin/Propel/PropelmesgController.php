@@ -8,13 +8,18 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use JPush\Client;
 
-/*
+/**
 *   该控制器包含了社区或反馈消息推送模块的操作
 */
 class PropelmesgController extends Controller
 {
-    /*
+    /**
     *   该方法提供了推送的功能
+    *
+    * @param  $account联系人
+    * @param  $title标题
+    * @param  $content内容
+    * @return \Illuminate\Http\Response
     */
     public function apppropel($account,$title,$content)
     {

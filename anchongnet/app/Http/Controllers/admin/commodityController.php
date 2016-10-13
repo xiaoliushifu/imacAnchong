@@ -13,6 +13,9 @@ use DB;
 use OSS\OssClient;
 use OSS\Core\OssException;
 
+/**
+*   该控制器包含了商品模块的操作
+*/
 class commodityController extends Controller
 {
     private $good;
@@ -77,12 +80,12 @@ class commodityController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('keyword'关键字,'name'商品名,'sid'商铺ID,'description'描述,'midselect'分类ID,'remark'备注,'pic'图片数组,'param'描述参数,'data'附件,'oem'商品OEM,'attrname'商品属性,'gid'商品ID,'supname'配套ID数组,'title'配套标题数组,'price'配套价格数组,'img'配套图片数组,'goodsname'配套商品名)
      * @return \Illuminate\Http\Response
      */
     public function store(\App\Http\Requests\CommodityRequest $request)
     {
-        /*
+        /**
          * 因为要向多个表中插入数据，
          * 所以需要开启事务处理
          * */
@@ -126,7 +129,7 @@ class commodityController extends Controller
         if ($request->oem) {
             DB::table('anchong_goods_oem')->insert(['goods_id'=>$gid,'value'=>$request->oem]);
         }
-        
+
         //通过一个for循环向属性表中插入数据
         for($i=0;$i<count($request->attrname);$i++){
             DB::table('anchong_goods_attribute')->insertGetId(
@@ -163,7 +166,7 @@ class commodityController extends Controller
     /**
      * Display the specified resource.
      *添加货品页，选择商品时触发
-     * @param  int  $id
+     * @param  int  $id商品
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -183,7 +186,7 @@ class commodityController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id商品
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -195,8 +198,8 @@ class commodityController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  $request('keyword'关键字,'description'描述,'midselect'分类ID,'title'商品名,'param'描述参数,'data'附件,'oem'商品OEM)
+     * @param  int  $id商品
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -227,14 +230,14 @@ class commodityController extends Controller
         $data->keyword=ltrim($keywords);
         $data->type=trim($type);
         $result=$data->save();
-        
-        /*oem修改 START*/
+
+        /**oem修改 START*/
         if ($request['oem']) {
             //因该功能是后期添加，故照顾以前的数据，有则更新，无则插入
             $oem = $request['oem'];
             DB::insert("insert into anchong_goods_oem(`goods_id`,`value`) values('$id','$oem') on duplicate key update value='$oem'");
         }
-        /*oem的修改 END*/
+        /**oem的修改 END*/
         //属性信息不在此处更新，在编辑页单独修改
         if ($result) {
             return redirect()->back();
@@ -246,7 +249,8 @@ class commodityController extends Controller
     /**
      * 商品与货品的级联删除
      *
-     * @param  int  $id
+     * @param  $request('npx'标识)
+     * @param  int  $id商品ID
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $req, $id)
@@ -272,7 +276,7 @@ class commodityController extends Controller
             $res['attr'] = DB::table('anchong_goods_attribute')->where('goods_id',$id)->delete();
             $res['supp'] = DB::table('anchong_goods_supporting')->where('assoc_gid',$id)->delete();
             DB::commit();
-            
+
             //搜索缓存删除
             Cache::tags('s')->flush();
             return '删除商品成功';
@@ -281,9 +285,12 @@ class commodityController extends Controller
         }
     }
 
-    /*
+    /**
      * 根据分类信息获取商品
-     * */
+     *
+     * @param  $request('pid'类型ID,'sid'商铺ID)
+     * @return \Illuminate\Http\Response
+     */
     public function getBycat(Request $request)
     {
         $type=$request['pid'];
@@ -291,18 +298,25 @@ class commodityController extends Controller
         return $data;
     }
 
-    /*
+    /**
      * 获取商品关键词
-     * */
-    public function getKeywords(Request $request){
+     *
+     * @param  $request('goods_id'商品ID,'keyword'关键字)
+     * @return \Illuminate\Http\Response
+     */
+    public function getKeywords(Request $request)
+    {
         $goods_id=$request['goods_id'];
         $keywords=DB::table('anchong_goods')->whereRaw('goods_id='.$goods_id)->pluck('keyword');
         return $keywords;
     }
 
-    /*
+    /**
      * 更新图片方法
-     * */
+     *
+     * @param  $request('file'文件对象,'gid'商品ID)
+     * @return \Illuminate\Http\Response
+     */
     public function updateImg(Request $request)
     {
         $fileType=$_FILES['file']['type'];
@@ -352,9 +366,12 @@ class commodityController extends Controller
         }
         return response()->json(['message' => $message, 'isSuccess' => $isSuccess,'url'=>$url]);
     }
-    
+
     /**
      * 根据商品id获得oem
+     *
+     * @param  $req('gid'商品ID)
+     * @return \Illuminate\Http\Response
      */
     public function oem(Request $req)
     {

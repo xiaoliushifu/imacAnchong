@@ -15,7 +15,7 @@ use Cache;
 use Hash;
 
 /*
-*   支付控制器
+*   该控制器包含了支付控制器
 */
 class PayController extends Controller
 {

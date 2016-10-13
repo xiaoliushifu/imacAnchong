@@ -52,7 +52,7 @@ class SearchController extends Controller
     {
         return view('admin/permission/s',['res'=>[],'hex'=>'','ori'=>'']);
     }
-    
+
     /**
      * 搜索转接
      */
@@ -80,7 +80,7 @@ class SearchController extends Controller
         //var_dump($res->getData(true)['ResultData']);
         return view('admin/permission/s',['res'=>$res['ResultData']['list'],'ori'=>$ori,'hex'=>$hex]);
     }
-    
+
     /**
      * 标签方式，清除有关商品搜索的全部缓存（需要驱动支持）
      */
@@ -88,5 +88,4 @@ class SearchController extends Controller
     {
         return Cache::tags('s')->flush();
     }
-    
 }

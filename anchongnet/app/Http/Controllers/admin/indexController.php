@@ -7,11 +7,17 @@ use Session,Redirect,Request,Hash,Auth;
 use DB;
 use App\Shop;
 
+/**
+*   该控制器包含了后台主页模块的操作
+*/
 class indexController extends Controller
 {
 
-     /*
+     /**
      *  后台首页
+     *
+     * @param  无
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -52,8 +58,11 @@ class indexController extends Controller
         return view('admin.index',['username' => Auth::user()['username'],"neworder"=>$neworder,'feedback'=>$newfeedback,'newshop'=>$newshop,'newauth'=>$newauth,'last_time'=>$datetime,"datacol"=>$community_release_result]);
     }
 
-    /*
+    /**
     *   验证登陆
+    *
+    * @param  $request('username'用户账号,'captchapic'验证码,'password'用户密码)
+    * @return \Illuminate\Http\Response
     */
     public function checklogin(Request $request)
     {
@@ -94,8 +103,11 @@ class indexController extends Controller
         }
     }
 
-    /*
+    /**
     *   登出
+    *
+    * @param  无
+    * @return \Illuminate\Http\Response
     */
     public function logout()
     {

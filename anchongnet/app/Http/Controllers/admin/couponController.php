@@ -9,6 +9,9 @@ use App\Coupon_pool;
 use DB;
 use Cache;
 
+/**
+*   该控制器包含了优惠券模块的操作
+*/
 class couponController extends Controller
 {
     /**
@@ -42,7 +45,7 @@ class couponController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('shop'使用范围,'title'标题,'target'使用条件,'cvalue'面值,'beans'兑换虫豆,'type'使用小范围,'type2'精确到商品或商铺的范围,'endline'过期时间)
      * @return \Illuminate\Http\Response
      */
     public function store(Request $req)
@@ -60,7 +63,7 @@ class couponController extends Controller
         $tmp=explode('#@#',$req['shop']);
         $req['shop']=$tmp[0];
         $req['title']=$tmp[1];
-        
+
         $field=array(
             'title'=>$req['title'],
             'target'=>$req['target'],
@@ -111,7 +114,7 @@ class couponController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request('cvalue'面值,'beans'兑换虫豆数量,'target'使用条件,'acpid'优惠券ID)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -146,7 +149,7 @@ class couponController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id优惠券ID
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $req, $id)
@@ -159,6 +162,9 @@ class couponController extends Controller
 
     /**
      *  查询优惠券信息
+     *
+     * @param  $request('acpid'优惠券ID)
+     * @return \Illuminate\Http\Response
      */
     public function couponinfo(Request $request)
     {
