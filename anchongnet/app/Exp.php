@@ -5,7 +5,7 @@ namespace App;
  * @author 
  *
  */
-class exp
+class Exp
 {
     
     private $qkey = '0abb2cf879a118af49c5e0308b4aea41';
@@ -56,37 +56,43 @@ class exp
      */
     public function sendOrder($orderinfo,$comno='zjs'){
         $params = array(
+            'dtype' =>'json',
             'key' => $this->skey,
-            //订单编号（由下单方指定)
-            'order_no'=>$order_num,
-            'isWaybill'=>$order_num,
+            //订单编号（由下单方指定，非快递公司的运单号，用于和聚合沟通)
+            //下单成功只是说明这个信息存储成功,并且会推送到快递公司,会有快递员取件或事先电话联系,这个时候并没有产生物流信息,在快递公司肯定查不到
+            'order_no'=>$orderinfo['order_num'],
+            'isWaybill'=>1,
+            'send_method'=>'addOrderInfoMes',
             //快递公司编码
             'carrier_code'=>$comno,
             
             //发件人信息部分
-            'sender_name'=>$order_num,
-            'sender_telphone'=>$order_num,
-            'sender_phone'=>$order_num,
-            'sender_province_name'=>$order_num,
-            'sender_city_name'=>$order_num,
-            'sender_district_name'=>$order_num,
-            'sender_address'=>$order_num,
-            'sender_post_code'=>$order_num,
+            'sender_name'=>'公茂通',
+            'sender_telphone'=>'18600818638',
+           // 'sender_phone'=>$orderinfo['order_num'],//固话
+            'sender_province_name'=>'北京',
+            'sender_city_name'=>'北京市',
+            'sender_district_name'=>'昌平',
+            'sender_address'=>'北京市昌平区发展路8号院',
+            'sender_post_code'=>'102204',
             //收件人信息部分
-            'receiver_name'=>$order_num,
-            'receiver_telphone'=>$order_num,
-            'receiver_province_name'=>$order_num,
-            'receiver_city_name'=>$order_num,
-            'receiver_district_name'=>$order_num,
-            'receiver_address'=>$order_num,
-            'receiver_org_name'=>$order_num,
+            'receiver_name'=>$orderinfo['name'],
+            'receiver_telphone'=>$orderinfo['phone'],
+            'receiver_province_name'=>$orderinfo['receiver_province_name'],
+            'receiver_city_name'=>$orderinfo['receiver_city_name'],
+            'receiver_district_name'=>$orderinfo['receiver_district_name'],
+            'receiver_address'=>$orderinfo['address'],
+            'receiver_post_code'=>'215000',
+            //'receiver_org_name'=>$orderinfo['order_num'],
             //其他信息部分
-            'remark'=>$order_num,
-            'item_name'=>$order_num,
-            'send_start_time'=>$order_num,
-            'send_end_time'=>$order_num,
+            'remark'=>'聚合下单接口测试，此单勿扰',
+            'item_name'=>'安虫商品',//货物名称
+            'send_start_time'=>$orderinfo['send_start_time'],
+            'send_end_time'=>$orderinfo['send_end_time'],
         );
-        $content = $this->juhecurl($this->queryUrl,$params,1);
+        //return print_r($params,true);
+        \Log::info(print_r($params,true),['下单数据详情']);
+        $content = $this->juhecurl($this->sendUrl,$params,1);
         return $this->_returnArray($content);
     }
 
@@ -99,9 +105,10 @@ class exp
         $params = array(
             'key' => $this->skey,
             'carrier_code'  => $comno,
-            'order_no'=>$para['order_num'],
+            'order_no'=>$para['onum'],
         );
-        $content = $this->juhecurl($this->queryUrl,$params,1);
+        //return $params;
+        $content = $this->juhecurl($this->cancelUrl,$params,1);
         return $this->_returnArray($content);
     }
     

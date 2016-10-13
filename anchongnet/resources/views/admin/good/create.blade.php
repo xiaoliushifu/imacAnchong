@@ -208,7 +208,7 @@
                                 <ul class="form-group hidden" id="img">
                                 </ul>
                                 <div class="gal form-group">
-                                    <label for="pic" class="col-sm-2 control-label text-right">商品图片<br><i>最多可上传五张</i></label>
+                                    <label for="pic" class="col-sm-2 control-label text-right">货品图片<br><i>最多五张,最少一张</i></label>
                                     <div id="box" class="col-sm-10">
                                         <div id="test"></div>
                                     </div>

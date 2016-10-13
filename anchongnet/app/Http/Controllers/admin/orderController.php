@@ -11,6 +11,7 @@ use App\Orderinfo;
 use DB;
 use Gate;
 use Auth;
+use App\Exp;
 use App\Shop;
 use App\Goods_logistics;
 
@@ -154,36 +155,102 @@ class orderController extends Controller
      * 订单发货的方法
      * 由订单列表页，点击"发货",选择完发货方式后执行
      * */
-    public function orderShip(Request $request)
+    public function orderShip(Request $req)
     {
         //权限判定
         if (Gate::denies('order-ship')) {
             return back();
         }
-        //改状态为'3待收货'
-        $data=$this->order->find($request['orderid']);
-        $data->state=3;
-        $users_id=$data->users_id;
-        $order_num=$data->order_num;
-        $data->save();
-
-        // $datainfo=$this->orderinfo->Num($request['ordernum'])->first();
-        // if($datainfo){
-        //     $datainfo->state=3;
-        //     $datainfo->save();
-        // }
         //物流发货方式
-        if ($request['ship'] == "logistics") {
+        if ($req['ship'] == "wl") {
+           //获得订单数据，准备聚合接口的请求参数
+           $orderpa = $this->order->find($req['orderid']);
+           $orderpa['receiver_province_name'] = '北京';
+           $orderpa['receiver_city_name'] = '北京市';
+           $orderpa['receiver_district_name'] = '昌平区';
+           $orderpa['send_start_time'] = date('Y-m-d H:i:s',time()+3600);//通知快递员10分钟后取件
+           $orderpa['send_end_time'] = date('Y-m-d H:i:s',time()+10800);//三小时后
+           $orderpa['phone'] = '13013221114';//三小时后
+           $exp = new Exp();
+           //向指定物流公司下单
+            $res = $exp->sendOrder($orderpa);
+            //记录一次下单
+            \Log::info(print_r($res,true),['juheSend:'.$orderpa['order_num']]);
+            if ($res['error_code']!='0') {//正常下单
+                return $res['reason'];
+            }
+            //记录一次下单
             $this->gl=new Goods_logistics();
-            $this->gl->logisticsnum=$request['lognum'];//物流单号，需我们手动填写
-            $this->gl->order_id=$request['orderid'];
-            $this->gl->company=$request['logistics'];
+            $this->gl->logisticsnum=$req['onum'];
+            $this->gl->order_id=$req['orderid'];
+            $this->gl->company=$req['com'];
             $this->gl->save();
         }
-        $this->propleinfo($users_id,'订单发货通知','您订单编号为'.$order_num.'的订单已发货，感谢您对安虫平台的支持！');
-        return "发货成功";
+        //改状态为'3待收货'
+        $data=$this->order->find($req['orderid']);
+        $data->state=3;
+        $data->save();
+        
+        $this->propleinfo($data->users_id,'订单发货通知','您订单编号为'.$data->order_num.'的订单已发货，感谢您对安虫平台的支持！');
+        return $res['reason'];
     }
 
+    
+    /*
+     * 由聚合回调，用于安虫下单后，接收其有关订单状态的信息
+     * */
+    public function ostatus(Request $req)
+    {
+        $req['key']='123456';
+        $req['result'] = '';
+        if($req['key'] !='123456'){
+            return 'key不对';
+        }
+        $res = json_decode($req['result'],true);
+        dd($res);
+        //物流发货方式
+        return 'success';
+    }
+    
+    /*
+     * 由聚合回调，用于安虫下单后，接收其有关物流状态的信息
+     * */
+    public function postWl(Request $req)
+    {
+        if(1){
+    
+        }
+        //物流发货方式
+        return $res['reason'];
+    }
+    
+    /*
+     * 取消物流订单的方法
+     * */
+    public function orderCancel(Request $req)
+    {
+        //权限判定
+        if (Gate::denies('order-ship')) {
+            return back();
+        }
+        $exp = new Exp();
+        $res = $exp->cancelOrder($req);
+        //记录一次撤单
+        \Log::info(print_r($res,true),['juheCancel:'.$req['onum']]);
+        if ($res['error_code']!='0') {//正常撤单
+            return $res['reason'];
+        }
+        
+        //取得订单信息
+        $data=$this->order->find($req['orderid']);
+        //改回状态为'2待发货'
+        $data->state=2;
+        $data->save();
+        $this->propleinfo($data->users_id,'发货取消通知','您订单编号为'.$data->order_num.'的订单已停止发货，感谢您对安虫平台的支持！');
+        return $res['reason'];
+    }
+    
+    
     /*
     *    该方法提供了订单的推送服务
     */

@@ -33,6 +33,8 @@ class logisController extends Controller
      */
     public function create()
     {
+        //暂不提供手动添加，由第三方接口获得
+        return back();
         //“添加物流”权限的判定
         if (Gate::denies('logis-add')) {
             return back();
@@ -48,6 +50,7 @@ class logisController extends Controller
      */
     public function store(\App\Http\Requests\StoreLogisRequest $request)
     {
+        return '权限不足';
         //“添加物流”权限的判定
         if (Gate::denies('logis-add')) {
             return back();
@@ -94,6 +97,7 @@ class logisController extends Controller
      */
     public function update(\App\Http\Requests\StoreLogisRequest $request, $id)
     {
+        return '权限不足';
         //"物流" 权限判定
         if (Gate::denies('logis-del')) {
             //特殊处理，不返回back();
@@ -115,6 +119,7 @@ class logisController extends Controller
      */
     public function destroy($id)
     {
+        return '权限不足';
         //"删除物流" 权限判定
         if (Gate::denies('logis-del')) {
             //特殊处理，不返回back();

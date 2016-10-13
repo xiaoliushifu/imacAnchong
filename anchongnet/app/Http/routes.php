@@ -378,7 +378,11 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
     //银联支付处理
     Route::get('/unionpay/pay','Api\Pay\UnionpayController@pay');
 });
-
+//聚合向安虫推送订单及物流状态信息的对外地址
+Route::group(['domain'=>'courier.anchong.net'],function(){
+    Route::post('/order','admin\orderController@ostatus');
+    Route::post('/logis','admin\orderController@lstatus');
+});
 //后台路由
 Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function () {
         //商品搜索
@@ -409,7 +413,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::resource('/shop','admin\shopController');
                 //商铺审核路由
                 Route::get("/checkShop",'admin\checkShopController@index');
-                //物流管理
+                //商铺物流公司管理
                 Route::resource('/logis','admin\logisController');
                 //标签管理路由
                 Route::resource('/tag','admin\tagController');
@@ -463,6 +467,8 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::resource('/order','admin\orderController');
             //订单发货路由
             Route::post('/ordership','admin\orderController@orderShip');
+            //取消订单路由
+            Route::post('/ordercancel','admin\orderController@orderCancel');
             //订单审核路由
             Route::post('/checkorder','admin\orderController@checkorder');
             //获取订单详情的路由

@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /*
-*   该模快是操作快递公司表的
+*   该模快是操作快递(物流)公司表的
 */
 class Shops_logistics extends Model
 {

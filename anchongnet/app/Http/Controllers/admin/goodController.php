@@ -225,14 +225,14 @@ class goodController extends Controller
          * 通过一个for循环向缩略图表中插入数据
          */
         for($i=0;$i<count($request['pic']);$i++){
-            if($i==0){
+            if ($i==0) {
                 //如果是第一张，就像货品表和商品类型表中插入图片地址
                 $data=$this->Goods_specifications->find($gid);
-                $data->goods_img=$request['pic'][$i]['url'];
+                $data->goods_img=$request['pic'][0]['url'];
                 $data->save();
 
                 $tdata=$this->goods_type->find($gtid);
-                $tdata->pic=$request['pic'][$i]['url'];
+                $tdata->pic=$request['pic'][0]['url'];
                 $tdata->save();
             }
             DB::table('anchong_goods_thumb')->insert(

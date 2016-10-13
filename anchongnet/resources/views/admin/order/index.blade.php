@@ -131,6 +131,8 @@
 												@else
 													<button type='button' class='disabled btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#mySend">发货</button>
 												@endcan
+											@elseif ($data['state'] == 3)
+													<button type='button' class='status btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myStatus">查看物流状态</button>
 											@elseif ($data['state'] == 4)
 												@can('order-ship')
 													<button type='button' class='check f-ib btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myCheck">审核</button>
@@ -243,18 +245,19 @@
 				</div>
 				<div class="modal-body">
 					<form action="/ordership" method="post" class="form-group form-inline" id="goform">
-						<input type="hidden" name="orderid" id="orderid">
-						<input type="hidden" name="ordernum" id="ordernum">
+						<input type="hidden" name="orderid"  id="orderid">
+						<input type="hidden" name="onum" id="onum">
+						<input type="hidden" name="com" id="com" value='宅急送'>
 						<p>
 							<label>发货方式：</label>
 							<label class="radio-inline">
-								<input type="radio" name="ship" id="inlineRadio1" value="hand" checked> 手动发货
+								<input type="radio" name="ship"  value="hand" checked> 手动发货
 							</label>
 							<label class="radio-inline">
-								<input type="radio" name="ship" id="inlineRadio2" value="logistics"> 物流发货
+								<input type="radio" name="ship" value="wl"> 物流发货
 							</label>
 						</p>
-						<div class="hidden" id="logistics">
+						<div class="hidden" id="wlist">
 							<p>
 								<label>选择物流：</label>
 								<select class="form-control" name="logistics" id="logs">
@@ -262,14 +265,33 @@
 							</p>
 							<p>
 								<label for="lognum">物流单号：</label>
-								<input type="number" name="lognum" id="lognum" class="form-control" required>
+								<input type="number" name="lognum" class="form-control" required>
+								<small>使用安虫的订单编号</small>
 							</p>
 						</div>
 						<p class="text-center">
-							<button type="button" class="btn btn-sm btn-primary" id="go">发货</button>
+							<button type="button" class="btn btn-sm btn-primary" id="go">开始发货</button>
 						</p>
 					</form>
 				</div>
+			</div>
+		</div>
+	</div>
+	
+	{{--物流状态，弹窗口--}}
+	<div class="modal fade" id="myStatus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">close</span>
+					</button>
+					<h4 class="modal-title">&nbsp;</h4>
+				</div>
+				<div class="modal-body">
+					<label>快递员正在来取件的路上......<span id='ff'></span></label>
+				</div>
+				<button type="button" id="cancelO" data-num="" data-id="">取消订单</button>
 			</div>
 		</div>
 	</div>

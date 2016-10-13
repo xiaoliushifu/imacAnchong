@@ -148,3 +148,15 @@ $('#test').diyUpload({
         console.info( err );
     }
 });
+
+/**
+ * 表单验证部分
+ */
+$('body').on('submit','form',function(){
+	//已经上传的货品图片的数量
+	var len=$("#img").find("li").length;
+	if (len < 1) {
+		$('.gal i').addClass('text-danger');
+		return false;
+	}
+});
