@@ -102,11 +102,9 @@ class LiveController extends Controller
                         [
                             'users_id' => $data['guid'],
                             'room_url' => $urls['ORIGIN'],
-                            'title' => $param['title'],
-                            'images' => str_replace('.oss-','.img-',$param['images']),
-                            'topic' => $param['topic'],
-                            'header' => $param['header'],
-                            'nick' => $param['nick']
+                            'title'    => $param['title'],
+                            'images'   => str_replace('.oss-','.img-',$param['images']),
+                            'topic'    => $param['topic']
                         ]
                     );
                 }else{
@@ -191,6 +189,16 @@ class LiveController extends Controller
                 //如果该用户已生成了直播就直接获取
                 $stream=$this->hub->getStream("z1.chongzai.".md5($data['guid']));
                 $stream->delete();
+                //网易云信
+                $url  = "https://api.netease.im/nimserver/chatroom/toggleCloseStat.action";
+                $datas="operator=".$param['phone']."&roomid=".$param['roomid'].'&valid=false';
+                list($return_code, $return_content) = $this->JsonPost->http_post_data($url, $datas);
+                // //将字符串形式的json解析为数组
+                // $result=json_decode($return_content,true);
+                // //判断是否请求成功
+                // if($return_code != 200){
+                //     return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"聊天室关闭失败"]]);
+                // }
             } catch (\Exception $e) {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'关闭失败']]);
             }
@@ -480,6 +488,43 @@ class LiveController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=> ['Message'=>'删除成功']]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'删除失败']]);
+        }
+    }
+
+    /*
+    *   网易云信脚本注册器
+    *   用完删除
+    */
+    public function regnetease(Request $request)
+    {
+        // $users=DB::table('anchong_usermessages')->lists('users_id');
+        // $account=DB::table('anchong_users_login')->select('username','users_id')->get();
+        // foreach ($account as $username) {
+        //     if(in_array($username->users_id,$users)){
+        //         $result=DB::table('anchong_usermessages')->where('users_id',$username->users_id)->update(['account'=>$username->username]);
+        //         if(!$result){
+        //             echo $username->users_id."===";
+        //         }
+        //     }
+        // }
+
+        $users=DB::table('anchong_users_login')->select('username','users_id')->where('netease_token',"")->get();
+        // //var_dump($users);
+        foreach ($users as $users_info) {
+            //网易云信
+            $url  = "https://api.netease.im/nimserver/user/create.action";
+            $datas = 'accid='.($users_info->username).'&name='.($users_info->username).'&icon=http://anchongres.oss-cn-hangzhou.aliyuncs.com/headpic/placeholder120@3x.png&token=3c374b5bc7a7d5235cde6426487d8a3c';
+            list($return_code, $return_content) = $this->JsonPost->http_post_data($url, $datas);
+            //判断是否请求成功
+            if($return_code != 200){
+                echo $users_info->account.'====';
+            }else {
+                $result=DB::table('anchong_users_login')->where('users_id',$users_info->users_id)->update(['netease_token'=>'3c374b5bc7a7d5235cde6426487d8a3c']);
+                if(!$result){
+                    echo $users_info->account.'====';
+                }
+            }
+
         }
     }
 }

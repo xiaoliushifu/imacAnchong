@@ -108,7 +108,7 @@ class UserController extends Controller
                             'password' => Hash::make($param['password']),
                             'username' => $param['phone'],
                             'token' => md5($param['phone']),
-                            'netease_token' => md5($usersid.$param['phone']),
+                            'netease_token' => '3c374b5bc7a7d5235cde6426487d8a3c'),
                             'user_rank'=>1
                         ];
 
@@ -118,7 +118,7 @@ class UserController extends Controller
                         //网易云信
                         $url  = "https://api.netease.im/nimserver/user/create.action";
                         //生成账号的数据
-                        $datas = 'accid='.$param['phone'].'&token='.$users_login_data['netease_token'];
+                        $datas = 'accid='.$param['phone'].'&token=3c374b5bc7a7d5235cde6426487d8a3c';
                         list($return_code, $return_content) = $JsonPost->http_post_data($url, $datas);
                         //判断是否请求成功
                         if($return_code != 200){

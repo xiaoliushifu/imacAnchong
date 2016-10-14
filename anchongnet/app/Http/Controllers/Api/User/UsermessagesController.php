@@ -231,8 +231,8 @@ class UsermessagesController extends Controller
 					$this->usermessages->contact = $param['contact'];
 				}
 				//网易云信
-	            $urls  = "https://api.netease.im/nimserver/user/create.action";
-	            $datas = 'accid='.($account[0]).'&name='.($param['nickname']?$param['nickname']:$account[0]).'&token=3c374b5bc7a7d5235cde6426487d8a3c';
+	            $urls  = "https://api.netease.im/nimserver/user/updateUinfo.action";
+	            $datas = 'accid='.($account[0]).'&name='.($param['nickname']?$param['nickname']:$account[0]);
 	            list($return_code, $return_content) = $this->JsonPost->http_post_data($urls, $datas);
 	            //判断是否请求成功
 	            if($return_code != 200){
@@ -252,7 +252,7 @@ class UsermessagesController extends Controller
 				if ($param['nickname']!=null) {
 					$user->nickname = $param['nickname'];
 					//网易云信
-		            $urls  = "https://api.netease.im/nimserver/user/create.action";
+		            $urls  = "https://api.netease.im/nimserver/user/updateUinfo.action";
 					$datas = 'accid='.($account[0]).'&name='.($param['nickname']);
 		            list($return_code, $return_content) = $this->JsonPost->http_post_data($urls, $datas);
 		            //判断是否请求成功
@@ -336,8 +336,8 @@ class UsermessagesController extends Controller
 				$this->usermessages->users_id=$id;
 				$this->usermessages->headpic=$url;
 				//网易云信
-	            $urls  = "https://api.netease.im/nimserver/user/create.action";
-	            $datas = 'accid='.($account[0]).'&icon='.($url).'&token=3c374b5bc7a7d5235cde6426487d8a3c';
+	            $urls  = "https://api.netease.im/nimserver/user/updateUinfo.action";
+	            $datas = 'accid='.($account[0]).'&icon='.($url);
 	            list($return_code, $return_content) = $this->JsonPost->http_post_data($urls, $datas);
 	            //判断是否请求成功
 	            if($return_code != 200){
@@ -356,7 +356,7 @@ class UsermessagesController extends Controller
 				$data=Usermessages::where('users_id', '=', $id)->first();
 				$data->headpic=$url;
 				//网易云信
-				$urls  = "https://api.netease.im/nimserver/user/create.action";
+				$urls  = "https://api.netease.im/nimserver/user/updateUinfo.action";
 				$datas = 'accid='.($account[0]).'&icon='.($url);
 				list($return_code, $return_content) = $this->JsonPost->http_post_data($urls, $datas);
 				//判断是否请求成功
