@@ -47,24 +47,44 @@
                 <i class="manage"><a href="">管理收货地址</a></i>
             </div>
             <ul class="address-list">
+                @foreach($deaddr as $value)
                 <li class="default">
-                    <p class="consignee">收货人：韩师傅</p>
-                    <p class="telphone">联系电话：13845673333</p>
-                    <p class="reciver-add">收货地址：北京市昌平区沙河镇于辛庄村天理家园C300</p>
+                    <p class="consignee">收货人：{{$value->add_name}}</p>
+                    <p class="telphone">联系电话：{{$value ->phone}}</p>
+                    <p class="reciver-add">收货地址：{{$value->region}}&nbsp;&nbsp;{{$value->address}}</p>
                     <p class="selected"><img src="home/images/cart/selected.png"></p>
                 </li>
+                @endforeach
+                @if(count($addr)==0)
+
                 <li class="o-add">
-                    <p class="consignee">收货人：韩师傅</p>
-                    <p class="telphone">联系电话：13845673333</p>
-                    <p class="reciver-add">收货地址：北京市昌平区沙河镇于辛庄村天理家园C300</p>
+                    <p style="text-align: center;color:#f53745;line-height: 50px">暂无更多地址</p>
+                </li>
+                <li class="o-add">
+                    <p style="text-align: center;color: #f53745;line-height: 50px">暂无更多地址</p>
+                </li>
+                @elseif(count($addr)==1)
+                    @foreach($addr as $v)
+                <li class="o-add">
+                    <p class="consignee">收货人：{{$v -> add_name}}</p>
+                    <p class="telphone">联系电话：{{$v -> phone}}</p>
+                    <p class="reciver-add">收货地址：{{$v ->region}}&nbsp;&nbsp;{{$v -> address}}</p>
                     <p class="select"><img src="home/images/cart/selected.png"></p>
                 </li>
                 <li class="o-add">
-                    <p class="consignee">收货人：韩师傅</p>
-                    <p class="telphone">联系电话：13845673333</p>
-                    <p class="reciver-add">收货地址：北京市昌平区沙河镇于辛庄村天理家园C300</p>
-                    <p class="select"><img src="home/images/cart/selected.png"></p>
+                    <p style="text-align: center;color: #f53745;line-height: 50px">暂无更多地址</p>
                 </li>
+                        @endforeach
+                @elseif(count($addr)==2)
+                    @foreach($addr as $v)
+                        <li class="o-add">
+                            <p class="consignee">收货人：{{$v -> add_name}}</p>
+                            <p class="telphone">联系电话：{{$v -> phone}}</p>
+                            <p class="reciver-add">收货地址：{{$v ->region}}&nbsp;&nbsp;{{$v -> address}}</p>
+                            <p class="select"><img src="home/images/cart/selected.png"></p>
+                        </li>
+                    @endforeach
+                @endif
                 <li class="add-address"><a href=""><img src="home/images/cart/add_address.png"></a></li>
                 <div class="cl"></div>
             </ul>
