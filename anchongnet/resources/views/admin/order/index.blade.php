@@ -59,8 +59,7 @@
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
 			<h1>
-				订单管理
-				<small>订单列表</small>
+				订单列表
 			</h1>
 		</section>
 
@@ -71,10 +70,19 @@
 					<div class="box">
 						<div class="box-body">
 							<form action="/order" method="get" class="form-horizontal form-inline f-ib">
-								<input type="text" name="keyNum" value="{{$datacol['args']['keyNum']}}" class="form-control" placeholder="订单编号">
+								<input type="text" name="kn" class="form-control" placeholder="订单编号">
+								<select name="state">
+                                    		<option value="0" >--筛选状态--</option>
+                                    		<option value="1">待支付</option>
+                                    		<option value="2">待发货</option>
+                                    		<option value="3">待收货</option>
+                                    		<option value="4">待审核</option>
+                                    		<option value="5">已退款</option>
+                                    		<option value="6">交易关闭</option>
+                                    		<option value="7">交易成功</option>
+                                </select>
 								<button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 							</form>
-							<a href="/order" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
 									<th>商铺名称</th>
@@ -247,7 +255,6 @@
 					<form action="/ordership" method="post" class="form-group form-inline" id="goform">
 						<input type="hidden" name="orderid"  id="orderid">
 						<input type="hidden" name="onum" id="onum">
-						<input type="hidden" name="com" id="com" value='宅急送'>
 						<p>
 							<label>发货方式：</label>
 							<label class="radio-inline">
@@ -260,13 +267,12 @@
 						<div class="hidden" id="wlist">
 							<p>
 								<label>选择物流：</label>
-								<select class="form-control" name="logistics" id="logs">
-								</select>
+								<select class="form-control" name="logistics" id="logs"></select>
 							</p>
 							<p>
 								<label for="lognum">物流单号：</label>
 								<input type="number" name="lognum" class="form-control" required>
-								<small>使用安虫的订单编号</small>
+								<small></small>
 							</p>
 						</div>
 						<p class="text-center">
@@ -289,7 +295,7 @@
 					<h4 class="modal-title">&nbsp;</h4>
 				</div>
 				<div class="modal-body">
-					<label>快递员正在来取件的路上......<span id='ff'></span></label>
+					<label>订单编号:<span id='ff'></span></label>
 				</div>
 				<button type="button" id="cancelO" data-num="" data-id="">取消订单</button>
 			</div>

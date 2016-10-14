@@ -68,7 +68,7 @@ class Exp
             
             //发件人信息部分
             'sender_name'=>'公茂通',
-            'sender_telphone'=>'18600818638',
+            'sender_telphone'=>'13013221114',
            // 'sender_phone'=>$orderinfo['order_num'],//固话
             'sender_province_name'=>'北京',
             'sender_city_name'=>'北京市',
@@ -85,7 +85,7 @@ class Exp
             'receiver_post_code'=>'215000',
             //'receiver_org_name'=>$orderinfo['order_num'],
             //其他信息部分
-            'remark'=>'聚合下单接口测试，此单勿扰',
+            'remark'=>'下单啦',
             'item_name'=>'安虫商品',//货物名称
             'send_start_time'=>$orderinfo['send_start_time'],
             'send_end_time'=>$orderinfo['send_end_time'],

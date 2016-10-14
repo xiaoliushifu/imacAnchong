@@ -45,13 +45,16 @@ class orderController extends Controller
      */
     public function index()
     {
-        $kn=Requester::input('keyNum');
+        $kn=Requester::input('kn');
+        $ks=Requester::input('state');
         if ($kn) {
             $datas = Order::num($kn,$this->sid)->orderBy("order_id","desc")->paginate(8);
+        } elseif ($ks) {
+            $datas=$this->order->where("sid","=",$this->sid)->where('state',$ks)->orderBy("order_id","desc")->paginate(8);
         } else {
             $datas=$this->order->where("sid","=",$this->sid)->orderBy("order_id","desc")->paginate(8);
         }
-        $args=array("keyNum"=>$kn);
+        $args=array("state"=>$ks);
         return view('admin/order/index',array("datacol"=>compact("args","datas")));
     }
 
@@ -170,12 +173,13 @@ class orderController extends Controller
      * @param  $request('orderid'订单ID,'ship'行为参数,'lognum'物流单号,'logistics'企业)
      * @return \Illuminate\Http\Response
      */
-    public function orderShip(Request $request)
+    public function orderShip(Request $req)
     {
         //权限判定
         if (Gate::denies('order-ship')) {
             return back();
         }
+        $carrier=['0','hand'];
         //物流发货方式
         if ($req['ship'] == "wl") {
            //获得订单数据，准备聚合接口的请求参数
@@ -184,30 +188,34 @@ class orderController extends Controller
            $orderpa['receiver_city_name'] = '北京市';
            $orderpa['receiver_district_name'] = '昌平区';
            $orderpa['send_start_time'] = date('Y-m-d H:i:s',time()+3600);//通知快递员10分钟后取件
-           $orderpa['send_end_time'] = date('Y-m-d H:i:s',time()+10800);//三小时后
-           $orderpa['phone'] = '13013221114';//三小时后
+           $orderpa['send_end_time'] = date('Y-m-d H:i:s',time()+7200);//半小时后
+           $orderpa['phone'] = '18600818638';
+           $orderpa['address'] = '北京市昌平区回龙腾二街2号院';
            $exp = new Exp();
            //向指定物流公司下单
-            $res = $exp->sendOrder($orderpa);
+           $carrier = explode('|',$req['logistics']);
+           $res = $exp->sendOrder($orderpa,$carrier[0]);
             //记录一次下单
-            \Log::info(print_r($res,true),['juheSend:'.$orderpa['order_num']]);
-            if ($res['error_code']!='0') {//正常下单
+            \Log::info(print_r($res,true),['result_juheSend:'.$orderpa['order_num']]);
+            if ($res['error_code'] != '0') {//正常下单
                 return $res['reason'];
             }
-            //记录一次下单
-            $this->gl=new Goods_logistics();
-            $this->gl->logisticsnum=$req['onum'];
-            $this->gl->order_id=$req['orderid'];
-            $this->gl->company=$req['com'];
-            $this->gl->save();
         }
+        //记录一次下单
+        $this->gl=new Goods_logistics();
+        $this->gl->logisticsnum=$req['onum'];
+        $this->gl->order_id=$req['orderid'];
+        $this->gl->com_code=$carrier[0];//物流公司编号
+        $this->gl->company=$carrier[1];
+        $this->gl->save();
+        
         //改状态为'3待收货'
         $data=$this->order->find($req['orderid']);
         $data->state=3;
         $data->save();
-
+        DB::commit();
         $this->propleinfo($data->users_id,'订单发货通知','您订单编号为'.$data->order_num.'的订单已发货，感谢您对安虫平台的支持！');
-        return $res['reason'];
+        return 0;
     }
 
 
@@ -216,27 +224,45 @@ class orderController extends Controller
      * */
     public function ostatus(Request $req)
     {
-        $req['key']='123456';
-        $req['result'] = '';
-        if($req['key'] !='123456'){
-            return 'key不对';
+        
+//         $black = ['121.43.160.158','123.150.107.239','124.239.251.119','127.0.0.1'];
+//         if (!in_array($req->ip(),$black)){
+//             return '非法请求';
+//         }
+        $header = getallheaders();
+        $body = file_get_contents('php://input');
+        \Log::info("clientIP:".$req->ip().print_r($header,true).PHP_EOL.$body,['订单推送信息']);
+        $body = json_decode($body,true);
+        if ($this->derror($body)) {
+            return 'error';
         }
-        $res = json_decode($req['result'],true);
-        dd($res);
-        //物流发货方式
+        $res=$body['orders'][0];
+        DB::table('anchong_ostatus')->insert(['logisticsnum'=>$res['order_no'],'company'=>$res['carrier_code'],'status'=>$res['status'],'time'=>$res['time'],'content'=>$res['content']]);
         return 'success';
     }
 
     /*
      * 由聚合回调，用于安虫下单后，接收其有关物流状态的信息
      * */
-    public function postWl(Request $req)
+    public function lstatus(Request $req)
     {
-        if(1){
-
+        
+//         $black = ['121.43.160.158','123.150.107.239','124.239.251.119','127.0.0.1'];
+//         if (!in_array($req->ip(),$black)){
+//             return '非法请求';
+//         }
+        $header = getallheaders();
+        $body = file_get_contents('php://input');
+        \Log::info("clientIP:".$req->ip().print_r($header,true).PHP_EOL.$body,['物流推送信息']);
+        $body = json_decode($body,true);
+        if ($this->derror($body)) {
+            return 'error';
         }
+        $res=$body['orders'][0]['order'];
+        $data=$body['orders'][0]['data'];
+        DB::table('anchong_lstatus')->insert(['logisticsnum'=>$res['order_no'],'company'=>$res['carrier_code'],'bill_code'=>$res['bill_code'],'status'=>$res['status'],'data'=>serialize($data)]);
         //物流发货方式
-        return $res['reason'];
+        return 'success';
     }
 
     /*
@@ -248,21 +274,29 @@ class orderController extends Controller
         if (Gate::denies('order-ship')) {
             return back();
         }
-        $exp = new Exp();
-        $res = $exp->cancelOrder($req);
-        //记录一次撤单
-        \Log::info(print_r($res,true),['juheCancel:'.$req['onum']]);
-        if ($res['error_code']!='0') {//正常撤单
-            return $res['reason'];
+        DB::beginTransaction();
+        //下单表
+        $this->gl=Goods_logistics::where('order_id',$req['oid'])->where('ship',1)->first();
+        $this->gl->ship=0;
+        $this->gl->save();
+        if ($this->gl->com_code) {
+            $exp = new Exp();
+            $res = $exp->cancelOrder($req,$this->gl->com_code);
+            //记录一次撤单
+            \Log::info(print_r($res,true),['juheCancel:'.$req['onum']]);
+            if ($res['error_code']!='0') {//正常撤单
+                return $res['reason'];
+            }
         }
 
-        //取得订单信息
-        $data=$this->order->find($req['orderid']);
+        //订单表更新
+        $data=$this->order->find($req['oid']);
         //改回状态为'2待发货'
         $data->state=2;
         $data->save();
+        DB::commit();
         $this->propleinfo($data->users_id,'发货取消通知','您订单编号为'.$data->order_num.'的订单已停止发货，感谢您对安虫平台的支持！');
-        return $res['reason'];
+        return '撤单成功';
     }
 
     /**
@@ -294,5 +328,41 @@ class orderController extends Controller
             // 返回处理完成
             return true;
         }
+    }
+    
+    /**
+     * 用于解析聚合回调的json信息
+     * @param unknown $data
+     */
+    private function derror($data)
+    {
+        $res = '';
+        if (!$data) {
+            switch (json_last_error()) {
+                case JSON_ERROR_NONE:
+                    $res =  ' - No errors';
+                    break;
+                case JSON_ERROR_DEPTH:
+                    $res =  ' - Maximum stack depth exceeded';
+                    break;
+                case JSON_ERROR_STATE_MISMATCH:
+                    $res =  ' - Underflow or the modes mismatch';
+                    break;
+                case JSON_ERROR_CTRL_CHAR:
+                    $res =  ' - Unexpected control character found';
+                    break;
+                case JSON_ERROR_SYNTAX:
+                    $res =  ' - Syntax error, malformed JSON';
+                    break;
+                case JSON_ERROR_UTF8:
+                    $res =  ' - Malformed UTF-8 characters, possibly incorrectly encoded';
+                    break;
+                default:
+                    $res =  ' - Unknown error';
+                    break;
+            }
+            \Log::info($res,['json_error']);
+        }
+        return $res;
     }
 }

@@ -150,7 +150,7 @@ $(function(){
     		        $.get("/getlogis",function(data,status){
     		        		var opt='';
     		            for (var i=0;i<data.length;i++) {
-    		                opt+='<option value='+data[i].num+'>'+data[i].name+'</option>';
+    		                opt+='<option value='+data[i].num+'|'+data[i].name+'>'+data[i].name+'</option>';
     		            }
     		            $("#logs").append(opt);
 		            $("#wlist").removeClass("hidden");
@@ -160,40 +160,41 @@ $(function(){
     			}
     	});
     
-  /**
-   * 弹框中，点击'开始发货'按钮
-   */
-    $("#go").click(function(){
-        $("#goform").ajaxSubmit({
-            type:'post',
-            url:'/ordership',
-            success:function(data){
-                console.log(data);
-                //location.reload();
-            },
-        });
-    });
-    
   //点击'查看物流状态'按钮，弹出发货方式选择页
     $(".status").click(function(){
     		//显示物流信息
         $("#cancelO").attr('data-num',$(this).attr("data-num"));
         $("#cancelO").attr('data-id',$(this).attr("data-id"));
         $("#ff").text($(this).attr("data-num"));
+        //调用后端状态信息
+        
     });
     
     
-    
+    /**
+     * 弹框中，点击'开始发货'按钮
+     */
+      $("#go").click(function(){
+          $("#goform").ajaxSubmit({
+              type:'post',
+              url:'/ordership',
+              success:function(data){
+            	  	if (data) {
+            	  		$('small').text(data);
+            	  	} else {
+            	  		location.reload();
+            	  	}
+              },
+          });
+      });
     
     /**
      * 弹框中，执行取消订单
      */
       $("#cancelO").click(function(){
           $.post('/ordercancel',{oid:$(this).attr("data-id"),onum:$(this).attr("data-num")},function(data){
-                  console.log(data);
-                  //location.reload();
+                  //console.log(data);
+                  location.reload();
               });
       });
-    
-    
 });

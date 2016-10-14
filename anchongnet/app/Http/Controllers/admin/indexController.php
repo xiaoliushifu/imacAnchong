@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use Session,Redirect,Request,Hash,Auth;
+use Session,Redirect,Request,Auth;
 use DB;
 use App\Shop;
 
@@ -66,6 +66,7 @@ class indexController extends Controller
     */
     public function checklogin(Request $request)
     {
+        
         $data=$request::all();
         //判断验证码是否正确
         if ($data['captchapic'] == Session::get($data['captchanum'].'adminmilkcaptcha')) {
