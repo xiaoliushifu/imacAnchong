@@ -66,7 +66,7 @@
     <div class="submain">
         <div class="publish-title">
             <div class="publish-left">
-                <a href="{{url('/talent')}}">人才发布</a><a href="{{url('gopage/talentjoin')}}">人才招聘</a>
+                <a href="{{url('/talent')}}">人才发布</a><a href="{{url('server/talentjoin')}}">人才招聘</a>
             </div>
             <div class="publish-right">
                 <a href="

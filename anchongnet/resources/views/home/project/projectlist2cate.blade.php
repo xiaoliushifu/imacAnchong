@@ -56,20 +56,20 @@
 		<hr class="nav-underline">
 
 		<div class="banner">
-			<img src="../home/images/gongchengxq/banner.jpg"/>
+			<img src="{{asset('home/images/gongchengxq/banner.jpg')}}"/>
 		</div>
 		<div class="site-middle">
 			<div class="middle-container">
 				<div class="work">
-					<a class="contract-work" href="{{url('project')}}"><img src="../home/images/gongchengxq/发包工程.png"/></a>
-					<a class="package" href="{{url('serproject/lepro')}}"><img src="../home/images/gongchengxq/承接工程.png"/></a>
+					<a class="contract-work" href="{{url('project')}}"><img src="{{asset('home/images/gongchengxq/发包工程.png')}}"/></a>
+					<a class="package" href="{{url('gopage/lepro')}}"><img src="{{asset('home/images/gongchengxq/承接工程.png')}}"/></a>
 					<a class="release" href="
 					 @if(isset($msg))
 					{{url('/project/create')}}
 					@else
 					{{url('/user/login')}}
 					@endif
-							"><img src="../home/images/gongchengxq/发布工程.png"/></a>
+							"><img src="{{asset('home/images/gongchengxq/发布工程.png')}}"/></a>
 				</div>
 				<div class="nav">
 					<div class="server">
@@ -85,7 +85,7 @@
 
 						<ul class="server-type" id="yy" style="display: none;float: left;">
 							@foreach($lastadpro as $m)
-								<li><nobr><a href="{{url('sserproject/listcate2/'.$m->id)}}">{{$m->tag}}</a></nobr></li>
+								<li><nobr><a href="{{url('serproject/listcate2/'.$m->id)}}">{{$m->tag}}</a></nobr></li>
 							@endforeach
 						</ul>
 
@@ -111,21 +111,21 @@
 						<span class="rank">排序</span>
 						<span class="hot-rank">热门排序</span>
 						<ul class="pages-turn">
-                            <a href="{{$lepro->previousPageUrl()}}" class="pageup">
+                            <a href="{{$prodetail2->previousPageUrl()}}" class="pageup">
                                 <span class=""><</span>
                                 <span class="">&nbsp;上一页</span>
                             </a>
-                            <a href="{{$lepro->nextPageUrl()}}" class="pagedown">
+                            <a href="{{$prodetail2->nextPageUrl()}}" class="pagedown">
                                 <span class="">下一页&nbsp;</span>
                                 <span class="">></span>
                             </a>
                     </div>
 
 					<div class="project-info">
-						@foreach($lepro as $g)
+						@foreach($prodetail2 as $g)
 						<ul>
                             <li class="project-preview">
-                                <p class="title"><a href="{{url('project/'.$g->bid)}}">{{$g->title}}</a></p>
+								<nobr><p class="title" style="text-overflow: ellipsis;overflow: hidden;width: 500px;"><a href="{{url('project/'.$g->bid)}}">{{$g->title}}</a></p></nobr>
                                 <p class="digest"><nobr>{{$g->content}}</nobr></p>
                             </li>
                             <li class="image"><img src="{{$g->img}}"></li>
@@ -134,12 +134,13 @@
 						@endforeach
 
 					</div>
+					@if($prodetail2->lastpage()>1)
 					<div class="pages">
-						{{$lepro->links()}}
+						{{$prodetail2->links()}}
                         <ul class="page-skip">
 							<form action="{{url('gopage/glpage')}}" method="post">
 								{{csrf_field()}}
-                            <i>共有{{$lepro->lastpage()}}页，</i>
+                            <i>共有{{$prodetail2->lastpage()}}页，</i>
                             <i class="blank">
                                 去第
                                 <input class="page-num" type="text" name="page">
@@ -152,6 +153,7 @@
                         </ul>
                         <div class="cl"></div>
 					</div>
+						@endif
 				</div>
 			</div>
 		</div>

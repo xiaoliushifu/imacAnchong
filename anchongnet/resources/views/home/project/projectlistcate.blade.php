@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>承接工程</title>
+		<title>工程列表</title>
 		<link rel="stylesheet" type="text/css" href="{{asset('home/css/talent.css')}}"/>
 		<link rel="stylesheet" href="{{asset('home/css/businessjs.css')}}">
 		<link rel="stylesheet" href="{{asset('home/css/footer.css')}}">
@@ -56,28 +56,29 @@
 		<hr class="nav-underline">
 
 		<div class="banner">
-			<img src="../home/images/gongchengxq/banner.jpg"/>
+			<img src="{{asset('home/images/gongchengxq/banner.jpg')}}"/>
 		</div>
 		<div class="site-middle">
 			<div class="middle-container">
 				<div class="work">
-					<a class="contract-work" href="{{url('project')}}"><img src="../home/images/gongchengxq/发包工程.png"/></a>
-					<a class="package" href="{{url('serproject/lepro')}}"><img src="../home/images/gongchengxq/承接工程.png"/></a>
+					<a class="contract-work" href="{{url('project')}}"><img src="{{asset('home/images/gongchengxq/发包工程.png')}}"/></a>
+					<a class="package" href="{{url('serproject/lepro')}}"><img src="{{asset('home/images/gongchengxq/承接工程.png')}}"/></a>
 					<a class="release" href="
 					 @if(isset($msg))
 					{{url('/project/create')}}
 					@else
 					{{url('/user/login')}}
 					@endif
-							"><img src="../home/images/gongchengxq/发布工程.png"/></a>
+							"><img src="{{asset('home/images/gongchengxq/发布工程.png')}}"/></a>
 				</div>
 				<div class="nav">
+
 					<div class="server">
 						<hr style="border-bottom: 5px #9b9b9b solid;">
 						<ul class="server-type" style="border-bottom: 1px #9b9b9b solid;height: 50px;">
 							<li class="type-title"><span>服务类别</span></li>
 							@foreach($serprocate as $s)
-								<li><a href="{{url('serproject/listcate2/'.$s->id)}}">{{$s->tag}}</a></li>
+								<li><a href="{{url('serproject/listcate/'.$s->id)}}">{{$s->tag}}</a></li>
 							@endforeach
 
 							<li class="downmenue" style="width: 80px;height: 50px;float: right;font-size: 14px;color:#606060;"><span  id="flip" >展开 <b class="caret"></b></span> </li>
@@ -85,20 +86,20 @@
 
 						<ul class="server-type" id="yy" style="display: none;float: left;">
 							@foreach($lastadpro as $m)
-								<li><nobr><a href="{{url('sserproject/listcate2/'.$m->id)}}">{{$m->tag}}</a></nobr></li>
+								<li><nobr><a href="{{url('serproject/listcate/'.$m->id)}}">{{$m->tag}}</a></nobr></li>
 							@endforeach
 						</ul>
 
 						<ul class="server-type" style="float: left">
 							<li class="type-title-1"><span>区域</span></li>
 							@foreach($serpro as $a)
-								<li><a href="{{url('serproject/listcate2/'.$a->id)}}">{{$a->tag}}</a></li>
+								<li><a href="{{url('serproject/listcate/'.$a->id)}}">{{$a->tag}}</a></li>
 							@endforeach
 							<li class="downmenue" style="width: 80px;height: 50px;float: right;font-size: 14px;color:#606060;"><span  id="show" >展开 <b class="caret"></b></span></li>
 						</ul>
 						<ul class="server-type" id="adress" style="display: none;float: left;overflow: hidden;">
 							@foreach($lastserpro as $d)
-								<li><a href="{{url('serproject/listcate2/'.$d->id)}}">{{$d->tag}}</a></li>
+								<li><a href="{{url('serproject/listcate//'.$d->id)}}">{{$d->tag}}</a></li>
 							@endforeach
 
 						</ul>
@@ -111,18 +112,18 @@
 						<span class="rank">排序</span>
 						<span class="hot-rank">热门排序</span>
 						<ul class="pages-turn">
-                            <a href="{{$lepro->previousPageUrl()}}" class="pageup">
+                            <a href="{{$prodetail->previousPageUrl()}}" class="pageup">
                                 <span class=""><</span>
                                 <span class="">&nbsp;上一页</span>
                             </a>
-                            <a href="{{$lepro->nextPageUrl()}}" class="pagedown">
+                            <a href="{{$prodetail->nextPageUrl()}}" class="pagedown">
                                 <span class="">下一页&nbsp;</span>
                                 <span class="">></span>
                             </a>
                     </div>
 
 					<div class="project-info">
-						@foreach($lepro as $g)
+						@foreach($prodetail as $g)
 						<ul>
                             <li class="project-preview">
                                 <p class="title"><a href="{{url('project/'.$g->bid)}}">{{$g->title}}</a></p>
@@ -134,12 +135,13 @@
 						@endforeach
 
 					</div>
+					@if($prodetail->lastpage()>1)
 					<div class="pages">
-						{{$lepro->links()}}
+						{{$prodetail->links()}}
                         <ul class="page-skip">
-							<form action="{{url('gopage/glpage')}}" method="post">
+							<form action="{{url('gopage/gcpage')}}" method="post">
 								{{csrf_field()}}
-                            <i>共有{{$lepro->lastpage()}}页，</i>
+                            <i>共有{{$prodetail->lastpage()}}页，</i>
                             <i class="blank">
                                 去第
                                 <input class="page-num" type="text" name="page">
@@ -152,6 +154,7 @@
                         </ul>
                         <div class="cl"></div>
 					</div>
+						@endif
 				</div>
 			</div>
 		</div>
