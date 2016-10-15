@@ -14,12 +14,5 @@ class CartController extends CommonController
 
        return view('home/cart/cart');
     }
-    /*
-     * 订单确认
-     */
-    public function confirm()
-    {
 
-        return view('home/cart/confirmation',compact('address'));
-    }
 }

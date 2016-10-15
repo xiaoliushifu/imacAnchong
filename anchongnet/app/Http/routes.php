@@ -667,9 +667,9 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
 */
 Route::group(['namespace' => 'Home\Cart','middleware'=>['loginhome']], function () {
             //购物车
-            Route::get('/cart','CartController@index');
+            Route::resource('/cart','CartController');
             //订单确认
-            Route::get('/cartconfirm','CartController@confirm');
+            Route::resource('/cartconfirm','ConfirmationController');
     });
 
             //前台注册

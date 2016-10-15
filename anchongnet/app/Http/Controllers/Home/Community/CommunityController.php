@@ -139,6 +139,7 @@ class CommunityController extends CommonController
                 'status' => 0,
                 'msg' => '发表评论成功'
             ];
+
         }else{
             $data =[
                 'status' => 1,

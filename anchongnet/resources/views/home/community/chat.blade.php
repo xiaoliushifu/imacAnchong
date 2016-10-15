@@ -91,9 +91,9 @@
                 @endforeach
             </li>
             @endif
-            <li class="more">
-                <img src="../home/images/chat/more.png" alt="点击加载更多">
-            </li>
+            {{--<li class="more">--}}
+                {{--<img src="../home/images/chat/more.png" alt="点击加载更多">--}}
+            {{--</li>--}}
             <li class="replay-area">
                 <ul>
                     <li class="replay-icon"><img src="../home/images/chat/p61.jpg"></li>
