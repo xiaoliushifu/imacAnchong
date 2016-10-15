@@ -355,7 +355,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/live/mylivelist','Api\Live\LiveController@mylivelist');
         //重播删除
         Route::post('/live/dellive','Api\Live\LiveController@dellive');
-        //生成网易云信聊天室
+        //网易云信注册机
         Route::post('/live/regnetease','Api\Live\LiveController@regnetease');
 
     });
