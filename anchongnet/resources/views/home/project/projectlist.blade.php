@@ -80,7 +80,7 @@
 						<ul class="server-type" style="border-bottom: 1px #9b9b9b solid;height: 50px;">
 							<li class="type-title"><span>服务类别</span></li>
 							@foreach($serprocate as $s)
-								<li><a href="{{url('server/sertalent/'.$s->id)}}">{{$s->tag}}</a></li>
+								<li><a href="{{url('serproject/listcate/'.$s->id)}}">{{$s->tag}}</a></li>
 							@endforeach
 
 							<li class="downmenue" style="width: 80px;height: 50px;float: right;font-size: 14px;color:#606060;"><span  id="flip" >展开 <b class="caret"></b></span> </li>
@@ -88,20 +88,20 @@
 
 						<ul class="server-type" id="yy" style="display: none;float: left;">
 							@foreach($lastadpro as $m)
-								<li><a href="{{url('server/sertalent/'.$m->id)}}">{{$m->tag}}</a></li>
+								<li><nobr><a href="{{url('serproject/listcate/'.$m->id)}}">{{$m->tag}}</a></nobr></li>
 							@endforeach
 						</ul>
 
 						<ul class="server-type" style="float: left">
 							<li class="type-title-1"><span>区域</span></li>
 							@foreach($serpro as $a)
-								<li><a href="{{url('server/sertalent/'.$a->id)}}">{{$a->tag}}</a></li>
+								<li><a href="{{url('serproject/listcate/'.$a->id)}}">{{$a->tag}}</a></li>
 							@endforeach
 							<li class="downmenue" style="width: 80px;height: 50px;float: right;font-size: 14px;color:#606060;"><span  id="show" >展开 <b class="caret"></b></span></li>
 						</ul>
 						<ul class="server-type" id="adress" style="display: none;float: left;overflow: hidden;">
 							@foreach($lastserpro as $d)
-								<li><a href="{{url('server/sertalent/'.$d->id)}}">{{$d->tag}}</a></li>
+								<li><a href="{{url('serproject/listcate/'.$d->id)}}">{{$d->tag}}</a></li>
 							@endforeach
 
 						</ul>
