@@ -6,14 +6,30 @@ use App\Business;
 use App\Http\Controllers\Home\CommonController;
 use App\Tag;
 use App\Users;
+use Cache;
+use Illuminate\Support\Facades\Input;
+
 class TalentController extends CommonController
 {
     public function index()
     {
-        $data = Business::where('type', 3)->orderBy('created_at', 'desc')->paginate(15);
-        $adrcate = Tag::where('type_id',0)->orderBy('id','asc')->take(7)->get();
-        $addcate = Tag::where('type_id',0)->orderBy('id','desc')->take(20)->get();
-        $sercate = Tag::where('type_id',3)->orderBy('id','asc')->get();
+        $ser =Cache::remember('stalenttype1',10,function(){
+            return  Tag::where('type_id',0)->orderBy('id','asc')->get();
+        }) ;
+        $adrcate =$ser->take(7);
+        $num = count($ser);
+        $lastnum = $num - 7;
+        $addcate = Cache::remember('stalenttype2',10,function() use($lastnum){
+            return   Tag::where('type_id',0)->orderBy('id','desc')->take($lastnum)->get();
+        });
+        $page = Input::get(['page']);
+        $data = Cache::remember('talentfirstdetail'.$page,10,function(){
+            return Business::where('type', 3)->orderBy('created_at', 'desc')->paginate(15);
+        });
+        $sercate = Cache::remember('talenttypefirst',10,function(){
+            return Tag::where('type_id',3)->orderBy('id','asc')->get();
+        });
+
         return view('home.talent.talentlist', compact('data','adrcate','addcate','sercate'));
     }
 

@@ -61,8 +61,8 @@
 		<div class="site-middle">
 			<div class="middle-container">
 				<div class="work">
-					<a class="contract-work" href="{{url('project')}}"><img src="../home/images/gongchengxq/发包工程.png"/></a>
-					<a class="package" href="{{url('serproject/lepro')}}"><img src="../home/images/gongchengxq/承接工程.png"/></a>
+					<a class="contract-work" href="{{url('project')}}"><img src="../home/images/gongchengxq/发包工程1.png"/></a>
+					<a class="package" href="{{url('serproject/lepro')}}"><img src="../home/images/gongchengxq/承接工程1.png"/></a>
 					<a class="release" href="
 					 @if(isset($msg))
 					{{url('/project/create')}}

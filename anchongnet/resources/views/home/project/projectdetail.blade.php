@@ -46,10 +46,8 @@
 
                 </li>
 
-                <li id="change2"><a href="{{url('/equipment')}}">设备选购</a><img src="../home/images/zhaohuo/9.jpg" alt="" style="right: 15px;"  class="buslist2">
-                    <div class="cart2">
-                        <p><a href="{{url('/equipment')}}">安虫自营</a></p>
-                    </div>
+                <li id="change2"><a href="{{url('/equipment')}}">设备选购</a>
+
                 </li>
 
                 <li><a href="{{url('/info')}}">资讯</a></li>
