@@ -292,7 +292,7 @@
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">close</span>
 					</button>
-					<h4 class="modal-title">订单编号:<span id='ff'></span></h4>
+					<h4 class="modal-title">订单编号:<span id='ff'></span>已下单</h4>
 				</div>
 				<div class="modal-body">
 					<div id="wlstatus">

@@ -185,10 +185,11 @@ $(function(){
               type:'post',
               url:'/ordership',
               success:function(data){
-            	  	console.log(data);
+            	  console.log(data);
             	  	if (data) {
-            	  		$('small').text(data);
+            	  		alert(data);
             	  	} else {
+            	  		alert('发货成功');
             	  		location.reload();
             	  	}
               },
@@ -200,8 +201,13 @@ $(function(){
      */
       $("#cancelO").click(function(){
           $.post('/ordercancel',{oid:$(this).attr("data-id"),onum:$(this).attr("data-num")},function(data){
-                  console.log(data);
-                  //location.reload();
+		        	  console.log(data);
+		      	  	if (data) {
+		      	  		alert(data);
+		      	  	} else {
+		      	  		alert('撤单成功');
+		      	  		location.reload();
+		      	  	}
               });
       });
 });
