@@ -20,7 +20,7 @@
   <!-- iCheck -->
   <link rel="stylesheet" href="/admin/plugins/iCheck/flat/blue.css">
   <!-- Morris chart -->
-  <link rel="stylesheet" href="/admin/plugins/morris/morris.css">
+  <!--  <link rel="stylesheet" href="/admin/plugins/morris/morris.css">-->
   <!-- jvectormap -->
   <link rel="stylesheet" href="/admin/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
   <!-- Date Picker -->
@@ -551,8 +551,8 @@
 <!-- Bootstrap 3.3.5 -->
 <script src="/admin/bootstrap/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
-<script src="/admin/plugins/ajax/raphael-min.js"></script>
-<script src="/admin/plugins/morris/morris.min.js"></script>
+<!--<script src="/admin/plugins/ajax/raphael-min.js"></script>
+<script src="/admin/plugins/morris/morris.min.js"></script>-->
 <!-- Sparkline -->
 <script src="/admin/plugins/sparkline/jquery.sparkline.min.js"></script>
 <!-- jvectormap -->
@@ -574,8 +574,8 @@
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/admin/dist/js/pages/dashboard.js"></script>
+<!--<script src="/admin/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="/admin/dist/js/demo.js"></script>
+<!--<script src="/admin/dist/js/demo.js"></script> -->
 </body>
 </html>

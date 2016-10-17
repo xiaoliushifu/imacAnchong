@@ -1,24 +1,24 @@
 <?php
 namespace App;
+
 /**
- * 物流下单及查询统一操作类
- * @author 
- *
+ * 物流下单操作类
+ * 先看聚合接口
  */
 class Exp
 {
     
-    private $qkey = '0abb2cf879a118af49c5e0308b4aea41';
+    //private $qkey = '0abb2cf879a118af49c5e0308b4aea41';
     
     //查询物流状态接口
-    private $queryUrl = 'http://v.juhe.cn/exp/index';
-    private $qcomarr =[
-        ['no'=>'zjs','com'=>'宅急送'],
-        ['no'=>'ems','com'=>'EMS'],
-        ['no'=>'yt','com'=>'圆通'],
-        ['no'=>'zto','com'=>'中通'],
-        ['no'=>'sf','com'=>'顺丰'],
-    ];
+    //private $queryUrl = 'http://v.juhe.cn/exp/index';
+//     private $qcomarr =[
+//         ['no'=>'zjs','com'=>'宅急送'],
+//         ['no'=>'ems','com'=>'EMS'],
+//         ['no'=>'yt','com'=>'圆通'],
+//         ['no'=>'zto','com'=>'中通'],
+//         ['no'=>'sf','com'=>'顺丰'],
+//     ];
     //获得物流公司列表的接口,暂用开发文档中列出的即可
     //private $comUrl = 'http://v.juhe.cn/exp/com';
     
@@ -37,9 +37,9 @@ class Exp
     private $cancelUrl = 'http://v.juhe.cn/expressonline/test/cancleSend.php';
     
 
-    public function __construct($qdata=null,$sdata=null){
-        //$this->appkey = $appkey;
-    }
+//     public function __construct($qdata=null,$sdata=null){
+//         //$this->appkey = $appkey;
+//     }
 //     /**
 //      * 返回支持的快递公司公司列表
 //      * @return array
@@ -112,21 +112,21 @@ class Exp
         return $this->_returnArray($content);
     }
     
-    /**
-     * 查看快递状态
-     * @param string $com
-     * @param string $no
-     * @return array
-     */
-    public function query($com,$no){
-        $params = array(
-            'key' => $this->qkey,
-            'com'  => $com,
-            'no' => $no
-        );
-        $content = $this->juhecurl($this->queryUrl,$params,1);
-        return $this->_returnArray($content);
-    }
+//     /**
+//      * 查看快递状态
+//      * @param string $com
+//      * @param string $no
+//      * @return array
+//      */
+//     public function query($com,$no){
+//         $params = array(
+//             'key' => $this->qkey,
+//             'com'  => $com,
+//             'no' => $no
+//         );
+//         $content = $this->juhecurl($this->queryUrl,$params,1);
+//         return $this->_returnArray($content);
+//     }
     
     /**
      * 将JSON内容转为数组数据，并返回

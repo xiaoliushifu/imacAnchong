@@ -140,7 +140,7 @@
 													<button type='button' class='disabled btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#mySend">发货</button>
 												@endcan
 											@elseif ($data['state'] == 3)
-													<button type='button' class='status btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myStatus">查看物流状态</button>
+													<button type='button' class='status btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myStatus">物流状态</button>
 											@elseif ($data['state'] == 4)
 												@can('order-ship')
 													<button type='button' class='check f-ib btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myCheck">审核</button>

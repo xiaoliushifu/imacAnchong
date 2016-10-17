@@ -305,8 +305,12 @@ class orderController extends Controller
         DB::beginTransaction();
         //下单表
         $this->gl=Goods_logistics::where('order_id',$req['oid'])->where('ship',1)->first();
+        if (!$this->gl) {
+            return '无订单';
+        }
         $this->gl->ship=0;
         $this->gl->save();
+        //物流公司退单
         if ($this->gl->com_code) {
             $exp = new Exp();
             $res = $exp->cancelOrder($req,$this->gl->com_code);

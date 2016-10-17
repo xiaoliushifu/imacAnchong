@@ -185,6 +185,7 @@ $(function(){
               type:'post',
               url:'/ordership',
               success:function(data){
+            	  	console.log(data);
             	  	if (data) {
             	  		$('small').text(data);
             	  	} else {
@@ -199,8 +200,8 @@ $(function(){
      */
       $("#cancelO").click(function(){
           $.post('/ordercancel',{oid:$(this).attr("data-id"),onum:$(this).attr("data-num")},function(data){
-                  //console.log(data);
-                  location.reload();
+                  console.log(data);
+                  //location.reload();
               });
       });
 });
