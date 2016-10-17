@@ -130,6 +130,34 @@ class orderController extends Controller
     }
 
     /**
+     * 向物流公司下单后，查看其回馈的状态信息
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getStatus(Request $req)
+    {
+        $lnum = $req->lnum;
+        $ret = ['order'=>'','wl'=>''];
+        $odata = ['company','content','time'];
+        $ldata = ['company','bill_code','data'];
+        $ostatus = DB::table('anchong_ostatus')->where('logisticsnum',$req->lnum)->get($odata);
+        $lstatus = DB::table('anchong_lstatus')->where('logisticsnum',$req->lnum)->get($ldata);
+        foreach ($ostatus as $o) {
+            $ret['order'] .=$o->company.'---'.$o->content.'---'.$o->time.'<br>';
+        }
+        foreach ($lstatus as $o) {
+            $ret['wl'] .='快递公司: '.$o->company.'---运单号: '.$o->bill_code.'<br>';
+            $tmp = unserialize($o->data);
+            foreach($tmp as $sub){
+                $ret['wl'] .=$sub['time'].'---'.$sub['content'].'<br>';
+            }
+        }
+        return $ret;
+        \Log::info(unserialize($o->content),[$lnum]);
+    }
+    
+    
+    /**
      * 审核订单，ajax调用
      *
      * @param  $request('isPass'是否退货,'num'订单标号,'gid'货品ID,'oid'订单ID)

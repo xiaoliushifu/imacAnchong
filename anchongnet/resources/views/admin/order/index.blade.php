@@ -288,16 +288,20 @@
 	<div class="modal fade" id="myStatus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header" style="margin-top:50px">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">close</span>
 					</button>
-					<h4 class="modal-title">&nbsp;</h4>
+					<h4 class="modal-title">订单编号:<span id='ff'></span></h4>
 				</div>
 				<div class="modal-body">
-					<label>订单编号:<span id='ff'></span></label>
+					<div id="wlstatus">
+						订单信息：<p></p>
+						<hr>
+						物流信息：<p></p>
+					</div>
 				</div>
-				<button type="button" id="cancelO" data-num="" data-id="">取消订单</button>
+                <button type="button" id="cancelO" data-num="" data-id="">取消订单</button>
 			</div>
 		</div>
 	</div>
