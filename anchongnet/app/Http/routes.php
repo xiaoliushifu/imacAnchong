@@ -701,6 +701,7 @@ Route::group(['namespace' => 'Home\Cart','middleware'=>['loginhome']], function 
                  //发布聊聊
                  Route::resource('/chat','ChatController');
             });
+            Route::post('/collecehop','Home\Collect\CollectController@collectShop');
 });
  //验证码类,需要传入数字
  Route::get('/captcha/{num}', 'CaptchaController@captcha');

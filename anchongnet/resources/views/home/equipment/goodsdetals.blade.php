@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{asset('home/css/goodsdetails.css')}}">
     <link rel="stylesheet" href="{{asset('home/css/top.css')}}">
     <script src="{{asset('home/js/jquery-3.1.0.min.js')}}"></script>
+    <script src="{{asset('home/org/layer/layer.js')}}"></script>
 </head>
 <body>
 @include('inc.home.top',['page'=>' <li><div class="shop-ioc">
@@ -76,7 +77,15 @@
                     </div>
                     <div class="goodsprice">
                         <p>价格：￥{{$price[0]->price}}</p>
-                        <p><span>会员价：￥{{$price[0]->vip_price}}</span></p>
+                        @if(count($goodsauth) == 0)
+                        <p><span>会员价：请认证后查看</span></p>
+                        @else
+                            @for($i=0;$i<count($goodsauth);$i++)
+                                @if($goodsauth[$i]->auth_status == "3")
+                                    <p><span>会员价：￥{{$price[0]->vip_price}}</span></p>
+                                @endif
+                            @endfor
+                        @endif
                         <div class="store"><a href=""><img src="{{asset('home/images/shebei/clection.png')}}" alt=""></a><a href="">商品收藏</a></div>
                     </div>
                     <form action="" method="">
@@ -113,12 +122,12 @@
                         <div class="goods-nub">
                             <div class="nubcat"><span>数量:</span></div>
                             <div class="nubtype">
-                               <img src="{{asset('home/images/shebei/22.jpg')}}" alt=""><input type="text"><img src="{{asset('home/images/shebei/21.jpg')}}" alt="">
+                               <img src="{{asset('home/images/shebei/22.jpg')}}" alt=""><input type="text" value= 1><img src="{{asset('home/images/shebei/21.jpg')}}" alt="">
 
                             </div>
                         </div>
                          <div class="submit">
-                             <button type="submit">立即购买</button><button type="submit">加入购物车</button>
+                             <button onclick="Buy()" type="submit">立即购买</button><button onclick="addCart()" type="submit">加入购物车</button>
                          </div>
 
 
@@ -159,7 +168,20 @@
 
                <div class="shop-server">
                    <ul>
-                   <li><a href="">收藏</a></li>
+                   <li><a class="collect">收藏</a></li>
+                       @if(isset($msg))
+                           {{--店铺收藏--}}
+                           <script>
+                               $(function () {
+                                   $('.collect').click(function () {
+                                       var data = {'users_id':'{{$msg->users_id}}','coll_id':'{{$shop[0]->sid}}','coll_type':'2','_token':'{{csrf_token()}}'};
+                                       $.post('/collecehop',data,function (msg) {
+                                           layer.msg(msg.msg);
+                                       });
+                                   })
+                               })
+                           </script>
+                       @endif
                    <li style="margin-right: -5px;"><a href="">联系客服</a></li>
                    </ul>
                </div>
@@ -213,5 +235,13 @@
 
 <script src="{{asset('home/js/top.js')}}"></script>
 <script src="{{asset('home/js/goodsdetail.js')}}"></script>
+<script>
+    function Buy() {
+        
+    }
+    function addCart() {
+
+    }
+</script>
 </body>
 </html>
