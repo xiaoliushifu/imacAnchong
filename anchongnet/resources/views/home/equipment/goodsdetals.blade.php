@@ -72,17 +72,22 @@
                 </div>
                 <div class="top-main-right">
                     <div class="goodstitle">
-                        <h3>{{$data->title}}.</h3>
+                        <h3>{{$data->title}}</h3>
                         <p>{{$data->desc}}</p>
                     </div>
                     <div class="goodsprice">
-                        <p>价格：￥{{$price[0]->price}}</p>
+                        <p>价格：￥<i id="price" class="goods-price">{{$price[0]->price}}</i></p>
+                        {{--认证会员显示会员价格--}}
                         @if(count($goodsauth) == 0)
                         <p><span>会员价：请认证后查看</span></p>
                         @else
                             @for($i=0;$i<count($goodsauth);$i++)
                                 @if($goodsauth[$i]->auth_status == "3")
-                                    <p><span>会员价：￥{{$price[0]->vip_price}}</span></p>
+                                    <p><span>会员价：￥<i id="v-price">{{$price[0]->vip_price}}</i></span></p>
+                                    <script>
+                                        $('#price').removeAttr('class');
+                                        $('#v-price').attr('class','goods-price');
+                                    </script>
                                 @endif
                             @endfor
                         @endif
@@ -122,12 +127,12 @@
                         <div class="goods-nub">
                             <div class="nubcat"><span>数量:</span></div>
                             <div class="nubtype">
-                               <img src="{{asset('home/images/shebei/22.jpg')}}" alt=""><input type="text" value= 1><img src="{{asset('home/images/shebei/21.jpg')}}" alt="">
+                               <img src="{{asset('home/images/shebei/22.jpg')}}" onclick="Minus()"><input id="goodsnum" type="text" value= 1><img src="{{asset('home/images/shebei/21.jpg')}}" onclick="Add()">
 
                             </div>
                         </div>
                          <div class="submit">
-                             <button onclick="Buy()" type="submit">立即购买</button><button onclick="addCart()" type="submit">加入购物车</button>
+                             <a onclick="Buy()">立即购买</a><a onclick="addCart()">加入购物车</a>
                          </div>
 
 
@@ -176,10 +181,16 @@
                                    $('.collect').click(function () {
                                        var data = {'users_id':'{{$msg->users_id}}','coll_id':'{{$shop[0]->sid}}','coll_type':'2','_token':'{{csrf_token()}}'};
                                        $.post('/collecehop',data,function (msg) {
-                                           layer.msg(msg.msg);
+                                           layer.msg(msg.msg,{icon: 6});
                                        });
                                    })
                                })
+                           </script>
+                           @else
+                           <script>
+                               $('.collect').click(function () {
+                                   layer.msg('登陆后才可以收藏哦',{icon: 6})
+                               });
                            </script>
                        @endif
                    <li style="margin-right: -5px;"><a href="">联系客服</a></li>
@@ -236,11 +247,17 @@
 <script src="{{asset('home/js/top.js')}}"></script>
 <script src="{{asset('home/js/goodsdetail.js')}}"></script>
 <script>
-    function Buy() {
-        
-    }
+    /*
+    购物车添加
+     */
     function addCart() {
-
+        var goods_name = {!! $data->title !!};
+        var goods_num = $('#goodsnum').val();
+        var goods_price = $('.goods-price').text();
+        var goods_img = $('#tail').attr('src');
+        var sid = {{$shop[0]->sid}};
+        var sname ={{$shop[0]->name}};
+        alert(goods_name);
     }
 </script>
 </body>

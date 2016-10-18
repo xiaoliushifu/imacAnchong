@@ -55,7 +55,36 @@
                     <li class="share-title">
                         <h2>干货分享</h2>
                         <i>More</i>
-                        <a href="{{url('/info/create')}}"><img src="home/images/info/upload.png"></a>
+                        <a id="upload"><img src="home/images/info/upload.png"></a>
+                        @if(isset($msg))
+                            @if(count($infoauth) == 0)
+                                <script>
+                                    $(function () {
+                                        $('#upload').click(function () {
+                                            layer.msg('请您认证后再上传文档',{icon:6});
+                                        })
+                                    })
+                                </script>
+                            @else
+                                @for($i=0;$i<count($infoauth);$i++)
+                                    @if($infoauth[$i]->auth_status == "3")
+                                        <script>
+                                            $(function () {
+                                                $('#upload').attr("href","{{url('/info/create')}}")
+                                            })
+                                        </script>
+                                    @endif
+                                @endfor
+                            @endif
+                        @else
+                            <script>
+                                $(function () {
+                                    $('#upload').click(function () {
+                                        layer.msg('请您登陆后再上传文档',{icon:6});
+                                    })
+                                })
+                            </script>
+                        @endif
                     </li>
                     <span class="parting"></span>
                     <li class="share-item">

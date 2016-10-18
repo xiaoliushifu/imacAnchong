@@ -626,7 +626,6 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
             //工程板块
             Route::resource('/project', 'Home\project\ProjectController');
             // 个人中心部分路由
-
             Route::group(['namespace' => 'Home\Pcenter','middleware'=>['loginhome']], function () {
                 //个人中心
                 Route::controller('/pcenter', 'IndexController');
