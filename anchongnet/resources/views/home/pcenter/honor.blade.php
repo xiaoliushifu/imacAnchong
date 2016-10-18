@@ -19,7 +19,7 @@
                 <hr>
                 <li><a href="{{url('/applysp')}}">商铺申请</a></li>
                 <hr>
-                <li><a href="{{url('/honor')}}">商家认证</a></li>
+                <li><a href="{{url('/honor')}}">会员认证</a></li>
                 <hr>
 
             </ul>
@@ -28,7 +28,7 @@
     <div class="mainrg">
         <form action="" method="">
         <div class=" daomain">
-           <h4>商家认证</h4>
+           <h4>会员认证</h4>
         </div>
             <div class="detail">
                 <div class="center-left">

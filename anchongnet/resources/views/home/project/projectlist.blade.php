@@ -86,7 +86,7 @@
 
 						<ul class="server-type" id="yy" style="display: none;float: left;">
 							@foreach($lastadpro as $m)
-								<li><nobr><a href="{{url('serproject/listcate/'.$m->id)}}">{{$m->tag}}</a></nobr></li>
+								<li style="border-bottom: 1px #9b9b9b solid;"><nobr><a href="{{url('serproject/listcate/'.$m->id)}}">{{$m->tag}}</a></nobr></li>
 							@endforeach
 						</ul>
 
@@ -99,7 +99,7 @@
 						</ul>
 						<ul class="server-type" id="adress" style="display: none;float: left;overflow: hidden;">
 							@foreach($lastserpro as $d)
-								<li><a href="{{url('serproject/listcate/'.$d->id)}}">{{$d->tag}}</a></li>
+								<li style="border-bottom: 1px #9b9b9b solid;"><a href="{{url('serproject/listcate/'.$d->id)}}">{{$d->tag}}</a></li>
 							@endforeach
 
 						</ul>

@@ -47,10 +47,10 @@
                      <li><a href="javascript:" class="inactive">我的订单<b class="caret"></b></a>
                          <ul class="ttt" style="display: none">
                              <hr>
-                             <li><a href="#" class="inactive active">美协机关</a>
+                             <li><a href="#" class="inactive active">未完成订单</a>
 
                              </li>
-                             <li><a href="#" class="inactive active">中国文联美术艺术中心</a>
+                             <li><a href="#" class="inactive active">已完成订单</a>
 
                          </ul>
 

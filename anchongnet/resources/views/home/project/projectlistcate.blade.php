@@ -93,7 +93,7 @@
 
 						<ul class="server-type" id="yy" style="display: none;float: left;">
 							@foreach($lastadpro as $m)
-								<li><nobr><a href="{{url('serproject/listcate/'.$m->id)}}"
+								<li style="border-bottom: 1px #9b9b9b solid;"><nobr><a href="{{url('serproject/listcate/'.$m->id)}}"
 											 @if($m->id==$id)
 											 style="
 											 background: #1DABD8;
@@ -119,7 +119,7 @@
 						</ul>
 						<ul class="server-type" id="adress" style="display: none;float: left;overflow: hidden;">
 							@foreach($lastserpro as $d)
-								<li><a href="{{url('serproject/listcate/'.$d->id)}}"
+								<li style="border-bottom: 1px #9b9b9b solid;"><a href="{{url('serproject/listcate/'.$d->id)}}"
 									   @if($d->id==$id)
 									   style="
 									   background: #1DABD8;

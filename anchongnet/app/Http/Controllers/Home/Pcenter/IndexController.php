@@ -1,10 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Home\Pcenter;
+use App\Brand;
+use App\Category;
 use App\Collection;
 use App\Feedback_reply;
 use App\Goods_type;
 use App\Http\Controllers\Home\CommonController;
+use App\Mainbrand;
+use App\Shop;
+use App\ShopCat;
 use App\Users;
 use App\Business;
 use Cache;
@@ -46,8 +51,50 @@ class IndexController extends CommonController
      */
     public function applysp()
     {
-        return view('home.pcenter.applyshop');
+        $brand = Brand::get();
+       $category = Category::where('parent_id',0)->orderBy('cat_id','asc')->get();
+
+        return view('home.pcenter.applyshop',compact('brand','category'));
     }
+     /*
+     * 申请商铺
+     */
+    public function apstore()
+    {
+
+        $input = Input::except('_token');
+        $brand =$input['brand'];
+        $cate = $input['cate'];
+
+        $user =Users::where('phone',[session('user')])->first();
+        $input['users_id']= $user->users_id;
+         Shop::create($input);
+            $sp = Shop::where('users_id',$user->users_id)->first();
+             foreach($cate as $c){
+                 ShopCat::insert(
+                     array(
+                         array(
+                             'sid'=>$sp->sid,
+                             'cat_id'=>$c
+                         )
+                     )
+                 );
+             }
+        foreach($brand as $d){
+            Mainbrand::insert(
+                array(
+                    array(
+                        'sid'=>$sp->sid,
+                        'brand_id'=>$d
+                    )
+                )
+            );
+        }
+
+      return back();
+
+
+  }
     /*
      * 基本资料
     */

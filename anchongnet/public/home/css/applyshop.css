@@ -134,7 +134,7 @@
 }
 .brandlist{
     width: 900px;
-    height: 100px;
+   overflow: hidden;
     border: 1px #b8b8b8 solid;
     margin-left: 10px;
     margin-bottom: 10px;
@@ -148,12 +148,15 @@
 }
 .brandlist ul{
  width: 770px;
-    height: 30px;
+    overflow: hidden;
     float: left;
     margin-bottom: 0px;
     margin-left: 10px;
 }
-
+.brandlist input{
+    width: 16px;
+    height: 16px;
+}
 .tijiao{
     text-align: center;
     margin-top: 40px;
