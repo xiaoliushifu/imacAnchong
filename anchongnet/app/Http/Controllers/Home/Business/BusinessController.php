@@ -16,18 +16,18 @@ class BusinessController extends CommonController
      */
     public function index()
     {
-//最新招标
+        //最新招标
         $value = Cache::remember('bus-invit',5,function(){
            return  Business::where('type', 1)->orderBy('created_at', 'desc')->take(5)->get();
         });
           $users = Cache::remember('bus-user',5,function(){
          return Usermessages::orderBy('users_id', 'asc')->take(8)->get();
         });
-//热门招标
+        //热门招标
         $hot = Cache::remember('bus-hot',5,function(){
          return Business::where('type', 1)->orderBy('created_at', 'asc')->take(5)->get();
         });
- //人才招聘
+        //人才招聘
         $talent = Cache::remember('bus-talent',5,function(){
             return Business::where('type',4)->orderBy('created_at','desc')->take(5)->get();
         });

@@ -635,6 +635,7 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
                 Route::resource('/adress', 'AddressController');
                 //申请商铺
                 Route::get('/applysp', 'IndexController@applysp');
+                Route::any('/applysp/store', 'IndexController@apstore');
                 //基本资料
                 Route::get('/basics', 'IndexController@basics');
                 //商铺认证

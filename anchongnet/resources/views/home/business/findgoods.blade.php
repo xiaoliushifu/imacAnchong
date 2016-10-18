@@ -41,22 +41,12 @@
                     </div>
                 </li>
 
-                <li><a href="{{url('/community')}}">社区</a><img src="home/images/zhaohuo/9.jpg" alt="" class="buslist1">
-                    <div class="cart1">
-                        <p><a href="{{url('/project')}}">工程</a></p>
-                        <p><a href="{{url('/sergoods')}}">找货</a></p>
-                        <p><a href="{{url('/talent')}}">人才</a></p>
-                    </div>
+                <li><a href="{{url('/community')}}">社区</a>
+
                 </li>
 
-                <li><a href="{{url('/equipment')}}">设备选购</a><img src="home/images/zhaohuo/9.jpg" alt="" style="right: 15px;" class="buslist2">
-                    <div class="cart2">
-                        <p><a href="{{url('/equipment')}}">安虫自营</a></p>
-                        <p><a href="{{url('/equipment/thirdshop')}}">第三方商城</a></p>
-                        <p><a href="{{url('/equipment/list')}}">商品列表</a></p>
+                <li><a href="{{url('/equipment')}}">设备选购</a>
 
-
-                    </div>
                 </li>
 
                 <li><a href="{{url('/info')}}">资讯</a></li>

@@ -180,6 +180,7 @@
     width: 800px;
     height:70px ;
     float: left;
+    line-height: 70px;
 }
 .publish-right{
     width: 400px;
@@ -191,20 +192,15 @@
     margin-top: 15px;
 }
 .publish-left a {
-    color: #606060;
     font-size: 18px;
-    border: 1px #9b9b9b solid;
-    border-radius: 5px;
     padding: 10px 23px;
-    text-decoration: none;
-    margin-right: 60px;
+    margin-right: 30px;
     font-weight:bold;
 }
-.publish-left a:hover{
-    background: #1DABD8;
-    color: #ffffff;
-    border: none;
+.publish-left img{
+    margin-top: 20px;
 }
+
 .server{
     width: 1200px;
  overflow: hidden;

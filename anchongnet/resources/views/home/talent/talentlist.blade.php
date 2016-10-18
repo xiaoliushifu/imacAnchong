@@ -46,13 +46,8 @@
 
                 </li>
 
-                <li id="change2"><a href="{{url('/equipment')}}">设备选购</a><img src="home/images/zhaohuo/9.jpg" alt="" style="right: 15px;"  class="buslist2">
-                    <div class="cart2">
-                        <p><a href="{{url('/equipment')}}">安虫自营</a></p>
-                        <p><a href="{{url('/equipment/thirdshop')}}">第三方商城</a></p>
-                        <p><a href="{{url('/equipment/list')}}">商品列表</a></p>
+                <li id="change2"><a href="{{url('/equipment')}}">设备选购</a>
 
-                    </div>
                 </li>
 
                 <li><a href="{{url('/info')}}">资讯</a></li>
@@ -71,7 +66,8 @@
     <div class="submain">
         <div class="publish-title">
             <div class="publish-left">
-                <a href="{{url('/talent')}}">人才发布</a><a href="{{url('server/talentjoin')}}">人才招聘</a>
+                <a href="{{url('/talent')}}"><img src="{{asset('home/images/business/发布人才.png')}}" alt=""></a><a href="{{url('server/talentjoin')}}"><img
+                            src="{{asset('home/images/business/人才招聘1.png')}}" alt=""></a>
             </div>
             <div class="publish-right">
                 <a href="
@@ -112,8 +108,9 @@
                @endforeach
 
             </ul>
-            <hr>
+            <hr style="border:  1px #9b9b9b solid; ">
         </div>
+
 
         <div class="subnav">
             <div class="order">

@@ -66,7 +66,8 @@
     <div class="submain">
         <div class="publish-title">
             <div class="publish-left">
-                <a href="{{url('/talent')}}">人才发布</a><a href="{{url('gopage/talentjoin')}}">人才招聘</a>
+                <a href="{{url('/talent')}}"><img src="{{asset('home/images/business/发布人才.png')}}" alt=""></a><a href="{{url('server/talentjoin')}}"><img
+                            src="{{asset('home/images/business/人才招聘1.png')}}" alt=""></a>
             </div>
             <div class="publish-right">
                 <a href="
@@ -84,7 +85,12 @@
             <ul class="server-type">
                 <li class="type-title"><span>服务类别</span></li>
                 @foreach($sercate as $s)
-                    <li><a href="{{url('server/sertalent/'.$s->id)}}">{{$s->tag}}</a></li>
+                    <li><a href="{{url('server/sertalent/'.$s->id)}}"
+                           @if($s->id==$id)
+                        style="background: #1DABD8;
+                        border-radius: 5px;
+                        color: #F5F5F5;"
+                            @endif>{{$s->tag}}</a></li>
                 @endforeach
                 <li class="downmenue" style="width: 80px;height: 50px;float: right;font-size: 14px;color:#606060;"><span  id="flip" >展开 <b class="caret"></b></span> </li>
             </ul>
@@ -95,7 +101,13 @@
             <ul class="server-type">
                 <li class="type-title-1"><span>区域</span></li>
                 @foreach($adrcate as $a)
-                    <li><a href="{{url('server/sertalent/'.$a->id)}}">{{$a->tag}}</a></li>
+                    <li><a href="{{url('server/sertalent/'.$a->id)}}"
+                           @if($a->id==$id)
+                           style="background: #1DABD8;
+                        border-radius: 5px;
+                        color: #F5F5F5;"
+                                @endif
+                        >{{$a->tag}}</a></li>
                 @endforeach
                 <li class="downmenue" style="width: 80px;height: 50px;float: right;font-size: 14px;color:#606060;"><span  id="show" >展开 <b class="caret"></b></span></li>
             </ul>
@@ -103,9 +115,18 @@
 
             <ul class="server-type" id="adress" style="display: none">
                 @foreach($addcate as $d)
-                    <li><a href="{{url('server/sertalent/'.$s->id)}}">{{$d->tag}}</a></li>
+                    <li><a href="{{url('server/sertalent/'.$d->id)}}"
+                           @if($d->id==$id)
+                           style="background: #1DABD8;
+                        border-radius: 5px;
+                        color: #F5F5F5;"
+                                @endif
+
+                        >{{$d->tag}}</a></li>
                 @endforeach
+
             </ul>
+            <hr style="border:  1px #9b9b9b solid; ">
         </div>
 
         <div class="subnav">
@@ -163,5 +184,14 @@
 <script src="{{asset('home/js/businessjs.js')}}"></script>
 <script src="{{asset('home/js/top.js')}}"></script>
 <script src="{{asset('home/js/orderlist.js')}}"></script>
+@foreach($addcate as $d)
+@if($d->id==$id)
+<script>
+    $(document).ready(function(){
+        $("#adress").show();
+    });
+</script>
+    @endif
+    @endforeach
 </body>
 </html>

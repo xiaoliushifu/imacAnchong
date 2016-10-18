@@ -61,8 +61,8 @@
 		<div class="site-middle">
 			<div class="middle-container">
 				<div class="work">
-					<a class="contract-work" href="{{url('project')}}"><img src="../home/images/gongchengxq/发包工程.png"/></a>
-					<a class="package" href="{{url('serproject/lepro')}}"><img src="../home/images/gongchengxq/承接工程.png"/></a>
+					<a class="contract-work" href="{{url('project')}}"><img src="../home/images/gongchengxq/发包工程1.png"/></a>
+					<a class="package" href="{{url('serproject/lepro')}}"><img src="../home/images/gongchengxq/承接工程1.png"/></a>
 					<a class="release" href="
 					 @if(isset($msg))
 					{{url('/project/create')}}
@@ -85,7 +85,7 @@
 
 						<ul class="server-type" id="yy" style="display: none;float: left;">
 							@foreach($lastadpro as $m)
-								<li><nobr><a href="{{url('sserproject/listcate2/'.$m->id)}}">{{$m->tag}}</a></nobr></li>
+								<li style="border-bottom: 1px #9b9b9b solid;"><nobr><a href="{{url('sserproject/listcate2/'.$m->id)}}">{{$m->tag}}</a></nobr></li>
 							@endforeach
 						</ul>
 
@@ -98,7 +98,7 @@
 						</ul>
 						<ul class="server-type" id="adress" style="display: none;float: left;overflow: hidden;">
 							@foreach($lastserpro as $d)
-								<li><a href="{{url('serproject/listcate2/'.$d->id)}}">{{$d->tag}}</a></li>
+								<li style="border-bottom: 1px #9b9b9b solid;"><a href="{{url('serproject/listcate2/'.$d->id)}}">{{$d->tag}}</a></li>
 							@endforeach
 
 						</ul>
