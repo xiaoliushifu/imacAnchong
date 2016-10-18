@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Home\Equipment;
+use App\Auth;
 use App\Brand;
 use App\Category;
 use App\Goods;
@@ -10,6 +11,7 @@ use App\Goods_type;
 use App\Http\Controllers\Home\CommonController;
 use App\Shop;
 use App\Http\Requests;
+use App\Users;
 use Cache;
 use Illuminate\Support\Facades\Input;
 class EquipmentController extends CommonController
@@ -85,7 +87,14 @@ class EquipmentController extends CommonController
               return Goods_type::whereRaw("match(`cid`)against(?)",[$aa])->paginate(16);
           });
       }
-     return view('home.equipment.goodslist',compact('eqlistmain','navll','eqlistaddress','det','cat_id'));
+        //登陆用户是否为注册会员
+        if(session('user')) {
+            $phone = Users::where('phone', [session('user')])->first();
+            $glistauth  = Auth::where("users_id",$phone->users_id)->get(['auth_status']);
+        }else{
+            $glistauth = [];
+        }
+     return view('home.equipment.goodslist',compact('eqlistmain','navll','eqlistaddress','det','cat_id','glistauth'));
     }
     public function getShow($goods_id,$gid)
     {
@@ -127,8 +136,14 @@ class EquipmentController extends CommonController
         $hot = Cache::remember('goodshot'.$gid.$goods_id,10,function() use($price){
            return   Goods_type::where('cid',$price[0]->cid)->take(2)->orderBy('updated_at','asc')->get();
         });
-
-        return view('home.equipment.goodsdetals',compact('data','img','shop','price','related','hot','nav','adress','name','size','type'));
+        //登陆用户是否为注册会员
+        if(session('user')) {
+            $phone = Users::where('phone', [session('user')])->first();
+            $goodsauth  = Auth::where("users_id",$phone->users_id)->get(['auth_status']);
+        }else{
+            $goodsauth = [];
+        }
+        return view('home.equipment.goodsdetals',compact('data','img','shop','price','related','hot','nav','adress','name','size','type','goodsauth'));
     }
     public function getThirdshop($sid)
     {

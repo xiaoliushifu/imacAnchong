@@ -333,6 +333,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         /*
         *   直播模块
         */
+        //判断是否有直播
+        Route::post('/live/isliving','Api\Live\LiveController@isliving');
         //生成直播
         Route::post('/live/createlive','Api\Live\LiveController@createlive');
         //生成网易云信聊天室
@@ -465,6 +467,8 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::get('/logout','admin\indexController@logout');
             //订单管理路由
             Route::resource('/order','admin\orderController');
+            //查看订单状态路由
+            Route::resource('/getStatus','admin\orderController@getStatus');
             //订单发货路由
             Route::post('/ordership','admin\orderController@orderShip');
             //取消订单路由
@@ -701,6 +705,7 @@ Route::group(['namespace' => 'Home\Cart','middleware'=>['loginhome']], function 
                  //发布聊聊
                  Route::resource('/chat','ChatController');
             });
+            Route::post('/collecehop','Home\Collect\CollectController@collectShop');
 });
  //验证码类,需要传入数字
  Route::get('/captcha/{num}', 'CaptchaController@captcha');

@@ -163,11 +163,17 @@ $(function(){
   //点击'查看物流状态'按钮，弹出发货方式选择页
     $(".status").click(function(){
     		//显示物流信息
-        $("#cancelO").attr('data-num',$(this).attr("data-num"));
+    		var onum = $(this).attr("data-num");
+        $("#cancelO").attr('data-num',onum);
         $("#cancelO").attr('data-id',$(this).attr("data-id"));
-        $("#ff").text($(this).attr("data-num"));
-        //调用后端状态信息
-        
+        $("#ff").text(onum);
+        $.post('/getStatus',{lnum:onum},function(data){
+        	$('#wlstatus p').empty();
+        		if (data) {
+        			$('#wlstatus p:first').append(data['order']);
+        			$('#wlstatus p:eq(1)').append(data['wl']);
+        		}
+        });
     });
     
     
@@ -179,9 +185,11 @@ $(function(){
               type:'post',
               url:'/ordership',
               success:function(data){
+            	  console.log(data);
             	  	if (data) {
-            	  		$('small').text(data);
+            	  		alert(data);
             	  	} else {
+            	  		alert('发货成功');
             	  		location.reload();
             	  	}
               },
@@ -193,8 +201,13 @@ $(function(){
      */
       $("#cancelO").click(function(){
           $.post('/ordercancel',{oid:$(this).attr("data-id"),onum:$(this).attr("data-num")},function(data){
-                  //console.log(data);
-                  location.reload();
+		        	  console.log(data);
+		      	  	if (data) {
+		      	  		alert(data);
+		      	  	} else {
+		      	  		alert('撤单成功');
+		      	  		location.reload();
+		      	  	}
               });
       });
 });

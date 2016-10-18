@@ -45,6 +45,38 @@ class LiveController extends Controller
     }
 
     /*
+    *   判断是否目前是否有直播
+    */
+    public function isliving(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request->all();
+        //尝试运行开启七牛直播，并看该用户是否已开启直播
+        try {
+            //查出用户的直播ID
+            $zb=DB::table('v_start')->where('users_id',$data['guid'])->select('zb_id','room_id','title','images','topic')->first();
+            if(!$zb){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['isliving'=>0,'stream'=>"",'zb_id'=>"",'roomid'=>"",'title'=>"",'images'=>"",'topic'=>""]]);
+            }
+            //如果该用户已生成了直播就直接获取
+            $stream=$this->hub->getStream("z1.chongzai.".md5($data['guid']));
+            $PublishUrl=$stream->rtmpPublishUrl();
+            $streams=$stream->toJSONString();
+            // var_dump($stream->rtmpLiveUrls());
+            // echo $stream->rtmpPublishUrl();
+            // //清空当前所有流
+            // $stream=$this->hub->listStreams();
+            // foreach ($stream['items'] as $StreamObj) {
+            //     $StreamObj->delete();
+            // }
+            // exit;
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['isliving'=>1,'stream'=>$streams,'zb_id'=>$zb->zb_id,'roomid'=>$zb->room_id,'title'=>$zb->title,'images'=>$zb->images,'topic'=>$zb->topic]]);
+        } catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['isliving'=>0,'stream'=>"",'zb_id'=>"",'roomid'=>"",'title'=>"",'images'=>"",'topic'=>""]]);
+        }
+    }
+
+    /*
     *   生成七牛直播对象
     */
     public function createlive(Request $request)
@@ -65,23 +97,11 @@ class LiveController extends Controller
 			    return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'直播标题不能超过60个汉字起不小于2个字！']]);
 			}
 		}
-        //尝试运行开启七牛直播，并看该用户是否已开启直播
-        try {
-            //查出用户的直播ID
-            $zb=DB::table('v_start')->where('users_id',$data['guid'])->pluck('zb_id');
-            $zb_id=$zb[0];
+
+        //开启直播
+        try{
             //如果该用户已生成了直播就直接获取
             $stream=$this->hub->getStream("z1.chongzai.".md5($data['guid']));
-            $PublishUrl=$stream->rtmpPublishUrl();
-            $streams=$stream->toJSONString();
-            // var_dump($stream->rtmpLiveUrls());
-            // echo $stream->rtmpPublishUrl();
-            // //清空当前所有流
-            // $stream=$this->hub->listStreams();
-            // foreach ($stream['items'] as $StreamObj) {
-            //     $StreamObj->delete();
-            // }
-            // exit;
         } catch (\Exception $e) {
             //假如用户未开始直播，尝试生成新直播
             try{
@@ -91,30 +111,45 @@ class LiveController extends Controller
                 $publishSecurity = 'dynamic';     // 选填, 可以为 "dynamic" 或 "static", 默认为 "dynamic"
                 //生成Stream Object
                 $stream = $this->hub->createStream($title, $publishKey, $publishSecurity);
-                //将stream转成json
-                $streams=$stream->toJSONString();
-                //获取查看直播的地址
-                $urls = $stream->rtmpLiveUrls();
-                //判断是否有查看直播的地址
-                if(!empty($urls) && $urls['ORIGIN']){
-                    //将数据插入表中
-                    $zb_id=DB::table('v_start')->insertGetId(
-                        [
-                            'users_id' => $data['guid'],
-                            'room_url' => $urls['ORIGIN'],
-                            'title'    => $param['title'],
-                            'images'   => str_replace('.oss-','.img-',$param['images']),
-                            'topic'    => $param['topic']
-                        ]
-                    );
-                }else{
-                    return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"直播开启失败"]]);
-                }
             } catch (\Exception $e) {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>"直播开启失败"]]);
             }
         }
-        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['stream'=>$streams,'zb_id'=>$zb_id]]);
+        //将stream转成json
+        $streams=$stream->toJSONString();
+        //获取查看直播的地址
+        $urls = $stream->rtmpLiveUrls();
+        //判断是否有查看直播的地址
+        if(!empty($urls) && $urls['ORIGIN']){
+            $PublishUrl=$urls['ORIGIN'];
+            //网易云信
+            $url  = "https://api.netease.im/nimserver/chatroom/create.action";
+            $datas="creator=".$param['phone']."&name=".$param['nick']."的直播间";
+            list($return_code, $return_content) = $this->JsonPost->http_post_data($url, $datas);
+            //将字符串形式的json解析为数组
+            $result=json_decode($return_content,true);
+            //判断是否请求成功
+            if($return_code != 200){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"直播聊天室开启失败"]]);
+            }
+            $room_id=$result['chatroom']['roomid'];
+            //将数据插入表中
+            $zb_id=DB::table('v_start')->insertGetId(
+                [
+                    'users_id' => $data['guid'],
+                    'room_url' => $PublishUrl,
+                    'title'    => $param['title'],
+                    'images'   => str_replace('.oss-','.img-',$param['images']),
+                    'topic'    => $param['topic'],
+                    'room_id' => $result['chatroom']['roomid'],
+                    'nick' => $param['nick'],
+                    'header' => $param['header']
+                ]
+            );
+        }else{
+            return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"直播开启失败"]]);
+        }
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['stream'=>$streams,'zb_id'=>$zb_id,'roomid'=>$room_id]]);
     }
 
     /*
@@ -125,29 +160,29 @@ class LiveController extends Controller
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request->all();
         $param=json_decode($data['param'],true);
-        //创建orm
-        $users_message=new \App\Usermessages();
-        //查出用户的昵称和头像
-        $usersmessage=$users_message->quer(['headpic','nickname'],['users_id'=>$data['guid']])->toArray();
-        //判断用户是否完善信息
-        try{
-            if(!$usersmessage[0]['nickname']){
-                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
-            }
-        }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
-        }
+        // //创建orm
+        // $users_message=new \App\Usermessages();
+        // //查出用户的昵称和头像
+        // $usersmessage=$users_message->quer(['headpic','nickname'],['users_id'=>$data['guid']])->toArray();
+        // //判断用户是否完善信息
+        // try{
+        //     if(!$usersmessage[0]['nickname']){
+        //         return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
+        //     }
+        // }catch (\Exception $e) {
+        //     return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
+        // }
         //尝试创建网易云信
-        try{
-            //头像信息
-            if(empty($usersmessage[0]['headpic'])){
-                $headpic="http://anchongres.oss-cn-hangzhou.aliyuncs.com/headpic/placeholder120@3x.png";
-            }else{
-                $headpic=$usersmessage[0]['headpic'];
-            }
+        //try{
+            // //头像信息
+            // if(empty($usersmessage[0]['headpic'])){
+            //     $headpic="http://anchongres.oss-cn-hangzhou.aliyuncs.com/headpic/placeholder120@3x.png";
+            // }else{
+            //     $headpic=$usersmessage[0]['headpic'];
+            // }
             //网易云信
-            $url  = "https://api.netease.im/nimserver/chatroom/create.action";
-            $datas="creator=".$param['phone']."&name=".$usersmessage[0]['nickname']."的直播间";
+            $url  = "https://api.netease.im/nimserver/user/unblock.action";
+            $datas="creator=".$param['phone'];
             list($return_code, $return_content) = $this->JsonPost->http_post_data($url, $datas);
             //将字符串形式的json解析为数组
             $result=json_decode($return_content,true);
@@ -155,22 +190,22 @@ class LiveController extends Controller
             if($return_code != 200){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"直播聊天开启失败"]]);
             }
-            //将数据更新
-            $id=DB::table('v_start')->where('users_id', $data['guid'])->update(
-                [
-                    'room_id' => $result['chatroom']['roomid'],
-                    'nick' => $usersmessage[0]['nickname'],
-                    'header' => $headpic
-                ]
-            );
-            // 判断是否插入成功
-            if(!$id){
-                return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"直播开启失败"]]);
-            }
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['roomid'=>$result['chatroom']['roomid']]]);
-        } catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>"直播开启失败"]]);
-        }
+            // //将数据更新
+            // $id=DB::table('v_start')->where('users_id', $data['guid'])->update(
+            //     [
+            //         'room_id' => $result['chatroom']['roomid'],
+            //         'nick' => $usersmessage[0]['nickname'],
+            //         'header' => $headpic
+            //     ]
+            // );
+            // // 判断是否插入成功
+            // if(!$id){
+            //     return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"直播开启失败"]]);
+            // }
+            // return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['roomid'=>$result['chatroom']['roomid']]]);
+        // } catch (\Exception $e) {
+        //     return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>"直播开启失败"]]);
+        // }
     }
 
     /*

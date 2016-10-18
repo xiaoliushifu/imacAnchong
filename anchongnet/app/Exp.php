@@ -1,24 +1,24 @@
 <?php
 namespace App;
+
 /**
- * 物流下单及查询统一操作类
- * @author 
- *
+ * 物流下单操作类
+ * 先看聚合接口
  */
 class Exp
 {
     
-    private $qkey = '0abb2cf879a118af49c5e0308b4aea41';
+    //private $qkey = '0abb2cf879a118af49c5e0308b4aea41';
     
     //查询物流状态接口
-    private $queryUrl = 'http://v.juhe.cn/exp/index';
-    private $qcomarr =[
-        ['no'=>'zjs','com'=>'宅急送'],
-        ['no'=>'ems','com'=>'EMS'],
-        ['no'=>'yt','com'=>'圆通'],
-        ['no'=>'zto','com'=>'中通'],
-        ['no'=>'sf','com'=>'顺丰'],
-    ];
+    //private $queryUrl = 'http://v.juhe.cn/exp/index';
+//     private $qcomarr =[
+//         ['no'=>'zjs','com'=>'宅急送'],
+//         ['no'=>'ems','com'=>'EMS'],
+//         ['no'=>'yt','com'=>'圆通'],
+//         ['no'=>'zto','com'=>'中通'],
+//         ['no'=>'sf','com'=>'顺丰'],
+//     ];
     //获得物流公司列表的接口,暂用开发文档中列出的即可
     //private $comUrl = 'http://v.juhe.cn/exp/com';
     
@@ -37,9 +37,9 @@ class Exp
     private $cancelUrl = 'http://v.juhe.cn/expressonline/test/cancleSend.php';
     
 
-    public function __construct($qdata=null,$sdata=null){
-        //$this->appkey = $appkey;
-    }
+//     public function __construct($qdata=null,$sdata=null){
+//         //$this->appkey = $appkey;
+//     }
 //     /**
 //      * 返回支持的快递公司公司列表
 //      * @return array
@@ -58,7 +58,7 @@ class Exp
         $params = array(
             'dtype' =>'json',
             'key' => $this->skey,
-            //订单编号（由下单方指定，非快递公司的运单号，用于和聚合沟通)
+            //订单编号（由下单方指定，非快递公司的运单号，仅用于和聚合沟通)
             //下单成功只是说明这个信息存储成功,并且会推送到快递公司,会有快递员取件或事先电话联系,这个时候并没有产生物流信息,在快递公司肯定查不到
             'order_no'=>$orderinfo['order_num'],
             'isWaybill'=>1,
@@ -76,7 +76,8 @@ class Exp
             'sender_address'=>'北京市昌平区发展路8号院',
             'sender_post_code'=>'102204',
             //收件人信息部分
-            'receiver_name'=>$orderinfo['name'],
+            //'receiver_name'=>$orderinfo['name'],
+            'receiver_name'=>'安虫人',//如果聚合接口只是帮我们招呼快递员的话，那这些信息随意填写
             'receiver_telphone'=>$orderinfo['phone'],
             'receiver_province_name'=>$orderinfo['receiver_province_name'],
             'receiver_city_name'=>$orderinfo['receiver_city_name'],
@@ -85,8 +86,8 @@ class Exp
             'receiver_post_code'=>'215000',
             //'receiver_org_name'=>$orderinfo['order_num'],
             //其他信息部分
-            'remark'=>'下单啦',
-            'item_name'=>'安虫商品',//货物名称
+            'remark'=>'没啥说的',
+            'item_name'=>'随机',//货物名称
             'send_start_time'=>$orderinfo['send_start_time'],
             'send_end_time'=>$orderinfo['send_end_time'],
         );
@@ -101,32 +102,33 @@ class Exp
      * @param unknown $para
      * @param unknown $no
      */
-    public function cancelOrder($para,$comno='zjs'){
+    public function cancelOrder($para,$comno='zjs')
+    {
         $params = array(
             'key' => $this->skey,
             'carrier_code'  => $comno,
             'order_no'=>$para['onum'],
         );
-        //return $params;
+        \Log::info(print_r($params,true),['撤单数据详情']);
         $content = $this->juhecurl($this->cancelUrl,$params,1);
         return $this->_returnArray($content);
     }
     
-    /**
-     * 查看快递状态
-     * @param string $com
-     * @param string $no
-     * @return array
-     */
-    public function query($com,$no){
-        $params = array(
-            'key' => $this->qkey,
-            'com'  => $com,
-            'no' => $no
-        );
-        $content = $this->juhecurl($this->queryUrl,$params,1);
-        return $this->_returnArray($content);
-    }
+//     /**
+//      * 查看快递状态
+//      * @param string $com
+//      * @param string $no
+//      * @return array
+//      */
+//     public function query($com,$no){
+//         $params = array(
+//             'key' => $this->qkey,
+//             'com'  => $com,
+//             'no' => $no
+//         );
+//         $content = $this->juhecurl($this->queryUrl,$params,1);
+//         return $this->_returnArray($content);
+//     }
     
     /**
      * 将JSON内容转为数组数据，并返回

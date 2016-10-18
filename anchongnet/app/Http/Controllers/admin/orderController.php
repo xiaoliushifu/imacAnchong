@@ -130,6 +130,34 @@ class orderController extends Controller
     }
 
     /**
+     * 向物流公司下单后，查看其回馈的状态信息
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getStatus(Request $req)
+    {
+        $lnum = $req->lnum;
+        $ret = ['order'=>'','wl'=>''];
+        $odata = ['company','content','time'];
+        $ldata = ['company','bill_code','data'];
+        $ostatus = DB::table('anchong_ostatus')->where('logisticsnum',$req->lnum)->get($odata);
+        $lstatus = DB::table('anchong_lstatus')->where('logisticsnum',$req->lnum)->get($ldata);
+        foreach ($ostatus as $o) {
+            $ret['order'] .=$o->company.'---'.$o->content.'---'.$o->time.'<br>';
+        }
+        foreach ($lstatus as $o) {
+            $ret['wl'] .='快递公司: '.$o->company.'---运单号: '.$o->bill_code.'<br>';
+            $tmp = unserialize($o->data);
+            foreach($tmp as $sub){
+                $ret['wl'] .=$sub['time'].'---'.$sub['content'].'<br>';
+            }
+        }
+        return $ret;
+        \Log::info(unserialize($o->content),[$lnum]);
+    }
+    
+    
+    /**
      * 审核订单，ajax调用
      *
      * @param  $request('isPass'是否退货,'num'订单标号,'gid'货品ID,'oid'订单ID)
@@ -180,15 +208,17 @@ class orderController extends Controller
             return back();
         }
         $carrier=['0','hand'];
-        //物流发货方式
+        $orderpa = $data = $this->order->find($req['orderid']);
+        //物流发货方式,否则手动发货
         if ($req['ship'] == "wl") {
            //获得订单数据，准备聚合接口的请求参数
-           $orderpa = $this->order->find($req['orderid']);
+           //以下三个地址
            $orderpa['receiver_province_name'] = '北京';
            $orderpa['receiver_city_name'] = '北京市';
            $orderpa['receiver_district_name'] = '昌平区';
-           $orderpa['send_start_time'] = date('Y-m-d H:i:s',time()+3600);//通知快递员10分钟后取件
-           $orderpa['send_end_time'] = date('Y-m-d H:i:s',time()+7200);//半小时后
+           //以上三个地址
+           $orderpa['send_start_time'] = date('Y-m-d H:i:s',time()+3600);//通知快递员X分钟后取件
+           $orderpa['send_end_time'] = date('Y-m-d H:i:s',time()+7200);
            $orderpa['phone'] = '18600818638';
            $orderpa['address'] = '北京市昌平区回龙腾二街2号院';
            $exp = new Exp();
@@ -210,12 +240,11 @@ class orderController extends Controller
         $this->gl->save();
         
         //改状态为'3待收货'
-        $data=$this->order->find($req['orderid']);
         $data->state=3;
         $data->save();
         DB::commit();
         $this->propleinfo($data->users_id,'订单发货通知','您订单编号为'.$data->order_num.'的订单已发货，感谢您对安虫平台的支持！');
-        return 0;
+        return '';
     }
 
 
@@ -277,8 +306,12 @@ class orderController extends Controller
         DB::beginTransaction();
         //下单表
         $this->gl=Goods_logistics::where('order_id',$req['oid'])->where('ship',1)->first();
+        if (!$this->gl) {
+            return '无订单';
+        }
         $this->gl->ship=0;
         $this->gl->save();
+        //物流公司退单
         if ($this->gl->com_code) {
             $exp = new Exp();
             $res = $exp->cancelOrder($req,$this->gl->com_code);
@@ -296,7 +329,7 @@ class orderController extends Controller
         $data->save();
         DB::commit();
         $this->propleinfo($data->users_id,'发货取消通知','您订单编号为'.$data->order_num.'的订单已停止发货，感谢您对安虫平台的支持！');
-        return '撤单成功';
+        return '';
     }
 
     /**
