@@ -466,15 +466,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 //后台登出
             Route::get('/logout','admin\indexController@logout');
             //订单管理路由
-            Route::resource('/order','admin\orderController');
-            //查看订单状态路由
-            Route::resource('/getStatus','admin\orderController@getStatus');
-            //订单发货路由
-            Route::post('/ordership','admin\orderController@orderShip');
-            //取消订单路由
-            Route::post('/ordercancel','admin\orderController@orderCancel');
-            //订单审核路由
-            Route::post('/checkorder','admin\orderController@checkorder');
+            Route::controller('/order','admin\orderController');
             //获取订单详情的路由
             Route::get('/orderinfo','admin\orderinfoController@orderdetail');
             //获取优惠券信息

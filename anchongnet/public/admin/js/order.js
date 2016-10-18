@@ -120,7 +120,7 @@ $(function(){
 	        var id=$(this).attr("data-id");
 	        var num=$(this).attr("data-num");
 	    		var pdata={'oid':id,'num':num,'isPass':$(this).attr('id')};
-	    		$.post('/checkorder',pdata,function(data,status){
+	    		$.post('/order/checkorder',pdata,function(data,status){
 	                console.log(data);
 	                location.reload();
 	         });
@@ -167,7 +167,7 @@ $(function(){
         $("#cancelO").attr('data-num',onum);
         $("#cancelO").attr('data-id',$(this).attr("data-id"));
         $("#ff").text(onum);
-        $.post('/getStatus',{lnum:onum},function(data){
+        $.post('/order/status',{lnum:onum},function(data){
         	$('#wlstatus p').empty();
         		if (data) {
         			$('#wlstatus p:first').append(data['order']);
@@ -183,7 +183,7 @@ $(function(){
       $("#go").click(function(){
           $("#goform").ajaxSubmit({
               type:'post',
-              url:'/ordership',
+              url:'/order/ordership',
               success:function(data){
             	  console.log(data);
             	  	if (data) {
@@ -200,7 +200,7 @@ $(function(){
      * 弹框中，执行取消订单
      */
       $("#cancelO").click(function(){
-          $.post('/ordercancel',{oid:$(this).attr("data-id"),onum:$(this).attr("data-num")},function(data){
+          $.post('/order/ordercancel',{oid:$(this).attr("data-id"),onum:$(this).attr("data-num")},function(data){
 		        	  console.log(data);
 		      	  	if (data) {
 		      	  		alert(data);

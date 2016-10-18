@@ -43,7 +43,7 @@ class orderController extends Controller
      * @param  input('KEYNUM'区分查询数据的关键字)
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getIndex()
     {
         $kn=Requester::input('kn');
         $ks=Requester::input('state');
@@ -59,82 +59,28 @@ class orderController extends Controller
     }
 
     /**
-     * 显示后台添加订单页面
-     *
-     * @param  $request('','','','','')
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  $request('','','','','')
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  $request('status'订单状态)
      * @param  int  $id订单ID
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        $data=$this->order->find($id);
-        if($request->iSend==true){
-            $data->state=$request->status;
-            $data->save();
-            return "提交成功";
-        }else{
-
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-    }
+//     public function update(Request $request, $id)
+//     {
+//         $data=$this->order->find($id);
+//         if ($request->iSend==true) {
+//             $data->state=$request->status;
+//             $data->save();
+//             return "提交成功";
+//         }
+//     }
 
     /**
      * 向物流公司下单后，查看其回馈的状态信息
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function getStatus(Request $req)
+    public function postStatus(Request $req)
     {
         $lnum = $req->lnum;
         $ret = ['order'=>'','wl'=>''];
@@ -163,7 +109,7 @@ class orderController extends Controller
      * @param  $request('isPass'是否退货,'num'订单标号,'gid'货品ID,'oid'订单ID)
      * @return \Illuminate\Http\Response
      */
-    public function checkorder(Request $request)
+    public function postCheckorder(Request $request)
     {
         //获取订单ID
         $id=$request->oid;
@@ -201,7 +147,7 @@ class orderController extends Controller
      * @param  $request('orderid'订单ID,'ship'行为参数,'lognum'物流单号,'logistics'企业)
      * @return \Illuminate\Http\Response
      */
-    public function orderShip(Request $req)
+    public function postOrdership(Request $req)
     {
         //权限判定
         if (Gate::denies('order-ship')) {
@@ -297,7 +243,7 @@ class orderController extends Controller
     /*
      * 取消物流订单的方法
      * */
-    public function orderCancel(Request $req)
+    public function postOrdercancel(Request $req)
     {
         //权限判定
         if (Gate::denies('order-ship')) {

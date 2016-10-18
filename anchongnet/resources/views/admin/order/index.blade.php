@@ -252,7 +252,7 @@
 					<h4 class="modal-title">&nbsp;</h4>
 				</div>
 				<div class="modal-body">
-					<form action="/ordership" method="post" class="form-group form-inline" id="goform">
+					<form action="/order/ordership" method="post" class="form-group form-inline" id="goform">
 						<input type="hidden" name="orderid"  id="orderid">
 						<input type="hidden" name="onum" id="onum">
 						<p>
