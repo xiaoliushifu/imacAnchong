@@ -237,13 +237,6 @@ class UsermessagesController extends Controller
 	            //判断是否请求成功
 	            if($return_code != 200){
 	                return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'更新失败']]);
-	            }else {
-					//对数据库进行更新
-	                $results=DB::table('anchong_users_login')->where('users_id',$id)->update(['netease_token'=>'3c374b5bc7a7d5235cde6426487d8a3c']);
-					//更新失败就返回
-					if(!$results){
-						return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'更新失败']]);
-					}
 	            }
 				$result=$this->usermessages->save();
 			} else {
@@ -342,13 +335,6 @@ class UsermessagesController extends Controller
 	            //判断是否请求成功
 	            if($return_code != 200){
 	                return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'头像上传失败']]);
-	            }else {
-					//对数据库进行更新
-	                $results=DB::table('anchong_users_login')->where('users_id',$id)->update(['netease_token'=>'3c374b5bc7a7d5235cde6426487d8a3c']);
-					//更新失败就返回
-					if(!$results){
-						return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'头像上传失败']]);
-					}
 	            }
 				$result=$this->usermessages->save();
 			}elseif($num == 1){
