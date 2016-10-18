@@ -10,6 +10,7 @@ use Qiniu\Utils;
 use Qiniu\Auth;
 use Validator;
 use DB;
+use Cache;
 
 /*
 *   该控制器包含了互动直播模块的操作
@@ -153,33 +154,63 @@ class LiveController extends Controller
     }
 
     /*
-    *   网易云信聊天室创建
+    *   直播间头像
+    */
+    public function livepic(Request $request)
+    {
+        //定义图片数组
+        $pic_arr=NULL;
+        $pic_result=NULL;
+        //定义取多少张图片
+        $num=10;
+        //判断缓存
+        $pic_arr_cache=Cache::get('live_livepic_pic_arr');
+        if($pic_arr_cache){
+            //将缓存取出来赋值给变量
+            $pic_arr=$pic_arr_cache;
+        }else{
+            //从数据库查出数据
+            $pic_data=DB::table('anchong_usermessages')->lists('headpic');
+            //检索出所有不为空的图片地址
+            foreach ($pic_data as $pic) {
+                if($pic != NULL){
+                    $pic_arr[]=$pic;
+                }
+            }
+            //将查询结果加入缓存
+            Cache::add('live_livepic_pic_arr', $pic_arr, 600);
+        }
+        //统计一共有多少张图片
+        $pic_num=count($pic_arr);
+        //生成随机的数组
+        $number=range(1,$pic_num);
+        //打乱数组数据
+        shuffle($number);
+        $result = array_slice($number,5,$num);
+        //进行遍历循环
+        for($i=0;$i<$num;$i++){
+            $pic_result[]=$pic_arr[$result[$i]];
+        }
+        //判断是否获取图片
+        if(!$pic_result){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"图片获取失败"]]);
+        }
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$pic_result]);
+    }
+
+    /*
+    *   网易云信(一些操作使用)
     */
     public function createroom(Request $request)
     {
+        $stream=$this->hub->listStreams();
+        foreach ($stream['items'] as $StreamObj) {
+            $StreamObj->delete();
+        }
+        exit;
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request->all();
         $param=json_decode($data['param'],true);
-        // //创建orm
-        // $users_message=new \App\Usermessages();
-        // //查出用户的昵称和头像
-        // $usersmessage=$users_message->quer(['headpic','nickname'],['users_id'=>$data['guid']])->toArray();
-        // //判断用户是否完善信息
-        // try{
-        //     if(!$usersmessage[0]['nickname']){
-        //         return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
-        //     }
-        // }catch (\Exception $e) {
-        //     return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
-        // }
-        //尝试创建网易云信
-        //try{
-            // //头像信息
-            // if(empty($usersmessage[0]['headpic'])){
-            //     $headpic="http://anchongres.oss-cn-hangzhou.aliyuncs.com/headpic/placeholder120@3x.png";
-            // }else{
-            //     $headpic=$usersmessage[0]['headpic'];
-            // }
             //网易云信
             $url  = "https://api.netease.im/nimserver/user/unblock.action";
             $datas="creator=".$param['phone'];
@@ -190,22 +221,6 @@ class LiveController extends Controller
             if($return_code != 200){
                 return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"直播聊天开启失败"]]);
             }
-            // //将数据更新
-            // $id=DB::table('v_start')->where('users_id', $data['guid'])->update(
-            //     [
-            //         'room_id' => $result['chatroom']['roomid'],
-            //         'nick' => $usersmessage[0]['nickname'],
-            //         'header' => $headpic
-            //     ]
-            // );
-            // // 判断是否插入成功
-            // if(!$id){
-            //     return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"直播开启失败"]]);
-            // }
-            // return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['roomid'=>$result['chatroom']['roomid']]]);
-        // } catch (\Exception $e) {
-        //     return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>"直播开启失败"]]);
-        // }
     }
 
     /*
@@ -325,7 +340,7 @@ class LiveController extends Controller
         $live_data=['room_id','room_url','title','users_id','header','nick','images'];
         //统计数量
         $live_count=$this->Live_Start->Live()->count();
-        $live_list=$this->Live_Start->Live()->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->get();
+        $live_list=$this->Live_Start->Live()->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('zb_id',DESC)->get();
         //判断是否有人直播
         if($live_count>0 && $live_list){
             //返回结果
@@ -350,7 +365,7 @@ class LiveController extends Controller
         $live_data=['room_id','room_url','title','users_id','images','header','nick','sum','m3u8_url'];
         //统计数量
         $live_count=$this->Live_Restart->Live()->count();
-        $live_list=$this->Live_Restart->Live()->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->get();
+        $live_list=$this->Live_Restart->Live()->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('cb_id',DESC)->get();
         //判断是否有人直播
         if($live_count>0 && $live_list){
             //返回结果
@@ -487,7 +502,7 @@ class LiveController extends Controller
         $living=DB::table('v_start')->where('users_id',$param['guid'])->select('zb_id','room_id','room_url','title','users_id','images')->get();
         //统计数量
         $live_count=$this->Live_Restart->Live()->where('users_id',$param['guid'])->count();
-        $live_list=$this->Live_Restart->Live()->where('users_id',$param['guid'])->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->get()->toArray();
+        $live_list=$this->Live_Restart->Live()->where('users_id',$param['guid'])->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('cb_id',DESC)->get()->toArray();
 
         //如果该人在直播就把正在直播的信息放到第一位
         if(count($living) >0){
@@ -532,17 +547,6 @@ class LiveController extends Controller
     */
     public function regnetease(Request $request)
     {
-        // $users=DB::table('anchong_usermessages')->lists('users_id');
-        // $account=DB::table('anchong_users_login')->select('username','users_id')->get();
-        // foreach ($account as $username) {
-        //     if(in_array($username->users_id,$users)){
-        //         $result=DB::table('anchong_usermessages')->where('users_id',$username->users_id)->update(['account'=>$username->username]);
-        //         if(!$result){
-        //             echo $username->users_id."===";
-        //         }
-        //     }
-        // }
-
         $users=DB::table('anchong_users_login')->select('username','users_id')->where('netease_token',"")->get();
         // //var_dump($users);
         foreach ($users as $users_info) {
