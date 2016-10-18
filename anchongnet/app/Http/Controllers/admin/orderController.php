@@ -253,7 +253,7 @@ class orderController extends Controller
         //下单表
         $this->gl=Goods_logistics::where('order_id',$req['oid'])->where('ship',1)->first();
         if (!$this->gl) {
-            return '无订单';
+            return '本来就没有发货';
         }
         $this->gl->ship=0;
         $this->gl->save();

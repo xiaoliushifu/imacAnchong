@@ -132,22 +132,16 @@
 										<td align="center">
 											<button type="button" class="view f-ib btn btn-default btn-xs" data-id="{{$data['order_id']}}"
 											data-num="{{$data['order_num']}}" data-name="{{$data['name']}}" data-phone="{{$data['phone']}}" data-address="{{$data['address']}}" data-price="{{$data['total_price']}}" data-freight="{{$data['freight']}}"
-											data-time="{{$data['created_at']}}" data-sname="{{$data['sname']}}" data-tname="{{$data['tname']}}" data-invoice="{{$data['invoice']}}" data-acpid="{{$data['acpid']}}" data-toggle="modal" data-target="#myView">打印订单</button>
-											@if ($data['state'] == 2)
+											data-time="{{$data['created_at']}}" data-sname="{{$data['sname']}}" data-tname="{{$data['tname']}}" data-invoice="{{$data['invoice']}}" data-acpid="{{$data['acpid']}}" data-toggle="modal" data-target="#myView">打印</button>
 												@can('order-ship')
-													<button type='button' class='f-ib shipbtn btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#mySend">发货</button>
+													<button type='button' class='shipbtn f-ib btn btn-primary btn-xs {{ ($data["state"])!=2? "hidden":""}}'  data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#mySend">发货</button>
+													<button type='button' class='status btn btn-primary btn-xs {{ ($data["state"])!=3? "hidden":""}}' ' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myStatus">物流状态</button>
+													<button type='button' class='check f-ib btn btn-primary btn-xs {{ ($data["state"])!=4? "hidden":""}}' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myCheck">审核</button>
 												@else
-													<button type='button' class='disabled btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#mySend">发货</button>
+													<button type='button' class='disabled btn btn-primary btn-xs' >发货</button>
+													<button type='button' class='disabled btn btn-primary btn-xs '>物流状态</button>
+													<button type='button' class='disabled btn btn-primary btn-xs'>审核</button>
 												@endcan
-											@elseif ($data['state'] == 3)
-													<button type='button' class='status btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myStatus">物流状态</button>
-											@elseif ($data['state'] == 4)
-												@can('order-ship')
-													<button type='button' class='check f-ib btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myCheck">审核</button>
-												@else
-													<button type='button' class='disabled btn btn-primary btn-xs' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myCheck">审核</button>
-												@endcan
-											@endif
 										</td>
 									</tr>
 								@endforeach
@@ -226,15 +220,10 @@
 	<div class="modal fade" id="myCheck" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body" id="cbody">
-
-				</div>
+				<div class="modal-header"></div>
+				<div class="modal-body" id="cbody"></div>
 				<div class="modal-footer">
+					<button type="button" data-dismiss="modal">取消</button>
 					<button type="button" class="btn btn-success" id="pass">通过</button>
 					<button type="button" class="btn btn-danger" id="fail">不通过</button>
 				</div>
@@ -245,12 +234,7 @@
 	<div class="modal fade" id="mySend" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title">&nbsp;</h4>
-				</div>
+				<div class="modal-header" style="margin-top:50px">	</div>
 				<div class="modal-body">
 					<form action="/order/ordership" method="post" class="form-group form-inline" id="goform">
 						<input type="hidden" name="orderid"  id="orderid">
@@ -275,11 +259,12 @@
 								<small></small>
 							</p>
 						</div>
-						<p class="text-center">
-							<button type="button" class="btn btn-sm btn-primary" id="go">开始发货</button>
-						</p>
-					</form>
 				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-sm btn-primary text-center" id="go">开始发货</button>
+				</div>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -289,10 +274,8 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header" style="margin-top:50px">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">close</span>
-					</button>
-					<h4 class="modal-title">订单编号:<span id='ff'></span>已下单</h4>
+					<h4 class="modal-title">编号为:<span id='ff'></span>的订单已发货</h4>
+					<small class="text-danger">在快递取件之前仍可取消发货</small>
 				</div>
 				<div class="modal-body">
 					<div id="wlstatus">
@@ -301,7 +284,10 @@
 						物流信息：<p></p>
 					</div>
 				</div>
-                <button type="button" id="cancelO" data-num="" data-id="">取消订单</button>
+                <div class="modal-footer">
+					<button type="button" data-dismiss="modal">关闭</button>
+					<button type="button" id="cancelO" data-num="" data-id="" title="请慎重">取消发货</button>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -5,7 +5,7 @@ $(function(){
 	
 	var GlobalObj=[];
 	/**
-	 * '打印订单'按钮
+	 * '打印'按钮
 	 */
     $(".view").click(function(){
          $(".orderinfos").empty();
@@ -114,7 +114,10 @@ $(function(){
     /**
      * 统一'通过|不通过'按钮
      */
-    $('.modal-footer').on('click','button',function(){
+    $('#myCheck').on('click','button',function(){
+    		if (!$(this).is('.btn')) {
+    			return;
+    		}
 	    	if(confirm("确定"+$(this).text()+"审核吗？")){
 	    		//订单ID和订单编号
 	        var id=$(this).attr("data-id");
@@ -134,7 +137,9 @@ $(function(){
         location.reload();
     });
     
-    //点击'发货'按钮，弹出发货方式选择页
+    /**
+     * 点击'发货'按钮，弹出发货方式选择页
+     */
     $(".shipbtn").click(function(){
         $("#orderid").val($(this).attr("data-id"));
         $("#onum").val($(this).attr("data-num"));
@@ -160,7 +165,9 @@ $(function(){
     			}
     	});
     
-  //点击'查看物流状态'按钮，弹出发货方式选择页
+  /**
+   * 查看物流状态
+   */
     $(".status").click(function(){
     		//显示物流信息
     		var onum = $(this).attr("data-num");
@@ -169,6 +176,7 @@ $(function(){
         $("#ff").text(onum);
         $.post('/order/status',{lnum:onum},function(data){
         	$('#wlstatus p').empty();
+        		//如果有状态信息的话
         		if (data) {
         			$('#wlstatus p:first').append(data['order']);
         			$('#wlstatus p:eq(1)').append(data['wl']);
@@ -186,27 +194,34 @@ $(function(){
               url:'/order/ordership',
               success:function(data){
             	  console.log(data);
-            	  	if (data) {
+            	  //有内容说明有问题	
+            	  if (data) {
             	  		alert(data);
             	  	} else {
             	  		alert('发货成功');
-            	  		location.reload();
+            	  		$('#example1  button[data-id="'+$('#orderid').val()+'"].shipbtn').toggleClass('hidden');
+            	  		$('#example1  button[data-id="'+$('#orderid').val()+'"].status').toggleClass('hidden');
+            	  		$('#mySend').modal('hide');
             	  	}
               },
           });
       });
     
     /**
-     * 弹框中，执行取消订单
+     * 弹框中，执行取消发货
      */
       $("#cancelO").click(function(){
-          $.post('/order/ordercancel',{oid:$(this).attr("data-id"),onum:$(this).attr("data-num")},function(data){
+    	  	  var tmp = $(this).attr("data-id");
+          $.post('/order/ordercancel',{oid:tmp,onum:$(this).attr("data-num")},function(data){
 		        	  console.log(data);
+		        	  //有内容说明有问题	
 		      	  	if (data) {
 		      	  		alert(data);
 		      	  	} else {
 		      	  		alert('撤单成功');
-		      	  		location.reload();
+		      	  		$('#example1  button[data-id="'+tmp+'"].shipbtn').toggleClass('hidden');
+		      	  		$('#example1  button[data-id="'+tmp+'"].status').toggleClass('hidden');
+		      	  		$('#myStatus').modal('hide');
 		      	  	}
               });
       });
