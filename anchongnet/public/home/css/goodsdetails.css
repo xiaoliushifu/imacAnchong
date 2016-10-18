@@ -389,15 +389,7 @@ overflow: hidden;
 }
 .nubtype img {
     float: left;
-}
-
-.nubtype li span{
-  border-top: 1px #606060 solid;
-    padding: 1px 5px;
-    border-bottom: 1px #606060 solid;
-    font-size: 16px;
-    font-weight:bold;
-    margin-bottom: 10px;
+    cursor: pointer;
 }
 .submit{
     width: 380px;
@@ -405,16 +397,20 @@ overflow: hidden;
     margin-left: 80px;
     margin-top: 15px;
 }
-.submit button{
+.submit a{
     width: 164px;
-    height: 40px;
     background: white;
     font-size: 20px;
-    margin-left: 20px;color: #f53745;
-    border: none;
+    margin-left: 20px;
+    line-height: 38px;
+    color: #f53745;
+    display: inline-block;
+    vertical-align: middle;
     border: 1px #f53745 solid;
+    text-align: center;
+    cursor: pointer;
 }
-.submit button:hover{
+.submit a:hover{
     background: #f53745;
     color: #ffffff;
 }

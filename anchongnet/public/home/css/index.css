@@ -635,6 +635,7 @@ h1{
 }
 .goods-right li img{
     width: 270px;
+    height: 145px;
 }
 .goods-right p{
     text-align: center;
@@ -646,6 +647,9 @@ h1{
 .goods-title{
     color: #000;;
     font-size: 14px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .goods-price{
     color: #f53745;

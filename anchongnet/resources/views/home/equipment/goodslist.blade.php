@@ -194,12 +194,12 @@
                             <nobr><p><a href="{{url('equipment/show/'.$d->goods_id.'/'.$d->gid)}}">{{$d->title}}</a></p></nobr>
                             @if(count($glistauth) == 0)
                                 <span class="common">会员价：请认证后查看</span>
-                                <span class="vip">价格：￥{{$t->price}}</span>
+                                <span class="vip">价格：￥{{$d->price}}</span>
                             @else
                                 @for($i=0;$i<count($glistauth);$i++)
                                     @if($glistauth[$i]->auth_status == "3")
                                         <span class="vip">会员价：{{$d->vip_price}}</span>
-                                        <span class="common">价格：￥{{$t->price}}</span>
+                                        <span class="common">价格：￥{{$d->price}}</span>
                                     @endif
                                 @endfor
                             @endif

@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Home;
 use App\Business;
 use App\Category;
 use App\Community_release;
+use App\Goods_type;
 use App\Information;
 use App\Usermessages;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redirect;
 
 /*
  * 前端首页控制器
@@ -37,7 +39,11 @@ class IndexController extends CommonController
         $activity = Cache::tags('iactivity')->remember('indexactivity',600,function (){
            return Community_release::where('tags','活动')->orderBy('created_at','desc')->take(4)->get();
         });
-        return view('home.index',['ihot'=>$hot,'italent'=>$talent,'iinfo'=>$info,'iuserinfo'=>$userinfo,'icommunity'=>$community,'inav'=>$nav,'inactivity'=>$activity]);
+
+        $igoods = Cache::tags('igoods')->remember('igoods',600,function (){
+            return Goods_type::take(4)->orderBy('created_at','desc')->get();
+        });
+        return view('home.index',['ihot'=>$hot,'italent'=>$talent,'iinfo'=>$info,'iuserinfo'=>$userinfo,'icommunity'=>$community,'inav'=>$nav,'inactivity'=>$activity,'igoods'=>$igoods]);
 
     }
 }
