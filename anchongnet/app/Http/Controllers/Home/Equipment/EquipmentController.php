@@ -63,7 +63,7 @@ class EquipmentController extends CommonController
             'nav1','nav2','two','nav3','three','nav4','four','nav5','five','nav6','six','nav7','seven','nav8','eight','test','all'));
    }
 
-    public function getList($cat_id)
+   public function getList($cat_id)
    {
         //住导航
         $navll = Cache::remember('nav',10,function(){
@@ -109,7 +109,7 @@ class EquipmentController extends CommonController
         //通过$gid找到缩略图
         $img = Cache::remember('goodsimg'.$gid,10,function() use($gid){
         return  Goods_thumb::where('gid',$gid)->get();
-    });
+        });
         //通过sid找到哪家商铺
         $shop = Cache::remember('goodshop'.$gid,10,function() use($data){
            return  Shop::where('sid',$data->sid)->get();

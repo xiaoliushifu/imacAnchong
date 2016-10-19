@@ -32,6 +32,21 @@
         <div class=" daomain">
            <h4>商家认证</h4>
         </div>
+            @if(session('sucsses'))
+                <div style="color: #f53745;font-size: 14px;margin-left: 100px;">{{session('sucsses')}}</div>
+            @endif
+            @if(count($errors)>0)
+                <div class="mark" style="margin-left: 10px;">
+                    @if(is_object($errors))
+                        @foreach($errors->all() as $error)
+                            <p style="padding-left: 100px;"> {{$error}}</p>
+                        @endforeach
+                    @else
+                        <p>{{$errors}}</p>
+                    @endif
+                </div>
+            @endif
+
             <div class="detail">
                 <div class="papers">
                     <span>上传证件：</span><div class="papers-title"><img src="home/images/mine/35.jpg" alt=""></div>

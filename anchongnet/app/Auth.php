@@ -8,7 +8,7 @@ class Auth extends Model
 {
     protected $table = 'anchong_auth';
 	protected $guarded = ['id'];
-    protected $fillable = ['users_id', 'auth_name', 'qua_name','explanation','credentials'];
+    protected $fillable = ['users_id', 'auth_name', 'qua_name','explanation'];
 
 	/*
 	 * 通过users_id查找特定用户的认证记录

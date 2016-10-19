@@ -26,21 +26,40 @@
         </div>
     </div>
     <div class="mainrg">
-        <form action="" method="">
+        <form action="{{url('honor/store')}}" method="post">
+            {{csrf_field()}}
         <div class=" daomain">
+
            <h4>会员认证</h4>
         </div>
             <div class="detail">
+                @if(session('message'))
+                    <div style="color: #f53745;font-size: 14px;margin-left: 100px;">{{session('message')}}</div>
+                @endif
+                    @if(session('error'))
+                        <div style="color: #f53745;font-size: 14px;margin-left: 100px;">{{session('error')}}</div>
+                    @endif
+                    @if(count($errors)>0)
+                        <div class="mark" >
+                            @if(is_object($errors))
+                                @foreach($errors->all() as $error)
+                                    <p style="padding-left: 100px;"> {{$error}}</p>
+                                @endforeach
+                            @else
+                                <p>{{$errors}}</p>
+                            @endif
+                        </div>
+                    @endif
                 <div class="center-left">
 
                 <li>
-                    <span>公司名称：</span><input type="text" value="风信子" onfocus="javascript:if(this.value=='风信子')this.value='';">
+                    <span>公司名称：</span><input type="text" name="auth_name"  value="{{Input::old('auth_name')}}" placeholder="请输入公司名称或从业者姓名">
                 </li>
                     <li>
-                        <span>会员简介：</span><input type="text" value="13888888888" onfocus="javascript:if(this.value=='13888888888')this.value='';">
+                        <span>会员简介：</span><input type="text" name="explanation"  value="{{Input::old('explanation')}}" placeholder="请输入公司或从业者简介">
                     </li>
                     <li>
-                    <span>证件名称：</span><input type="text" value="北京市昌平区沙河镇"onfocus="javascript:if(this.value=='北京市昌平区沙河镇')this.value='';">
+                    <span>证件名称：</span><input type="text" name="qua_name"  value="{{Input::old('qua_name')}}" placeholder="可填写多个">
 
                 </li>
                    <div class="papers">

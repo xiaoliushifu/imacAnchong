@@ -635,10 +635,13 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
                 Route::resource('/adress', 'AddressController');
                 //申请商铺
                 Route::get('/applysp', 'IndexController@applysp');
+                //申请商铺提交
                 Route::any('/applysp/store', 'IndexController@apstore');
+                //会员认证提交
+                Route::any('/honor/store', 'IndexController@quas');
                 //基本资料
                 Route::get('/basics', 'IndexController@basics');
-                //商铺认证
+                //会员认证
                 Route::get('/honor', 'IndexController@honor');
                 //上传头像
                 Route::get('/uphead', 'IndexController@uphead');
@@ -648,6 +651,8 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
                 Route::get('/pubtalent', 'PublishController@pubtalent');
                 //发包工程
                 Route::get('/conwork', 'PublishController@work');
+                //个人订单
+                Route::resource('/order','OrderController');
                 //承接工程
                 Route::get('/continuepro', 'PublishController@continu');
                 //我的找货
@@ -660,15 +665,13 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
                 //社区
                 Route::get('/colcommunity', 'CollectionController@colcommunity');
             });
-/*
-*
-*/
-Route::group(['namespace' => 'Home\Cart','middleware'=>['loginhome']], function () {
-            //购物车
-            Route::resource('/cart','CartController');
-            //订单确认
-            Route::resource('/cartconfirm','ConfirmationController');
-    });
+
+            Route::group(['namespace' => 'Home\Cart','middleware'=>['loginhome']], function () {
+                    //购物车
+                    Route::resource('/cart','CartController');
+                    //订单确认
+                    Route::resource('/cartconfirm','ConfirmationController');
+            });
 
             //前台注册
             Route::resource('/user/register', 'Home\User\RegController');

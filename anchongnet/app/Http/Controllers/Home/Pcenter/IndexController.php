@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Home\Pcenter;
+use App\Auth;
 use App\Brand;
 use App\Category;
 use App\Collection;
@@ -14,6 +15,7 @@ use App\Users;
 use App\Business;
 use Cache;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
 
 class IndexController extends CommonController
 {
@@ -63,35 +65,61 @@ class IndexController extends CommonController
     {
 
         $input = Input::except('_token');
-        $brand =$input['brand'];
-        $cate = $input['cate'];
+
 
         $user =Users::where('phone',[session('user')])->first();
         $input['users_id']= $user->users_id;
-         Shop::create($input);
+        $rul = [
+          'name' =>  'required',
+          'introduction' => 'required',
+            'brand' => 'required',
+            'cate'=> 'required',
+            'premises'=> 'required'
+        ];
+        $mm = [
+          'name.required'=> '店铺名称不能为空！',
+            'introduction.required'=> '店铺介绍不能为空！',
+            'brand.required'=> '主营品牌不能为空！',
+            'cate.required' => '主营类别不能为空！',
+            'premises.required'=> '经营地址不能为空！'
+        ];
+        $vali = Validator::make($input,$rul,$mm);
+        if($vali->passes()){
+            $brand =$input['brand'];
+            $cate = $input['cate'];
+            $obl = Shop::create($input);
             $sp = Shop::where('users_id',$user->users_id)->first();
-             foreach($cate as $c){
-                 ShopCat::insert(
-                     array(
-                         array(
-                             'sid'=>$sp->sid,
-                             'cat_id'=>$c
-                         )
-                     )
-                 );
-             }
-        foreach($brand as $d){
-            Mainbrand::insert(
-                array(
+            foreach($cate as $c){
+               $bra =  ShopCat::insert(
                     array(
-                        'sid'=>$sp->sid,
-                        'brand_id'=>$d
+                        array(
+                            'sid'=>$sp->sid,
+                            'cat_id'=>$c
+                        )
                     )
-                )
-            );
+                );
+            }
+            foreach($brand as $d){
+               $cam =  Mainbrand::insert(
+                    array(
+                        array(
+                            'sid'=>$sp->sid,
+                            'brand_id'=>$d
+                        )
+                    )
+                );
+            }
+            if($obl and $bra and $cam){
+                return back()->with('sucsses','商铺申请成功，请等待审核！！');
+            }else{
+                return back()->with('er','商铺申请失败，请重新申请！！');
+            }
+        }else{
+            return back()->withErrors($vali);
         }
 
-      return back();
+
+
 
 
   }
@@ -103,13 +131,47 @@ class IndexController extends CommonController
         return view('home.pcenter.basics');
     }
     /*
-     * 商铺认证
+     * 会员认证
     */
     public function honor()
     {
         return view('home.pcenter.honor');
     }
+    /*
+     * 会员认证提交
+     */
+    public function quas()
+    {
+        $input = Input::except('_token');
+        $user =Users::where('phone',[session('user')])->first();
+        $input['users_id']= $user->users_id;
 
+        $rule = [
+               'auth_name'=>'required',
+              'qua_name'=> 'required',
+            'explanation'=> 'required'
+        ];
+        $msg = [
+          'auth_name.required'=> '公司名称不能为空 ！',
+           'qua_name.required'=> '公司名称不能为空 ！',
+          'explanation.required'=> '公司名称不能为空 ！'
+        ];
+        $valid = Validator::make($input,$rule,$msg);
+        if($valid->passes()){
+           $up = Auth::create($input);
+        if($up){
+            $mm = '会员认证成功，请等待审核!!';
+            return redirect('honor')->with('message',$mm);
+        }else{
+            return redirect('honor')->with('error','会员申请失败');
+        }
+        }else{
+            return back()->withErrors($valid)->withInput();
+        }
+
+
+        
+    }
     /*
      * 上传头像
      */
