@@ -12,6 +12,7 @@ use Auth;
 use DB;
 use Session;
 use Redirect;
+use Cache;
 
 /*
 *   该控制器是web端用户注册的页面
@@ -130,6 +131,7 @@ class LoginController extends Controller
     public function quit()
     {
         session(['user'=>null]);
+        Cache::forget('all');
         return redirect('/');
     }
 }
