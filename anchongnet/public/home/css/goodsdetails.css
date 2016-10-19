@@ -316,13 +316,6 @@ overflow: hidden;
     margin-left: 20px;
     text-align: center;
 }
-.suit li:hover{
-    border: 1px #f53745 solid;
-    color: #f53745;
-}
-.suit span{
-
-}
 .goods-size{
     width: 500px;
     overflow: hidden;
@@ -347,15 +340,10 @@ overflow: hidden;
     text-align: center;
     border: 1px #606060 solid;
     border-radius: 10px;
-   overflow: hidden;
-    height: 25px;margin-right: 10px;
-}
-.sizetype li span{
-    margin: 0px 20px;
-}
-.sizetype li:hover{
-    border: 1px #f53745 solid;
-    color: #f53745;
+    overflow: hidden;
+    height: 25px;
+    margin-right: 10px;
+    padding: 0px 20px;
 }
 .goods-nub{
     width: 500px;

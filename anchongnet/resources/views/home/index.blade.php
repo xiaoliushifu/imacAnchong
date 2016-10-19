@@ -297,7 +297,7 @@
             <h1>展会活动</h1>
             <ul>
                 @foreach($inactivity as $value)
-                <li><a href="{{url('/community/'.$value -> chat_id)}}"><img src="{{$value -> img}}"></a></li>
+                <li><a href="{{url('/community/'.$value -> chat_id)}}"><img src="{{$value -> img}}" alt="{{$value -> title}}"></a></li>
                 @endforeach
             </ul>
         </div>
