@@ -72,7 +72,7 @@
                 </div>
                 <div class="top-main-right">
                     <div class="goodstitle">
-                        <h3>{{$data->title}}</h3>
+                        <h3 class="title">{{$data->title}}</h3>
                         <p>{{$data->desc}}</p>
                     </div>
                     <div class="goodsprice">
@@ -101,7 +101,7 @@
                             <div class="suit">
                                 <ul>
                                     @foreach($name as $p)
-                                    <li><span>{{$p}}</span></li>
+                                    <li class="type">{{$p}}</li>
                                     @endforeach
 
                                 </ul>
@@ -116,7 +116,7 @@
 
                                     @foreach($size as $b)
                                         @if(count($b))
-                                    <li><span>{{$b}}</span></li>
+                                    <li class="model">{{$b}}</li>
                                         @endif
                                     @endforeach
 
@@ -134,8 +134,6 @@
                          <div class="submit">
                              <a onclick="Buy()">立即购买</a><a onclick="addCart()">加入购物车</a>
                          </div>
-
-
                     </div>
                     </form>
                 </div>
@@ -168,7 +166,7 @@
         <div class="main-right">
            <div class="flagshop">
                <div class="flagshop-main">
-               <div class="shop-title"><h4>{{$shop[0]->name}}</h4><a href="{{url('equipment/thirdshop/'.$shop[0]->sid)}}">进入店铺</a></div>
+               <div class="shop-title"><h4 class="shopname">{{$shop[0]->name}}</h4><a href="{{url('equipment/thirdshop/'.$shop[0]->sid)}}">进入店铺</a></div>
                <div class="shop-pic"><img src="{{$shop[0]->img}}" alt=""></div>
 
                <div class="shop-server">
@@ -189,7 +187,7 @@
                            @else
                            <script>
                                $('.collect').click(function () {
-                                   layer.msg('登陆后才可以收藏哦',{icon: 6})
+                                   layer.msg('登陆后才可以收藏哦',{icon: 5})
                                });
                            </script>
                        @endif
@@ -251,13 +249,17 @@
     购物车添加
      */
     function addCart() {
-        var goods_name = {!! $data->title !!};
+        //获取数据
+        var goods_name = $('.title').text();
         var goods_num = $('#goodsnum').val();
         var goods_price = $('.goods-price').text();
         var goods_img = $('#tail').attr('src');
         var sid = {{$shop[0]->sid}};
-        var sname ={{$shop[0]->name}};
-        alert(goods_name);
+        var sname =$('.shopname').text();
+        var goods_id = {{$price[0]->goods_id}} ;
+        var gid = {{$price[0]->gid}};
+        //判断是否选取类型及样式
+        var classname = $('.ac-selected').attr('class');
     }
 </script>
 </body>

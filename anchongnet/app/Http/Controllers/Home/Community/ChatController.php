@@ -14,6 +14,11 @@ class ChatController extends CommonController
     {
         return view('home/release/releasechat');
     }
+
+    public function show()
+    {
+        
+    }
     /*
      * 提交聊聊信息
      */
