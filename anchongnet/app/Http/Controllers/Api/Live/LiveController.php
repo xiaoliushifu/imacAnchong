@@ -46,6 +46,20 @@ class LiveController extends Controller
     }
 
     /*
+    *   过滤sql注入(考虑到关键字因素暂不使用)
+    */
+    private function filtrate($str)
+    {
+        array('`','(','"',"'",'union','select','where','and','or','delete','update');
+        $num=count($filt_arr);
+        for($i=0;$i<$num;$i++){
+             if(strstr($str,$filt_arr[$i])){
+                 return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'非法输入']]);
+             }
+        }
+    }
+
+    /*
     *   判断是否目前是否有直播
     */
     public function isliving(Request $request)
@@ -340,7 +354,7 @@ class LiveController extends Controller
         $live_data=['room_id','room_url','title','users_id','header','nick','images'];
         //统计数量
         $live_count=$this->Live_Start->Live()->count();
-        $live_list=$this->Live_Start->Live()->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('zb_id',DESC)->get();
+        $live_list=$this->Live_Start->Live()->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('zb_id','DESC')->get();
         //判断是否有人直播
         if($live_count>0 && $live_list){
             //返回结果
@@ -365,7 +379,7 @@ class LiveController extends Controller
         $live_data=['room_id','room_url','title','users_id','images','header','nick','sum','m3u8_url'];
         //统计数量
         $live_count=$this->Live_Restart->Live()->count();
-        $live_list=$this->Live_Restart->Live()->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('cb_id',DESC)->get();
+        $live_list=$this->Live_Restart->Live()->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('cb_id','DESC')->get();
         //判断是否有人直播
         if($live_count>0 && $live_list){
             //返回结果
@@ -387,7 +401,7 @@ class LiveController extends Controller
         //对接收的数据进行验证
         $validator = Validator::make($param,
             [
-                'search' => 'required|between:2,60'
+                'search' => 'required|between:2,40'
             ]
         );
         //验证失败时返回错误信息
@@ -402,7 +416,11 @@ class LiveController extends Controller
         //定义查询数据
         $live_data=['room_id','room_url','title','users_id','header','nick','images'];
         //查出数据
-        $live_list=$this->Live_Start->Live()->select($live_data)->whereRaw("title like '%".$search."%'")->get();
+        DB::connection()->enableQueryLog(); // 开启查询日志
+        DB::table('v_start'); // 要查看的sql
+        $live_list=$this->Live_Start->Live()->select($live_data)->where("title", "like", "%$search%")->get();
+        $queries = DB::getQueryLog();
+        var_dump($queries);
         //返回结果
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => $live_list]);
     }
@@ -418,7 +436,7 @@ class LiveController extends Controller
         //对接收的数据进行验证
         $validator = Validator::make($param,
             [
-                'search' => 'required|between:2,60'
+                'search' => 'required|between:2,40'
             ]
         );
         //验证失败时返回错误信息
@@ -437,7 +455,11 @@ class LiveController extends Controller
             //返回结果
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => $anchors]);
         }else{
+            // DB::connection()->enableQueryLog(); // 开启查询日志
+            // DB::table('anchong_usermessages'); // 要查看的sql
             $anchors=DB::table('anchong_usermessages')->where('nickname',$search)->select('headpic','users_id','nickname')->get();
+            // $queries = DB::getQueryLog();
+            // var_dump($queries);
             //返回结果
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => $anchors]);
         }
@@ -456,7 +478,7 @@ class LiveController extends Controller
         //对接收的数据进行验证
         $validator = Validator::make($param,
             [
-                'search' => 'required|between:2,60'
+                'search' => 'required|between:2,40'
             ]
         );
         //验证失败时返回错误信息
@@ -468,9 +490,9 @@ class LiveController extends Controller
 		}
         //取出搜索内容
         $search=$param['search'];
-        $count=DB::select("select count(*) as count from `v_restart_search` where `title` like '%$search%' ");
-        $cb_arr=DB::select("select `cb_id` from `v_restart_search` where `title` like '%$search%' order by sum desc limit ".($param['page']-1)*$limit.",".$limit);
-        if($count[0]->count == 0 && empty($cb_arr)){
+        $count=DB::table('v_restart_search')->where("title", "like", "%$search%")->count();
+        $cb_arr=DB::table('v_restart_search')->select('cb_id')->where("title", "like", "%$search%")->skip(($param['page']-1)*$limit)->take($limit)->orderBy('sum','DESC')->get();
+        if($count == 0 && empty($cb_arr)){
             //返回结果
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
         }
@@ -502,8 +524,7 @@ class LiveController extends Controller
         $living=DB::table('v_start')->where('users_id',$param['guid'])->select('zb_id','room_id','room_url','title','users_id','images')->get();
         //统计数量
         $live_count=$this->Live_Restart->Live()->where('users_id',$param['guid'])->count();
-        $live_list=$this->Live_Restart->Live()->where('users_id',$param['guid'])->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('cb_id',DESC)->get()->toArray();
-
+        $live_list=$this->Live_Restart->Live()->where('users_id',$param['guid'])->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('cb_id','DESC')->get()->toArray();
         //如果该人在直播就把正在直播的信息放到第一位
         if(count($living) >0){
             $living[0]->sum=null;
@@ -530,10 +551,11 @@ class LiveController extends Controller
         //获得app端传过来的json格式的数据转换成数组格式
         $data=$request->all();
         $param=json_decode($data['param'],true);
-        //从直播里面删除该数据
+        //从重播里面删除该数据
         $del=$this->Live_Restart->destroy($param['cb_id']);
+        $search_del=DB::table('v_restart_search')->where('cb_id',$param['cb_id'])->delete();
         //判断是否成功删除
-        if($del){
+        if($del && $search_del){
             //返回结果
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=> ['Message'=>'删除成功']]);
         }else{

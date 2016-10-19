@@ -30,7 +30,7 @@ class SearchController extends Controller
         if (!$result = Cache::get($prefix.$q)) {
             //返回数组，但其元素是对象
             //DB::connection()->enableQueryLog();
-            $tmp=DB::select("select `str` from `anchong_goods_suggestion` where `str` like '$q%' order by qnums desc limit 6");
+            $tmp=DB::table('anchong_goods_suggestion')->select('str')->where("str", "like", "$q%")->skip(0)->take(6)->orderBy('qnums','DESC')->get();
             //$queries = DB::getQueryLog();
             if (!$tmp) {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'']]);
