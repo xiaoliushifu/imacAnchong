@@ -73,9 +73,9 @@
 								<input type="text" name="kn" class="form-control" placeholder="订单编号">
 								<select name="state">
                                     		<option value="0" >--筛选状态--</option>
-                                    		<option value="1">待支付</option>
+                                    		<option value="1">待收款</option>
                                     		<option value="2">待发货</option>
-                                    		<option value="3">待收货</option>
+                                    		<option value="3">已发货</option>
                                     		<option value="4">待审核</option>
                                     		<option value="5">已退款</option>
                                     		<option value="6">交易关闭</option>
@@ -102,13 +102,13 @@
 											<?php
 												switch($data['state']){
 													case 1:
-														echo "待支付";
+														echo "待收款";
 														break;
 													case 2:
 														echo "待发货";
 														break;
 													case 3:
-														echo "待收货";
+														echo "已发货";
 														break;
 													case 4:
 														echo "退货待审核";
@@ -275,7 +275,7 @@
 			<div class="modal-content">
 				<div class="modal-header" style="margin-top:50px">
 					<h4 class="modal-title">编号为:<span id='ff'></span>的订单已发货</h4>
-					<small class="text-danger">在快递取件之前仍可取消发货</small>
+					<small class="text-danger">物流发货”方式可用</small>
 				</div>
 				<div class="modal-body">
 					<div id="wlstatus">
@@ -286,7 +286,7 @@
 				</div>
                 <div class="modal-footer">
 					<button type="button" data-dismiss="modal">关闭</button>
-					<button type="button" id="cancelO" data-num="" data-id="" title="请慎重">取消发货</button>
+					<button type="button" id="cancelO" data-num="" data-id="" title="在快递取件之前仍可取消发货">取消发货</button>
 				</div>
 			</div>
 		</div>

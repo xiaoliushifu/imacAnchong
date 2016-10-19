@@ -27,9 +27,6 @@ class orderController extends Controller
     private $gl;
     public function __construct()
     {
-        $this->order=new Order();
-        $this->orderinfo=new Orderinfo();
-
         //通过Auth获取当前登录用户的id
         $this->uid=Auth::user()['users_id'];
         if (!is_null($this->uid)){//通过用户获取商铺id
@@ -47,6 +44,7 @@ class orderController extends Controller
     {
         $kn=Requester::input('kn');
         $ks=Requester::input('state');
+        $this->order=new Order();
         if ($kn) {
             $datas = Order::num($kn,$this->sid)->orderBy("order_id","desc")->paginate(8);
         } elseif ($ks) {
@@ -86,20 +84,19 @@ class orderController extends Controller
         $ret = ['order'=>'','wl'=>''];
         $odata = ['company','content','time'];
         $ldata = ['company','bill_code','data'];
-        $ostatus = DB::table('anchong_ostatus')->where('logisticsnum',$req->lnum)->get($odata);
-        $lstatus = DB::table('anchong_lstatus')->where('logisticsnum',$req->lnum)->get($ldata);
+        $ostatus = DB::table('anchong_ostatus')->where('logisticsnum',$lnum)->get($odata);
+        $lstatus = DB::table('anchong_lstatus')->where('logisticsnum',$lnum)->get($ldata);
         foreach ($ostatus as $o) {
             $ret['order'] .=$o->company.'---'.$o->content.'---'.$o->time.'<br>';
         }
         foreach ($lstatus as $o) {
             $ret['wl'] .='快递公司: '.$o->company.'---运单号: '.$o->bill_code.'<br>';
             $tmp = unserialize($o->data);
-            foreach($tmp as $sub){
+            foreach ($tmp as $sub) {
                 $ret['wl'] .=$sub['time'].'---'.$sub['content'].'<br>';
             }
         }
         return $ret;
-        \Log::info(unserialize($o->content),[$lnum]);
     }
     
     
@@ -111,6 +108,7 @@ class orderController extends Controller
      */
     public function postCheckorder(Request $request)
     {
+        $this->order=new Order();
         //获取订单ID
         $id=$request->oid;
         //得到操作订单数据的句柄
@@ -119,6 +117,7 @@ class orderController extends Controller
         DB::beginTransaction();
         //判断是否通过退货
         if ($request->isPass==="pass") {
+            $this->orderinfo=new Orderinfo();
             //若通过退货则改变订单状态并将商品数量还原
             $datasarr=$this->orderinfo->where('order_num','=',$request->num)->get()->toArray();
             //遍历得到的结果
@@ -153,6 +152,7 @@ class orderController extends Controller
         if (Gate::denies('order-ship')) {
             return back();
         }
+        $this->order=new Order();
         $carrier=['0','hand'];
         $orderpa = $data = $this->order->find($req['orderid']);
         //物流发货方式,否则手动发货
@@ -269,6 +269,7 @@ class orderController extends Controller
         }
 
         //订单表更新
+        $this->order=new Order();
         $data=$this->order->find($req['oid']);
         //改回状态为'2待发货'
         $data->state=2;

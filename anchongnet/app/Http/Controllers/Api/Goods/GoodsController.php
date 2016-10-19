@@ -476,7 +476,7 @@ class GoodsController extends Controller
                 $where = str_replace('`search`', '`keyword`',$where);
                 //缓存判定
                 if (!$result = Cache::tags('s')->get("search@".$sp)) {
-                    \Log::info($oristr,['search@']);//统计
+                    \Log::info($oristr,['search@'.$where]);//统计
                     //索引表查询
                     $tmp=DB::select("select `cat_id` from `anchong_goods_keyword` where ".$where);
                     if (!$tmp) {

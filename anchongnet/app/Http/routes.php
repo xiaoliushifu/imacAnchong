@@ -402,9 +402,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
             //安虫自营路由组
             Route::group(['middleware'=>'anchong'],function(){
-                /**** 抽奖临时*****/
                 //Route::controller('/prize','PrizeController');
-                /*********/
                 //用户路由
                 Route::resource('/users','admin\userController');
                 //认证路由
