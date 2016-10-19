@@ -32,7 +32,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
     //智能提示
     Route::controller('/search','Api\SearchController');
     //加上token验证的api
-    Route::group(['middleware' => 'AppPrivate'], function () {
+    //Route::group(['middleware' => 'AppPrivate'], function () {
         /*
         *   APP更新
         */
@@ -362,7 +362,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         //网易云信注册机
         Route::post('/live/regnetease','Api\Live\LiveController@regnetease');
 
-    });
+    //});
 });
 
 //支付宝路由

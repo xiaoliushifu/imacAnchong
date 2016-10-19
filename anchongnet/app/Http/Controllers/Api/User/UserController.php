@@ -108,7 +108,7 @@ class UserController extends Controller
                             'password' => Hash::make($param['password']),
                             'username' => $param['phone'],
                             'token' => md5($param['phone']),
-                            'netease_token' => '3c374b5bc7a7d5235cde6426487d8a3c'),
+                            'netease_token' => '3c374b5bc7a7d5235cde6426487d8a3c',
                             'user_rank'=>1
                         ];
 
