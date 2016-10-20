@@ -88,12 +88,13 @@
                                         $('#price').removeAttr('class');
                                         $('#v-price').attr('class','goods-price');
                                     </script>
+                                    @else
+                                    <p><span>会员价：请认证后查看</span></p>
                                 @endif
                             @endfor
                         @endif
                         <div class="store"><a href=""><img src="{{asset('home/images/shebei/clection.png')}}" alt=""></a><a href="">商品收藏</a></div>
                     </div>
-                    <form action="" method="">
                     <div class="goodstype">
                         <p class="yfkd">运费：北京 ∨ 快递:￥0</p>
                         <div class="goods-color">
@@ -134,8 +135,8 @@
                          <div class="submit">
                              <a onclick="Buy()">立即购买</a><a onclick="addCart()">加入购物车</a>
                          </div>
+                        <p id="tips">请您勾选你要选择的商品信息</p>
                     </div>
-                    </form>
                 </div>
             </div>
 
@@ -258,8 +259,67 @@
         var sname =$('.shopname').text();
         var goods_id = {{$price[0]->goods_id}} ;
         var gid = {{$price[0]->gid}};
-        //判断是否选取类型及样式
-        var classname = $('.ac-selected').attr('class');
+        var oem = undefined;
+        //判断商品选择项有几个
+        var type   = $('#t-selected').attr('id');
+        var model  = $('#m-selected').attr('id');
+        var select = $('.sizetype ').is(':has(*)');
+        if(select){
+            if(type == undefined || model == undefined){
+                $('.goodstype').css('border','1px solid #f53745');
+                $('#tips').css('display','block');
+            }else{
+                $('.goodstype').css('border','none');
+                $('#tips').css('display','none');
+                var goods_type = $('#t-selected').text()+ ' ' + $('#m-selected').text();
+                //ajax传参
+                var data = {
+                    'goods_name' :goods_name,
+                    'goods_num'  :goods_num,
+                    'goods_price':goods_price,
+                    'img'        :goods_img,
+                    'users_id'   :users_id,
+                    'sid'        :sid,
+                    'sname'      :sname,
+                    'goods_id'   :goods_id,
+                    'gid'        :gid,
+                    'goods_type' :goods_type,
+                    '_token'     :'{{csrf_token()}}',
+                    'oem'        : oem
+                };
+                $.post('/cart',data,function (data) {
+                    layer.msg(data.msg);
+                });
+            }
+        }else{
+            if(type == undefined){
+                $('.goodstype').css('border','1px solid #f53745');
+                $('#tips').css('display','block');
+            }else {
+                $('.goodstype').css('border','none');
+                $('#tips').css('display','none');
+                var goods_type= $('#t-selected').text();
+                //ajax传参
+                var data = {
+                    'goods_name' :goods_name,
+                    'goods_num'  :goods_num,
+                    'goods_price':goods_price,
+                    'img'        :goods_img,
+                    'sid'        :sid,
+                    'sname'      :sname,
+                    'goods_id'   :goods_id,
+                    'gid'        :gid,
+                    'goods_type' :goods_type,
+                    '_token'     :'{{csrf_token()}}',
+                    'oem'        : oem
+                };
+                $.post('/cart',data,function (data) {
+                    layer.msg(data.msg);
+                });
+            }
+        }
+
+
     }
 </script>
 </body>

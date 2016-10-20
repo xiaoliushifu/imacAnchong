@@ -200,6 +200,9 @@
                                     @if($glistauth[$i]->auth_status == "3")
                                         <span class="vip">会员价：{{$d->vip_price}}</span>
                                         <span class="common">价格：￥{{$d->price}}</span>
+                                        @else
+                                        <span class="common">会员价：请认证后查看</span>
+                                        <span class="vip">价格：￥{{$d->price}}</span>
                                     @endif
                                 @endfor
                             @endif

@@ -663,10 +663,11 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
                 //社区
                 Route::get('/colcommunity', 'CollectionController@colcommunity');
             });
+            //购物车
+            //不用登陆也可以添加到购物车
+            Route::resource('/cart','Home\Cart\CartController');
 
             Route::group(['namespace' => 'Home\Cart','middleware'=>['loginhome']], function () {
-                    //购物车
-                    Route::resource('/cart','CartController');
                     //订单确认
                     Route::resource('/cartconfirm','ConfirmationController');
             });

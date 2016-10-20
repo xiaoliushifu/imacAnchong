@@ -38,9 +38,13 @@ class CommunityController extends CommonController
     public function show($chat_id)
     {
         //获取主题
-        $cminfo =Community_release::find($chat_id);
+        $cminfo = Cache::tags('cminfo')->remember('cminfo'.$chat_id,600,function () use($chat_id){
+            return Community_release::find($chat_id);
+        });
         //获取评论
-        $cmcomment = Community_comment::where('chat_id',$chat_id)->orderBy('comid','desc')->get();
+        $cmcomment = Cache::tags('cmcomment')->remember('cmcomment'.$chat_id,600,function () use ($chat_id){
+           return Community_comment::where('chat_id',$chat_id)->orderBy('comid','desc')->get();
+        });
         //评论数
         $cmnum = count($cmcomment);
         foreach ($cmcomment as $value){
