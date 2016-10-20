@@ -88,6 +88,8 @@
                                         $('#price').removeAttr('class');
                                         $('#v-price').attr('class','goods-price');
                                     </script>
+                                    @else
+                                    <p><span>会员价：请认证后查看</span></p>
                                 @endif
                             @endfor
                         @endif
@@ -101,7 +103,7 @@
                             <div class="suit">
                                 <ul>
                                     @foreach($name as $p)
-                                    <li class="type">{{$p}}</li>
+                                    <nobr><li class="type" style="text-overflow: ellipsis;overflow: hidden;">{{$p}}</li></nobr>
                                     @endforeach
 
                                 </ul>
@@ -119,18 +121,25 @@
                                     <li class="model">{{$b}}</li>
                                         @endif
                                     @endforeach
-
                                 </ul>
                             </div>
                             @endif
                         </div>
+                        @if(isset($oemvalue))
+                        <div  class="suit">
+                            <div class="nubcat"><span>OEM:</span></div>
+                            @foreach($oemvalue as $v)
+                            <li class="type" style="width: 80px;">{{$v}}</li>
+                                @endforeach
+                        </div>
+                        @endif
                         <div class="goods-nub">
                             <div class="nubcat"><span>数量:</span></div>
                             <div class="nubtype">
                                <img src="{{asset('home/images/shebei/22.jpg')}}" onclick="Minus()"><input id="goodsnum" type="text" value= 1><img src="{{asset('home/images/shebei/21.jpg')}}" onclick="Add()">
-
                             </div>
                         </div>
+
                          <div class="submit">
                              <a onclick="Buy()">立即购买</a><a onclick="addCart()">加入购物车</a>
                          </div>
