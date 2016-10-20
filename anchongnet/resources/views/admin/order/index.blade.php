@@ -275,7 +275,7 @@
 			<div class="modal-content">
 				<div class="modal-header" style="margin-top:50px">
 					<h4 class="modal-title">编号为:<span id='ff'></span>的订单已发货</h4>
-					<small class="text-danger">物流发货”方式可用</small>
+					<small class="text-danger">“物流发货”方式可用</small>
 				</div>
 				<div class="modal-body">
 					<div id="wlstatus">
