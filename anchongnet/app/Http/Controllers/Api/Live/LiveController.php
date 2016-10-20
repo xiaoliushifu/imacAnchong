@@ -57,6 +57,39 @@ class LiveController extends Controller
                  return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'非法输入']]);
              }
         }
+        $str_arr=explode(' ',$str);
+        for ($i=0; $i < count($str_arr); $i++) {
+            //判断是否是非法字符
+            switch ($str_arr[$i]) {
+                case 'select':
+                    # code...
+                    break;
+                case 'delete':
+                    break;
+                case 'and':
+                    break;
+                case 'or':
+                    break;
+                case 'union':
+                    break;
+                case 'where':
+                    break;
+                case 'update':
+                    break;
+                case "'":
+                    break;
+                case '"':
+                    break;
+                case '#':
+                    break;
+                case '(':
+                    break;
+                default:
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'请改变搜索内容']]);
+                    break;
+            }
+        }
+
     }
 
     /*
@@ -257,17 +290,29 @@ class LiveController extends Controller
                 $url  = "https://api.netease.im/nimserver/chatroom/toggleCloseStat.action";
                 $datas="operator=".$param['phone']."&roomid=".$param['roomid'].'&valid=false';
                 list($return_code, $return_content) = $this->JsonPost->http_post_data($url, $datas);
-                // //将字符串形式的json解析为数组
-                // $result=json_decode($return_content,true);
-                // //判断是否请求成功
-                // if($return_code != 200){
-                //     return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"聊天室关闭失败"]]);
-                // }
+                //将字符串形式的json解析为数组
+                $result=json_decode($return_content,true);
+                //判断是否请求成功
+                if($return_code != 200){
+                    try{
+                        //网易云信
+                        $url  = "https://api.netease.im/nimserver/chatroom/toggleCloseStat.action";
+                        $datas="operator=".$param['phone']."&roomid=".$param['roomid'].'&valid=false';
+                        list($return_code, $return_content) = $this->JsonPost->http_post_data($url, $datas);
+                        //将字符串形式的json解析为数组
+                        $result=json_decode($return_content,true);
+                        if($return_code != 200){
+                            return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"聊天室关闭失败"]]);
+                        }
+                    } catch (\Exception $e) {
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'关闭失败']]);
+                    }
+                }
             } catch (\Exception $e) {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'关闭失败']]);
             }
             //返回结果
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=> ['Message'=>'关闭成功']]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'关闭成功']]);
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'关闭失败']]);
         }

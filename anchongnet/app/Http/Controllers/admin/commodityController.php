@@ -305,7 +305,7 @@ class commodityController extends Controller
     public function getKeywords(Request $request)
     {
         $goods_id=$request['goods_id'];
-        $keywords=DB::table('anchong_goods')->whereRaw('goods_id='.$goods_id)->pluck('keyword');
+        $keywords=DB::table('anchong_goods')->where('goods_id',$goods_id)->pluck('keyword');
         return $keywords;
     }
 

@@ -123,7 +123,7 @@ class FeedbackController extends Controller
         //创建ORM模型
         $feedback_reply=new \App\Feedback_reply();
         //查出数据
-        $result=$feedback_reply->quer(['freply_id','title','content','state'],'users_id = '.$data['guid']);
+        $result=$feedback_reply->quer(['freply_id','title','content','state'],$data['guid']);
         if(empty($result)){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>[]]);
         }else{
@@ -170,7 +170,7 @@ class FeedbackController extends Controller
         //创建ORM模型
         $feedback_reply=new \App\Feedback_reply();
         //修改回复信息查看状态
-        $num=$feedback_reply->countquer('users_id ='.$data['guid']." and state = 0");
+        $num=$feedback_reply->countquer($data['guid']);
         //返回数量
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$num]);
     }

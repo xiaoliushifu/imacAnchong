@@ -39,7 +39,7 @@ class Feedback_reply extends Model
      */
      public function quer($field,$type)
      {
-         return $this->select($field)->whereRaw($type)->orderBy('freply_id','DESC')->get();
+         return $this->select($field)->where('users_id',$type)->orderBy('freply_id','DESC')->get();
      }
 
     /*
@@ -71,8 +71,8 @@ class Feedback_reply extends Model
      /*
       * 反馈回复未查看数量查询
       */
-      public function countquer($type)
+      public function countquer($users_id)
       {
-          return $this->whereRaw($type)->count();
+          return $this->where('users_id',$users_id)->where('state',0)->count();
       }
 }

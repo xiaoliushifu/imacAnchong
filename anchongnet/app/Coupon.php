@@ -30,12 +30,4 @@ class Coupon extends Model
     {
         return $query;
     }
-
-    /*
-    *   判断是否有优惠券数据
-    */
-    public function countquer($type)
-    {
-        return $this->whereRaw($type)->count();
-    }
 }

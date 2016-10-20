@@ -178,8 +178,8 @@ class PurseController extends Controller
                 //未使用的优惠券
                 case '1':
                     //统计数量
-                    $coupon_count=$this->coupon->Coupon()->whereRaw('users_id = '.$data['guid'].' and end >'.time())->count();
-                    $coupon_cpid=$this->coupon->Coupon()->select('cpid','end')->whereRaw('users_id = '.$data['guid'].' and end >'.time())->skip((($param['page']-1)*$limit))->take($limit)->get();
+                    $coupon_count=$this->coupon->Coupon()->where('users_id',$data['guid'])->where('end','>',time())->count();
+                    $coupon_cpid=$this->coupon->Coupon()->select('cpid','end')->where('users_id',$data['guid'])->where('end','>',time())->skip((($param['page']-1)*$limit))->take($limit)->get();
                     //定义数组
                     $coupon_result=[];
                     //遍历出ID
@@ -196,8 +196,8 @@ class PurseController extends Controller
                 //已过期的优惠券
                 case '2':
                     //统计数量
-                    $coupon_count=$this->coupon->Coupon()->whereRaw('users_id = '.$data['guid'].' and end <'.time())->count();
-                    $coupon_cpid=$this->coupon->Coupon()->select('cpid','end')->whereRaw('users_id = '.$data['guid'].' and end <'.time())->skip((($param['page']-1)*$limit))->take($limit)->get();
+                    $coupon_count=$this->coupon->Coupon()->where('users_id',$data['guid'])->where('end','<',time())->count();
+                    $coupon_cpid=$this->coupon->Coupon()->select('cpid','end')->where('users_id',$data['guid'])->where('end','<',time())->skip((($param['page']-1)*$limit))->take($limit)->get();
                     //定义数组
                     $coupon_result=[];
                     //遍历出ID
@@ -243,7 +243,7 @@ class PurseController extends Controller
             $sid_index[$param['list'][$i]['sid']]=$i;
         }
         //查出该用户下对应店铺的优惠券
-        $coupons_arr=$this->coupon->Coupon()->where('users_id',$data['guid'])->whereRaw('end > '.time())->whereIn('shop',$sid_arr)->select('cpid','target','shop','type','type','type2','end')->get()->toArray();
+        $coupons_arr=$this->coupon->Coupon()->where('users_id',$data['guid'])->where('end','>' ,time())->whereIn('shop',$sid_arr)->select('cpid','target','shop','type','type','type2','end')->get()->toArray();
         //遍历出所有的优惠券
         foreach ($coupons_arr as $coupons) {
             //判断是否是全场通用的券
