@@ -129,7 +129,7 @@
                                             <tbody id="stock">
                                             <tr class="line">
                                                 <td>
-                                                    <input type="text" name="attrname[]" class="form-control" required placeholder="如：颜色" />
+                                                    <input type="text" name="attrname[]" class="form-control" required placeholder="如：颜色 型号 像素等" />
                                                 </td>
                                                 <td>
                                                     <textarea name="attrvalue[]" class="form-control" required rows="5" placeholder="多个属性值之间请用空格隔开，如：红色 绿色 蓝色"></textarea>

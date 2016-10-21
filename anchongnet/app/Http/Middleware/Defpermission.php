@@ -6,6 +6,7 @@ use Closure;
 //引入权限认证门
 use Illuminate\Auth\Access\Gate;
 use App\Permission;
+use App\Users;
 class Defpermission
 {
     /**
@@ -24,11 +25,19 @@ class Defpermission
         $permissions = \Cache::remember('pcall','360',function(){
             return  Permission::with('roles')->get();
         });
+        //行为权限定义
         foreach ($permissions as $permission) {
             $gate->define($permission->name, function($user) use ($permission) {
                 return $user->hasPermission($permission);
             });
         }
+        //资源权限定义
+        $gate->define('res', function($user, $resource) {
+            $u = Users::where('users_id', $user->users_id)->first();
+            //dd($u,$user,$u->sid,$resource);
+            return $u->sid == $resource->sid;
+        });
+        
         /**
          *定义before方法
          *不再写vendor中，以免后续麻烦
