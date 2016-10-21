@@ -274,7 +274,7 @@ overflow: hidden;
     right: 5px;
 }
 .goodstype{
-    width: 500px;
+    /*width: 500px;*/
     overflow: hidden;
 }
 .yfkd{
@@ -401,6 +401,11 @@ overflow: hidden;
 .submit a:hover{
     background: #f53745;
     color: #ffffff;
+}
+#tips{
+    color: #f53745;
+    display: none;
+    font-size: 12px;
 }
 .lins{
     margin-top: 0px;
