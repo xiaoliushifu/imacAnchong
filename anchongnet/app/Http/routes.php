@@ -701,7 +701,7 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
                  //发布聊聊
                  Route::resource('/chat','ChatController');
             });
-            Route::post('/collecehop','Home\Collect\CollectController@collectShop');
+            Route::resource('/collect','Home\Collect\CollectController');
 });
  //验证码类,需要传入数字
  Route::get('/captcha/{num}', 'CaptchaController@captcha');

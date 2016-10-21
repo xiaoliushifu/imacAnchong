@@ -78,22 +78,38 @@
                     <div class="goodsprice">
                         <p>价格：￥<i id="price" class="goods-price">{{$price[0]->price}}</i></p>
                         {{--认证会员显示会员价格--}}
-                        @if(count($goodsauth) == 0)
-                        <p><span>会员价：请认证后查看</span></p>
+                        @if(empty($user))
+                            <p><span>会员价：请认证后查看</span></p>
                         @else
-                            @for($i=0;$i<count($goodsauth);$i++)
-                                @if($goodsauth[$i]->auth_status == "3")
-                                    <p><span>会员价：￥<i id="v-price">{{$price[0]->vip_price}}</i></span></p>
-                                    <script>
-                                        $('#price').removeAttr('class');
-                                        $('#v-price').attr('class','goods-price');
-                                    </script>
-                                    @else
-                                    <p><span>会员价：请认证后查看</span></p>
-                                @endif
-                            @endfor
+                            @if($user->certification == "3")
+                                <p><span>会员价：￥<i id="v-price">{{$price[0]->vip_price}}</i></span></p>
+                                <script>
+                                    $('#price').removeAttr('class');
+                                    $('#v-price').attr('class','goods-price');
+                                </script>
+                            @else
+                                <p><span>会员价：请认证后查看</span></p>
+                            @endif
                         @endif
-                        <div class="store"><a href=""><img src="{{asset('home/images/shebei/clection.png')}}" alt=""></a><a href="">商品收藏</a></div>
+                        <div class="store"><a><img src="{{asset('home/images/shebei/clection.png')}}"></a><a>商品收藏</a></div>
+                        @if(!empty($msg))
+                            <script>
+                                $(function () {
+                                    $('.store').click(function () {
+                                        var data = {'users_id':'{{$msg->users_id}}','coll_id':'{{$price[0]->gid}}','coll_type':'1','_token':'{{csrf_token()}}'};
+                                        $.post('/collect',data,function (msg) {
+                                            layer.msg(msg.msg,{icon: 6});
+                                        });
+                                    })
+                                })
+                            </script>
+                            @else
+                            <script>
+                                $('.store').click(function () {
+                                    layer.msg('登陆后才可以收藏哦',{icon: 5})
+                                });
+                            </script>
+                        @endif
                     </div>
                     <div class="goodstype">
                         <p class="yfkd">运费：北京 ∨ 快递:￥0</p>
@@ -128,7 +144,7 @@
                         <div  class="suit">
                             <div class="nubcat"><span>OEM:</span></div>
                             @foreach($oemvalue as $v)
-                            <li class="type" style="width: 80px;">{{$v}}</li>
+                            <li class="type oem" style="width: 80px;">{{$v}}</li>
                                 @endforeach
                         </div>
                         @endif
@@ -179,14 +195,14 @@
 
                <div class="shop-server">
                    <ul>
-                   <li><a class="collect">收藏</a></li>
-                       @if(isset($msg))
+                   <li class="collect"><a>收藏</a></li>
+                       @if(!empty($msg))
                            {{--店铺收藏--}}
                            <script>
                                $(function () {
                                    $('.collect').click(function () {
                                        var data = {'users_id':'{{$msg->users_id}}','coll_id':'{{$shop[0]->sid}}','coll_type':'2','_token':'{{csrf_token()}}'};
-                                       $.post('/collecehop',data,function (msg) {
+                                       $.post('/collect',data,function (msg) {
                                            layer.msg(msg.msg,{icon: 6});
                                        });
                                    })
@@ -266,11 +282,17 @@
         var sname =$('.shopname').text();
         var goods_id = {{$price[0]->goods_id}} ;
         var gid = {{$price[0]->gid}};
-        var oem = undefined;
+        //判断oem是否存在并赋值
+        if($('#oem').attr('id') == undefined){
+            var oem = null;
+        }else{
+            var oem = $('#oem').text();
+        }
         //判断商品选择项有几个
         var type   = $('#t-selected').attr('id');
         var model  = $('#m-selected').attr('id');
         var select = $('.sizetype ').is(':has(*)');
+        //当商品存在型号及样式时  必须全选 才可加入购物车
         if(select){
             if(type == undefined || model == undefined){
                 $('.goodstype').css('border','1px solid #f53745');
@@ -299,6 +321,7 @@
                 });
             }
         }else{
+            //当商品只存存在型号
             if(type == undefined){
                 $('.goodstype').css('border','1px solid #f53745');
                 $('#tips').css('display','block');

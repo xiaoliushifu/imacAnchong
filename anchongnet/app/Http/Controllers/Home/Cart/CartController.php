@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Home\Cart;
 
 use App\Cart;
+use App\Goods_type;
 use App\Http\Controllers\Home\CommonController;
 use App\Usermessages;
 use App\Users;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
 
 class CartController extends CommonController
@@ -20,9 +22,12 @@ class CartController extends CommonController
     /*
      * 购物车展示
      */
-    public function show($cart_id)
+    public function show($users_id)
     {
-
+        $cart = Cache::tags('cart')->remember('cart',600,function ()use($users_id){
+            return Cart::where('users_id',$users_id)->orderBy('cart_id','desc')->get();
+        });
+        return view('home/cart/cart',compact('cart'));
     }
     /*
      *提交购物车数据
@@ -38,43 +43,59 @@ class CartController extends CommonController
             $msg = Usermessages::where('users_id', $user->users_id)->first();
             $userid= $msg->users_id;
             $input['users_id'] = $userid;
-            $cart = Cart::where('goods_id',$input['goods_id'])->where('gid',$input['gid'])->where('users_id',$userid)->count();
-            if($cart == 0){
-                //购物车没有相同商品，添加新的数据
-                $re = Cart::create($input);
-                if($re){
-                    $data =[
-                        'status' => 0,
-                        'msg' => '购物车添加成功'
-                    ];
-                }else{
-                    $data =[
-                        'status' => 1,
-                        'msg' => '购物车添加失败'
-                    ];
-                }
-                return $data;
+            $info= Goods_type::where('goods_id',$input['goods_id'])->where('gid',$input['gid'])->first();
+            if($user->certification == '3'){
+                $price  = $info -> vip_price;
             }else{
-                //购物车存在相同商品，只更新数量
-                $num = Cart::where('goods_id',$input['goods_id'])->where('gid',$input['gid'])->where('users_id',$userid)->first();
-                $num -> goods_num =$num -> goods_num + $input['goods_num'];
-                $re = $num -> update();
-                if($re){
-                    $data =[
-                        'status' => 0,
-                        'msg' => '购物车添加成功'
-                    ];
-                }else{
-                    $data =[
-                        'status' => 1,
-                        'msg' => '购物车添加失败'
-                    ];
-                }
-                return $data;
+                $price = $info -> price;
             }
+            $cart = Cart::where('goods_id',$input['goods_id'])->where('gid',$input['gid'])->where('users_id',$userid)->where('oem',$input['oem'])->count();
+            //判断价格是否相符
+            if($price == $input['goods_price']){
+                if($cart == 0){
+                    //购物车没有相同商品则添加
+                    $re = Cart::create($input);
+                    if($re){
+                        $data =[
+                            'status' => 0,
+                            'msg' => '购物车添加成功'
+                        ];
+                    }else{
+                        $data =[
+                            'status' => 1,
+                            'msg' => '购物车添加失败,，请稍后再试'
+                        ];
+                    }
+                }else{
+                    //购物车存在相同商品，只更新数量
+                    $num = Cart::where('goods_id',$input['goods_id'])->where('gid',$input['gid'])->where('users_id',$userid)->first();
+                    $num -> goods_num =$num -> goods_num + $input['goods_num'];
+                    $re = $num -> update();
+                    if($re){
+                        $data =[
+                            'status' => 0,
+                            'msg' => '购物车添加成功'
+                        ];
+                    }else{
+                        $data =[
+                            'status' => 1,
+                            'msg' => '购物车添加失败，请稍后再试'
+                        ];
+                    }
+                }
+            }else{
+                $data =[
+                   'status' => 1,
+                    'msg'   => '购物车添加失败，请稍后再试'
+                ];
+            }
+            return $data;
+        }else{
+
         }
 
     }
+
     /*
      * 修改购物车
      */

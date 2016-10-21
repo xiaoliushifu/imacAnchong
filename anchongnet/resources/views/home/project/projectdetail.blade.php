@@ -75,14 +75,14 @@
                 </li>
                 <li class="contact">
                     <span class="contact-tel">联系电话：</span>
-                    @if(count($status) == 0)
-                    <span class="contact-info">认证后可查看联系方式</span>
+                    @if(!empty($user))
+                        @if($user -> certification == 3)
+                            <span class="contact-info">{{$data -> phone}}</span>
+                        @else
+                            <span class="contact-info">认证后可查看联系方式</span>
+                        @endif
                     @else
-                        @for($i=0;$i<count($status);$i++)
-                            @if($status[$i]->auth_status == "3")
-                                <span class="contact-info">{{$data->phone}}</span>
-                            @endif
-                        @endfor
+                        <span class="contact-info">认证后可查看联系方式</span>
                     @endif
                 </li>
             </ul>

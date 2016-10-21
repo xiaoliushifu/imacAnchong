@@ -14,12 +14,14 @@ class CommonController extends Controller
     {
         $pus = session('user');
         if (isset($pus)) {
-            $msg = Cache::remember('all', 10, function () {
-                $user = Users::where('phone', [session('user')])->first();
+            $user = Cache::remember('user',10,function (){
+                return Users::where('phone', [session('user')])->first();
+            });
+            $msg = Cache::remember('all', 10, function () use($user){
                 return Usermessages::where('users_id', $user->users_id)->first();
             });
 
-            View::share('msg', $msg);
+            View::share(['msg'=> $msg,'user'=>$user]);
 
         }
 

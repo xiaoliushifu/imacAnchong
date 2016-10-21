@@ -173,19 +173,17 @@
                 <li>
                     <a href="{{url('equipment/show/'.$t->goods_id.'/'.$t->gid)}}"><img src="{{$t->pic}}" alt=""></a>
                     <nobr><p><a href="{{url('equipment/show/'.$t->goods_id.'/'.$t->gid)}}">{{$t->title}}</a></p></nobr>
-                    @if(count($glistauth) == 0)
+                    @if(empty($user))
                         <span class="common">会员价：请认证后查看</span>
                         <span class="vip">价格：￥{{$t->price}}</span>
                     @else
-                        @for($i=0;$i<count($glistauth);$i++)
-                            @if($glistauth[$i]->auth_status == "3")
+                        @if($user->certification == "3")
                                 <span class="vip">会员价：{{$t->vip_price}}</span>
                                 <span class="common">价格：￥{{$t->price}}</span>
-                                @else
+                        @else
                                 <span class="common">会员价：请认证后查看</span>
                                 <span class="vip">价格：￥{{$t->price}}</span>
-                            @endif
-                        @endfor
+                        @endif
                     @endif
                 </li>
                 @endforeach
@@ -195,19 +193,17 @@
                         <li>
                             <a href="{{url('equipment/show/'.$d->goods_id.'/'.$d->gid)}}"><img src="{{$d->pic}}" alt=""></a>
                             <nobr><p><a href="{{url('equipment/show/'.$d->goods_id.'/'.$d->gid)}}">{{$d->title}}</a></p></nobr>
-                            @if(count($glistauth) == 0)
+                            @if(empty($user))
                                 <span class="common">会员价：请认证后查看</span>
-                                <span class="vip">价格：￥{{$d->price}}</span>
+                                <span class="vip">价格：￥{{$t->price}}</span>
                             @else
-                                @for($i=0;$i<count($glistauth);$i++)
-                                    @if($glistauth[$i]->auth_status == "3")
-                                        <span class="vip">会员价：{{$d->vip_price}}</span>
-                                        <span class="common">价格：￥{{$d->price}}</span>
-                                        @else
-                                        <span class="common">会员价：请认证后查看</span>
-                                        <span class="vip">价格：￥{{$d->price}}</span>
-                                    @endif
-                                @endfor
+                                @if($user->certification == "3")
+                                    <span class="vip">会员价：{{$t->vip_price}}</span>
+                                    <span class="common">价格：￥{{$t->price}}</span>
+                                @else
+                                    <span class="common">会员价：请认证后查看</span>
+                                    <span class="vip">价格：￥{{$t->price}}</span>
+                                @endif
                             @endif
                         </li>
                     @endforeach

@@ -132,6 +132,7 @@ class LoginController extends Controller
     {
         session(['user'=>null]);
         Cache::forget('all');
+        Cache::forget('user');
         return redirect('/');
     }
 }
