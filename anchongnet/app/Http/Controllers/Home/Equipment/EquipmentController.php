@@ -6,6 +6,7 @@ use App\Brand;
 use App\Category;
 use App\Goods;
 use App\Goods_attribute;
+use App\Goods_oem;
 use App\Goods_thumb;
 use App\Goods_type;
 use App\Http\Controllers\Home\CommonController;
@@ -106,6 +107,15 @@ class EquipmentController extends CommonController
         $data = Cache::remember('goodsdetail'.$goods_id,10,function() use($goods_id){
             return Goods::find($goods_id);
         });
+        //oem 选择
+        $oem = Cache::remember('oem',10, function() use($goods_id){
+        return Goods_oem::where('goods_id',$goods_id)->first();
+        });
+        if(isset($oem)){
+            $oemvalue = explode(' ',$oem->value);
+        }
+
+
         //通过$gid找到缩略图
         $img = Cache::remember('goodsimg'.$gid,10,function() use($gid){
         return  Goods_thumb::where('gid',$gid)->get();
@@ -146,7 +156,7 @@ class EquipmentController extends CommonController
         }else{
             $goodsauth = [];
         }
-        return view('home.equipment.goodsdetals',compact('data','img','shop','price','related','hot','nav','adress','name','size','type','goodsauth'));
+        return view('home.equipment.goodsdetals',compact('data','img','shop','price','related','hot','nav','adress','name','size','type','goodsauth','oemvalue'));
     }
     public function getThirdshop($sid)
     {
