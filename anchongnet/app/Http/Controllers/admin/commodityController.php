@@ -171,8 +171,18 @@ class commodityController extends Controller
      */
     public function show($id)
     {
+        if (!is_null($this->uid)){
+            //通过用户获取商铺id
+            $this->sid=Shop::Uid($this->uid)->sid;
+        }
         $this->goods=new Goods();
-        $data=$this->goods->where('goods_id',$id)->get(array('keyword','type','desc'));
+        $data=$this->goods->where('goods_id',$id)->get(array('keyword','type','desc','sid'));
+        /*
+        *   判断是否是本人或者安虫商城操作该商铺的商品
+        */
+        if($this->sid != 1 && $this->sid != $data[0]['sid']){
+            return null;
+        }
         //商品类型转码
         $arr=preg_split('#\s#', $data[0]['type'],-1,PREG_SPLIT_NO_EMPTY);
         $str="";
@@ -191,8 +201,19 @@ class commodityController extends Controller
      */
     public function edit($id)
     {
+        if (!is_null($this->uid)){
+            //通过用户获取商铺id
+            $this->sid=Shop::Uid($this->uid)->sid;
+        }
         $this->goods=new Goods();
-        return $this->goods->find($id);
+        $data=$this->goods->find($id);
+        /*
+        *   判断是否是本人或者安虫商城操作该商铺的商品
+        */
+        if($this->sid != 1 && $this->sid != $data->sid){
+            return null;
+        }
+        return $data;
     }
 
     /**
@@ -204,8 +225,18 @@ class commodityController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (!is_null($this->uid)){
+            //通过用户获取商铺id
+            $this->sid=Shop::Uid($this->uid)->sid;
+        }
         $this->goods=new Goods();
         $data=$this->goods->find($id);
+        /*
+        *   判断是否是本人或者安虫商城操作该商铺的商品
+        */
+        if($this->sid != 1 && $this->sid != $data->sid){
+            return redirect()->back();
+        }
         $data->title=$request->title;
         $data->desc=$request->description;
         $data->remark=$request->remark;

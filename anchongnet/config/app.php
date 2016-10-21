@@ -152,7 +152,6 @@ return [
         Latrell\Alipay\AlipayServiceProvider::class,
         Overtrue\LaravelWechat\ServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
-        Ignited\LaravelOmnipay\LaravelOmnipayServiceProvider::class,
         /*
          * Application Service Providers...
          */

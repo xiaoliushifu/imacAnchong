@@ -17,8 +17,6 @@
         "latrell/alipay":"dev-master",
         "overtrue/laravel-wechat":"~3.0",
         "simplesoftwareio/simple-qrcode": "~1",
-        "ignited/laravel-omnipay": "2.*",
-        "lokielse/omnipay-unionpay": "dev-master",
         "jpush/jpush": "v3.5.*",
         "pili-engineering/pili-sdk-php": "dev-master"
     },
