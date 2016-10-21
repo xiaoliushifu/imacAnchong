@@ -38,11 +38,11 @@ class PurseController extends Controller
         //判断有无筛选标签
         if($keyType==""){
             //查出提现数据
-            $datas=$this->purse_order->Purse()->whereRaw('action =2')->whereRaw('state = 1')->orderBy("purse_oid","ASC")->paginate(8);
+            $datas=$this->purse_order->Purse()->where('action','2')->where('state','1')->orderBy("purse_oid","ASC")->paginate(8);
             $state=1;
         }else{
             //查出提现数据
-            $datas=$this->purse_order->Purse()->whereRaw('action =2')->whereRaw('state ='.$keyType)->orderBy("purse_oid","desc")->paginate(8);
+            $datas=$this->purse_order->Purse()->where('action','2')->where('state',$keyType)->orderBy("purse_oid","desc")->paginate(8);
             if($keyType == 1){
                 $state=1;
             }else{
