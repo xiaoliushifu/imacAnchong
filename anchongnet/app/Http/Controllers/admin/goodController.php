@@ -259,6 +259,12 @@ class goodController extends Controller
     public function show($id)
     {
         $data=$this->Goods_specifications->find($id);
+        /*
+        *   判断是否是本人或者安虫商城操作该商铺的商品
+        */
+        if($this->sid != 1 && $this->sid != $data->sid){
+            return NULL;
+        }
         return $data;
     }
 
@@ -271,6 +277,12 @@ class goodController extends Controller
     public function edit($id)
     {
         $data=$this->Goods_specifications->find($id);
+        /*
+        *   判断是否是本人或者安虫商城操作该商铺的商品
+        */
+        if($this->sid != 1 && $this->sid != $data->sid){
+            return NULL;
+        }
         return $data;
     }
 
@@ -285,6 +297,12 @@ class goodController extends Controller
     {
         DB::beginTransaction();
         $data=$this->Goods_specifications->find($id);
+        /*
+        *   判断是否是本人或者安虫商城操作该商铺的商品
+        */
+        if($this->sid != 1 && $this->sid != $data->sid){
+            return redirect()->back();
+        }
         //$data->cat_id=$request->midselect;
         $data->goods_name=$request->spetag;
         $data->model=$request->model;

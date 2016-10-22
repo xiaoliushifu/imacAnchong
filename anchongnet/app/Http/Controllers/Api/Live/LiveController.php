@@ -46,53 +46,6 @@ class LiveController extends Controller
     }
 
     /*
-    *   过滤sql注入(考虑到关键字因素暂不使用)
-    */
-    private function filtrate($str)
-    {
-        array('`','(','"',"'",'union','select','where','and','or','delete','update');
-        $num=count($filt_arr);
-        for($i=0;$i<$num;$i++){
-             if(strstr($str,$filt_arr[$i])){
-                 return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'非法输入']]);
-             }
-        }
-        $str_arr=explode(' ',$str);
-        for ($i=0; $i < count($str_arr); $i++) {
-            //判断是否是非法字符
-            switch ($str_arr[$i]) {
-                case 'select':
-                    # code...
-                    break;
-                case 'delete':
-                    break;
-                case 'and':
-                    break;
-                case 'or':
-                    break;
-                case 'union':
-                    break;
-                case 'where':
-                    break;
-                case 'update':
-                    break;
-                case "'":
-                    break;
-                case '"':
-                    break;
-                case '#':
-                    break;
-                case '(':
-                    break;
-                default:
-                    return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'请改变搜索内容']]);
-                    break;
-            }
-        }
-
-    }
-
-    /*
     *   判断是否目前是否有直播
     */
     public function isliving(Request $request)
@@ -189,9 +142,9 @@ class LiveController extends Controller
                     'title'    => $param['title'],
                     'images'   => str_replace('.oss-','.img-',$param['images']),
                     'topic'    => $param['topic'],
-                    'room_id' => $result['chatroom']['roomid'],
-                    'nick' => $param['nick'],
-                    'header' => $param['header']
+                    'room_id'  => $result['chatroom']['roomid'],
+                    'nick'     => $param['nick'],
+                    'header'   => $param['header']
                 ]
             );
         }else{
@@ -350,24 +303,24 @@ class LiveController extends Controller
         //插入重播表
         $restart_id=DB::table('v_restart')->insertGetId(
             [
-                'title' => $param['title'],
-                'room_id' => $param['room_id'],
-                'header' => $param['header'],
-                'nick' => $param['nickname'],
-                'sum' => $param['sum'],
-                'users_id' => $data['guid'],
-                'room_url' => $result['targetUrl'],
-                'm3u8_url' => $result['url'],
-                'live_time' => $param['live_time'],
-                'images' => str_replace('.oss-','.img-',$param['images'])
+                'title'     =>  $param['title'],
+                'room_id'   =>  $param['room_id'],
+                'header'    =>  $param['header'],
+                'nick'      =>  $param['nickname'],
+                'sum'       =>  $param['sum'],
+                'users_id'  =>  $data['guid'],
+                'room_url'  =>  $result['targetUrl'],
+                'm3u8_url'  =>  $result['url'],
+                'live_time' =>  $param['live_time'],
+                'images'    =>  str_replace('.oss-','.img-',$param['images'])
             ]
         );
         //插入搜索表
         $restart_search=DB::table('v_restart_search')->insertGetId(
             [
-                'title' => $param['title'],
-                'cb_id' => $restart_id,
-                'sum' => $param['sum'],
+                'title'    => $param['title'],
+                'cb_id'    => $restart_id,
+                'sum'      => $param['sum'],
                 'users_id' => $data['guid'],
             ]
         );
@@ -461,11 +414,10 @@ class LiveController extends Controller
         //定义查询数据
         $live_data=['room_id','room_url','title','users_id','header','nick','images'];
         //查出数据
-        DB::connection()->enableQueryLog(); // 开启查询日志
-        DB::table('v_start'); // 要查看的sql
+        //DB::connection()->enableQueryLog(); // 开启查询日志
+        //DB::table('v_start'); // 要查看的sql
         $live_list=$this->Live_Start->Live()->select($live_data)->where("title", "like", "%$search%")->get();
-        $queries = DB::getQueryLog();
-        var_dump($queries);
+        //$queries = DB::getQueryLog();
         //返回结果
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => $live_list]);
     }
