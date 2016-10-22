@@ -108,7 +108,7 @@ class EquipmentController extends CommonController
             return Goods::find($goods_id);
         });
         //oem 选择
-        $oem = Cache::remember('oem',10, function() use($goods_id){
+        $oem = Cache::remember('oem'.$goods_id,10, function() use($goods_id){
         return Goods_oem::where('goods_id',$goods_id)->first();
         });
         if(isset($oem)){
@@ -149,13 +149,6 @@ class EquipmentController extends CommonController
         $hot = Cache::remember('goodshot'.$gid.$goods_id,10,function() use($price){
            return   Goods_type::where('cid',$price[0]->cid)->take(2)->orderBy('updated_at','asc')->get();
         });
-        //登陆用户是否为注册会员
-        if(session('user')) {
-            $phone = Users::where('phone', [session('user')])->first();
-            $goodsauth  = Auth::where("users_id",$phone->users_id)->get(['auth_status']);
-        }else{
-            $goodsauth = [];
-        }
         return view('home.equipment.goodsdetals',compact('data','img','shop','price','related','hot','nav','adress','name','size','type','goodsauth','oemvalue'));
     }
     public function getThirdshop($sid)

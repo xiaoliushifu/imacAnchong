@@ -272,6 +272,7 @@ overflow: hidden;
     position: absolute;
     bottom: 20px;
     right: 5px;
+    cursor: pointer;
 }
 .goodstype{
     /*width: 500px;*/
@@ -525,6 +526,9 @@ overflow: hidden;
     overflow: hidden;
     margin-top: 8px;
     margin-bottom: 35px;
+}
+.collect{
+    cursor: pointer;
 }
 .see{
     width: 190px;

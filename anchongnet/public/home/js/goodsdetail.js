@@ -17,7 +17,7 @@ $(function(){
             $("#param").hide();
         });
     });
-
+    //选中
     $('.suit ul li').click(function () {
         $(this).attr('id','t-selected').siblings('li').removeAttr('id');
         $(this).css({'color':'#f53745','border':'1px solid #f53745'}).siblings('li').css({'color':'#4a4a4a','border':'1px solid #606060'});
@@ -26,7 +26,10 @@ $(function(){
         $(this).attr('id','m-selected').siblings('li').removeAttr('id');
         $(this).css({'color':'#f53745','border':'1px solid #f53745'}).siblings('li').css({'color':'#4a4a4a','border':'1px solid #606060'});
     });
-
+    $('.oem').click(function () {
+        $(this).attr('id','oem').siblings('li').removeAttr('id');
+        $(this).css({'color':'#f53745','border':'1px solid #f53745'}).siblings('li').css({'color':'#4a4a4a','border':'1px solid #606060'});
+    })
 });
 /*
 选择商品数量

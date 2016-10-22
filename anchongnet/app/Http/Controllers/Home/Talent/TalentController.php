@@ -47,13 +47,7 @@ class TalentController extends CommonController
     {
         $data = Business::find($bid);
         $data->content = str_replace("\n", "<br>", $data->content);
-        if(session('user')){
-            $phone  =Users::where('phone',[session('user')])->first();
-            $status =Auth::where("users_id",$phone->users_id)->get(['auth_status']);
-        }else{
-            $status = [];
-        }
-        return view('home.talent.talentmain', compact('data','status'));
+        return view('home.talent.talentmain', compact('data'));
     }
 
 }

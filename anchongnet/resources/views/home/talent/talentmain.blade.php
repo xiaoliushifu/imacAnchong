@@ -71,14 +71,14 @@
                 <h4>{{$data->contact}}</h4>
                 <p>服务类别：{{$data->title}}</p>
                 <p>服务区域：{{$data->tag}}</p>
-                @if(count($status) == 0)
-                    <p>联系方式：<a>认证后可查看联系方式</a></p>
+                @if(!empty($user))
+                    @if($user -> certification == 3)
+                        <p>联系方式：<a>{{$data->phone}}</a></p>
+                    @else
+                        <p>联系方式：<a>认证后可查看联系方式</a></p>
+                    @endif
                 @else
-                    @for($i=0;$i<count($status);$i++)
-                        @if($status[$i]->auth_status == "3")
-                            <p>联系方式：<a>{{$data->phone}}</a></p>
-                        @endif
-                    @endfor
+                <p>联系方式：<a>认证后可查看联系方式</a></p>
                 @endif
             </div>
             <div class="main-right">
