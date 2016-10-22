@@ -58,15 +58,7 @@
                     <div class="mastermap"><img src="{{$img[0]->img_url}}" alt="" id="tail"></div>
                     <ul class="detailmap">
                         @foreach( $img as $i=>$k)
-                            <li class="thumb{{$i}}"><img src="{{$k->thumb_url}}" alt=""></li>
-                            <script type="text/javascript">
-                                $(document).ready(function(){
-                                    var i = " .thumb{{$i}}";
-                                    $(i).click(function(){
-                                        $("#tail").attr("src","{{$k->thumb_url}}");
-                                    });
-                                });
-                            </script>
+                            <li class="thumb"><img src="{{$k->thumb_url}}" alt=""></li>
                         @endforeach
                     </ul>
                 </div>

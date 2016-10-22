@@ -19,7 +19,6 @@ class EquipmentController extends CommonController
 {
     public function getIndex()
     {
-
         //金牌店铺
         $brand = Cache::remember('brand',10,function(){
             return Brand::orderBy('brand_id','asc')->take(4)->get();
@@ -32,8 +31,6 @@ class EquipmentController extends CommonController
         //取出所有符合数据
         $all = Cache::remember('alll',10,function(){
           return Category::where('parent_id','!=',0)->where('is_show','=',1)->get();
-
-
         });
         //1f导航
         $one = $all->where('parent_id',1);
@@ -59,7 +56,6 @@ class EquipmentController extends CommonController
         //8f 导航
         $eight =  $all->where('parent_id',8);
         $nav8 = $eight->take(7);
-
         return view('home.equipment.equipshopping',compact('brand','nav','one',
             'nav1','nav2','two','nav3','three','nav4','four','nav5','five','nav6','six','nav7','seven','nav8','eight','test','all'));
    }
@@ -82,7 +78,6 @@ class EquipmentController extends CommonController
          });
 
       }else{
-
           $aa = bin2hex($cat_id);
           $det = Cache::remember('det'.$cat_id.$eqlist,10,function() use($aa){
               return Goods_type::whereRaw("match(`cid`)against(?)",[$aa])->paginate(16);
@@ -111,11 +106,9 @@ class EquipmentController extends CommonController
         $oem = Cache::remember('oem'.$goods_id,10, function() use($goods_id){
         return Goods_oem::where('goods_id',$goods_id)->first();
         });
-        if(isset($oem)){
+        if(!empty($oem)){
             $oemvalue = explode(' ',$oem->value);
         }
-
-
         //通过$gid找到缩略图
         $img = Cache::remember('goodsimg'.$gid,10,function() use($gid){
         return  Goods_thumb::where('gid',$gid)->get();
@@ -124,7 +117,6 @@ class EquipmentController extends CommonController
         $shop = Cache::remember('goodshop'.$gid,10,function() use($data){
            return  Shop::where('sid',$data->sid)->get();
         });
-
         //商品规格分类
         $type = Cache::remember('goodstp'.$goods_id,10,function() use($goods_id){
             return  Goods_attribute::where('goods_id',$goods_id)->get();

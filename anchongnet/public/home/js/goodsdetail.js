@@ -52,3 +52,13 @@ function Add() {
     num = num + 1;
     $('#goodsnum').val(num);
 }
+
+/*
+  点击切换图片
+ */
+
+    $(document).ready(function(){
+        $('.thumb img').click(function(){
+            $("#tail").attr("src",$(this).attr('src'));
+        });
+    });

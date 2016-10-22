@@ -3,9 +3,9 @@
 	<head>
 		<meta charset="utf-8">
 		<title>订单详情</title>
-		<link rel="stylesheet" type="text/css" href="home/css/orderdetail.css"/>
-		<script src="home/js/jquery-3.0.0.js"></script>
-		<script src="home/js/orderdetail.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="{{asset('home/css/orderdetail.css')}}"/>
+		<script src="{{url('home/js/jquery-3.1.0.js')}}"></script>
+		<script src="{{url('home/js/orderdetail.js')}}" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" href="{{asset('home/css/top.css')}}">
 		<script src="{{asset('home/js/top.js')}}"></script>
 	</head>
@@ -13,7 +13,7 @@
 	@include('inc.home.top')
 		<div class="site-header">
 			<div class="header-container">
-				<a href="{{url('/')}}"><img src="home/images/order/logo.jpg"/></a>
+				<a href="{{url('/')}}"><img src="{{asset('home/images/order/logo.jpg')}}"/></a>
 			</div>
 		</div>
 		<div class="site-middle">
@@ -29,24 +29,50 @@
 					<i class = "order-detail">订单详情</i>
 				</div>
 				<div class="order-stauts">
-					<img src="home/images/order/order-status4.png"/>
+					@if($orderdetail->state==1||$orderdetail->state==2)
+						<img src="{{asset('home/images/cart/pay.png')}}"/>
+					@endif
+						@if($orderdetail->state==3||$orderdetail->state==7)
+					<img src="{{asset('home/images/order/order-status4.png')}}"/>
+						@endif
 				</div>
 				<div class="item">
 					<ul class="line-item">
 						<li class="item-title"><h4>订单信息</h4></li>
-						<li class="consignee">收货人：韩师傅</li>
-						<li class="telphone">联系电话：13388888888</li>
-						<li class="add">收货地址：北京市昌平区沙河镇于辛庄村天利家园C300</li>
-						<li class="order-id">订单号：2011860830092415</li>
-						<li class="order-time">下单时间：2016-07-04 15:00:58</li>
+						<li class="consignee">收货人：{{$orderdetail->name}}</li>
+						<li class="telphone">联系电话：{{$orderdetail->phone}}</li>
+						<li class="add">收货地址：{{$orderdetail->address}}</li>
+						<li class="order-id">订单号：{{$orderdetail->order_num}}</li>
+						<li class="order-time">下单时间：{{$orderdetail->created_at}}</li>
 						<span class="parting"></span>
-						<span class="shop-name"><a href="">小白白的店</a></span>
+						<span class="shop-name"><a href="">{{$orderdetail->sname}}</a></span>
 						<span class="c-seller"><a href="">联系卖家</a></span>
 					</ul>
 					<ul class="order-info">
 						<li class="order-state">
-							<img src="home/images/order/sucessed.png"/>
-							订单状态：交易成功
+							<img src="{{asset('home/images/order/sucessed.png')}}"/>
+							订单状态：
+							@if($orderdetail->state==1)
+								待付款
+							@endif
+							@if($orderdetail->state==2)
+								待发货
+							@endif
+							@if($orderdetail->state==3)
+								待收货
+							@endif
+							@if($orderdetail->state==4)
+								待审核
+							@endif
+							@if($orderdetail->state==5)
+								已退款
+							@endif
+							@if($orderdetail->state==6)
+								交易关闭
+							@endif
+							@if($orderdetail->state==7)
+								交易成功
+							@endif
 						</li>
 						<li class="logistics">物流：安虫物流</li>
 						<li class="waybill">运单号：50286811309603</li>
@@ -71,50 +97,32 @@
 						</ul>
 					</div>
 					<div class="order-list">
+						@foreach($orderlist as $l)
 						<ul class="order-list-1">
 							<li class="g-title">
-								<img src="home/images/order/goods.jpg"/>
+								<img src="{{$l->img}}" style="width: 100px;height: 100px;"/>
 								<h5>
-									<a href="">312-双门双向网络型控制板 AT8002</a>
-									<p class="g-desc">商品规格：312</p>
+									<nobr><p style="overflow:hidden;text-overflow: ellipsis;width: 500px;"><a href="">{{$l->goods_name}}</a></p></nobr>
+									<p class="g-desc">{{$l->goods_type}}
+										@if(!empty($l->oem))
+											<span style="padding-left: 20px;color:red;">{{$l->oem}}</span>
+										@endif
+									</p>
+
 								</h5>
 							</li>
-							<li class="g-price">130</li>
-							<li class="g-num">2</li>
-							<li class="total-price">260</li>
+							<li class="g-price">{{$l->goods_price}}</li>
+							<li class="g-num">{{$l->goods_num}}</li>
+							<li class="total-price">{{$l->goods_price*$l->goods_num}}</li>
 							<div class="cl"></div>
 						</ul>
-						<ul class="order-list-2">
-							<li class="g-title">
-								<img src="home/images/order/goods.jpg"/>
-								<h5>
-									<a href="">312-双门双向网络型控制板 AT8002</a>
-									<p class="g-desc">商品规格：312</p>
-								</h5>
-							</li>
-							<li class="g-price">130</li>
-							<li class="g-num">2</li>
-							<li class="total-price">260</li>
-							<div class="cl"></div>
-						</ul>
-						<ul class="order-list-3">
-							<li class="g-title">
-								<img src="home/images/order/goods.jpg"/>
-								<h5>
-									<a href="">312-双门双向网络型控制板 AT8002</a>
-									<p class="g-desc">商品规格：312</p>
-								</h5>
-							</li>
-							<li class="g-price">130</li>
-							<li class="g-num">2</li>
-							<li class="total-price">260</li>
-							<div class="cl"></div>
-						</ul>
+						@endforeach
+
 					</div>
 				</div>
 				<div class="count">
-					<p class="count-price">订单总额：780元</p>
-					<p class="fare">运费：0元</p>
+					<p class="count-price">订单总额：{{$orderdetail->total_price}}</p>
+					<p class="fare">运费：{{$orderdetail->freight}}元</p>
 				</div>
 			</div>
 		</div>
