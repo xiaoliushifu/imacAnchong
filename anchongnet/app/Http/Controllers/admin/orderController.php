@@ -98,8 +98,8 @@ class orderController extends Controller
         }
         return $ret;
     }
-    
-    
+
+
     /**
      * 审核订单，ajax调用
      *
@@ -126,6 +126,19 @@ class orderController extends Controller
                 DB::table('anchong_goods_specifications')->where('gid','=',$datas['gid'])->increment('goods_num',$datas['goods_num']);
                 //更改区域表的数量
                 DB::table('anchong_goods_stock')->where('gid','=',$datas['gid'])->increment('region_num',$datas['goods_num']);
+            }
+            $money_result=DB::table('anchong_users')->where('sid','=',$this->sid)->decrement('disable_money',$request->total_price);
+            if(!$money_result){
+                DB::rollback();
+                return "操作失败";
+            }
+            //如果是余额支付的话就需要余额改变
+            if($request->paytype == "moneypay"){
+                $moneyadd=DB::table('anchong_users')->where('users_id','=',$request->users_id)->increment('usable_money',$request->total_price);
+                if(!$moneyadd){
+                    DB::rollback();
+                    return "操作失败";
+                }
             }
             //改变订单状态为已退款
             $data->state=5;
@@ -184,7 +197,7 @@ class orderController extends Controller
         $this->gl->com_code=$carrier[0];//物流公司编号
         $this->gl->company=$carrier[1];
         $this->gl->save();
-        
+
         //改状态为'3待收货'
         $data->state=3;
         $data->save();
@@ -199,7 +212,7 @@ class orderController extends Controller
      * */
     public function ostatus(Request $req)
     {
-        
+
 //         $black = ['121.43.160.158','123.150.107.239','124.239.251.119','127.0.0.1'];
 //         if (!in_array($req->ip(),$black)){
 //             return '非法请求';
@@ -221,7 +234,7 @@ class orderController extends Controller
      * */
     public function lstatus(Request $req)
     {
-        
+
 //         $black = ['121.43.160.158','123.150.107.239','124.239.251.119','127.0.0.1'];
 //         if (!in_array($req->ip(),$black)){
 //             return '非法请求';
@@ -309,7 +322,7 @@ class orderController extends Controller
             return true;
         }
     }
-    
+
     /**
      * 用于解析聚合回调的json信息
      * @param unknown $data
@@ -344,5 +357,14 @@ class orderController extends Controller
             \Log::info($res,['json_error']);
         }
         return $res;
+    }
+
+    /*
+     * 获取订单支付信息
+     * */
+    public function getPaycode(Request $req)
+    {
+        $data=DB::table('anchong_goods_order')->where('order_id',$req->id)->pluck('paycode');
+        return $data;
     }
 }

@@ -768,7 +768,7 @@ class PurseController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'兑换成功']]);
 
         }else{
-            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>"该兑换码已兑换"]]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>"该兑换码错误或已兑换"]]);
         }
     }
 

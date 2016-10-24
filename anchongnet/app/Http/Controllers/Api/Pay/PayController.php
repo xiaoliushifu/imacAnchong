@@ -80,7 +80,7 @@ class PayController extends Controller
             $order->state = 2;
             $order->paycode="moneypay:".$param['outTradeNo'];
             //将钱增加到商户冻结资金
-            $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price*0.99);
+            $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price);
             //判断是否加钱成功
             if($result){
                 // 保存订单
@@ -197,7 +197,7 @@ class PayController extends Controller
         $order->state = 2;
         $order->paycode="moneypay:".$paynum;
         //将钱增加到商户冻结资金
-        $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price*0.99);
+        $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price);
         //判断是否加钱成功
         if($result){
             // 保存订单
@@ -463,7 +463,7 @@ class PayController extends Controller
                         $order->state = 2;
                         $order->paycode="wxpay:".$notify->transaction_id;
                         //将钱增加到商户冻结资金
-                        $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price*0.99);
+                        $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price);
                     } else {
                         // 用户支付失败
                         $order->state = 1;
@@ -619,7 +619,7 @@ class PayController extends Controller
                        $order->paycode="alipay:".$data['trade_no'];
 
                        //将钱增加到商户冻结资金
-                       $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price*0.99);
+                       $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price);
                        if($result){
                            // 保存订单
                            $order->save();
@@ -718,7 +718,7 @@ class PayController extends Controller
                       $order->paycode="alipay:".$data['trade_no'];
 
                       //将钱增加到商户冻结资金
-                      $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price*0.99);
+                      $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price);
                       if($result){
                           // 保存订单
                           $order->save();

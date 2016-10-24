@@ -360,8 +360,8 @@ class OrderController extends Controller
                     //更改订单状态
                     $order_handle->state=7;
                     //将商户冻结资金转移到可用资金
-                    DB::table('anchong_users')->where('sid','=',$order_handle->sid)->decrement('disable_money',$order_handle->total_price*0.99);
-                    $resultss=DB::table('anchong_users')->where('sid','=',$order_handle->sid)->increment('usable_money',$order_handle->total_price*0.99);
+                    DB::table('anchong_users')->where('sid','=',$order_handle->sid)->decrement('disable_money',$order_handle->total_price);
+                    $resultss=DB::table('anchong_users')->where('sid','=',$order_handle->sid)->increment('usable_money',$order_handle->total_price);
                     //假如资金转成功则保存数据
                     if($resultss){
                         $results=$order_handle->save();

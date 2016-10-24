@@ -135,7 +135,7 @@
 											data-time="{{$data['created_at']}}" data-sname="{{$data['sname']}}" data-tname="{{$data['tname']}}" data-invoice="{{$data['invoice']}}" data-acpid="{{$data['acpid']}}" data-toggle="modal" data-target="#myView">打印</button>
 												@can('order-ship')
 													<button type='button' class='shipbtn f-ib btn btn-primary btn-xs {{ ($data["state"])!=2? "hidden":""}}'  data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#mySend">发货</button>
-													<button type='button' class='status btn btn-primary btn-xs {{ ($data["state"])!=3? "hidden":""}}' ' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myStatus">物流状态</button>
+													<button type='button' class='status btn btn-primary btn-xs {{ ($data["state"])!=3? "hidden":""}}' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myStatus">物流状态</button>
 													<button type='button' class='check f-ib btn btn-primary btn-xs {{ ($data["state"])!=4? "hidden":""}}' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myCheck">审核</button>
 												@else
 													<button type='button' class='disabled btn btn-primary btn-xs' >发货</button>
@@ -221,7 +221,13 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header"></div>
-				<div class="modal-body" id="cbody"></div>
+				<div class="modal-body" id="cbody">
+					<input type="hidden" id="userid" value="{{$data['users_id']}}">
+					<input type="hidden" id="prices" value="{{$data['total_price']}}">
+					<input type="hidden" id="paytype" value="">
+					<div class="modal-body" id="cdiv"></div>
+					<div class="modal-body" id="ddiv"></div>
+				</div>
 				<div class="modal-footer">
 					<button type="button" data-dismiss="modal">取消</button>
 					<button type="button" class="btn btn-success" id="pass">通过</button>
@@ -268,7 +274,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	{{--物流状态，弹窗口--}}
 	<div class="modal fade" id="myStatus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">

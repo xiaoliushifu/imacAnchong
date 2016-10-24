@@ -2,7 +2,7 @@
  * Created by lengxue on 2016/4/27.
  */
 $(function(){
-	
+
 	var GlobalObj=[];
 	/**
 	 * '打印'按钮
@@ -87,28 +87,57 @@ $(function(){
      * 点击 “审核”按钮，获得审核数据(订单详情)
      */
     $(".check").click(function(){
-        $("#cbody").empty();
+        $("#cdiv").empty();
+		$("#ddiv").empty();
         var dl='';
+		var cl='';
         var num=$(this).attr("data-num");
         var id=$(this).attr("data-id");
         //两个按钮准备好
         $("#pass").attr("data-id",id).attr("data-num",num);
         $("#fail").attr("data-id",id).attr("data-num",num);
+		//获取付款信息
+		$.get('/order/paycode',{id:id},function(data){
+			 if(data){
+				var paydata=data[0].split(":");
+				//判断是什么支付
+				switch(paydata[0])
+				{
+					case 'alipay':
+						$("#paytype").val("alipay");
+						cl+='<dl class="dl-horizontal"> <dt>支付方式</dt> <dd>支付宝支付</dd> <dt>交易单号</dt> <dd>'+paydata[1]+'</dd> <dt>退款地址</dt> <dd><a href="https://mbillexprod.alipay.com/enterprise/tradeOrder.htm" target="_blank">地址链接</a></dd> </dl>';
+						$("#cdiv").append(cl);
+					break;
+					case 'wxpay':
+						$("#paytype").val("wxpay");
+						cl+='<dl class="dl-horizontal"> <dt>支付方式</dt> <dd>微信支付</dd> <dt>交易单号</dt> <dd>'+paydata[1]+'</dd> <dt>退款地址</dt> <dd><a href="https://pay.weixin.qq.com/index.php/core/trade/search_new" target="_blank">地址链接</a></dd> </dl>';
+						$("#cdiv").append(cl);
+					break;
+					case 'moneypay':
+						$("#paytype").val("moneypay");
+						cl+='<dl class="dl-horizontal"> <dt>支付方式</dt> <dd>余额支付</dd> <dt>交易单号</dt> <dd>'+paydata[1]+'</dd> <dt>退款地址</dt> <dd>点击通过自动退款到余额</dd> </dl>';
+						$("#cdiv").append(cl);
+					break;
+					default:
+					break;
+				}
+			 }
+		 });
         //由订单号获得订单详情数据
         if (!GlobalObj[id]) {
 	        	$.get("/orderinfo",{num:num},function(data,status){
 	        		GlobalObj[id]=data;//Cache
 	            for(var i=0;i<data.length;i++){
-	                dl+='<dl class="dl-horizontal"> <dt>订单编号</dt> <dd>'+data[i].order_num+'</dd> <dt>商品名称</dt> <dd>'+data[i].goods_name+'</dd> <dt>规格型号</dt> <dd>'+data[i].goods_type+'</dd> <dt>商品数量</dt> <dd>'+data[i].goods_num+'</dd> <dt>商品价格</dt> <dd>'+data[i].goods_price+'</dd></dl>';
+	                dl+='<dl class="dl-horizontal"> <dt>订单编号</dt> <dd>'+data[i].order_num+'</dd> <dt>商品名称</dt> <dd>'+data[i].goods_name+'</dd> <dt>规格型号</dt> <dd>'+data[i].goods_type+'</dd> <dt>商品数量</dt> <dd>'+data[i].goods_num+'</dd> <dt>商品价格</dt> <dd>'+data[i].goods_price+'</dd> </dl>';
 	            }
-	            $("#cbody").append(dl);
+	            $("#ddiv").append(dl);
 	        });
         } else {
         		data=GlobalObj[id];
         		for(var i=0;i<data.length;i++){
                 dl+='<dl class="dl-horizontal"> <dt>订单编号</dt> <dd>'+data[i].order_num+'</dd> <dt>商品名称</dt> <dd>'+data[i].goods_name+'</dd> <dt>规格型号</dt> <dd>'+data[i].goods_type+'</dd> <dt>商品数量</dt> <dd>'+data[i].goods_num+'</dd> <dt>商品价格</dt> <dd>'+data[i].goods_price+'</dd></dl>';
             }
-        		$("#cbody").append(dl);
+        		$("#ddiv").append(dl);
         }
     });
     /**
@@ -122,21 +151,21 @@ $(function(){
 	    		//订单ID和订单编号
 	        var id=$(this).attr("data-id");
 	        var num=$(this).attr("data-num");
-	    		var pdata={'oid':id,'num':num,'isPass':$(this).attr('id')};
+	    		var pdata={'oid':id,'num':num,'users_id':$("#userid").val(),'total_price':$("#prices").val(),'paytype':$("#paytype").val(),'isPass':$(this).attr('id')};
 	    		$.post('/order/checkorder',pdata,function(data,status){
-	                console.log(data);
+	                alert(data);
 	                location.reload();
 	         });
 	    	};
     });
-    
+
     /**
      * '别针'按钮
      */
     $("#viewclose").click(function(){
         location.reload();
     });
-    
+
     /**
      * 点击'发货'按钮，弹出发货方式选择页
      */
@@ -145,7 +174,7 @@ $(function(){
         $("#onum").val($(this).attr("data-num"));
         $("#wlist input:first").val($(this).attr("data-num"));
     });
-    
+
     /**
      * 发货方式选择
      */
@@ -164,7 +193,7 @@ $(function(){
     				$("#wlist").addClass("hidden");
     			}
     	});
-    
+
   /**
    * 查看物流状态
    */
@@ -183,8 +212,8 @@ $(function(){
         		}
         });
     });
-    
-    
+
+
     /**
      * 弹框中，点击'开始发货'按钮
      */
@@ -194,7 +223,7 @@ $(function(){
               url:'/order/ordership',
               success:function(data){
             	  console.log(data);
-            	  //有内容说明有问题	
+            	  //有内容说明有问题
             	  if (data) {
             	  		alert(data);
             	  	} else {
@@ -206,7 +235,7 @@ $(function(){
               },
           });
       });
-    
+
     /**
      * 弹框中，执行取消发货
      */
@@ -214,7 +243,7 @@ $(function(){
     	  	  var tmp = $(this).attr("data-id");
           $.post('/order/ordercancel',{oid:tmp,onum:$(this).attr("data-num")},function(data){
 		        	  console.log(data);
-		        	  //有内容说明有问题	
+		        	  //有内容说明有问题
 		      	  	if (data) {
 		      	  		alert(data);
 		      	  	} else {
