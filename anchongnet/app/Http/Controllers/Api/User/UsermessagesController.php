@@ -130,10 +130,10 @@ class UsermessagesController extends Controller
 			//获取数据
 			$users_handle=$this->user->find($id);
 			$user=Usermessages::where('users_id', '=', $id)->first();
-			$waitforcash=count($this->order->US($id,1)->get());
-			$waitforsend=count($this->order->US($id,2)->get());
-			$waitforreceive=count($this->order->US($id,3)->get());
-			$aftermarket=count($this->order->US($id,7)->get());
+			$waitforcash=$this->order->US($id,1)->count();
+			$waitforsend=$this->order->US($id,2)->count();
+			$waitforreceive=$this->order->US($id,3)->count();
+			$aftermarket=$this->order->US($id,5)->count();
 			if($audit==2){
 				$shopname=$shop[0]['name'];
 				$shoplogo=$shop[0]['img'];
