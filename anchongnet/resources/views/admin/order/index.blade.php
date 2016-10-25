@@ -136,7 +136,7 @@
 												@can('order-ship')
 													<button type='button' class='shipbtn f-ib btn btn-primary btn-xs {{ ($data["state"])!=2? "hidden":""}}'  data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#mySend">发货</button>
 													<button type='button' class='status btn btn-primary btn-xs {{ ($data["state"])!=3? "hidden":""}}' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myStatus">物流状态</button>
-													<button type='button' class='check f-ib btn btn-primary btn-xs {{ ($data["state"])!=4? "hidden":""}}' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myCheck">审核</button>
+													<button type='button' class='check f-ib btn btn-primary btn-xs {{ ($data["state"])!=4? "hidden":""}}' data-id="{{$data['order_id']}}" data-price="{{$data['total_price']}}" data-u="{{$data['users_id']}}"  data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myCheck">审核</button>
 												@else
 													<button type='button' class='disabled btn btn-primary btn-xs' >发货</button>
 													<button type='button' class='disabled btn btn-primary btn-xs '>物流状态</button>
@@ -222,8 +222,8 @@
 			<div class="modal-content">
 				<div class="modal-header"></div>
 				<div class="modal-body" id="cbody">
-					<input type="hidden" id="userid" value="{{$data['users_id']}}">
-					<input type="hidden" id="prices" value="{{$data['total_price']}}">
+					<input type="hidden" id="userid" value="">
+					<input type="hidden" id="prices" value="">
 					<input type="hidden" id="paytype" value="">
 					<div class="modal-body" id="cdiv"></div>
 					<div class="modal-body" id="ddiv"></div>

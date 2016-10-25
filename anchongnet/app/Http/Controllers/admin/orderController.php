@@ -102,6 +102,7 @@ class orderController extends Controller
 
     /**
      * 审核订单，ajax调用
+     * 需手动在对应（支付宝|微信）账号退款，然后这里执行通过。
      *
      * @param  $request('isPass'是否退货,'num'订单标号,'gid'货品ID,'oid'订单ID)
      * @return \Illuminate\Http\Response
@@ -291,7 +292,14 @@ class orderController extends Controller
         $this->propleinfo($data->users_id,'发货取消通知','您订单编号为'.$data->order_num.'的订单已停止发货，感谢您对安虫平台的支持！');
         return '';
     }
-
+    /*
+     * 获取订单支付信息
+     * */
+    public function getPaycode(Request $req)
+    {
+        $data=DB::table('anchong_goods_order')->where('order_id',$req->id)->pluck('paycode');
+        return $data;
+    }
     /**
     *    该方法提供了订单的推送服务
     *
@@ -322,7 +330,6 @@ class orderController extends Controller
             return true;
         }
     }
-
     /**
      * 用于解析聚合回调的json信息
      * @param unknown $data
@@ -359,12 +366,4 @@ class orderController extends Controller
         return $res;
     }
 
-    /*
-     * 获取订单支付信息
-     * */
-    public function getPaycode(Request $req)
-    {
-        $data=DB::table('anchong_goods_order')->where('order_id',$req->id)->pluck('paycode');
-        return $data;
-    }
 }

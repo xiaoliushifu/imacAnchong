@@ -92,12 +92,14 @@ $(function(){
         var dl='';
 		var cl='';
         var num=$(this).attr("data-num");
-        var id=$(this).attr("data-id");
+        var oid=$(this).attr("data-id");
         //两个按钮准备好
-        $("#pass").attr("data-id",id).attr("data-num",num);
-        $("#fail").attr("data-id",id).attr("data-num",num);
+        $("#pass").attr("data-id",oid).attr("data-num",num);
+        $("#fail").attr("data-id",oid).attr("data-num",num);
+        $("#userid").val($(this).attr("data-u"));
+        $("#prices").val($(this).attr("data-price"));
 		//获取付款信息
-		$.get('/order/paycode',{id:id},function(data){
+		$.get('/order/paycode',{id:oid},function(data){
 			 if(data){
 				var paydata=data[0].split(":");
 				//判断是什么支付
@@ -124,16 +126,16 @@ $(function(){
 			 }
 		 });
         //由订单号获得订单详情数据
-        if (!GlobalObj[id]) {
+        if (!GlobalObj[oid]) {
 	        	$.get("/orderinfo",{num:num},function(data,status){
-	        		GlobalObj[id]=data;//Cache
+	        		GlobalObj[oid]=data;//Cache
 	            for(var i=0;i<data.length;i++){
 	                dl+='<dl class="dl-horizontal"> <dt>订单编号</dt> <dd>'+data[i].order_num+'</dd> <dt>商品名称</dt> <dd>'+data[i].goods_name+'</dd> <dt>规格型号</dt> <dd>'+data[i].goods_type+'</dd> <dt>商品数量</dt> <dd>'+data[i].goods_num+'</dd> <dt>商品价格</dt> <dd>'+data[i].goods_price+'</dd> </dl>';
 	            }
 	            $("#ddiv").append(dl);
 	        });
         } else {
-        		data=GlobalObj[id];
+        		data=GlobalObj[oid];
         		for(var i=0;i<data.length;i++){
                 dl+='<dl class="dl-horizontal"> <dt>订单编号</dt> <dd>'+data[i].order_num+'</dd> <dt>商品名称</dt> <dd>'+data[i].goods_name+'</dd> <dt>规格型号</dt> <dd>'+data[i].goods_type+'</dd> <dt>商品数量</dt> <dd>'+data[i].goods_num+'</dd> <dt>商品价格</dt> <dd>'+data[i].goods_price+'</dd></dl>';
             }
