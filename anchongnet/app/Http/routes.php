@@ -451,17 +451,12 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::get('/advert/newsindex','admin\Advert\AdvertController@newsindex');
                 //查看商机广告页面
                 Route::get('/advert/busiadvert','admin\Advert\AdvertController@busiadvert');
-
-                /*
-                *   商铺操作与管理
-                */
                 //商铺的开启与关闭
                 Route::post('/shop/shopstate','admin\shopController@shopstate');
-
                 //社区所有聊聊
-                Route::resource('/releases','admin\releaseController@releases');
+                Route::get('/releases','admin\releaseController@releases');
                 //所有商机
-                Route::resource('/businesss','admin\businessController@businesss');
+                Route::get('/businesss','admin\businessController@businesss');
             });
                 //后台登出
             Route::get('/logout','admin\indexController@logout');
