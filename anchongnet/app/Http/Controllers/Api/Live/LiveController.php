@@ -183,7 +183,7 @@ class LiveController extends Controller
         //统计一共有多少张图片
         $pic_num=count($pic_arr);
         //生成随机的数组
-        $number=range(1,$pic_num);
+        $number=range(0,($pic_num-1));
         //打乱数组数据
         shuffle($number);
         $result = array_slice($number,5,$num);
@@ -272,7 +272,7 @@ class LiveController extends Controller
     }
 
     /*
-    *   保存直播
+    *   保存直播(在APP端的操作一定要是先保存完直播再关闭直播，不然会保存失败)
     */
     public function savelive(Request $request)
     {

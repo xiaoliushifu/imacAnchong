@@ -46,7 +46,11 @@ class orderController extends Controller
         $ks=Requester::input('state');
         $this->order=new Order();
         if ($kn) {
-            $datas = Order::num($kn,$this->sid)->orderBy("order_id","desc")->paginate(8);
+            if($this->sid ==1 ){
+                $datas=$this->order->where('order_num',$kn)->orderBy("order_id","desc")->paginate(8);
+            }else{
+                $datas = Order::num($kn,$this->sid)->orderBy("order_id","desc")->paginate(8);
+            }
         } elseif ($ks) {
             $datas=$this->order->where("sid","=",$this->sid)->where('state',$ks)->orderBy("order_id","desc")->paginate(8);
         } else {

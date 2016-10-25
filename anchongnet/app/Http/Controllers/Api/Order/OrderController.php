@@ -391,7 +391,22 @@ class OrderController extends Controller
                     return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'操作失败']]);
                 }
             }elseif($param['action'] == 4){
-                //退货操作
+                //处理成功给用户和商户推送消息
+                try{
+                    $propel=new \App\Http\Controllers\admin\Propel\PropelmesgController();
+                    $sid=DB::table('anchong_goods_order')->where('order_id',$param['order_id'])->pluck('sid');
+                    if($sid[0] == 1){
+                        //退货操作
+                        $propel->apppropel("13730593861",'退货通知','您的商铺有人退货，请及时查看！');
+                    }else{
+                        $phone=DB::table('anchong_users')->where('sid',$sid[0])->pluck('phone');
+                        //退货操作
+                        $propel->apppropel($phone[0],'退货通知','您的商铺有人退货，请及时查看！');
+                    }
+
+                }catch (\Exception $e) {
+
+                }
                 //获取订单句柄
                 $order_handle=$order->find($param['order_id']);
                 $order_handle->state = 4;
