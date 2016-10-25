@@ -57,19 +57,14 @@
 					<div class="box">
 						<div class="box-body">
 						    <form action="/user/list" method="get" class="form-horizontal form-inline f-ib">
-						        <input type="number" name="id"  placeholder="用户ID" class="form-control input-sm" value="{{$datacol['args']['id']}}">&nbsp;
-								认证状态：
-								<label class="radio-inline">
-									<input type="radio" name="auth_status" id="status1" class="status" value="1">待认证
-								</label>
-								<label class="radio-inline">
-									<input type="radio" name="auth_status" id="status2" class="status" value="2">未通过
-								</label>
-								<label class="radio-inline">
-									<input type="radio" name="auth_status" id="status3" class="status" value="3">已认证
-								</label>
+						        <input type="number" name="id"  placeholder="用户ID" class="form-control input-sm" >&nbsp;
+								<select name="auth_status">
+                                		<option value="0">--认证状态--</option>
+                                		<option value="1">待认证</option>
+                                		<option value="2">未通过</option>
+                                		<option value="3">已认证</option>
+                            		</select>
 						        <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
-
 						    </form>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>

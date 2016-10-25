@@ -30,19 +30,19 @@ class userController extends Controller
     public function getIndex(Request $req)
     {
 		$keyPhone=$req["phone"];
-		$keyLevel=$req["users_rank"];
+		$kl=$req["users_rank"];
 		$keyID=$req["uid"];
 
         if ($keyID) {
             $datas = Users::IDs($keyID)->orderBy("users_id","desc")->paginate(8);
 		} elseif ($keyPhone) {
 		    $datas = Users::Phone($keyPhone)->orderBy("users_id","desc")->paginate(8);
-		} elseif ($keyLevel) {
-			$datas = Users::Level($keyLevel)->orderBy("users_id","desc")->paginate(8);
+		} elseif ($kl) {
+			$datas = Users::Level($kl)->orderBy("users_id","desc")->paginate(8);
 		} else {
 			$datas = $this->user->orderBy("users_id","desc")->paginate(8);
 		}
-		$args=array("users_rank"=>$keyLevel);
+		$args=array("users_rank"=>$kl);
 		return view('admin/users/index',array("datacol"=>compact("args","datas")));
     }
 
@@ -103,16 +103,16 @@ class userController extends Controller
     public function getList(Request $req)
     {
         $kId=$req["id"];
-        $kStatus=$req["auth_status"];
+        $kS=$req["auth_status"];
     
         if ($kId) {
             $datas = Auth::Users($kId)->orderBy("id","desc")->paginate(8);
-        } elseif ($kStatus) {
-            $datas = Auth::Status($kStatus)->orderBy("id","desc")->paginate(8);
+        } elseif ($kS) {
+            $datas = Auth::Status($kS)->orderBy("id","desc")->paginate(8);
         } else {
             $datas=Auth::orderBy("id","desc")->paginate(8);
         }
-        $args=array("id"=>$kId,"auth_status"=>$kStatus);
+        $args=array("auth_status"=>$kS);
         return view('admin/users/cert',array("datacol"=>compact("args","datas")));
     }
     

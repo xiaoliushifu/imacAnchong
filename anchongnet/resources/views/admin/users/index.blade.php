@@ -57,16 +57,14 @@
 					<div class="box">
 						<div class="box-body">
 						    <form action="/user" method="get" class="form-horizontal form-inline f-ib">
-						      <input type="number" name="phone"  placeholder="手机号码"  style="width:120px">&nbsp;
-						      <input type="number" name="uid"  placeholder="用户ID" style="width:100px">&nbsp;
-						        会员等级：
-								<label class="radio-inline">
-									<input type="radio" name="users_rank" id="level0" class="level" value="1">普通会员
-								</label>
-								<label class="radio-inline">
-									<input type="radio" name="users_rank" id="level1" class="level" value="2">认证会员
-								</label>
-						      <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
+						      	<input type="number" name="phone"  placeholder="手机号码"  style="width:120px">&nbsp;
+						    		<input type="number" name="uid"  placeholder="用户ID" style="width:100px">&nbsp;
+					        	  	<select name="users_rank">
+                                		<option value="0">--筛选等级--</option>
+                                		<option value="1">普通会员</option>
+                                		<option value="2">认证会员</option>
+                            		</select>
+						        <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 						    </form>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
