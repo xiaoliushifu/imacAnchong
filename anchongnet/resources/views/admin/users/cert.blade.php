@@ -56,7 +56,7 @@
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-body">
-						    <form action="/cert" method="get" class="form-horizontal form-inline f-ib">
+						    <form action="/user/list" method="get" class="form-horizontal form-inline f-ib">
 						        <input type="number" name="id"  placeholder="用户ID" class="form-control input-sm" value="{{$datacol['args']['id']}}">&nbsp;
 								认证状态：
 								<label class="radio-inline">
@@ -71,7 +71,6 @@
 						        <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 
 						    </form>
-							<a href="/cert" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
 									<th>用户ID</th>
@@ -211,7 +210,7 @@ $(function(){
     $("body").on("click",'.check-success',function(){
 		if(confirm('确定要通过吗？')){
 			var id=parseInt($(this).attr("data-id"));
-			$.get("/check",{"id":id,"certified":"yes"},function(data,status){
+			$.get("/user/check",{"id":id,"certified":"yes"},function(data,status){
 				alert(data);
 				setTimeout(function(){location.reload()},1000);
 			});
@@ -221,7 +220,7 @@ $(function(){
 	$("body").on("click",'.check-failed',function(){
 		if(confirm('确定审核不通过吗？')){
 			var id=parseInt($(this).attr("data-id"));
-			$.get("/check",{"id":id,"certified":"no"},function(data,status){
+			$.get("/user/check",{"id":id,"certified":"no"},function(data,status){
 				alert(data);
 				setTimeout(function(){location.reload()},1000);
 			});
@@ -234,7 +233,7 @@ $(function(){
 		$("#myModalLabel").text(auth);
 		$("#view-qua").text($(this).attr("data-qua"));
 		$("#view-explanation").text($(this).attr("data-exp"));
-		$.get("/cert/"+id,function(data,status){
+		$.get("/user/certfile/"+id,function(data,status){
 			$("#qua").empty();
 			var con="";
 			for(var i=0;i<data.length;i++){

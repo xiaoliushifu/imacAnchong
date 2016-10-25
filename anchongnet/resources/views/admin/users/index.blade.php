@@ -56,7 +56,7 @@
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-body">
-						    <form action="/users" method="get" class="form-horizontal form-inline f-ib">
+						    <form action="/user" method="get" class="form-horizontal form-inline f-ib">
 						      <input type="number" name="phone"  placeholder="手机号码"  style="width:120px">&nbsp;
 						      <input type="number" name="uid"  placeholder="用户ID" style="width:100px">&nbsp;
 						        会员等级：
@@ -81,7 +81,7 @@
 								  <td align="center">{{$data['users_id']}}</td>
 								  <td align="center">{{$data['phone']}}</td>
 								  <td align="center">{{$data['email']}}</td>
-								  <td align="center">{{date('Y-m-d',$data['ctime'])}}</td>
+								  <td align="center">{{date('Y-m-d H:i:s',$data['ctime'])}}</td>
 								  <td align="center">
 								  <?php
 								  switch ($data['users_rank']){

@@ -38,8 +38,8 @@ class UserIndiviController extends Controller
         try{
         		//获取用户id
         		$id=$request['guid'];
-        		/*首先检查是否有和当前用户有关的待审核资质*/
-        		$wait=$this->auth->Ids($id)->Status(1)->first();
+        		/*首先检查是否有和当前用户有关的待审核或已审核通过的认证*/
+        		$wait=$this->auth->Ids($id)->first();
         		if ($wait) {
         		    return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'您有待审核的资质，暂时无法提交']]);
         		}

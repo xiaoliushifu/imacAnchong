@@ -404,13 +404,9 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::group(['middleware'=>'anchong'],function(){
                 //Route::controller('/prize','PrizeController');
                 //用户路由
-                Route::resource('/users','admin\userController');
-                //认证路由
-                Route::resource('/cert','admin\certController');
+                Route::controller('/user','admin\userController');
                 //优惠券路由
                 Route::resource('/coupon','admin\couponController');
-                //认证检查
-                Route::get('/check','admin\CheckController@check');
                 //商铺路由
                 Route::resource('/shop','admin\shopController');
                 //商铺审核路由
