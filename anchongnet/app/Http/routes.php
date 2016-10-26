@@ -26,7 +26,8 @@
 //接口路由组
 
 Route::group(['domain' => 'api.anchong.net'], function () {
-
+    //网易云信注册机
+    Route::post('/live/livestate','Api\Live\LiveController@livestate');
     //商品检索
     Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
     //智能提示
