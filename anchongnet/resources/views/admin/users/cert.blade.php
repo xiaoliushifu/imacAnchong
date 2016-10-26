@@ -80,7 +80,7 @@
 								  <td align="center">{{$data['users_id']}}</td>
 								  <td align="center">{{$data['auth_name']}}</td>
 								  <td align="center">{{$data['created_at']}}</td>
-								  <td align="center">
+								  <td align="center" id="as">
 								  <?php
 								  switch($data['auth_status']){
 									  case 1:
@@ -91,21 +91,20 @@
         									  break;
 									  case 3:
         									  echo "已认证";
-        									  break;
 								  }
 								  ?>
 								  </td>
 								  <td align="center">
 								      <button type="button" class="view btn btn-default btn-xs" data-auth="{{$data['auth_name']}}" data-exp="{{$data['explanation']}}" data-qua="{{$data['qua_name']}}" data-id="{{$data['id']}}" data-toggle="modal" data-target="#myModal">查看</button>
 								  </td>
-								  <td align="center">
+								  <td align="center"  id="act">
 								  {{-- 应用权限判定--}}
 								  @if($data['auth_status']==1)
 								  	  @can('authentication')
-									  <button type='button' data-id="{{$data['id']}}" class='check-success btn btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button' data-id="{{$data['id']}}"   class='check-failed btn btn-danger btn-xs'>不通过</button>
+									  <button type='button' data-id="{{$data['id']}}" class='btn-success btn-xs' data-p='p'>通过</button>&nbsp;&nbsp;<button type='button' data-id="{{$data['id']}}"   class='btn-danger btn-xs'  data-p=''>不通过</button>
 									  @else
 									  {{--  权限不许时，灰色按钮--}}
-									  <button type='button'  class='btn disabled btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button'  class='btn disabled btn-danger btn-xs'>不通过</button>
+									  <button type='button'  class='disabled btn-xs'>通过</button>&nbsp;&nbsp;<button type='button'  class='disabled btn-xs'>不通过</button>
 									  @endcan
 								  @endif
 								  </td>
@@ -130,39 +129,28 @@
 	</div>
 	<!-- /.content-wrapper -->
 
-	<!-- Modal -->
+	{{--查看认证资料 弹窗--}}
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	  <div class="modal-dialog" role="document">
 		<div class="modal-content">
 		  <div class="modal-header">
-			<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+			<h4 class="modal-title" id="myModalLabel">弹框标题</h4>
 		  </div>
 		  <div class="modal-body">
 			  <table class="table">
 				  <tr>
-					  <td align="right" width="25%">会员简介</td>
-					  <td align="left" id="view-qua"></td>
+					  <td align="right" width="25%">认证方式</td>
+					  <td align="left" id="vqua"></td>
 				  </tr>
 				  <tr>
-					  <td align="right" width="25%">证件名称</td>
-					  <td align="left" id="view-explanation"></td>
+					  <td align="right" width="25%">认证描述</td>
+					  <td align="left" id="vexpla"></td>
 				  </tr>
 		  	</table>
 			<table class="table">
-			  <tr>
-			    <!-- <th>资质名称</th>
-				<th>简介</th> -->
-				<th>上传证件</th>
-			  </tr>
-			  <tbody id="qua">
-			  </tbody>
-				<tr>
-					<td colspan="3">
-						<ul class="pagination" id="rendor">
-
-						</ul>
-					</td>
-				</tr>
+				<tr><th>认证照片</th></tr>
+			    <tbody id="qua"></tbody>
+				<tr><td colspan="3"><ul class="pagination" id="rendor"></ul>	</td></tr>
 			</table>
 		  </div>
 		  <div class="modal-footer">
@@ -181,53 +169,34 @@
 <script src="/admin/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
-<?php
-if(isset($datacol['args']['auth_status'])){
-	switch ($datacol['args']['auth_status']){
-		case 1:
-		echo '<script>$(function(){$("#status1").attr("checked",true)});</script>';
-		break;
-		case 2:
-		echo '<script>$(function(){$("#status2").attr("checked",true)});</script>';
-		break;
-		case 3:
-		echo '<script>$(function(){$("#status3").attr("checked",true)});</script>';
-		break;
-		default:
-		echo '<script>$(function(){$("#status1").attr("checked",false);$("#status2").attr("checked",false);$("#status3").attr("checked",false)});</script>';
-	}
-}
-?>
 <script>
 $(function(){
 	{{--加上权限判定：是否可点击 “通过”按钮--}}
 	@can('authentication')
-    $("body").on("click",'.check-success',function(){
-		if(confirm('确定要通过吗？')){
+    $("table #act").on("click",'button',function(){
+		if(confirm('确定'+$(this).text()+'吗？')){
 			var id=parseInt($(this).attr("data-id"));
-			$.get("/user/check",{"id":id,"certified":"yes"},function(data,status){
-				alert(data);
-				setTimeout(function(){location.reload()},1000);
+			var param=$(this).attr("data-p");
+			var thisp = $(this).parents('tr');
+			$.get("/user/check",{"id":id,"confi":param},function(data,status){
+				thisp.find('#act').empty();
+				if(param){
+					thisp.find('#as').text('已认证');
+				} else {
+					thisp.find('#as').text('未通过');
+				}
 			});
 		}
-	})
-	{{--加上权限判定：是否可点击 “不通过”按钮--}}
-	$("body").on("click",'.check-failed',function(){
-		if(confirm('确定审核不通过吗？')){
-			var id=parseInt($(this).attr("data-id"));
-			$.get("/user/check",{"id":id,"certified":"no"},function(data,status){
-				alert(data);
-				setTimeout(function(){location.reload()},1000);
-			});
-		}
-	})
+	});
 	@endcan
+	/**
+	*查看认证资料
+	*/
 	$(".view").click(function(){
 	    var id=parseInt($(this).attr("data-id"));
-		var auth=$(this).attr("data-auth");
-		$("#myModalLabel").text(auth);
-		$("#view-qua").text($(this).attr("data-qua"));
-		$("#view-explanation").text($(this).attr("data-exp"));
+		$("#myModalLabel").text($(this).attr("data-auth"));//认证标题
+		$("#vqua").text($(this).attr("data-qua"));
+		$("#vexpla").text($(this).attr("data-exp"));
 		$.get("/user/certfile/"+id,function(data,status){
 			$("#qua").empty();
 			var con="";

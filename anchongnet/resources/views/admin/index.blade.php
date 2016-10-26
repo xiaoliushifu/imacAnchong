@@ -101,7 +101,7 @@
                 <div class="inner">
                     <h3>{{$newauth}}</h3>
 
-                    <p>VIP认证</p>
+                    <p>待认证</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-person-add"></i>

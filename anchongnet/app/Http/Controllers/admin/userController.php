@@ -52,21 +52,21 @@ class userController extends Controller
      * @param  $request('$id'用户表ID)
      * @return \Illuminate\Http\Response
      */
-    public function getCheck(Request $request)
+    public function getCheck(Request $req)
     {
         $this->auth=new Auth();
         //权限判定
         if (Gate::denies('authentication')) {
             return back();
         }
-        $id=$request['id'];
+        $id=$req['id'];
         $this->auth=new Auth();
         $users_id=$this->auth->find($id)->users_id;
         $phone=DB::table('anchong_users')->where('users_id',$users_id)->pluck('phone');
         //开启事务处理
         DB::beginTransaction();
-        //关于“通过"的操作
-        if ($request['certified']=="yes") {
+        //关于“通过”的操作
+        if ($req['confi']=="p") {
             //通过事务处理修改认证表和用户表中的认证状态
             DB::table('anchong_auth')->where('id', $id)->update(['auth_status' => 3]);
             DB::table('anchong_users')->where('users_id', $users_id)->update(['certification' => 3,'users_rank' => 2]);
