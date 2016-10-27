@@ -339,6 +339,30 @@ class LiveController extends Controller
     }
 
     /*
+    *   判断直播状态
+    */
+    public function livestate(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request->all();
+        $param=json_decode($data['param'],true);
+        try{
+            //如果该用户已生成了直播就直接获取
+            $stream=$this->hub->getStream("z1.chongzai.".md5($param['users_id']));
+            $result = $stream->status();
+            //判断流是否被关闭
+            if($result['status'] == "disconnected"){
+                DB::table('v_start')->where('zb_id', $param['zb_id'])->update(['state' => 2]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'主播不在家']]);
+            }elseif($result['status'] == "connected"){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'您的网络不稳定，请重新连接']]);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'主播不在家']]);
+        }
+    }
+
+    /*
     *   直播列表
     */
     public function livelist(Request $request)
@@ -349,7 +373,7 @@ class LiveController extends Controller
         //默认每页数量
         $limit=5;
         //定义查询数据
-        $live_data=['room_id','room_url','title','users_id','header','nick','images'];
+        $live_data=['zb_id','room_id','room_url','title','users_id','header','nick','images','state'];
         //统计数量
         $live_count=$this->Live_Start->Live()->count();
         $live_list=$this->Live_Start->Live()->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('zb_id','DESC')->get();

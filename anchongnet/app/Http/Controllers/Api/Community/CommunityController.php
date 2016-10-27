@@ -533,7 +533,7 @@ class CommunityController extends Controller
             //查询数据
             $community_release_data=['chat_id','title','name','content','created_at','tags','headpic','comnum','img'];
             //定义结果数组
-            $results=null;
+            $result=null;
             //查询收藏的聊聊id和数量
             $community_collect_result=$community_collect->totalquer('chat_id','users_id ='.$data['guid'],(($param['page']-1)*$limit),$limit);
             if ($community_collect_result['total'] == 0) {
