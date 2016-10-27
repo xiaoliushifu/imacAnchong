@@ -169,5 +169,15 @@
 				<li><a href="/business/create"><i class="fa fa-circle-o"></i>发布商机</a></li>
 			</ul>
 		</li>
+		<li class="treeview" id="treelive">
+			<a href="#">
+				<i class="fa fa-laptop"></i>
+				<span>直播管理</span>
+				<i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="treeview-menu">
+				<li><a href="/live"><i class="fa fa-circle-o"></i>直播列表</a></li>
+			</ul>
+		</li>
 	</ul>
 </section>

@@ -150,6 +150,13 @@ class LiveController extends Controller
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"直播开启失败"]]);
         }
+        try{
+            $propel=new \App\Http\Controllers\admin\Propel\PropelmesgController();
+            //退货操作
+            $propel->apppropel('直播通知',$param['nick'].'开始直播'.$param['title'].'了，快去观看吧！');
+        } catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['stream'=>$streams,'zb_id'=>$zb_id,'roomid'=>$room_id]]);
+        }
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['stream'=>$streams,'zb_id'=>$zb_id,'roomid'=>$room_id]]);
     }
 
