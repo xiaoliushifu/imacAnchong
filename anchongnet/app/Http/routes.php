@@ -405,13 +405,9 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::group(['middleware'=>'anchong'],function(){
                 //Route::controller('/prize','PrizeController');
                 //用户路由
-                Route::resource('/users','admin\userController');
-                //认证路由
-                Route::resource('/cert','admin\certController');
+                Route::controller('/user','admin\userController');
                 //优惠券路由
                 Route::resource('/coupon','admin\couponController');
-                //认证检查
-                Route::get('/check','admin\CheckController@check');
                 //商铺路由
                 Route::resource('/shop','admin\shopController');
                 //商铺审核路由
@@ -452,17 +448,12 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::get('/advert/newsindex','admin\Advert\AdvertController@newsindex');
                 //查看商机广告页面
                 Route::get('/advert/busiadvert','admin\Advert\AdvertController@busiadvert');
-
-                /*
-                *   商铺操作与管理
-                */
                 //商铺的开启与关闭
                 Route::post('/shop/shopstate','admin\shopController@shopstate');
-
                 //社区所有聊聊
-                Route::resource('/releases','admin\releaseController@releases');
+                Route::get('/releases','admin\releaseController@releases');
                 //所有商机
-                Route::resource('/businesss','admin\businessController@businesss');
+                Route::get('/businesss','admin\businessController@businesss');
             });
                 //后台登出
             Route::get('/logout','admin\indexController@logout');
