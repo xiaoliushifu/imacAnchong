@@ -150,6 +150,13 @@ class LiveController extends Controller
         }else{
             return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"直播开启失败"]]);
         }
+        try{
+            $propel=new \App\Http\Controllers\admin\Propel\PropelmesgController();
+            //退货操作
+            $propel->apppropel('直播通知',$param['nick'].'开始直播'.$param['title'].'了，快去观看吧！');
+        } catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['stream'=>$streams,'zb_id'=>$zb_id,'roomid'=>$room_id]]);
+        }
         return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['stream'=>$streams,'zb_id'=>$zb_id,'roomid'=>$room_id]]);
     }
 
@@ -436,7 +443,7 @@ class LiveController extends Controller
         //取出搜索内容
         $search=$param['search'];
         //定义查询数据
-        $live_data=['room_id','room_url','title','users_id','header','nick','images'];
+        $live_data=['room_id','room_url','title','users_id','header','nick','images','state'];
         //查出数据
         //DB::connection()->enableQueryLog(); // 开启查询日志
         //DB::table('v_start'); // 要查看的sql
@@ -540,6 +547,14 @@ class LiveController extends Controller
         //默认每页数量
         $limit=5;
         $user_data=DB::table('anchong_usermessages')->where('users_id',$param['guid'])->select('nickname','headpic')->get();
+        //判断用户信息表中是否有联系人姓名
+        try{
+            if(!$user_data[0]->nickname || !$user_data[0]->headpic){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请完善个人信息中的昵称和头像']]);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请完善个人信息中的昵称和头像']]);
+        }
         //定义查询数据
         $live_data=['cb_id','room_id','room_url','title','users_id','images','sum','m3u8_url'];
         $living=DB::table('v_start')->where('users_id',$param['guid'])->select('zb_id','room_id','room_url','title','users_id','images')->get();

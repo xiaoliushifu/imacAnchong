@@ -393,7 +393,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
         //商品搜索
         Route::controller('/search','Api\SearchController');
         //支付宝
-        Route::get('/pay/alipay','Api\Pay\PayController@alipay');
+        //Route::get('/pay/alipay','Api\Pay\PayController@alipay');
         //登录提交
         Route::post('/checklogin',['uses'=>'admin\indexController@checklogin']);
         //加中间件的路由组
@@ -403,6 +403,8 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
             //安虫自营路由组
             Route::group(['middleware'=>'anchong'],function(){
+                //直播管理路由
+                Route::resource('/live','admin\LiveController');
                 //Route::controller('/prize','PrizeController');
                 //用户路由
                 Route::controller('/user','admin\userController');
