@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Request;
 use Validator;
 use DB;
+use Cache;
 
 /*
 *   操作购物车的控制器
@@ -190,6 +191,37 @@ class CartController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['cartamount'=>$cartnum]]);
         }catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
+
+    /*
+    *   购物车分享
+    */
+    public function cartshare(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $shareId=md5($data['param']);
+        //判断是否已被分享
+        $share_cache=Cache::get('cartshare:'.$shareId);
+        //如果被分享了那么直接返回
+        if($share_cache){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['url'=>'http://www.anchong.net/cartshare/'.$shareId]]);
+        }
+        $param=json_decode($data['param'],true);
+        //创建购物车的ORM模型
+        $cart=new \App\Cart();
+        //判断是否为空
+        if(!$param['cart']){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>11,'ResultData'=>['Message'=>'未选中任何商品']]);
+        }
+        $cartdata=$cart->Cart()->select('goods_name','goods_price','img','goods_type','gid','sid','sname','goods_id','oem')->whereIn('cart_id',$param['cart'])->get()->toArray();
+        //将查询结果加入缓存
+        $result=Cache::add('cartshare:'.$shareId, $cartdata, 10080);
+        if($result){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['url'=>'http://www.anchong.net/cartshare/'.$shareId]]);
+        }else {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>11,'ResultData'=>['Message'=>'分享失败']]);
         }
     }
 }

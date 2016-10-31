@@ -41,6 +41,14 @@ class Cart extends Model
     }
 
     /*
+     * 查询构造器
+     */
+    public function scopeCart($query)
+    {
+        return $query;
+    }
+
+    /*
     *   该方法是购物车添加
     */
     public function add($cart_data)
