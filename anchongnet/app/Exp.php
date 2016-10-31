@@ -22,7 +22,7 @@ class Exp
     //获得物流公司列表的接口,暂用开发文档中列出的即可
     //private $comUrl = 'http://v.juhe.cn/exp/com';
     
-    //下单及取消的key
+    //key
     private $skey = '5fc2ea5424749a5bc3aa6e7fd1b1acfa';
     private $scomarr =[
         ['carrier_code'=>'zjs','carrier_phone'=>'11183','carrier_name'=>'宅急送'],
@@ -58,7 +58,7 @@ class Exp
         $params = array(
             'dtype' =>'json',
             'key' => $this->skey,
-            //订单编号（由下单方指定，非快递公司的运单号，仅用于和聚合沟通)
+            //订单编号（由我方指定，非快递公司的运单号，仅用于和聚合沟通)
             //下单成功只是说明这个信息存储成功,并且会推送到快递公司,会有快递员取件或事先电话联系,这个时候并没有产生物流信息,在快递公司肯定查不到
             'order_no'=>$orderinfo['order_num'],
             'isWaybill'=>1,
@@ -67,13 +67,13 @@ class Exp
             'carrier_code'=>$comno,
             
             //发件人信息部分
-            'sender_name'=>'公茂通',
+            'sender_name'=>'徐云朝',//公会勇
             'sender_telphone'=>'13013221114',
-           // 'sender_phone'=>$orderinfo['order_num'],//固话
+            // 'sender_phone'=>$orderinfo['order_num'],//固话
             'sender_province_name'=>'北京',
             'sender_city_name'=>'北京市',
-            'sender_district_name'=>'昌平',
-            'sender_address'=>'北京市昌平区发展路8号院',
+            'sender_district_name'=>'昌平区',
+            'sender_address'=>'二拨工业园区中路19号院',
             'sender_post_code'=>'102204',
             //收件人信息部分
             //'receiver_name'=>$orderinfo['name'],

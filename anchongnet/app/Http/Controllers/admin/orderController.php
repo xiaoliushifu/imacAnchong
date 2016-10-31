@@ -177,14 +177,14 @@ class orderController extends Controller
         if ($req['ship'] == "wl") {
            //获得订单数据，准备聚合接口的请求参数
            //以下三个地址
-           $orderpa['receiver_province_name'] = '北京';
-           $orderpa['receiver_city_name'] = '北京市';
-           $orderpa['receiver_district_name'] = '昌平区';
+           $tmp = explode(' ',$orderpa['address']);
+           $orderpa['receiver_province_name'] = $tmp[0];
+           $orderpa['receiver_city_name'] = $tmp[1];
+           $orderpa['receiver_district_name'] = $tmp[2];
            //以上三个地址
            $orderpa['send_start_time'] = date('Y-m-d H:i:s',time()+3600);//通知快递员X分钟后取件
            $orderpa['send_end_time'] = date('Y-m-d H:i:s',time()+7200);
-           $orderpa['phone'] = '18600818638';
-           $orderpa['address'] = '北京市昌平区回龙腾二街2号院';
+           //$orderpa['phone'] = '18600818638';
            $exp = new Exp();
            //向指定物流公司下单
            $carrier = explode('|',$req['logistics']);
