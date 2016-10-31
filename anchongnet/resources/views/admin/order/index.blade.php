@@ -169,7 +169,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true" class="glyphicon glyphicon-paperclip" id="viewclose"></span>
+						<span class="glyphicon glyphicon-paperclip" id="viewclose"></span>
 					</button>
 					<h4 style="margin-top:50px" align="center">北京安虫电子商务有限公司</h4>
 					<h3 align="center" style="margin-top:0px" id="myModalLabel">发货清单</h3>

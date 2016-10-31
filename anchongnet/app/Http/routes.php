@@ -153,7 +153,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/cart/cartdel','Api\Cart\CartController@cartdel');
         //购物车商品数量
         Route::post('/cart/cartamount','Api\Cart\CartController@cartamount');
-
+        //购物车分享
+        Route::post('/cart/cartshare','Api\Cart\CartController@cartshare');
 
         /*
         *   订单模块
@@ -592,6 +593,8 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             //前台路由
 
 Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {
+            //购物车分享功能
+            Route::resource('/cartshare', 'Home\Cart\CartShareController');
             //获取商品参数html代码
             Route::get('/getparam', 'admin\uEditorController@getParam');
             Route::get('/getpackage', 'admin\uEditorController@getPackage');
