@@ -16,7 +16,7 @@
 
                 <li>邮箱：www.@anchong.net</li>
                 <li>垂询电话:0317-8155026</li>
-               <li> <a href="{{url('/cart')}}">购物车<span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+               <li> <a href="{{url('/cart/'.$msg->users_id)}}">购物车<span class="glyphicon glyphicon-shopping-cart"></span></a></li>
                 <li><img src={{$msg->headpic}} alt=""></li>
                 <li style="padding-left: 10px;"><a href="#" class="dropdown-toggle " data-toggle="dropdown">{{$msg->nickname}}<b class="caret"></b></a>
                     <ul class="dropdown-menu depth_0 downlist">

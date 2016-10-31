@@ -3,10 +3,12 @@
 <head>
     <meta charset="utf-8">
     <title>购物车</title>
-    <link rel="stylesheet" type="text/css" href="home/css/cart.css">
-    <link rel="stylesheet" href="home/css/top.css">
-    <script src="home/js/top.js"></script>
-    <script src="home/js/jquery-3.1.0.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('home/css/cart.css')}}">
+    <link rel="stylesheet" href="{{asset('home/css/top.css')}}">
+    <script src="{{asset('home/js/jquery-3.1.0.js')}}"></script>
+    <script src="{{asset('home/js/top.js')}}"></script>
+    <script src="{{asset('home/org/layer/layer.js')}}"></script>
+    <script src="{{asset('home/js/cartdetail.js')}}"></script>
 </head>
 <body>
 @include('inc.home.top')
@@ -14,7 +16,7 @@
     <div class="header-container">
         <div class="logo">
             <a href="{{url('/')}}">
-                <img  src="home/images/cart/logo_01.jpg"/>
+                <img  src="{{asset('home/images/cart/logo_01.jpg')}}"/>
                 <span class="logo-title">安虫购物车</span>
             </a>
         </div>
@@ -39,117 +41,36 @@
             <div class="cl"></div>
         </ul>
         <ul class="order">
+            @if(count($cart) == 0)
+                <li style="text-align: center;color:#f53745;font-size: 22px">购物车暂无商品</li>
+            @else
+            @foreach($cart as $value)
             <li class="shop">
                 <i class="store">店铺：</i>
-                <a class="shop-name" href="">小白白的店</a>
+                <a class="shop-name" href="">{{$value -> sname}}</a>
             </li>
             <li class="goods-info">
                 <ul>
                     <li><input type="checkbox" class="select"></li>
-                    <li class="goods-img"><img src="home/images/cart/goods.jpg"></li>
+                    <li class="goods-img"><img src="{{$value -> img}}"></li>
                     <li class="goods-desc">
-                        <p class="goods-name"><a href="">普通一拓扑打&nbsp;普通双磁力锁停车管理系统</a></p>
-                        <p class="goods-type">白色#300612号</p>
+                        <p class="goods-name"><a href="">{{$value -> goods_name}}</a></p>
+                        <p class="goods-type">{{$value -> goods_type}}&nbsp;&nbsp;{{$value -> oem}}</p>
                     </li>
-                    <li class="goods-price">130</li>
+                    <li class="goods-price">{{$value -> goods_price}}</li>
                     <li class="goods-number">
-                        <a class="minus" href=""></a>
-                        <input class="count" type="text"value="1">
-                        <a class="add" href=""></a>
+                        <a class="minus" onclick="Minus(this)"></a>
+                        <input class="count" type="text" value="{{$value -> goods_num}}"onchange="Nums(this)">
+                        <a class="add" onclick="Add(this)"></a>
                     </li>
-                    <li class="total-price">130</li>
+                    <li class="total-price">{{$value -> goods_num * $value -> goods_price}}</li>
                     <li class="goods-handle">
-                        <p class="favorite"><a href="">转为收藏</a></p>
-                        <p class="del"><a href="">删除</a></p>
+                        <p class="favorite"><a onclick="Favorite({{$value->gid}})">转为收藏</a></p>
+                        <p class="del"><a onclick="DelCart({{$value->cart_id}})">删除</a></p>
                     </li>
                 </ul>
-            </li>
-            <li class="goods-info" style="margin-top: 1px">
-                <ul>
-                    <li><input type="checkbox" class="select"></li>
-                    <li class="goods-img"><img src="home/images/cart/goods.jpg"></li>
-                    <li class="goods-desc">
-                        <p class="goods-name"><a href="">普通一拓扑打&nbsp;普通双磁力锁停车管理系统</a></p>
-                        <p class="goods-type">白色#300612号</p>
-                    </li>
-                    <li class="goods-price">130</li>
-                    <li class="goods-number">
-                        <a class="minus" href=""></a>
-                        <input class="count" type="text"value="1">
-                        <a class="add" href=""></a>
-                    </li>
-                    <li class="total-price">13000</li>
-                    <li class="goods-handle">
-                        <p class="favorite"><a href="">转为收藏</a></p>
-                        <p class="del"><a href="">删除</a></p>
-                </ul>
-            </li>
-            <li class="goods-info" style="margin-top: 1px">
-                <ul>
-                    <li><input type="checkbox" class="select"></li>
-                    <li class="goods-img"><img src="home/images/cart/goods.jpg"></li>
-                    <li class="goods-desc">
-                        <p class="goods-name"><a href="">普通一拓扑打&nbsp;&nbsp;普通双磁力锁停车管理系统普通一拓扑达&nbsp;普通双磁力锁停车管理系统</a></p>
-                        <p class="goods-type">白色#300612号</p>
-                    </li>
-                    <li class="goods-price">130</li>
-                    <li class="goods-number">
-                        <a class="minus" href=""></a>
-                        <input class="count" type="text"value="1">
-                        <a class="add" href=""></a>
-                    </li>
-                    <li class="total-price">3560</li>
-                    <li class="goods-handle">
-                        <p class="favorite"><a href="">转为收藏</a></p>
-                        <p class="del"><a href="">删除</a></p>
-                </ul>
-            </li>
-        </ul>
-        <ul class="order1">
-            <li class="shop">
-                <input type="checkbox" class="selected">
-                <i class="store1">店铺：</i>
-                <a class="shop-name" href="">小白白的店</a>
-            </li>
-            <li class="goods-info">
-                <ul>
-                    <li><input type="checkbox" class="selected"></li>
-                    <li class="goods-img"><img src="home/images/cart/goods.jpg"></li>
-                    <li class="goods-desc">
-                        <p class="goods-name"><a href="">普通一拓扑打&nbsp;普通双磁力锁停车管理系统</a></p>
-                        <p class="goods-type">白色#300612号</p>
-                    </li>
-                    <li class="goods-price">130</li>
-                    <li class="goods-number">
-                        <a class="minus" href=""></a>
-                        <input class="count" type="text"value="1">
-                        <a class="add" href=""></a>
-                    </li>
-                    <li class="total-price">130</li>
-                    <li class="goods-handle">
-                        <p class="favorite"><a href="">转为收藏</a></p>
-                        <p class="del"><a href="">删除</a></p>
-                </ul>
-            </li>
-            <li class="goods-info" style="margin-top: 1px">
-                <ul>
-                    <li><input type="checkbox" class="selected"></li>
-                    <li class="goods-img"><img src="home/images/cart/goods.jpg"></li>
-                    <li class="goods-desc">
-                        <p class="goods-name"><a href="">普通一拓扑打&nbsp;&nbsp;普通双磁力锁停车管理系统普通一拓扑达&nbsp;普通双磁力锁停车管理系统</a></p>
-                        <p class="goods-type">白色#300612号</p>
-                    </li>
-                    <li class="goods-price">130</li>
-                    <li class="goods-number">
-                        <a class="minus" href=""></a>
-                        <input class="count" type="text" value="1">
-                        <a class="add" href=""></a>
-                    </li>
-                    <li class="total-price">4000</li>
-                    <li class="goods-handle">
-                        <p class="favorite"><a href="">转为收藏</a></p>
-                        <p class="del"><a href="">删除</a></p>
-                </ul>
+            @endforeach
+            @endif
             </li>
         </ul>
         <ul class="settlement">
@@ -181,4 +102,30 @@
 </div>
 @include('inc.home.site-foot')
 </body>
+<script>
+    function DelCart(cart_id) {
+        layer.confirm('你确定要删除这个商品么？',{
+            btn:['确定','取消']
+        },function () {
+            $.post("{{url('/cart')}}/"+cart_id,{'_method':'delete','_token':'{{csrf_token()}}'},function (data) {
+                if(data.status == 0){
+                    location.href=location.href;
+                    layer.msg(data.msg,{icon:6});
+                }else{
+                    location.href=location.href;
+                    layer.msg(data.msg,{icon:5});
+                }
+            })
+        },
+        function () {
+            
+        })
+    }
+    function Favorite(gid) {
+        var data = {'users_id':'{{$msg->users_id}}','coll_id':gid,'coll_type':'1','_token':'{{csrf_token()}}'};
+        $.post('/collect',data,function (msg) {
+            layer.msg(msg.msg,{icon: 6});
+        });
+    }
+</script>
 </html>

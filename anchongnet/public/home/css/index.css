@@ -674,6 +674,7 @@ h1{
 .exhibition li{
     float: left;
     margin-right: 10px;
+    width: 290px;
 }
 .exhibition img{
     width: 290px;

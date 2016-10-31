@@ -10,8 +10,8 @@
 </head>
 <body>
 @include('inc.home.top',['page'=>' <li><div class="shop-ioc">
-            <a href="">购物车</a>
-            <a href=""><img src="../../../home/images/shebei/10.jpg" alt=""  style="width: 16px;height: 40px;margin-top: 0px;margin-left: 2px;"></a>
+            <a>购物车</a>
+            <a><img src="../../../home/images/shebei/10.jpg" alt=""  style="width: 16px;height: 40px;margin-top: 0px;margin-left: 2px;"></a>
         </div></li>'])
 <div class="header-center">
     <div class="header-main">
