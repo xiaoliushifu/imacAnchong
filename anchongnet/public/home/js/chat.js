@@ -27,7 +27,7 @@ $(function () {
            data:$(".publish-replay").serialize(),
            success:function (data) {
                layer.alert(data.msg, {offset: ['150px', '821px']});
-               setTimeout("window.location.reload()",3000);
+               setTimeout("location.href=location.href",3000);
            },
            error:function(){
                layer.alert("暂时无法评论，请稍后再试", {offset: ['150px', '821px']});
@@ -43,7 +43,7 @@ function Comments() {
         data:$('.publish-comment').serialize(),//提交数据
         success: function(msg) {
             layer.alert(msg.msg, {offset: ['150px', '821px']});
-            setTimeout("window.location.reload()",3000);
+            setTimeout("location.href=location.href",3000);
         },
         error:function () {
             layer.alert("发表评论失败，请稍后再试", {offset: ['150px', '821px']});
