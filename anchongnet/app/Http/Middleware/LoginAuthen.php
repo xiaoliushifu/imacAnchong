@@ -15,7 +15,7 @@ class LoginAuthen
     public function handle($request, Closure $next)
     {
         //判断是否登录
-        if (Auth::check() == false) {
+        if (!Auth::check()) {
             return view('admin.login');
         }
         return $next($request);
