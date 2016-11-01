@@ -178,6 +178,10 @@ class orderController extends Controller
            //获得订单数据，准备聚合接口的请求参数
            //以下三个地址
            $tmp = explode(' ',$orderpa['address']);
+           //兼容性
+           if(count($tmp)<2){
+               $tmp[2]=$tmp[1]=$tmp[0];
+           }
            $orderpa['receiver_province_name'] = $tmp[0];
            $orderpa['receiver_city_name'] = $tmp[1];
            $orderpa['receiver_district_name'] = $tmp[2];
