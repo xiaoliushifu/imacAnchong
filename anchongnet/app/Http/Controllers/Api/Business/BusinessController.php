@@ -76,36 +76,21 @@ class BusinessController extends Controller
                     $imgs.=$urls.'#@#';
                 }
             }
-            if(empty($param['endtime'])){
-                $business_data=[
-                    'users_id' => $data['guid'],
-                    'title' => $param['title'],
-                    'type' => $param['type'],
-                    'created_at' => date('Y-m-d H:i:s',$data['time']),
-                    'content' => $param['content'],
-                    'tag' => $param['tag'],
-                    'tags' => $param['tags'],
-                    'tags_match' => $tags,
-                    'phone' => $users_phone[0]['phone'],
-                    'contact' => $users_contact[0]['contact'],
-                    'img'  => $imgs,
-                ];
-            }else{
-                $business_data=[
-                    'users_id' => $data['guid'],
-                    'title' => $param['title'],
-                    'type' => $param['type'],
-                    'created_at' => date('Y-m-d H:i:s',$data['time']),
-                    'content' => $param['content'],
-                    'tag' => $param['tag'],
-                    'tags' => $param['tags'],
-                    'tags_match' => $tags,
-                    'endtime' => strtotime($param['endtime']),
-                    'phone' => $users_phone[0]['phone'],
-                    'contact' => $users_contact[0]['contact'],
-                    'img'  => $imgs,
-                ];
-            }
+            
+            $business_data=[
+                'users_id' => $data['guid'],
+                'title' => $param['title'],
+                'type' => $param['type'],
+                'created_at' => date('Y-m-d H:i:s',$data['time']),
+                'content' => $param['content'],
+                'tag' => $param['tag'],
+                'tags' => $param['tags'],
+                'tags_match' => $tags,
+                'endtime' => strtotime($param['endtime']),
+                'phone' => $users_phone[0]['phone'],
+                'contact' => $users_contact[0]['contact'],
+                'img'  => $imgs,
+            ];
             //创建插入方法
             $business=new \App\Business();
             $result=$business->add($business_data);

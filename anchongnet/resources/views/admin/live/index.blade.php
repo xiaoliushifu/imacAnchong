@@ -69,10 +69,10 @@
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-body">
-							<form action="/order" method="get" class="form-horizontal form-inline f-ib">
+							<!-- <form action="/order" method="get" class="form-horizontal form-inline f-ib">
 								<input type="text" name="kn" class="form-control" placeholder="订单编号">
 								<select name="state">
-                                    		<option value="0" >--筛选状态--</option>
+                                    		<option value="0" >-筛选状态-</option>
                                     		<option value="1">待收款</option>
                                     		<option value="2">待发货</option>
                                     		<option value="3">已发货</option>
@@ -82,7 +82,7 @@
                                     		<option value="7">交易成功</option>
                                 </select>
 								<button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
-							</form>
+							</form> -->
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
 									<th>直播ID</th>
