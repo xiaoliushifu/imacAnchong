@@ -24,9 +24,7 @@ class Goods extends Model
     protected $fillable = ['title', 'desc'];
 
     /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
+     * 关闭自动更新时间戳
      */
     public  $timestamps=false;
 

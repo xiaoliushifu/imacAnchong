@@ -195,6 +195,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/shops/shopsindex','Api\Shop\ShopsController@shopsindex');
         //店铺新商品
         Route::post('/shops/newgoods','Api\Shop\ShopsController@newgoods');
+        //店铺联系客服
+        Route::post('/shops/Cservice','Api\Shop\ShopsController@Cservice');
         //商铺发货快递公司
         Route::post('/shops/logistcompany','Api\Shop\ShopsController@logistcompany');
 
@@ -593,6 +595,10 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             //前台路由
 
 Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {
+            //分享登录
+            Route::post('/user/sharelogin', 'Home\User\LoginController@sharelogin');
+            //分享登录
+            Route::get('/user/logout', 'Home\User\LoginController@logout');
             //购物车分享功能
             Route::resource('/cartshare', 'Home\Cart\CartShareController');
             //获取商品参数html代码

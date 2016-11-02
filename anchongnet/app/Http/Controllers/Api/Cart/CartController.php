@@ -215,7 +215,7 @@ class CartController extends Controller
         if(!$param['cart']){
             return response()->json(['serverTime'=>time(),'ServerNo'=>11,'ResultData'=>['Message'=>'未选中任何商品']]);
         }
-        $cartdata=$cart->Cart()->select('goods_name','goods_price','img','goods_type','gid','sid','sname','goods_id','oem')->whereIn('cart_id',$param['cart'])->get()->toArray();
+        $cartdata=$cart->Cart()->select('goods_name','goods_price','img','goods_type','gid','sid','sname','goods_id','oem','goods_num')->whereIn('cart_id',$param['cart'])->get()->toArray();
         //将查询结果加入缓存
         $result=Cache::add('cartshare:'.$shareId, $cartdata, 10080);
         if($result){

@@ -11,6 +11,8 @@ class Qua extends Model
 {
     protected $table = 'anchong_qua';
 	protected $fillable = ['auth_id','qua_name','explanation','credentials'];
+	//关闭自动更新时间戳
+	protected   $timestamps=false;
 	/*
 	* 根据条件进行认证搜索
 	*/

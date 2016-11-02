@@ -51,211 +51,163 @@
    }
 
 </style>
+@if(!Auth::check())
 <div class="login-wrapper" id="notEmptyCartLogin"  style="display:block" >
    <div class="header-login-info">
-       <div class="header-login-info-left">登录后可同步电脑与手机购物车中的商品</div>
+       <div class="header-login-info-left">请先登录</div>
        <div class="header-login-info-right">
-           <a href="javascript:beLogin('http://www.anchong.net')" class="btn-jd-red" >
-                                       登录
-       </a>
+           <a href="http://www.anchong.net/user/login/{{$shareId}}" class="btn-jd-red" >登录</a>
        </div>
    </div>
 </div>
-
-<div report-eventid="MHome_BacktoTop" page_name="index" class="bottom-to-top J_ping" id="indexToTop">
-   <img src="//st.360buyimg.com/order/images/cart/scroll-to-top-icon.png?v=20161025" style="width: 100%;">
+@else
+<div class="login-wrapper" id="notEmptyCartLogin"  style="display:block" >
+   <div class="header-login-info">
+       <div class="header-login-info-left">切换用户</div>
+       <div class="header-login-info-right">
+           <a href="http://www.anchong.net/user/logout" class="btn-jd-red" >退出</a>
+       </div>
+   </div>
 </div>
+@endif
 <div class="pop" id="giftWares11" style="margin-top:45px;margin-bottom:5%;z-index:1005;position: absolute;display:none" ></div>
+@if($cartarr)
 <div id="notEmptyCart"  style="display:block" >
-
-
-       <div class="shop-group">
-
-
-
-
-
-           <div class="shop-group-item" id="shop-1" data-vendorid="8888">
-
-
-               <div class="shop-title customize-shtit">
-                   <div class="item">
-                       <div class="check-wrapper">
+    <form action="/cartshare" method="POST" class="form-horizontal form-inline f-ib" id="form">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    <div class="shop-group">
+        @foreach($cartarr as $shop)
+        <div class="shop-group-item" data-vendorid="8888">
+             <div class="shop-title customize-shtit">
+                 <div class="item">
+                      <!-- <div class="check-wrapper">
                            <span id="checkShop8888" class="cart-checkbox check-wrapper-unit" data-shopId="8888"  onclick="selectGroup('8888')" ></span>
-                       </div>
+                       </div> -->
                        <div class="shop-title-content">
-                               <span class="shop-title-icon">
+                               <!-- <span class="shop-title-icon">
                                     <img src="//st.360buyimg.com/order/images/cart5.0/JDshopTitle.png?v=20161025">
-                               </span>
-                               <span class="shop-title-name">京东自营</span>
-                                   <input type="hidden" id="freeFreightPrice" value="79"/>
-                                   <input type="hidden" id="vendorPrice" value=50.9>
-                                        <div class="shop-btn-com" id="freeFreight">
-                                        </div>
-
-                           </div>
-
-                   </div>
-               </div>
-               <ul class="shp-cart-list">
-                       <input type="hidden" name="skuIds"  value="1895082">
-
-               <input type="hidden" name="skuIds8888" id="1895082" value="1895082">
-       <input type="hidden" name="skuIdSelected8888" id="selected1895082" value="1">
-
-<li id="product1895082" name="productGroup-1">
-   <div class="items">
-           <input type="hidden" name="editPara" class="editPara" value='{"isPure":true,"shopId":"-1","skuId":"1895082","suitId":"","suitNum":"","sType":"","skuNum":"1","venderId":"8888","mainSkuId":"","mainSkuNum":"","limitSkuNum":"200","remainNumInt":"-1","canExtendedWarrenty": false,"numAtLeast":-1,"isSamPro": false}'>
-       <div class="check-wrapper">
-           <span id="checkIcon1895082" data-sku="1895082@@1"   class="cart-checkbox group-8888 checked"  onclick="changeSelected('8888',1895082,1)" ></span>
-       </div>
-       <div class="shp-cart-item-core shop-cart-display  ">
-           <a class="cart-product-cell-1" href="javascript:beWareDetail('1895082')">
-               <img class="cart-photo-thumb" alt="" src="//img10.360buyimg.com/n7/jfs/t2284/285/1812862953/100750/d4cb1772/567ba6c7N7a89ffbc.jpg!q70.jpg" onerror="//misc.360buyimg.com/lib/skin/e/i/error-jd.gif" />
-           </a>
-           <div class="cart-product-cell-2">
-               <div class="cart-product-name">
-                   <a href="javascript:beWareDetail('1895082')">
-                       <span>【京东超市】内蒙特产 天美华乳 额颉奶贝 250g（原奶味）</span>
-                   </a>
-               </div>
-               <div class="cart-product-prop eles-flex">
-                   <span class="prop1">口味:牛奶奶片 250g</span>
-                </div>
-                <div class="icon-list">
-                                       <!-- 比加入时降价信息-->
-                </div>
-               <div class="cart-product-cell-3">
-                <span class="shp-cart-item-price" id="price1895082">¥11.00</span>
-                    <div class="quantity-wrapper customize-qua">
-                       <input type="hidden" id="limitSukNum1895082" value="200">
-                       <input type="hidden" id="remainNumInt1895082" value="-1">
-                       <input type="hidden" id="atLeastNum1895082" value="-1">
-                       <a class="quantity-decrease disabled" id="subnum1895082" href="javascript:subWareBybutton('8888','1895082');" onclick="checkLimitNum();"><span class="glyphicon glyphicon-minus"></span></a>
-                       <input type="tel" size="4" value="1" name="num" id="num1895082" class="quantity" onchange="checkLimitToast(-1);modifyWare('8888','1895082')">
-                       <a class="quantity-increase " id="addnum1895082" href="javascript:addWareBybutton('8888','1895082');"></a>
-                   </div>
-               </div>
-               <!-- price move to here end -->
-           </div>
-                       <div class="cart-product-cell-5 main-pro-btns">
-           </div>
-       </div>
-       </div>
-</li>
-
-                       <input type="hidden" name="skuIds"  value="1685734">
-
-               <input type="hidden" name="skuIds8888" id="1685734" value="1685734">
-       <input type="hidden" name="skuIdSelected8888" id="selected1685734" value="1">
-
-<li id="product1685734" name="productGroup-1">
-   <div class="items">
-           <input type="hidden" name="editPara" class="editPara" value='{"isPure":true,"shopId":"-1","skuId":"1685734","suitId":"","suitNum":"","sType":"","skuNum":"1","venderId":"8888","mainSkuId":"","mainSkuNum":"","limitSkuNum":"200","remainNumInt":"-1","canExtendedWarrenty": false,"numAtLeast":-1,"isSamPro": false}'>
-       <div class="check-wrapper">
-           <span id="checkIcon1685734" data-sku="1685734@@1"   class="cart-checkbox group-8888 checked"  onclick="changeSelected('8888',1685734,1)" ></span>
-       </div>
-       <div class="shp-cart-item-core shop-cart-display  ">
-           <a class="cart-product-cell-1" href="javascript:beWareDetail('1685734')">
-               <img class="cart-photo-thumb" alt="" src="//img10.360buyimg.com/n7/jfs/t1519/115/539376503/119462/58b5dfce/55936094Nd8f36e6a.jpg!q70.jpg" onerror="//misc.360buyimg.com/lib/skin/e/i/error-jd.gif" />
-                                           </a>
-           <div class="cart-product-cell-2">
-               <div class="cart-product-name">
-                   <a href="javascript:beWareDetail('1685734')">
-                       <span>
-
-
-                                                                                                               【京东超市】格兰特特浓黑咖啡（速溶）100g
-                       </span>
-                   </a>
-               </div>                                  <div class="cart-product-prop eles-flex">
-                                                               <span class="prop1">口味:特浓黑咖啡（速溶）100g</span>
-                                                           </div>
-                               <div class="icon-list">
-                                       <!-- 比加入时降价信息-->
+                               </span> -->
+                               <span class="shop-title-name">{{$shop['sname']}}</span>
+                                   <!-- <input type="hidden" id="freeFreightPrice" value="79"/>
+                                   <input type="hidden" id="vendorPrice" value=50.9> -->
+                                   <div class="shop-btn-com freeFreight">
                                    </div>
+                        </div>
 
+                </div>
+         </div>
+         @foreach($shop['goods'] as $goods)
+<ul class="shp-cart-list">
+    <li name="productGroup-1">
+       <div class="items">
+               <input type="hidden" name="gid[]" class="editPara" value="{{$goods['gid']}}">
 
-
-               <div class="cart-product-cell-3">
-                                       <span class="shp-cart-item-price" id="price1685734">¥39.90</span>
-                                                                                                                                                                                                                                                                                       <div class="quantity-wrapper customize-qua">
-                       <input type="hidden" id="limitSukNum1685734" value="200">
-                       <input type="hidden" id="remainNumInt1685734" value="-1">
-                       <input type="hidden" id="atLeastNum1685734" value="-1">
-                       <a class="quantity-decrease disabled" id="subnum1685734" href="javascript:subWareBybutton('8888','1685734');" onclick="checkLimitNum();"></a>
-                       <input type="tel" size="4" value="1" name="num" id="num1685734" class="quantity" onchange="checkLimitToast(-1);modifyWare('8888','1685734')">
-                       <a class="quantity-increase " id="addnum1685734" href="javascript:addWareBybutton('8888','1685734');"></a>
+           <div class="check-wrapper">
+                <input type="checkbox" name="goodsinfo[]" class="goodscheck" value="{{$goods['goodsinfo']}}" checked>
+           </div>
+           <div class="shp-cart-item-core shop-cart-display  ">
+               <a class="cart-product-cell-1" href="#">
+                   <img class="cart-photo-thumb" alt="" src="{{$goods['img']}}" onerror="#" />
+               </a>
+               <div class="cart-product-cell-2">
+                   <div class="cart-product-name">
+                       <a href="#">
+                           <span>{{$goods['goods_name']}}</span>
+                       </a>
                    </div>
+                   <div class="cart-product-prop eles-flex">
+                       <span class="prop1">商品规格:{{$goods['goods_type']}}</span>
+                    </div>
+                    <div class="cart-product-prop eles-flex">
+                        <span class="prop1">OEM:{{$goods['oem']?$goods['oem']:"无"}}</span>
+                     </div>
+                    <!-- <div class="icon-list">
+                       <span class="prop1">OEM:{{$goods['oem']?$goods['oem']:"无"}}</span>
+                    </div> -->
+                   <div class="cart-product-cell-3">
+                    <span class="shp-cart-item-price goods_price">￥{{$goods['goods_price']}}</span>
+                        <div class="quantity-wrapper customize-qua">
+                           <!-- <input type="hidden" id="limitSukNum1895082" value="200">
+                           <input type="hidden" id="remainNumInt1895082" value="-1">
+                           <input type="hidden" id="atLeastNum1895082" value="-1"> -->
+                           <a class="quantity-decrease disabled" href="javascript:subWareBybutton('8888','1895082');" onclick="checkLimitNum();"><span class="glyphicon glyphicon-minus"></span></a>
+                           <input type="tel" size="4" value="{{$goods['goods_num']}}" name="num[]" class="quantity" readonly="true">
+                           <a class="quantity-increase" href="javascript:addWareBybutton('8888','1895082');"></a>
+                       </div>
+                   </div>
+                   <!-- price move to here end -->
                </div>
-               <!-- price move to here end -->
+                           <div class="cart-product-cell-5 main-pro-btns">
+               </div>
            </div>
-                       <div class="cart-product-cell-5 main-pro-btns">
            </div>
-       </div>
-
-       </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-
+    </li>
+</ul>
+         @endforeach
 </div>
-<div id="emptyCart"  style="display:none" >
+@endforeach
+</div>
+</form>
+</div>
+@else
 
-   <div class="shp-cart-empty"  style="display: none" >
+<div id="emptyCart">
+
+   <div class="shp-cart-empty">
        <em class="cart-empty-icn"></em>
-       <span class="empty-msg">购物车空空如也,赶紧逛逛吧~</span>
-   </div>
-
-   <div class="shopping-guess-container" id="emptycartHotRecommend">
-   <div class="shopping-guess   " id="guessID">
-       <!-- 看看热卖 begin -->
-       <div class="gray-text">
-           <span class="gray-layout"><span class="gray-text-img"></span>看看热卖</span>
-       </div>
-       <ul class="similar-ul cf" id="emptyRecommendID">
-
-       </ul>
-       <img src="//st.360buyimg.com/order/images/cart5.0/no-more.png?v=20161025" class="no-more">
-       <span class="txt-nomore-msg">热卖商品实时更新，常回来看看哦~</span>
-       <!-- 看看热卖 end -->
-   </div>
+       <span class="empty-msg">您来晚了，购物车分享已经结束了！</span>
    </div>
 </div>
 
-
-
-
-<div class="shopping-guess-container" id="notEmptyRecommend">
-   <div class="shopping-guess   " id="guessID">
-       <!-- 看看热卖 begin -->
-       <div class="gray-text">
-           <span class="gray-layout"><span class="gray-text-img"></span>你可能还想要</span>
-       </div>
-       <ul class="similar-ul cf" id="recommendID">
-
-       </ul>
-       <img src="//st.360buyimg.com/order/images/cart5.0/no-more.png?v=20161025" class="no-more">
-       <span class="txt-nomore-msg">以上根据您购物车中已有商品推荐</span>
-       <!-- 看看热卖 end -->
-   </div>
-</div>
-
+@endif
 
 <div id="payment_p"  style="display:block" >
    <div id="paymentp"></div>
    <div class="payment-total-bar payment-total-bar-new box-flex-f" id="payment">
        <div class="shp-chk shp-chk-new  box-flex-c">
-           <span onclick="checkAllHandler();"  class="cart-checkbox checked"  id="checkIcon-1"></span>
+           <input type="checkbox" style="float: left;" id="checkall" value="" onclick="checkall();">
            <span class="cart-checkbox-text">全选</span>
        </div>
        <div class="shp-cart-info shp-cart-info-new  box-flex-c">
-           <strong  id="shpCartTotal" data-fsizeinit="14" class="shp-cart-total">合计:<span class="bottom-bar-price" id="cart_realPrice"> ¥50.90</span></strong>
-           <span id="saleOffNew" data-fsizeinit="10" class="sale-off sale-off-new  bottom-total-price">总额:<span class="money-unit-bf" id="cart_oriPrice">50.90</span>立减:<span class="money-unit-bf" id="cart_rePrice">0.00</span></span>
+           <strong  id="shpCartTotal" data-fsizeinit="14" class="shp-cart-total">合计:<span class="bottom-bar-price" id="cart_realPrice">￥0</span></strong>
+           <span id="saleOffNew" data-fsizeinit="10" class="sale-off sale-off-new  bottom-total-price">总额:<span class="money-unit-bf" id="cart_oriPrice">￥0</span></span>
        </div>
+       @if(Auth::check())
        <a class="btn-right-block btn-right-block-new  box-flex-c" id="submit">加入购物车</a>
+       @else
+       <a class="btn-right-block btn-right-block-new  box-flex-c" style="background:#C4C4C4">请先登录</a>
+       @endif
    </div>
 </div>
+<script src="/home/js/jquery-3.1.0.min.js"></script>
+<script src="/admin/js/jquery.form.js"></script>
+<script>
+
+    function checkall(){
+        //定义全选全不选
+        if($('#checkall').is(':checked')){
+            $('.goodscheck').prop('checked','checked');
+        }else{
+            $('.goodscheck').prop('checked',false);
+        }
+    }
+
+    //定义总价
+    var total_price=0;
+    var price=$(".goods_price").text().split("￥");
+    for($i=0;$i<price.length;$i++){
+        total_price+=Number(price[$i]);
+    }
+    $("#cart_realPrice").text("￥"+total_price);
+    $("#cart_oriPrice").text(total_price);
+    //当点击加入购物车的时候把表单提交了
+    $("#submit").click(function(){
+        $("#form").ajaxSubmit({
+            success: function (data) {
+                alert(data);
+            }
+        });
+    });
+</script>
 </body>
 </html>

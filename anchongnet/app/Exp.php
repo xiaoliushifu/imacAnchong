@@ -91,7 +91,7 @@ class Exp
             'send_start_time'=>$orderinfo['send_start_time'],
             'send_end_time'=>$orderinfo['send_end_time'],
         );
-        //return print_r($params,true);
+//         return print_r($params,true);
         \Log::info(print_r($params,true),['下单数据详情']);
         $content = $this->juhecurl($this->sendUrl,$params,1);
         return $this->_returnArray($content);

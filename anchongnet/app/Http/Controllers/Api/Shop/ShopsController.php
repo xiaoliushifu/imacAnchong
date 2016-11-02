@@ -722,6 +722,26 @@ class ShopsController extends Controller
     }
 
     /*
+    *    该方法提供了联系客服
+    */
+    public function Cservice(Request $request)
+    {
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            $phone=DB::table('anchong_users')->where('sid',$param['sid'])->pluck('phone');
+            if($phone && $phone[0]){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['phone' => $phone[0]]]);
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>'该商铺暂未设定客服']]);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该商铺暂未设定客服']]);
+        }
+    }
+
+    /*
     *    该方法提供了订单的推送服务
     */
     private function propleinfo($order_id,$order_num)
