@@ -195,6 +195,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/shops/shopsindex','Api\Shop\ShopsController@shopsindex');
         //店铺新商品
         Route::post('/shops/newgoods','Api\Shop\ShopsController@newgoods');
+        //店铺联系客服
+        Route::post('/shops/Cservice','Api\Shop\ShopsController@Cservice');
         //商铺发货快递公司
         Route::post('/shops/logistcompany','Api\Shop\ShopsController@logistcompany');
 

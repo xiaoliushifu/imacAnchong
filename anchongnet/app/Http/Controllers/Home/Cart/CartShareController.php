@@ -46,7 +46,7 @@ class CartShareController extends Controller
     {
         //判断是否登录
         if(!Auth::check()){
-            return "请先登录";
+            return "请先登录，并刷新!";
         }
         $data=$request->all();
         //查看购物车是否有改货品
