@@ -408,7 +408,6 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::group(['middleware'=>'anchong'],function(){
                 //直播管理路由
                 Route::resource('/live','admin\LiveController');
-                //Route::controller('/prize','PrizeController');
                 //用户路由
                 Route::controller('/user','admin\userController');
                 //优惠券路由

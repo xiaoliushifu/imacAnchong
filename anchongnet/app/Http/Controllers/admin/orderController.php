@@ -61,23 +61,6 @@ class orderController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  $request('status'订单状态)
-     * @param  int  $id订单ID
-     * @return \Illuminate\Http\Response
-     */
-//     public function update(Request $request, $id)
-//     {
-//         $data=$this->order->find($id);
-//         if ($request->iSend==true) {
-//             $data->state=$request->status;
-//             $data->save();
-//             return "提交成功";
-//         }
-//     }
-
-    /**
      * 向物流公司下单后，查看其回馈的状态信息
      * @param  int  $id
      * @return \Illuminate\Http\Response

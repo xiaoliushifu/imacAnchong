@@ -210,8 +210,8 @@
                     <img src="home/images/shebei/59.jpg" alt="">
                     <p>
                         @foreach($three as $t)
-                        <a href="{{url('equipment/list/'.$t->cat_id)}}>{{$t->cat_name}}</a><span>|</span>
-                            @endforeach
+						<a href="{{url('equipment/list/'.$t->cat_id)}}">{{$t->cat_name}}</a><span>|</span>
+                        @endforeach
                     </p>
                 </div>
                 <div class="maingoods-two"><img src="home/images/shebei/60.jpg" alt=""></div>

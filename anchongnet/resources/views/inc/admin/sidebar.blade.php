@@ -10,12 +10,6 @@
 			<ul class="treeview-menu">
 				<li><a href="/user"><i class="fa fa-circle-o"></i> 用户浏览</a></li>
 				<li><a href="/user/list"><i class="fa fa-circle-o"></i> 会员认证</a></li>
-				<!-- <li><a href="/prize/p1"><i class="fa fa-circle-o"></i> 100人的抽奖活动</a></li>
-				<li><a href="/prize/p2"><i class="fa fa-circle-o"></i> 查看中奖名单100人</a></li>
-				<li><a href="/prize/p12"><i class="fa fa-circle-o"></i> 500人的抽奖活动</a></li>
-				<li><a href="/prize/p22"><i class="fa fa-circle-o"></i> 查看中奖名单500人</a></li>
-				<li><a href="/prize/p13"><i class="fa fa-circle-o"></i> 2000人的抽奖活动</a></li>
-				<li><a href="/prize/p23"><i class="fa fa-circle-o"></i> 查看中奖名单2000人</a></li> -->
 			</ul>
 		</li>
 		<!-- 只admin有 权限管理 -->
@@ -106,12 +100,12 @@
 		<li class="treeview" id="treeadvert">
 			<a href="">
 				<i class="fa fa-laptop"></i>
-				<span>广告管理</span>
+				<span>资讯管理</span>
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
-				<li><a href="#"><i class="fa fa-circle-o"></i>商机广告</a></li>
-				<li><a href="#"><i class="fa fa-circle-o"></i>商城广告</a></li>
+				<!-- <li><a href="#"><i class="fa fa-circle-o"></i>商机广告</a></li>
+				<li><a href="#"><i class="fa fa-circle-o"></i>商城广告</a></li> -->
 				<li><a href="/advert/newsshow"><i class="fa fa-circle-o"></i>发布资讯</a></li>
 				<li><a href="/advert/newsindex"><i class="fa fa-circle-o"></i>资讯查看</a></li>
 				<li><a href="/propel"><i class="fa fa-circle-o"></i>信息推送</a></li>
