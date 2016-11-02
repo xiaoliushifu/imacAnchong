@@ -171,7 +171,7 @@
             </div>
         </div>
     </div>
-	<input type="hidden" id="activeFlag" value="treewithdraw">
+	<input type="hidden" id="activeFlag" value="treepurse">
 	@include('inc.admin.footer')
 </div>
 <!-- ./wrapper -->
