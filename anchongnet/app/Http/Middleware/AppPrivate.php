@@ -30,11 +30,7 @@ class AppPrivate
              $user=new \App\Users_login();
              $token=$user->querToken($request['guid']);
              $encodetoken=$encode->encodeToken($token[0]['token']);
-<<<<<<< HEAD
              $signature=md5(trim($request->path()).trim($request['time']).trim($request['guid']).trim($request['param']).trim($encodetoken));
-=======
-             echo $signature=md5(trim($request->path()).trim($request['time']).trim($request['guid']).trim($request['param']).trim($encodetoken));
->>>>>>> eb9d0f81e5d358d7dae565f80e0b6ef09377a745
              if($request['signature'] == $signature){
                  return $next($request);
              }
