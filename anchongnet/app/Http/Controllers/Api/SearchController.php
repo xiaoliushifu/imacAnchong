@@ -65,7 +65,7 @@ class SearchController extends Controller
         $at = preg_split('#\s#',$req::input('q'),-1,PREG_SPLIT_NO_EMPTY);
         foreach ($at as $k=>$v) {
             $kl = strlen($v);
-            if ($kl < 4 || $kl > 84) {
+            if ($kl < 2 || $kl > 84) {
                 unset($at[$k]);
             }
         }
