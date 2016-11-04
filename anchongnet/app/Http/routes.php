@@ -392,7 +392,7 @@ Route::group(['domain'=>'courier.anchong.net'],function(){
     Route::post('/logis','admin\orderController@lstatus');
 });
 //后台路由
-Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function () {
+Route::group(['domain' => 'admin.myanchong.net','middleware'=>'defper'], function () {
         //商品搜索
         Route::controller('/search','Api\SearchController');
         //支付宝
@@ -420,8 +420,10 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::resource('/tag','admin\tagController');
                 //分类标签管理路由
                 Route::resource('/catag','admin\caTagController');
-                //分类管理路由
+                //商品分类管理路由
                 Route::resource('/goodcate','admin\goodCateController');
+                //商品品牌管理路由
+                Route::resource('/goodbrand','admin\brandController');
                 //钱袋管理路由
                 Route::resource('/purse','admin\PurseController');
                 //签到管理路由

@@ -89,12 +89,14 @@
 		</li>
 		<li class="treeview" id="treecate">
 			<a href="#">
-				<i class="fa fa-edit"></i> <span>分类管理</span>
+				<i class="fa fa-edit"></i> <span>品牌分类</span>
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
 				<li><a href="/goodcate"><i class="fa fa-circle-o"></i>商品分类列表</a></li>
 				<li><a href="/goodcate/create"><i class="fa fa-circle-o"></i>添加商品分类</a></li>
+				<li><a href="/goodbrand"><i class="fa fa-circle-o"></i>商品品牌列表</a></li>
+				<li><a href="/goodbrand/create"><i class="fa fa-circle-o"></i>添加商品品牌</a></li>
 			</ul>
 		</li>
 		<li class="treeview" id="treeadvert">
