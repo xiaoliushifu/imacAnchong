@@ -59,20 +59,15 @@
 					<div class="box">
 						<div class="box-body">
 						    <form action="/shop" method="get" class="form-horizontal form-inline f-ib">
-						      <input type="text" name="name"  placeholder="店铺名称" class="form-control input-sm" value="{{$datacol['args']['name']}}">&nbsp;
-						        审核状态：
-								<label class="radio-inline">
-									<input type="radio" name="audit" id="audit1" class="audit" value="1">待审核
-								</label>
-								<label class="radio-inline">
-									<input type="radio" name="audit" id="audit2" class="audit" value="2">审核已通过
-								</label>
-								<label class="radio-inline">
-									<input type="radio" name="audit" id="audit3" class="audit" value="3">审核未通过
-								</label>
+						      <input type="text" name="name"  placeholder="店铺名称" class="form-control input-sm" >
+									<select name="audit" >
+										<option value="0">审核状态</option>
+										<option value="1">待审核</option>
+										<option value="2">审核已通过</option>
+										<option value="3">审核未通过</option>
+									</select>
 						      <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 						    </form>
-		                    <a href="/shop" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
 									<th width="6%">属主ID</th>
@@ -158,7 +153,7 @@
 		<!-- /.content -->
 	</div>
 
-	<!-- Modal -->
+	{{--详情--}}
 	<div class="modal fade" id="myView" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -183,6 +178,7 @@
 	<input type="hidden" id="activeFlag" value="treeshop">
 	@include('inc.admin.footer')
 </div>
+{{--广告--}}
 <div class="modal fade" id="myAdvert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -286,23 +282,6 @@
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
 <script src="/admin/js/jquery.form.js"></script>
-<?php
-if(isset($datacol['args']['audit'])){
-	switch ($datacol['args']['audit']){
-		case 1:
-			echo '<script>$(function(){$("#audit1").attr("checked",true)});</script>';
-			break;
-		case 2:
-		    echo '<script>$(function(){$("#audit2").attr("checked",true)});</script>';
-		    break;
-		case 3:
-			echo '<script>$(function(){$("#audit3").attr("checked",true)});</script>';
-			break;
-		default:
-		    echo '<script>$(function(){$("#audit1").attr("checked",false);$("#audit2").attr("checked",false)});$("#audit3").attr("checked",false)});</script>';
-	}
-}
-?>
 <script src="/admin/js/shop.js"></script>
 </body>
 </html>

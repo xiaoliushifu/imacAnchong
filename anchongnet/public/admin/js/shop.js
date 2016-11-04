@@ -9,13 +9,13 @@ $(function(){
         var dd;
         $("#brands").empty();
         $("#cat").siblings().remove();
-        $.get('/getbrand',{'sid':id},function(data,status){
+        $.get('/shop/brand',{'sid':id},function(data,status){
             for(var i=0;i<data.length;i++){
                 dl='<hr><dl class="dl-horizontal"> <dt>主营品牌：</dt> <dd>'+data[i].brand_name+'</dd> </dl> <dl class="dl-horizontal"> <dt>品牌授权书：</dt> <dd><a href='+data[i].authorization+' target="_blank"><img src='+data[i].authorization+' width="100"></a></dd> </dl>';
                 $("#brands").append(dl);
             }
         });
-        $.get('/getcat',{'sid':id},function(data,status){
+        $.get('/shop/cat',{'sid':id},function(data,status){
             for(var i=0;i<data.length;i++){
                 dd='<dd>'+data[i].cat_name+'</dd>';
                 $("#cat").after(dd);
@@ -29,7 +29,7 @@ $(function(){
             //获取商铺ID与用户ID
             var id=parseInt($(this).attr("data-id"));
             var uid=parseInt($(this).attr("data-uid"));
-            $.get("/checkShop",{"sid":id,"users_id":uid,"certified":"yes"},function(data,status){
+            $.get("/shop/check",{"sid":id,"users_id":uid,"certified":"yes"},function(data,status){
                 alert(data);
                 setTimeout(function(){location.reload()},1000);
             });
@@ -40,7 +40,7 @@ $(function(){
     $("body").on("click",'.check-failed',function(){
         if(confirm('确定审核不通过吗？')){
             var id=parseInt($(this).attr("data-id"));
-            $.get("/checkShop",{"sid":id,"certified":"no"},function(data,status){
+            $.get("/shop/check",{"sid":id,"certified":"no"},function(data,status){
                 alert(data);
                 setTimeout(function(){location.reload()},1000);
             });
@@ -54,7 +54,7 @@ $(function(){
             //获取商铺ID
             var sid=$(this).attr("data-id");
             //ajax调用接口
-            $.post('/shop/shopstate',{'sid':sid,state:4},function(data,status){
+            $.post('/shop/state',{'sid':sid,state:4},function(data,status){
                 alert(data);
                 location.reload();
             });
@@ -68,7 +68,7 @@ $(function(){
             //获取商铺ID
             var sid=$(this).attr("data-id");
             //ajax调用接口
-            $.post('/shop/shopstate',{'sid':sid,state:2},function(data,status){
+            $.post('/shop/state',{'sid':sid,state:2},function(data,status){
                 alert(data);
                 location.reload();
             });

@@ -413,9 +413,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 //优惠券路由
                 Route::resource('/coupon','admin\couponController');
                 //商铺路由
-                Route::resource('/shop','admin\shopController');
-                //商铺审核路由
-                Route::get("/checkShop",'admin\checkShopController@index');
+                Route::controller('/shop','admin\shopController');
                 //商铺物流公司管理
                 Route::resource('/logis','admin\logisController');
                 //标签管理路由
@@ -452,8 +450,6 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::get('/advert/newsindex','admin\Advert\AdvertController@newsindex');
                 //查看商机广告页面
                 Route::get('/advert/busiadvert','admin\Advert\AdvertController@busiadvert');
-                //商铺的开启与关闭
-                Route::post('/shop/shopstate','admin\shopController@shopstate');
                 //社区所有聊聊
                 Route::get('/releases','admin\releaseController@releases');
                 //所有商机
@@ -470,10 +466,6 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
             //获取所有物流
             Route::get('/getlogis','admin\logisController@getAll');
-            //获取商铺的主营品牌
-            Route::get('/getbrand','admin\shopController@getbrand');
-            //获取商铺的主营类别
-            Route::get('/getcat','admin\shopController@getcat');
             //获取所有商机标签路由
             Route::get('/getag','admin\tagController@geTag');
             //由分类得标签

@@ -94,7 +94,7 @@
 		<!-- /.content -->
 	</div>
 	<!-- /.content-wrapper -->
-	<!-- Modal -->
+	{{--弹框--}}
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
