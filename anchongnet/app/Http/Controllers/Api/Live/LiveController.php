@@ -374,23 +374,27 @@ class LiveController extends Controller
     */
     public function livelist(Request $request)
     {
-        //获得app端传过来的json格式的数据转换成数组格式
-        $data=$request->all();
-        $param=json_decode($data['param'],true);
-        //默认每页数量
-        $limit=5;
-        //定义查询数据
-        $live_data=['zb_id','room_id','room_url','title','users_id','header','nick','images','state'];
-        //统计数量
-        $live_count=$this->Live_Start->Live()->count();
-        $live_list=$this->Live_Start->Live()->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('zb_id','DESC')->get();
-        //判断是否有人直播
-        if($live_count>0 && $live_list){
-            //返回结果
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$live_count,'list'=>$live_list]]);
-        }else{
-            //返回结果
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request->all();
+            $param=json_decode($data['param'],true);
+            //默认每页数量
+            $limit=5;
+            //定义查询数据
+            $live_data=['zb_id','room_id','room_url','title','users_id','header','nick','images','state'];
+            //统计数量
+            $live_count=$this->Live_Start->Live()->count();
+            $live_list=$this->Live_Start->Live()->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('zb_id','DESC')->get();
+            //判断是否有人直播
+            if($live_count>0 && $live_list){
+                //返回结果
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$live_count,'list'=>$live_list]]);
+            }else{
+                //返回结果
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'直播列表正在更新中，请稍后再试']]);
         }
     }
 
@@ -399,23 +403,27 @@ class LiveController extends Controller
     */
     public function relivelist(Request $request)
     {
-        //获得app端传过来的json格式的数据转换成数组格式
-        $data=$request->all();
-        $param=json_decode($data['param'],true);
-        //默认每页数量
-        $limit=5;
-        //定义查询数据
-        $live_data=['room_id','room_url','title','users_id','images','header','nick','sum','m3u8_url'];
-        //统计数量
-        $live_count=$this->Live_Restart->Live()->count();
-        $live_list=$this->Live_Restart->Live()->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('cb_id','DESC')->get();
-        //判断是否有人直播
-        if($live_count>0 && $live_list){
-            //返回结果
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$live_count,'list'=>$live_list]]);
-        }else{
-            //返回结果
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request->all();
+            $param=json_decode($data['param'],true);
+            //默认每页数量
+            $limit=5;
+            //定义查询数据
+            $live_data=['room_id','room_url','title','users_id','images','header','nick','sum','m3u8_url'];
+            //统计数量
+            $live_count=$this->Live_Restart->Live()->count();
+            $live_list=$this->Live_Restart->Live()->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('cb_id','DESC')->get();
+            //判断是否有人直播
+            if($live_count>0 && $live_list){
+                //返回结果
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>$live_count,'list'=>$live_list]]);
+            }else{
+                //返回结果
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'重播列表正在更新中，请稍后再试']]);
         }
     }
 
@@ -424,33 +432,37 @@ class LiveController extends Controller
     */
     public function livesearch(Request $request)
     {
-        //获得app端传过来的json格式的数据转换成数组格式
-        $data=$request->all();
-        $param=json_decode($data['param'],true);
-        //对接收的数据进行验证
-        $validator = Validator::make($param,
-            [
-                'search' => 'required|between:2,40'
-            ]
-        );
-        //验证失败时返回错误信息
-		if ($validator->fails()) {
-			$messages = $validator->errors();
-			if ($messages->has('search')) {
-			    return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'搜索内容不能小于2个字符']]);
-			}
-		}
-        //取出搜索内容
-        $search=$param['search'];
-        //定义查询数据
-        $live_data=['room_id','room_url','title','users_id','header','nick','images','state'];
-        //查出数据
-        //DB::connection()->enableQueryLog(); // 开启查询日志
-        //DB::table('v_start'); // 要查看的sql
-        $live_list=$this->Live_Start->Live()->select($live_data)->where("title", "like", "%$search%")->get();
-        //$queries = DB::getQueryLog();
-        //返回结果
-        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => $live_list]);
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request->all();
+            $param=json_decode($data['param'],true);
+            //对接收的数据进行验证
+            $validator = Validator::make($param,
+                [
+                    'search' => 'required|between:2,40'
+                ]
+            );
+            //验证失败时返回错误信息
+    		if ($validator->fails()) {
+    			$messages = $validator->errors();
+    			if ($messages->has('search')) {
+    			    return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'搜索内容不能小于2个字符']]);
+    			}
+    		}
+            //取出搜索内容
+            $search=$param['search'];
+            //定义查询数据
+            $live_data=['room_id','room_url','title','users_id','header','nick','images','state'];
+            //查出数据
+            //DB::connection()->enableQueryLog(); // 开启查询日志
+            //DB::table('v_start'); // 要查看的sql
+            $live_list=$this->Live_Start->Live()->select($live_data)->where("title", "like", "%$search%")->get();
+            //$queries = DB::getQueryLog();
+            //返回结果
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => $live_list]);
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'直播搜索功能维护中，暂不提供服务']]);
+        }
     }
 
     /*
@@ -458,38 +470,42 @@ class LiveController extends Controller
     */
     public function anchorsearch(Request $request)
     {
-        //获得app端传过来的json格式的数据转换成数组格式
-        $data=$request->all();
-        $param=json_decode($data['param'],true);
-        //对接收的数据进行验证
-        $validator = Validator::make($param,
-            [
-                'search' => 'required|between:2,40'
-            ]
-        );
-        //验证失败时返回错误信息
-		if ($validator->fails()) {
-			$messages = $validator->errors();
-			if ($messages->has('search')) {
-			    return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'搜索内容不能小于2个字符']]);
-			}
-		}
-        //取出搜索内容
-        $search=$param['search'];
-        //判断用户传入的是数字还是其他的
-        if(is_numeric($search)){
-            $search=ltrim($search,0);
-            $anchors=DB::table('anchong_usermessages')->where('users_id',$search)->select('headpic','users_id','nickname')->get();
-            //返回结果
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => $anchors]);
-        }else{
-            // DB::connection()->enableQueryLog(); // 开启查询日志
-            // DB::table('anchong_usermessages'); // 要查看的sql
-            $anchors=DB::table('anchong_usermessages')->where('nickname',$search)->select('headpic','users_id','nickname')->get();
-            // $queries = DB::getQueryLog();
-            // var_dump($queries);
-            //返回结果
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => $anchors]);
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request->all();
+            $param=json_decode($data['param'],true);
+            //对接收的数据进行验证
+            $validator = Validator::make($param,
+                [
+                    'search' => 'required|between:2,40'
+                ]
+            );
+            //验证失败时返回错误信息
+    		if ($validator->fails()) {
+    			$messages = $validator->errors();
+    			if ($messages->has('search')) {
+    			    return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'搜索内容不能小于2个字符']]);
+    			}
+    		}
+            //取出搜索内容
+            $search=$param['search'];
+            //判断用户传入的是数字还是其他的
+            if(is_numeric($search)){
+                $search=ltrim($search,0);
+                $anchors=DB::table('anchong_usermessages')->where('users_id',$search)->select('headpic','users_id','nickname')->get();
+                //返回结果
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => $anchors]);
+            }else{
+                // DB::connection()->enableQueryLog(); // 开启查询日志
+                // DB::table('anchong_usermessages'); // 要查看的sql
+                $anchors=DB::table('anchong_usermessages')->where('nickname',$search)->select('headpic','users_id','nickname')->get();
+                // $queries = DB::getQueryLog();
+                // var_dump($queries);
+                //返回结果
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => $anchors]);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'主播搜索功能维护中，暂不提供服务']]);
         }
     }
 
@@ -498,42 +514,46 @@ class LiveController extends Controller
     */
     public function relivesearch(Request $request)
     {
-        //获得app端传过来的json格式的数据转换成数组格式
-        $data=$request->all();
-        $param=json_decode($data['param'],true);
-        //默认每页数量
-        $limit=5;
-        //对接收的数据进行验证
-        $validator = Validator::make($param,
-            [
-                'search' => 'required|between:2,40'
-            ]
-        );
-        //验证失败时返回错误信息
-		if ($validator->fails()) {
-			$messages = $validator->errors();
-			if ($messages->has('search')) {
-			    return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'搜索内容不能小于2个字符']]);
-			}
-		}
-        //取出搜索内容
-        $search=$param['search'];
-        $count=DB::table('v_restart_search')->where("title", "like", "%$search%")->count();
-        $cb_arr=DB::table('v_restart_search')->select('cb_id')->where("title", "like", "%$search%")->skip(($param['page']-1)*$limit)->take($limit)->orderBy('sum','DESC')->get();
-        if($count == 0 && empty($cb_arr)){
-            //返回结果
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
-        }
-        //定义重播的ID数组
-        $cb_id_arr=[];
-        foreach ($cb_arr as $cb_id) {
-            $cb_id_arr[]=$cb_id->cb_id;
-        }
-        //定义查询数据
-        $live_data=['room_id','room_url','title','users_id','header','nick','images','sum','m3u8_url'];
-        $live_list=DB::table('v_restart')->whereIn('cb_id',$cb_id_arr)->select($live_data)->get();
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request->all();
+            $param=json_decode($data['param'],true);
+            //默认每页数量
+            $limit=5;
+            //对接收的数据进行验证
+            $validator = Validator::make($param,
+                [
+                    'search' => 'required|between:2,40'
+                ]
+            );
+            //验证失败时返回错误信息
+    		if ($validator->fails()) {
+    			$messages = $validator->errors();
+    			if ($messages->has('search')) {
+    			    return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'搜索内容不能小于2个字符']]);
+    			}
+    		}
+            //取出搜索内容
+            $search=$param['search'];
+            $count=DB::table('v_restart_search')->where("title", "like", "%$search%")->count();
+            $cb_arr=DB::table('v_restart_search')->select('cb_id')->where("title", "like", "%$search%")->skip(($param['page']-1)*$limit)->take($limit)->orderBy('sum','DESC')->get();
+            if($count == 0 && empty($cb_arr)){
+                //返回结果
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['total'=>0,'list'=>[]]]);
+            }
+            //定义重播的ID数组
+            $cb_id_arr=[];
+            foreach ($cb_arr as $cb_id) {
+                $cb_id_arr[]=$cb_id->cb_id;
+            }
+            //定义查询数据
+            $live_data=['room_id','room_url','title','users_id','header','nick','images','sum','m3u8_url'];
+            $live_list=DB::table('v_restart')->whereIn('cb_id',$cb_id_arr)->select($live_data)->get();
 
-        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['total'=>$count,'list'=>$live_list]]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['total'=>$count,'list'=>$live_list]]);
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'重播搜索功能维护中，暂不提供服务']]);
+        }
     }
 
     /*
@@ -541,41 +561,45 @@ class LiveController extends Controller
     */
     public function mylivelist(Request $request)
     {
-        //获得app端传过来的json格式的数据转换成数组格式
-        $data=$request->all();
-        $param=json_decode($data['param'],true);
-        //默认每页数量
-        $limit=5;
-        $user_data=DB::table('anchong_usermessages')->where('users_id',$param['guid'])->select('nickname','headpic')->get();
-        //判断用户信息表中是否有联系人姓名
         try{
-            if(!$user_data[0]->nickname || !$user_data[0]->headpic){
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request->all();
+            $param=json_decode($data['param'],true);
+            //默认每页数量
+            $limit=5;
+            $user_data=DB::table('anchong_usermessages')->where('users_id',$param['guid'])->select('nickname','headpic')->get();
+            //判断用户信息表中是否有联系人姓名
+            try{
+                if(!$user_data[0]->nickname || !$user_data[0]->headpic){
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请完善个人信息中的昵称和头像']]);
+                }
+            }catch (\Exception $e) {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请完善个人信息中的昵称和头像']]);
             }
-        }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>13,'ResultData'=>['Message'=>'请完善个人信息中的昵称和头像']]);
-        }
-        //定义查询数据
-        $live_data=['cb_id','room_id','room_url','title','users_id','images','sum','m3u8_url'];
-        $living=DB::table('v_start')->where('users_id',$param['guid'])->select('zb_id','room_id','room_url','title','users_id','images')->get();
-        //统计数量
-        $live_count=$this->Live_Restart->Live()->where('users_id',$param['guid'])->count();
-        $live_list=$this->Live_Restart->Live()->where('users_id',$param['guid'])->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('cb_id','DESC')->get()->toArray();
-        //如果该人在直播就把正在直播的信息放到第一位
-        if(count($living) >0){
-            $living[0]->sum=null;
-            if($param['page'] == 1){
-                array_unshift($live_list,$living[0]);
+            //定义查询数据
+            $live_data=['cb_id','room_id','room_url','title','users_id','images','sum','m3u8_url'];
+            $living=DB::table('v_start')->where('users_id',$param['guid'])->select('zb_id','room_id','room_url','title','users_id','images')->get();
+            //统计数量
+            $live_count=$this->Live_Restart->Live()->where('users_id',$param['guid'])->count();
+            $live_list=$this->Live_Restart->Live()->where('users_id',$param['guid'])->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('cb_id','DESC')->get()->toArray();
+            //如果该人在直播就把正在直播的信息放到第一位
+            if(count($living) >0){
+                $living[0]->sum=null;
+                if($param['page'] == 1){
+                    array_unshift($live_list,$living[0]);
+                }
+                $live_count +=1;
             }
-            $live_count +=1;
-        }
-        //判断是否有往日的重播
-        if($live_count>0 && $live_list){
-            //返回结果
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['nickname'=>$user_data[0]->nickname,'headpic'=>$user_data[0]->headpic,'total'=>$live_count,'list'=>$live_list]]);
-        }else{
-            //返回结果
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['nickname'=>$user_data[0]->nickname,'headpic'=>$user_data[0]->headpic,'total'=>0,'list'=>[]]]);
+            //判断是否有往日的重播
+            if($live_count>0 && $live_list){
+                //返回结果
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['nickname'=>$user_data[0]->nickname,'headpic'=>$user_data[0]->headpic,'total'=>$live_count,'list'=>$live_list]]);
+            }else{
+                //返回结果
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['nickname'=>$user_data[0]->nickname,'headpic'=>$user_data[0]->headpic,'total'=>0,'list'=>[]]]);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'直播功能更新中，暂不可使用']]);
         }
     }
 
@@ -584,44 +608,22 @@ class LiveController extends Controller
     */
     public function dellive(Request $request)
     {
-        //获得app端传过来的json格式的数据转换成数组格式
-        $data=$request->all();
-        $param=json_decode($data['param'],true);
-        //从重播里面删除该数据
-        $del=$this->Live_Restart->destroy($param['cb_id']);
-        $search_del=DB::table('v_restart_search')->where('cb_id',$param['cb_id'])->delete();
-        //判断是否成功删除
-        if($del && $search_del){
-            //返回结果
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=> ['Message'=>'删除成功']]);
-        }else{
-            return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'删除失败']]);
-        }
-    }
-
-    /*
-    *   网易云信脚本注册器
-    *   用完删除
-    */
-    public function regnetease(Request $request)
-    {
-        $users=DB::table('anchong_users_login')->select('username','users_id')->where('netease_token',"")->get();
-        // //var_dump($users);
-        foreach ($users as $users_info) {
-            //网易云信
-            $url  = "https://api.netease.im/nimserver/user/create.action";
-            $datas = 'accid='.($users_info->username).'&name='.($users_info->username).'&icon=http://anchongres.oss-cn-hangzhou.aliyuncs.com/headpic/placeholder120@3x.png&token=3c374b5bc7a7d5235cde6426487d8a3c';
-            list($return_code, $return_content) = $this->JsonPost->http_post_data($url, $datas);
-            //判断是否请求成功
-            if($return_code != 200){
-                echo $users_info->account.'====';
-            }else {
-                $result=DB::table('anchong_users_login')->where('users_id',$users_info->users_id)->update(['netease_token'=>'3c374b5bc7a7d5235cde6426487d8a3c']);
-                if(!$result){
-                    echo $users_info->account.'====';
-                }
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request->all();
+            $param=json_decode($data['param'],true);
+            //从重播里面删除该数据
+            $del=$this->Live_Restart->destroy($param['cb_id']);
+            $search_del=DB::table('v_restart_search')->where('cb_id',$param['cb_id'])->delete();
+            //判断是否成功删除
+            if($del && $search_del){
+                //返回结果
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=> ['Message'=>'删除成功']]);
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'删除失败']]);
             }
-
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'重播暂不能删除，请稍后再试']]);
         }
     }
 }
