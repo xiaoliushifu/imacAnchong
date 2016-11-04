@@ -478,36 +478,30 @@ class GoodsController extends Controller
                 if (!$result = Cache::tags('s')->get("search@".$sp)) {
                     \Log::info($oristr,['search@'.$where]);//统计
                     //索引表查询
-                    $tmp=DB::select("select `cat_id` from `anchong_goods_keyword` where ".$where);
+                    //DB::connection()->enableQueryLog();
+                    $tmp=DB::table('anchong_goods_keyword')->whereRaw($where)->pluck('cat_id');
+                    //var_dump($tmp,DB::getQueryLog());
                     if (!$tmp) {
                         return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"没有找到相关商品"]]);
-                    }
-                    $tmparr=array();
-                    foreach($tmp as $o) {
-                        $tmparr[]= $o->cat_id;
                     }
                     //要查询的字段
                     $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
                     //已上架added=1
-                    $res = DB::table('anchong_goods_type')->whereIn('cat_id',$tmparr)->where('added',1)->get($goods_data);
+                    $res = DB::table('anchong_goods_type')->whereIn('cat_id',$tmp)->where('added',1)->get($goods_data);
                     //无结果
                     if (!$res) {
                         //无结果说明索引已失效，删除之
-                        DB::table("anchong_goods_keyword")->whereIn('cat_id',$tmparr)->delete();
+                        DB::table("anchong_goods_keyword")->whereIn('cat_id',$tmp)->delete();
                         return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"没有相关商品"]]);
                     }
                     uasort($res,function($o1, $o2){
-                        if ($o1->gid > $o2->gid) {
-                            return -1;
-                        } elseif ($o1->gid < $o2->gid) {
-                            return 1;
-                        }
-                        return 0;
+                        return $o2->gid - $o1->gid;
                     });
                     foreach($res as $val) {
                         $result['list'][]=$val;
                     }
                     $result['total']=count($res);
+                    \Log::info($result['total'],['num@'.$where]);//统计
                     //统计一次该关键字的查询次数
                     DB::table('anchong_goods_suggestion')->where('str',$oristr)->increment('qnums');
                     Cache::tags('s')->add("search@".$sp,$result,'60');
