@@ -54,24 +54,23 @@
                             </div>
                         @endif
                             <form role="form" class="form-horizontal" action="/goodbrand" method="post">
+                            <ul class="form-group hidden" id="img"></ul>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">品牌名称</label>
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-2">
                                         <input type="text" name="brand_name" class="form-control" required />
                                     </div>
                                 </div>
                                 <div class="gal form-group">
                                     <label class="col-sm-2 control-label text-right">品牌LOGO<br></label>
-                                    <ul class="form-group hidden" id="img"></ul>
                                     <div id="detailbox" class="col-sm-10"><small class="hidden text-danger">图片必须得来一张</small>
                                         <div id="detail"></div>
                                     </div>
-                                    <div class="clearfix"></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label"></label>
                                     <div class="col-sm-5">
-                                        <button type="submit" class="btn btn-info">添加</button>
+                                        <button type="submit" class="btn btn-info">提交</button>
                                     </div>
                                 </div><!--end form-group text-center-->
                             </form>
