@@ -6,12 +6,11 @@ use Illuminate\Http\Request;
 use Request as Requester;
 
 use Exception;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Community_release;
-use App\Community_img;
 use Auth;
 use DB;
+use Gate;
 
 /**
 *   该控制器包含了社区聊聊模块的操作
@@ -34,39 +33,37 @@ class releaseController extends Controller
      */
     public function index()
     {
-        $keyTag=Requester::input("tag");
+        $kt=Requester::input("tag");
         $this->release=new Community_release();
         //判断有无筛选标签
-        if($keyTag==""){
+        if ($kt) {
             //查出该用户所有聊聊
-            $datas=$this->release->User($this->uid)->orderBy("chat_id","desc")->paginate(8);
-        }else{
+            $datas = $this->release->Tag($this->uid,$kt)->orderBy("chat_id","desc")->paginate(8);
+        } else {
             //根据标签查出该用户所有聊聊
-            $datas = $this->release->Tag($this->uid,$keyTag)->orderBy("chat_id","desc")->paginate(8);
+            $datas=$this->release->User($this->uid)->orderBy("chat_id","desc")->paginate(8);
         }
-        $args=array("user"=>$this->uid,"tag"=>$keyTag);
+        $args=array("tag"=>$kt);
         //返回数据,all代表是否是查询所有聊聊
         return view('admin/release/index',array("datacol"=>compact("args","datas"),'all'=>"0"));
     }
 
     /**
      * 查看所有的聊聊
-     *
+     *从路由层面验证请求合法性
      * @return \Illuminate\Http\Response
      */
     public function releases()
     {
-        $keyTag=Requester::input("tag");
+        $kt=Requester::input("tag");
         $this->release = new Community_release();
         //判断有无筛选标签
-        if($keyTag==""){
-            //查出所有聊聊
+        if ($kt) {
+            $datas = $this->release->Tags($kt)->orderBy("chat_id","desc")->paginate(8);
+        } else {
             $datas = $this->release->orderBy("chat_id","desc")->paginate(8);
-        }else{
-            //根据标签查出所有聊聊
-            $datas = $this->release->Tags($keyTag)->orderBy("chat_id","desc")->paginate(8);
         }
-        $args=array("tag"=>$keyTag);
+        $args=array("tag"=>$kt);
         //返回数据,all代表是否是查询所有聊聊
         return view('admin/release/index',array("datacol"=>compact("args","datas"),'all'=>"1"));
     }
@@ -155,6 +152,9 @@ class releaseController extends Controller
     {
         $this->release = new Community_release();
         $data=$this->release->find($id);
+        if (Gate::denies('comres',$data)) {
+            return back();
+        }
         return $data;
     }
 
@@ -169,10 +169,13 @@ class releaseController extends Controller
     {
         $this->release = new Community_release();
         $data=$this->release->find($id);
+        if (Gate::denies('comres',$data)) {
+            return back();
+        }
         $data->title=$request->title;
         $data->content=$request['content'];
         $data->save();
-        return "更新成功";
+        return back();
     }
 
     /**
@@ -187,44 +190,19 @@ class releaseController extends Controller
         try{
                 //还有更好的办法
                 DB::beginTransaction();
+                $data = DB::table('anchong_community_release')->where('chat_id',$id)->get();
+                if (!$data || Gate::denies('comres',$data)) {
+                    return 'N';
+                }
                 $res[] = DB::table('anchong_community_release')->where('chat_id',$id)->delete();
                 $res[] = DB::table('anchong_community_collect')->where('chat_id',$id)->delete();
                 $res[] = DB::table('anchong_community_comment')->where('chat_id',$id)->delete();
                 $res[] = DB::table('anchong_community_reply')->where('chat_id',$id)->delete();
                 DB::commit();
-                return '聊聊删除成功';
-//             if($result){
-//                 //假如成功就提交
-//                 DB::commit();
-//                 return "删除成功";
-//             }else{
-//                 //假如失败就回滚
-//                 DB::rollback();
-//                 return "删除失败";
-//             }
+                return '删除成功';
         } catch(Exception $e) {
             return '聊聊删除有误';
         }
     }
 
-    /**
-    *   社区图片查看
-    *
-    * @param  int  $id聊聊ID
-    * @return \Illuminate\Http\Response
-    */
-    public function imgshow($id)
-    {
-        //创建图片查询的orm模型
-        $community_release=new Community_release();
-        $data=$community_release->simplequer('img','chat_id='.$id)->toArray();
-        //进行图片分隔操作
-        $img=trim($data[0]['img'],"#@#");
-        $img_arr=[];
-        //判断是否有图片
-        if(!empty($img)){
-            $img_arr=explode('#@#',$img);
-        }
-        return [$img_arr,$data[0]['img']];
-    }
 }

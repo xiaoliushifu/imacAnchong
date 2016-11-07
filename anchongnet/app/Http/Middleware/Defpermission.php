@@ -31,13 +31,16 @@ class Defpermission
                 return $user->hasPermission($permission);
             });
         }
-        //资源权限定义
-        $gate->define('res', function($user, $resource) {
+        //商铺资源权限定义
+        $gate->define('shopres', function($user, $resource) {
             $u = Users::where('users_id', $user->users_id)->first();
             //dd($u,$user,$u->sid,$resource);
             return $u->sid == $resource->sid;
         });
-        
+        //商机,社区资源权限定义
+        $gate->define('comres', function($user, $resource) {
+            return $user->users_id == $resource->users_id;
+        });
         /**
          *定义before方法
          *不再写vendor中，以免后续麻烦
@@ -50,10 +53,14 @@ class Defpermission
             $ur = $user->getAttribute('user_rank');
             $uid = $user->getAttribute('users_id');
             //只有第三方和admin不受权限控制
-            if ($ur==3 && $uid != 1) {
-                return null;
+            if ($uid==1) {
+                return true;
             }
-            return true;
+            return null;
+//             if ($ur==3 && $uid != 1) {
+//                 return null;
+//             }
+//             return true;
         });
         
         return $next($request);
