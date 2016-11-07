@@ -5,72 +5,61 @@ $(function(){
     //查看详情
     $(".view").click(function(){
         var id=$(this).attr("data-id");
-        var dl;
-        var dd;
-        $("#brands").empty();
+        var str='';
+        $("#brand").empty();
         $("#cat").siblings().remove();
-        $.get('/getbrand',{'sid':id},function(data,status){
-            for(var i=0;i<data.length;i++){
-                dl='<hr><dl class="dl-horizontal"> <dt>主营品牌：</dt> <dd>'+data[i].brand_name+'</dd> </dl> <dl class="dl-horizontal"> <dt>品牌授权书：</dt> <dd><a href='+data[i].authorization+' target="_blank"><img src='+data[i].authorization+' width="100"></a></dd> </dl>';
-                $("#brands").append(dl);
+        $.get('/shop/shopbc',{'sid':id},function(data,status){
+            for(var i=0;i<data['brand'].length;i++){
+                str+='<hr><dl class="dl-horizontal"> <dt>主营品牌：</dt> <dd>'+data['brand'][i].brand_id+'</dd> </dl> <dl class="dl-horizontal"> <dt>品牌授权书：</dt> <dd><a href='+data['brand'][i].authorization+' target="_blank"><img src='+data['brand'][i].authorization+' width="100"></a></dd> </dl>';
             }
+            $("#brand").append(str),str='';
+	        for(var i=0;i<data['cat'].length;i++){
+	            str+='<dd>'+data['cat'][i].cat_id+'</dd>';
+	        }
+	        $("#cat").after(str);
         });
-        $.get('/getcat',{'sid':id},function(data,status){
-            for(var i=0;i<data.length;i++){
-                dd='<dd>'+data[i].cat_name+'</dd>';
-                $("#cat").after(dd);
-            }
-        })
     });
 
-    /*----审核通过----*/
-    $("body").on("click",'.check-success',function(){
-        if(confirm('确定要通过吗？')){
+    /*----审核操作----*/
+    $("td.check").on("click",'button',function(){
+        if(confirm('确定要审核'+$(this).text()+'吗？')){
             //获取商铺ID与用户ID
+        		var parent = $(this).parent('td');
             var id=parseInt($(this).attr("data-id"));
             var uid=parseInt($(this).attr("data-uid"));
-            $.get("/checkShop",{"sid":id,"users_id":uid,"certified":"yes"},function(data,status){
-                alert(data);
-                setTimeout(function(){location.reload()},1000);
+            $.get("/shop/check",{sid:id,users_id:uid,act:$(this).attr('act')},function(data,status){
+                if(data.indexOf('已经') != -1){
+                		parent.text('审核已通过');
+                } else {
+                		parent.parent('tr').empty();
+                }
             });
         }
     });
 
-    /*----审核不通过----*/
-    $("body").on("click",'.check-failed',function(){
-        if(confirm('确定审核不通过吗？')){
-            var id=parseInt($(this).attr("data-id"));
-            $.get("/checkShop",{"sid":id,"certified":"no"},function(data,status){
-                alert(data);
-                setTimeout(function(){location.reload()},1000);
-            });
-        }
-    });
-
-    //进行商铺的关闭
-    $(".shopclose").click(function(){
+    //商铺开关
+    $("td").on('click','button.shop',function(){
         //提示用户
-        if(confirm('确定要关闭此店铺吗?')){
+        if(confirm('确定要'+$(this).text()+'此店铺吗?')){
             //获取商铺ID
+        		var that = $(this);
             var sid=$(this).attr("data-id");
+            var sta = $(this).attr('state');
+            var parent = $(this).parent('td');
             //ajax调用接口
-            $.post('/shop/shopstate',{'sid':sid,state:4},function(data,status){
-                alert(data);
-                location.reload();
-            });
-        }
-    });
-
-    //进行商铺的开启
-    $(".shopopen").click(function(){
-        //提示用户
-        if(confirm('确定要开启此店铺吗?')){
-            //获取商铺ID
-            var sid=$(this).attr("data-id");
-            //ajax调用接口
-            $.post('/shop/shopstate',{'sid':sid,state:2},function(data,status){
-                alert(data);
-                location.reload();
+            $.post('/shop/state',{'sid':sid,state:sta},function(data,status){
+            		if(data.indexOf('成功') != -1){
+            			if (sta==4) {
+            				parent.prev().text('商铺已关闭');
+            			} else {
+            				parent.prev().text('审核已通过');
+            			}
+            			that.siblings('.shop').toggleClass('hidden');
+            			that.toggleClass('hidden');
+            		} else {
+            			alert(data);
+            		}
+                console.log(data,status);
             });
         }
     });

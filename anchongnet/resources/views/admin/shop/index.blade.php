@@ -59,20 +59,15 @@
 					<div class="box">
 						<div class="box-body">
 						    <form action="/shop" method="get" class="form-horizontal form-inline f-ib">
-						      <input type="text" name="name"  placeholder="店铺名称" class="form-control input-sm" value="{{$datacol['args']['name']}}">&nbsp;
-						        审核状态：
-								<label class="radio-inline">
-									<input type="radio" name="audit" id="audit1" class="audit" value="1">待审核
-								</label>
-								<label class="radio-inline">
-									<input type="radio" name="audit" id="audit2" class="audit" value="2">审核已通过
-								</label>
-								<label class="radio-inline">
-									<input type="radio" name="audit" id="audit3" class="audit" value="3">审核未通过
-								</label>
+						      <input type="text" name="name"  placeholder="店铺名称" class="form-control input-sm" >
+									<select name="audit" >
+										<option value="0">审核状态</option>
+										<option value="1">待审核</option>
+										<option value="2">审核已通过</option>
+										<!--  <option value="3">审核未通过</option>-->
+									</select>
 						      <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 						    </form>
-		                    <a href="/shop" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
 									<th width="6%">属主ID</th>
@@ -81,8 +76,8 @@
 									<th width="20%">店铺简介</th>
 									<th width="18%">经营地</th>
 									<th width="6%">店铺缩略图</th>
-									<th width="6%">店铺查看</th>
-									<th width="10%">审核</th>
+									<th width="6%">经营范围</th>
+									<th width="10%">商铺状态</th>
 									<th width="20%">操作</th>
 								</tr>
 								@foreach ($datacol['datas'] as $data)
@@ -96,16 +91,16 @@
 										<img src="{{$data['img']}}" width="50">
 									</td>
 									<td align="center">
-										<button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['sid']}}" data-toggle="modal" data-target="#myView">查看详情</button>
+										<button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['sid']}}" data-toggle="modal" data-target="#myView">经营范围</button>
 									</td>
-								    <td align="center">
+								    <td align="center" class="check">
 								    <?php
 								    switch ($data['audit']){
 									    case 1:
 									        if (Gate::denies('shop-check')) {
-									            echo "<button type='button'  class='disabled btn btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button'  class='disabled btn btn-danger btn-xs'>不通过</button>";
+									            echo "<button type='button'  class='disabled btn btn-xs'>通过</button>&nbsp;&nbsp;<button type='button'  class='disabled btn btn-xs'>不通过</button>";
 									        } else {
-									            echo "<button type='button' data-id='{$data['sid']}' data-uid='{$data['users_id']}' class='check-success btn btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button' data-id='{$data['sid']}'  class='check-failed btn btn-danger btn-xs'>不通过</button>";
+									            echo "<button type='button' data-id='{$data['sid']}' data-uid='{$data['users_id']}' act='pass' class='check-success btn btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button' data-id='{$data['sid']}' act='' class='check-failed btn btn-danger btn-xs'>不通过</button>";
 									        }
 									        break;
 									    case 2:
@@ -120,22 +115,18 @@
 								    </td>
 									<td>
 										@can('shop-advert')
-        										<button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['sid']}}" data-toggle="modal" data-target="#myAdvert"
+        										<button type="button" class="advert btn btn-warning btn-xs" data-id="{{$data['sid']}}" data-toggle="modal" data-target="#myAdvert"
         										data-name="{{$data['name']}}"	>广告</button>
-        									@else
-        										<button type="button" class="disabled  btn btn-warning btn-xs"  data-toggle="modal" data-target="#myAdvert">广告</button>
 										@endcan
 										{{--商铺开关权限--}}
 										@can('shop-toggle')
-        										<button type="button" class="shopclose f-ib btn btn-danger btn-xs" data-id="{{$data['sid']}}"
-        										 data-toggle="modal">关闭</button>
-        										<button type="button" class="shopopen f-ib btn btn-success btn-xs" data-id="{{$data['sid']}}"
-        										 data-toggle="modal">开启</button>
+        										<button type="button" class="shop btn-danger btn-xs {{($data['audit']==2)?'':'hidden'}}"  state="4"  data-id="{{$data['sid']}}">关闭</button>
+        										<button type="button" class="shop btn-success btn-xs {{($data['audit']==4)?'':'hidden'}}" state="2"  data-id="{{$data['sid']}}">开启</button>
         									@endcan
         									{{---查看指定商铺的货品--}}
         									@can('create-goods')
-        										<button type="button" class="f-ib btn btn-info btn-xs" data-id="{{$data['sid']}}" data-toggle="modal">
-        										<a href="/good?sid={{$data['sid']}}"><font color="white">店铺商品管理</font></a></button>
+        										<button type="button" class="btn btn-info btn-xs" data-id="{{$data['sid']}}" data-toggle="modal">
+        										<a href="/good?sid={{$data['sid']}}"><font color="white">商品管理</font></a></button>
 										@endcan
 									</td>
 								</tr>
@@ -158,22 +149,22 @@
 		<!-- /.content -->
 	</div>
 
-	<!-- Modal -->
+	{{--经营范围--}}
 	<div class="modal fade" id="myView" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
 					<h4 class="modal-title" id="myModalLabel"></h4>
 				</div>
 				<div class="modal-body">
 					<dl class="dl-horizontal">
 						<dt id="cat">主营类别：</dt>
 					</dl>
-					<div id="brands">
+					<div id="brand">
 					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal">关闭</button>
 				</div>
 			</div>
 		</div>
@@ -183,6 +174,7 @@
 	<input type="hidden" id="activeFlag" value="treeshop">
 	@include('inc.admin.footer')
 </div>
+{{--广告--}}
 <div class="modal fade" id="myAdvert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -286,23 +278,6 @@
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
 <script src="/admin/js/jquery.form.js"></script>
-<?php
-if(isset($datacol['args']['audit'])){
-	switch ($datacol['args']['audit']){
-		case 1:
-			echo '<script>$(function(){$("#audit1").attr("checked",true)});</script>';
-			break;
-		case 2:
-		    echo '<script>$(function(){$("#audit2").attr("checked",true)});</script>';
-		    break;
-		case 3:
-			echo '<script>$(function(){$("#audit3").attr("checked",true)});</script>';
-			break;
-		default:
-		    echo '<script>$(function(){$("#audit1").attr("checked",false);$("#audit2").attr("checked",false)});$("#audit3").attr("checked",false)});</script>';
-	}
-}
-?>
 <script src="/admin/js/shop.js"></script>
 </body>
 </html>
