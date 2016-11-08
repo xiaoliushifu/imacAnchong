@@ -51,6 +51,15 @@
    }
 
 </style>
+<div class="login-wrapper"  style="display:block" >
+   <div class="header-login-info">
+       <div class="header-login-info-left">还没有安装安虫APP？快点击下载吧！(微信请在右上角选择在浏览器中打开下载)</div>
+       <div class="header-login-info-right">
+           <a href="#" id="appdown" class="btn-jd-gray" >下载</a>
+       </div>
+   </div>
+</div>
+
 @if(!Auth::check())
 <div class="login-wrapper" id="notEmptyCartLogin"  style="display:block" >
    <div class="header-login-info">
@@ -208,6 +217,61 @@
             }
         });
     });
+</script>
+<script>
+    function flexible(desW){
+        var winW = document.documentElement.clientWidth;
+        var scale = desW/100;
+        if(winW>desW){/*设备宽度大于设计稿宽度时*/
+            document.documentElement.style.fontSize = "100px"
+        }else{
+            document.documentElement.style.fontSize = winW/scale+"px";
+        }
+    }
+    flexible(640);
+    // 获取终端的相关信息
+    var Terminal = {
+        // 辨别移动终端类型
+        platform : function(){
+            var u = navigator.userAgent, app = navigator.appVersion;
+            return {
+                // android终端或者uc浏览器
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1,
+                // 是否为iPhone或者QQHD浏览器
+                iPhone: u.indexOf('iPhone') > -1 ,
+                // 是否iPad
+                iPad: u.indexOf('iPad') > -1
+            };
+        }(),
+        // 辨别移动终端的语言：zh-cn、en-us、ko-kr、ja-jp...
+        language : (navigator.browserLanguage || navigator.language).toLowerCase()
+    }
+
+    // 根据不同的终端，跳转到不同的地址
+    var theUrl = 'http://app.anchong.net/';
+    if(Terminal.platform.android){
+        theUrl = 'http://app.anchong.net/app.anchong.net.apk';
+    }else if(Terminal.platform.iPhone){
+        theUrl = 'https://itunes.apple.com/cn/app/an-chong/id1135316311?l=en&mt=8';
+    }else if(Terminal.platform.iPad){
+        // 还可以通过language，区分开多国语言版
+        switch(Terminal.language){
+            case 'en-us':
+                theUrl = 'https://itunes.apple.com/cn/app/an-chong/id1135316311?l=en&mt=8';
+                break;
+            case 'ko-kr':
+                theUrl = 'https://itunes.apple.com/cn/app/an-chong/id1135316311?l=en&mt=8';
+                break;
+            case 'ja-jp':
+                theUrl = 'https://itunes.apple.com/cn/app/an-chong/id1135316311?l=en&mt=8';
+                break;
+            default:
+                theUrl = 'https://itunes.apple.com/cn/app/an-chong/id1135316311?l=en&mt=8';
+        }
+    }
+    $("#appdown").attr('href',theUrl);
+    //location.href = theUrl;
+
 </script>
 </body>
 </html>

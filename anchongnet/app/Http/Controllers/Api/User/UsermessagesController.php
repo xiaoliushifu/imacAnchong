@@ -85,6 +85,9 @@ class UsermessagesController extends Controller
 			$audit=$shop[0]['audit'];
 		};
 		$person=Users::Ids($id)->first();
+        if(!$person){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>1,'ResultData' => ['Message'=>'请先登录！']]);
+        }
 		switch($person->certification){
 			case 0:
 			$status="未提交认证";

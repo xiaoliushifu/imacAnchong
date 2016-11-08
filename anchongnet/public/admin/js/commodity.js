@@ -9,7 +9,7 @@ var catsibs=[];
 var Level1='';
 var Level2='';
 $(function(){
-	
+
     //加载一级分类
     var one0=0;
     $.get("/getlevel",{pid:one0},function(data,status){
@@ -18,8 +18,8 @@ $(function(){
             $(".mainselect").append(opt);
         }
     });
-    
-    
+
+
     /**
      * 商品编辑
      */
@@ -27,7 +27,7 @@ $(function(){
         $("#stock").empty();//库存部分
         $("#sups").empty();	//配套商品部分
         $("#futuresups").empty();//配套商品输入框
-        
+
         var o = $(this);
         var tr = o.parents('tr');
         var id = o.attr("data-id");
@@ -71,7 +71,7 @@ $(function(){
         				$("#oem").val(data[0].value);
         			}
         });
-        
+
         //获取二级分类信息，因为该商品有可能属于多个分类，故循环
         for (var f=0; f<arr.length; f++) {
 	        	tmpcat = cat.clone(true);
@@ -102,7 +102,7 @@ $(function(){
           //设置选中项
             $('#catarea .mainselect:eq('+f+') option[value="'+Level1+'"]').attr("selected",true);
             $('#catarea .midselect:eq('+f+') option[value="'+Level2+'"]').attr("selected",true);
-            
+
         }
     });
 
@@ -125,8 +125,8 @@ $(function(){
     	            });
     		 }
     	});
-    
-    
+
+
     /*----添加一组分类----*/
     $("body").on("click",".add button",function(){
     		/*分类信息不可更改*/
@@ -143,7 +143,7 @@ $(function(){
     		console.log('分类信息不可更改');
     		return false;
     		/*分类信息不可更改*/
-    	
+
         var len=$("#catarea").find(".form-group").length;
         if(len==1){
             alert("不能删除仅有的分类信息！");
@@ -151,7 +151,7 @@ $(function(){
             $(this).parentsUntil("#catarea").remove();
         }
     });
-    
+
   //设计实现：商品编辑时，使得商品的分类信息不可更改。
     $('#catarea').on('change','select',function(){
     		console.log('商品分类信息不可更改');

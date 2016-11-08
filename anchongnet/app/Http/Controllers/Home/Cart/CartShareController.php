@@ -76,7 +76,7 @@ class CartShareController extends Controller
         if(!$result){
             return "加入购物车失败!";
         }
-        return "加入购物车成功!";
+        return "加入购物车成功，请在安虫App内查看!";
     }
 
     /**
