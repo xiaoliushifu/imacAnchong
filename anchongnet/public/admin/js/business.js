@@ -3,72 +3,40 @@
  */
 $(function(){
     /*
-     * 获得所有商机标签
+     * 编辑商机弹框，获得所有商机标签
      */
     $.get('/getag',function(data,status){
         var opt;
         for(var i=0;i<data.length;i++){
-            opt='<option value='+data[i].tag+'>'+data[i].tag+'</option>';
-            $("#tag").append(opt);
+            opt+='<option value='+data[i].tag+'>'+data[i].tag+'</option>';
         }
+        $("#tag").append(opt);
     });
 
     //查看商机详情
     $(".view").click(function(){
-        var id=$(this).attr("data-id");
+        var children=$(this).parents('tr').children();
+        var li;
         //ajax获取商机的字段
-        $.get('/business/'+id,function(data,status){
-            $("#bustitle").text(data.title);
-            $("#vtitle").text(data.title);
-            $("#vcontent").text(data.content);
-            $("#vtag").text(data.tag);
-            $("#vphone").text(data.phone);
-            $("#vcontact").text(data.contact);
-            //定义类型
-            var type;
-            //匹配工程类型的代号
-            switch(data.type)
-            {
-                case 1:
-                  type="工程招标";
-                  break;
-                case 2:
-                   type="承接工程";
-                   break;
-                case 3:
-                   type="人才发布";
-                   break;
-                case 4:
-                   type="人才招聘";
-                   break;
-                case 5:
-                   type="找货";
-                   break;
-                default:
-                    type="工程招标";
-                    break;
-            }
-            $("#vtype").text(type);
-            $("#vcreate").text(data.created_at);
-            $("#vupdate").text(data.updated_at);
-            $("#varea").text(data.tags);
-            $("#vendtime").text(data.endtime);
-            //先让图片div内容为空避免出现未刷新的重复
-            $("#vimg").empty();
-            //分隔图片字符串
-            var imgs=data.img.split("#@#");
-            //定义变量
-            var li;
-            //遍历图片数组
-            for(var i=0;i<imgs.length;i++){
-            	//发商机时，不一定有图片上传
-            		if (imgs[i]) {
-            			//动态生成图片
-            			li='<li class="list-group-item"><a href='+imgs[i]+' target="_blank"><img src='+imgs[i]+' width="100"></a> </li>';
-            			$("#vimg").append(li);
-            		}
-            }
-        });
+        $("#bustitle").text(children.eq(0).text());
+        $("#vtitle").text(children.eq(0).text());
+        $("#vcontent").text(children.eq(1).text());
+        $("#vtag").text(children.eq(3).text());
+        $("#vphone").text(children.eq(7).text());
+        $("#vcontact").text(children.eq(8).text());
+        $("#vtype").text(children.eq(9).text());
+        $("#vcreate").text(children.eq(4).text());
+        $("#varea").text(children.eq(6).text());
+        $("#vendtime").text(new Date(children.eq(5).text()*1000).toLocaleDateString());
+        $("#vimg").empty();
+        //分隔图片字符串
+        var imgs=children.get(2).innerHTML.split("#@#");
+        for(var i=0;i<imgs.length;i++){
+        		if (imgs[i]) {
+        			li='<li class="list-group-item"><a href='+imgs[i]+' target="_blank"><img src='+imgs[i]+' width="100"></a> </li>';
+        			$("#vimg").append(li);
+        		}
+        }
     });
 
     /**
@@ -87,42 +55,56 @@ $(function(){
     $(".edit").click(function(){
         //获取商机的ID
         var id=$(this).attr("data-id");
+        var children=$(this).parents('tr').children();
         //赋予表单提交的地方
         $("#updateform").attr("action",'/business/'+id);
-        //赋予商机id为后面做准备
         $("#bid").val(id);
         $("#imgdata").val("");
-        //ajax获取商机的内容
-        $.get('/business/'+id,function(data,status){
-            $("#title").val(data.title);
-            $("#content").val(data.content);
-            $("#tag").find("option[value="+data.tag+"]").attr("selected",true);
-            $("#contact").val(data.contact);
-            $("#phone").val(data.phone);
-            $("#etype").find("option[value="+data.type+"]").attr("selected",true);
-            $("#area").val(data.tags);
-            $("#endtime").val(data.endtime);
-        });
+        $("#title").val(children.eq(0).text());
+        $("#content").val(children.eq(1).text());
+        $("#tag").find("option[text="+children.eq(3).text()+"]").attr("selected",true);
+        $("#contact").val(children.eq(8).text());
+        $("#phone").val(children.eq(7).text());
+        $("#etype").find("option[text="+children.eq(3).text()+"]").attr("selected",true);
+        $("#area").val(children.eq(6).text());
+        $("#endtime").val(new Date(children.eq(5).text()*1000).toLocaleDateString());
 
-        //获取商机图片
-        $.get("/business/imgshow/"+id,{},function(data,status) {
-            //首先先将图片div清空避免出现未刷新再次加载
-            $(".notem").remove();
-            var gallery;
-            //动态根据获得的图片数量生成图片
-            for(var i=0;i<data[0].length;i++){
-            		//也许有的商机没有图片
-            		if (data[0][i]) {
-                        $("#imgdata").val(data[1]);
-            			gallery='<li class="notem"> <div class="gallery text-center"> <img src="'+data[0][i]+'" class="img"> </div> <input type="file" name="file" class="pic" data-id="'+data[2]+'" pic-id="'+i+'"> </li>';
-            			$("#addforgood").before(gallery);
-            		}
-            }
-            //生成删除按钮
-            for(var j=0;j<($(".notem").length);j++){
-                $(".notem").eq(j).prepend('<button type="button" class="delpic btn btn-xs btn-danger" title="删除">x</button>');
-            }
-        });
+        //商机图片
+        var imgstr = children.get(2).innerHTML;
+        var imgs = imgstr.split("#@#");
+        $(".notem").remove();
+        var gallery;
+        for(var i=0;i<imgs.length;i++){
+        		//也许有的商机没有图片
+        		if (imgs[i]) {
+                 $("#imgdata").val(imgstr);
+        			gallery='<li class="notem"> <div class="gallery text-center"> <img src="'+imgs[i]+'" class="img"> </div> <input type="file" name="file" class="pic" data-id="'+id+'" pic-id="'+i+'"> </li>';
+        			$("#addforgood").before(gallery);
+        		}
+        }
+        //生成删除按钮
+        for(var j=0;j<$(".notem").length;j++){
+            $(".notem").eq(j).prepend('<button type="button" class="delpic btn btn-xs btn-danger" title="删除">x</button>');
+        }
+    });
+    
+  //删除按钮
+    $(".del").click(function(){
+        if(confirm('确定要删除这条商机吗？')){
+            var o=$(this);
+            var id=o.attr("data-id");
+            $.ajax({
+                url: "/business/"+id,
+                type: 'DELETE',//部分浏览器支持
+                success: function(result) {
+                		console.log(result);
+                    if(result.indexOf('成功')!=-1){
+                    		alert(result);
+                    		o.parents('tr').remove();
+                    }
+                }
+            });
+        }
     });
 
     //当gallery模块点击的时候执行事件转移
@@ -215,7 +197,7 @@ $(function(){
         return url ;
     }
 
-    //单点击添加图片时执行
+    //添加一个file框
     $(".addpic").click(function(){
         //获得该商机的id
         var id=$("#bid").val();
@@ -230,22 +212,6 @@ $(function(){
         }
     });
 
-    //删除按钮
-    $(".del").click(function(){
-        if(confirm('确定要删除吗？')){
-            var o=$(this);
-            var id=o.attr("data-id");
-            //ajax进行删除商机
-            $.ajax({
-                url: "/business/"+id,
-                type: 'DELETE',
-                success: function(result) {
-                    alert(result);
-                    o.parents('tr').remove();
-                }
-            });
-        }
-    });
     /**
      * 广告推送与取消推送
      */

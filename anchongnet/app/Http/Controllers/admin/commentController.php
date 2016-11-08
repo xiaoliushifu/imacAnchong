@@ -4,10 +4,10 @@ namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Community_comment;
-
+use Gate;
+use DB;
 /**
 *   该控制器包含了聊聊评论模块的操作
 */
@@ -27,6 +27,11 @@ class commentController extends Controller
     public function index(Request $request)
     {
         $chat=$request['chat'];
+        //验证所属关系
+        $data = DB::table('anchong_community_release')->where('chat_id',$chat)->get();
+        if (!$data || Gate::denies('comres',$data)) {
+            return redirect('/release');
+        }
         $datas=$this->comment->Chat($chat)->paginate(30);
         return view("admin/release/comment")->with("datas",$datas);
     }
@@ -94,8 +99,12 @@ class commentController extends Controller
      */
     public function destroy($id)
     {
-        $data=$this->comment->find($id);
-        $data->delete();
+        $com=$this->comment->find($id);
+        $data = DB::table('anchong_community_release')->where('chat_id',$com->chat_id)->get();
+        if (!$data || Gate::denies('comres',$data)) {
+            return 'N';
+        }
+        $com->delete();
         return "删除成功";
     }
 }

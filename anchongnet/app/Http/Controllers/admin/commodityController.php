@@ -9,6 +9,7 @@ use App\Goods;
 use App\Shop;
 use Auth;
 use DB;
+use Cache;
 
 use OSS\OssClient;
 use OSS\Core\OssException;

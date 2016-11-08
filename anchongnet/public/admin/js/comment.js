@@ -22,12 +22,15 @@ $(function(){
     $(".del").click(function(){
         if(confirm("你确定要删除吗？")){
             var id=$(this).attr("data-id");
+            var o=$(this);
             $.ajax({
                 url: '/comment/'+id,
                 type:'DELETE',
-                success:function(result){
-                    alert(result);
-                    location.reload();
+                success:function(res){
+                    console.log(res)
+                    if(res.indexOf('成功')!=-1){
+                    		o.parents('tr').remove();
+                    }
                 }
             });
         }
