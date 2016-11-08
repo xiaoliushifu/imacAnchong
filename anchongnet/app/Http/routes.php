@@ -27,7 +27,7 @@
 
 Route::group(['domain' => 'api.anchong.net'], function () {
     //网易云信注册机
-    Route::post('/live/livestate','Api\Live\LiveController@livestate');
+    Route::post('/live/regnetease','Api\Live\LiveController@regnetease');
     //商品检索
     Route::post('/goods/goodssearch','Api\Goods\GoodsController@goodssearch');
     //智能提示
@@ -363,8 +363,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/live/mylivelist','Api\Live\LiveController@mylivelist');
         //重播删除
         Route::post('/live/dellive','Api\Live\LiveController@dellive');
-        //网易云信注册机
-        Route::post('/live/regnetease','Api\Live\LiveController@regnetease');
+        //网易云信状态改变
+        Route::post('/live/livestate','Api\Live\LiveController@livestate');
 
     });
 });
