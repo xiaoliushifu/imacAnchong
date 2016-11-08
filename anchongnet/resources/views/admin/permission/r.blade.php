@@ -47,7 +47,7 @@
 	<div class="content-wrapper">
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
-			<h1>角色设置</h1>
+			<h1>角色设置<small>已开通商铺的用户除外</small></h1>
 		</section>
 
 		<!-- Main content -->
@@ -58,18 +58,37 @@
 						<div class="box-body">
 						<form action="/permission/role" method="get" class="form-horizontal form-inline f-ib">
 						     <input type="tel" name="phone"  placeholder="电话" class="form-control input-sm" value="{{$datacol['args']['phone']}}">&nbsp;
+						     <select name="ur" >
+						     	<option value="0">身份筛选</option>
+						     	<option value="3">管理员</option>
+						     	<option value="2">认证会员</option>
+						     	<option value="1">普通会员</option>
+						     </select>
 						     <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 						 </form>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
 									<th>ID</th>
 									<th>电话</th>
+									<th>身份</th>
 									<th>操作</th>
 								</tr>
 								@foreach ($datacol['datas'] as $data)
 								<tr>
 								  <td align="center">{{$data['users_id']}}</td>
 								  <td align="center">{{$data['phone']}}</td>
+								  <td align="center" ur="{{$data['users_rank']}}"><?php
+								    switch ($data['users_rank']) {
+								        case 1:
+								            echo '普通用户';
+								            break;
+								        case 2:
+								            echo '认证用户';
+								            break;
+								        case 3:
+								            echo '管理员';
+								    }
+								  ?></td>
 								  <td align="center">
 								      <button type="button" class="view btn btn-default btn-xs" uid="{{$data['users_id']}}" data-toggle="modal" data-target="#myModal">角色设置</button>
 								  </td>
@@ -154,8 +173,8 @@ $(function(){
 					}
 					$("#myrole").append(con);
 				}
-		})
-	})
+		});
+	});
 
 	/**
 	* 使用ajax提交，关键两点：
@@ -177,6 +196,7 @@ $(function(){
                 'roles':a.join()                        //当为某用户清除角色身份时，将是空字符串
                 },
             success: function (data) {
+                console.log(data);
                 alert(data);
             },
             error: function(xhr,error){

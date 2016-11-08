@@ -28,15 +28,27 @@ class Defpermission
         //行为权限定义
         foreach ($permissions as $permission) {
             $gate->define($permission->name, function($user) use ($permission) {
+                $u = Users::where('users_id', $user->users_id)->first();
+                //开通商铺的第三方不受限
+                if ($u->sid > 0) {
+                    return true;
+                }
+                //其他人需要赋予权限才行
                 return $user->hasPermission($permission);
             });
         }
         //商铺资源权限定义
         $gate->define('shopres', function($user, $resource) {
+            if ($user->user_rank == 3) {
+                if($user->users_id==1) {
+                    return true;
+                }
+                return false;
+            }
             $u = Users::where('users_id', $user->users_id)->first();
-            //dd($u,$user,$u->sid,$resource);
             return $u->sid == $resource->sid;
         });
+        
         //商机,社区资源权限定义
         $gate->define('comres', function($user, $resource) {
             return $user->users_id == $resource->users_id;

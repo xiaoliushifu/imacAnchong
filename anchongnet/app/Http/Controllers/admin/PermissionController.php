@@ -7,9 +7,7 @@ use App\Role;
 use App\Permission;
 use App\Users;
 use DB;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Pagination\Paginator;
 
 /**
 *   该控制器包含了权限模块的操作
@@ -58,7 +56,8 @@ class PermissionController extends Controller
     }
 
     /**
-     *执行 权限添加 的提交处理 insert permission
+     *执行 权限 添加的提交处理 insert permission
+     *创建完权限需要把权限授予某个角色才能使用。
      * @param $request('label'分类,'name'名字,'description'描述)
      */
 
@@ -76,7 +75,7 @@ class PermissionController extends Controller
 
     /**
      * 创建新角色页面 create role
-     *
+     *创建完角色需要为其分配权限后才能使用
      * @return \Illuminate\Http\Response
      */
     public function getCr(Request $req)
@@ -111,15 +110,18 @@ class PermissionController extends Controller
      */
     public function getRole(Request $req)
     {
-        //来个用户模型
         $this->user = new Users();
-        if (!$phone = $req->get('phone')) {
-            $datas=$this->user->paginate(8);
+        $phone = $req->get('phone');
+        $ur = $req->get('ur');
+        if ($phone) {
+            //sid=0代表尚未开通商铺的用户
+            $datas=$this->user->where('sid',0)->Phone($phone)->orderby('users_rank','desc')->paginate(8);
+        } elseif (in_array($ur,[1,2,3])) {
+            $datas=$this->user->where('sid',0)->where('users_rank',$ur)->orderby('users_rank','desc')->paginate(8);
         } else {
-            $datas=$this->user->Phone($phone)->paginate(8);
+            $datas=$this->user->orderby('users_rank','desc')->paginate(8);
         }
         $args=array("phone"=>$phone);
-
         return view('admin/permission/r',array("datacol"=>compact("datas","args")));
     }
 
@@ -135,8 +137,9 @@ class PermissionController extends Controller
         $tmp=array();
         //获取指定角色的权限,默认选中
         $res1 = DB::table('anchong_permission_role as pr')->join('anchong_permissions as p','pr.permission_id','=','p.id')->where('pr.role_id','=',$rid)->get(array('p.id','p.label'));
-        foreach($res1 as $v)
+        foreach ($res1 as $v) {
             $tmp[]=$v->id;
+        }
         //其他权限,用于待选
        $res2 = DB::table('anchong_permissions')->whereNotIn('id',$tmp)->get(array('id','label'));
        return array($res1,$res2);
@@ -195,21 +198,43 @@ class PermissionController extends Controller
     public function postAddrole(Request $req)
     {
         $uid=$req->get('uid');
+        //设置为管理员身份,不能是申请了店铺的人。
+        $res = DB::table('anchong_shops')->where('users_id',$uid)->first();
+        if ($res) {
+            return '该用户已申请商铺，不可设置为管理员';
+        }
         $data=array();
-        foreach(explode(',',$req->get('roles')) as $v){
-            if($v)
+        foreach (explode(',',$req->get('roles')) as $v) {
+            if ($v) {
                 $data[] = ['role_id'=>$v,'user_id'=>$uid];
+            }
         }
         try{
             DB::beginTransaction();
             //先删除，后插入
             DB::table('anchong_role_user')->where('user_id',$uid)->delete();
             DB::table('anchong_role_user')->insert($data);
+            //有角色设置，则设置为管理员
+            if ($data) {
+                DB::table('anchong_users_login')->where('users_id',$uid)->update(['user_rank'=>3]);
+                DB::table('anchong_users')->where('users_id',$uid)->update(['users_rank'=>3]);
+            } else {
+                //撤销管理员身份时，查看作为普通用户时是否已经认证
+                $cert = DB::table('anchong_users')->where('users_id',$uid)->pluck('certification');
+                if ($cert && $cert[0]==3){
+                    DB::table('anchong_users_login')->where('users_id',$uid)->update(['user_rank'=>2]);
+                    DB::table('anchong_users')->where('users_id',$uid)->update(['users_rank'=>2]);
+                } else {
+                    DB::table('anchong_users_login')->where('users_id',$uid)->update(['user_rank'=>1]);
+                    DB::table('anchong_users')->where('users_id',$uid)->update(['users_rank'=>1]);
+                }
+                //登出$uid
+            }
             DB::commit();
-            echo "角色设置成功";
+           return "角色设置成功";
             \Cache::forget('pcall');
         }catch (\Exception $e){
-            echo "角色设置有误";
+            return "角色设置有误".$e->getMessage();
         }
     }
 }

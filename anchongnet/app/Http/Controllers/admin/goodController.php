@@ -51,10 +51,20 @@ class goodController extends Controller
         $this->endpoint=env('ALIOSS_ENDPOINT');
         $this->bucket=env('ALIOSS_BUCKET');
 
-        //通过Auth获取当前登录用户的id
-        $this->uid=Auth::user()['users_id'];
-        if (!is_null($this->uid)){//通过用户获取商铺id
-            $this->sid=Shop::Uid($this->uid)->sid;
+        //通过Auth获取当前登录用户信息
+        $user = Auth::user();
+        $this->uid = $user->users_id;
+        //管理员身份，仅仅操作安虫自营商铺
+        if ($user->user_rank == 3) {
+            $this->sid = 1;
+        } else {
+            //是否开通商铺
+            $shop = Shop::where('users_id',$this->uid)->first();
+            if ($shop) {
+                $this->sid=$shop->sid;
+            } else {
+                return null;
+            }
         }
     }
 
@@ -259,11 +269,8 @@ class goodController extends Controller
     public function show($id)
     {
         $data=$this->Goods_specifications->find($id);
-        /*
-        *   判断是否是本人或者安虫商城操作该商铺的商品
-        */
-        if($this->sid != 1 && $this->sid != $data->sid){
-            return NULL;
+        if (Gate::denies('shopres',$data)) {
+            return null;
         }
         return $data;
     }
@@ -277,11 +284,8 @@ class goodController extends Controller
     public function edit($id)
     {
         $data=$this->Goods_specifications->find($id);
-        /*
-        *   判断是否是本人或者安虫商城操作该商铺的商品
-        */
-        if($this->sid != 1 && $this->sid != $data->sid){
-            return NULL;
+        if (Gate::denies('shopres',$data)) {
+            return null;
         }
         return $data;
     }
@@ -297,11 +301,8 @@ class goodController extends Controller
     {
         DB::beginTransaction();
         $data=$this->Goods_specifications->find($id);
-        /*
-        *   判断是否是本人或者安虫商城操作该商铺的商品
-        */
-        if($this->sid != 1 && $this->sid != $data->sid){
-            return redirect()->back();
+        if (Gate::denies('shopres',$data)) {
+            return null;
         }
         //$data->cat_id=$request->midselect;
         $data->goods_name=$request->spetag;
@@ -369,6 +370,10 @@ class goodController extends Controller
         $aid = Requester::get('aid');
         $bid = Requester::get('bid');
         try{
+            $data = DB::table('anchong_goods_specifications')->where('gid',$aid)->get();
+            if (!$data || Gate::denies('shopres',$data)) {
+                return null;
+            }
             DB::beginTransaction();
             $res['spe'] = DB::table('anchong_goods_specifications')->where('gid',$aid)->delete();
             $res['stock'] = DB::table('anchong_goods_stock')->where('gid',$aid)->delete();

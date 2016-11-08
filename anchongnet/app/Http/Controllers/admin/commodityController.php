@@ -9,6 +9,7 @@ use App\Goods;
 use App\Shop;
 use Auth;
 use DB;
+use Gate;
 use Cache;
 
 use OSS\OssClient;
@@ -31,11 +32,24 @@ class commodityController extends Controller
     public function __construct()
     {
         //通过Auth获取当前登录用户的id
-        $this->uid=Auth::user()['users_id'];
-        $this->accessKeyId="HJjYLnySPG4TBdFp";
-        $this->accessKeySecret="Ifv0SNWwch5sgFcrM1bDthqyy4BmOa";
-        $this->endpoint="oss-cn-hangzhou.aliyuncs.com";
+        $this->accessKeyId=env('ALIOSS_ACCESSKEYId');
+        $this->accessKeySecret=env('ALIOSS_ACCESSKEYSECRET');
+        $this->endpoint=env('ALIOSS_ENDPOINT');
         $this->bucket="anchongres";
+        $user = Auth::user();
+        $this->uid = $user->users_id;
+        //管理员身份，仅仅操作安虫自营商铺
+        if ($user->user_rank == 3) {
+            $this->sid = 1;
+        } else {
+            //是否开通商铺
+            $shop = Shop::where('users_id',$this->uid)->first();
+            if ($shop) {
+                $this->sid=$shop->sid;
+            } else {
+                return null;
+            }
+        }
     }
 
     /**
@@ -48,12 +62,6 @@ class commodityController extends Controller
         $this->goods=new Goods();
         $keyName=$req->get('keyName');
         $keyName2=$req->get('keyName2');
-        if (!is_null($this->uid)) {//通过用户获取商铺id
-            if (!$shop = Shop::Uid($this->uid)) {
-                return "你还没有开通商铺";
-            }
-            $this->sid=$shop->sid;
-        }
         if ($keyName2) {
             $datas=$this->goods->where('sid','=',$this->sid)->where('goods_id',$keyName2)->paginate(1);
         } elseif ($keyName) {
@@ -72,8 +80,8 @@ class commodityController extends Controller
      */
     public function create()
     {
-        if (!is_null($this->uid)){//通过用户获取商铺id
-            $this->sid=Shop::Uid($this->uid)->sid;
+        if (Gate::denies('create-comm')) {
+            return back();
         }
         return view("admin/good/create_commodity",array('sid'=>$this->sid));
     }
@@ -86,14 +94,14 @@ class commodityController extends Controller
      */
     public function store(\App\Http\Requests\CommodityRequest $request)
     {
+        if (Gate::denies('create-comm')) {
+            return back();
+        }
         /**
          * 因为要向多个表中插入数据，
          * 所以需要开启事务处理
          * */
         DB::beginTransaction();
-        if (!is_null($this->uid)){//通过用户获取商铺id
-            $this->sid=Shop::Uid($this->uid)->sid;
-        }
         //替换，多字节字符替换
         $str = str_replace(array(',','，',';','；','.','。'),' ',$request->keyword);
         //拆分，按照空白拆分
@@ -172,16 +180,9 @@ class commodityController extends Controller
      */
     public function show($id)
     {
-        if (!is_null($this->uid)){
-            //通过用户获取商铺id
-            $this->sid=Shop::Uid($this->uid)->sid;
-        }
         $this->goods=new Goods();
         $data=$this->goods->where('goods_id',$id)->get(array('keyword','type','desc','sid'));
-        /*
-        *   判断是否是本人或者安虫商城操作该商铺的商品
-        */
-        if($this->sid != 1 && $this->sid != $data[0]['sid']){
+        if (!$data || Gate::denies('shopres',$data[0])) {
             return null;
         }
         //商品类型转码
@@ -202,16 +203,12 @@ class commodityController extends Controller
      */
     public function edit($id)
     {
-        if (!is_null($this->uid)){
-            //通过用户获取商铺id
-            $this->sid=Shop::Uid($this->uid)->sid;
-        }
         $this->goods=new Goods();
         $data=$this->goods->find($id);
         /*
-        *   判断是否是本人或者安虫商城操作该商铺的商品
+        *   该条商品资源属主是否是当前用户
         */
-        if($this->sid != 1 && $this->sid != $data->sid){
+        if (Gate::denies('shopres',$data)) {
             return null;
         }
         return $data;
@@ -226,17 +223,10 @@ class commodityController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!is_null($this->uid)){
-            //通过用户获取商铺id
-            $this->sid=Shop::Uid($this->uid)->sid;
-        }
         $this->goods=new Goods();
         $data=$this->goods->find($id);
-        /*
-        *   判断是否是本人或者安虫商城操作该商铺的商品
-        */
-        if($this->sid != 1 && $this->sid != $data->sid){
-            return redirect()->back();
+        if (Gate::denies('shopres',$data)) {
+            return null;
         }
         $data->title=$request->title;
         $data->desc=$request->description;
@@ -291,6 +281,11 @@ class commodityController extends Controller
         $id = $req->get('npx');
         try{
             DB::beginTransaction();
+            
+            $data = DB::table('anchong_goods')->where('goods_id',$id)->get();
+            if (!$data || Gate::denies('shopres',$data)) {
+                return null;
+            }
             //货品相关
             $gid = DB::table('anchong_goods_specifications')->where('goods_id',$id)->pluck('gid');
             $res['stock'] = DB::table('anchong_goods_stock')->whereIn('gid',$gid)->delete();
