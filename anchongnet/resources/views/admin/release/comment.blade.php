@@ -51,10 +51,10 @@
 						<div class="box-body">
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
-									<th>评论人</th>
-									<th>内容</th>
-									<th>评论时间</th>
-									<th>操作</th>
+									<th width="5%">评论人</th>
+									<th width="50%">内容</th>
+									<th width="10%">评论时间</th>
+									<th width="5%">操作</th>
 								</tr>
 								@foreach ($datas as $data)
 								<tr>

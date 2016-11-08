@@ -14,7 +14,7 @@ class Community_release extends Model
     //不允许被赋值
     protected $guarded = ['chat_id'];
     //定义主键
-    protected $primaryKey = 'chat_id';
+    public  $primaryKey = 'chat_id';
 
     /*
     *   该方法是添加聊聊信息

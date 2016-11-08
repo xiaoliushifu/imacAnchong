@@ -67,29 +67,27 @@
 								标签类型：
 								<select class="form-control" name="tag">
 									<option value="" id="check">请选择</option>
-									<option value="闲聊" id="tag0">闲聊</option>
-									<option value="问问" id="tag1">问问</option>
-									<option value="活动" id="tag2">活动</option>
+									<option value="闲聊">闲聊</option>
+									<option value="问问">问问</option>
+									<option value="活动" >活动</option>
 								</select>
 						      <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 						    </form>
-		                    <a href="{{ ($all)? '/releases' : '/release'  }}" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
 									<th width="15%">标题</th>
-									<th width="55%">内容</th>
+									<th width="50%">内容</th>
 									<th width="15%">标签</th>
+									<th width="5%">评论</th>
 									<th width="15%">操作</th>
 								</tr>
 								@foreach ($datacol['datas'] as $data)
 								<tr>
 								    <td align="center">{{$data['title']}}</td>
-									<td align="center">
-										<?php
-										    echo $data['content'];
-										?>
-									</td>
+									<td align="center">{{$data['content']}}</td>
 									<td align="center">{{$data['tags']}}</td>
+									<td align="center">{{$data['comnum']}}</td>
+									<td align="center" class="hidden">{{$data['img']}}</td>
 									<td align="center">
 										<a href="/comment?chat={{$data['chat_id']}}" target="_blank" class="btn btn-primary btn-xs">查看评论</a>
 										<button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['chat_id']}}" data-uid="{{$data['users_id']}}" data-toggle="modal" data-target="#myModal">编辑</button>
@@ -114,7 +112,7 @@
 		</section>
 		<!-- /.content -->
 	</div>
-	<!-- Modal -->
+	{{--编辑框--}}
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -142,7 +140,7 @@
 						<div class="form-group text-center">
 							<label class="col-sm-3 control-label"></label>
 							<div class="col-sm-3">
-								<button type="button" class="btn btn-info" id="save">保存</button>
+								<button type="submit" class="btn btn-info">更新</button>
 							</div>
 						</div><!--end form-group text-center-->
 					</form>
@@ -176,23 +174,5 @@
 <script src="/admin/dist/js/app.min.js"></script>
 <script src="/admin/js/jquery.form.js"></script>
 <script src="/admin/js/release.js"></script>
-<?php
-if(isset($datacol['args']['tag'])){
-	switch ($datacol['args']['tag']){
-		case "":
-			echo '<script>$(function(){$("#check").attr("selected",true)})</script>';
-			break;
-		case "闲聊":
-			echo '<script>$(function(){$("#tag0").attr("selected",true)});</script>';
-			break;
-		case "问问":
-			echo '<script>$(function(){$("#tag1").attr("selected",true)});</script>';
-			break;
-		case "活动":
-		    echo '<script>$(function(){$("#tag2").attr("selected",true)});</script>';
-		    break;
-	}
-}
-?>
 </body>
 </html>

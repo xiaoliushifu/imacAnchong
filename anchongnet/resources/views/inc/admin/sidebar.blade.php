@@ -51,6 +51,16 @@
     				<li><a href="/beans"><i class="fa fa-circle-o"></i>虫豆充值</a></li>
     			</ul>
     		</li>
+    		<li class="treeview" id="treelive">
+			<a href="#">
+				<i class="fa fa-laptop"></i>
+				<span>直播管理</span>
+				<i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="treeview-menu">
+				<li><a href="/live"><i class="fa fa-circle-o"></i>直播列表</a></li>
+			</ul>
+		</li>
     		<li class="treeview" id="treefeedback">
 			<a href="#">
 				<i class="fa fa-edit"></i>
@@ -163,16 +173,6 @@
 				@endif
 				<li><a href="/business"><i class="fa fa-circle-o"></i>我的商机</a></li>
 				<li><a href="/business/create"><i class="fa fa-circle-o"></i>发布商机</a></li>
-			</ul>
-		</li>
-		<li class="treeview" id="treelive">
-			<a href="#">
-				<i class="fa fa-laptop"></i>
-				<span>直播管理</span>
-				<i class="fa fa-angle-left pull-right"></i>
-			</a>
-			<ul class="treeview-menu">
-				<li><a href="/live"><i class="fa fa-circle-o"></i>直播列表</a></li>
 			</ul>
 		</li>
 	</ul>

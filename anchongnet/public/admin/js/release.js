@@ -4,56 +4,45 @@
 $(function(){
     //异步编辑发布
     $(".edit").click(function(){
+    		var tmp ='';
         //获取社区ID
         var id=$(this).attr("data-id");
+        var children=$(this).parents('tr').children();
         //先将编辑的div清空
         $("#imgcontent").empty();
         //赋值社区ID
         $('#chat_id').val(id);
-        //定义表单的提交地址
+        //组装表单的提交地址
         $("#updateform").attr("action","/release/"+id);
-        //ajax获取该社区的内容
-        $.get("/release/"+id+"/edit",function(data,status){
-            $("#title").val(data.title);
-            $('#content').val(data.content);
-        })
+        $("#title").val(children.eq(0).text());
+        $('#content').val(children.eq(1).text());
+        var imgstr = children.eq(4).text();
+        var imgs = imgstr.split('#@#');
         //获取社区图片
-        $.get("/community/imgshow/"+id,function(data,status){
-            //判断是否有图片
-            if(data[0][0]){
-                //将所有图片赋值到一个imgdata字段
-                $('#imgdata').val(data[1]);
-                //判断有多少图片
-                for(var b=0;b < data[0].length;b++){
-                    comtent='<td><form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdates'+b+'" method="post" enctype="multipart/form-data"><div id="method"><input type="hidden" name="_method" value="PUT"></div><div class="gallery text-center"><img src="'+data[0][b]+'" style="height:100px;width:100px;" class="imgcontent'+b+'"></div><input type="file" name="file" class="newupdateimgs'+b+'"></form></td>';
-                    $("#imgcontent").append(comtent);
-                }
+        if(imgs[0]){
+            $('#imgdata').val(imgstr);
+            //判断有多少图片
+            for(var b = 0; b < imgs.length; b++){
+            		if (imgs[b]) {
+            			tmp='<td><form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdates'+b+'" method="post" enctype="multipart/form-data"><div id="method"><input type="hidden" name="_method" value="PUT"></div><div class="gallery text-center"><img src="'+imgs[b]+'" style="height:100px;width:100px;" class="imgcontent'+b+'"></div><input type="file" name="file" class="newupdateimgs'+b+'"></form></td>';
+            			$("#imgcontent").append(tmp);
+            		}
             }
-        })
+        }
     });
-    //编辑模块的保存
-    $("#save").click(function(){
-        $("#updateform").ajaxSubmit({
-            //使用了restfulapi
-            type: 'put',
-            success: function (data) {
-                alert(data);
-                location.reload();
-            },
-        });
-    });
-
+    
     //删除发布
     $(".del").click(function(){
-        if(confirm("确定要删除吗？")){
+        if(confirm("确定要删除这个聊聊吗？")){
             var o=$(this);
             var id=o.attr("data-id");
             $.ajax({
                 url: '/release/'+id,
                 type:'DELETE',
                 success:function(result){
-                    alert(result);
+                		console.log(result);
                     if (result.indexOf('成功') != -1){
+                    		alert(result);
                     		o.parents('tr').remove();
                     }
                 }

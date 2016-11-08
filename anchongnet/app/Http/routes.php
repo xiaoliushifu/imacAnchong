@@ -550,27 +550,9 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
             //权限管理 隐式路由
             Route::controller('/permission','admin\PermissionController');
-            /*
-            *   后台社区
-            */
-            //后台社区编辑获取图片
-            Route::get('/community/imgshow/{num}','admin\releaseController@imgshow');
-
-            /*
-            *   后台商机
-            */
-            //后台商机编辑获取图片
-            Route::get('/business/imgshow/{num}','admin\businessController@imgshow');
-
-            /*
-            *   后台推送
-            */
             //后台推送
             Route::resource('/propel','admin\Propel\PropelController');
 
-            /*
-            *   后台意见反馈
-            */
             //后台意见反馈查看
             Route::get('/feedback/show','admin\Feedback\FeedbackController@show');
             //后台意见图片查看

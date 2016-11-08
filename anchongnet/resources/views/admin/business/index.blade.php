@@ -75,16 +75,15 @@
 						    <form action="{{ ($all)? '/businesss':'/business' }}" method="get" class="form-horizontal form-inline f-ib">
 								商机类型：
 								<select class="form-control" name="type">
-									<option value="" id="check">请选择</option>
-									<option value="1" id="type1">发布工程</option>
-									<option value="2" id="type2">承接工程</option>
-									<option value="3" id="type3">发布人才</option>
-									<option value="4" id="type4">招聘人才</option>
-									<option value="5" id="type5">找商品</option>
+									<option value="0" >请选择</option>
+									<option value="1">发布工程</option>
+									<option value="2">承接工程</option>
+									<option value="3">发布人才</option>
+									<option value="4">招聘人才</option>
+									<option value="5">找商品</option>
 								</select>
 						      <button type="submit" class="btn btn-primary btn-sm" id="filter">筛选</button>
 						    </form>
-		                    <a href="{{ ($all)? '/businesss' : '/business' }}" class="btn btn-default btn-sm unplay f-ib" role="button">取消筛选</a>
 							<table id="example1" class="table table-bordered table-striped">
 								<tr>
 									<th>标题</th>
@@ -96,6 +95,12 @@
 								@foreach ($datacol['datas'] as $data)
 								<tr>
 								    <td align="center">{{$data['title']}}</td>
+								    <td align="center" class="hidden">{{$data['content']}}</td>
+								    <td align="center" class="hidden">{{$data['img']}}</td>
+								    <td align="center" class="hidden">{{$data['tag']}}</td>
+								    <td align="center" class="hidden">{{$data['created_at']}}</td>
+								    <td align="center" class="hidden">{{$data['endtime']}}</td>
+								    <td align="center" class="hidden">{{$data['tags']}}</td>
 									<td align="center">{{$data['phone']}}</td>
 									<td align="center">{{$data['contact']}}</td>
 									<td align="center">
@@ -203,10 +208,6 @@
 							<td align="left" id="vcreate"></td>
 						</tr>
 						<tr>
-							<td align="right">更新时间</td>
-							<td align="left" id="vupdate"></td>
-						</tr>
-						<tr>
 							<td align="right">区域</td>
 							<td align="left" id="varea"></td>
 						</tr>
@@ -219,7 +220,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- Modal -->
+	{{--商机编辑--}}
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -532,29 +533,5 @@
 <script src="/admin/dist/js/app.min.js"></script>
 <script src="/admin/js/jquery.form.js"></script>
 <script src="/admin/js/business.js"></script>
-<?php
-if(isset($datacol['args']['type'])){
-	switch ($datacol['args']['type']){
-		case "":
-			echo '<script>$(function(){$("#check").attr("selected",true)})</script>';
-			break;
-		case 1:
-			echo '<script>$(function(){$("#type1").attr("selected",true)});</script>';
-			break;
-		case 2:
-			echo '<script>$(function(){$("#type2").attr("selected",true)});</script>';
-			break;
-		case 3:
-		    echo '<script>$(function(){$("#type3").attr("selected",true)});</script>';
-		    break;
-		case 4:
-			echo '<script>$(function(){$("#type4").attr("selected",true)});</script>';
-			break;
-		case 5:
-			echo '<script>$(function(){$("#type5").attr("selected",true)});</script>';
-			break;
-	}
-}
-?>
 </body>
 </html>

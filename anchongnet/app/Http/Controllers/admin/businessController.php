@@ -5,11 +5,11 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use Request as Requester;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Business;
 use Auth;
 use DB;
+use Gate;
 
 use OSS\OssClient;
 use OSS\Core\OssException;
@@ -43,38 +43,33 @@ class businessController extends Controller
      */
     public function index()
     {
-        $keyType=Requester::input("type");
+        $kT=Requester::input("type");
         //判断有无筛选标签
-        if($keyType==""){
-            //查出该用户所有商机
+        if ($kT) {
+            $datas=$this->business->User($this->uid)->Type($kT)->orderBy("created_at","desc")->paginate(8);
+        } else {
             $datas=$this->business->User($this->uid)->orderBy("created_at","desc")->paginate(8);
-        }else{
-            //根据标签查出该用户所有商机
-            $datas=$this->business->User($this->uid)->Type($keyType)->orderBy("created_at","desc")->paginate(8);
         }
-        $args=array("user"=>$this->uid,"type"=>$keyType);
+        $args=array("type"=>$kT);
         //返回数据,all代表是否是查询所有商机
         return view('admin/business/index',array("datacol"=>compact("args","datas"),'all'=>"0"));
     }
 
     /**
      * 所有商机查看
-     *
+     *从路由层面验证
      * @return \Illuminate\Http\Response
      */
     public function businesss()
     {
-        $keyType=Requester::input("type");
+        $kT=Requester::input("type");
         //判断有无筛选标签
-        if($keyType==""){
-            //查出所有商机
+        if ($kT) {
+            $datas=$this->business->Type($kT)->orderBy("created_at","desc")->paginate(8);
+        } else {
             $datas=$this->business->orderBy("created_at","desc")->paginate(8);
-        }else{
-            //根据标签查出所有商机
-            $datas=$this->business->Type($keyType)->orderBy("created_at","desc")->paginate(8);
         }
-        $args=array("user"=>$this->uid,"type"=>$keyType);
-        //返回数据,all代表是否是查询所有商机
+        $args=array("type"=>$kT);
         return view('admin/business/index',array("datacol"=>compact("args","datas"),'all'=>"1"));
     }
 
@@ -139,6 +134,9 @@ class businessController extends Controller
     public function show($id)
     {
         $data=$this->business->find($id);
+        if (Gate::denies('comres',$data)) {
+            return back();
+        }
         $data->img=trim($data->img,"#@#");
         $data->endtime=date('Y-m-d',$data->endtime);
         return $data;
@@ -153,6 +151,9 @@ class businessController extends Controller
     public function edit($id)
     {
         $data=$this->business->find($id);
+        if (Gate::denies('comres',$data)) {
+            return back();
+        }
         return $data;
     }
 
@@ -166,6 +167,9 @@ class businessController extends Controller
     public function update(Request $request, $id)
     {
         $data=$this->business->find($id);
+        if (Gate::denies('comres',$data)) {
+            return back();
+        }
         $data->title=$request['title'];
         $data->content=$request['content'];
         $data->tag=$request['tag'];
@@ -177,7 +181,7 @@ class businessController extends Controller
         $data->endtime=strtotime($request['endtime']);
         $data->created_at = date('Y-m-d H:i:s',time());
         $data->save();
-        return redirect()->back();
+        return back();
     }
 
     /**
@@ -189,6 +193,9 @@ class businessController extends Controller
     public function destroy($id)
     {
         $data=$this->business->find($id);
+        if (Gate::denies('comres',$data)) {
+            return back();
+        }
         $data->delete();
         return "删除成功";
     }
@@ -262,27 +269,6 @@ class businessController extends Controller
             $id='';
         }
         return response()->json(['message' => $message, 'isSuccess' => $isSuccess,'url'=>$url,'imgs'=>$imgs]);
-    }
-
-    /**
-    *   商机图片查看
-    *
-    * @param  int  $id商机ID
-    * @return \Illuminate\Http\Response
-    */
-    public function imgshow($id)
-    {
-        //创建图片查询的orm模型
-        $business=new \App\Business();
-        $data=$business->quertime('img','bid='.$id)->toArray();
-        //进行图片分隔操作
-        $img=trim($data[0]['img'],"#@#");
-        $img_arr=[];
-        //判断是否有图片
-        if(!empty($img)){
-            $img_arr=explode('#@#',$img);
-        }
-        return [$img_arr,$data[0]['img'],$id];
     }
 
     /**
