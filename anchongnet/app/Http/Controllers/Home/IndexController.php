@@ -10,6 +10,7 @@ use App\Information;
 use App\Usermessages;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
+use DB;
 
 /*
  * 前端首页控制器
@@ -20,6 +21,9 @@ class IndexController extends CommonController
     public function index(){
         $hot = Cache::tags('ihot')->remember('indexhot',600,function (){
             return Business::where('type', 1)->orderBy('created_at', 'desc')->take(5)->get();
+        });
+        $notice=Cache::tags('notice')->remember('indexnotice',600,function(){
+            return DB::table('anchong_notice')->where('content','!=',"")->orderBy('notice_id','asc')->get();
         });
         $talent = Cache::tags('italent')->remember('indextalent',600,function(){
             return Business::where('type',3)->orderBy('created_at','desc')->take(5)->get();
@@ -43,7 +47,7 @@ class IndexController extends CommonController
         $igoods = Cache::tags('igoods')->remember('igoods',600,function (){
             return Goods_type::take(4)->orderBy('created_at','desc')->get();
         });
-        return view('home.index',['ihot'=>$hot,'italent'=>$talent,'iinfo'=>$info,'iuserinfo'=>$userinfo,'icommunity'=>$community,'inav'=>$nav,'inactivity'=>$activity,'igoods'=>$igoods]);
+        return view('home.index',['ihot'=>$hot,'italent'=>$talent,'iinfo'=>$info,'iuserinfo'=>$userinfo,'icommunity'=>$community,'inav'=>$nav,'inactivity'=>$activity,'igoods'=>$igoods,'notice'=>$notice]);
 
     }
 }

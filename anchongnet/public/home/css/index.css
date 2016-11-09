@@ -202,11 +202,18 @@ h1{
 }
 .notice-info{
     color: #A941F1;
-    margin: 5px 10px;
+    margin: 0px 10px;
     border-radius: 5px;
-    padding: 25px 10px 25px 10px;
     background: url("../images/3.jpg");
 }
+
+.notice-info p{
+    align-content: center;
+    width: 90%;
+    height: 90%;
+    padding: 10px 10px;
+}
+
 .information{
     margin-top: 10px;
     height: 140px;

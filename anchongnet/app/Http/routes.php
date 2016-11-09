@@ -430,6 +430,8 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::resource('/signin','admin\SigninController');
                 //虫豆管理路由
                 Route::resource('/beans','admin\BeansController');
+                //公告管理路由
+                Route::resource('/notice','admin\NoticeController');
                 /*
                  *   后台广告
                  */

@@ -118,6 +118,7 @@
 			<ul class="treeview-menu">
 				<!-- <li><a href="#"><i class="fa fa-circle-o"></i>商机广告</a></li>
 				<li><a href="#"><i class="fa fa-circle-o"></i>商城广告</a></li> -->
+				<li><a href="/notice"><i class="fa fa-circle-o"></i>公告管理</a></li>
 				<li><a href="/advert/newsshow"><i class="fa fa-circle-o"></i>发布资讯</a></li>
 				<li><a href="/advert/newsindex"><i class="fa fa-circle-o"></i>资讯查看</a></li>
 				<li><a href="/propel"><i class="fa fa-circle-o"></i>信息推送</a></li>
