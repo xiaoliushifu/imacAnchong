@@ -27,10 +27,17 @@ class orderController extends Controller
     private $gl;
     public function __construct()
     {
-        //通过Auth获取当前登录用户的id
-        $this->uid=Auth::user()['users_id'];
-        if (!is_null($this->uid)){//通过用户获取商铺id
-            $this->sid=Shop::Uid($this->uid)->sid;
+        $user = Auth::user();
+        $this->uid = $user->users_id;
+        if ($user->user_rank == 3) {
+            $this->sid = 1;
+        } else {
+            $shop = Shop::where('users_id',$this->uid)->first();
+            if ($shop) {
+                $this->sid=$shop->sid;
+            } else {
+                return null;
+            }
         }
     }
 
