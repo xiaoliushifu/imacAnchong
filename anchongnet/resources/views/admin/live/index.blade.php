@@ -100,15 +100,19 @@
 										<td align="center">{{$data->nick}}</td>
 										<td align="center">{{$data->room_id}}</td>
 										<td align="center">
-											<button type="button" class="closes f-ib btn btn-danger btn-xs" data-id="{{$data->zb_id}}" data-usersid="{{$data->users_id}}">强制关闭直播
+											<button type="button" class="closes f-ib btn btn-danger btn-xs" data-id="{{$data->zb_id}}" data-usersid="{{$data->users_id}}">强制关闭
 											</button>
-											<button type="button" class="open f-ib btn btn-success btn-xs" data-id="{{$data->zb_id}}" data-usersid="{{$data->users_id}}">重新开启直播
+											<button type="button" class="open f-ib btn btn-success btn-xs" data-id="{{$data->zb_id}}" data-usersid="{{$data->users_id}}">重新开启
+											</button>
+											<button type="button" class="recommend f-ib btn btn-info btn-xs" data-id="{{$data->zb_id}}">直播顶置
+											</button>
+											<button type="button" class="cancel f-ib btn btn-warning btn-xs" data-id="{{$data->zb_id}}">取消顶置
 											</button>
 										</td>
 									</tr>
 								@endforeach
 								<tr>
-									<td colspan="8" align="center">
+									<td colspan="6" align="center">
 										<?php echo $datacol['datas']->render(); ?>
 									</td>
 								</tr>

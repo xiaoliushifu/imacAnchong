@@ -88,7 +88,8 @@ class LiveController extends Controller
         //对接收的数据进行验证
         $validator = Validator::make($param,
             [
-                'title' => 'required|between:2,120'
+                'title' => 'required|between:2,60',
+                'topic' => 'required|between:2,60'
             ]
         );
         //验证失败时返回错误信息
@@ -96,6 +97,8 @@ class LiveController extends Controller
 			$messages = $validator->errors();
 			if ($messages->has('title')) {
 			    return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'直播标题不能超过60个汉字起不小于2个字！']]);
+			}elseif ($messages->has('topic')) {
+			    return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData' => ['Message'=>'搜索关键词不能超过60个汉字起不小于2个字！']]);
 			}
 		}
 
@@ -141,7 +144,7 @@ class LiveController extends Controller
                     'room_url' => $PublishUrl,
                     'title'    => $param['title'],
                     'images'   => str_replace('.oss-','.img-',$param['images']),
-                    'topic'    => $param['topic'],
+                    'topic'    => $param['title'].$param['topic'],
                     'room_id'  => $result['chatroom']['roomid'],
                     'nick'     => $param['nick'],
                     'header'   => $param['header']
@@ -325,7 +328,7 @@ class LiveController extends Controller
         //插入搜索表
         $restart_search=DB::table('v_restart_search')->insertGetId(
             [
-                'title'    => $param['title'],
+                'title'    => $param['title'].$param['topic'],
                 'cb_id'    => $restart_id,
                 'sum'      => $param['sum'],
                 'users_id' => $data['guid'],
@@ -384,7 +387,7 @@ class LiveController extends Controller
             $live_data=['zb_id','room_id','room_url','title','users_id','header','nick','images','state'];
             //统计数量
             $live_count=$this->Live_Start->Live()->count();
-            $live_list=$this->Live_Start->Live()->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('zb_id','DESC')->get();
+            $live_list=$this->Live_Start->Live()->select($live_data)->skip(($param['page']-1)*$limit)->take($limit)->orderBy('recommend','DESC')->orderBy('zb_id','DESC')->get();
             //判断是否有人直播
             if($live_count>0 && $live_list){
                 //返回结果
@@ -456,7 +459,7 @@ class LiveController extends Controller
             //查出数据
             //DB::connection()->enableQueryLog(); // 开启查询日志
             //DB::table('v_start'); // 要查看的sql
-            $live_list=$this->Live_Start->Live()->select($live_data)->where("title", "like", "%$search%")->get();
+            $live_list=$this->Live_Start->Live()->select($live_data)->where("topic", "like", "%$search%")->get();
             //$queries = DB::getQueryLog();
             //返回结果
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => $live_list]);
@@ -625,5 +628,39 @@ class LiveController extends Controller
         }catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'重播暂不能删除，请稍后再试']]);
         }
+    }
+
+    /*
+    *   网易云信脚本注册器
+    *   用完删除
+    */
+    public function regnetease(Request $request)
+    {
+        // $users=DB::table('anchong_usermessages')->lists('users_id');
+        // $account=DB::table('anchong_users_login')->select('username','users_id')->get();
+        // foreach ($account as $username) {
+        //     if(in_array($username->users_id,$users)){
+        //         $result=DB::table('anchong_usermessages')->where('users_id',$username->users_id)->update(['account'=>$username->username]);
+        //         if(!$result){
+        //             echo $username->users_id."===";
+        //         }
+        //     }
+        // }
+
+        $users=DB::table('anchong_usermessages')->select('nickname','account')->get();
+        //var_dump($users);
+        foreach ($users as $users_info) {
+            //网易云信
+            $url  = "https://api.netease.im/nimserver/user/updateUinfo.action";
+            $datas = 'accid='.($users_info->account).'&name='.($users_info->nickname?$users_info->nickname:$users_info->account);
+            list($return_code, $return_content) = $this->JsonPost->http_post_data($url, $datas);
+            //判断是否请求成功
+            if($return_code != 200){
+                echo $users_info->account.'====';
+            }else {
+                echo '===='.$users_info->account;
+            }
+        }
+
     }
 }

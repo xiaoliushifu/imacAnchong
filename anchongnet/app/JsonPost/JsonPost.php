@@ -32,7 +32,7 @@ class JsonPost
             'Nonce: '.$Nonce,
             'CurTime: '.$CurTime,
             'CheckSum: '.$CheckSum,
-            'Content-Type:application/x-www-form-urlencoded;charset=utf-8application/json; charset=utf-8',
+            'Content-Type:application/x-www-form-urlencoded;charset=utf-8;application/json; charset=utf-8',
             'Content-Length: '. strlen($data_string))
         );
         ob_start();

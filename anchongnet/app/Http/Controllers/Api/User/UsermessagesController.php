@@ -329,6 +329,7 @@ class UsermessagesController extends Controller
 			//假如没有该用户则创建该用户
 			if($num == 0){
 				//创建新的一条数据并插入头像
+                $this->usermessages->account=$account[0];
 				$this->usermessages->users_id=$id;
 				$this->usermessages->headpic=$url;
 				//网易云信

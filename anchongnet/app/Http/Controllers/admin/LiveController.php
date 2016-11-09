@@ -143,6 +143,18 @@ class LiveController extends Controller
             } catch (\Exception $e) {
                 return "重新开启失败，可能该直播已结束";
             }
+        }elseif($request->type == 'recommend'){
+            $result=$state=DB::table('v_start')->where('zb_id',$id)->update(['recommend'=>time()]);
+            if(!$result){
+                return "顶置失败，请重新操作";
+            }
+            return "该直播已顶置";
+        }elseif($request->type == 'cancel'){
+            $result=$state=DB::table('v_start')->where('zb_id',$id)->update(['recommend'=>0]);
+            if(!$result){
+                return "取消失败，请重新操作";
+            }
+            return "直播顶置已取消";
         }
     }
 
