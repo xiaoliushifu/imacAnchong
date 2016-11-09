@@ -78,8 +78,10 @@
 										{{$data['tag']}}
 									</td>
 									<td align="center">
+									@can('tag-action')
 										<button type='button' class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['id']}}" data-cid="{{$data['cat_id']}}" data-toggle="modal" data-target="#myModal">编辑</button>
 										<button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['id']}}">删除</button>
+									@endcan
 									</td>
 								</tr>  
 								@endforeach

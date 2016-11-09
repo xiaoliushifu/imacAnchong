@@ -194,7 +194,7 @@ class businessController extends Controller
     {
         $data=$this->business->find($id);
         if (Gate::denies('comres',$data)) {
-            return back();
+            return 'N';
         }
         $data->delete();
         return "删除成功";

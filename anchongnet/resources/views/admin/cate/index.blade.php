@@ -109,8 +109,10 @@
                                         </td>
                                         <td align="center">
                                             <button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['cat_id']}}" data-pid="{{$data['parent_id']}}" data-toggle="modal" data-target="#myView">查看子分类</button>
+                                            @can('cate-action')
                                             <button type="button" class='edit f-ib btn btn-primary btn-xs' data-id="{{$data['cat_id']}}" data-pid="{{$data['parent_id']}}" data-toggle="modal" data-target="#myModal">编辑</button>
                                             <button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['cat_id']}}" data-pid="{{$data['parent_id']}}">删除</button>
+                                        		@endcan
                                         </td>
                                     </tr>
                                 @endforeach

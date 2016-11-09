@@ -100,7 +100,9 @@
 								    </td>
 									<td align="center">{{$data['tag']}}</td>
 									<td align="center">
+										@can('tag-action')
 										<button type="button" class="del f-ib btn btn-danger btn-xs" data-id="{{$data['id']}}"  data-type="{{$data['type_id']}}">删除</button>
+										@endcan
 									</td>
 								</tr>
 								@endforeach

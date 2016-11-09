@@ -81,8 +81,10 @@
                                         <td align="center">{{$data['brand_name']}}</td>
                                         <td align="center"><img src="{{$data['brand_logo']}}" width="80"></td>
                                         <td align="center">
+                                        		@can('cate-action')
                                             <button type="button" class='act btn-primary btn-xs' data-id="{{$data['brand_id']}}" data-toggle="modal" data-target="#myModal">编辑</button>
                                             <button type="button" class="del btn btn-danger btn-xs" data-id="{{$data['brand_id']}}">禁用</button>
+                                        		@endcan
                                         </td>
                                     </tr>
                                 @endforeach

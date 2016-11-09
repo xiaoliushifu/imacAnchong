@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>我的发布</title>
+	<title>资讯列表</title>
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<!-- Bootstrap 3.3.5 -->
@@ -77,8 +77,10 @@
 										<img style="height:100px;width:100px;" src="{{$data['img']}}">
 									</td>
 									<td align="center">
+										@can('news-action')
 										<button type='button' class='edit f-ib btn btn-primary btn-xs' data-toggle="modal" data-id="{{$data['infor_id']}}" data-target="#myModal">编辑</button>
 										<button type="button" class="del f-ib btn btn-danger btn-xs" data_id={{$data['infor_id']}}>删除</button>
+										@endcan
 										@if(Auth::user()['user_rank']==3)
 										    @can('advert-toggle')
 											<button type="button" class="advertpic f-ib btn btn-info btn-xs" data-id="{{$data['infor_id']}}"  data-toggle="modal"

@@ -33,7 +33,7 @@ $(function(){
     
     //删除发布
     $(".del").click(function(){
-        if(confirm("确定要删除这个聊聊吗？")){
+        if(confirm("确定要删除此聊聊吗？")){
             var o=$(this);
             var id=o.attr("data-id");
             $.ajax({
