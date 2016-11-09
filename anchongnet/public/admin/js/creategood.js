@@ -60,7 +60,7 @@ $(function(){
         $("#checks").empty();
         //属性
         $("#attrs").empty();
-        //获得有关该分类的商品
+        //获得有关该分类的所有商品
         $.get("/getcommodity",{pid:Level2,sid:sid},function(data,status){
             if(data.length==0){
                 $("#name").empty();
@@ -98,8 +98,10 @@ $(function(){
                 $("#attrs").append(li);
                 var arr=data[i].value.split(" ");
                 for(var j=0;j<arr.length;j++){
-					optioner='<option value='+arr[j]+'>'+arr[j]+'</option>';
-					$("#selectforattr").append(optioner);
+                		if(arr[j]){
+                			optioner='<option value='+arr[j]+'>'+arr[j]+'</option>';
+                			$("#selectforattr").append(optioner);
+                		}
                 }
             }
         });

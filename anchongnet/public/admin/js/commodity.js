@@ -182,13 +182,41 @@ $(function(){
 //            });
 //        }
 //    });
-
+    
     //添加一组配套商品输入框
     $(".addsup").click(function(){
         var suptem=$(".suptemp").clone().removeClass("hidden").removeClass("suptemp");
         $("#futuresups").append(suptem);
     });
 
+    /**编辑框，配套商品部分
+     * 一级分类时的change事件
+     * **/
+    var nullopt="<option value=''>无数据，请重选上级分类</option>";
+    var defaultopt="<option value=''>请选择</option>";
+    $("#futuresups").on("change",".mainselect",function(){
+        var val=$(this).val();
+        $(".waitforopt").removeClass("waitforopt");
+        $(this).parent().siblings("div").find(".midselect").empty().addClass("waitforopt");
+        $(this).parent().siblings("div").find(".midselect").append(defaultopt);
+        if(val==""){
+        	return;
+        }else{
+            $.get("/getlevel",{pid:parseInt(val)},function(data,status){
+                if(data.length==0){
+                    $(".waitforopt").find(".midselect").empty();
+                    $(".waitforopt").append(nullopt);
+                }else{
+                    for(var i=0;i<data.length;i++){
+                        opt="<option  value="+data[i].cat_id+">"+data[i].cat_name+"</option>";
+                        $(".waitforopt").append(opt);
+                    }
+                }
+            });
+        }
+    });
+    
+    
     //保存配套信息
     $("body").on("click",".save",function(){
     		//检测配套商品id
