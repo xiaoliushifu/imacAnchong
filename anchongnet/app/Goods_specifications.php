@@ -26,12 +26,7 @@ class Goods_specifications extends Model
     //定义主键
     protected $primaryKey = 'gid';
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    public  $timestamps=false;
+    public $timestamps = false;
     /*
     *   分类查询
     */

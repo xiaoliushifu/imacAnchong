@@ -311,14 +311,13 @@ class goodController extends Controller
         $data->goods_price=$request->costpirce;
         $data->vip_price=$request->viprice;
         $data->goods_desc=$request->description;//商品描述
-        //是否上架
+        //改下架时置空
         $data->added=$request->status;
-        if($request->status==1){
-            $goods_create_time=date("Y:m:d H:i:s");
-        }else{
-            $goods_create_time=date("0000:00:00 00:00:00");
+        if ($request->status==1) {
+            $data->goods_create_time=date("Y:m:d H:i:s");
+        } else {
+            $data->goods_create_time=null;
         }
-        $data->goods_create_time=$goods_create_time;
         $data->goods_numbering=$request->numbering;
         $result=$data->save();
         if($result){
