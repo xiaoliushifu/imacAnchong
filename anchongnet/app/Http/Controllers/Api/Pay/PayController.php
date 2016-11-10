@@ -819,7 +819,7 @@ class PayController extends Controller
            foreach ($sids as $sid) {
                if($sid == 1){
                    //推送消息
-                   $this->propel->apppropel('13730593861','商品购买通知','有人购买了安虫的商品了，快去后台查看吧！');
+                   $this->propel->apppropel('13013221114','商品购买通知','有人购买了安虫的商品了，快去后台查看吧！');
                }
            }
 

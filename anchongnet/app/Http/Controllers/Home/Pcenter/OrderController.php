@@ -7,13 +7,15 @@ use App\Http\Requests;
 use App\Order;
 use App\Orderinfo;
 use App\Users;
+use Auth;
 
 class OrderController extends CommonController
 {
     public function index()
     {
-        $user =Users::where('phone',[session('user')])->first();
-        $orderlist = Order::where('users_id',$user->users_id)->get();
+        $usersinfo=Auth::user();
+        //$user =Users::where('users_id',$usersinfo->users_id)->first();
+        $orderlist = Order::where('users_id',$usersinfo->users_id)->get();
           foreach($orderlist as $k){
             $mm = $k['order_num'];
              $orderinfo[$mm] = Orderinfo::where('order_num',$mm)->get();

@@ -10,6 +10,8 @@ use App\Users;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
+use Auth;
+use Redirect;
 
 class CartController extends CommonController
 {
@@ -25,11 +27,55 @@ class CartController extends CommonController
      */
     public function show($users_id)
     {
-        $date = date('H:i:s');
-        $cart = Cache::tags('cart')->remember('cart'.$users_id.$date,600,function ()use($users_id){
-            return Cart::where('users_id',$users_id)->orderBy('cart_id','desc')->get();
-        });
-        return view('home/cart/cart',compact('cart'));
+        try{
+            if(Auth::user()->users_id != $users_id){
+                abort(404);
+            }
+        }catch (\Exception $e) {
+            return Redirect::to('/user/login');
+        }
+        // $date = date('H:i:s');
+        // $cart = Cache::tags('cart')->remember('cart'.$users_id.$date,600,function ()use($users_id){
+        //     return Cart::where('users_id',$users_id)->orderBy('cart_id','desc')->get();
+        // });
+        // return view('home/cart/cart',compact('cart'));
+        $share_cache=Cache::get('cart_'.$users_id);
+        if($share_cache){
+            $cartarr=$share_cache;
+            return view('home/cartshare/index',compact('cartarr'));
+        }else{
+            //创建购物车的ORM模型
+            $cart=new \App\Cart();
+            $cartdata=$cart->Cart()->select('cart_id','goods_name','goods_price','img','goods_type','gid','sid','sname','goods_id','oem','goods_num')->where('users_id',$users_id)->get()->toArray();
+            //创建购物车和商铺的ORM模型
+            $shop=new \App\Shop();
+            //var_dump($share_cache);
+            //下面装商铺的数组
+            $shoparr=null;
+            //下面装商品的数组
+            $goodsarr=null;
+            //下面装购物车详情的数组
+            $cartarr=null;
+            //通过下列一系列的方法将数据格式转换成特定的格式
+            foreach ($cartdata as $result) {
+                $shoparr[$result['sname']]=$result['sid'];
+            }
+            foreach ($shoparr as $sname => $sid) {
+                foreach ($cartdata as $goods) {
+                    if($goods['sid'] == $sid){
+                        $goods['goodsinfo']=json_encode($goods);
+                        $goodsarr[]=$goods;
+                    }
+                }
+                //查出运费和需要运费的价格
+                $freight=$shop->quer(['free_price','freight'],'sid ='.$sid)->toArray();
+                //将数据拼装到一个数组中
+                $cartarr[]=['sid'=>$sid,'free_price'=>$freight[0]['free_price'],'freight'=>$freight[0]['freight'],'sname' => $sname,'goods'=>$goodsarr];
+                $goodsarr=null;
+            }
+            Cache::tags('cart_users_'.$users_id)->add('cart_'.$users_id,$cartarr,60);
+        }
+        return view('home/cart/cart',compact('cartarr'));
     }
     /*
      *提交购物车数据
@@ -105,16 +151,22 @@ class CartController extends CommonController
     /*
      * 修改购物车
      */
-    public function edit()
+    public function edit($id)
     {
-
+        $num=Input::get('goods_num');
+        $cart=Cart::where('cart_id', $id)->update(['goods_num' => $num]);
+        if($cart){
+            return $num;
+        }else{
+            return false;
+        }
     }
     /*
      * 更改购物车数据
      */
     public function updata()
     {
-        
+
     }
     /*
      * 删除购物车

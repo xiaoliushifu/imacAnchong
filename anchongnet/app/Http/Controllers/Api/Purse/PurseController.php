@@ -639,7 +639,7 @@ class PurseController extends Controller
             //进行推送
             try{
                 //推送消息
-                $propel->apppropel('13730593861','提现申请','有人进行提现申请了，快去看看吧');
+                $propel->apppropel('13013221114','提现申请','有人进行提现申请了，快去看看吧');
             }catch (\Exception $e) {
                 //返回给客户端数据
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'申请成功，请等待审核']]);

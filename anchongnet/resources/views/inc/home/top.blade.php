@@ -25,7 +25,7 @@
         </div>
     </div>
     @else
-
+<?php var_dump($msg); ?>
 <div class="site-top">
     <div class="top-container">
         <div class="topindex"><a href="{{url('/')}}">安虫首页</a></div>
