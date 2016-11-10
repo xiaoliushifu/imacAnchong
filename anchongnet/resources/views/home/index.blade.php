@@ -68,7 +68,14 @@
                 <div class="notice">
                     <p class="notice-title"><a><img src="home/images/notice.png"></a></p>
                     <div class="notice-info">
-                        <p>感谢小伙伴一直以来的支持和喜爱。安虫app于7.25已正式上线，涵盖商城、商机、社区、我的四大模块。安虫，致力为安防行业提供便捷、高效、优质的全面服务。欢迎业内人士交流沟通</p>
+                        <marquee behavior="scroll" direction="up" loop="-1" scrolldelay="1" contenteditable="true" onstart="this.firstChild.innerHTML+=this.firstChild.innerHTML;" scrollamount="2" onmouseover="this.stop();" onmouseout="this.start();">
+                            @foreach($notice as $value)
+	                           <p>
+	                               {{$value->content}}
+	                           </p>
+                            @endforeach
+                            &nbsp;安虫平台欢迎您，敬请关注安虫平台最新公告和最新动向，我们在第一时间给您提供最专业的服务。
+                        </marquee>
                     </div>
                 </div>
                 <div class="information">

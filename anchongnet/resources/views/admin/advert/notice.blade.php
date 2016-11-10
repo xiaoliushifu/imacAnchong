@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>虫豆充值</title>
+	<title>安虫公告</title>
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<!-- Bootstrap 3.3.5 -->
@@ -46,7 +46,7 @@
 	<div class="content-wrapper">
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
-			<h1>虫豆管理</h1>
+			<h1>安虫公告</h1>
 		</section>
 
 		<!-- Main content -->
@@ -61,8 +61,8 @@
 		                                <table class="table text-center">
 		                                    <thead>
 		                                    <tr>
-		                                        <th class="text-center col-sm-1">虫豆数量</th>
-		                                        <th class="text-center col-sm-1">价格</th>
+		                                        <th class="text-center col-sm-1">公告标签</th>
+		                                        <th class="text-center col-sm-1">公告内容</th>
 		                                        <th class="text-center col-sm-1">操作</th>
 		                                    </tr>
 		                                    </thead>
@@ -70,24 +70,16 @@
 												@foreach ($datacol['datas'] as $data)
 												<tr class="line">
 													<td>
-														<input type="number" class="beans form-control" value="{{$data->beans}}"/>
+														第{{$data->notice_id}}块
 													</td>
 													<td>
-														<input type="number" min="0" class="money form-control" value="{{$data->money}}"/>
+														<textarea name="notice" class="notice form-control" placeholder="请填写公告内容" rows="5">{{$data->content}}</textarea>
 													</td>
 													<td>
-														<button type="button" class="addcuspro btn-sm btn-link" title="添加" data-id="{{$data->beans_id}}">
-															<span class="glyphicon glyphicon-plus">
-															</span>
-														</button>
-														<button type="button" class="savebeans btn-sm btn-link" title="保存" data-id="{{$data->beans_id}}">
+														<button type="button" class="savebeans btn-sm btn-link" title="保存" data-id="{{$data->notice_id}}">
 															<span class="glyphicon glyphicon-save">
 															</span>
 														</button>
-														<button type="button" class="delcuspro btn-sm btn-link" title="删除" data-id="{{$data->beans_id}}">
-															<span class="glyphicon glyphicon-minus">
-															</span>
-														 </button>
 													</td>
 													</tr>
 												@endforeach
@@ -121,7 +113,7 @@
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
 <!-- 标签管理的js -->
-<script src="/admin/js/beans.js"></script>
+<script src="/admin/js/notice.js"></script>
 
 </body>
 </html>

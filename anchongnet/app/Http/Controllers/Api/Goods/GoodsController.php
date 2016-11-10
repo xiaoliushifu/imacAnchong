@@ -301,7 +301,6 @@ class GoodsController extends Controller
                             //查询检索结果
                             $goods_result=$goods_type->Goods()->select($goods_data)->whereRaw("sid =1 and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and MATCH(tags) AGAINST('".bin2hex($param['tags'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->skip((($param['page']-1)*$limit))->take($limit)->orderBy('cat_id','DESC')->get();
                         }else{
-                            echo "23232";
                             //统计数量
                             $goods_count=$goods_type->Goods()->whereRaw("sid =1 and MATCH(cid) AGAINST('".bin2hex($param['cid'])."') and price >= ".$param['minprice'].' and price <= '.$param['maxprice']." and added = 1")->count();
                             //查询检索结果
