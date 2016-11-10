@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Home;
 
 use App\Usermessages;
 use App\Users;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Cache;
 use View;
@@ -20,11 +19,7 @@ class CommonController extends Controller
             $msg = Cache::remember('all', 10, function () use($user){
                 return Usermessages::where('users_id', $user->users_id)->first();
             });
-
             View::share(['msg'=> $msg,'user'=>$user]);
-
         }
-
-
     }
 }

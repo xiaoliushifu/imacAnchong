@@ -10,7 +10,6 @@
     </head>
     <body>
         <div class="container">
-
       <div class="login-page" style="padding:100px;">
         <div class="logopic"><img src="/home/images/logo.png" alt="Img logo" /></div>
         <div class="titles"><h1>安虫</h1></div>
@@ -26,8 +25,7 @@
     <div class="sign-in">
       <form class="form-horizontal" data-js-module="sign-in" action="/user/login" accept-charset="UTF-8" method="post">
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-        <p id="signin_errors" class="signin_error"> <font color="red">{{ Session::get('errormessage') }}</font> </p>
+        <p id="signin_errors" class="signin_error"> <font color="red">{{ Session::get('errormessage') }}</font></p>
 
     <div class="input-prepend domestic ">
       <input type="text" name="username" id="sign_in_name" value="" class="span2" placeholder="手机号码" />

@@ -9,7 +9,7 @@
     <script src="{{asset('home/org/layer/layer.js')}}"></script>
 </head>
 <body>
-@include('inc.home.top',['page'=>' <li><div class="shop-ioc">
+@include('inc.home.top',['page'=>'<li><div class="shop-ioc">
             <a>购物车</a>
             <a><img src="../../../home/images/shebei/10.jpg" alt=""  style="width: 16px;height: 40px;margin-top: 0px;margin-left: 2px;"></a>
         </div></li>'])
@@ -24,11 +24,8 @@
             <div class="searchbar">
                 <input type="text" class="biaodan">
                 <button type="button" class="btn">搜索</button>
-
             </div>
-
         </div>
-
     </div>
 </div>
 <div class="nav">
@@ -41,9 +38,7 @@
                 @endforeach
             </ul>
         </div>
-
     </div>
-
 </div>
 <div style="clear: both"></div>
 <hr class="nav-underline">
@@ -54,7 +49,6 @@
         <div class="main">
             <div class="top-main">
                 <div class="top-main-left">
-
                     <div class="mastermap"><img src="{{$img[0]->img_url}}" alt="" id="tail"></div>
                     <ul class="detailmap">
                         @foreach( $img as $i=>$k)
@@ -159,11 +153,9 @@
                 <hr class="lins">
              <div class="recommond">
                  <ul>
-
                      <li><a href="">推荐产品</a></li>
                      <li><a href="">配套产品</a></li>
                  </ul>
-
              </div>
                 <div class="detailpic">
                     <ul>
@@ -184,7 +176,6 @@
                <div class="flagshop-main">
                <div class="shop-title"><h4 class="shopname">{{$shop[0]->name}}</h4><a href="{{url('equipment/thirdshop/'.$shop[0]->sid)}}">进入店铺</a></div>
                <div class="shop-pic"><img src="{{$shop[0]->img}}" alt=""></div>
-
                <div class="shop-server">
                    <ul>
                    <li class="collect"><a>收藏</a></li>
@@ -224,7 +215,6 @@
                 @endif
         </div>
        <div style="clear: both"></div>
-
         <div class="introduction">
             <hr>
             <div class="introduction-list">
@@ -234,24 +224,14 @@
                     <li class="package"><button>相关资料</button></li>
                 </ul>
             </div>
-
         </div>
         <div style="clear: both"></div>
         <hr>
           <div class="introductionpic">
-
               <img src=" {{$data->images}}" alt="" id="mainpic">
               <div id="param" style="display:none;">{!!$data->param!!}</div>
               <div id="package" style="display: none;"> {!! $data->package !!}</div>
-
           </div>
-
-
-
-
-
-
-
     </div>
 </div>
 
@@ -340,8 +320,6 @@
                 });
             }
         }
-
-
     }
 </script>
 </body>

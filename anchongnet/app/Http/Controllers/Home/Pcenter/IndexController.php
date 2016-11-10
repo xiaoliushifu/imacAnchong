@@ -14,14 +14,16 @@ use App\ShopCat;
 use App\Users;
 use App\Business;
 use Cache;
+use App\imgpost;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
+use App\Usermessages;
 
 class IndexController extends CommonController
 {
     private $business;
     public function getIndex()
-  {
+    {
       $pcenter = Cache::remember('pcenter',10,function(){
       $user =Users::where('phone',[session('user')])->first();
       $col = Collection::where(['users_id'=>$user->users_id,'coll_type'=>1])->get(['coll_id'])->toArray();
@@ -63,10 +65,7 @@ class IndexController extends CommonController
      */
     public function apstore()
     {
-
         $input = Input::except('_token');
-
-
         $user =Users::where('phone',[session('user')])->first();
         $input['users_id']= $user->users_id;
         $rul = [
@@ -117,18 +116,33 @@ class IndexController extends CommonController
         }else{
             return back()->withErrors($vali);
         }
-
-
-
-
-
   }
     /*
      * 基本资料
     */
-    public function basics()
+    public function getBasics()
     {
         return view('home.pcenter.basics');
+    }
+    
+    /**
+     * 上传图片
+     * @param unknown $img
+     */
+    public function postUpload($img)
+    {
+        return imgpost::upload($img);
+    }
+    
+    //基本资料修改
+    public function postUpbasic()
+    {
+        //排除某个字段
+        $input = Input::except('_token');
+        $input['headpic'] = 'http://anchongres.img-cn-hangzhou.aliyuncs.com/headpic/1470791001.jpg';
+        $user = Usermessages::Message(\Auth::user()['users_id']);
+        $user->update($input);
+        return redirect('/pcenter/index');
     }
     /*
      * 会员认证

@@ -1,11 +1,10 @@
-
-@if(isset($msg))
+@if(Auth::check())
     <div class="nav-top">
         <div class="centerbar">
             <div class="topindex"><a href="{{url('/')}}">安虫首页</a></div>
             <div class="navmain">
                 <ul >
-                    <li>邮箱：www.@anchong.net</li>
+                    <li>邮箱：www@anchong.net</li>
                     @if(isset($page))
                     {!! $page !!}
                     @endif
@@ -14,18 +13,15 @@
                     <li style="padding-left: 10px; position: relative;"><a href="#">{{$msg->nickname}}<b class="caret" id="ss"></b></a>
                         <ul id="hh" class="topdown" >
                             <li><a href="{{url('pcenter')}}">个人中心</a></li>
-                            <li><a href="{{url('/basics')}}">修改资料</a></li>
+                            <li><a href="{{url('/pcenter/basics')}}">修改资料</a></li>
                             <li><a href="{{url('/quit')}}">退出登录</a></li>
                         </ul>
                     </li>
                 </ul>
-
-
             </div>
         </div>
     </div>
     @else
-
 <div class="site-top">
     <div class="top-container">
         <div class="topindex"><a href="{{url('/')}}">安虫首页</a></div>

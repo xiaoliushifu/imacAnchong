@@ -29,7 +29,7 @@
     <div class="mainrg">
         <form action="" method="">
         <div class=" daomain">
-            <h4><a href="{{url('/basics')}}">基本资料</a></h4> <p><a href="{{url('/uphead')}}">头像上传</a></p>
+            <h4><a href="{{url('/pcenter/basics')}}">基本资料</a></h4> <p><a href="{{url('/uphead')}}">头像上传</a></p>
         </div>
             <div class="detail">
                <div class="detail-left">

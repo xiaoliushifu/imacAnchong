@@ -324,15 +324,15 @@
                     </div>
                 </div>
                 <div class="centerlist-two">
-                    <a href=""><img src="home/images/shebei/63.jpg" alt=""></a>
-                    <a href=""><img src="home/images/shebei/64.jpg" alt="" style="margin-top: 10px;  box-shadow: 0px -5px 5px 5px #d8d8d8;"></a>
+                    <a href=""><img src="/home/images/shebei/63.jpg" alt=""></a>
+                    <a href=""><img src="/home/images/shebei/64.jpg" alt="" style="margin-top: 10px;  box-shadow: 0px -5px 5px 5px #d8d8d8;"></a>
                 </div>
                 <div class="centerlist-three">
-                    <a href=""><img src="home/images/shebei/65.jpg" alt=""></a>
+                    <a href=""><img src="/home/images/shebei/65.jpg" alt=""></a>
                 </div>
                 <div class="centerlist-four">
-                    <a href=""><img src="home/images/shebei/66.jpg" alt=""></a>
-                    <a href=""><img src="home/images/shebei/67.jpg" alt=""></a>
+                    <a href=""><img src="/home/images/shebei/66.jpg" alt=""></a>
+                    <a href=""><img src="/home/images/shebei/67.jpg" alt=""></a>
                 </div>
             </div>
         </div>
@@ -354,7 +354,7 @@
             <hr>
             <div class="maingoods-list">
                 <div class="maingoods-one">
-                    <img src="home/images/shebei/59.jpg" alt="">
+                    <img src="/home/images/shebei/59.jpg" alt="">
                     <p>
                         @foreach($seven as $f)
                             <a href="{{url('equipment/list/'.$f->cat_id)}}">{{$f->cat_name}}</a><span>|</span>
@@ -362,10 +362,10 @@
 
                     </p>
                 </div>
-                <div class="maingoods-two"><img src="home/images/shebei/60.jpg" alt=""></div>
+                <div class="maingoods-two"><img src="/home/images/shebei/60.jpg" alt=""></div>
                 <div class="maingoods-three">
-                    <img src="home/images/shebei/61.jpg" alt="" style=" box-shadow: 0px 0px 10px 5px #d8d8d8;">
-                    <img src="home/images/shebei/61.jpg" alt="">
+                    <img src="/home/images/shebei/61.jpg" alt="" style=" box-shadow: 0px 0px 10px 5px #d8d8d8;">
+                    <img src="/home/images/shebei/61.jpg" alt="">
 
                 </div>
             </div>
@@ -387,7 +387,7 @@
             <hr>
             <div class="centergoods-list">
                 <div class="centerlist-one">
-                    <a href=""><img src="home/images/shebei/62.jpg" alt=""></a>
+                    <a href=""><img src="/home/images/shebei/62.jpg" alt=""></a>
                     <div class="centerlist-title">
                         <p>
                             @foreach($eight as $h)
@@ -398,15 +398,15 @@
                     </div>
                 </div>
                 <div class="centerlist-two">
-                    <a href=""><img src="home/images/shebei/63.jpg" alt=""></a>
-                    <a href=""><img src="home/images/shebei/64.jpg" alt="" style="margin-top: 10px;  box-shadow: 0px -5px 5px 5px #d8d8d8;"></a>
+                    <a href=""><img src="/home/images/shebei/63.jpg" alt=""></a>
+                    <a href=""><img src="/home/images/shebei/64.jpg" alt="" style="margin-top: 10px;  box-shadow: 0px -5px 5px 5px #d8d8d8;"></a>
                 </div>
                 <div class="centerlist-three">
-                    <a href=""><img src="home/images/shebei/65.jpg" alt=""></a>
+                    <a href=""><img src="/home/images/shebei/65.jpg" alt=""></a>
                 </div>
                 <div class="centerlist-four">
-                    <a href=""><img src="home/images/shebei/66.jpg" alt=""></a>
-                    <a href=""><img src="home/images/shebei/67.jpg" alt=""></a>
+                    <a href=""><img src="/home/images/shebei/66.jpg" alt=""></a>
+                    <a href=""><img src="/home/images/shebei/67.jpg" alt=""></a>
                 </div>
             </div>
         </div>

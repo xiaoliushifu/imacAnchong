@@ -4,12 +4,9 @@ namespace App\Http\Controllers\Home\User;
 
 use Request;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Validator;
-use Hash;
 use Auth;
-use DB;
 use Session;
 use Redirect;
 use Cache;
@@ -70,7 +67,9 @@ class LoginController extends Controller
         if (!$validator->fails()) {
             return Redirect::back()->withInput()->with('errormessage','账号未注册!');
         } else {
+            //验证码
             if ($data['captchapic'] == Session::get($data['captchanum'].'adminmilkcaptcha')) {
+                //用户名和密码
                 if ( $user = Auth::attempt(['username' => $username, 'password' => $password])) {
                    session(['user'=>$username]);
                     return Redirect::to('/');
@@ -78,7 +77,7 @@ class LoginController extends Controller
                     return Redirect::back()->withInput()->with('errormessage','账号密码错误');
                 }
             } else {
-                return Redirect::back()->withInput()->with('errormessage','请填写正确的验证码');
+                return Redirect::back()->with('errormessage','请填写正确的验证码');
             }
         }
     }
@@ -162,8 +161,8 @@ class LoginController extends Controller
             return Redirect::back()->withInput()->with('errormessage','账号未注册!');
         } else {
             if ($data['captchapic'] == Session::get($data['captchanum'].'adminmilkcaptcha')) {
-                if ( $user = Auth::attempt(['username' => $username, 'password' => $password])) {
-                   session(['user'=>$username]);
+                if (Auth::attempt(['username' => $username, 'password' => $password])) {
+                    session(['user'=>$username]);
                     return Redirect::to("/cartshare/$shareId");
                 } else {
                     return Redirect::back()->withInput()->with('errormessage','账号密码错误');
@@ -179,6 +178,7 @@ class LoginController extends Controller
         session(['user'=>null]);
         Cache::forget('all');
         Cache::forget('user');
+        Auth::logout();
         return redirect('/');
     }
 }

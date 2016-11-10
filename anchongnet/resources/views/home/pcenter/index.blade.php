@@ -1,7 +1,7 @@
 @extends('inc.home.pcenter.pcenter')
 @section('info')
     <title>个人中心</title>
-    <link rel="stylesheet" type="text/css" href="home/css/collectgoods.css">
+    <link rel="stylesheet" type="text/css" href="/home/css/collectgoods.css">
 
 @endsection
 @section('content')
@@ -97,7 +97,7 @@
 
     </div>
     <div style="clear: both"></div>
-    <script type="text/javascript" src="home/js/navleft.js"></script>
+    <script type="text/javascript" src="/home/js/navleft.js"></script>
     @endsection
 
 

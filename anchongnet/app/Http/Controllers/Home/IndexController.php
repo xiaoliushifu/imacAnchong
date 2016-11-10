@@ -18,7 +18,8 @@ use DB;
 class IndexController extends CommonController
 {
     //前端页面
-    public function index(){
+    public function index()
+    {
         $hot = Cache::tags('ihot')->remember('indexhot',600,function (){
             return Business::where('type', 1)->orderBy('created_at', 'desc')->take(5)->get();
         });
@@ -47,7 +48,7 @@ class IndexController extends CommonController
         $igoods = Cache::tags('igoods')->remember('igoods',600,function (){
             return Goods_type::take(4)->orderBy('created_at','desc')->get();
         });
+        
         return view('home.index',['ihot'=>$hot,'italent'=>$talent,'iinfo'=>$info,'iuserinfo'=>$userinfo,'icommunity'=>$community,'inav'=>$nav,'inactivity'=>$activity,'igoods'=>$igoods,'notice'=>$notice]);
-
     }
 }

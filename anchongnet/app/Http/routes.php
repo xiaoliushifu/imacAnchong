@@ -572,10 +572,12 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             //前台路由
 
 Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {
-            //分享登录
+            Route::resource('/user/register', 'Home\User\RegController');
             Route::post('/user/sharelogin', 'Home\User\LoginController@sharelogin');
-            //分享登录
             Route::get('/user/logout', 'Home\User\LoginController@logout');
+            Route::resource('/user/login', 'Home\User\LoginController');
+            Route::get('/quit', 'Home\User\LoginController@quit');
+            
             //购物车分享功能
             Route::resource('/cartshare', 'Home\Cart\CartShareController');
             //获取商品参数html代码
@@ -583,11 +585,7 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
             Route::get('/getpackage', 'admin\uEditorController@getPackage');
             //获取虫虫资讯
             Route::get('/information/{infor_id}', 'Api\Advert\AdvertController@informations');
-            //前台登录
-            Route::resource('/user/login', 'Home\User\LoginController');
-            //个人退出
-            Route::get('/quit', 'Home\User\LoginController@quit');
-             //首页
+            //首页
             Route::get('/', 'Home\IndexController@index');
             //商机主页
             Route::get('/business', 'Home\Business\BusinessController@index');
@@ -617,8 +615,6 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
                 Route::any('/applysp/store', 'IndexController@apstore');
                 //会员认证提交
                 Route::any('/honor/store', 'IndexController@quas');
-                //基本资料
-                Route::get('/basics', 'IndexController@basics');
                 //会员认证
                 Route::get('/honor', 'IndexController@honor');
                 //上传头像
@@ -651,8 +647,6 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
                     Route::resource('/cartconfirm','ConfirmationController');
             });
 
-            //前台注册
-            Route::resource('/user/register', 'Home\User\RegController');
             //手机短信
             Route::post('/user/smsauth', 'Home\User\RegController@smsauth');
 

@@ -104,18 +104,18 @@ class EquipmentController extends CommonController
         });
         //oem 选择
         $oem = Cache::remember('oem'.$goods_id,10, function() use($goods_id){
-        return Goods_oem::where('goods_id',$goods_id)->first();
+            return Goods_oem::where('goods_id',$goods_id)->first();
         });
         if(!empty($oem)){
             $oemvalue = explode(' ',$oem->value);
         }
         //通过$gid找到缩略图
         $img = Cache::remember('goodsimg'.$gid,10,function() use($gid){
-        return  Goods_thumb::where('gid',$gid)->get();
+            return  Goods_thumb::where('gid',$gid)->get();
         });
         //通过sid找到哪家商铺
         $shop = Cache::remember('goodshop'.$gid,10,function() use($data){
-           return  Shop::where('sid',$data->sid)->get();
+            return  Shop::where('sid',$data->sid)->get();
         });
         //商品规格分类
         $type = Cache::remember('goodstp'.$goods_id,10,function() use($goods_id){
@@ -126,16 +126,15 @@ class EquipmentController extends CommonController
         }
 
         if(isset($type[1])){
-
             $size = explode(' ',$type[1]->value);
         }
         //得到商品价格
         $price = Cache::remember('goodsprice'.$gid,10,function() use($goods_id,$gid){
-           return  Goods_type::where(['goods_id'=>$goods_id,'gid'=>$gid])->get();
+            return  Goods_type::where(['goods_id'=>$goods_id,'gid'=>$gid])->get();
         });
         //推荐部分
         $related = Cache::remember('goodsre'.$gid.$goods_id,10,function() use($price){
-           return   Goods_type::where('cid',$price[0]->cid)->take(5)->orderBy('updated_at','desc')->get();
+            return   Goods_type::where('cid',$price[0]->cid)->take(5)->orderBy('updated_at','desc')->get();
         });
         //看了又看
         $hot = Cache::remember('goodshot'.$gid.$goods_id,10,function() use($price){

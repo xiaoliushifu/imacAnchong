@@ -1,8 +1,8 @@
 @extends('inc.home.pcenter.pcenter')
 @section('info')
     <title>基本资料</title>
-    <link rel="stylesheet" type="text/css" href="home/css/basics.css">
-
+    <link rel="stylesheet" type="text/css" href="/home/css/basics.css">
+@endsection
 @section('content')
 <div class="main">
     <div class="mainlf">
@@ -21,52 +21,45 @@
                 <hr>
                 <li><a href="{{url('honor')}}">会员认证</a></li>
                 <hr>
-
             </ul>
         </div>
     </div>
     <div class="mainrg">
-        <form action="" method="">
-        <div class=" daomain">
-           <h4><a href="{{url('/basics')}}">基本资料</a></h4> <p><a href="{{url('/uphead')}}">头像上传</a></p>
+        <form action="/pcenter/upbasic" method="post">
+        <input type="hidden" name="_token" value="{{csrf_token()}}">
+        <div class="daomain">
+           <h4><a href="{{url('/pcenter/basics')}}">基本资料</a></h4> <p><a href="{{url('/uphead')}}">头像上传</a></p>
         </div>
             <div class="detail">
                 <div class="papers">
-                    <span>上传头像：</span><div class="papers-title"><img src="home/images/mine/35.jpg" alt=""></div>
+                    <span>上传头像：</span><div class="papers-title" id="headpic"><img src="/home/images/mine/35.jpg" alt=""></div>
                 </div>
                 <li>
-                    <span>昵称：</span><input type="text"  placeholder="叶子" value="" >
-                </li>
-                    <li>
-                        <span>用户姓名：</span><input type="text" placeholder="xxx真实名字" >
-                    </li>
-                <div class="gender">
-                    <span>性别：</span>
-                    <span> <img src="home/images/mine/check.png" alt="">男</span>
-                    <span><img src="home/images/mine/checked.png" alt="">女</span>
-                </div>
-                    <li>
-                    <span>QQ：</span><input type="text" placeholder="3562656">
+                    <span>昵称：</span><input type="text" name="nickname" placeholder="叶子" >
                 </li>
                 <li>
-                    <span>邮箱：</span><input type="text" placeholder="3562656@qq.com">
+                    <span>用户姓名：</span><input type="text" name="contact" placeholder="xxx真实名字" >
                 </li>
+                <li>
+                    <span>QQ：</span><input type="text" name="qq" placeholder="3562656">
+                </li>
+                <li>
+                    <span>邮箱：</span><input type="text" name="email" placeholder="3562656@qq.com">
+                </li>
+                <!--  <div class="gender">
+                		<span>性别：</span>
+                    <input type="radio"  style="width:50px;height:16px"  checked name="sex"  value="1"/>男
+                    <input type="radio"  style="width:50px;height:16px"  name="sex" value="2" />女
+                </div>-->
                 <div class="tip"><p>*昵称填写须知：与安虫业务或者卖家品牌冲突的昵称，安虫将有可能收回</p></div>
             </div>
-
-
-
             <div style="clear: both;"></div>
         <hr style="margin-left: 10px; margin-top: 60px;">
-
-            <div class="tijiao"><button type="submit">保存</button></div>
+            <div class="tijiao"><button type="submit">更新</button></div>
         </form>
         </div>
-
     </div>
-
-
-    </div>
+<script src="/home/js/diyUpload.js"></script>
+<script src="/home/js/basic.js"></script>
 <div style="clear: both"></div>
-
 @endsection
