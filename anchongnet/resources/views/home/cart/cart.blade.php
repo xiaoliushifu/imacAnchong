@@ -41,91 +41,118 @@
             <div class="cl"></div>
         </ul>
         <ul class="order">
-            @if(count($cart) == 0)
+            @if(count($cartarr) == 0)
                 <li style="text-align: center;color:#f53745;font-size: 22px">购物车暂无商品</li>
             @else
-            @foreach($cart as $value)
+            @foreach($cartarr as $shop)
             <li class="shop">
                 <i class="store">店铺：</i>
-                <a class="shop-name" href="">{{$value -> sname}}</a>
+                <a class="shop-name" href="">{{$shop['sname']}}</a>
             </li>
-            <li class="goods-info">
-                <ul>
-                    <li><input type="checkbox" class="select"></li>
-                    <li class="goods-img"><img src="{{$value -> img}}"></li>
-                    <li class="goods-desc">
-                        <p class="goods-name"><a href="">{{$value -> goods_name}}</a></p>
-                        <p class="goods-type">{{$value -> goods_type}}&nbsp;&nbsp;{{$value -> oem}}</p>
-                    </li>
-                    <li class="goods-price">{{$value -> goods_price}}</li>
-                    <li class="goods-number">
-                        <a class="minus" onclick="Minus(this)"></a>
-                        <input class="count" type="text" value="{{$value -> goods_num}}"onchange="Nums(this)">
-                        <a class="add" onclick="Add(this)"></a>
-                    </li>
-                    <li class="total-price">{{$value -> goods_num * $value -> goods_price}}</li>
-                    <li class="goods-handle">
-                        <p class="favorite"><a onclick="Favorite({{$value->gid}})">转为收藏</a></p>
-                        <p class="del"><a onclick="DelCart({{$value->cart_id}})">删除</a></p>
-                    </li>
-                </ul>
+                @foreach($shop['goods'] as $value)
+                <li class="goods-info">
+                    <ul>
+                        <li><input type="checkbox" name="goodsinfo[]" class="select" value="{{$value['goodsinfo']}}" onclick="totalcheck()" checked></li>
+                        <li class="goods-img"><img src="{{$value['img']}}"></li>
+                        <li class="goods-desc">
+                            <p class="goods-name"><a href="">{{$value['goods_name']}}</a></p>
+                            <p class="goods-type">规格：{{$value['goods_type']}}&nbsp;&nbsp;{{$value['oem']?"oem:".$value['oem']:""}}</p>
+                        </li>
+                        <li class="goods-price">￥{{$value['goods_price']}}</li>
+                        <li class="goods-number">
+                            <a class="minus" onclick="Minus(this)" data-id={{$value['cart_id']}}></a>
+                            <input class="count" type="text" value="{{$value['goods_num']}}">
+                            <a class="add" onclick="Add(this)" data-id={{$value['cart_id']}}></a>
+                        </li>
+                        <li class="total-price">￥{{$value['goods_num'] * $value['goods_price']}}</li>
+                        <li class="goods-handle">
+                            <p class="favorite"><a onclick="Favorite({{$value['gid']}})">转为收藏</a></p>
+                            <p class="del"><a onclick="DelCart({{$value['cart_id']}})">删除</a></p>
+                        </li>
+                    </ul>
+            </li>
             @endforeach
-            @endif
-            </li>
+        @endforeach
+        @endif
         </ul>
         <ul class="settlement">
             <li class="all">
-                <input type="checkbox" class="check1">
+                <input type="checkbox" class="check1" id="checkall" onclick="checkall();">
                 <a href="javascript:">全选</a>
             </li>
-            <li class="delete">
-                <a href="">删除</a>
-            </li>
-            <li class="collect">
-                <a href="">转为收藏</a>
-            </li>
-            <li class="unit-price">单价（元）</li>
-            <li class="selected-good">
-                <i class="amount">数量</i>
+            <div style="float:right">
+            <li class="selected-good" >
+                <i class="amount"></i>
                 已选商品
-                <i class="count-num">5</i>
-                件
+                <i class="count-num">0</i>
+                种
             </li>
             <li class="freight">
                 合计（不含运费）
-                <i class="count-price">4013.00</i>
+                <i class="count-price" id="cart_realPrice">￥0</i>
             </li>
-            <li><a class="pay" href="{{url('/cartconfirm')}}">去结算</a></li>
-            <div class="cl"></div>
+            <li ><a class="pay" href="{{url('/cartconfirm')}}">去结算</a></li>
+        </div>
+            <div class="cl">
+            </div>
         </ul>
     </div>
 </div>
 @include('inc.home.site-foot')
 </body>
+
 <script>
-    function DelCart(cart_id) {
-        layer.confirm('你确定要删除这个商品么？',{
-            btn:['确定','取消']
-        },function () {
-            $.post("{{url('/cart')}}/"+cart_id,{'_method':'delete','_token':'{{csrf_token()}}'},function (data) {
-                if(data.status == 0){
-                    location.href=location.href;
-                    layer.msg(data.msg,{icon:6});
-                }else{
-                    location.href=location.href;
-                    layer.msg(data.msg,{icon:5});
-                }
-            })
-        },
-        function () {
-            
+//总价格和总数量修改
+function totalcheck(){
+    total_price=0;
+    price=$('.select:checked').parent().siblings('.total-price').text().split("￥");
+    for($i=0;$i<price.length;$i++){
+        total_price+=Number(price[$i]);
+    }
+    $(".count-num").text($('.select:checked').length);
+    $("#cart_realPrice").text("￥"+total_price);
+}
+
+function checkall(){
+    //定义全选全不选
+    if($('#checkall').is(':checked')){
+        $('.select').prop('checked','checked');
+    }else{
+        $('.select').prop('checked',false);
+    }
+    total_price=0;
+    price=$('.select:checked').parent().siblings('.total-price').text().split("￥");
+    for($i=0;$i<price.length;$i++){
+        total_price+=Number(price[$i]);
+    }
+    $(".count-num").text($('.select:checked').length);
+    $("#cart_realPrice").text("￥"+total_price);
+}
+
+function DelCart(cart_id) {
+    layer.confirm('你确定要删除这个商品么？',{
+        btn:['确定','取消']
+    },function () {
+        $.post("{{url('/cart')}}/"+cart_id,{'_method':'delete','_token':'{{csrf_token()}}'},function (data) {
+            if(data.status == 0){
+                location.href=location.href;
+                layer.msg(data.msg,{icon:6});
+            }else{
+                location.href=location.href;
+                layer.msg(data.msg,{icon:5});
+            }
         })
-    }
-    function Favorite(gid) {
-        var data = {'users_id':'{{$msg->users_id}}','coll_id':gid,'coll_type':'1','_token':'{{csrf_token()}}'};
-        $.post('/collect',data,function (msg) {
-            layer.msg(msg.msg,{icon: 6});
-        });
-    }
+    },
+    function () {
+
+    })
+}
+function Favorite(gid) {
+    var data = {'users_id':'{{$msg->users_id}}','coll_id':gid,'coll_type':'1','_token':'{{csrf_token()}}'};
+    $.post('/collect',data,function (msg) {
+        layer.msg(msg.msg,{icon: 6});
+    });
+}
 </script>
+<script src="/home/js/cart.js"></script>
 </html>

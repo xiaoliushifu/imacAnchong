@@ -22,6 +22,10 @@
         </div>
     </div>
     @else
+<<<<<<< HEAD
+=======
+<?php var_dump($msg); ?>
+>>>>>>> a391325163857820c606a8e3d4a3804122f27925
 <div class="site-top">
     <div class="top-container">
         <div class="topindex"><a href="{{url('/')}}">安虫首页</a></div>

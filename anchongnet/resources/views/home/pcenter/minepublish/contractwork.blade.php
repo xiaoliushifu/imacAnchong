@@ -57,8 +57,7 @@
                 <hr>
                 <li><a href="#">我的钱袋</a></li>
                 <hr>
-                <li><a href="#">虫虫粉丝</a></li>
-                <hr>
+                
                 <li><a href="#">商铺申请</a></li>
                 <hr>
                 <li><a href="#">商家认证</a></li>

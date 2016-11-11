@@ -91,7 +91,7 @@ class UserIndiviController extends Controller
 						//进行推送
 						try{
 	                        //推送消息
-	                        $this->propel->apppropel('13730593861','认证审核','有人提交认证了，快去审核吧');
+	                        $this->propel->apppropel('13013221114','认证审核','有人提交认证了，快去审核吧');
 	                    }catch (\Exception $e) {
 							//返回给客户端数据
 	        				return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'认证提交成功，请等待审核！！']]);

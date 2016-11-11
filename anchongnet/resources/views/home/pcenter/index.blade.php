@@ -52,8 +52,7 @@
                     <hr>
                     <li><a href="#">我的钱袋</a></li>
                     <hr>
-                    <li><a href="#">虫虫粉丝</a></li>
-                    <hr>
+                
                     <li><a href="{{url('/applysp')}}">商铺申请</a></li>
                     <hr>
                     <li><a href="{{url('/honor')}}">会员认证</a></li>
@@ -99,5 +98,3 @@
     <div style="clear: both"></div>
     <script type="text/javascript" src="/home/js/navleft.js"></script>
     @endsection
-
-
