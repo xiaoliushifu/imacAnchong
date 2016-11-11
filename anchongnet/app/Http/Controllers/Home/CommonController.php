@@ -20,12 +20,7 @@ class CommonController extends Controller
             $msg = Cache::remember('all', 10, function () use($users){
                 return Usermessages::where('users_id', $users->users_id)->first();
             });
-<<<<<<< HEAD
-            View::share(['msg'=> $msg,'user'=>$user]);
-=======
             View::share(['msg'=> $msg,'user'=> $user]);
-
->>>>>>> a391325163857820c606a8e3d4a3804122f27925
         }
     }
 }
