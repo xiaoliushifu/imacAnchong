@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Auth;
 
 class LoginHome
 {
@@ -16,7 +17,7 @@ class LoginHome
     public function handle($request, Closure $next)
     {
 
-        if(!session('user')){
+        if(!Auth::check()){
             return redirect('/user/login');
         }
 

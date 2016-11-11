@@ -671,7 +671,7 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
                  Route::get('/question', 'CommunityController@question');
                  //活动
                  Route::get('/activity', 'CommunityController@activity');
-                 //发布聊聊
+                 //聊聊操作
                  Route::resource('/chat','ChatController');
             });
             Route::resource('/collect','Home\Collect\CollectController');
