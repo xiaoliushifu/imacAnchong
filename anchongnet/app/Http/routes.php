@@ -577,6 +577,10 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
             Route::get('/user/logout', 'Home\User\LoginController@logout');
             Route::resource('/user/login', 'Home\User\LoginController');
             Route::get('/quit', 'Home\User\LoginController@quit');
+            //手机短信
+            Route::post('/user/smsauth', 'Home\User\RegController@smsauth');
+            //前台重置密码
+            Route::resource('/user/forgetpwd', 'Home\User\ForgetpwdController');
             
             //购物车分享功能
             Route::resource('/cartshare', 'Home\Cart\CartShareController');
@@ -646,12 +650,6 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
                     //订单确认
                     Route::resource('/cartconfirm','ConfirmationController');
             });
-
-            //手机短信
-            Route::post('/user/smsauth', 'Home\User\RegController@smsauth');
-
-            //前台重置密码
-            Route::resource('/user/forgetpwd', 'Home\User\ForgetpwdController');
 
             //设备选购
             Route::controller('/equipment', 'Home\Equipment\EquipmentController');

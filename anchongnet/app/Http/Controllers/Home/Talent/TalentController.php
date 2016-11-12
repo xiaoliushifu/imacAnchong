@@ -35,6 +35,9 @@ class TalentController extends CommonController
 
     public function create()
     {
+        if(!Auth::check()){
+            return redirect('/user/login');
+        }
         return view('/home.release.releasetalent');
     }
 

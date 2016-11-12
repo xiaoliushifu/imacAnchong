@@ -127,7 +127,7 @@ font-size: 14px;
     margin-left: -2px;
 }
 .centitle{
-    width: 60px;
+    width: 65px;
     height: 40px;
     font-size: 18px;
     font-weight: bold;
@@ -210,15 +210,28 @@ font-size: 14px;
     font-size: 14px;
     margin-bottom: 10px;
 }
+.btype{
+    width: 65px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #737373;
+   float: left;
+    line-height: 40px;
+    border-right: none;
+    padding-left: 10px;
+
+
+}
 .upload{
     width: 1220px;
     overflow: hidden;
-
+	margin-bottom:3px;
 }
 .upload hr{
     color: #d8d8d8;
 }
 .upload-title{
+	margin-top:100px;
     width: 100px;
     height: 30px;
     float: left;

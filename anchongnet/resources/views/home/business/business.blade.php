@@ -159,7 +159,7 @@
                 <p>人才信息</p>
             </div>
             <div class="pro-publish">
-                <a href="{{url('/talent/create')}}"><img src="home/images/shangji/fbrc.png" alt=""></a>
+                <a href="{{url('/project/create')}}"><img src="home/images/shangji/fbrc.png" alt=""></a>
             </div>
         </div>
 

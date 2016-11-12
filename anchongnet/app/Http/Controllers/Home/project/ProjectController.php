@@ -5,8 +5,8 @@ use App\Business;
 use App\Http\Controllers\Home\CommonController;
 use App\Tag;
 use Cache;
-use App\Users;
-use App\Auth;
+use Auth;
+use DB;
 use Illuminate\Support\Facades\Input;
 class ProjectController extends CommonController
 {
@@ -43,14 +43,54 @@ class ProjectController extends CommonController
 
         return view('home.project.projectlist', compact('projectlist','serprocate','serpro','lastserpro','lastadpro'));
     }
+    
     public function create()
     {
-        return view('/home.release.releaseeg');
+        if(!Auth::check()){
+            return redirect('/user/login');
+        }
+        return view('/home.project.releaseeg');
     }
 
     public function store()
     {
-        
+        //dd(Input::all());
+        $data = Input::all();
+        $data['tag'] = '安防设施';
+        $data['area'] = '全国';
+        if(!in_array($data['type'],['1','2','3','4','5'])){
+            return back();
+        }
+        $user = Cache::remember('all',10,function (){
+            return Usermessages::where('users_id', Auth::user()['users_id'])->first();
+        });
+        //定义图片变量
+        $imgs="";
+        //判断是否有图片
+        if (isset($data['pic'])) {
+            foreach ($data['pic'] as $pic) {
+                $imgs.=$pic.'#@#';
+            }
+        }
+        //向business表中插入数据
+        $result=DB::table('anchong_business')->insertGetId(
+            [
+                'users_id' => $user['users_id'],
+                'title' => $data['title'],
+                'content'=>$data['content'],
+                'tag'=>$data['tag'],
+                'phone'=>$data['phone'],
+                'contact'=>$data['contact'],
+                'type'=>$data['type'],
+                'business_status'=>1,
+                'tags'=>$data['area'],
+                'tags_match'=>bin2hex($data['area']),
+                'endtime' => date('Y-m-d H:i:s',time()+86400*7),
+                'created_at' => date('Y-m-d H:i:s',time()),
+                'img' => $imgs,
+            ]
+            );
+        return back();
     }
     public function show($bid)
     {
@@ -58,6 +98,4 @@ class ProjectController extends CommonController
         $data->content = str_replace("\n", "<br>", $data->content);
         return view('home.project.projectdetail', compact('data'));
     }
-
-
 }
