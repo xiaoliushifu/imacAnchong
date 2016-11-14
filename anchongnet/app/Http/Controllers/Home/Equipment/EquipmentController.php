@@ -92,6 +92,8 @@ class EquipmentController extends CommonController
         }
      return view('home.equipment.goodslist',compact('eqlistmain','navll','eqlistaddress','det','cat_id','glistauth'));
     }
+    
+    //商品详情查看
     public function getShow($goods_id,$gid)
     {
         //住导航
@@ -121,10 +123,11 @@ class EquipmentController extends CommonController
         $type = Cache::remember('goodstp'.$goods_id,10,function() use($goods_id){
             return  Goods_attribute::where('goods_id',$goods_id)->get();
         });
+        //属性1
         if(isset($type[0])){
             $name = explode(' ',$type[0]->value);
         }
-
+        //属性2
         if(isset($type[1])){
             $size = explode(' ',$type[1]->value);
         }

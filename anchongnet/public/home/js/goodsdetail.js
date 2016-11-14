@@ -1,28 +1,28 @@
 $(function(){
-//详情。参数。相关
+		//规格参数
         $(".param").click(function(){
             $("#param").show();
             $("#package").hide();
             $("#mainpic").hide();
         });
-        
+        //商品详情
         $(".mainpic").click(function(){
             $("#mainpic").show();
             $("#package").hide();
             $("#param").hide();
         });
-        
+        //相关资料
         $(".package").click(function(){
             $("#package").show();
             $("#mainpic").hide();
             $("#param").hide();
         });
-    //选中
-    $('.suit ul li').click(function () {
-        $(this).attr('id','t-selected').siblings('li').removeAttr('id');
-        $(this).css({'color':'#f53745','border':'1px solid #f53745'}).siblings('li').css({'color':'#4a4a4a','border':'1px solid #606060'});
+    //属性1的选中
+    $('.suit ul nobr').click(function () {
+    		//选中当前，排除其他
+        $(this).find('li').attr('id','t-selected').css({'color':'#f53745','border':'1px solid #f53745'}).parent().siblings().find('li').removeAttr('id').css({'color':'#4a4a4a','border':'1px solid #606060'});
     });
-    
+    //属性2选中
     $('.sizetype ul li').click(function () {
         $(this).attr('id','m-selected').siblings('li').removeAttr('id');
         $(this).css({'color':'#f53745','border':'1px solid #f53745'}).siblings('li').css({'color':'#4a4a4a','border':'1px solid #606060'});
@@ -60,4 +60,7 @@ function Add() {
     num = parseInt(num);
     num = num + 1;
     $('#goodsnum').val(num);
+}
+function Buy() {
+    console.log('No Supported');
 }
