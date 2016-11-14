@@ -238,10 +238,11 @@ ul,li{
     color: #606060;
 }
 .COD{
+    margin: 10px;
     border: 1px solid #f53745;
 }
-.alipay,.wechatpay,.online-pay{
-    margin-left: 20px;
+.common{
+    margin: 10px;
     border: 1px solid #606060;
 }
 .confirmed{
@@ -271,13 +272,20 @@ ul,li{
     height: 1px;
     background-color: #c5c4c5;
 }
+.shopname{
+    float: left;
+    margin-left: 5px;
+}
 .price{
+    float: left;
     margin-left: 640px;
 }
 .number{
+    float: left;
     margin-left: 170px;
 }
 .count{
+    float: left;
     margin-left: 160px;
 }
 .order-info{
@@ -292,6 +300,8 @@ ul,li{
 }
 .goods-img img{
     margin: 0 20px 10px 10px;
+    height: 50px;
+    width: 50px;
 }
 .goods-desc{
     margin-right: 350px;
@@ -310,10 +320,18 @@ ul,li{
     font-size: 14px;
 }
 .goods-price{
-    margin-right: 175px;
+
+    margin-left: 1px;
 }
 .goods-number{
-    margin-right: 170px;
+    width: 180px;
+    text-align: right;
+}
+.count-price{
+    width: 80px;
+    float: right;
+    text-align: left;
+    /*//margin-left: 150px;*/
 }
 .sum{
     margin-top: 40px;

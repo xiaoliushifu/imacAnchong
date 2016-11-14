@@ -87,6 +87,7 @@ class OrderController extends Controller
                     'total_price' => $orderprice,
                     'created_at' => date('Y-m-d H:i:s',$data['time']),
                     'freight' => $orderarr['freight'],
+                    'invoice_type' => $param['invoicetype'],
                     'invoice' => $param['invoice'],
                     'customer' => $customers[0]['customer'],
                     'tname' => $name[0]['contact']
