@@ -78,74 +78,43 @@ class CartController extends CommonController
         return view('home/cart/cart',compact('cartarr'));
     }
     /*
-     *提交购物车数据
+     *添加商品到购物车
      */
     public function store()
     {
-        $input = Input::except('_token');
-        $date = date('Y-m-d H:i:s');
-        $input['created_at']= $date;
-        if(session('user')) {
-            //如果用户登录，数据直接写进数据库
-            $user = Users::where('phone', [session('user')])->first();
-            $msg = Usermessages::where('users_id', $user->users_id)->first();
-            $userid = $msg->users_id;
-            $input['users_id'] = $userid;
-            $info = Goods_type::where('goods_id', $input['goods_id'])->where('gid', $input['gid'])->first();
-            if ($user->certification == '3') {
-                $price = $info->vip_price;
-            } else {
-                $price = $info->price;
-            }
-            $cart = Cart::where('goods_id', $input['goods_id'])->where('gid', $input['gid'])->where('users_id', $userid)->where('oem', $input['oem'])->count();
-            //判断价格是否相符
-            if ($price == $input['goods_price']) {
-                if ($cart == 0) {
-                    //购物车没有相同商品则添加
-                    $re = Cart::create($input);
-                    if ($re) {
-                        $data = [
-                            'status' => 0,
-                            'msg' => '购物车添加成功'
-                        ];
-                    } else {
-                        $data = [
-                            'status' => 1,
-                            'msg' => '购物车添加失败,，请稍后再试'
-                        ];
-                    }
-                } else {
-                    //购物车存在相同商品，只更新数量
-                    $num = Cart::where('goods_id', $input['goods_id'])->where('gid', $input['gid'])->where('users_id', $userid)->first();
-                    $num->goods_num = $num->goods_num + $input['goods_num'];
-                    $re = $num->update();
-                    if ($re) {
-                        $data = [
-                            'status' => 0,
-                            'msg' => '购物车添加成功'
-                        ];
-                    } else {
-                        $data = [
-                            'status' => 1,
-                            'msg' => '购物车添加失败，请稍后再试'
-                        ];
-                    }
-                }
-            } else {
-                $data = [
-                    'status' => 1,
-                    'msg' => '购物车添加失败，请稍后再试'
-                ];
-            }
-            return $data;
-        }else{
-            //用户未登录，请求用户登陆
-            $data =[
-                'status' => 0,
-                'msg'    => '请登录后再添加购物车'
-            ];
+        $input = Input::all();
+        $user = Auth::user();
+        //未登录
+        if(!$user) {
+            return ['status' => 0,'msg' => '请登录后再添加购物车'];
         }
-        return $data;
+        $input['users_id'] = $user->users_id;
+        //找到该货品
+        $info = Goods_type::where('goods_id', $input['goods_id'])->where('gid', $input['gid'])->where('sid', $input['sid'])->first();
+        if (!$info) {
+            return ['status' => 0,'msg'=>'您查找的商品不存在，或者下架或者被转移'];
+        }
+        //价格因是否认证而不同
+        if ($user->user_rank == '2') {
+            $input['goods_price'] = $info->vip_price;
+        } else {
+            $input['goods_price'] = $info->price;
+        }
+        $cart = Cart::where('gid', $input['gid'])->where('users_id', $user->users_id)->where('sid', $input['sid'])->where('oem', $input['oem'])->first();
+        //有则更新数量，无则添加一条购物车的记录
+        $res ='';
+        if (!$cart) {
+            $res = Cart::create($input);
+        //更新数量
+        } else {
+            $cart->goods_num += $input['goods_num'];
+            $res = $cart->update();
+        }
+        if ($res) {
+            return $data = ['status' => 0,'msg' => '购物车添加成功'];
+        } else {
+            return $data = ['status' => 1,'msg' => '购物车添加失败，请稍后再试'];
+        }
     }
 
     /*

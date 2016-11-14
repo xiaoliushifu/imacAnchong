@@ -64,38 +64,17 @@
                     <div class="goodsprice">
                         <p>价格：￥<i id="price" class="goods-price">{{$price[0]->price}}</i></p>
                         {{--认证会员显示会员价格--}}
-                        @if(empty($user))
-                            <p><span>会员价：请认证后查看</span></p>
+                        @if(Auth::user()['user_rank']==2)
+                            <p><span>会员价：￥<i id="v-price">{{$price[0]->vip_price}}</i></span></p>
+                            <script>
+                            {{--商品价格类--}}
+                                $('#price').removeAttr('class');
+                                $('#v-price').attr('class','goods-price');
+                            </script>
                         @else
-                            @if($user->certification == "3")
-                                <p><span>会员价：￥<i id="v-price">{{$price[0]->vip_price}}</i></span></p>
-                                <script>
-                                    $('#price').removeAttr('class');
-                                    $('#v-price').attr('class','goods-price');
-                                </script>
-                            @else
-                                <p><span>会员价：请认证后查看</span></p>
-                            @endif
+                            <p><span>会员价：请认证后查看</span></p>
                         @endif
                         <div class="store"><a><img src="{{asset('home/images/shebei/clection.png')}}"></a><a>商品收藏</a></div>
-                        @if(!empty($msg))
-                            <script>
-                                $(function () {
-                                    $('.store').click(function () {
-                                        var data = {'users_id':'{{$msg->users_id}}','coll_id':'{{$price[0]->gid}}','coll_type':'1','_token':'{{csrf_token()}}'};
-                                        $.post('/collect',data,function (msg) {
-                                            layer.msg(msg.msg,{icon: 6});
-                                        });
-                                    })
-                                })
-                            </script>
-                            @else
-                            <script>
-                                $('.store').click(function () {
-                                    layer.msg('登陆后才可以收藏哦',{icon: 5})
-                                });
-                            </script>
-                        @endif
                     </div>
                     <div class="goodstype">
                         <p class="yfkd">运费：北京 ∨ 快递:￥0</p>
@@ -103,20 +82,19 @@
                             <div class="colorcat"><span>{{$type[0]->name}}：</span></div>
                             <div class="suit">
                                 <ul>
+                                {{--属性1--}}
                                     @foreach($name as $p)
-                                    <nobr><li class="type" style="text-overflow: ellipsis;overflow: hidden;">{{$p}}</li></nobr>
+                                    <nobr><li class="type" style="text-overflow: ellipsis; overflow: hidden;">{{$p}}</li></nobr>
                                     @endforeach
-
                                 </ul>
                             </div>
                         </div>
                         <div class="goods-size">
+                        {{--属性2--}}
                             @if(isset($type[1]))
                             <div class="sizecat"><span>{{$type[1]->name}}:</span></div>
-
                             <div class="sizetype">
                                 <ul>
-
                                     @foreach($size as $b)
                                         @if(count($b))
                                     <li class="model">{{$b}}</li>
@@ -126,14 +104,16 @@
                             </div>
                             @endif
                         </div>
+                        {{--OEM--}}
                         @if(isset($oemvalue))
                         <div  class="suit">
                             <div class="nubcat"><span>OEM:</span></div>
                             @foreach($oemvalue as $v)
                             <li class="type oem" style="width: 80px;">{{$v}}</li>
-                                @endforeach
+                            @endforeach
                         </div>
                         @endif
+                        {{--商品数量控制--}}
                         <div class="goods-nub">
                             <div class="nubcat"><span>数量:</span></div>
                             <div class="nubtype">
@@ -144,7 +124,7 @@
                          <div class="submit">
                              <a onclick="Buy()">立即购买</a><a onclick="addCart()">加入购物车</a>
                          </div>
-                        <p id="tips">请您勾选你要选择的商品信息</p>
+                        <p id="tips">请您勾选你要选择的商品规格</p>
                     </div>
                 </div>
             </div>
@@ -166,7 +146,6 @@
                             <p>价格:{{$r->price}}</p>
                         </li>
                         @endforeach
-
                     </ul>
                 </div>
             </div>
@@ -179,25 +158,6 @@
                <div class="shop-server">
                    <ul>
                    <li class="collect"><a>收藏</a></li>
-                       @if(!empty($msg))
-                           {{--店铺收藏--}}
-                           <script>
-                               $(function () {
-                                   $('.collect').click(function () {
-                                       var data = {'users_id':'{{$msg->users_id}}','coll_id':'{{$shop[0]->sid}}','coll_type':'2','_token':'{{csrf_token()}}'};
-                                       $.post('/collect',data,function (msg) {
-                                           layer.msg(msg.msg,{icon: 6});
-                                       });
-                                   })
-                               })
-                           </script>
-                           @else
-                           <script>
-                               $('.collect').click(function () {
-                                   layer.msg('登陆后才可以收藏哦',{icon: 5})
-                               });
-                           </script>
-                       @endif
                    <li style="margin-right: -5px;"><a href="">联系客服</a></li>
                    </ul>
                </div>
@@ -212,7 +172,7 @@
             <div class="flagpic" style="margin-top: 20px;"><a href="{{url('equipment/show/'.$hot[1]->goods_id.'/'.$hot[1]->gid)}}"><img src="{{$hot[1]->pic}}" alt=""></a>
                 <div class="flagpic-price"><p>￥：{{$hot[1]->price}}</p></div>
             </div>
-                @endif
+            @endif
         </div>
        <div style="clear: both"></div>
         <div class="introduction">
@@ -241,86 +201,84 @@
 <script src="{{asset('home/js/top.js')}}"></script>
 <script src="{{asset('home/js/goodsdetail.js')}}"></script>
 <script>
-    /*
-    购物车添加
-     */
-    function addCart() {
-        //获取数据
-        var goods_name = $('.title').text();
-        var goods_num = $('#goodsnum').val();
-        var goods_price = $('.goods-price').text();
-        var goods_img = $('#tail').attr('src');
-        var sid = {{$shop[0]->sid}};
-        var sname =$('.shopname').text();
-        var goods_id = {{$price[0]->goods_id}} ;
-        var gid = {{$price[0]->gid}};
-        //判断oem是否存在并赋值
-        if($('#oem').attr('id') == undefined){
-            var oem = null;
+$(function () {
+	//商品收藏
+    $('.store').click(function () {
+        var data = {'coll_id':'{{$price[0]->gid}}','coll_type':'1','_token':'{{csrf_token()}}'};
+        $.post('/collect',data,function (msg) {
+            layer.msg(msg.msg,{icon: 6});
+        });
+    });
+	//商铺收藏
+    $('.collect').click(function () {
+        var data = {'coll_id':'{{$shop[0]->sid}}','coll_type':'2','_token':'{{csrf_token()}}'};
+        $.post('/collect',data,function (msg) {
+            layer.msg(msg.msg,{icon: 6});
+        });
+    })
+})
+/*
+购物车添加
+ */
+function addCart() {
+    var type   = $('#t-selected').attr('id');
+    var model  = $('#m-selected').attr('id');
+    var select = $('.sizetype ').is(':has(*)');
+    //当商品存在属性2时,
+    if(select){
+        if(type == undefined || model == undefined){
+            $('.goodstype').css('border','1px solid #f53745');
+            $('#tips').css('display','block');//弹出消息
+            return ;
         }else{
-            var oem = $('#oem').text();
+            $('.goodstype').css('border','none');
+            $('#tips').css('display','none');
+            var goods_type = $('#t-selected').text()+ ' ' + $('#m-selected').text();
         }
-        //判断商品选择项有几个
-        var type   = $('#t-selected').attr('id');
-        var model  = $('#m-selected').attr('id');
-        var select = $('.sizetype ').is(':has(*)');
-        //当商品存在型号及样式时  必须全选 才可加入购物车
-        if(select){
-            if(type == undefined || model == undefined){
-                $('.goodstype').css('border','1px solid #f53745');
-                $('#tips').css('display','block');
-            }else{
-                $('.goodstype').css('border','none');
-                $('#tips').css('display','none');
-                var goods_type = $('#t-selected').text()+ ' ' + $('#m-selected').text();
-                //ajax传参
-                var data = {
-                    'goods_name' :goods_name,
-                    'goods_num'  :goods_num,
-                    'goods_price':goods_price,
-                    'img'        :goods_img,
-                    'users_id'   :users_id,
-                    'sid'        :sid,
-                    'sname'      :sname,
-                    'goods_id'   :goods_id,
-                    'gid'        :gid,
-                    'goods_type' :goods_type,
-                    '_token'     :'{{csrf_token()}}',
-                    'oem'        : oem
-                };
-                $.post('/cart',data,function (data) {
-                    layer.msg(data.msg);
-                });
-            }
+    }else{
+        //当商品只存存在型号，且型号未选中时
+        if(type == undefined){
+            $('.goodstype').css('border','1px solid #f53745');
+            $('#tips').css('display','block');
+            return ;
         }else{
-            //当商品只存存在型号
-            if(type == undefined){
-                $('.goodstype').css('border','1px solid #f53745');
-                $('#tips').css('display','block');
-            }else {
-                $('.goodstype').css('border','none');
-                $('#tips').css('display','none');
-                var goods_type= $('#t-selected').text();
-                //ajax传参
-                var data = {
-                    'goods_name' :goods_name,
-                    'goods_num'  :goods_num,
-                    'goods_price':goods_price,
-                    'img'        :goods_img,
-                    'sid'        :sid,
-                    'sname'      :sname,
-                    'goods_id'   :goods_id,
-                    'gid'        :gid,
-                    'goods_type' :goods_type,
-                    '_token'     :'{{csrf_token()}}',
-                    'oem'        : oem
-                };
-                $.post('/cart',data,function (data) {
-                    layer.msg(data.msg);
-                });
-            }
+            $('.goodstype').css('border','none');
+            $('#tips').css('display','none');
+            var goods_type= $('#t-selected').text();
         }
     }
+    var goods_name = $('.title').text();
+    var goods_num = $('#goodsnum').val();
+    var goods_price = $('.goods-price').text();
+    var goods_img = $('#tail').attr('src');
+    var sid = {{$shop[0]->sid}};
+    var sname =$('.shopname').text();
+    var goods_id = {{$price[0]->goods_id}} ;
+    var gid = {{$price[0]->gid}};
+    //判断oem是否存在并赋值
+    if($('#oem').attr('id') == undefined){
+        var oem = null;
+    }else{
+        var oem = $('#oem').text();
+    }
+    var data = {
+        'goods_name' :goods_name,
+        'goods_num'  :goods_num,
+        'goods_price':goods_price,
+        'img':goods_img,
+        'sid':sid,
+        'sname':sname,
+        'goods_id':goods_id,
+        'gid':gid,
+        'goods_type':goods_type,
+        '_token':'{{csrf_token()}}',
+        'oem': oem
+    };
+    $.post('/cart',data,function (data) {
+        console.log(data);
+        layer.msg(data.msg);
+    });
+}
 </script>
 </body>
 </html>
