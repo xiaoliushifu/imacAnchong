@@ -213,24 +213,25 @@ class LiveController extends Controller
     */
     public function createroom(Request $request)
     {
-        $stream=$this->hub->listStreams();
-        foreach ($stream['items'] as $StreamObj) {
-            $StreamObj->delete();
-        }
-        exit;
-        //获得app端传过来的json格式的数据转换成数组格式
-        $data=$request->all();
-        $param=json_decode($data['param'],true);
+    //     $stream=$this->hub->listStreams();
+    //     foreach ($stream['items'] as $StreamObj) {
+    //         $StreamObj->delete();
+    //     }
+    //     exit;
+    //     //获得app端传过来的json格式的数据转换成数组格式
+    //     $data=$request->all();
+    //     $param=json_decode($data['param'],true);
             //网易云信
-            $url  = "https://api.netease.im/nimserver/user/unblock.action";
-            $datas="creator=".$param['phone'];
+            $url  = "https://api.netease.im/nimserver/user/getUinfos.action";
+            $datas='accids=["15822855492","13520130137","18685953787"]';
             list($return_code, $return_content) = $this->JsonPost->http_post_data($url, $datas);
             //将字符串形式的json解析为数组
             $result=json_decode($return_content,true);
+            var_dump($result);
             //判断是否请求成功
-            if($return_code != 200){
-                return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"直播聊天开启失败"]]);
-            }
+            // if($return_code != 200){
+            //     return response()->json(['serverTime'=>time(),'ServerNo'=>18,'ResultData'=>['Message'=>"直播聊天开启失败"]]);
+            // }
     }
 
     /*

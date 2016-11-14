@@ -250,41 +250,41 @@ class PayController extends Controller
     /*
     *   该方法是支付宝的支付接口
     */
-    public function alipay()
+    public function alipay(Request $request)
     {
+        $data=$request::all();
         // 创建支付单。
-        $alipay = app('alipay.mobile');
-        $alipay->setOutTradeNo('94869281467365887');
-        $alipay->setTotalFee('0.1');
-        $alipay->setSubject('安虫测试付2款单');
-        $alipay->setBody('2222');
+        $alipay = app('alipay.web');
+        $alipay->setOutTradeNo($data['outTradeNo']);
+        $alipay->setTotalFee($data['totalFee']);
+        $alipay->setSubject($data['subject']);
+        $alipay->setBody($data['body']);
 
         //$alipay->setQrPayMode('4'); //该设置为可选，添加该参数设置，支持二维码支付。
 
-        // 返回签名后的支付参数给支付宝移动端的SDK。
-        return $alipay->getPayPara();
-        exit;
-        // 跳转到支付页面。
-        return redirect()->to($alipay->getPayLink());
+      // 跳转到支付页面。
+      return redirect()->to($alipay->getPayLink());
     }
 
     /*
     *   该方法是微信的支付接口
     */
-    public function wxpay()
+    public function wxpay(Request $request)
     {
+        $data=$request::all();
         $wechat = app('wechat');
         $attributes = [
             'trade_type'       => 'NATIVE', // JSAPI，NATIVE，APP...
-            'body'             => 'iPad mini 16G 白色',
-            'detail'           => 'iPad mini 16G 白色',
-            'out_trade_no'     => '16012014702776217',
-            'total_fee'        => 1,
+            'body'             => $data['subject'],
+            'detail'           => $data['body'],
+            'out_trade_no'     => $data['outTradeNo'],
+            'total_fee'        => $data['totalFee']*100,
             'notify_url'       => 'http://pay.anchong.net/pay/wxnotify',
         ];
         $order = new Order($attributes);
         $payment=$wechat->payment;
         $result = $payment->prepare($order);
+        var_dump($result);
         if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
             $prepayId = $result->prepay_id;
         }
@@ -480,7 +480,7 @@ class PayController extends Controller
                         return true;
                     }
                 }
-                if($total_price == ($notify->total_fee/100)){
+                if($total_price < ($notify->total_fee/100)){
                     DB::commit();
                     //进行推送通知
                     $this->propleinfo($sid,$users_id);
@@ -631,7 +631,7 @@ class PayController extends Controller
                    }
 
                 //假如价格比对成功就提交
-                if($total_price == $data['total_fee']){
+                if($total_price < $data['total_fee']){
                     DB::commit();
                     //进行推送通知
                     $this->propleinfo($sid,$users_id,'success');
@@ -730,7 +730,7 @@ class PayController extends Controller
                   }
 
                //假如价格比对成功就提交
-               if($total_price == $data['total_fee']){
+               if($total_price < $data['total_fee']){
                    DB::commit();
                    //进行推送通知
                    $this->propleinfo($sid,$users_id);

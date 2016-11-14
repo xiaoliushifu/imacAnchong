@@ -383,9 +383,13 @@ ul,li{
 .pay{
     display: inline-block;
     width: 120px;
-    height: 50px;
+    height: 51px;
+    margin: 0px;
+    padding: 0px;
     background-color: #f53745;
     font-size: 22px;
+    color:#ffffff;
+    border-style: initial;
 }
 .unit-price,.selected-good,.freight{
     color: #FFFFFF;

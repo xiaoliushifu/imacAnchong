@@ -44,6 +44,8 @@
             @if(count($cartarr) == 0)
                 <li style="text-align: center;color:#f53745;font-size: 22px">购物车暂无商品</li>
             @else
+            <form action="/cartconfirm" method="post">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
             @foreach($cartarr as $shop)
             <li class="shop">
                 <i class="store">店铺：</i>
@@ -91,8 +93,9 @@
                 合计（不含运费）
                 <i class="count-price" id="cart_realPrice">￥0</i>
             </li>
-            <li ><a class="pay" href="{{url('/cartconfirm')}}">去结算</a></li>
+            <li ><input class="pay" style="" type="submit" value="去结算"></li>
         </div>
+        </form>
             <div class="cl">
             </div>
         </ul>

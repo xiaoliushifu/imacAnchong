@@ -114,7 +114,7 @@ class UserIndiviController extends Controller
 			[
 			 'auth_name' => 'required|max:128',
 			 'qua_name' => 'required|max:128',
-				'explanation' => 'required|max:500'
+			 'explanation' => 'required|max:500'
 			]
 		);
 		if ($validator->fails()) {
@@ -130,20 +130,29 @@ class UserIndiviController extends Controller
 		} else {
 			//先开启事务处理
 			DB::beginTransaction();
-				//向认证表auth中插入数据,使用批量赋值方法
-			$result=Auth::where('users_id',$request['guid'])->update(array(
-				'auth_name' => $param['auth_name'],
-				'qua_name'  => $param['qua_name'],
-				'explanation'=>$param['explanation'],
-			));
+			//向认证表auth中插入数据,使用批量赋值方法
+			$auth_handle=Auth::where('users_id',$request['guid'])->first();
+			$auth_handle->auth_name = $param['auth_name']?$param['auth_name']:$auth_handle->auth_name;
+			$auth_handle->qua_name = $param['qua_name']?$param['qua_name']:$auth_handle->explanation;
+			$auth_handle->explanation = $param['explanation']?$param['explanation']:$auth_handle->explanation;
+			$result=$auth_handle->save();
 			if ($result) {
+				Qua::where('auth_id',$auth_handle->id)->delete();
 				//通过一个for循环将该资质相关的证件照片全部插入到数据表qua中
 				for($i=0;$i<count($param['credentials']);$i++){
 					Qua::create(array(
-						'auth_id'=>$result,
+						'auth_id'=>$auth_handle->id,
 						'credentials'=>$param['credentials'][$i],
 					));
 				}
+				//提交事务
+				DB::commit();
+				//返回给客户端数据
+				return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'认证修改成功！！']]);
+			}else{
+				DB::rollback();
+				//返回给客户端数据
+				return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'认证失败，请重新提交！！']]);
 			}
 		}
 	}
