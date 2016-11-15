@@ -275,7 +275,6 @@ function addCart() {
         'oem': oem
     };
     $.post('/cart',data,function (data) {
-        console.log(data);
         layer.msg(data.msg);
     });
 }

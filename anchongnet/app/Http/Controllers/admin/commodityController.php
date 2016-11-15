@@ -139,16 +139,11 @@ class commodityController extends Controller
             DB::table('anchong_goods_oem')->insert(['goods_id'=>$gid,'value'=>$request->oem]);
         }
 
-        //通过一个for循环向属性表中插入数据
+        //属性（规格）入库
         for($i=0;$i<count($request->attrname);$i++){
-            DB::table('anchong_goods_attribute')->insertGetId(
-                [
-                    'goods_id'=>$gid,
-                    'name'=>$request->attrname[$i],
-                    'value'=>$request->attrvalue[$i]
-                ]
-            );
+            $data[]=['goods_id' => $gid, 'name' => $request->attrname[$i], 'value' => $request->attrvalue[$i]];
         };
+        DB::table('anchong_goods_attribute')->insert($data);
 
         //通过循环向配套商品表中插入数据
         for($i=0;$i<count($request->supname)-1;$i++){

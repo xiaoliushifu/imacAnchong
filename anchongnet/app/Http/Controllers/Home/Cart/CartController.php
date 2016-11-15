@@ -5,11 +5,8 @@ namespace App\Http\Controllers\Home\Cart;
 use App\Cart;
 use App\Goods_type;
 use App\Http\Controllers\Home\CommonController;
-use App\Usermessages;
-use App\Users;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Session;
 use Auth;
 use Redirect;
 
@@ -127,7 +124,7 @@ class CartController extends CommonController
         if($cart){
             return $num;
         }else{
-            return false;
+            return '';
         }
     }
     /*
@@ -144,15 +141,9 @@ class CartController extends CommonController
     {
         $re = Cart::where('cart_id',$cart_id)->delete();
         if($re){
-            $data =[
-                'status' => 0,
-                'msg'  => '商品删除成功'
-            ];
+            $data =['status' => 0,'msg'  => '商品删除成功'];
         }else{
-            $data =[
-                'status' => 1,
-                'msg'  => '商品删除失败'
-            ];
+            $data =['status' => 1,'msg'  => '商品删除失败'];
         }
         return $data;
     }
