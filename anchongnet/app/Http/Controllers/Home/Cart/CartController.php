@@ -36,6 +36,7 @@ class CartController extends CommonController
         //     return Cart::where('users_id',$users_id)->orderBy('cart_id','desc')->get();
         // });
         // return view('home/cart/cart',compact('cart'));
+        $cartarr=[];
         $share_cache=Cache::get('cart_'.$users_id);
         if($share_cache){
             $cartarr=$share_cache;
@@ -48,11 +49,9 @@ class CartController extends CommonController
             $shop=new \App\Shop();
             //var_dump($share_cache);
             //下面装商铺的数组
-            $shoparr=null;
+            $shoparr=[];
             //下面装商品的数组
             $goodsarr=null;
-            //下面装购物车详情的数组
-            $cartarr=null;
             //通过下列一系列的方法将数据格式转换成特定的格式
             foreach ($cartdata as $result) {
                 $shoparr[$result['sname']]=$result['sid'];

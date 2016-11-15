@@ -119,9 +119,11 @@ function allsel(){
     if($('#checkall').is(':checked')){
         $('.select').prop('checked','checked');
         $('.pay').attr('disabled',false);
+        $('.pay').css('background-color','#f53745');
     }else{
         $('.select').prop('checked',false);
         $('.pay').attr('disabled',true);
+        $('.pay').css('background-color','#888888');
     }
     total_price=0;
     price=$('.select:checked').parent().siblings('.total-price').text().split("￥");
