@@ -9,6 +9,7 @@ $(function(){
             success: function (data) {
                 if(data.ServerNo == 0){
                     var url=data.ResultData.payurl+"?outTradeNo="+data.ResultData.outTradeNo+"&totalFee="+data.ResultData.totalFee+"&body="+data.ResultData.body+"&subject="+data.ResultData.subject;
+                    
                     location.href=url;
                 }else{
                     alert(data.ResultData.Message);

@@ -204,6 +204,14 @@ class OrderController extends Controller
             if($true && $total_price>0){
                 //假如成功就提交
                 DB::commit();
+                //判断发票类型来增加价格
+                if($param['invoicetype']==0){
+                    $total_price=$total_price;
+                }elseif($param['invoicetype']==1){
+                    $total_price=$total_price*1.05;
+                }elseif($param['invoicetype']==2){
+                    $total_price=$total_price*1.1;
+                }
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['outTradeNo'=>$paynum,'totalFee'=>$total_price,'body'=>$body,'subject'=>"安虫商城订单支付"]]);
             }else{
                 //假如失败就回滚
@@ -211,7 +219,7 @@ class OrderController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
             }
         }catch (\Exception $e) {
-           return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+           return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'请将APP更新到最新版本安虫，体验订单新功能！']]);
         }
     }
 

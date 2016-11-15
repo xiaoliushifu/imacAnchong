@@ -11,6 +11,7 @@ use Qiniu\Auth;
 use Validator;
 use DB;
 use Cache;
+use App\Users;
 
 /*
 *   该控制器包含了互动直播模块的操作
@@ -628,6 +629,70 @@ class LiveController extends Controller
             }
         }catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'重播暂不能删除，请稍后再试']]);
+        }
+    }
+
+    /*
+    *   安虫送礼物
+    */
+    public function livegift(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request->all();
+        $param=json_decode($data['param'],true);
+        //礼物价值
+        switch ($param['gift_id']) {
+            case '1':
+                $beans=5;
+                break;
+
+            case '2':
+                $beans=20;
+                break;
+
+            case '3':
+                $beans=50;
+                break;
+
+            case '4':
+                $beans=100;
+                break;
+
+            case '5':
+                $beans=500;
+                break;
+
+            case '6':
+                $beans=1000;
+                break;
+
+            default:
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'非法操作']]);
+                break;
+        }
+        //开启事务处理
+        DB::beginTransaction();
+        //得到用户的数据句柄
+        $users=Users::find($data['guid']);
+        //判断虫豆是否足够
+        if($users->beans < $beans){
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'您的虫豆不足，请及时充值']]);
+        }
+        //用户减去虫豆
+        $users->beans=$users->beans-$beans;
+        //用户数据保存
+        $users->save();
+        //增加主播的虫豆
+        $result=DB::table('anchong_users')->where('users_id',$param['users_id'])->increment('beans',$beans);
+        //判断是否操作成功
+        if($result){
+            //假如成功就提交
+            DB::commit();
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'赠送成功']]);
+        }else{
+            //假如失败就回滚
+            DB::rollback();
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'礼物赠送失败']]);
         }
     }
 

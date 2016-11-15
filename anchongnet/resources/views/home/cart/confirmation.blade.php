@@ -44,7 +44,7 @@
         <div class="address">
             <div class="address-title">
                 <i class="choose">添加/选择收货地址</i>
-                <i class="manage"><a href="">管理收货地址</a></i>
+                <i class="manage"><a href="/adress">管理收货地址</a></i>
             </div>
             <form action="/order" method="post" id="myform">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -81,11 +81,11 @@
                     <p class="reciver-add">收货地址：{{$v ->region}}&nbsp;{{$v -> address}}</p>
                     <!-- <p class="select"><img src="home/images/cart/selected.png"></p> -->
                 </li>
-                <a href="javascript:void(0)"><li class="o-add" onclick="selectd($(this));">
+                <!-- <a href="javascript:void(0)"><li class="o-add" onclick="selectd($(this));">
                     <p style="text-align: center;color: #f53745;line-height: 50px">暂无更多地址</p>
-                </li></a>
+                </li></a> -->
                         @endforeach
-                @elseif(count($addr)==2)
+                @elseif(count($addr) >= 2)
                     @foreach($addr as $v)
                         <a href="javascript:void(0)"><li class="o-add" onclick="selectd($(this));">
                             <p class="consignee">收货人：{{$v -> add_name}}</p>
@@ -95,10 +95,10 @@
                         </li></a>
                     @endforeach
                 @endif
-                <li class="add-address"><a href=""><img src="home/images/cart/add_address.png"></a></li>
+                <li class="add-address"><a href="/adress"><img src="home/images/cart/add_address.png"></a></li>
                 <div class="cl"></div>
             </ul>
-            <p class="show-add"><a href="">显示全部地址</a></p>
+            <!-- <p class="show-add"><a href="">显示全部地址</a></p> -->
         </div>
         <ul class="confirmed">
             <input type="hidden" name="orderinfo" value="{{$cartjson}}">
@@ -172,8 +172,8 @@
             <ul class="payment">
                 <input type="hidden" name="paytype" id="paytype" value="1">
                 <h3>支付方式</h3>
-                <a href="javascript:void(0)"><li class="COD" onclick="pay($(this));" data-id="1">余额付款</li></a>
-                <a href="javascript:void(0)"><li class="common" onclick="pay($(this));" data-id="2">支付宝支付</li></a>
+                <!-- <a href="javascript:void(0)"><li class="COD" onclick="pay($(this));" data-id="1">余额付款</li></a> -->
+                <a href="javascript:void(0)"><li class="COD" onclick="pay($(this));" data-id="2">支付宝支付</li></a>
                 <a href="javascript:void(0)"><li class="common" onclick="pay($(this));" data-id="3">微信支付</li></a>
                 <div class="cl"></div>
             </ul>

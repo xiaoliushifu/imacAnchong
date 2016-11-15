@@ -1,0 +1,72 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-family: "微软雅黑","宋体",verdana;
+}
+
+.logo{
+    padding-left: 30px;
+    padding-top: 30px;
+    height: 80px;
+    width: auto;
+}
+li{
+    list-style-type:none;
+}
+.info{
+    background-color: #EAEAEA;
+    height: 100px;
+    margin-top: 30px;
+    padding-top: 10px;
+}
+.orderinfo{
+    padding-left: 70px;
+
+}
+.infoli{
+    margin-top: 15px;
+}
+.paymoney{
+    float: right;
+    margin-right: 70px;
+}
+.illu{
+    margin: 10px 40px;
+    height: 50px;
+    border: 2px solid #FF7F00;
+    padding: 2px;
+}
+.tab{
+    height: 45px;
+    width: auto;
+    margin-left: 10px;
+    margin-top: 2px;
+}
+.tabbutton{
+    height: 25px;
+    width: auto;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+.payview{
+    float: right;
+    margin-top: 15px;
+    margin-right: 30px;
+}
+.qrcode{
+    text-align: center;
+
+}
+.prompt{
+    margin-top: 10px;
+    text-align: center;
+
+}
+.alink{
+    text-align: center;
+    margin-top: 20px;
+
+}
+.alink a{
+
+}

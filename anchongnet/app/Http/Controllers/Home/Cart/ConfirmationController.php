@@ -72,8 +72,8 @@ class ConfirmationController extends CommonController
         $cartjson=json_encode($cartarr);
         $user=Auth::user();
         //$user =Users::where('phone',[session('user')])->first();
-        $deaddr =Address::where('users_id',$user->users_id)->where('isdefault','1')->get();
-        $addr = Address::where('users_id',$user->users_id)->where('isdefault','0')->orderBy('id','desc')->take(2)->get();
+        $deaddr =Address::where('users_id',$user->users_id)->where('isdefault','1')->take(1)->get();
+        $addr = Address::where('users_id',$user->users_id)->where('isdefault','0')->orderBy('id','desc')->get();
         return view('home/cart/confirmation',compact('deaddr','addr','cartjson','cartarr'));
     }
 }

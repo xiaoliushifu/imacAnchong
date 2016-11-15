@@ -13,6 +13,7 @@ use EasyWeChat\Payment\Order;
 use QrCode;
 use Cache;
 use Hash;
+use Redirect;
 
 /*
 *   该控制器包含了支付控制器
@@ -93,7 +94,7 @@ class PayController extends Controller
             }
         }
         //判断再付款的时候订单是否被恶意修改
-        if($param['totalFee'] == $pay_total_price){
+        if($param['totalFee'] >= $pay_total_price){
             //获取用户句柄
             $users_handle=$this->users->find($data['guid']);
             //如果余额不够付款
@@ -173,7 +174,7 @@ class PayController extends Controller
         $order = $orders->find($param['order_id']);
         $pay_total_price=$order->total_price;
         //判断再付款的时候订单是否被恶意
-        if($param['totalFee'] != $pay_total_price){
+        if($param['totalFee'] <= $pay_total_price){
             //假如失败就回滚
             DB::rollback();
             // 返回处理完成
@@ -273,6 +274,9 @@ class PayController extends Controller
     {
         $data=$request::all();
         $wechat = app('wechat');
+        $subject=$data['subject'];
+        $total_fee=$data['totalFee'];
+        $out_trade_no=$data['outTradeNo'];
         $attributes = [
             'trade_type'       => 'NATIVE', // JSAPI，NATIVE，APP...
             'body'             => $data['subject'],
@@ -284,13 +288,14 @@ class PayController extends Controller
         $order = new Order($attributes);
         $payment=$wechat->payment;
         $result = $payment->prepare($order);
-        var_dump($result);
+        //var_dump($result);
         if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
             $prepayId = $result->prepay_id;
         }
         $config = $payment->configForAppPayment($prepayId);
-        var_dump($config);
-        return QrCode::size(200)->color(105,80,10)->backgroundColor(205,230,199)->generate($result->code_url);
+        $QrCode=QrCode::size(260)->color(105,80,10)->backgroundColor(205,230,199)->generate($result->code_url);
+        return view('home.pay.wxpay',compact('QrCode','subject','total_fee','out_trade_no'));
+
     }
 
     /*
@@ -480,7 +485,7 @@ class PayController extends Controller
                         return true;
                     }
                 }
-                if($total_price < ($notify->total_fee/100)){
+                if($total_price <= ($notify->total_fee/100)){
                     DB::commit();
                     //进行推送通知
                     $this->propleinfo($sid,$users_id);
@@ -503,7 +508,7 @@ class PayController extends Controller
                     //通过订单查出价格和ID
                     $result=$purse_order->quer(['purse_oid','price'],'order_num ='.$notify->out_trade_no)->toArray();
                     //判断总价，防止app改包攻击
-                    if($result[0]['price'] != ($notify->total_fee/100)){
+                    if($result[0]['price'] >= ($notify->total_fee/100)){
                         return true;
                     }
                     //更新订单状态
@@ -540,29 +545,141 @@ class PayController extends Controller
     }
 
    /*
-   *   异步通知（具体待修改）
+   *   异步通知（web端支付宝支付）
    */
    public function webnotify()
    {
        // 验证请求。
        if (! app('alipay.web')->verify()) {
-           Log::notice('Alipay notify post data verification fail.', [
-               'data' => Request::instance()->getContent()
-           ]);
            return 'fail';
        }
 
        // 判断通知类型。
-       switch (Input::get('trade_status')) {
+       switch ($data['trade_status']) {
            case 'TRADE_SUCCESS':
-                break;
+                //开启事务处理
+                DB::beginTransaction();
+                $paynum=$data['out_trade_no'];
+                //创建ORM模型
+                $orders=new \App\Order();
+                $pay=new \App\Pay();
+                //判断总价防止app攻击
+                $total_price=0;
+                $order_id_arr=$pay->quer(['order_id','total_price'],'paynum ='.$paynum)->toArray();
+                foreach ($order_id_arr as $order_id) {
+                    //对总价进行累加
+                    $total_price +=$order_id['total_price'];
+                    //进行订单操作
+                    // 使用通知里的 "商户订单号" 去自己的数据库找到订单
+                    $order = $orders->find($order_id['order_id']);
+                    //拿到用户的ID和商铺的ID
+                    $sid[]=$order->sid;
+                    $users_id=$order->users_id;
+                    // 如果订单不存在
+                    if (!$order) {
+                        // 我已经处理完了，订单没找到，别再通知我了
+                        return 'fail';
+                    }
+
+                    // 检查订单是否已经更新过支付状态
+                    if ($order->state == 2) {
+                        // 假设订单字段“支付时间”不为空代表已经支付
+                        // 已经支付成功了就不再更新了
+                        DB::rollback();
+                        return 'fail';
+                    }
+                    //将订单状态改成成功并记录下支付单号
+                    $order->state = 2;
+                    $order->paycode="alipay:".$data['trade_no'];
+
+                    //将钱增加到商户冻结资金
+                    $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price);
+                    if($result){
+                        // 保存订单
+                        $order->save();
+                    }else{
+                        //假如失败就回滚
+                        DB::rollback();
+                        return 'fail';
+                    }
+                }
+
+             //假如价格比对成功就提交
+             if($total_price <= $data['total_fee']){
+                 DB::commit();
+                 //进行推送通知
+                 $this->propleinfo($sid,$users_id,'success');
+                 echo "<script>window.location.href='http://www.anchong.net/order'</script>";
+                 return 'success';
+             }else{
+                 //假如失败就回滚
+                 DB::rollback();
+                 return 'fail';
+             }
+             break;
+
            case 'TRADE_FINISHED':
                // TODO: 支付成功，取得订单号进行其它相关操作。
-               Log::debug('Alipay notify post data verification success.', [
-                   'out_trade_no' => Input::get('out_trade_no'),
-                   'trade_no' => Input::get('trade_no')
-               ]);
-               break;
+               //开启事务处理
+               DB::beginTransaction();
+               $paynum=$data['out_trade_no'];
+               //创建ORM模型
+               $orders=new \App\Order();
+               $pay=new \App\Pay();
+               //判断总价防止app攻击
+               $total_price=0;
+               $order_id_arr=$pay->quer(['order_id','total_price'],'paynum ='.$paynum)->toArray();
+               foreach ($order_id_arr as $order_id) {
+                   //对总价进行累加
+                   $total_price +=$order_id['total_price'];
+                   //进行订单操作
+                   // 使用通知里的 "商户订单号" 去自己的数据库找到订单
+                   $order = $orders->find($order_id['order_id']);
+                   //拿到用户的ID和商铺的ID
+                   $sid[]=$order->sid;
+                   $users_id=$order->users_id;
+                   // 如果订单不存在
+                   if (!$order) {
+                       // 我已经处理完了，订单没找到，别再通知我了
+                       return 'fail';
+                   }
+
+                   // 检查订单是否已经更新过支付状态
+                   if ($order->state == 2) {
+                       // 假设订单字段“支付时间”不为空代表已经支付
+                       // 已经支付成功了就不再更新了
+                       DB::rollback();
+                       return 'fail';
+                   }
+                   //将订单状态改成成功并记录下支付单号
+                   $order->state = 2;
+                   $order->paycode="alipay:".$data['trade_no'];
+
+                   //将钱增加到商户冻结资金
+                   $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price);
+                   if($result){
+                       // 保存订单
+                       $order->save();
+                   }else{
+                       //假如失败就回滚
+                       DB::rollback();
+                       return 'fail';
+                   }
+               }
+
+            //假如价格比对成功就提交
+            if($total_price <= $data['total_fee']){
+                DB::commit();
+                //进行推送通知
+                $this->propleinfo($sid,$users_id);
+                 echo "<script>window.location.href='http://www.anchong.net/order'</script>";
+                return 'success';
+            }else{
+                //假如失败就回滚
+                DB::rollback();
+                return 'fail';
+            }
+            break;
        }
    }
 
@@ -631,7 +748,7 @@ class PayController extends Controller
                    }
 
                 //假如价格比对成功就提交
-                if($total_price < $data['total_fee']){
+                if($total_price <= $data['total_fee']){
                     DB::commit();
                     //进行推送通知
                     $this->propleinfo($sid,$users_id,'success');
@@ -648,7 +765,7 @@ class PayController extends Controller
                 //通过订单查出价格和ID
                 $result=$purse_order->quer(['purse_oid','price'],'order_num ='.$paynum)->toArray();
                 //判断总价，防止app改包攻击
-                if($result[0]['price'] != $data['total_fee']){
+                if($result[0]['price'] >= $data['total_fee']){
                     return 'fail';
                 }
                 //更新订单状态
@@ -730,7 +847,7 @@ class PayController extends Controller
                   }
 
                //假如价格比对成功就提交
-               if($total_price < $data['total_fee']){
+               if($total_price <= $data['total_fee']){
                    DB::commit();
                    //进行推送通知
                    $this->propleinfo($sid,$users_id);
@@ -749,7 +866,7 @@ class PayController extends Controller
                //通过订单查出价格和ID
                $result=$purse_order->quer(['purse_oid','price'],'order_num ='.$paynum)->toArray();
                //判断总价，防止app改包攻击
-               if($result[0]['price'] != $data['total_fee']){
+               if($result[0]['price'] >= $data['total_fee']){
                    return 'fail';
                }
                //更新订单状态

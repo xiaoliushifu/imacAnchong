@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8">
     <title>购物车</title>
-    <link rel="stylesheet" type="text/css" href="{{asset('home/css/cart.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('/home/css/cart.css')}}">
     <link rel="stylesheet" href="{{asset('home/css/top.css')}}">
-    <script src="{{asset('home/js/jquery-3.1.0.js')}}"></script>
-    <script src="{{asset('home/js/top.js')}}"></script>
-    <script src="{{asset('home/org/layer/layer.js')}}"></script>
-    <script src="{{asset('home/js/cartdetail.js')}}"></script>
+    <script src="{{asset('/home/js/jquery-3.1.0.js')}}"></script>
+    <script src="{{asset('/home/js/top.js')}}"></script>
+    <script src="{{asset('/home/org/layer/layer.js')}}"></script>
+    <script src="{{asset('/home/js/cartdetail.js')}}"></script>
 </head>
 <body>
 @include('inc.home.top')

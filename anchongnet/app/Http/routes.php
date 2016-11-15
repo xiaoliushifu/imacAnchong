@@ -363,6 +363,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/live/relivesearch','Api\Live\LiveController@relivesearch');
         //个人重播列表
         Route::post('/live/mylivelist','Api\Live\LiveController@mylivelist');
+        //直播礼物
+        Route::post('/live/livegift','Api\Live\LiveController@livegift');
         //重播删除
         Route::post('/live/dellive','Api\Live\LiveController@dellive');
         //网易云信状态改变
@@ -582,7 +584,7 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
             Route::post('/user/smsauth', 'Home\User\RegController@smsauth');
             //前台重置密码
             Route::resource('/user/forgetpwd', 'Home\User\ForgetpwdController');
-            
+
             //购物车分享功能
             Route::resource('/cartshare', 'Home\Cart\CartShareController');
             //获取商品参数html代码
