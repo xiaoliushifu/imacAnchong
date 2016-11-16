@@ -132,7 +132,7 @@
 										<td align="center">
 											<button type="button" class="view f-ib btn btn-default btn-xs" data-id="{{$data['order_id']}}"
 											data-num="{{$data['order_num']}}" data-name="{{$data['name']}}" data-phone="{{$data['phone']}}" data-address="{{$data['address']}}" data-price="{{$data['total_price']}}" data-freight="{{$data['freight']}}"
-											data-time="{{$data['created_at']}}" data-sname="{{$data['sname']}}" data-tname="{{$data['tname']}}" data-invoice="{{$data['invoice']}}" data-acpid="{{$data['acpid']}}" data-toggle="modal" data-target="#myView">打印</button>
+											data-time="{{$data['created_at']}}" data-sname="{{$data['sname']}}" data-tname="{{$data['tname']}}" data-invoice="{{$data['invoice']}}" data-acpid="{{$data['acpid']}}" data-invoicetype="{{$data['invoice_type']}}" data-toggle="modal" data-target="#myView">打印</button>
 												@can('order-ship')
 													<button type='button' class='shipbtn f-ib btn btn-primary btn-xs {{ ($data["state"])!=2? "hidden":""}}'  data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#mySend">发货</button>
 													<button type='button' class='status btn btn-primary btn-xs {{ ($data["state"])!=3? "hidden":""}}' data-id="{{$data['order_id']}}" data-num="{{$data['order_num']}}" data-toggle="modal" data-target="#myStatus">物流状态</button>

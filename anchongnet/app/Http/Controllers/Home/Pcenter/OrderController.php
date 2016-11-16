@@ -17,7 +17,7 @@ class OrderController extends CommonController
     {
         $usersinfo=Auth::user();
         //$user =Users::where('users_id',$usersinfo->users_id)->first();
-        $orderlist = Order::where('users_id',$usersinfo->users_id)->get();
+        $orderlist = Order::where('users_id',$usersinfo->users_id)->orderBy('order_id','DESC')->get();
           foreach($orderlist as $k){
             $mm = $k['order_num'];
              $orderinfo[$mm] = Orderinfo::where('order_num',$mm)->get();
@@ -237,12 +237,12 @@ class OrderController extends CommonController
                     }
                     $true=true;
                      //同时删除购物车
-                    //  $resultdel=$cart->cartdel($goodsinfo['cart_id']);
-                    //  if($resultdel){
-                    //      $true=true;
-                    //  }else{
-                    //      $true=false;
-                    //  }
+                     $resultdel=$cart->cartdel($goodsinfo['cart_id']);
+                     if($resultdel){
+                         $true=true;
+                     }else{
+                         $true=false;
+                     }
                 }
                 //判断传输过程中价格有没有被篡改
                 if($orderarr['total_price'] < $goods_total_price){

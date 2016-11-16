@@ -25,6 +25,8 @@ $(function(){
         var al;
         //标题
         var tl;
+		//运费
+		var iv="";
         //为html赋值
         $("#ordertime").text('订单日期:'+$(this).attr("data-time"));
         $("#ordernum").text('订单编号:  '+$(this).attr("data-num"));
@@ -34,17 +36,27 @@ $(function(){
         $("#orderaddress").text('配送地址:'+$(this).attr("data-address"));
         $("#ordertname").text('客户名称:'+$(this).attr("data-tname"));
         //判断是否有发票
-        if($(this).attr("data-invoice")){
+        if($(this).attr("data-invoicetype") != 0){
             //根据#进行发票信息的分隔
             var invoice=$(this).attr("data-invoice").split("#");
-            //判断是否分隔成功
-            if(invoice[1] == undefined){
-                $('#orderinvoice').text("发票抬头:"+invoice[0]);
-            }else{
-                $('#orderinvoiceinfo').text("发票信息:"+invoice[0]);
-                $('#orderinvoice').text("发票抬头:"+invoice[1]);
-            }
-        }
+			// for(var i=0;i<invoice.length;i++){
+			// 	iv += invoice[i]+" ";
+			// }
+			if($(this).attr("data-invoicetype") == 1){
+				$('#orderinvoiceinfo').text("发票抬头:"+invoice[0]);
+				$('#orderinvoice').text("发票信息:"+invoice[1]);
+			}else if ($(this).attr("data-invoicetype") == 2) {
+				$('#orderinvoiceinfo').remove();
+				$('#orderinvoice').remove();
+				// $('#orderinvoice').text("发票信息:"+iv);
+				// $('#orderinvoiceinfo').text("发票类型:增值发票");
+				iv="<tr><td colspan='2'>发票类型:增值发票</td><td colspan='5'>发票抬头:"+invoice[0]+"</td></tr><tr><td colspan='2'>纳税人识别号:"+invoice[1]+"</td><td colspan='5'>地址与电话:"+invoice[2]+"</td></tr><tr><td colspan='2'>开户行及账号:"+invoice[3]+"</td><td colspan='5'>货物名称:"+invoice[4]+"</td></tr>";
+				$("#mbody").append(iv);
+			}
+        }else{
+			$('#orderinvoice').text("发票信息:");
+			$('#orderinvoiceinfo').text("发票类型:无发票");
+		}
         //判断是否有优惠券
         if($(this).attr("data-acpid")){
             //优惠券
@@ -53,7 +65,7 @@ $(function(){
             $.get("/getacpinfo",{acpid:acpid},function(data,status){
                 if(data[0].title){
                     acpl='<tr><td width="25%" colspan="2" align="left" valign="middle">优惠券类型：'+data[0].title+'</td><td width="25%" colspan="5" align="left" valign="middle">优惠价格：'+data[0].cvalue+'</td></tr>';
-                    console.log($("#mbody").children().children().last().after(acpl));
+                    // console.log($("#mbody").children().children().last().after(acpl));
                 }
             });
         }

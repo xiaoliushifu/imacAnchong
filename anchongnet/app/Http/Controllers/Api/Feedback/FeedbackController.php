@@ -180,7 +180,7 @@ class FeedbackController extends Controller
     */
     public function androidupdate(Request $request)
     {
-        return response()->json(['varsionName'=>"2.0.1",'varsionCode'=>22,'Description'=>"更新介绍:
+        return response()->json(['varsionName'=>"3.0.7",'varsionCode'=>37,'Description'=>"更新介绍:
 1.新增钱袋模块-余额、签到、虫豆、优惠券
 2.优化了加入购物车界面
 3.加入了清除缓存功能
