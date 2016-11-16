@@ -73,9 +73,6 @@
                 @elseif(count($addr)==1)
                     @foreach($addr as $v)
                 <a href="javascript:void(0)"><li class="o-add" onclick="selectd($(this));">
-                    <input type="hidden" name="name" id="name" value="{{$v -> add_name}}">
-                    <input type="hidden" name="phone" id="phone" value="{{$v -> phone}}">
-                    <input type="hidden" name="address" id="address" value="{{$v ->region}}&nbsp;{{$v -> address}}">
                     <p class="consignee">收货人：{{$v -> add_name}}</p>
                     <p class="telphone">联系电话：{{$v -> phone}}</p>
                     <p class="reciver-add">收货地址：{{$v ->region}}&nbsp;{{$v -> address}}</p>

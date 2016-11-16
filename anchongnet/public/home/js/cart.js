@@ -1,6 +1,6 @@
 $(function () {
     var state=true;
-    console.log($('.select:checked').parent().siblings('.total-price').text());
+    // console.log($('.select:checked').parent().siblings('.total-price').text());
     //定义总价
     var total_price=0;
     var price=$(".total-price").text().split("￥");
