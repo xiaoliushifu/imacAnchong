@@ -40,7 +40,7 @@
         <div class="middle-top">
             <i class="site-location">您的位置:</i>
             <i class="index">首页</i>
-            <span class =connector"">></span>
+            <span class ="connector">></span>
             <i class="personal">资讯</i>
             <span class ="connector">></span>
             <i class="upload">上传干货</i>

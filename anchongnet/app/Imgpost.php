@@ -3,9 +3,6 @@
 namespace App;
 
 use Illuminate\Http\Request;
-
-use App\Http\Controllers\Controller;
-
 use OSS\OssClient;
 use OSS\Core\OssException;
 
@@ -40,6 +37,10 @@ class imgpost
      */
     static function upload($request)
     {
+        /**
+         * 统一操作文件（图片）上传
+         * @var unknown
+         */
         $fileType=$_FILES['file']['type'];
         $dir="head/";
         $filePath = $request['file'];
@@ -60,6 +61,7 @@ class imgpost
         }
         try {
             //实例化一个ossClient对象
+            //访问密钥和域名（endpoint）
             $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
             //上传文件
             $ossClient->uploadFile($this->bucket, $object, $filePath);

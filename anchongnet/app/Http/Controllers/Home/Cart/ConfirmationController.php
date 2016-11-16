@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Home\Cart;
 
 use App\Address;
 use App\Http\Controllers\Home\CommonController;
-use App\Users;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -28,6 +27,10 @@ class ConfirmationController extends CommonController
     public function store(Request $request)
     {
         $data=$request->all();
+        //空订单提交
+        if (!isset($data['goodsinfo'])) {
+            return back();
+        }
         //定义json解码后的数组
         $cartdata=[];
         //遍历数组

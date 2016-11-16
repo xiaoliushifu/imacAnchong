@@ -3,12 +3,11 @@
 <head>
     <meta charset="utf-8">
     <title>购物车</title>
-    <link rel="stylesheet" type="text/css" href="{{asset('/home/css/cart.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('home/css/cart.css')}}">
     <link rel="stylesheet" href="{{asset('home/css/top.css')}}">
-    <script src="{{asset('/home/js/jquery-3.1.0.js')}}"></script>
-    <script src="{{asset('/home/js/top.js')}}"></script>
-    <script src="{{asset('/home/org/layer/layer.js')}}"></script>
-    <script src="{{asset('/home/js/cartdetail.js')}}"></script>
+    <script src="{{asset('home/js/jquery-3.1.0.js')}}"></script>
+    <script src="{{asset('home/js/top.js')}}"></script>
+    <script src="{{asset('home/org/layer/layer.js')}}"></script>
 </head>
 <body>
 @include('inc.home.top')
@@ -62,14 +61,14 @@
                         </li>
                         <li class="goods-price">￥{{$value['goods_price']}}</li>
                         <li class="goods-number">
-                            <a class="minus" onclick="Minus(this)" data-id={{$value['cart_id']}}></a>
+                            <a class="minus" data-id={{$value['cart_id']}}></a>
                             <input class="count" type="text" value="{{$value['goods_num']}}">
-                            <a class="add" onclick="Add(this)" data-id={{$value['cart_id']}}></a>
+                            <a class="add" data-id={{$value['cart_id']}}></a>
                         </li>
                         <li class="total-price">￥{{$value['goods_num'] * $value['goods_price']}}</li>
                         <li class="goods-handle">
                             <p class="favorite"><a onclick="Favorite({{$value['gid']}})">转为收藏</a></p>
-                            <p class="del"><a onclick="DelCart({{$value['cart_id']}})">删除</a></p>
+                            <p class="del"><a onclick="DelCart(this)" cart_id="{{$value['cart_id']}}">删除</a></p>
                         </li>
                     </ul>
             </li>
@@ -79,7 +78,7 @@
         </ul>
         <ul class="settlement">
             <li class="all">
-                <input type="checkbox" class="check1" id="checkall" onclick="checkall();">
+                <input type="checkbox" class="check1" id="checkall" onclick="allsel();">
                 <a href="javascript:">全选</a>
             </li>
             <div style="float:right">
@@ -103,9 +102,8 @@
 </div>
 @include('inc.home.site-foot')
 </body>
-
 <script>
-//总价格和总数量修改
+{{--总价计算--}}
 function totalcheck(){
     total_price=0;
     price=$('.select:checked').parent().siblings('.total-price').text().split("￥");
@@ -116,12 +114,16 @@ function totalcheck(){
     $("#cart_realPrice").text("￥"+total_price);
 }
 
-function checkall(){
+function allsel(){
     //定义全选全不选
     if($('#checkall').is(':checked')){
         $('.select').prop('checked','checked');
+        $('.pay').attr('disabled',false);
+        $('.pay').css('background-color','#f53745');
     }else{
         $('.select').prop('checked',false);
+        $('.pay').attr('disabled',true);
+        $('.pay').css('background-color','#888888');
     }
     total_price=0;
     price=$('.select:checked').parent().siblings('.total-price').text().split("￥");
@@ -131,27 +133,26 @@ function checkall(){
     $(".count-num").text($('.select:checked').length);
     $("#cart_realPrice").text("￥"+total_price);
 }
-
-function DelCart(cart_id) {
-    layer.confirm('你确定要删除这个商品么？',{
-        btn:['确定','取消']
-    },function () {
-        $.post("{{url('/cart')}}/"+cart_id,{'_method':'delete','_token':'{{csrf_token()}}'},function (data) {
+{{--删除购物车中一种商品--}}
+function DelCart(obj) {
+    layer.confirm('你确定要删除这个商品么？',{btn:['确定','取消']},function () {
+        $.post("{{url('/cart')}}/"+$(obj).attr('cart_id'),{'_method':'delete','_token':'{{csrf_token()}}'},function (data) {
             if(data.status == 0){
-                location.href=location.href;
+            		$(obj).parents('li.goods-info').prev().remove();
+            		$(obj).parents('li.goods-info').remove();
                 layer.msg(data.msg,{icon:6});
             }else{
-                location.href=location.href;
                 layer.msg(data.msg,{icon:5});
             }
+            totalcheck();
         })
     },
     function () {
-
-    })
+    });
 }
+{{--收藏--}}
 function Favorite(gid) {
-    var data = {'users_id':'{{$msg->users_id}}','coll_id':gid,'coll_type':'1','_token':'{{csrf_token()}}'};
+    var data = {'coll_id':gid,'coll_type':'1','_token':'{{csrf_token()}}'};
     $.post('/collect',data,function (msg) {
         layer.msg(msg.msg,{icon: 6});
     });

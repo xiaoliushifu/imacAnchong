@@ -97,11 +97,11 @@ $(function(){
         $(this).siblings(".supval").empty();
         $(".waitforspe").removeClass("waitforspe");
         $(this).addClass("waitforspe");
-        //会获得所有货品数据，但是只显示第一条，有点浪费带宽了
+        //会获得该商品下的所有货品数据，但是只显示第一条
         $.get('/getsiblingsgood',{'good':val},function(data,status){
             var spe;
             if(data.length==0){
-            		//配套商品的货品即使为空，也得在数据库表中占用一条记录
+            		//配套商品的货品即使为空
                 spe='<input type="hidden" name="gid[]" value=" "><input type="hidden" name="title[]" value=" "><input type="hidden" name="price[]" value=" "><input type="hidden" name="img[]" value=" ">';
             }else{
                 spe='<input type="hidden" name="gid[]" value='+data[0].gid+'><input type="hidden" name="title[]" value="'+data[0].title+'"><input type="hidden" name="price[]" value='+data[0].market_price+'><input type="hidden" name="img[]" value='+data[0].goods_img+'>';

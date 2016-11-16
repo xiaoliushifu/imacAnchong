@@ -9,8 +9,6 @@ use App\Users;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
 
-
-
 class InfoController extends CommonController
 {
     /*

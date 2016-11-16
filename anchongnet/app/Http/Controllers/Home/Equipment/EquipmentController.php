@@ -125,11 +125,11 @@ class EquipmentController extends CommonController
         });
         //属性1
         if(isset($type[0])){
-            $name = explode(' ',$type[0]->value);
+            $name = preg_split('#\s#', $type[0]->value,-1,PREG_SPLIT_NO_EMPTY);
         }
         //属性2
         if(isset($type[1])){
-            $size = explode(' ',$type[1]->value);
+            $size = preg_split('#\s#', $type[1]->value,-1,PREG_SPLIT_NO_EMPTY);
         }
         //得到商品价格
         $price = Cache::remember('goodsprice'.$gid,10,function() use($goods_id,$gid){
