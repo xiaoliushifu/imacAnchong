@@ -48,11 +48,11 @@
         <div class="upload-status">
             <img src="/home/images/info/uploading.png">
         </div>
-            <div class="upload-content">
-                <div id="fileList" class="uploader-list"></div>
-                <div id="picker"></div>
-                <p>从我的电脑选择要上传的文档：按住CTRL可以上传多份文档</p>
-            </div>
+        <div class="upload-content">
+            <div id="fileList" class="uploader-list"></div>
+            <div id="picker"></div>
+            <p>从我的电脑选择要上传的文档：按住CTRL可以上传多份文档</p>
+        </div>
         <div class="tips">
             <h3>温馨提示</h3>
             <p>1.你可以上传日常积累和撰写的文档资料，或者施工案例，支持多种文档类型：doc，docx，ppt，ppts，xls，xlsx，wps，PDF，txt。</p>
@@ -109,15 +109,15 @@
 
             $percent.css( 'width', percentage * 100 + '%' );
         });
-        //    上传成功或失败处理
+        //上传成功时调用
         uploader.on( 'uploadSuccess', function( file ) {
             $( '#'+file.id ).find('p.state').text('已上传');
         });
-
+		//上传失败时调用
         uploader.on( 'uploadError', function( file ) {
             $( '#'+file.id ).find('p.state').text('上传出错');
         });
-
+		//文件上传完后调用
         uploader.on( 'uploadComplete', function( file ) {
             $( '#'+file.id ).find('.progress').fadeOut();
         });

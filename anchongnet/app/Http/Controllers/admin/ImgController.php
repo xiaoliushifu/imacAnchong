@@ -77,7 +77,7 @@ class ImgController extends Controller
                 break;
         }
         //设置上传到阿里云oss的对象的键名
-        switch ($fileType){
+        switch ($fileType) {
             case "image/png":
                 $object=$dir.time().rand(100000,999999).".png";
                 break;
