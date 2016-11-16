@@ -153,36 +153,6 @@
                                         <input type="text" name="oem" id="oem" class="form-control" style="width:500px;" placeholder="多个属性值之间请用空格隔开，最后一个值为订制。如：中信 订制" value="{{ old('oem') }}" />
                                     </div>
                                 </div>
-                                <div class="form-group hidden suptemp">
-                                    <label class="col-sm-2 control-label">添加配套商品</label>
-                                    <div class="col-sm-10">
-                                        <div class="row">
-                                            <div class="col-xs-2">
-                                                <select class="form-control mainselect">
-                                                    <option value="">请选择</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <select class="form-control midselect midforsup">
-                                                    <option value="">请选择</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <select class="form-control supname" name="supname[]">
-                                                    <option value="">请选择</option>
-                                                </select>
-                                                <input type="hidden" name="goodsname[]" class="goodsname">
-                                                <div class="supval"></div>
-                                            </div>
-                                            <div class="addsup col-xs-1">
-                                                <button type="button" class="btn btn-xs glyphicon glyphicon-plus" title="添加配套商品"></button>
-                                            </div>
-                                            <div class="minusup col-xs-1">
-                                                <button type="button" class="btn btn-xs glyphicon glyphicon-minus" title="删除"></button>
-                                            </div>
-                                        </div><!--end row-->
-                                    </div><!--end col-sm-10-->
-                                </div><!--end form-group-->
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">添加配套商品</label>
                                     <div class="col-sm-10">
@@ -198,7 +168,7 @@
                                                 </select>
                                             </div>
                                             <div class="col-xs-5">
-                                                <select class="form-control supname" name="supname[]">
+                                                <select class="form-control supname" name="supgoodsid[]">
                                                     <option value="">请选择</option>
                                                 </select>
                                                 <input type="hidden" name="goodsname[]" class="goodsname">
@@ -267,6 +237,7 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+    {{--分类信息模板--}}
     <input type="hidden" id="activeFlag" value="treegood">
     <div class="catemplate hidden form-group">
         <label class="col-sm-2 control-label">商品分类</label>
@@ -287,6 +258,37 @@
                 </div>
                 <div class="minus col-xs-1">
                     <button type="button" class="btn btn-xs glyphicon glyphicon-minus" title="删除分类"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{--配套商品模板--}}
+    <div class="form-group hidden suptemp">
+        <label class="col-sm-2 control-label">添加配套商品</label>
+        <div class="col-sm-10">
+            <div class="row">
+                <div class="col-xs-2">
+                    <select class="form-control mainselect">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="col-xs-2">
+                    <select class="form-control midselect midforsup">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="col-xs-2">
+                    <select class="form-control supname" name="supgoodsid[]">
+                        <option value="">请选择</option>
+                    </select>
+                    <input type="hidden" class="goodsname" name="goodsname[]" >
+                    <div class="supval"></div>
+                </div>
+                <div class="addsup col-xs-1">
+                    <button type="button" class="btn btn-xs glyphicon glyphicon-plus" title="添加配套商品"></button>
+                </div>
+                <div class="minusup col-xs-1">
+                    <button type="button" class="btn btn-xs glyphicon glyphicon-minus" title="删除"></button>
                 </div>
             </div><!--end row-->
         </div><!--end col-sm-10-->

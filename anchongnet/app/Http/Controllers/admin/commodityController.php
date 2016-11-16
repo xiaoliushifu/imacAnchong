@@ -89,7 +89,7 @@ class commodityController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  $request('keyword'关键字,'name'商品名,'sid'商铺ID,'description'描述,'midselect'分类ID,'remark'备注,'pic'图片数组,'param'描述参数,'data'附件,'oem'商品OEM,'attrname'商品属性,'gid'商品ID,'supname'配套ID数组,'title'配套标题数组,'price'配套价格数组,'img'配套图片数组,'goodsname'配套商品名)
+     * @param  $request('keyword'关键字,'name'商品名,'sid'商铺ID,'description'描述,'midselect'分类ID,'remark'备注,'pic'图片数组,'param'描述参数,'data'附件,'oem'商品OEM,'attrname'商品属性,'gid'商品ID,'supgoodsid'配套商品ID数组,'title'配套标题数组,'price'配套价格数组,'img'配套图片数组,'goodsname'配套商品名)
      * @return \Illuminate\Http\Response
      */
     public function store(\App\Http\Requests\CommodityRequest $request)
@@ -139,28 +139,30 @@ class commodityController extends Controller
             DB::table('anchong_goods_oem')->insert(['goods_id'=>$gid,'value'=>$request->oem]);
         }
 
-        //属性（规格）入库
+        //属性（规格）入库(必填项)
+        $arrdata = [];
         for($i=0;$i<count($request->attrname);$i++){
-            $data[]=['goods_id' => $gid, 'name' => $request->attrname[$i], 'value' => $request->attrvalue[$i]];
-        };
-        DB::table('anchong_goods_attribute')->insert($data);
+            $arrdata[]=['goods_id' => $gid, 'name' => $request->attrname[$i], 'value' => $request->attrvalue[$i]];
+        }
+        DB::table('anchong_goods_attribute')->insert($arrdata);
 
         //通过循环向配套商品表中插入数据
-        for($i=0;$i<count($request->supname)-1;$i++){
-            if(!empty($request->title[$i]) && !empty($request->price[$i]) && !empty($request->gid[$i])){
-                DB::table('anchong_goods_supporting')->insertGetId(
-                    [
-                        'goods_id'=>$request->supname[$i+1],
-                        'gid'=>$request->gid[$i],
-                        'title'=>$request->title[$i],
-                        'price'=>$request->price[$i],
-                        'img'=>$request->img[$i],
-                        'assoc_gid'=>$gid,
-                        'goods_name'=>$request->goodsname[$i+1]
-                    ]
-                );
+        $supdata=[];
+        for($i=0; $i<count($request->supgoodsid); $i++) {
+            //配套商品的货品信息(title,price)
+            if(isset($request->title[$i]) && !empty($request->title[$i])){
+                $supdata[] =   [
+                    'goods_id'=>$request->supgoodsid[$i],
+                    'gid'=>$request->gid[$i],
+                    'title'=>$request->title[$i],
+                    'price'=>$request->price[$i],
+                    'img'=>$request->img[$i],
+                    'assoc_gid'=>$gid,//和本次录入的商品关联
+                    'goods_name'=>$request->goodsname[$i]
+                ];
             }
         }
+        DB::table('anchong_goods_supporting')->insert($supdata);
 
         //提交事务
         DB::commit();
