@@ -655,9 +655,7 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
             //设备选购
             Route::controller('/equipment', 'Home\Equipment\EquipmentController');
             //资讯
-            Route::group(['namespace' => 'Home\Info'], function () {
-                 Route::resource('info', 'InfoController');
-             });
+            Route::resource('info', 'Home\Info\InfoController');
             //社区
             Route::group(['namespace' => 'Home\Community'], function () {
                  //社区
