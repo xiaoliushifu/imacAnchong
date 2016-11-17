@@ -17,9 +17,12 @@ class CommonController extends Controller
             $user = Cache::remember('user',10,function() use($users){
                 return Users::where('users_id', $users->users_id)->first();
             });
+            //var_dump($user);
+            var_dump($users->users_id);
             $msg = Cache::remember('all', 10, function () use($users){
                 return Usermessages::where('users_id', $users->users_id)->first();
             });
+            var_dump($msg);
             View::share(['msg'=> $msg,'user'=> $user]);
         }
     }

@@ -249,7 +249,7 @@ class PayController extends Controller
     }
 
     /*
-    *   该方法是支付宝的支付接口
+    *   该方法是web端支付宝的支付接口
     */
     public function alipay(Request $request)
     {
@@ -331,6 +331,38 @@ class PayController extends Controller
     }
 
     /*
+    *   该方法是微信web端的支付接口
+    */
+    public function wxwebpay(Request $request)
+    {
+        //获得app端传过来的json格式的数据转换成数组格式
+        $data=$request::all();
+        $param=json_decode($data['param'],true);
+        $total_fee=$param['totalFee']*100;
+        //总价转换
+        $wechat = app('wechat');
+        $attributes = [
+            'trade_type'       => 'APP', // JSAPI，NATIVE，APP...
+            'body'             => $param['subject'],
+            'detail'           => $param['body'],
+            'out_trade_no'     => $param['outTradeNo'],
+            'total_fee'        => $total_fee,
+            'notify_url'       => 'http://pay.anchong.net/pay/wxnotify',
+        ];
+        //生成订单类
+        $order = new Order($attributes);
+        $payment=$wechat->payment;
+        $result = $payment->prepare($order);
+        //判断是否有成功的订单
+        if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
+            $prepayId = $result->prepay_id;
+        }
+        //生成app所需的内容
+        $config = $payment->configForAppPayment($prepayId);
+        return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$config]);
+    }
+
+    /*
     *   该方法是支付宝APP的支付接口
     */
     public function aliapppay(Request $request)
@@ -353,6 +385,36 @@ class PayController extends Controller
     *   该方法是支付宝APP订单内的支付接口
     */
     public function aliapporderpay(Request $request)
+    {
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            //创建ORM模型
+            $pay=new \App\Pay();
+            //支付单号
+            $paynum=rand(100000,999999).time();
+            $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$param['order_id'],'total_price'=>$param['totalFee']]);
+            if($payresult){
+                // 创建支付单。
+                $alipay = app('alipay.mobile');
+                $alipay->setOutTradeNo($paynum);
+                $alipay->setTotalFee($param['totalFee']);
+                $alipay->setSubject('安虫商城订单支付');
+                $alipay->setBody($param['body']);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$alipay->getPayPara()]);
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败']]);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
+
+    /*
+    *   该方法是支付宝web订单内的支付接口
+    */
+    public function aliweborderpay(Request $request)
     {
         try{
             //获得app端传过来的json格式的数据转换成数组格式
