@@ -8,15 +8,18 @@
         return $expiration."Z";
     }
 
+    //require_once 'oss_php_sdk_20140625/sdk.class.php';
     $id= 'HJjYLnySPG4TBdFp';
     $key= 'Ifv0SNWwch5sgFcrM1bDthqyy4BmOa';
     $host = 'http://anchongres.oss-cn-hangzhou.aliyuncs.com';
-
+    $callback_body = '{"callbackUrl":"http://courier.anchong.net/osscall","callbackHost":"courier.anchong.net","callbackBody":"filename=${object}&size=${size}&mimeType=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}","callbackBodyType":"application/x-www-form-urlencoded"}';
+    $base64_callback_body = base64_encode($callback_body);
     $now = time();
     $expire = 30; //设置该policy超时时间是10s. 即这个policy过了这个有效时间，将不能访问
     $end = $now + $expire;
     $expiration = gmt_iso8601($end);
 
+    //$oss_sdk_service = new alioss($id, $key, $host);
     $dir = 'ganhuo-dir/';
 
     //最大文件大小.用户可以自己设置
@@ -42,6 +45,7 @@
     $response['policy'] = $base64_policy;
     $response['signature'] = $signature;
     $response['expire'] = $end;
+    $response['callback'] = $base64_callback_body;
     //这个参数是设置用户上传指定的前缀
     $response['dir'] = $dir;
     echo json_encode($response);

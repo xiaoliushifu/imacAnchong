@@ -393,6 +393,7 @@ Route::group(['domain' => 'pay.anchong.net'], function () {
 Route::group(['domain'=>'courier.anchong.net'],function(){
     Route::post('/order','admin\orderController@ostatus');
     Route::post('/logis','admin\orderController@lstatus');
+    Route::any('/osscall','Home\Info\InfoController@osscall');
 });
 //后台路由
 Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function () {
@@ -656,8 +657,9 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
 
             //设备选购
             Route::controller('/equipment', 'Home\Equipment\EquipmentController');
-            //资讯
+            //资讯干货
             Route::resource('info', 'Home\Info\InfoController');
+            Route::get('/getphp','Home\Info\InfoController@getphp');
             //社区
             Route::group(['namespace' => 'Home\Community'], function () {
                  //社区
