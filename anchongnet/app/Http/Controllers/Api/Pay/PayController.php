@@ -249,7 +249,7 @@ class PayController extends Controller
     }
 
     /*
-    *   该方法是支付宝的支付接口
+    *   该方法是web端支付宝的支付接口
     */
     public function alipay(Request $request)
     {
@@ -371,6 +371,63 @@ class PayController extends Controller
                 $alipay->setSubject('安虫商城订单支付');
                 $alipay->setBody($param['body']);
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$alipay->getPayPara()]);
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败']]);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
+
+    /*
+    *   该方法是支付宝web订单内的支付接口（和订单内的价格比对需要加）
+    */
+    public function aliweborderpay(Request $request)
+    {
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            //定义订单的句柄
+            $order_handle=new \App\Order();
+            if($order_handle->find($data['order_id'])->total_price > $data['totalFee']){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败,付款金额有误！']]);
+            }
+            //创建ORM模型
+            $pay=new \App\Pay();
+            //支付单号
+            $paynum=rand(100000,999999).time();
+            $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$data['order_id'],'total_price'=>$data['totalFee']]);
+            if($payresult){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['payurl'=>'http://pay.anchong.net/pay/alipay','outTradeNo'=>$paynum,'totalFee'=>$data['totalFee'],'body'=>$data['body'],'subject'=>"安虫商城订单支付"]]);
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败']]);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
+
+    /*
+    *   该方法是微信web订单内的支付接口
+    */
+    public function wxweborderpay(Request $request)
+    {
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            //定义订单的句柄
+            $order_handle=new \App\Order();
+            if($order_handle->find($data['order_id'])->total_price > $data['totalFee']){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败,付款金额有误！']]);
+            }
+            //创建ORM模型
+            $pay=new \App\Pay();
+            //支付单号
+            $paynum=rand(100000,999999).time();
+            $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$data['order_id'],'total_price'=>$data['totalFee']]);
+            if($payresult){
+                $total_fee=$data['totalFee'];
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['payurl'=>'http://pay.anchong.net/pay/wxpay','outTradeNo'=>$paynum,'totalFee'=>$total_fee,'body'=>$data['body'],'subject'=>"安虫商城订单支付"]]);
             }else{
                 return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败']]);
             }

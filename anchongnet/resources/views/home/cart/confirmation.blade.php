@@ -87,7 +87,7 @@
                         <a href="javascript:void(0)"><li class="o-add" onclick="selectd($(this));">
                             <p class="consignee">收货人：{{$v -> add_name}}</p>
                             <p class="telphone">联系电话：{{$v -> phone}}</p>
-                            <p class="reciver-add">收货地址：{{$v ->region}}&nbsp;{{$v -> address}}</p>
+                            <p class="reciver-add">收货地址：{{$v -> region}}&nbsp;{{$v -> address}}</p>
                             <!-- <p class="select"><img src="home/images/cart/selected.png"></p> -->
                         </li></a>
                     @endforeach
@@ -141,14 +141,18 @@
                     填写发票信息(开发票会产生额外费用):
                     <input type="checkbox" id="useinvoice" onclick="display();">
                 </div>
+                <div style="display:none">
+                    <input type="radio" id="nedit" name="invoicetype" value="0" checked="checked">
+                </div>
                 <div class="col-sm-10" id="invoicetype" style="display:none">
+
                     <div class="col-sm-3">
                         普通发票(5%):
-                        <input type="radio" id="makedownedit" name="invoicetype" value="1" checked="checked">
+                        <input type="radio" id="medit" name="invoicetype" value="1">
                     </div>
                     <div class="col-sm-3">
                         增值发票(10%):
-                        <input type="radio" id="htmledit" name="invoicetype" value="2">
+                        <input type="radio" id="hedit" name="invoicetype" value="2">
                     </div>
                     <div class="col-sm-10" id="putong" style="display:block">
                         <input type="text" name="invoice1" placeholder="发票抬头">
@@ -167,7 +171,7 @@
             <input type="hidden" name="cvalue" value="">
             <input type="hidden" name="shop" value="">
             <ul class="payment">
-                <input type="hidden" name="paytype" id="paytype" value="1">
+                <input type="hidden" name="paytype" id="paytype" value="2">
                 <h3>支付方式</h3>
                 <!-- <a href="javascript:void(0)"><li class="COD" onclick="pay($(this));" data-id="1">余额付款</li></a> -->
                 <a href="javascript:void(0)"><li class="COD" onclick="pay($(this));" data-id="2">支付宝支付</li></a>
@@ -190,8 +194,10 @@
     function display(){
         if($('#useinvoice').is(':checked')){
             $('#invoicetype').css("display","block");
+            $('#medit').prop("checked","checked");
         }else{
             $('#invoicetype').css("display","none");
+            $('#nedit').prop("checked","checked");
         }
     }
 

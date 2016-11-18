@@ -1,8 +1,8 @@
 @extends('inc.home.pcenter.pcenter')
 @section('info')
 	<title>订单详情</title>
-	<link rel="stylesheet" type="text/css" href="home/css/order.css"/>
-	<link rel="stylesheet" type="text/css" href="home/css/collectgoods.css">
+	<link rel="stylesheet" type="text/css" href="/home/css/order.css"/>
+	<link rel="stylesheet" type="text/css" href="/home/css/collectgoods.css">
 
 @endsection
 @section('content')
@@ -15,6 +15,7 @@
 				<p>QQ：{{$msg->qq}}</p>
 				<p>邮箱：{{$msg->email}}</p>
 			</div>
+			 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 			<div class="toppp">
 				<ul>
 					<li><a href="javascript:" class="inactive">我的发布<b class="caret"></b></a>
@@ -126,12 +127,22 @@
 									<p class="trade" style="color: red;">
 											@if($o->state==1)
 												待付款
+												<div class="btn-group">
+												  <button type="button" style="padding:5px 4px;" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" data-oid="{{$o->order_id}}" data-price="{{$o->total_price}}" data-info="{{$f->goods_name}}">
+												    立即支付 <span class="caret"></span>
+												  </button>
+												  <ul class="dropdown-menu" role="menu">
+												    <li><a href="#" class="alipay" data-oid="{{$o->order_id}}" data-price="{{$o->total_price}}" data-info="{{$f->goods_name}}">支付宝</a></li>
+												    <li><a href="#" class="wxpay" data-oid="{{$o->order_id}}" data-price="{{$o->total_price}}" data-info="{{$f->goods_name}}">微信</a></li>
+												  </ul>
+												</div>
 											@endif
 											@if($o->state==2)
 												待发货
 											@endif
 											@if($o->state==3)
 												待收货
+												<button style="padding:5px 4px;" type="button" class="btn btn-warning dropdown-toggle">确认收货</button>
 											@endif
 											@if($o->state==4)
 												待审核
@@ -308,4 +319,5 @@
 	</div>
 	<div style="clear: both"></div>
 	<script type="text/javascript" src="home/js/navleft.js"></script>
+	<script type="text/javascript" src="home/js/order.js"></script>
 	@endsection

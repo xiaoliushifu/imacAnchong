@@ -76,6 +76,30 @@ class OrderController extends Controller
                         }
                     }
                 }
+                //为了初期版本没有invoicetype字段做准备
+                try{
+                    //如果没有该字段就赋值为0
+                    if($param['invoicetype']){
+                        $invoicetype = $param['invoicetype'];
+                    }else{
+                        $invoicetype = 0;
+                    }
+                } catch (\Exception $e) {
+                    $invoicetype = 0;
+                }
+                //算上发票后的订单价格
+                try{
+                    //判断发票类型来增加价格
+                    if($param['invoicetype']==0){
+                        $allfree=$orderprice;
+                    }elseif($param['invoicetype']==1){
+                        $allfree=$orderprice*1.05;
+                    }elseif($param['invoicetype']==2){
+                        $allfree=$orderprice*1.1;
+                    }
+                }catch (\Exception $e) {
+                        $allfree=$orderprice;
+                }
                 $order_data=[
                     'order_num' => $order_num,
                     'users_id' => $data['guid'],
@@ -84,10 +108,10 @@ class OrderController extends Controller
                     'address' => $param['address'],
                     'name' => $param['name'],
                     'phone' => $param['phone'],
-                    'total_price' => $orderprice,
+                    'total_price' => $allfree,
                     'created_at' => date('Y-m-d H:i:s',$data['time']),
                     'freight' => $orderarr['freight'],
-                    'invoice_type' => $param['invoicetype'],
+                    'invoice_type' => $invoicetype,
                     'invoice' => $param['invoice'],
                     'customer' => $customers[0]['customer'],
                     'tname' => $name[0]['contact']
@@ -204,13 +228,18 @@ class OrderController extends Controller
             if($true && $total_price>0){
                 //假如成功就提交
                 DB::commit();
-                //判断发票类型来增加价格
-                if($param['invoicetype']==0){
-                    $total_price=$total_price;
-                }elseif($param['invoicetype']==1){
-                    $total_price=$total_price*1.05;
-                }elseif($param['invoicetype']==2){
-                    $total_price=$total_price*1.1;
+                //为老版本做优化
+                try{
+                    //判断发票类型来增加价格
+                    if($param['invoicetype']==0){
+                        $total_price=$total_price;
+                    }elseif($param['invoicetype']==1){
+                        $total_price=$total_price*1.05;
+                    }elseif($param['invoicetype']==2){
+                        $total_price=$total_price*1.1;
+                    }
+                }catch (\Exception $e) {
+                   return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['outTradeNo'=>$paynum,'totalFee'=>$total_price,'body'=>$body,'subject'=>"安虫商城订单支付"]]);
                 }
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['outTradeNo'=>$paynum,'totalFee'=>$total_price,'body'=>$body,'subject'=>"安虫商城订单支付"]]);
             }else{

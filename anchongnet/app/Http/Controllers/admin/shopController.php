@@ -88,7 +88,7 @@ class shopController extends Controller
         $data->save();
         return "成功";
     }
-    
+
     /**
      * 商铺审核方法
      *
@@ -109,6 +109,10 @@ class shopController extends Controller
             DB::table('anchong_shops')->where('sid', $sid)->update(['audit' => 2]);
             DB::table('anchong_users')->where('users_id', $req['users_id'])->update(['sid' => $sid]);
             $mes='您提交的商铺申请已经审核通过，快去体验新功能吧';
+        } elseif($req['act']=="selfpass") {
+            DB::table('anchong_shops')->where('sid', $sid)->update(['audit' => 2,'self' => 1]);
+            DB::table('anchong_users')->where('users_id', $req['users_id'])->update(['sid' => $sid]);
+            $mes='您提交的商铺申请已经审核通过安虫自营商铺，快去体验新功能吧';
         } else {
             DB::table('anchong_shops')->where('sid', $sid)->delete();
             DB::table('anchong_shops_mainbrand')->where('sid', $sid)->delete();
