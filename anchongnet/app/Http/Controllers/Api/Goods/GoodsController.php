@@ -551,7 +551,7 @@ class GoodsController extends Controller
                 $shopid=$results[0]['sid'];
                 $shop=new \App\Shop();
                 //查询商铺图片和名字
-                $shopresult=$shop->quer(['name','img','customer'],'sid = '.$shopid)->toArray();
+                $shopresult=$shop->quer(['name','img','customer','self'],'sid = '.$shopid)->toArray();
                 foreach ($results as $goods1) {
                     foreach ($goods1 as $key=>$goods2) {
                         $result[$key]=$goods2;

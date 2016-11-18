@@ -100,7 +100,7 @@
 									        if (Gate::denies('shop-check')) {
 									            echo "<button type='button'  class='disabled btn btn-xs'>通过</button>&nbsp;&nbsp;<button type='button'  class='disabled btn btn-xs'>不通过</button>";
 									        } else {
-									            echo "<button type='button' data-id='{$data['sid']}' data-uid='{$data['users_id']}' act='pass' class='check-success btn btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button' data-id='{$data['sid']}' act='' class='check-failed btn btn-danger btn-xs'>不通过</button>";
+									            echo "<button type='button' data-id='{$data['sid']}' data-uid='{$data['users_id']}' act='pass' class='check-success btn btn-success btn-xs'>通过</button>&nbsp;&nbsp;<button type='button' data-id='{$data['sid']}' data-uid='{$data['users_id']}' act='selfpass' class='check-success btn btn-success btn-xs'>通过自营</button>&nbsp;&nbsp;<button type='button' data-id='{$data['sid']}' act='' class='check-failed btn btn-danger btn-xs'>不通过</button>";
 									        }
 									        break;
 									    case 2:

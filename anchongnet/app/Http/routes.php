@@ -574,7 +574,10 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
     });
             //前台路由
 
-Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {
+Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {        //订单内支付宝支付
+            Route::post('/pay/aliweborderpay', 'Api\Pay\PayController@aliweborderpay');
+            //订单内微信支付
+            Route::post('/pay/wxweborderpay', 'Api\Pay\PayController@wxweborderpay');
             Route::resource('/user/register', 'Home\User\RegController');
             Route::post('/user/sharelogin', 'Home\User\LoginController@sharelogin');
             Route::get('/user/logout', 'Home\User\LoginController@logout');
