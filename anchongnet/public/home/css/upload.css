@@ -264,3 +264,19 @@ ul,li{
 .p3 span{
     margin: 0 20px;
 }
+/*选择文件的按钮（图片）*/
+.selectfile{
+	position:relative;
+	left:470px;
+}
+/*开始上传的按钮（图片）*/
+.beginup{
+	position:relative;
+	left:580px;
+}
+/*上传进程的状态*/
+.upstatus{
+	position:relative;
+	left:470px;
+	top:20px;
+}

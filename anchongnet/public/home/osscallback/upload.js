@@ -39,7 +39,6 @@ function get_signature()
 {
     //可以判断当前expire是否超过了当前时间,如果超过了当前时间,就重新取一下.3s 做为缓冲
     now = timestamp = Date.parse(new Date()) / 1000; 
-    console.log('get_signature ...');
     console.log('expire:' + expire.toString());
     console.log('now:', + now.toString())
     if (expire < now + 3)
@@ -47,7 +46,6 @@ function get_signature()
         console.log('get new sign')
         //请求后端
         body = send_request()
-        console.log(body);
         var obj = eval ("(" + body + ")");
         host = obj['host']
         policyBase64 = obj['policy']
@@ -95,11 +93,11 @@ var uploader = new plupload.Uploader({
 	url : 'http://anchongres.oss-cn-hangzhou.aliyuncs.com',
     filters: {
     	  mime_types : [
-    	    { title : "Image files", extensions : "jpg,gif,png" }, 
+    	    { title : "Image files", extensions : "jpg,gif,png,jpeg" }, 
     	    { title : "Zip files", extensions : "zip" },
-    	    { title : "Text files", extensions : "txt" }
+    	    { title : "Text files", extensions : "txt,doc,docx,ppt,ppts,xls,xlsx,wps,pdf,log" }
     	  ],
-    	  max_file_size : '1024kb', //最大只能上传400kb的文件
+    	  max_file_size : '20Mb', //最大只能上传400kb的文件
     	  prevent_duplicates : true //不允许选取重复文件
     	},
 
@@ -123,7 +121,6 @@ var uploader = new plupload.Uploader({
 		},
 
 		UploadProgress: function(up, file) {
-			console.log(file,'FILEAAA');
 			var d = document.getElementById(file.id);
 			d.getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
             
@@ -134,7 +131,6 @@ var uploader = new plupload.Uploader({
 		},
 
 		FileUploaded: function(up, file, info) {
-            console.log('uploaded')
             console.log(info.status)
             set_upload_param(up);
             if (info.status == 200)
@@ -149,7 +145,7 @@ var uploader = new plupload.Uploader({
 
 		Error: function(up, err) {
             set_upload_param(up);
-			document.getElementById('console').appendChild(document.createTextNode("\nError xml:" + err.response));
+			document.getElementById('console').appendChild(document.createTextNode("\nError xml:" + err.message));
 		}
 	}
 });

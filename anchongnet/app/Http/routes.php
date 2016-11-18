@@ -647,9 +647,9 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
                 //社区
                 Route::get('/colcommunity', 'CollectionController@colcommunity');
             });
+            
             //购物车
             Route::resource('/cart','Home\Cart\CartController');
-
             Route::group(['namespace' => 'Home\Cart','middleware'=>['loginhome']], function () {
                     //订单确认
                     Route::resource('/cartconfirm','ConfirmationController');
@@ -659,7 +659,7 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
             Route::controller('/equipment', 'Home\Equipment\EquipmentController');
             //资讯干货
             Route::resource('info', 'Home\Info\InfoController');
-            Route::get('/getphp','Home\Info\InfoController@getphp');
+            Route::get('/getphp', 'Home\Info\InfoController@getphp');
             //社区
             Route::group(['namespace' => 'Home\Community'], function () {
                  //社区
