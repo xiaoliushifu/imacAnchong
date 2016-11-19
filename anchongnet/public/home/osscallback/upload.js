@@ -135,7 +135,7 @@ var uploader = new plupload.Uploader({
             set_upload_param(up);
             if (info.status == 200)
             {
-                document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = 'success';
+                document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = 'success:'+file.name;
             }
             else
             {
