@@ -122,7 +122,7 @@
 								<li class="g-num">{{$f->goods_num}}</li>
 								<li class="refund">申请退款</span>
 								</li>
-								<li class="all-price">{{$f->goods_price*$f->goods_num}}</li>
+								<li class="all-price">{{$o->total_price}}</li>
 								<li class="trade-desc">
 									<p class="trade" style="color: red;">
 											@if($o->state==1)

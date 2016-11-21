@@ -61,15 +61,14 @@
                 </li></a>
                 @endforeach
                 @if(count($addr)==0)
-                <input type="hidden" name="name" value="">
-                <input type="hidden" name="phone" value="">
-                <input type="hidden" name="address" value="">
+                    @if(empty($deaddr))
                 <a href="javascript:void(0)"><li class="o-add" onclick="selectd($(this));">
                     <p style="text-align: center;color:#f53745;line-height: 50px">请填写收货地址</p>
                 </li></a>
                 <a href="javascript:void(0)"><li class="o-add" onclick="selectd($(this));">
                     <p style="text-align: center;color: #f53745;line-height: 50px">暂无更多地址</p>
                 </li></a>
+                    @endif
                 @elseif(count($addr)==1)
                     @foreach($addr as $v)
                 <a href="javascript:void(0)"><li class="o-add" onclick="selectd($(this));">
