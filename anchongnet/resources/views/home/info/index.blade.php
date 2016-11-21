@@ -82,11 +82,13 @@
                         @endif
                     </li>
                     <span class="parting"></span>
+                    @foreach($upfiles as $k=>$v) 
                     <li class="share-item">
-                        <a  class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        《光线振动入侵探测器技术要求》标准下载
+                        <a  class="download"  href="{{$v->filename}}"><img src="home/images/info/download.png"></a>
+                        <a class="preview"  href="{{$v->filename}}" target="blank"><img src="home/images/info/preview.png"></a>
+                        {{substr($v->filename,strrpos($v->filename,'/')+1)}}&nbsp;&nbsp;&nbsp;&nbsp;标准下载
                     </li>
+                    @endforeach
                     <li class="share-item">
                         <a class="download" href=""><img src="home/images/info/download.png"></a>
                         <a class="preview" href=""><img src="home/images/info/preview.png"></a>
@@ -126,11 +128,6 @@
                         <a class="download" href=""><img src="home/images/info/download.png"></a>
                         <a class="preview" href=""><img src="home/images/info/preview.png"></a>
                         监控摄像机常见知识及特性介绍（附PDF下载）
-                    </li>
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        IP监控系统协议标准（附PDF下载）
                     </li>
                 </ul>
             </li>

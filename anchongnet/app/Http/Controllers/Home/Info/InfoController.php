@@ -23,13 +23,18 @@ class InfoController extends CommonController
         $info = Cache::tags('info')->remember('info'.$page,600,function (){
             return Information::orderBy('created_at','desc')->paginate(10);
         });
+        //干货
+        $upfiles = Cache::tags('info')->remember('upfiles'.$page,10,function (){
+            return DB::table('anchong_upfiles')->paginate(10);
+        });
+        //dd($upfiles);
         $infoauth = 1;
         $user = Auth::user();
         if ($user) {
             //登录且认证
             $infoauth = $user['user_rank'];
         }
-        return view('home.info.index',compact('info','infoauth'));
+        return view('home.info.index',compact('info','infoauth','upfiles'));
     }
     /*
      * 资讯详情页
@@ -159,7 +164,7 @@ class InfoController extends CommonController
         $id= env('ALIOSS_ACCESSKEYId');
         $key= env('ALIOSS_ACCESSKEYSECRET');
         $host = 'http://anchongres.oss-cn-hangzhou.aliyuncs.com';
-        $callback_body = '{"callbackUrl":"http://courier.anchong.net/osscall","callbackHost":"courier.anchong.net","callbackBody":"filename=${object}&size=${size}&mimetype=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}","callbackBodyType":"application/x-www-form-urlencoded"}';
+        $callback_body = '{"callbackUrl":"http://courier.anchong.net/osscall","callbackHost":"courier.anchong.net","callbackBody":"filename=http://anchongres.oss-cn-hangzhou.aliyuncs.com/${object}&size=${size}&mimetype=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}","callbackBodyType":"application/x-www-form-urlencoded"}';
         $base64_callback_body = base64_encode($callback_body);
         $now = time();
         $expire = 30; //设置该policy超时时间是30s. 即这个policy过了这个有效时间，将不能访问
