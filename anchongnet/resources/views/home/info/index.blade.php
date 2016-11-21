@@ -56,32 +56,27 @@
                         <h2>干货分享</h2>
                         <i>More</i>
                         <a id="upload"><img src="home/images/info/upload.png"></a>
-                        @if(isset($msg))
-                            @if(count($infoauth) == 0)
-                                <script>
-                                    $(function () {
-                                        $('#upload').click(function () {
-                                            layer.msg('请您认证后再上传文档',{icon:6});
-                                        })
-                                    })
-                                </script>
-                            @else
-                                @for($i=0;$i<count($infoauth);$i++)
-                                    @if($infoauth[$i]->auth_status == "3")
-                                        <script>
-                                            $(function () {
-                                                $('#upload').attr("href","{{url('/info/create')}}")
-                                            })
-                                        </script>
-                                    @endif
-                                @endfor
-                            @endif
-                        @else
-                            <script>
+                        @if(!Auth::check())
+                        		<script>
                                 $(function () {
                                     $('#upload').click(function () {
                                         layer.msg('请您登陆后再上传文档',{icon:6});
                                     })
+                                })
+                            </script>
+                        {{--未认证--}}
+                        @elseif($infoauth==1)
+                            <script>
+                                $(function () {
+                                    $('#upload').click(function () {
+                                        layer.msg('请您认证后再上传文档',{icon:6});
+                                    })
+                                })
+                            </script>
+                        @else
+                            <script>
+                                $(function () {
+                                    $('#upload').attr("href","{{url('/info/create')}}")
                                 })
                             </script>
                         @endif
@@ -184,7 +179,7 @@
                 <i>共有{{$info->lastpage()}}页，</i>
                     <i class="blank">
                     去第
-                        <input name="page" class="page-num" onchange="changePage(this)" type="text" value="{{$info->currentPage()}}">
+                        <input name="page" class="page-num" onchange="changePage(this)" type="number" value="{{$info->currentPage()}}">
                     页
                     </i>
                 <a class="page-btn" href="{{$info->url($info->currentPage())}}">确定</a>
@@ -196,11 +191,12 @@
 @include('inc.home.site-foot')
 </body>
 <script>
-    {{--获取用户输入的页数，然后更改a标签的链接--}}
+    {{--获取用户输入的页数，然后更改‘确定’按钮的a标签的链接--}}
     function changePage(obj) {
         var num = $(obj).val();
-        if((/^(\+|-)?\d+$/.test(num))&&num>0&&num<={{$info->lastpage()}}){
-            $('.page-btn').attr('href','http://www.anchong.net/info?page='+num);
+        {{--验证输入合法性--}}
+        if ((/^(\+|-)?\d+$/.test(num)) && num>0 && num<={{$info->lastpage()}}) {
+            $('.page-btn').attr('href',location.origin+'/info?page='+num);
         }else{
             layer.alert('请输入数字大于0并小于等于{{$info->lastpage()}}');
             $('.page-num').val({{$info->currentPage()}});
@@ -209,7 +205,7 @@
     $(function () {
         $('.page-num').keypress(function (e) {
             if (e.keyCode == 13) {
-                location.href = 'http://www.anchong.net/info?page='+ $(this).val();
+                location.href = location.origin+'/info?page='+ $(this).val();
             }
         });
     })

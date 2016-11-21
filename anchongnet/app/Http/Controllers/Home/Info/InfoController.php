@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Home\Info;
 
-use App\Auth;
+use Auth;
 use App\Http\Controllers\Home\CommonController;
 use App\Information;
 use App\Users;
@@ -23,12 +23,11 @@ class InfoController extends CommonController
         $info = Cache::tags('info')->remember('info'.$page,600,function (){
             return Information::orderBy('created_at','desc')->paginate(10);
         });
-        //会员是否认证
-        if(session('user')) {
-            $phone = Users::where('phone', [session('user')])->first();
-            $infoauth  = Auth::where("users_id",$phone->users_id)->get(['auth_status']);
-        }else{
-            $infoauth = [];
+        $infoauth = 1;
+        $user = Auth::user();
+        if ($user) {
+            //登录且认证
+            $infoauth = $user['user_rank'];
         }
         return view('home.info.index',compact('info','infoauth'));
     }
@@ -47,6 +46,14 @@ class InfoController extends CommonController
      */
     public function create()
     {
+        //登录且认证
+        $user = Auth::user();
+        if (!$user) {
+            return back();
+        }
+        if ($user->user_rank != 2) {
+            return back();
+        }
         return view('home.info.upload');
     }
 
