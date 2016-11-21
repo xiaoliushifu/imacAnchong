@@ -112,6 +112,13 @@ function totalcheck(){
     }
     $(".count-num").text($('.select:checked').length);
     $("#cart_realPrice").text("￥"+total_price);
+    if(total_price != 0) {
+    		$('.pay').attr('disabled',false);
+        $('.pay').css('background-color','#f53745');
+    } else {
+    		$('.pay').attr('disabled',true);
+        $('.pay').css('background-color','#888888');
+    }
 }
 
 function allsel(){

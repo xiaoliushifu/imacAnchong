@@ -81,7 +81,7 @@ class InfoController extends CommonController
     /**
      * 用于web前端直传后的回调
      */
-    public function osscall()
+    public function osscall(Request $req)
     {
         $header = getallheaders();
         $body = file_get_contents('php://input');
@@ -148,18 +148,14 @@ class InfoController extends CommonController
      */
     public function getphp(Request $req)
     {
-        
-//         if (!$req->ajax()) {
-//            return abort(404); 
-//         }
         //require_once 'App/STS/osscallbackphp\oss_php_sdk_20140625/sdk.class.php';
-        $id= 'HJjYLnySPG4TBdFp';
-        $key= 'Ifv0SNWwch5sgFcrM1bDthqyy4BmOa';
+        $id= env('ALIOSS_ACCESSKEYId');
+        $key= env('ALIOSS_ACCESSKEYSECRET');
         $host = 'http://anchongres.oss-cn-hangzhou.aliyuncs.com';
         $callback_body = '{"callbackUrl":"http://courier.anchong.net/osscall","callbackHost":"courier.anchong.net","callbackBody":"filename=${object}&size=${size}&mimetype=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}","callbackBodyType":"application/x-www-form-urlencoded"}';
         $base64_callback_body = base64_encode($callback_body);
         $now = time();
-        $expire = 30; //设置该policy超时时间是10s. 即这个policy过了这个有效时间，将不能访问
+        $expire = 30; //设置该policy超时时间是30s. 即这个policy过了这个有效时间，将不能访问
         $end = $now + $expire;
         $expiration = $this->gmt_iso8601($end);
         
