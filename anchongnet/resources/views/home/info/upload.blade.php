@@ -67,5 +67,6 @@
 @include('inc.home.site-foot')
 </body>
 <script type="text/javascript" src="/home/osscallback/lib/plupload-2.1.2/js/plupload.full.min.js"></script>
+<script type="text/javascript" src="/home/osscallback/lib/plupload-2.1.2/js/i18n/zh_CN.js"></script>
 <script type="text/javascript" src="/home/osscallback/upload.js"></script>
 </html>

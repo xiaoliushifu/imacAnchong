@@ -86,49 +86,9 @@
                     <li class="share-item">
                         <a  class="download"  href="{{$v->filename}}"><img src="home/images/info/download.png"></a>
                         <a class="preview"  href="{{$v->filename}}" target="blank"><img src="home/images/info/preview.png"></a>
-                        {{substr($v->filename,strrpos($v->filename,'/')+1)}}&nbsp;&nbsp;&nbsp;&nbsp;标准下载
+                        {{substr($v->filename,strrpos($v->filename,'/')+1)}}
                     </li>
                     @endforeach
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        监控摄像机常见知识及特性介绍（附PDF下载）
-                    </li>
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        降低大规模智能监控系统的建筑成本
-                    </li>
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        监控摄像机常见知识及特性介绍（附PDF下载）
-                    </li>
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        IP监控系统协议标准（附PDF下载）
-                    </li>
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        监控摄像机常见知识及特性介绍（附PDF下载）
-                    </li>
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        监控摄像机常见知识及特性介绍（附PDF下载）
-                    </li>
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        降低大规模智能监控系统的建筑成本
-                    </li>
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        监控摄像机常见知识及特性介绍（附PDF下载）
-                    </li>
                 </ul>
             </li>
         </ul>

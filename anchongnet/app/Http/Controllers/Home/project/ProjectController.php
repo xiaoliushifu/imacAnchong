@@ -95,6 +95,9 @@ class ProjectController extends CommonController
     public function show($bid)
     {
         $data = Business::find($bid);
+        if (!$data) {
+            abort(404);
+        }
         $data->content = str_replace("\n", "<br>", $data->content);
         return view('home.project.projectdetail', compact('data'));
     }
