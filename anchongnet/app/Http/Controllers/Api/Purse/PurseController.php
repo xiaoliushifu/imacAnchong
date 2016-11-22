@@ -63,6 +63,24 @@ class PurseController extends Controller
     }
 
     /*
+    *   虫豆数量查看
+    */
+    public function beans(Request $request)
+    {
+        try{
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            //查出个人信息
+            $users_handle=$this->users->find($data['guid']);
+            $beans=$users_handle->beans;
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$beans]);
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'虫豆暂不显示']]);
+        }
+    }
+
+    /*
     *   虫豆首页
     */
     public function beansindex(Request $request)

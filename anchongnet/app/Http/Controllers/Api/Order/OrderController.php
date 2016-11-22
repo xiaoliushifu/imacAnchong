@@ -222,7 +222,7 @@ class OrderController extends Controller
                 if($orderarr['total_price'] < $goods_total_price){
                     //假如失败就回滚
                     DB::rollback();
-                    return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'非法的价格，订单生成失败']]);
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单内有物品的价格已改变，订单生成失败']]);
                 }
             }
             if($true && $total_price>0){

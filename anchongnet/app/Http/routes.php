@@ -330,6 +330,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/purse/withdraw','Api\Purse\PurseController@withdraw');
         //钱袋账单
         Route::post('/purse/bill','Api\Purse\PurseController@bill');
+        //虫豆查看
+        Route::post('/purse/beans','Api\Purse\PurseController@beans');
         //账单详情
         Route::post('/purse/billinfo','Api\Purse\PurseController@billinfo');
         //删除账单
@@ -575,7 +577,8 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
     });
             //前台路由
 
-Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {        //订单内支付宝支付
+Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {
+            //订单内支付宝支付
             Route::post('/pay/aliweborderpay', 'Api\Pay\PayController@aliweborderpay');
             //订单内微信支付
             Route::post('/pay/wxweborderpay', 'Api\Pay\PayController@wxweborderpay');
@@ -650,7 +653,7 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
                 //社区
                 Route::get('/colcommunity', 'CollectionController@colcommunity');
             });
-            
+
             //购物车
             Route::resource('/cart','Home\Cart\CartController');
             Route::group(['namespace' => 'Home\Cart','middleware'=>['loginhome']], function () {
