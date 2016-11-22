@@ -53,6 +53,7 @@ $(function(){
 			}
 		});
 	});
+
 	//微信支付
 	$(".wxpay").click(function(){
 		var id=$(this).attr("data-oid");
@@ -79,4 +80,121 @@ $(function(){
 			}
 		});
 	});
+
+	//确认收货
+	$(".confirm").click(function(){
+		if(confirm('确认或已收到了吗？')){
+			var id=$(this).attr("data-oid");
+			var order_num=$(this).attr("data-number");
+			//进行ajax请求
+			$.ajax({
+				url: "/order/"+id,
+				type:'PUT',
+				//添加csrf请求头
+				beforeSend: function (xhr) {
+					var token = $('[name="_token"]').val();
+					if (token) {
+						  return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+					}
+				},
+				data:{action:7,order_id:id,order_num:order_num},
+				success:function( data ){
+					if(data.ServerNo == 0){
+						alert(data.ResultData.Message);
+						location.reload();
+					}else{
+						alert(data.ResultData.Message);
+					}
+				}
+			});
+		}
+	});
+
+	//取消订单
+	$(".cancelorder").click(function(){
+		if(confirm('确认要取消订单吗？')){
+			var id=$(this).attr("data-oid");
+			var order_num=$(this).attr("data-number");
+			//进行ajax请求
+			$.ajax({
+				url: "/order/"+id,
+				type:'PUT',
+				//添加csrf请求头
+				beforeSend: function (xhr) {
+					var token = $('[name="_token"]').val();
+					if (token) {
+						  return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+					}
+				},
+				data:{action:6,order_id:id,order_num:order_num},
+				success:function( data ){
+					if(data.ServerNo == 0){
+						alert(data.ResultData.Message);
+						location.reload();
+					}else{
+						alert(data.ResultData.Message);
+					}
+				}
+			});
+		}
+	});
+
+	//申请退款
+	$(".applyrefund").click(function(){
+		if(confirm('确认要申请退款吗？')){
+			var id=$(this).attr("data-oid");
+			var order_num=$(this).attr("data-number");
+			//进行ajax请求
+			$.ajax({
+				url: "/order/"+id,
+				type:'PUT',
+				//添加csrf请求头
+				beforeSend: function (xhr) {
+					var token = $('[name="_token"]').val();
+					if (token) {
+						  return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+					}
+				},
+				data:{action:4,order_id:id,order_num:order_num},
+				success:function( data ){
+					if(data.ServerNo == 0){
+						alert(data.ResultData.Message);
+						location.reload();
+					}else{
+						alert(data.ResultData.Message);
+					}
+				}
+			});
+		}
+	});
+
+	//订单删除
+	$(".delete").click(function(){
+		if(confirm('确认要删除吗？')){
+			var id=$(this).attr("data-oid");
+			var order_num=$(this).attr("data-number");
+			//进行ajax请求
+			$.ajax({
+				url: "/order/"+id,
+				type:'PUT',
+				//添加csrf请求头
+				beforeSend: function (xhr) {
+					var token = $('[name="_token"]').val();
+					if (token) {
+						  return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+					}
+				},
+				data:{action:8,order_id:id,order_num:order_num},
+				success:function( data ){
+					if(data.ServerNo == 0){
+						alert(data.ResultData.Message);
+						location.reload();
+					}else{
+						alert(data.ResultData.Message);
+					}
+				}
+			});
+		}
+	});
+
 });

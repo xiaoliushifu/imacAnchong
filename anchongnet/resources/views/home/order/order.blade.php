@@ -86,11 +86,11 @@
 					<ul class = "order-info">
 						<li>单价（元）</li>
 						<li>数量</li>
-						<li>商品操作</li>
-						<li>总价（元）</li>
+						<li>总价(元)</li>
 						<li style="padding-right: 20px;">
 							交易状态
 						</li>
+						<li>商品操作</li>
 					</ul>
 				</div>
 				<div class="pages">
@@ -103,7 +103,17 @@
 							<span class="d-title"><a href="">{{$o->sname}}</a></span>
 							<span class="order-id">订单号：{{$o->order_num}}</span>
 							<span class="c-seller"><a href="">联系卖家</a></span>
-							<span class="del"><a href="">删除</a></span>
+							<span class="del">
+								@if($o->state==5)
+									<a class="delete" href="javascript:void(0)"  data-oid="{{$o->order_id}}" data-number="{{$o->order_num}}">删除</a>
+								@endif
+								@if($o->state==6)
+									<a class="delete" href="javascript:void(0)" data-oid="{{$o->order_id}}" data-number="{{$o->order_num}}">删除</a>
+								@endif
+								@if($o->state==7)
+									<a class="delete" href="javascript:void(0)" data-oid="{{$o->order_id}}" data-number="{{$o->order_num}}">删除</a>
+								@endif
+							</span>
 						</li>
 						@foreach($orderinfo[$o->order_num] as $ml=>$f)
 						<li class="show-desc">
@@ -120,29 +130,20 @@
 								</li>
 								<li class="g-price">{{$f->goods_price}}</li>
 								<li class="g-num">{{$f->goods_num}}</li>
-								<li class="refund">申请退款</span>
-								</li>
-								<li class="all-price">{{$o->total_price}}</li>
+								<li class="all-price">{{$f->goods_price*$f->goods_num}}</li>
 								<li class="trade-desc">
 									<p class="trade" style="color: red;">
 											@if($o->state==1)
 												待付款
-												<div class="btn-group">
-												  <button type="button" style="padding:5px 4px;" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" data-oid="{{$o->order_id}}" data-price="{{$o->total_price}}" data-info="{{$f->goods_name}}">
-												    立即支付 <span class="caret"></span>
-												  </button>
-												  <ul class="dropdown-menu" role="menu">
-												    <li><a href="#" class="alipay" data-oid="{{$o->order_id}}" data-price="{{$o->total_price}}" data-info="{{$f->goods_name}}">支付宝</a></li>
-												    <li><a href="#" class="wxpay" data-oid="{{$o->order_id}}" data-price="{{$o->total_price}}" data-info="{{$f->goods_name}}">微信</a></li>
-												  </ul>
-												</div>
+
 											@endif
 											@if($o->state==2)
 												待发货
+
 											@endif
 											@if($o->state==3)
 												待收货
-												<button style="padding:5px 4px;" type="button" class="btn btn-warning dropdown-toggle">确认收货</button>
+
 											@endif
 											@if($o->state==4)
 												待审核
@@ -159,6 +160,30 @@
 									</p>
 									<a href="{{url('order/'.$f->order_num)}}"><p class="order-detail">交易详情</p></a>
 								</li>
+								<li class="refund">
+									@if($o->state==2)
+									<button style="padding:5px 4px;margin-right:50px;" type="button" class="btn btn-info dropdown-toggle applyrefund" data-oid="{{$o->order_id}}">申请退款</button>
+									@endif
+									@if($o->state==3)
+									<button style="padding:5px 4px;" type="button" class="btn btn-info dropdown-toggle applyrefund" data-oid="{{$o->order_id}}" data-number="{{$o->order_num}}">申请退款</button>
+									<button style="padding:5px 4px;margin-top:10px;" type="button" class="btn btn-warning dropdown-toggle confirm" data-oid="{{$o->order_id}}" data-number="{{$o->order_num}}">确认收货</button>
+									@endif
+									@if($o->state==1)
+									<button style="padding:5px 4px;" type="button" class="btn btn-info dropdown-toggle cancelorder" data-oid="{{$o->order_id}}" data-number="{{$o->order_num}}">取消订单</button>
+									<div class="btn-group" style="margin-top:10px;">
+									  <button type="button" style="padding:5px 4px;" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" data-oid="{{$o->order_id}}" data-price="{{$o->total_price+$o->freight}}" data-info="{{$f->goods_name}}">
+										立即支付 <span class="caret"></span>
+									  </button>
+									  <ul class="dropdown-menu" role="menu">
+										<li><a href="#" class="alipay" data-oid="{{$o->order_id}}" data-price="{{$o->total_price+$o->freight}}" data-info="{{$f->goods_name}}">支付宝</a></li>
+										<li><a href="#" class="wxpay" data-oid="{{$o->order_id}}" data-price="{{$o->total_price+$o->freight}}" data-info="{{$f->goods_name}}">微信</a></li>
+									  </ul>
+									</div>
+									@endif
+								</li>
+
+
+
 							</ul>
 						</li>
 						</ul>

@@ -240,7 +240,7 @@ ul,li{
 }
 .show-title{
 	background-color: #bbe6f3;
-	width: 910px;
+	width: 960px;
 	color: #606060;
 	font-size: 14px;
 	height: 40px;
@@ -261,7 +261,7 @@ ul,li{
 }
 .del{
 	float: right;
-	margin-right: 10px;
+	margin-right: 65px;
 }
 .show-desc{
 	width: 910px;
@@ -301,10 +301,15 @@ ul,li{
 	font-weight: bold;
 	line-height: 30px;
 }
-.g-price,.g-num,.refund,.all-price{
+.g-price,.g-num,.all-price{
 	margin-top: 20px;
 	text-align: center;
 	margin-left: 35px;
+}
+.refund{
+	margin-top: 20px;
+	text-align: center;
+	margin-left: 15px;
 }
 .g-price{
 	width: 90px;
@@ -334,7 +339,7 @@ ul,li{
 	margin-top: 30px;
 }
 .footer-top{
-	width: 100%;
+	width: 930px;
 	background-color: #F5F5F5;
 }
 .footer-top-container{

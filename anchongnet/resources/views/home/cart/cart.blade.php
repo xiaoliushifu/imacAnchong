@@ -71,9 +71,9 @@
                             <p class="del"><a onclick="DelCart(this)" cart_id="{{$value['cart_id']}}">删除</a></p>
                         </li>
                     </ul>
-            </li>
+                </li>
+                @endforeach
             @endforeach
-        @endforeach
         @endif
         </ul>
         <ul class="settlement">
@@ -82,18 +82,20 @@
                 <a href="javascript:">全选</a>
             </li>
             <div style="float:right">
-            <li class="selected-good" >
-                <i class="amount"></i>
-                已选商品
-                <i class="count-num">0</i>
-                种
-            </li>
-            <li class="freight">
-                合计（不含运费）
-                <i class="count-price" id="cart_realPrice">￥0</i>
-            </li>
-            <li ><input class="pay" style="" type="submit" value="去结算"></li>
-        </div>
+                <li class="selected-good">
+                    <i class="amount"></i>
+                    已选商品
+                    <i class="count-num">0</i>
+                    种
+                </li>
+                <li class="freight">
+                    合计（不含运费）
+                    <i class="count-price" id="cart_realPrice">￥0</i>
+                </li>
+                <li>
+                    <input class="pay" style="" type="submit" value="去结算">
+                </li>
+            </div>
         </form>
             <div class="cl">
             </div>
@@ -140,6 +142,7 @@ function allsel(){
     $(".count-num").text($('.select:checked').length);
     $("#cart_realPrice").text("￥"+total_price);
 }
+
 {{--删除购物车中一种商品--}}
 function DelCart(obj) {
     layer.confirm('你确定要删除这个商品么？',{btn:['确定','取消']},function () {
@@ -157,6 +160,7 @@ function DelCart(obj) {
     function () {
     });
 }
+
 {{--收藏--}}
 function Favorite(gid) {
     var data = {'coll_id':gid,'coll_type':'1','_token':'{{csrf_token()}}'};
