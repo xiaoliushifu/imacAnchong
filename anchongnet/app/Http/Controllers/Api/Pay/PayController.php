@@ -604,8 +604,10 @@ class PayController extends Controller
    /*
    *   异步通知（web端支付宝支付）
    */
-   public function webnotify()
+   public function webnotify(Request $request)
    {
+       //获得app传过来的参数
+       $data=$request::all();
        // 验证请求。
        if (! app('alipay.web')->verify()) {
            return 'fail';
@@ -652,6 +654,7 @@ class PayController extends Controller
                     //将钱增加到商户冻结资金
                     $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price);
                     if($result){
+                        Log::info('23');
                         // 保存订单
                         $order->save();
                     }else{
@@ -662,7 +665,10 @@ class PayController extends Controller
                 }
 
              //假如价格比对成功就提交
+             Log::info('ttt'.$total_price);
+             Log::info('aaa'.$data['total_fee']);
              if($total_price <= $data['total_fee']){
+                 Log::info('2231eweqw');
                  DB::commit();
                  //进行推送通知
                  $this->propleinfo($sid,$users_id,'success');
