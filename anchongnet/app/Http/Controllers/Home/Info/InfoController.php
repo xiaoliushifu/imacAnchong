@@ -145,8 +145,11 @@ class InfoController extends CommonController
         if ($ok == 1) {
             //$body入库
             parse_str(urldecode($body),$arr);
-            $newid = DB::table('anchong_upfiles')->insertGetId($arr);
-            \Log::info("newID:".$newid,['newID']);
+            if($old = DB::table('anchong_upfiles')->where('filename',$arr['filename'])->first()) {
+                \Log::info($old->filename,['upfiles_duplicate']);
+            } else {
+                DB::table('anchong_upfiles')->insert($arr);
+            }
             header("Content-Type: application/json");
             echo json_encode(["Status"=>"Ok"]);
         } else {
@@ -161,11 +164,16 @@ class InfoController extends CommonController
     public function getphp(Request $req)
     {
         $user = Auth::user();
-        $files = DB::table('anchong_upfiles')->where('filenoid',$user->users_id)->get();
-        //数量限制
-        if (count($files)>30) {
+        $files = DB::table('anchong_upfiles')->pluck('filenoid');
+        //总数量限制
+        if (count($files) >100) {
             return '{}';
         }
+        //单人数量限制
+        if (in_array($user->users_id,$files) && array_count_values($files)[$user->users_id]>10) {
+            return '{}';
+        }
+        
         //require_once 'App/STS/osscallbackphp\oss_php_sdk_20140625/sdk.class.php';
         $id= env('ALIOSS_ACCESSKEYId');
         $key= env('ALIOSS_ACCESSKEYSECRET');

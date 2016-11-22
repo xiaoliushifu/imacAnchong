@@ -92,9 +92,9 @@ var uploader = new plupload.Uploader({
 	url : 'http://anchongres.oss-cn-hangzhou.aliyuncs.com',
     filters: {
     	  mime_types : [
-    	    { title : "Image files", extensions : "jpg,gif,png,jpeg" }, 
+    	    //{ title : "Image files", extensions : "jpg,gif,png,jpeg" }, 
     	    { title : "Zip files", extensions : "zip" },
-    	    { title : "Text files", extensions : "txt,doc,docx,ppt,ppts,xls,xlsx,wps,pdf,log" }
+    	    { title : "Text files", extensions : "doc,docx,ppt,ppts,xls,xlsx,wps,pdf" }
     	  ],
     	  max_file_size : '20Mb', //最大只能上传400kb的文件
     	  prevent_duplicates : true //不允许选取重复文件
@@ -140,7 +140,6 @@ var uploader = new plupload.Uploader({
 
 		Error: function(up, err) {
             set_upload_param(up);
-            console.log(err);
 			document.getElementById('console').appendChild(document.createTextNode("\nError :" + err.message));
 		}
 	}
