@@ -666,6 +666,7 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
             //资讯干货
             Route::resource('info', 'Home\Info\InfoController');
             Route::get('/getphp', 'Home\Info\InfoController@getphp');
+            Route::get('/getpic', 'Home\Info\InfoController@picaction');
             //社区
             Route::group(['namespace' => 'Home\Community'], function () {
                  //社区

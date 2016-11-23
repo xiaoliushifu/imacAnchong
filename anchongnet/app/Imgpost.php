@@ -24,9 +24,24 @@ class imgpost
         $this->bucket=env('ALIOSS_BUCKET');
     }
 
-    public function create()
+    /**
+     * 从OSS获得指定文件到内存
+     * @param unknown $fname
+     */
+    public function downfile($fname)
     {
-        //
+        $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
+        try{
+            $content = $ossClient->getObject($this->bucket,'ganhuo-dir/'.$fname);
+            //header('Content-type: application/octet-stream');
+            //header("Accept-Length: ".\strlen($content));
+            //header("Accept-Ranges: bytes");
+            return response($content)->header('Content-disposition','attachment;filename='.$fname);
+        } catch (OssException $e) {
+            \Log::info($e->getMessage());
+            $content="非法请求";
+        }
+        return $content;
     }
 
     /**

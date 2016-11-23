@@ -148,23 +148,37 @@
 @include('inc.home.site-foot')
 </body>
 <script>
-    {{--获取用户输入的页数，然后更改‘确定’按钮的a标签的链接--}}
-    function changePage(obj) {
-        var num = $(obj).val();
-        {{--验证输入合法性--}}
-        if ((/^(\+|-)?\d+$/.test(num)) && num>0 && num<={{$info->lastpage()}}) {
-            $('.page-btn').attr('href',location.origin+'/info?page='+num);
-        }else{
-            layer.alert('请输入数字大于0并小于等于{{$info->lastpage()}}');
-            $('.page-num').val({{$info->currentPage()}});
-        }
+{{--获取用户输入的页数，然后更改‘确定’按钮的a标签的链接--}}
+function changePage(obj) {
+    var num = $(obj).val();
+    {{--验证输入合法性--}}
+    if ((/^(\+|-)?\d+$/.test(num)) && num>0 && num<={{$info->lastpage()}}) {
+        $('.page-btn').attr('href',location.origin+'/info?page='+num);
+    }else{
+        layer.alert('请输入数字大于0并小于等于{{$info->lastpage()}}');
+        $('.page-num').val({{$info->currentPage()}});
     }
-    $(function () {
-        $('.page-num').keypress(function (e) {
-            if (e.keyCode == 13) {
-                location.href = location.origin+'/info?page='+ $(this).val();
-            }
-        });
-    })
+}
+    
+$(function () {
+	{{--回车键--}}
+    $('.page-skip').on('keypress','.page-num',function (e) {
+        if (e.keyCode == 13) {
+            location.href = location.origin+'/info?page='+ $(this).val();
+        }
+    });
+    {{--干货绑定下载 暂时注释
+    $('.share-item').on('click','.download',function(){
+    	  	var form=$("<form style='display:none'></form>");//定义一个form表单
+    	  	form.attr("action","/getpic");
+    	  	var input1=$("<input>");
+    	  	input1.attr("name","filename"),input1.attr("value",$(this).parent().text().trim());
+    	  	$("body").append(form);//将表单放置在web中
+    	  	form.append(input1);//将input放到表单中
+    	  	form.submit();//用代码形式把表单提交（非传统的在页面点击type="submit"按钮的方式） 
+    	  	form.remove();
+    	  	return false;
+    }); --}}
+});
 </script>
 </html>

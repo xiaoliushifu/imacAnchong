@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Home\Info;
 use Auth;
 use App\Http\Controllers\Home\CommonController;
 use App\Information;
-use App\Users;
+use App\imgpost;
 use DateTime;
 use DB;
 use Illuminate\Http\Request;
@@ -46,8 +46,8 @@ class InfoController extends CommonController
         });
         return view('home.info.info',compact('information'));
     }
-    /*
-     *
+    /**
+     * 上传干货文件页
      */
     public function create()
     {
@@ -227,4 +227,20 @@ class InfoController extends CommonController
         $expiration = substr($expiration, 0, $pos);
         return $expiration."Z";
     }
+    
+    /**
+     * 暂不开启，注释路由Route::(getpic)
+     * 去oss获取
+     */
+    public function picaction(Request $req)
+    {
+        $user = Auth::user();
+        //加个登录限制
+        if(!$user) {
+            abort(404);
+        }
+        $obj = new imgpost();
+        return $obj->downfile($req['filename']);
+    }
+    
 }
