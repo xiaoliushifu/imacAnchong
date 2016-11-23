@@ -39,21 +39,40 @@ class CartController extends Controller
                 //更新商品数量
                 $result=$cart->cartupdate($gid_num[0]['cart_id'],$goodsnum);
             }else{
-                //用户传过来的数据
-                $cart_data=[
-                    'users_id' => $data['guid'],
-                    'goods_name' => $param['goods_name'],
-                    'goods_num' => $param['goods_num'],
-                    'goods_price' => $param['goods_price'],
-                    'goods_type' => $param['goods_type'],
-                    'img' => $param['img'],
-                    'gid' => $param['gid'],
-                    'created_at' => date('Y-m-d H:i:s',$data['time']),
-                    'sid' => $param['sid'],
-                    'sname' => $param['sname'],
-                    'goods_id' => $param['goods_id'],
-                    'oem' => $param['oem']
-                ];
+                try{
+                    //用户传过来的数据
+                    $cart_data=[
+                        'users_id' => $data['guid'],
+                        'goods_name' => $param['goods_name'],
+                        'goods_num' => $param['goods_num'],
+                        'goods_price' => $param['goods_price'],
+                        'goods_type' => $param['goods_type'],
+                        'img' => $param['img'],
+                        'gid' => $param['gid'],
+                        'created_at' => date('Y-m-d H:i:s',$data['time']),
+                        'sid' => $param['sid'],
+                        'sname' => $param['sname'],
+                        'goods_id' => $param['goods_id'],
+                        'oem' => $param['oem'],
+                        'promotion' => $param['promotion']
+                    ];
+                }catch (\Exception $e) {
+                    //用户传过来的数据
+                    $cart_data=[
+                        'users_id' => $data['guid'],
+                        'goods_name' => $param['goods_name'],
+                        'goods_num' => $param['goods_num'],
+                        'goods_price' => $param['goods_price'],
+                        'goods_type' => $param['goods_type'],
+                        'img' => $param['img'],
+                        'gid' => $param['gid'],
+                        'created_at' => date('Y-m-d H:i:s',$data['time']),
+                        'sid' => $param['sid'],
+                        'sname' => $param['sname'],
+                        'goods_id' => $param['goods_id'],
+                        'oem' => $param['oem']
+                    ];
+                }
                 $result=$cart->add($cart_data);
             }
             //看是否插入成功
@@ -82,7 +101,7 @@ class CartController extends Controller
             $shop=new \App\Shop();
             $cart=new \App\Cart();
             //定义查询的数组
-            $cart_data=['cart_id','goods_name','goods_num','goods_price','img','goods_type','gid','sid','sname','goods_id','oem'];
+            $cart_data=['cart_id','goods_name','goods_num','goods_price','img','goods_type','gid','sid','sname','goods_id','oem','promotion'];
             //得到结果
             $results=$cart->quer($cart_data,'users_id = '.$data['guid'])->toArray();
             //假如购物车无数据
@@ -215,7 +234,7 @@ class CartController extends Controller
         if(!$param['cart']){
             return response()->json(['serverTime'=>time(),'ServerNo'=>11,'ResultData'=>['Message'=>'未选中任何商品']]);
         }
-        $cartdata=$cart->Cart()->select('goods_name','goods_price','img','goods_type','gid','sid','sname','goods_id','oem','goods_num')->whereIn('cart_id',$param['cart'])->get()->toArray();
+        $cartdata=$cart->Cart()->select('goods_name','goods_price','img','goods_type','gid','sid','sname','goods_id','oem','goods_num','promotion')->whereIn('cart_id',$param['cart'])->get()->toArray();
         //将查询结果加入缓存
         $result=Cache::add('cartshare:'.$shareId, $cartdata, 10080);
         if($result){
