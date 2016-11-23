@@ -41,6 +41,9 @@ class CommunityController extends CommonController
         $cminfo = Cache::tags('cminfo')->remember('cminfo'.$chat_id,600,function () use($chat_id){
             return Community_release::find($chat_id);
         });
+        if (!$cminfo) {
+            abort(404);
+        }
         //获取评论
         $cmcomment = Cache::tags('cmcomment')->remember('cmcomment'.$chat_id,600,function () use ($chat_id){
            return Community_comment::where('chat_id',$chat_id)->orderBy('comid','desc')->get();
