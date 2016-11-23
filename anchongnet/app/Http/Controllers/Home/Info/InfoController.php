@@ -25,7 +25,7 @@ class InfoController extends CommonController
         });
         //干货
         $upfiles = Cache::tags('info')->remember('upfiles'.$page,10,function (){
-            return DB::table('anchong_upfiles')->paginate(10);
+            return DB::table('anchong_upfiles')->paginate(12);
         });
         //dd($upfiles);
         $infoauth = 1;
@@ -145,8 +145,11 @@ class InfoController extends CommonController
         if ($ok == 1) {
             //$body入库
             parse_str(urldecode($body),$arr);
-            $newid = DB::table('anchong_upfiles')->insertGetId($arr);
-            \Log::info("newID:".$newid,['newID']);
+            if($old = DB::table('anchong_upfiles')->where('filename',$arr['filename'])->first()) {
+                \Log::info($old->filename,['upfiles_duplicate']);
+            } else {
+                DB::table('anchong_upfiles')->insert($arr);
+            }
             header("Content-Type: application/json");
             echo json_encode(["Status"=>"Ok"]);
         } else {
@@ -160,11 +163,22 @@ class InfoController extends CommonController
      */
     public function getphp(Request $req)
     {
+        $user = Auth::user();
+        $files = DB::table('anchong_upfiles')->pluck('filenoid');
+        //总数量限制
+        if (count($files) >100) {
+            return '{}';
+        }
+        //单人数量限制
+        if (in_array($user->users_id,$files) && array_count_values($files)[$user->users_id]>10) {
+            return '{}';
+        }
+        
         //require_once 'App/STS/osscallbackphp\oss_php_sdk_20140625/sdk.class.php';
         $id= env('ALIOSS_ACCESSKEYId');
         $key= env('ALIOSS_ACCESSKEYSECRET');
         $host = 'http://anchongres.oss-cn-hangzhou.aliyuncs.com';
-        $callback_body = '{"callbackUrl":"http://courier.anchong.net/osscall","callbackHost":"courier.anchong.net","callbackBody":"filename=http://anchongres.oss-cn-hangzhou.aliyuncs.com/${object}&size=${size}&mimetype=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}","callbackBodyType":"application/x-www-form-urlencoded"}';
+        $callback_body = '{"callbackUrl":"http://courier.anchong.net/osscall","callbackHost":"courier.anchong.net","callbackBody":"filename=http://anchongres.oss-cn-hangzhou.aliyuncs.com/${object}&size=${size}&mimetype=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}&filenoid='.$user->users_id.'","callbackBodyType":"application/x-www-form-urlencoded"}';
         $base64_callback_body = base64_encode($callback_body);
         $now = time();
         $expire = 30; //设置该policy超时时间是30s. 即这个policy过了这个有效时间，将不能访问

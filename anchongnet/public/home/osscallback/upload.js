@@ -89,13 +89,12 @@ var uploader = new plupload.Uploader({
 	container: document.getElementById('container'),
 	flash_swf_url : 'lib/plupload-2.1.2/js/Moxie.swf',
 	silverlight_xap_url : 'lib/plupload-2.1.2/js/Moxie.xap',
-
 	url : 'http://anchongres.oss-cn-hangzhou.aliyuncs.com',
     filters: {
     	  mime_types : [
-    	    { title : "Image files", extensions : "jpg,gif,png,jpeg" }, 
+    	    //{ title : "Image files", extensions : "jpg,gif,png,jpeg" }, 
     	    { title : "Zip files", extensions : "zip" },
-    	    { title : "Text files", extensions : "txt,doc,docx,ppt,ppts,xls,xlsx,wps,pdf,log" }
+    	    { title : "Text files", extensions : "doc,docx,ppt,ppts,xls,xlsx,wps,pdf" }
     	  ],
     	  max_file_size : '20Mb', //最大只能上传400kb的文件
     	  prevent_duplicates : true //不允许选取重复文件
@@ -105,7 +104,6 @@ var uploader = new plupload.Uploader({
 		PostInit: function() {
 			document.getElementById('ossfile').innerHTML = '';
 			document.getElementById('postfiles').onclick = function() {
-			//开始
             set_upload_param(uploader);
             uploader.start();
             return false;
@@ -133,19 +131,16 @@ var uploader = new plupload.Uploader({
 		FileUploaded: function(up, file, info) {
             console.log(info.status)
             set_upload_param(up);
-            if (info.status == 200)
-            {
-                document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = 'success';
-            }
-            else
-            {
+            if (info.status == 200) {
+                document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '上传成功!';
+            } else {
                 document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = info.response;
             } 
 		},
 
 		Error: function(up, err) {
             set_upload_param(up);
-			document.getElementById('console').appendChild(document.createTextNode("\nError xml:" + err.message));
+			document.getElementById('console').appendChild(document.createTextNode("\nError :" + err.message));
 		}
 	}
 });

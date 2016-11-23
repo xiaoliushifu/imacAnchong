@@ -67,7 +67,7 @@ class shopController extends Controller
 
     /**
     *   修改店铺状态
-    *
+    *待审，审核通过，已关闭，不通过直接删除
     * @param  $request('sid'商铺ID)
     * @return \Illuminate\Http\Response
     */
