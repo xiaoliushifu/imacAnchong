@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Cache;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,7 +25,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->call(function () {
+         $result=\App\Http\Controllers\admin\PromotionController::index();
+          Cache::add('woshidaohaode', time(), 1000);
+     })->weekly()->wednesdays()->at('0:00');
     }
 }

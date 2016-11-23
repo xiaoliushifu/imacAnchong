@@ -534,7 +534,7 @@ class GoodsController extends Controller
             $goods=new \App\Goods();
             $goods_thumb=new \App\Goods_thumb();
             //需要查的字段
-            $goods_data=['goods_id','market_price','vip_price','goods_name','sid','title'];
+            $goods_data=['goods_id','promotion_price','market_price','vip_price','goods_name','sid','title'];
             //查询商品列表的信息
             $goodsresult=$goods->quer('images','goods_id ='.$param['goods_id'])->toArray();
             $picresult=$goods_thumb->quer('img_url','gid = '.$param['gid'])->toArray();

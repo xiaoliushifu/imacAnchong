@@ -68,7 +68,8 @@ class CartShareController extends Controller
                 'sid' => $goodsinfo['sid'],
                 'sname' => $goodsinfo['sname'],
                 'goods_id' => $goodsinfo['goods_id'],
-                'oem' => $goodsinfo['oem']
+                'oem' => $goodsinfo['oem'],
+                'promotion' => $goodsinfo['promotion'],
             ];
         }
         //插入表内
