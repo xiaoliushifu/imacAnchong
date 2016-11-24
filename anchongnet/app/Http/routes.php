@@ -440,9 +440,6 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::resource('/beans','admin\BeansController');
                 //公告管理路由
                 Route::resource('/notice','admin\NoticeController');
-                /*
-                 *   后台广告
-                 */
                 //编辑时候添加图片
                 Route::post('/advert/addpic','admin\Advert\AdvertController@addpic');
                 //商机广告
@@ -560,6 +557,8 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
 
             //权限管理 隐式路由
             Route::controller('/permission','admin\PermissionController');
+            //干货操作
+            Route::controller('/upfile','admin\upfileController');
             //后台推送
             Route::resource('/propel','admin\Propel\PropelController');
 
