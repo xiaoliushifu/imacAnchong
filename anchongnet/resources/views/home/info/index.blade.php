@@ -56,87 +56,39 @@
                         <h2>干货分享</h2>
                         <i>More</i>
                         <a id="upload"><img src="home/images/info/upload.png"></a>
-                        @if(isset($msg))
-                            @if(count($infoauth) == 0)
-                                <script>
-                                    $(function () {
-                                        $('#upload').click(function () {
-                                            layer.msg('请您认证后再上传文档',{icon:6});
-                                        })
-                                    })
-                                </script>
-                            @else
-                                @for($i=0;$i<count($infoauth);$i++)
-                                    @if($infoauth[$i]->auth_status == "3")
-                                        <script>
-                                            $(function () {
-                                                $('#upload').attr("href","{{url('/info/create')}}")
-                                            })
-                                        </script>
-                                    @endif
-                                @endfor
-                            @endif
-                        @else
-                            <script>
+                        @if(!Auth::check())
+                        		<script>
                                 $(function () {
                                     $('#upload').click(function () {
                                         layer.msg('请您登陆后再上传文档',{icon:6});
                                     })
                                 })
                             </script>
+                        {{--未认证--}}
+                        @elseif($infoauth==1)
+                            <script>
+                                $(function () {
+                                    $('#upload').click(function () {
+                                        layer.msg('请您认证后再上传文档',{icon:6});
+                                    })
+                                })
+                            </script>
+                        @else
+                            <script>
+                                $(function () {
+                                    $('#upload').attr("href","{{url('/info/create')}}")
+                                })
+                            </script>
                         @endif
                     </li>
                     <span class="parting"></span>
+                    @foreach($upfiles as $k=>$v) 
                     <li class="share-item">
-                        <a  class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        《光线振动入侵探测器技术要求》标准下载
+                        <a  class="download"  href="{{$v->filename}}"><img src="home/images/info/download.png"></a>
+                        <a class="preview"  href="{{$v->filename}}" target="blank"><img src="home/images/info/preview.png"></a>
+                        {{substr($v->filename,strrpos($v->filename,'/')+1)}}
                     </li>
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        监控摄像机常见知识及特性介绍（附PDF下载）
-                    </li>
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        降低大规模智能监控系统的建筑成本
-                    </li>
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        监控摄像机常见知识及特性介绍（附PDF下载）
-                    </li>
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        IP监控系统协议标准（附PDF下载）
-                    </li>
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        监控摄像机常见知识及特性介绍（附PDF下载）
-                    </li>
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        监控摄像机常见知识及特性介绍（附PDF下载）
-                    </li>
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        降低大规模智能监控系统的建筑成本
-                    </li>
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        监控摄像机常见知识及特性介绍（附PDF下载）
-                    </li>
-                    <li class="share-item">
-                        <a class="download" href=""><img src="home/images/info/download.png"></a>
-                        <a class="preview" href=""><img src="home/images/info/preview.png"></a>
-                        IP监控系统协议标准（附PDF下载）
-                    </li>
+                    @endforeach
                 </ul>
             </li>
         </ul>
@@ -184,7 +136,7 @@
                 <i>共有{{$info->lastpage()}}页，</i>
                     <i class="blank">
                     去第
-                        <input name="page" class="page-num" onchange="changePage(this)" type="text" value="{{$info->currentPage()}}">
+                        <input name="page" class="page-num" onchange="changePage(this)" type="number" value="{{$info->currentPage()}}">
                     页
                     </i>
                 <a class="page-btn" href="{{$info->url($info->currentPage())}}">确定</a>
@@ -196,22 +148,37 @@
 @include('inc.home.site-foot')
 </body>
 <script>
-    {{--获取用户输入的页数，然后更改a标签的链接--}}
-    function changePage(obj) {
-        var num = $(obj).val();
-        if((/^(\+|-)?\d+$/.test(num))&&num>0&&num<={{$info->lastpage()}}){
-            $('.page-btn').attr('href','http://www.anchong.net/info?page='+num);
-        }else{
-            layer.alert('请输入数字大于0并小于等于{{$info->lastpage()}}');
-            $('.page-num').val({{$info->currentPage()}});
-        }
+{{--获取用户输入的页数，然后更改‘确定’按钮的a标签的链接--}}
+function changePage(obj) {
+    var num = $(obj).val();
+    {{--验证输入合法性--}}
+    if ((/^(\+|-)?\d+$/.test(num)) && num>0 && num<={{$info->lastpage()}}) {
+        $('.page-btn').attr('href',location.origin+'/info?page='+num);
+    }else{
+        layer.alert('请输入数字大于0并小于等于{{$info->lastpage()}}');
+        $('.page-num').val({{$info->currentPage()}});
     }
-    $(function () {
-        $('.page-num').keypress(function (e) {
-            if (e.keyCode == 13) {
-                location.href = 'http://www.anchong.net/info?page='+ $(this).val();
-            }
-        });
-    })
+}
+    
+$(function () {
+	{{--回车键--}}
+    $('.page-skip').on('keypress','.page-num',function (e) {
+        if (e.keyCode == 13) {
+            location.href = location.origin+'/info?page='+ $(this).val();
+        }
+    });
+    {{--干货绑定下载 暂时注释
+    $('.share-item').on('click','.download',function(){
+    	  	var form=$("<form style='display:none'></form>");//定义一个form表单
+    	  	form.attr("action","/getpic");
+    	  	var input1=$("<input>");
+    	  	input1.attr("name","filename"),input1.attr("value",$(this).parent().text().trim());
+    	  	$("body").append(form);//将表单放置在web中
+    	  	form.append(input1);//将input放到表单中
+    	  	form.submit();//用代码形式把表单提交（非传统的在页面点击type="submit"按钮的方式） 
+    	  	form.remove();
+    	  	return false;
+    }); --}}
+});
 </script>
 </html>

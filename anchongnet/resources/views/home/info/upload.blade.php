@@ -58,7 +58,7 @@
     		<pre id="console" class="upstatus"></pre>
         <div class="tips">
             <h3>温馨提示</h3>
-            <p>1.你可以上传日常积累和撰写的文档资料，或者施工案例，支持多种文档类型：doc，docx，ppt，ppts，xls，xlsx，wps，PDF，txt。</p>
+            <p>1.你可以上传日常积累和撰写的文档资料，或者施工案例，支持多种文档类型：doc，docx，ppt，ppts，xls，xlsx，wps，PDF。</p>
             <p>2.上传侵权内容的文档会被移除。</p>
             <p>3.为营造绿色的网络环境，严禁上传淫秽色情集低俗信息文档，让我们携手共同打造健康技术干货</p>
         </div>
@@ -67,5 +67,6 @@
 @include('inc.home.site-foot')
 </body>
 <script type="text/javascript" src="/home/osscallback/lib/plupload-2.1.2/js/plupload.full.min.js"></script>
+<script type="text/javascript" src="/home/osscallback/lib/plupload-2.1.2/js/i18n/zh_CN.js"></script>
 <script type="text/javascript" src="/home/osscallback/upload.js"></script>
 </html>

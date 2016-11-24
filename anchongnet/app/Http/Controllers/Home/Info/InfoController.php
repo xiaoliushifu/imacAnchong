@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Home\Info;
 
-use App\Auth;
+use Auth;
 use App\Http\Controllers\Home\CommonController;
 use App\Information;
-use App\Users;
+use App\imgpost;
 use DateTime;
 use DB;
 use Illuminate\Http\Request;
@@ -23,14 +23,18 @@ class InfoController extends CommonController
         $info = Cache::tags('info')->remember('info'.$page,600,function (){
             return Information::orderBy('created_at','desc')->paginate(10);
         });
-        //会员是否认证
-        if(session('user')) {
-            $phone = Users::where('phone', [session('user')])->first();
-            $infoauth  = Auth::where("users_id",$phone->users_id)->get(['auth_status']);
-        }else{
-            $infoauth = [];
+        //干货
+        $upfiles = Cache::tags('info')->remember('upfiles'.$page,10,function (){
+            return DB::table('anchong_upfiles')->paginate(12);
+        });
+        //dd($upfiles);
+        $infoauth = 1;
+        $user = Auth::user();
+        if ($user) {
+            //登录且认证
+            $infoauth = $user['user_rank'];
         }
-        return view('home.info.index',compact('info','infoauth'));
+        return view('home.info.index',compact('info','infoauth','upfiles'));
     }
     /*
      * 资讯详情页
@@ -42,11 +46,19 @@ class InfoController extends CommonController
         });
         return view('home.info.info',compact('information'));
     }
-    /*
-     *
+    /**
+     * 上传干货文件页
      */
     public function create()
     {
+        //登录且认证
+        $user = Auth::user();
+        if (!$user) {
+            return back();
+        }
+        if ($user->user_rank != 2) {
+            return back();
+        }
         return view('home.info.upload');
     }
 
@@ -133,8 +145,11 @@ class InfoController extends CommonController
         if ($ok == 1) {
             //$body入库
             parse_str(urldecode($body),$arr);
-            $newid = DB::table('anchong_upfiles')->insertGetId($arr);
-            \Log::info("newID:".$newid,['newID']);
+            if($old = DB::table('anchong_upfiles')->where('filename',$arr['filename'])->first()) {
+                \Log::info($old->filename,['upfiles_duplicate']);
+            } else {
+                DB::table('anchong_upfiles')->insert($arr);
+            }
             header("Content-Type: application/json");
             echo json_encode(["Status"=>"Ok"]);
         } else {
@@ -148,11 +163,22 @@ class InfoController extends CommonController
      */
     public function getphp(Request $req)
     {
+        $user = Auth::user();
+        $files = DB::table('anchong_upfiles')->pluck('filenoid');
+        //总数量限制
+        if (count($files) >100) {
+            return '{}';
+        }
+        //单人数量限制
+        if (in_array($user->users_id,$files) && array_count_values($files)[$user->users_id]>10) {
+            return '{}';
+        }
+        
         //require_once 'App/STS/osscallbackphp\oss_php_sdk_20140625/sdk.class.php';
         $id= env('ALIOSS_ACCESSKEYId');
         $key= env('ALIOSS_ACCESSKEYSECRET');
         $host = 'http://anchongres.oss-cn-hangzhou.aliyuncs.com';
-        $callback_body = '{"callbackUrl":"http://courier.anchong.net/osscall","callbackHost":"courier.anchong.net","callbackBody":"filename=${object}&size=${size}&mimetype=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}","callbackBodyType":"application/x-www-form-urlencoded"}';
+        $callback_body = '{"callbackUrl":"http://courier.anchong.net/osscall","callbackHost":"courier.anchong.net","callbackBody":"filename=http://anchongres.oss-cn-hangzhou.aliyuncs.com/${object}&size=${size}&mimetype=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}&filenoid='.$user->users_id.'","callbackBodyType":"application/x-www-form-urlencoded"}';
         $base64_callback_body = base64_encode($callback_body);
         $now = time();
         $expire = 30; //设置该policy超时时间是30s. 即这个policy过了这个有效时间，将不能访问
@@ -201,4 +227,20 @@ class InfoController extends CommonController
         $expiration = substr($expiration, 0, $pos);
         return $expiration."Z";
     }
+    
+    /**
+     * 暂不开启，注释路由Route::(getpic)
+     * 去oss获取
+     */
+    public function picaction(Request $req)
+    {
+        $user = Auth::user();
+        //加个登录限制
+        if(!$user) {
+            abort(404);
+        }
+        $obj = new imgpost();
+        return $obj->downfile($req['filename']);
+    }
+    
 }

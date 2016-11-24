@@ -3,19 +3,12 @@
 namespace App\Http\Controllers\admin\Advert;
 
 use Request;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use OSS\OssClient;
 use OSS\Core\OssException;
-use DB;
-use Auth;
 use Gate;
 use Cache;
-
-use App\Stock;
-use App\Goods_type;
-use App\Shop;
 
 /**
 *   该控制器包含了广告模块的操作
@@ -209,7 +202,7 @@ class AdvertController extends Controller
         $information=new \App\Information();
         //定义传过来的内容
         $information_data=[
-            'title' => $data['title'],
+            'title' => mb_substr($data['title'],0,30),//标题长度
             'img' => $data['pic'][0]['url'],
             'content' => '<style>img{max-width:100%;}</style><h1 class="h1_h1" style="margin: 0px; padding: 0px; border: 0px; font-size: 26px; width: 100%; color: rgb(51, 51, 51); font-weight: normal;">'.$data['title'].'</h1>'.$data['param'],
             'created_at' => date('Y-m-d H:i:s',time())
