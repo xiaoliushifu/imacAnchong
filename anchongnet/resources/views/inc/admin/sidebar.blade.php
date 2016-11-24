@@ -51,6 +51,16 @@
     				<li><a href="/beans"><i class="fa fa-circle-o"></i>虫豆充值</a></li>
     			</ul>
     		</li>
+			<li class="treeview" id="treepromotion">
+    			<a href="#">
+    				<i class="fa fa-laptop"></i>
+    				<span>促销管理</span>
+    				<i class="fa fa-angle-left pull-right"></i>
+    			</a>
+    			<ul class="treeview-menu">
+    				<li><a href="/promotion"><i class="fa fa-circle-o"></i>添加促销</a></li>
+    			</ul>
+    		</li>
     		<li class="treeview" id="treelive">
 			<a href="#">
 				<i class="fa fa-laptop"></i>

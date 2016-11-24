@@ -280,6 +280,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/advert/information','Api\Advert\AdvertController@information');
         //商城首页广告
         Route::post('/advert/goodsadvert','Api\Advert\AdvertController@goodsadvert');
+        //促销模块
+        Route::post('/advert/promotion','Api\Advert\AdvertController@promotion');
         //聊聊首页广告
         Route::post('/advert/projectadvert','Api\Advert\AdvertController@projectadvert');
 
@@ -573,6 +575,9 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             Route::post('/feedback/feedbackreply','admin\Feedback\FeedbackController@feedbackreply');
             //后台意见状态修改
             Route::post('/feedback/feedbackview','admin\Feedback\FeedbackController@feedbackview');
+
+            //测试
+            Route::resource('/promotion','admin\PromotionController');
         });
     });
             //前台路由

@@ -6,6 +6,7 @@ use Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Cache;
+use DB;
 
 /*
 *   该控制器包含了广告模块的操作
@@ -300,6 +301,56 @@ class AdvertController extends Controller
             }
         }catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
+
+    /*
+    *   商品促销
+    */
+    public function promotion(Request $request)
+    {
+        try{
+            //判断缓存是否存在
+            $promotion_cache=Cache::get('anchong_promotion_goods');
+            if($promotion_cache){
+                //将缓存取出来赋值给变量
+                $results=$promotion_cache;
+            }else{
+                //取到当前时间，为了避免时间不准时加十秒
+                $nowtime=time()+10;
+                //查出当前促销时间段
+                $promotion_id=DB::table('anchong_promotion')->where('start_time','<',$nowtime)->where('end_time','>',$nowtime)->pluck('promotion_id');
+                //查出促销时间段的商品
+                $goods_data=DB::table('anchong_promotion_goods')->where('promotion_id',$promotion_id[0])->select('gid','promotion_price')->orderBy('sort','DESC')->get();
+                //定义ORM模型
+                $goods_specifications=new \App\Goods_specifications();
+                //定义结果数组
+                $results=[];
+                //遍历数据并组合成新数据
+                foreach ($goods_data as $goodsinfo) {
+                    //获得该货物信息的句柄
+                    $goods_handle=$goods_specifications->find($goodsinfo->gid);
+                    //修改其促销价
+                    $goods_handle->promotion_price=$goodsinfo->promotion_price;
+                    $save=$goods_handle->save();
+                    //如果修改成功就促销该货品
+                    if($save){
+                        //将内容装入结果数组
+                        $results[]=[
+                                    "gid" => $goods_handle->gid,
+                                    "title" => $goods_handle->title,
+                                    "price" => $goods_handle->market_price,
+                                    "sname" => $goods_handle->sname,
+                                    "pic" => $goods_handle->goods_img,
+                                    "promotion_price" => $goodsinfo->promotion_price,
+                                    "goods_id" => $goods_handle->goods_id
+                                  ];
+                    }
+                }
+            }
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$results]);
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'暂无促销活动']]);
         }
     }
 
