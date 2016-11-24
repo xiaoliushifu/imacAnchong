@@ -26,8 +26,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
-         $result=\App\Http\Controllers\admin\PromotionController::index();
+         $result=\App\Http\Controllers\admin\PromotionController::promotion();
           Cache::add('woshidaohaode', time(), 1000);
-     })->weekly()->wednesdays()->at('0:00');
+     })->weekly()->thursdays()->at('00:00');
     }
 }
