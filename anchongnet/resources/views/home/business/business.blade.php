@@ -82,6 +82,7 @@
                <p>最新招标</p>
             </div>
             <div class="pro-publish">
+            		{{--发布工程--}}
                 <a href="{{url('/project/create')}}"><img src="home/images/shangji/14.jpg" alt=""></a>
             </div>
         </div>
@@ -105,7 +106,6 @@
                     </li>
                     <hr>
                     @endforeach
-
                 </ul>
             </div>
         </div>

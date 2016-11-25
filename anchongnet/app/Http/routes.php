@@ -607,7 +607,11 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
             Route::get('/', 'Home\IndexController@index');
             //商机主页
             Route::get('/business', 'Home\Business\BusinessController@index');
-            //找货板块
+            //商机下属人才板块
+            Route::resource('/talent', 'Home\Talent\TalentController');
+            //商机下属工程板块
+            Route::resource('/project', 'Home\project\ProjectController');
+            //商机下属找货板块
             Route::resource('/sergoods', 'Home\Findgoods\FindgoodsController');
             //页码跳转
             Route::controller('/gopage', 'PageController');
@@ -615,10 +619,6 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
             Route::controller('/server', 'Home\Talent\ServerController');
             //工程服务，区域管理
             Route::controller('/serproject', 'Home\project\SerproController');
-            //人才板块
-            Route::resource('/talent', 'Home\Talent\TalentController');
-            //工程板块
-            Route::resource('/project', 'Home\project\ProjectController');
             // 个人中心部分路由
             Route::group(['namespace' => 'Home\Pcenter','middleware'=>['loginhome']], function () {
                 //个人中心

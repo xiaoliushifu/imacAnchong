@@ -11,34 +11,28 @@ use Illuminate\Support\Facades\Input;
 class ProjectController extends CommonController
 {
     /*
-     * 发包工程的列表
+     * 发布工程的列表
      */
     public function Index()
     {
-        //区域，服务类型的筛选
-        $ser =Cache::remember('protype',10,function(){
-           return  Tag::where('type_id',0)->orderBy('id','asc')->get();
+        //区域标签
+        $ser =Cache::remember('protype0',1440,function(){
+           return  Tag::where('type_id',0)->get();
         });
         $serpro = $ser->take(7);
-        //除去显示的7个，也查询出来，放在隐藏的ul里
-        $num = count($ser);
-        $lastnum = $num - 7;
-        $lastserpro = Cache::remember('protype2',10,function() use($lastnum){
-           return  Tag::where('type_id',0)->orderBy('id','desc')->take($lastnum)->get();
-        });
-        $addpro =Cache::remember('protype3',10,function(){
-            return   Tag::where('type_id',1)->orderBy('id','asc')->get();
+        $lastserpro = $ser->slice(7);
+        
+        //服务类别标签
+        $addpro =Cache::remember('protype1',1440,function(){
+            return   Tag::where('type_id',1)->get();
         });
         $serprocate = $addpro->take(7);
-        $adnum = count($addpro);
-        $adlastnum = $adnum - 7;
-        $lastadpro = Cache::remember('protype4',10,function() use($adlastnum){
-           return  Tag::where('type_id',1)->orderBy('id','desc')->take($adlastnum)->get();
-        });
-        //发包工程列表内容
+        $lastadpro = $addpro->slice(7);
+        
+        //发包工程列表数据
         $page = Input::get(['page']);
         $projectlist =Cache::remember('protypedetail'.$page,10,function(){
-           return  Business::where('type', 1)->orderBy('created_at', 'asc')->paginate(15);
+           return  Business::where('type', 1)->paginate(15);
         });
 
         return view('home.project.projectlist', compact('projectlist','serprocate','serpro','lastserpro','lastadpro'));
@@ -52,9 +46,11 @@ class ProjectController extends CommonController
         return view('/home.project.releaseeg');
     }
 
+    /**
+     * 发布商机
+     */
     public function store()
     {
-        //dd(Input::all());
         $data = Input::all();
         $data['tag'] = '安防设施';
         $data['area'] = '全国';
@@ -73,7 +69,7 @@ class ProjectController extends CommonController
             }
         }
         //向business表中插入数据
-        $result=DB::table('anchong_business')->insertGetId(
+        DB::table('anchong_business')->insert(
             [
                 'users_id' => $user['users_id'],
                 'title' => $data['title'],
@@ -89,9 +85,13 @@ class ProjectController extends CommonController
                 'created_at' => date('Y-m-d H:i:s',time()),
                 'img' => $imgs,
             ]
-            );
+        );
         return back();
     }
+    /**
+     * 查看商机
+     * @param unknown $bid
+     */
     public function show($bid)
     {
         $data = Business::find($bid);
