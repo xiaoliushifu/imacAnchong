@@ -3,7 +3,7 @@
  */
 var Level1=[];//Level1[0]是所有一级分类，Level1[1]是一级分类下的子分类
 $(function(){
-	
+
 	/*
 	 * 页面初始化时候加载一级分类
 	 * */
@@ -15,7 +15,7 @@ $(function(){
 	     }
 	     $("#mainselect").append(opt);
 	 });
-	
+
     //通过类ID查看货品的缩影信息
     $(".view").click(function(){
         //
@@ -53,6 +53,38 @@ $(function(){
         });
     });
 
+	//促销内容
+	$(".promotion").click(function(){
+		$("#promotion").empty();
+		//将货品信息传递过去
+		$("#hid_gid").val($(this).attr('data-id'));
+		$("#pro_gid").text($(this).attr('data-id'));
+		$("#pro_name").text($(this).attr('data-title'));
+		$("#pro_num").text($(this).attr('data-num'));
+		//请求促销时间等数据
+		$.get("/promotion/1",function(data,status){
+			var dl="";
+            for(var i=0;i<data.length;i++){
+                dl +='<dl><input type="radio" id="makedownedit" name="promotion_id" value="'+data[i].promotion_id+'">&nbsp;'+data[i].start_time+' ~ '+data[i].end_time+'</dl>';
+			}
+			$("#promotion").append(dl);
+		});
+	});
+
+	//促销保存
+	$("#promotionsave").click(function(){
+		$("#promotionForm").ajaxSubmit({
+			success: function (data) {
+				if(data.ServerNo == 0){
+					alert(data.ResultData.Message);
+					location.reload();
+				}else{
+					alert(data.ResultData.Message);
+				}
+			}
+		});
+	});
+
     //货品列表页 点击编辑按钮
     $(".edit").click(function(){
     		//ajax全局设置同步处理(多分类时尤其明显）
@@ -83,7 +115,7 @@ $(function(){
                 opt +="<option  value="+Level1[0][i].cat_id+">"+Level1[0][i].cat_name+"</option>";
             }
             $("#mainselect"+c).append(opt);
-            
+
             //一条分类信息的二级分类部分（含父类id)
             opt='';
             $.get("/getSib",{cid:cid[c]},function(data,status){
@@ -238,7 +270,7 @@ $(function(){
     $("body").on("click",'.gallery',function(){
         $(this).siblings(".pic").click();
     });
-    
+
     //使得货品编辑时，各个分类信息不可更改。
     $('#goodscat').on('change','select',function(){
     		$(this).val($(this).find('option[selected="selected"]').val());
