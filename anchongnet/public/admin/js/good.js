@@ -58,6 +58,7 @@ $(function(){
 		$("#promotion").empty();
 		//将货品信息传递过去
 		$("#hid_gid").val($(this).attr('data-id'));
+		$("#hid_num").val($(this).attr('data-num'));
 		$("#pro_gid").text($(this).attr('data-id'));
 		$("#pro_name").text($(this).attr('data-title'));
 		$("#pro_num").text($(this).attr('data-num'));

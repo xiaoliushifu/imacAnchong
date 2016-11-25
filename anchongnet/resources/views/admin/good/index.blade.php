@@ -579,6 +579,7 @@
                     <form role="form" class="form-horizontal" action="/promotion" method="post" id="promotionForm" enctype="multipart/form-data">
                     <div class="form-group">
                         <input type="hidden" name="gid" value="" id="hid_gid">
+                        <input type="hidden" name="goodsnum" value="" id="hid_num">
                         <label class="col-sm-2 control-label"  style="padding-top:0px;" for="name">货品ID</label>
                         <div class="col-sm-8" id="pro_gid">
 

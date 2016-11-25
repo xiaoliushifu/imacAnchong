@@ -36,16 +36,18 @@ $(function(){
 
     //删成条目
     $("body").on("click",'.delcuspro',function(){
-        //拿到ID
-        var promotion_id=$(this).attr('data-id');
-        //进行ajax删除
-        $.ajax({
-            url: '/promotion/'+promotion_id,
-            type:'DELETE',
-            success:function(result){
-                alert(result);
-                location.reload();
-            }
+        if(confirm('确定要删除该时段吗？')){
+            //拿到ID
+            var promotion_id=$(this).attr('data-id');
+            //进行ajax删除
+            $.ajax({
+                url: '/promotion/'+promotion_id,
+                type:'DELETE',
+                success:function(result){
+                    alert(result);
+                    location.reload();
+                }
+            });
         });
-    });
+    }
 });

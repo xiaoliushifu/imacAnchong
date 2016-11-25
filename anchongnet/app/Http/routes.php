@@ -468,10 +468,12 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::get('/businesss','admin\businessController@businesss');
                 //后台促销
                 Route::resource('/promotion','admin\PromotionController');
-                //测试
-                Route::get('/startpromotion','admin\PromotionController@promotion');
-                //测试
-                Route::get('/endpromotion','admin\PromotionController@endpromotion');
+                //开始促销
+                Route::get('/startpromotion/{num}','admin\PromotionController@promotion');
+                //结束促销
+                Route::get('/endpromotion/{num}','admin\PromotionController@endpromotion');
+                //结束促销
+                Route::resource('/promotioninfo','admin\PromotioninfoController');
             });
                 //后台登出
             Route::get('/logout','admin\indexController@logout');

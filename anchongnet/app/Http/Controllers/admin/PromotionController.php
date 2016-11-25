@@ -121,7 +121,8 @@ class PromotionController extends Controller
                 'promotion_id' => $request->promotion_id,
                 'gid' => $request->gid,
                 'promotion_price' => $request->promotion_price,
-                'sort' => $request->sort
+                'sort' => $request->sort,
+                'goods_numbering' => $request->goodsnum
             ]
         );
         //判断是否插入成功
@@ -188,9 +189,9 @@ class PromotionController extends Controller
                 ]
             );
             if($id){
-                return "修改成功";
+                return "添加成功";
             }else {
-                return "修改失败";
+                return "操作失败";
             }
         }
     }
