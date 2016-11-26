@@ -463,6 +463,14 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::get('/releases','admin\releaseController@releases');
                 //所有商机
                 Route::get('/businesss','admin\businessController@businesss');
+                //后台促销
+                Route::resource('/promotion','admin\PromotionController');
+                //开始促销
+                Route::get('/startpromotion/{num}','admin\PromotionController@promotion');
+                //结束促销
+                Route::get('/endpromotion/{num}','admin\PromotionController@endpromotion');
+                //结束促销
+                Route::resource('/promotioninfo','admin\PromotioninfoController');
             });
                 //后台登出
             Route::get('/logout','admin\indexController@logout');
@@ -575,8 +583,8 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             //后台意见状态修改
             Route::post('/feedback/feedbackview','admin\Feedback\FeedbackController@feedbackview');
 
-            //测试
-            Route::resource('/promotion','admin\PromotionController');
+
+
         });
     });
             //前台路由

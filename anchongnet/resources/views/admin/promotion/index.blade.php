@@ -64,6 +64,7 @@
 		                                        <th class="text-center col-sm-1">开始时间</th>
 		                                        <th class="text-center col-sm-1">结束时间</th>
 		                                        <th class="text-center col-sm-1">操作</th>
+												<th class="text-center col-sm-1">查看</th>
 		                                    </tr>
 		                                    </thead>
 		                                    <tbody id="promotionlist">
@@ -89,7 +90,10 @@
 															</span>
 														 </button>
 													</td>
-													</tr>
+													<td>
+														<button type="button" class="f-ib btn btn-info btn-xs">查看促销列表</button>
+													</td>
+												</tr>
 												@endif
 												@foreach ($datacol['datas'] as $data)
 												<tr class="line">
@@ -112,6 +116,9 @@
 															<span class="glyphicon glyphicon-minus">
 															</span>
 														 </button>
+													</td>
+													<td>
+														<a href="/promotioninfo?promotion_id={{$data->promotion_id}}" target="_blank" class="btn btn-primary btn-xs">查看促销列表</a>
 													</td>
 													</tr>
 												@endforeach

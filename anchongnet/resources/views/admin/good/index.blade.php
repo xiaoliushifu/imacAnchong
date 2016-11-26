@@ -99,6 +99,7 @@
                                             		    <button type="button" class="advert f-ib btn btn-warning btn-xs" data-id="{{$data['gid']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myAdvert"
                                             	        data-name="{{$data['title']}}"
                                                      data-num="{{$data['goods_numbering']}}">广告</button>
+                                                     <button type="button" class="promotion f-ib btn btn-info btn-xs" data-id="{{$data['gid']}}" data-title="{{$data['title']}}" data-num="{{$data['goods_numbering']}}" data-toggle="modal" data-target="#myPromotion">促销</button>
                                                 @endcan
                                             @endif
 
@@ -549,15 +550,77 @@
                                             </div>
                                             <input type="file" name="file" class="newgoodspic105">
                             </form></td>
-                            <td><form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdate106" method="post" enctype="multipart/form-data">
+                            <td>
+                            <form role="form" style="height:100px;width:100px" class="form-horizontal" action="" id="formToUpdate106" method="post" enctype="multipart/form-data">
                                 <div id="method"></div>
                                             <div class="gallery text-center">
                                                 <img src="/admin/image/advert/279-300.png" style="height:100px;width:100px;" class="img106">
                                             </div>
                                             <input type="file" name="file" class="newgoodspic106">
-                            </form></td>
+                            </form>
+                            </td>
                         </tr>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myPromotion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" class="form-horizontal" action="/promotion" method="post" id="promotionForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="hidden" name="gid" value="" id="hid_gid">
+                        <input type="hidden" name="goodsnum" value="" id="hid_num">
+                        <label class="col-sm-2 control-label"  style="padding-top:0px;" for="name">货品ID</label>
+                        <div class="col-sm-8" id="pro_gid">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" style="padding-top:0px;" for="name">货品名称</label>
+                        <div class="col-sm-8" id="pro_name">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" style="padding-top:0px;" for="name">货品编号</label>
+                        <div class="col-sm-8" id="pro_num">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" style="padding-top:0px;" for="name">选择促销时间</label>
+                        <div class="col-sm-8" id="promotion">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="name">促销价格</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="promotion_price" class="form-control" placeholder="促销的价格" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="name">促销排序</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="sort" class="form-control" placeholder="促销排序，20在最前0在最后" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12" style="text-align: center;align-content: center;">
+                            <button type="button" class="btn btn-info" id="promotionsave">保存</button>
+                        </div>
+                    </div>
+                </form>
                 </div>
             </div>
         </div>
