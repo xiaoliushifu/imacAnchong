@@ -17,11 +17,11 @@ class upfileController extends Controller
         $u = $req['u'];
         $f = $req['f'];
         if ($u) {
-            $mydata = DB::table('anchong_upfiles')->orderby('created_time','desc')->where('filenoid',$u)->paginate(10);
+            $mydata = DB::table('anchong_upfiles')->orderby('created_time','desc')->where('filenoid',$u)->paginate(20);
         } elseif ($f) {
-            $mydata = DB::table('anchong_upfiles')->orderby('created_time','desc')->where('filename','like','%'.$f.'%')->paginate(10);
+            $mydata = DB::table('anchong_upfiles')->orderby('created_time','desc')->where('filename','like','%'.$f.'%')->paginate(20);
         } else {
-            $mydata = DB::table('anchong_upfiles')->orderby('created_time','desc')->paginate(10);
+            $mydata = DB::table('anchong_upfiles')->orderby('created_time','desc')->paginate(20);
         }
         $args = ['u'=>$u,'f'=>$f];
 		return view('admin/permission/ganhuo',compact("mydata",'args'));
@@ -37,6 +37,7 @@ class upfileController extends Controller
         if (!$mydata) {
            return 0; 
         }
+        //oss操作模型
         $img = new imgpost();
         $fn = substr($mydata[0]->filename,strrpos($mydata[0]->filename,'/')+1);
         //oss删除

@@ -62,35 +62,31 @@ class EquipmentController extends CommonController
 
    public function getList($cat_id)
    {
-        //住导航
-        $navll = Cache::remember('nav',10,function(){
-            return  Category::orderBy('cat_id','asc')->take(8)->get();
-        });
         //所在位置
         $eqlistaddress = Cache::remember('eqlistaddress'.$cat_id,10,function() use($cat_id){
             return   Category::find($cat_id);
         });
+        if(!$eqlistaddress) {
+            abort(404);
+        }
+        //8大类导航
+        $navll = Cache::remember('nav',10,function(){
+            return  Category::orderBy('cat_id','asc')->take(8)->get();
+        });
         $eqlist = Input::get(['page']);
-      if($cat_id<9){
-
+       //8大类，有直接等量，使用other_id
+      if ($cat_id<9) {
          $eqlistmain = Cache::remember('eqlistmain'.$cat_id.$eqlist,10,function() use($cat_id){
-                 return  Goods_type::where('other_id',$cat_id)->orderBy('cat_id','desc')->paginate(16);
+            return  Goods_type::where('other_id',$cat_id)->orderBy('cat_id','desc')->paginate(16);
          });
-
-      }else{
+      //非8大类，模糊选择,用match
+      } else {
           $aa = bin2hex($cat_id);
-          $det = Cache::remember('det'.$cat_id.$eqlist,10,function() use($aa){
-              return Goods_type::whereRaw("match(`cid`)against(?)",[$aa])->paginate(16);
+          $eqlistmain = Cache::remember('det'.$cat_id.$eqlist,10,function() use($aa){
+              return Goods_type::whereRaw("match(`cid`) against(?)",[$aa])->paginate(16);
           });
       }
-        //登陆用户是否为注册会员
-        if(session('user')) {
-            $phone = Users::where('phone', [session('user')])->first();
-            $glistauth  = Auth::where("users_id",$phone->users_id)->get(['auth_status']);
-        }else{
-            $glistauth = [];
-        }
-     return view('home.equipment.goodslist',compact('eqlistmain','navll','eqlistaddress','det','cat_id','glistauth'));
+     return view('home.equipment.goodslist',compact('eqlistmain','navll','eqlistaddress','cat_id'));
     }
     
     //商品详情查看

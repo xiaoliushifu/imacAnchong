@@ -7,7 +7,6 @@
 		<link rel="stylesheet" href="home/css/businessjs.css">
 		<link rel="stylesheet" href="home/css/footer.css">
 		<link rel="stylesheet" href="{{asset('home/css/top.css')}}">
-
 	</head>
 	<body>
 	@include('inc.home.top')
@@ -23,7 +22,6 @@
 					</form>
 				</div>
 				<div class="cl"></div>
-
 			</div>	
 		</div>
 		<div class="navm">
@@ -38,41 +36,26 @@
 								<p><a href="{{url('/talent')}}">人才</a></p>
 							</div>
 						</li>
-
-						<li id="change1"><a href="{{url('/community')}}">社区</a>
-						</li>
-
-						<li id="change2"><a href="{{url('/equipment')}}">设备选购</a>
-
-						</li>
-
+						<li id="change1"><a href="{{url('/community')}}">社区</a></li>
+						<li id="change2"><a href="{{url('/equipment')}}">设备选购</a></li>
 						<li><a href="{{url('/info')}}">资讯</a></li>
 					</ul>
 				</div>
-
 			</div>
 		</div>
 		<div style="clear: both"></div>
 		<hr class="nav-underline">
-
 		<div class="banner">
-			<img src="../home/images/gongchengxq/banner.jpg"/>
+			<img src="/home/images/gongchengxq/banner.jpg"/>
 		</div>
 		<div class="site-middle">
 			<div class="middle-container">
 				<div class="work">
-					<a class="contract-work" href="{{url('project')}}"><img src="../home/images/gongchengxq/发包工程.png"/></a>
-					<a class="package" href="{{url('serproject/lepro')}}"><img src="../home/images/gongchengxq/承接工程.png"/></a>
-					<a class="release" href="
-					 @if(isset($msg))
-					{{url('/project/create')}}
-					@else
-					{{url('/user/login')}}
-					@endif
-							"><img src="../home/images/gongchengxq/发布工程.png"/></a>
+					<a class="contract-work" href="{{url('project')}}"><img src="/home/images/gongchengxq/发包工程.png"/></a>
+					<a class="package" href="{{url('serproject/lepro')}}"><img src="/home/images/gongchengxq/承接工程.png"/></a>
+					<a class="release" href="{{url('project/create')}}"><img src="/home/images/gongchengxq/发布工程.png"/></a>
 				</div>
 				<div class="nav">
-
 					<div class="server">
 						<hr style="border-bottom: 5px #9b9b9b solid;">
 						<ul class="server-type" style="border-bottom: 1px #9b9b9b solid;height: 50px;">
@@ -80,16 +63,13 @@
 							@foreach($serprocate as $s)
 								<li><a href="{{url('serproject/listcate/'.$s->id)}}">{{$s->tag}}</a></li>
 							@endforeach
-
 							<li class="downmenue" style="width: 80px;height: 50px;float: right;font-size: 14px;color:#606060;"><span  id="flip" >展开 <b class="caret"></b></span> </li>
 						</ul>
-
-						<ul class="server-type" id="yy" style="display: none;float: left;">
+						<ul class="server-type" id="yy" style="display: none; float: left;">
 							@foreach($lastadpro as $m)
 								<li style="border-bottom: 1px #9b9b9b solid;"><nobr><a href="{{url('serproject/listcate/'.$m->id)}}">{{$m->tag}}</a></nobr></li>
 							@endforeach
 						</ul>
-
 						<ul class="server-type" style="float: left">
 							<li class="type-title-1"><span>区域</span></li>
 							@foreach($serpro as $a)
@@ -157,9 +137,9 @@
 			</div>
 		</div>
 	@include('inc.home.footer')
-	<script src="../home/js/jquery-3.1.0.min.js"></script>
-	<script src="../home/js/businessjs.js"></script>
-	<script src="../home/js/talent.js" type="text/javascript" charset="utf-8"></script>
-	<script src="home/js/orderlist.js"></script>
+	<script src="/home/js/jquery-3.1.0.min.js"></script>
+	<script src="/home/js/businessjs.js"></script>
+	<script src="/home/js/talent.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/home/js/orderlist.js"></script>
 	</body>
 </html>
