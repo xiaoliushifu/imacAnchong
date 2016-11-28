@@ -35,7 +35,7 @@ class Community_reply extends Model
     */
     public function quer($field,$type,$pos,$limit)
     {
-         return $this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get();
+         return $this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('reid', 'DESC')->get();
     }
 
     /*
@@ -43,7 +43,7 @@ class Community_reply extends Model
     */
     public function simplequer($field,$type)
     {
-         return $this->select($field)->whereRaw($type)->orderBy('created_at', 'DESC')->get();
+         return $this->select($field)->whereRaw($type)->orderBy('reid', 'DESC')->get();
     }
 
     /*

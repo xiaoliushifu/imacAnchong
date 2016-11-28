@@ -58,7 +58,7 @@
     				<i class="fa fa-angle-left pull-right"></i>
     			</a>
     			<ul class="treeview-menu">
-    				<li><a href="/promotion"><i class="fa fa-circle-o"></i>添加促销</a></li>
+    				<li><a href="/promotion"><i class="fa fa-circle-o"></i>促销查看</a></li>
     			</ul>
     		</li>
     		<li class="treeview" id="treelive">
