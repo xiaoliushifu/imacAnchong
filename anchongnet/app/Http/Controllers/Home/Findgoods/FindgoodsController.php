@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Home\Findgoods;
 use App\Business;
 use App\Http\Controllers\Home\CommonController;
 use Cache;
-use App\Http\Requests;
+use Auth;
 use Illuminate\Support\Facades\Input;
 
 class FindgoodsController extends CommonController
@@ -14,12 +14,10 @@ class FindgoodsController extends CommonController
     */
     public function index()
     {
-         $page= Input::get(['page']);
+        $page= Input::get(['page']);
         $fglist = Cache::remember('fglist'.$page,10,function(){
             return  Business::where('type', 5)->orderBy('created_at', 'desc')->paginate(15);
         });
-
-
         return view('home.business.findgoods', compact('fglist'));
     }
     /*
@@ -27,6 +25,9 @@ class FindgoodsController extends CommonController
     */
     public function create()
     {
+        if(!Auth::check()){
+            return redirect('/user/login');
+        }
         return view('home.release.releasefngoods');
     }
     /*
@@ -43,6 +44,9 @@ class FindgoodsController extends CommonController
     {
 
     }
+    
+    public function update()
+    {
 
-
+    }
 }

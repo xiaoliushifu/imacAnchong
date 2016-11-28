@@ -41,42 +41,24 @@
                         <p><a href="{{url('/talent')}}">人才</a></p>
                     </div>
                 </li>
-
-                <li id="change1"><a href="{{url('/community')}}">社区</a>
-
-                </li>
-
-                <li id="change2"><a href="{{url('/equipment')}}">设备选购</a>
-
-                </li>
-
+                <li id="change1"><a href="{{url('/community')}}">社区</a></li>
+                <li id="change2"><a href="{{url('/equipment')}}">设备选购</a></li>
                 <li><a href="{{url('/info')}}">资讯</a></li>
             </ul>
         </div>
-
     </div>
-
 </div>
 <div style="clear: both"></div>
 <hr class="nav-underline">
-
-<!--中间内容、-->
-
 <div class="main">
     <div class="submain">
         <div class="publish-title">
             <div class="publish-left">
-                <a href="{{url('/talent')}}"><img src="{{asset('home/images/business/发布人才.png')}}" alt=""></a><a href="{{url('server/talentjoin')}}"><img
-                            src="{{asset('home/images/business/人才招聘1.png')}}" alt=""></a>
+                <a href="{{url('/talent')}}"><img src="{{asset('home/images/business/发布人才.png')}}" alt=""></a>
+                <a href="{{url('server/talentjoin')}}"><img src="{{asset('home/images/business/人才招聘1.png')}}" alt=""></a>
             </div>
             <div class="publish-right">
-                <a href="
-                 @if(isset($msg))
-                {{url('/talent/create')}}
-                @else
-                {{url('/user/login')}}
-                @endif
-                        "><img src="home/images/zhaohuo/36.jpg" alt=""></a>
+                <a href="{{url('/talent/create')}}"><img src="home/images/zhaohuo/36.jpg" alt=""></a>
             </div>
         </div>
 
@@ -87,12 +69,13 @@
                 @foreach($sercate as $s)
                 <li><a href="{{url('server/sertalent/'.$s->id)}}">{{$s->tag}}</a></li>
                 @endforeach
-
                 <li class="downmenue" style="width: 80px;height: 50px;float: right;font-size: 14px;color:#606060;"><span  id="flip" >展开 <b class="caret"></b></span> </li>
             </ul>
             <ul class="server-type" id="yy" style="display: none;">
+            		@foreach($asercate as $s)
+                <li><a href="{{url('server/sertalent/'.$s->id)}}">{{$s->tag}}</a></li>
+                @endforeach
             </ul>
-
             <ul class="server-type">
                 <li class="type-title-1"><span>区域</span></li>
                 @foreach($adrcate as $a)
@@ -100,8 +83,6 @@
                  @endforeach
                 <li class="downmenue" style="width: 80px;height: 50px;float: right;font-size: 14px;color:#606060;"><span  id="show" >展开 <b class="caret"></b></span></li>
             </ul>
-
-
             <ul class="server-type" id="adress" style="display: none">
                 @foreach($addcate as $d)
                 <li><a href="{{url('server/sertalent/'.$d->id)}}">{{$d->tag}}</a></li>

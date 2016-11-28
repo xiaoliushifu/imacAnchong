@@ -877,14 +877,14 @@ class PayController extends Controller
                       //进行订单操作
                       // 使用通知里的 "商户订单号" 去自己的数据库找到订单
                       $order = $orders->find($order_id['order_id']);
-                      //拿到用户的ID和商铺的ID
-                      $sid[]=$order->sid;
-                      $users_id=$order->users_id;
                       // 如果订单不存在
                       if (!$order) {
                           // 我已经处理完了，订单没找到，别再通知我了
                           return 'fail';
                       }
+                      //拿到用户的ID和商铺的ID
+                      $sid[]=$order->sid;
+                      $users_id=$order->users_id;
 
                       // 检查订单是否已经更新过支付状态
                       if ($order->state == 2) {

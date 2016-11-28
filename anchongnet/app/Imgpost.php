@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Http\Request;
 use OSS\OssClient;
 use OSS\Core\OssException;
+use Log;
 
 /**
 *   该控制器包含了商机图片模块的操作
@@ -42,6 +43,21 @@ class imgpost
             $content="非法请求";
         }
         return $content;
+    }
+    
+    /**
+     * 删除
+     */
+    public function delete($fname)
+    {
+        $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
+        try{
+            $ossClient->deleteObject($this->bucket, 'ganhuo-dir/'.$fname);
+        } catch(OssException $e) {
+            Log::info($e->getMessage(),['oss_delete']);
+            return false;
+        }
+        return true;
     }
 
     /**
