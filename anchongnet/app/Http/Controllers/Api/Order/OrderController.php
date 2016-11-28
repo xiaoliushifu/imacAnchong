@@ -311,7 +311,7 @@ class OrderController extends Controller
                     break;
             }
             //定于查询数据
-            $order_data=['order_id','order_num','sid','sname','state','created_at','total_price','name','phone','address','freight','invoice','customer'];
+            $order_data=['order_id','order_num','sid','sname','state','updated_at','total_price','name','phone','address','freight','invoice','customer'];
             $orderinfo_data=['goods_name','goods_num','goods_price','goods_type','img'];
             //查询该用户的订单数据
             $order_result=$order->quer($order_data,$sql,(($param['page']-1)*$limit),$limit);
