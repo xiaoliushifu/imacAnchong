@@ -5,6 +5,7 @@
     <title>设备选购</title>
     <link rel="stylesheet" href="home/css/equipshopping.css">
     <link rel="stylesheet" href="home/css/top.css">
+    <link rel="stylesheet" type="text/css" href="home/css/suggestion.css">
 </head>
 <body>
 @include('inc.home.top',['page'=>' <li><div class="shop-ioc">
@@ -22,10 +23,10 @@
         </div>
         <div class="search">
             <div class="searchbar">
-                <input type="text" class="biaodan">
+                <input type="text" class="biaodan" id="gover_search_key">
                 <button type="button" class="btn">搜索</button>
-
             </div>
+            <div class="search_suggest"  id="gov_search_suggest"><ul style="padding:0px;margin-bottom:0px;"></ul></div>
 
         </div>
     </div>
@@ -417,5 +418,6 @@
 @include('inc.home.footer')
 <script src="home/js/jquery-3.1.0.min.js"></script>
 <script src="home/js/top.js"></script>
+<script src="home/js/search.js"></script>
 </body>
 </html>
