@@ -92,14 +92,13 @@ class EquipmentController extends CommonController
     //商品详情查看
     public function getShow($goods_id,$gid)
     {
-        //住导航
-        $nav = Cache::remember('nav',10,function(){
-            return  Category::orderBy('cat_id','asc')->take(8)->get();
-        });
         //通过goods_id商品详情
         $data = Cache::remember('goodsdetail'.$goods_id,10,function() use($goods_id){
             return Goods::find($goods_id);
         });
+        if (!$data) {
+            abort(404);
+        }
         //oem 选择
         $oem = Cache::remember('oem'.$goods_id,10, function() use($goods_id){
             return Goods_oem::where('goods_id',$goods_id)->first();
@@ -107,15 +106,7 @@ class EquipmentController extends CommonController
         if(!empty($oem)){
             $oemvalue = explode(' ',$oem->value);
         }
-        //通过$gid找到缩略图
-        $img = Cache::remember('goodsimg'.$gid,10,function() use($gid){
-            return  Goods_thumb::where('gid',$gid)->get();
-        });
-        //通过sid找到哪家商铺
-        $shop = Cache::remember('goodshop'.$gid,10,function() use($data){
-            return  Shop::where('sid',$data->sid)->get();
-        });
-        //商品规格分类
+        //商品属性
         $type = Cache::remember('goodstp'.$goods_id,10,function() use($goods_id){
             return  Goods_attribute::where('goods_id',$goods_id)->get();
         });
@@ -127,9 +118,24 @@ class EquipmentController extends CommonController
         if(isset($type[1])){
             $size = preg_split('#\s#', $type[1]->value,-1,PREG_SPLIT_NO_EMPTY);
         }
+        //通过$gid找到缩略图
+        $img = Cache::remember('goodsimg'.$gid,10,function() use($gid){
+            return  Goods_thumb::where('gid',$gid)->get();
+        });
+        //通过sid找到哪家商铺
+        $shop = Cache::remember('goodshop'.$gid,10,function() use($data){
+            return  Shop::where('sid',$data->sid)->get();
+        });
         //得到商品价格
         $price = Cache::remember('goodsprice'.$gid,10,function() use($goods_id,$gid){
             return  Goods_type::where(['goods_id'=>$goods_id,'gid'=>$gid])->get();
+        });
+        if($price->isEmpty()) {
+            abort(404);
+        }
+        //主导航
+        $nav = Cache::remember('nav',10,function(){
+            return  Category::orderBy('cat_id','asc')->take(8)->get();
         });
         //推荐部分
         $related = Cache::remember('goodsre'.$gid.$goods_id,10,function() use($price){
