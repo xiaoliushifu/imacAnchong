@@ -110,6 +110,12 @@ $(function(){
 	//在input框输入字符时触发，不断地输入，就不断地触发。
 	function sendKeyWordToBack(keyword){
 	    var aData = [];
+		//ajax全局参数设置
+		$.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="wwwcctv"]').attr('content')}});
+		$.post('/search',{param:'{"q":"'+keyword+'"}'},function(data){
+			console.log(data);
+		});
+		return;
 		//去后端获得关键词
 	    aData.push(keyword+'返回数据1');
 	    aData.push(keyword+'返回数据2');

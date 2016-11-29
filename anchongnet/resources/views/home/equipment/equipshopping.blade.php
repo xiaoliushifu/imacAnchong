@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="wwwcctv" content="{{ csrf_token() }}">
     <title>设备选购</title>
     <link rel="stylesheet" href="home/css/equipshopping.css">
     <link rel="stylesheet" href="home/css/top.css">
