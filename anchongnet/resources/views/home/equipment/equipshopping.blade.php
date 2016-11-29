@@ -26,8 +26,8 @@
                 <input type="text" class="biaodan" id="gover_search_key">
                 <button type="button" class="btn">搜索</button>
             </div>
-            <div class="search_suggest"  id="gov_search_suggest"><ul style="padding:0px;margin-bottom:0px;"></ul></div>
-
+            {{--提示框--}}
+            <div class="search_suggest"  id="gov_search_suggest"><ul></ul></div>
         </div>
     </div>
 </div>

@@ -79,8 +79,10 @@ $(function(){
 	        for(var i=0; i<data.length; i++) {
 	            li = document.createElement('LI');
 	            li.innerHTML = data[i];
+				//新数据添加到文档碎片
 	            tmpFrag.appendChild(li);
 	        }
+			//把文档碎片加入到文档中
 	        suggestWrap.find('ul').append(tmpFrag);
 	
 	        //suggestWrap.show();  //show方法在这里有冲突，故改用直接css方法。
@@ -108,6 +110,7 @@ $(function(){
 	//在input框输入字符时触发，不断地输入，就不断地触发。
 	function sendKeyWordToBack(keyword){
 	    var aData = [];
+		//去后端获得关键词
 	    aData.push(keyword+'返回数据1');
 	    aData.push(keyword+'返回数据2');
 	    aData.push(keyword+'返回数据3');

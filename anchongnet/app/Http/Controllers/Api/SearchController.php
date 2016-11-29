@@ -54,7 +54,7 @@ class SearchController extends Controller
     }
 
     /**
-     * 搜索转接
+     * 搜索转接，直接去搜索而无智能提示
      */
     public function postKey(Request $req)
     {
