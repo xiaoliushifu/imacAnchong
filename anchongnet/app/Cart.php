@@ -37,7 +37,7 @@ class Cart extends Model
     */
     public function quer($field,$type)
     {
-        return $this->select($field)->whereRaw($type)->orderBy('created_at', 'DESC')->get();
+        return $this->select($field)->whereRaw($type)->orderBy('cart_id', 'DESC')->get();
     }
 
     /*

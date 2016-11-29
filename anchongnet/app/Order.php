@@ -38,7 +38,7 @@ class Order extends Model
     */
     public function quer($field,$type,$pos,$limit)
     {
-         return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get()->toArray()];
+         return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('order_id', 'DESC')->get()->toArray()];
     }
 
 
@@ -47,7 +47,7 @@ class Order extends Model
     */
     public function quernopage($field,$type)
     {
-         return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->orderBy('created_at', 'DESC')->get()->toArray()];
+         return ['total'=>$this->select($field)->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->orderBy('order_id', 'DESC')->get()->toArray()];
     }
 
     /*

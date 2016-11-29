@@ -35,7 +35,7 @@ class Community_release extends Model
    */
    public function quer($field,$type,$pos,$limit)
    {
-        return ['total'=>$this->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('created_at', 'DESC')->get()->toArray()];
+        return ['total'=>$this->whereRaw($type)->count(),'list'=>$this->select($field)->whereRaw($type)->skip($pos)->take($limit)->orderBy('chat_id', 'DESC')->get()->toArray()];
    }
 
    /*
