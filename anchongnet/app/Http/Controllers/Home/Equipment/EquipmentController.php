@@ -9,6 +9,7 @@ use App\Goods_attribute;
 use App\Goods_oem;
 use App\Goods_thumb;
 use App\Goods_type;
+use App\Goods_specifications;
 use App\Http\Controllers\Home\CommonController;
 use App\Shop;
 use App\Http\Requests;
@@ -88,7 +89,7 @@ class EquipmentController extends CommonController
       }
      return view('home.equipment.goodslist',compact('eqlistmain','navll','eqlistaddress','cat_id'));
     }
-    
+
     //商品详情查看
     public function getShow($goods_id,$gid)
     {
@@ -128,7 +129,7 @@ class EquipmentController extends CommonController
         });
         //得到商品价格
         $price = Cache::remember('goodsprice'.$gid,10,function() use($goods_id,$gid){
-            return  Goods_type::where(['goods_id'=>$goods_id,'gid'=>$gid])->get();
+            return  Goods_specifications::where(['goods_id'=>$goods_id,'gid'=>$gid])->get();
         });
         if($price->isEmpty()) {
             abort(404);

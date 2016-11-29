@@ -90,12 +90,12 @@ class CartController extends CommonController
         if (!$info) {
             return ['status' => 0,'msg'=>'您查找的商品不存在，或者下架或者被转移'];
         }
-        //价格因是否认证而不同
-        if ($user->user_rank == '2') {
-            $input['goods_price'] = $info->vip_price;
-        } else {
-            $input['goods_price'] = $info->price;
-        }
+        // //价格因是否认证而不同
+        // if ($user->user_rank == '2') {
+        //     $input['goods_price'] = $info->vip_price;
+        // } else {
+        //     $input['goods_price'] = $info->price;
+        // }
         $cart = Cart::where('gid', $input['gid'])->where('users_id', $user->users_id)->where('sid', $input['sid'])->where('oem', $input['oem'])->first();
         //有则更新数量，无则添加一条购物车的记录
         $res ='';

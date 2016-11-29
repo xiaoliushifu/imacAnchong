@@ -151,6 +151,7 @@ $(function(){
             $("#marketprice").val(data.market_price);
             $("#costprice").val(data.goods_price);
             $("#viprice").val(data.vip_price);
+			$("#proprice").val(data.promotion_price);
             $("#description").val(data.goods_desc);
             if(data.added== 2){
                 $("#notonsale").attr("checked",true);

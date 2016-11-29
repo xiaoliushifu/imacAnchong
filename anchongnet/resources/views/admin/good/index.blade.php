@@ -262,6 +262,12 @@
                             </div>
                         </div><!--end form-group-->
                         <div class="form-group">
+                            <label class="col-sm-2 control-label" for="viprice">促销价</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="proprice" id="proprice" class="form-control" required value="{{ old('proprice') }}" />
+                            </div>
+                        </div><!--end form-group-->
+                        <div class="form-group">
                             <label class="col-sm-2 control-label" for="description">描述</label>
                             <div class="col-sm-6">
                                 <textarea name="description" id="description" class="form-control" rows="5">{{ old('description') }}</textarea>
