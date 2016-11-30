@@ -128,8 +128,8 @@
                 <li><a href="">销量</a></li>
                 <li class="price"><a href="">价格</a><img src="{{asset('home/images/shebei/upp.png')}}" alt=""><img src="{{asset('home/images/shebei/don.png')}}" alt=""></li>
                 <li style="width: 400px; float: right ;text-align: right;" class="pagmm">
-                    <a href="{{$eqlistmain->nextPageUrl()}}"><img src="{{asset('home/images/shebei/下一页.png')}}" alt=""></a>
-                    <a href="{{$eqlistmain->previousPageUrl()}}"><img src="{{asset('home/images/shebei/上一页.png')}}" alt=""></a>
+                    <a href="{{isset($eqlistmain)?$eqlistmain->nextPageUrl():''}}"><img src="{{asset('home/images/shebei/下一页.png')}}" alt=""></a>
+                    <a href="{{isset($eqlistmain)?$eqlistmain->previousPageUrl():''}}"><img src="{{asset('home/images/shebei/上一页.png')}}" alt=""></a>
                 </li>
             </ul>
     </div>
@@ -155,7 +155,7 @@
             </ul>
         </div>
         <div class="paging" >
-            <div class="">{{$eqlistmain->links()}}</div>
+            <div class="">{{$eqlistmain->appends(['q'=>$eqlistaddress->cat_name])->links()}}</div>
             <div class="paging-right">
                 <form action="{{url('gopage/eqpage/'.$cat_id)}}" method="post">
                 {{csrf_field()}}
