@@ -310,6 +310,7 @@ class goodController extends Controller
         $data->market_price=$request->marketprice;
         $data->goods_price=$request->costpirce;
         $data->vip_price=$request->viprice;
+        $data->promotion_price=$request->proprice;
         $data->goods_desc=$request->description;//商品描述
         //改下架时置空
         $data->added=$request->status;

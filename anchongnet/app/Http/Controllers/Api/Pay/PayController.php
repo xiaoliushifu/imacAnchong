@@ -174,7 +174,7 @@ class PayController extends Controller
         $order = $orders->find($param['order_id']);
         $pay_total_price=$order->total_price;
         //判断再付款的时候订单是否被恶意
-        if($param['totalFee'] <= $pay_total_price){
+        if($param['totalFee'] < $pay_total_price){
             //假如失败就回滚
             DB::rollback();
             // 返回处理完成

@@ -62,15 +62,27 @@
                         <p>{{$data->desc}}</p>
                     </div>
                     <div class="goodsprice">
-                        <p>价格：￥<i id="price" class="goods-price">{{$price[0]->price}}</i></p>
+                        @if($price[0]->promotion_price == 0)
+                        <p>价格：￥<i id="price" class="goods-price">{{$price[0]->market_price}}</i></p>
+                        @else
+                        <p><span>促销价：￥<i id="pro-price" class="goods-price">{{$price[0]->promotion_price}}</i></span></p>
+                        @endif
                         {{--认证会员显示会员价格--}}
                         @if(Auth::user()['user_rank']==2)
                             <p><span>会员价：￥<i id="v-price">{{$price[0]->vip_price}}</i></span></p>
+                            @if($price[0]->promotion_price == 0)
                             <script>
                             {{--商品价格类--}}
                                 $('#price').removeAttr('class');
                                 $('#v-price').attr('class','goods-price');
                             </script>
+                            @elseif($price[0]->promotion_price >= $price[0]->vip_price)
+                            <script>
+                            {{--商品价格类--}}
+                                $('#pro-price').removeAttr('class');
+                                $('#v-price').attr('class','goods-price');
+                            </script>
+                            @endif
                         @else
                             <p><span>会员价：请认证后查看</span></p>
                         @endif
@@ -247,6 +259,13 @@ function addCart() {
             var goods_type= $('#t-selected').text();
         }
     }
+    //判断是否是会员价加入购物车的
+    var promotion;
+    if($('.goods-price').attr('id') == 'pro-price'){
+        promotion=1;
+    }else{
+        promotion=0;
+    }
     var goods_name = $('.title').text();
     var goods_num = $('#goodsnum').val();
     var goods_price = $('.goods-price').text();
@@ -269,6 +288,7 @@ function addCart() {
         'sid':sid,
         'sname':sname,
         'goods_id':goods_id,
+        'promotion':promotion,
         'gid':gid,
         'goods_type':goods_type,
         '_token':'{{csrf_token()}}',
