@@ -22,14 +22,16 @@
             </a>
 
         </div>
+        <form action="/equipment/gs">
         <div class="search">
             <div class="searchbar">
-                <input type="text" class="biaodan" id="gover_search_key">
-                <button type="button" class="btn">搜索</button>
+                <input type="text" class="biaodan" name="q" id="gover_search_key">
+                <button type="submit" class="btn">搜索</button>
             </div>
             {{--提示框--}}
             <div class="search_suggest"  id="gov_search_suggest"><ul></ul></div>
         </div>
+        </form>
     </div>
 </div>
 

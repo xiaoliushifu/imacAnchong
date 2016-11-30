@@ -94,9 +94,7 @@ $(function(){
 	            $(this).addClass('hoveranchong');
 	        },function(){
 	            $(this).removeClass('hoveranchong');
-	        //另外click事件
 	        }).on('click',function(){
-				//alert(this.innerHTML);
 	            input.val(this.innerHTML);
 	            suggestWrap.hide();
 	        });
@@ -113,20 +111,10 @@ $(function(){
 		//ajax全局参数设置
 		$.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="wwwcctv"]').attr('content')}});
 		$.post('/search',{param:'{"q":"'+keyword+'"}'},function(data){
-			console.log(data);
+			if (!data.ServerNo) {
+				searchSuggest.dataDisplay(data.ResultData);
+			}
 		});
-		return;
-		//去后端获得关键词
-	    aData.push(keyword+'返回数据1');
-	    aData.push(keyword+'返回数据2');
-	    aData.push(keyword+'返回数据3');
-	    aData.push(keyword+'返回数据4');
-	    aData.push(keyword+'返回数据5');
-	    aData.push(keyword+'返回数据6');
-	    //将后端返回的数据传递到提示框
-	    searchSuggest.dataDisplay(aData);
 	}
 	/*end-----智能提示*/
-	
-	
 });
