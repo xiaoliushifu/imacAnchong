@@ -54,7 +54,7 @@ class PromotionController extends Controller
                 $results[]=[
                             "gid" => $goods_handle->gid,
                             "title" => $goods_handle->title,
-                            "price" => $goods_handle->market_price,
+                            "price" => $goods_handle->vip_price,
                             "sname" => $goods_handle->sname,
                             "pic" => $goods_handle->goods_img,
                             "promotion_price" => $goodsinfo->promotion_price,
@@ -177,13 +177,17 @@ class PromotionController extends Controller
         if($num){
             return "促销时间冲突，请检测重试";
         }
-        $result=DB::table('anchong_promotion')->where('promotion_id',$id)->update(['start_time'=>$request->start_time,'end_time'=>$request->end_time]);
-        if($result){
-            return "修改成功";
+        //判断是否是更新
+        if($id != 0){
+            $result=DB::table('anchong_promotion')->where('promotion_id',$id)->update(['start_time'=>$request->start_time,'end_time'=>$request->end_time]);
+            if($result){
+                return "修改成功";
+            }else {
+                return "修改失败";
+            }
         }else{
             $id = DB::table('anchong_promotion')->insertGetId(
                 [
-                    'promotion_id'=>$id,
                     'start_time'=>strtotime($request->start_time),
                     'end_time'=>strtotime($request->end_time)+86399
                 ]

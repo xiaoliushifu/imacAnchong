@@ -44,7 +44,7 @@ class CartController extends CommonController
         }else{
             //创建购物车的ORM模型
             $cart=new \App\Cart();
-            $cartdata=$cart->Cart()->select('cart_id','goods_name','goods_price','img','goods_type','gid','sid','sname','goods_id','oem','goods_num')->where('users_id',$users_id)->get()->toArray();
+            $cartdata=$cart->Cart()->select('cart_id','goods_name','goods_price','img','goods_type','gid','sid','sname','goods_id','oem','goods_num','promotion')->where('users_id',$users_id)->get()->toArray();
             //创建购物车和商铺的ORM模型
             $shop=new \App\Shop();
             //var_dump($share_cache);

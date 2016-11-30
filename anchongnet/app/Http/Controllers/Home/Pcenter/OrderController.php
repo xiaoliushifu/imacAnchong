@@ -60,7 +60,6 @@ class OrderController extends CommonController
     public function store(Request $request)
     {
         try{
-
             //得到用户的ID
             $users_id=Auth::user()->users_id;
             //获得app端传过来的json格式的数据转换成数组格式
@@ -180,7 +179,12 @@ class OrderController extends CommonController
                 foreach ($orderarr['goods'] as $goodsinfo) {
                     //创建货品表的ORM模型来查询货品数量
                     $goods_specifications=new \App\Goods_specifications();
-                    $goods_num=$goods_specifications->quer(['title','vip_price','goods_num','model','added','goods_numbering'],'gid ='.$goodsinfo['gid'])->toArray();
+                    if($goodsinfo['promotion']){
+                        $goods_datas=['title','promotion_price','goods_num','model','added','goods_numbering'];
+                    }else{
+                        $goods_datas=['title','vip_price','goods_num','model','added','goods_numbering'];
+                    }
+                    $goods_num=$goods_specifications->quer($goods_datas,'gid ='.$goodsinfo['gid'])->toArray();
                     //判断商品是否以删除
                     if(empty($goods_num)){
                         //假如失败就回滚
@@ -188,7 +192,11 @@ class OrderController extends CommonController
                         return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>$goodsinfo['goods_name'].'商品已下架']]);
                     }
                     //将每个商品的最低价相加
-                    $minpric=$goods_num[0]['vip_price']*$goodsinfo['goods_num'];
+                    if($goodsinfo['promotion']){
+                        $minpric=$goods_num[0]['promotion_price']*$goodsinfo['goods_num'];
+                    }else {
+                        $minpric=$goods_num[0]['vip_price']*$goodsinfo['goods_num'];
+                    }
                     $goods_total_price+=$minpric;
                     //判断商品是否下架
                     if($goods_num[0]['added'] != 1){

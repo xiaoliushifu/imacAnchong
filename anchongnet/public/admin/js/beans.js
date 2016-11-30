@@ -22,13 +22,14 @@ $(function(){
 
     //增加条目
     $("body").on("click",'.addcuspro',function(){
-        //获得兄弟节点
-        var sbl=$(this).parent().parent().siblings().length;
+        // //获得兄弟节点
+        // var sbl=$(this).parent("").siblings(":last");
+        // console.log(sbl);
         //获得最大的兑换条目的ID
         //var lastid=parseInt(sbl.last().find('.savebeans').attr('data-id'))+1;
-        var lastid=sbl+2;
-        //定义标签
-        var line='<tr class="line"><td><input type="number" class="beans form-control" value=""/></td><td><input type="number" min="0" class="money form-control" value=""/></td><td><button type="button" class="addcuspro btn-sm btn-link" title="添加" data-id="'+lastid+'"><span class="glyphicon glyphicon-plus"></span></button><button type="button" class="savebeans btn-sm btn-link" title="保存" data-id="'+lastid+'"><span class="glyphicon glyphicon-save"></span></button><button type="button" class="delcuspro btn-sm btn-link" title="删除" data-id="'+lastid+'"><span class="glyphicon glyphicon-minus"></span></button></td></tr>';
+        // var lastid=sbl+2;
+        // //定义标签
+        var line='<tr class="line"><td><input type="number" class="beans form-control" value=""/></td><td><input type="number" min="0" class="money form-control" value=""/></td><td><button type="button" class="addcuspro btn-sm btn-link" title="添加" data-id="0"><span class="glyphicon glyphicon-plus"></span></button><button type="button" class="savebeans btn-sm btn-link" title="保存" data-id="0"><span class="glyphicon glyphicon-save"></span></button><button type="button" class="delcuspro btn-sm btn-link" title="删除" data-id="0"><span class="glyphicon glyphicon-minus"></span></button></td></tr>';
         $("#beanslist").append(line);
     });
 

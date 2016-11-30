@@ -77,14 +77,17 @@ class BeansController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $result=DB::table('anchong_beans_recharge')->where('beans_id',$id)->update(['beans'=>$request->beans,'money'=>$request->money]);
-        if($result){
-            return "修改成功";
+        //判断是否是更新
+        if($id != 0){
+            $result=DB::table('anchong_beans_recharge')->where('beans_id',$id)->update(['beans'=>$request->beans,'money'=>$request->money]);
+            if($result){
+                return "修改成功";
+            }else {
+                return "修改失败";
+            }
         }else{
             $id = DB::table('anchong_beans_recharge')->insertGetId(
                 [
-                    'beans_id'=>$id,
                     'beans'=>$request->beans,
                     'money'=>$request->money
                 ]
