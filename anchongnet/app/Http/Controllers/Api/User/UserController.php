@@ -64,8 +64,6 @@ class UserController extends Controller
         $data=$request::all();
         $param=json_decode($data['param'],true);
         if(isset($param['phone'])){
-            $data=$request::all();
-            $param=json_decode($data['param'],true);
             //验证用户传过来的数据是否合法
             $validator = Validator::make($param,
             [

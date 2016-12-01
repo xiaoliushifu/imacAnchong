@@ -54,7 +54,7 @@ class PromotionController extends Controller
                 $results[]=[
                             "gid" => $goods_handle->gid,
                             "title" => $goods_handle->title,
-                            "price" => $goods_handle->vip_price,
+                            "price" => $goods_handle->market_price,
                             "sname" => $goods_handle->sname,
                             "pic" => $goods_handle->goods_img,
                             "promotion_price" => $goodsinfo->promotion_price,
