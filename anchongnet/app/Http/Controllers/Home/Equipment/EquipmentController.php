@@ -163,17 +163,9 @@ class EquipmentController extends CommonController
             $oemvalue = explode(' ',$oem->value);
         }
         //商品属性
-        $type = Cache::remember('goodstp'.$goods_id,10,function() use($goods_id){
+        $attrs = Cache::remember('goodstp'.$goods_id,10,function() use($goods_id){
             return  Goods_attribute::where('goods_id',$goods_id)->get();
         });
-        //属性1
-        if(isset($type[0])){
-            $name = preg_split('#\s#', $type[0]->value,-1,PREG_SPLIT_NO_EMPTY);
-        }
-        //属性2
-        if(isset($type[1])){
-            $size = preg_split('#\s#', $type[1]->value,-1,PREG_SPLIT_NO_EMPTY);
-        }
         //通过$gid找到缩略图
         $img = Cache::remember('goodsimg'.$gid,10,function() use($gid){
             return  Goods_thumb::where('gid',$gid)->get();
@@ -201,7 +193,7 @@ class EquipmentController extends CommonController
         $hot = Cache::remember('goodshot'.$gid.$goods_id,10,function() use($price){
            return   Goods_type::where('cid',$price[0]->cid)->take(2)->orderBy('updated_at','asc')->get();
         });
-        return view('home.equipment.goodsdetals',compact('data','img','shop','price','related','hot','nav','adress','name','size','type','goodsauth','oemvalue'));
+        return view('home.equipment.goodsdetals',compact('data','img','shop','price','related','hot','nav','adress','attrs','type','goodsauth','oemvalue'));
     }
     public function getThirdshop($sid)
     {

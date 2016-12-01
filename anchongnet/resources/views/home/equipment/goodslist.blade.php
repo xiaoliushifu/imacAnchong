@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="wwwcctv" content="{{ csrf_token() }}">
     <title>商品列表</title>
     <link rel="stylesheet" href="{{asset('home/css/goodslist.css')}}">
     <link rel="stylesheet" href="{{asset('home/css/top.css')}}">
+    <link rel="stylesheet" type="text/css" href="/home/css/suggestion.css">
     <script src="{{asset('home/js/jquery-3.1.0.min.js')}}"></script>
 </head>
 <body>
@@ -17,12 +19,16 @@
         <div class="logo">
             <a href="{{url('/')}}"><img src="{{asset('home/images/shebei/12.jpg')}}" alt=""></a>
         </div>
+        <form action="/equipment/gs">
         <div class="search">
             <div class="searchbar">
-                <input type="text" class="biaodan">
-                <button type="button" class="btn">搜索</button>
+                <input type="text" class="biaodan" name="q" id="gover_search_key">
+                <button type="submit" class="btn">搜索</button>
             </div>
+            {{--提示框--}}
+            <div class="search_suggest"  id="gov_search_suggest"><ul></ul></div>
         </div>
+        </form>
     </div>
 </div>
 <div class="nav">
@@ -167,6 +173,8 @@
 </div>
 @include('inc.home.footer')
 <script src="{{asset('home/js/top.js')}}"></script>
+{{--搜索--}}
+<script src="/home/js/search.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	//展开

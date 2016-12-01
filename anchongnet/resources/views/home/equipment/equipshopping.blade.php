@@ -20,7 +20,6 @@
             <a href="{{url('/')}}">
                 <img src="home/images/logo.jpg"/>
             </a>
-
         </div>
         <form action="/equipment/gs">
         <div class="search">
@@ -421,6 +420,7 @@
 @include('inc.home.footer')
 <script src="home/js/jquery-3.1.0.min.js"></script>
 <script src="home/js/top.js"></script>
+{{--搜索--}}
 <script src="home/js/search.js"></script>
 </body>
 </html>

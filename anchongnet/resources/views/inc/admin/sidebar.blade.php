@@ -29,6 +29,16 @@
     				<li><a href="/upfile/index"><i class="fa fa-circle-o"></i> 干货管理</a></li>
     			</ul>
     		</li>
+    		<li class="treeview" id="treepromotion">
+    			<a href="#">
+    				<i class="fa fa-laptop"></i>
+    				<span>促销管理</span>
+    				<i class="fa fa-angle-left pull-right"></i>
+    			</a>
+    			<ul class="treeview-menu">
+    				<li><a href="/promotion"><i class="fa fa-circle-o"></i>促销查看</a></li>
+    			</ul>
+    		</li>
     		<li class="treeview" id="treecoupon">
     			<a href="#">
     				<i class="fa fa-files-o"></i>
@@ -52,16 +62,7 @@
     				<li><a href="/beans"><i class="fa fa-circle-o"></i>虫豆充值</a></li>
     			</ul>
     		</li>
-			<li class="treeview" id="treepromotion">
-    			<a href="#">
-    				<i class="fa fa-laptop"></i>
-    				<span>促销管理</span>
-    				<i class="fa fa-angle-left pull-right"></i>
-    			</a>
-    			<ul class="treeview-menu">
-    				<li><a href="/promotion"><i class="fa fa-circle-o"></i>促销查看</a></li>
-    			</ul>
-    		</li>
+			
     		<li class="treeview" id="treelive">
 			<a href="#">
 				<i class="fa fa-laptop"></i>

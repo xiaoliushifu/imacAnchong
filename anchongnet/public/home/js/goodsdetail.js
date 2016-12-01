@@ -17,17 +17,14 @@ $(function(){
             $("#mainpic").hide();
             $("#param").hide();
         });
-    //属性1的选中
-    $('.suit ul nobr').click(function () {
-    		//选中当前，排除其他
-        $(this).find('li').attr('id','t-selected').css({'color':'#f53745','border':'1px solid #f53745'}).parent().siblings().find('li').removeAttr('id').css({'color':'#4a4a4a','border':'1px solid #606060'});
-    });
-    //属性2选中
-    $('.sizetype ul li').click(function () {
-        $(this).attr('id','m-selected').siblings('li').removeAttr('id');
+    //属性的选中
+    $('.suit ul li').click(function () {
+        $(this).addClass('ms').siblings('li').removeClass('ms');
         $(this).css({'color':'#f53745','border':'1px solid #f53745'}).siblings('li').css({'color':'#4a4a4a','border':'1px solid #606060'});
+        //切换货品
+        
     });
-    
+    //oem的操作
     $('.oem').click(function () {
         $(this).attr('id','oem').siblings('li').removeAttr('id');
         $(this).css({'color':'#f53745','border':'1px solid #f53745'}).siblings('li').css({'color':'#4a4a4a','border':'1px solid #606060'});

@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="wwwcctv" content="{{ csrf_token() }}">
     <title>商品详情</title>
     <link rel="stylesheet" href="{{asset('home/css/goodsdetails.css')}}">
     <link rel="stylesheet" href="{{asset('home/css/top.css')}}">
+    <link rel="stylesheet" type="text/css" href="/home/css/suggestion.css">
     <script src="{{asset('home/js/jquery-3.1.0.min.js')}}"></script>
     <script src="{{asset('home/org/layer/layer.js')}}"></script>
 </head>
@@ -20,12 +22,16 @@
                 <img src="{{asset('home/images/logo.jpg')}}"/>
             </a>
         </div>
+        <form action="/equipment/gs">
         <div class="search">
             <div class="searchbar">
-                <input type="text" class="biaodan">
-                <button type="button" class="btn">搜索</button>
+                <input type="text" class="biaodan" name="q" id="gover_search_key">
+                <button type="submit" class="btn">搜索</button>
             </div>
+            {{--提示框--}}
+            <div class="search_suggest"  id="gov_search_suggest"><ul></ul></div>
         </div>
+        </form>
     </div>
 </div>
 <div class="nav">
@@ -90,32 +96,20 @@
                     </div>
                     <div class="goodstype">
                         <p class="yfkd">运费：北京 ∨ 快递:￥0</p>
-                        <div class="goods-color">
-                            <div class="colorcat"><span>{{$type[0]->name}}：</span></div>
+                        {{--属性开始--}}
+                        @foreach($attrs as $item)
+                        <div class="goods-attr">
+                            <div class="attrname"><span>{{$item->name}}：</span></div>
                             <div class="suit">
                                 <ul>
-                                {{--属性1--}}
-                                    @foreach($name as $p)
-                                    <nobr><li class="type" style="text-overflow: ellipsis; overflow: hidden;">{{$p}}</li></nobr>
+                                {{--属性值--}}
+                                    @foreach(preg_split('#\s#', $item->value,-1,PREG_SPLIT_NO_EMPTY) as $av)
+                                    <li class="model">{{$av}}</li>
                                     @endforeach
                                 </ul>
                             </div>
                         </div>
-                        <div class="goods-size">
-                        {{--属性2--}}
-                            @if(isset($type[1]))
-                            <div class="sizecat"><span>{{$type[1]->name}}:</span></div>
-                            <div class="sizetype">
-                                <ul>
-                                    @foreach($size as $b)
-                                        @if(count($b))
-                                    <li class="model">{{$b}}</li>
-                                        @endif
-                                    @endforeach
-                                </ul>
-                            </div>
-                            @endif
-                        </div>
+                        @endforeach
                         {{--OEM--}}
                         @if(isset($oemvalue))
                         <div  class="suit">
@@ -132,7 +126,7 @@
                                <img src="{{asset('home/images/shebei/22.jpg')}}" onclick="Minus()"><input id="goodsnum" type="text" value= 1><img src="{{asset('home/images/shebei/21.jpg')}}" onclick="Add()">
                             </div>
                         </div>
-
+						{{--按钮操作--}}
                          <div class="submit">
                              <a onclick="Buy()">立即购买</a><a onclick="addCart()">加入购物车</a>
                          </div>
@@ -211,6 +205,8 @@
 @include('inc.home.footer')
 
 <script src="{{asset('home/js/top.js')}}"></script>
+{{--搜索--}}
+<script src="/home/js/search.js"></script>
 <script src="{{asset('home/js/goodsdetail.js')}}"></script>
 <script>
 $(function () {
@@ -233,32 +229,22 @@ $(function () {
 购物车添加
  */
 function addCart() {
-    var type   = $('#t-selected').attr('id');
-    var model  = $('#m-selected').attr('id');
-    var select = $('.sizetype ').is(':has(*)');
-    //当商品存在属性2时,
-    if(select){
-        if(type == undefined || model == undefined){
+    //
+    if($('.attrname').length != $('.ms').length){
             $('.goodstype').css('border','1px solid #f53745');
             $('#tips').css('display','block');//弹出消息
             return ;
-        }else{
-            $('.goodstype').css('border','none');
-            $('#tips').css('display','none');
-            var goods_type = $('#t-selected').text()+ ' ' + $('#m-selected').text();
-        }
     }else{
-        //当商品只存存在型号，且型号未选中时
-        if(type == undefined){
-            $('.goodstype').css('border','1px solid #f53745');
-            $('#tips').css('display','block');
-            return ;
-        }else{
             $('.goodstype').css('border','none');
             $('#tips').css('display','none');
-            var goods_type= $('#t-selected').text();
-        }
     }
+    var goods_type='';
+    //收集属性（规格）
+    $('.ms').each(function(i){
+    		goods_type+=$(this).text()+" ";
+    });
+    console.log(goods_type);
+    return ;
     //判断是否是会员价加入购物车的
     var promotion;
     if($('.goods-price').attr('id') == 'pro-price'){
