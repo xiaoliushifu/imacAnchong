@@ -167,6 +167,7 @@ class userController extends Controller
 				'phone' => $param['username'],
 				'ctime' => time(),
 				'users_rank'=>2,
+				'certification' =>3
 			];
 			//开启事务处理
 			DB::beginTransaction();
