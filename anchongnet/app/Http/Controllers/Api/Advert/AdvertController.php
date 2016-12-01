@@ -310,8 +310,23 @@ class AdvertController extends Controller
     public function promotion(Request $request)
     {
         try{
-            //判断缓存是否存在
+
+            //取到结束时间的缓存
+            $promotion_time_cache=Cache::get('anchong_promotion_time');
+            //判断是否有结束时间的缓存
+            if($promotion_time_cache){
+                $end_time=$promotion_time_cache;
+            }else{
+                //取到当前时间，为了避免时间不准时加十秒
+                $nowtime=time()+10;
+                $promotion=DB::table('anchong_promotion')->where('start_time','<',$nowtime)->where('end_time','>',$nowtime)->pluck('end_time');
+                //将结束时间给取到
+                $end_time=$promotion[0];
+                Cache::forever('anchong_promotion_time',$promotion[0]);
+            }
+            //取到促销商品缓存
             $promotion_cache=Cache::get('anchong_promotion_goods');
+            //判断缓存是否为空
             if($promotion_cache){
                 //将缓存取出来赋值给变量
                 $results=$promotion_cache;
@@ -339,7 +354,7 @@ class AdvertController extends Controller
                         $results[]=[
                                     "gid" => $goods_handle->gid,
                                     "title" => $goods_handle->title,
-                                    "price" => $goods_handle->market_price,
+                                    "price" => $goods_handle->vip_price,
                                     "sname" => $goods_handle->sname,
                                     "pic" => $goods_handle->goods_img,
                                     "promotion_price" => $goodsinfo->promotion_price,
@@ -347,8 +362,9 @@ class AdvertController extends Controller
                                   ];
                     }
                 }
+                Cache::forever('anchong_promotion_goods',$results);
             }
-            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$results]);
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['endtime'=>$end_time,'list'=>$results]]);
         }catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'暂无促销活动']]);
         }
