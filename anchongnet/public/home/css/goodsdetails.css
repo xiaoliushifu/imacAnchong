@@ -281,15 +281,15 @@ overflow: hidden;
 .yfkd{
     color: #606060;
 }
-.goods-color{
+.goods-attr{
     width: 500px;
     overflow: hidden;
     margin-top: 15px;
 
 }
-.colorcat{
+.attrname{
     width: 100px;
-    height: 60px;
+    height: 30px;
     float: left;
     margin-top: 2px;
     color: #9b9b9b;
@@ -314,37 +314,8 @@ overflow: hidden;
     border-radius: 10px;
     display: inline;
     float: left;
-    margin-left: 20px;
+    margin-left: 5px;
     text-align: center;
-}
-.goods-size{
-    width: 500px;
-    overflow: hidden;
-}
-.sizecat{
-    width: 100px;
-    height: 30px;
-    float: left;
-    margin-top: 10px;
-    color: #9b9b9b;
-}
-.sizetype {
-    width: 390px;
-    height: 25px;
-    line-height: 25px;
-    float: left;
-    margin: 5px 0px;
-}
-.sizetype li{
-    display: inline;
-    float: left;
-    text-align: center;
-    border: 1px #606060 solid;
-    border-radius: 10px;
-    overflow: hidden;
-    height: 25px;
-    margin-right: 10px;
-    padding: 0px 20px;
 }
 .goods-nub{
     width: 500px;
