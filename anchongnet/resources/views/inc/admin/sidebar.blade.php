@@ -9,6 +9,7 @@
 			</a>
 			<ul class="treeview-menu">
 				<li><a href="/user"><i class="fa fa-circle-o"></i> 用户浏览</a></li>
+				<li><a href="/user/register"><i class="fa fa-circle-o"></i> 用户注册</a></li>
 				<li><a href="/user/list"><i class="fa fa-circle-o"></i> 会员认证</a></li>
 			</ul>
 		</li>

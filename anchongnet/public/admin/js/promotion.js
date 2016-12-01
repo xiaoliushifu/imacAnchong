@@ -16,7 +16,7 @@ $(function(){
             success:function(result){
                 alert(result);
                 if(result != "促销时间冲突，请检测重试"){
-                    location.reload();
+                    //location.reload();
                 }
             }
         });
@@ -43,6 +43,6 @@ $(function(){
                     location.reload();
                 }
             });
-        });
-    }
+        }
+    });
 });

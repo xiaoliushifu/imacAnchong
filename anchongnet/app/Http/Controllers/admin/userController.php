@@ -9,6 +9,8 @@ use App\Qua;
 use App\Http\Controllers\Controller;
 use DB;
 use Gate;
+use Validator;
+use Hash;
 
 /**
 *   该控制器包含了用户信息模块的操作
@@ -94,7 +96,7 @@ class userController extends Controller
         }
         return "设置成功";
     }
-    
+
     /**
      * 有关用户认证的列表
      * @param  $request('id'资质ID,'auth_status'认证状态)
@@ -104,7 +106,7 @@ class userController extends Controller
     {
         $kId=$req["id"];
         $kS=$req["auth_status"];
-    
+
         if ($kId) {
             $datas = Auth::Users($kId)->orderBy("id","desc")->paginate(8);
         } elseif ($kS) {
@@ -115,7 +117,7 @@ class userController extends Controller
         $args=array("auth_status"=>$kS);
         return view('admin/users/cert',array("datacol"=>compact("args","datas")));
     }
-    
+
     /**
      * 查看提交的认证资料
      *
@@ -126,5 +128,92 @@ class userController extends Controller
     {
         return Qua::Ids($id)->get();
     }
-    
+
+	/*
+	*	显示用户注册的页面
+	*/
+	public function getRegister()
+	{
+		return view('admin/users/register');
+	}
+
+	/*
+    *   注册
+    */
+    public function postRegister(Request $request)
+    {
+		//获得app端传过来的json格式的数据转换成数组格式
+        $param=$request->all();
+		//验证用户传过来的数据是否合法
+		$validator = Validator::make($param,
+			[
+				'password' => 'required|min:6',
+				'username' => 'required|min:8|unique:anchong_users_login,username',
+			]
+		);
+		//如果出错返回出错信息，如果正确执行下面的操作
+		if ($validator->fails())
+		{
+			$messages = $validator->errors();
+			if ($messages->has('username')) {
+				//如果验证失败,返回验证失败的信息
+				return '账号不符合规范或该账号已注册';
+			}else if($messages->has('password')){
+				return '密码不能为空，并且密码不能小于6位';
+			}
+		}else{
+			//像users表中插的数据
+			$users_data=[
+				'phone' => $param['username'],
+				'ctime' => time(),
+				'users_rank'=>2,
+			];
+			//开启事务处理
+			DB::beginTransaction();
+			//向users表中插数据
+			$users=new \App\Users();
+			$usersid=$users->add($users_data);
+			//判断是否插入成功
+			if(!empty($usersid)){
+				//向users_login表中插的数据
+				$users_login_data=[
+					'users_id' => $usersid,
+					'password' => Hash::make($param['password']),
+					'username' => $param['username'],
+					'token' => md5($param['username']),
+					'netease_token' => '3c374b5bc7a7d5235cde6426487d8a3c',
+					'user_rank'=>2
+				];
+
+				$users_login=new \App\Users_login();
+				//创建ORM
+				$JsonPost=new \App\JsonPost\JsonPost();
+				//网易云信
+				$url  = "https://api.netease.im/nimserver/user/create.action";
+				//生成账号的数据
+				$datas = 'accid='.$param['username'].'&token=3c374b5bc7a7d5235cde6426487d8a3c';
+				list($return_code, $return_content) = $JsonPost->http_post_data($url, $datas);
+				//判断是否请求成功
+				if($return_code != 200){
+					//假如失败就回滚
+					DB::rollback();
+					return '为了您的安全，请重新注册';
+				}
+				//假如插入成功
+				if($users_login->add($users_login_data)){
+					//假如成功就提交
+					DB::commit();
+					return '注册成功';
+				}else{
+					//假如失败就回滚
+					DB::rollback();
+					return '为了您的安全，请重新注册';
+				}
+			}else{
+				//假如失败就回滚
+				DB::rollback();
+				return '为了您的安全，请重新注册';
+			}
+		}
+    }
 }

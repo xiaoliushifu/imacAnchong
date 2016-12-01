@@ -440,84 +440,84 @@ class GoodsController extends Controller
     static public function goodssearch(Request $request)
     {
         try{
-                $data=$request::all();
-                $param=json_decode($data['param'],true);
-                $where=array();
-                //封装where
-                foreach ($param as $key=>$val) {
-                    if (!$val) {
-                        continue;
-                    }
-                    //大写
-                    $val = strtoupper($val);
-                    if (in_array($key,['tags','search'])) {
-                        //分析search
-                        $tmparr = preg_split('#\s#',$val,-1,PREG_SPLIT_NO_EMPTY);
-                        foreach ($tmparr as $k=>$v) {
-                            $kl = strlen($v);
-                            if ($kl < 2 || $kl > 84) {
-                                unset($tmparr[$k]);
-                            }
-                        }
-                        //经过滤后是否仍有关键字
-                        if (!$tmparr) {
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"没有找到相关商品"]]);
-                        }
-                        $oristr = implode(' ',$tmparr);
-                        $sp = bin2hex($oristr);
-                        $where[]="match(`$key`) against('".str_replace('20',' ',$sp)."')";
-                    }
-                    if ($key=='cid') {
-                        $where[]="$key='$val'";
-                    }
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            $where=array();
+            //封装where
+            foreach ($param as $key=>$val) {
+                if (!$val) {
+                    continue;
                 }
-                $where=implode(' and ',$where);
-                $where = str_replace('`search`', '`keyword`',$where);
-                //缓存判定
-                if (!$result = Cache::tags('s')->get("search@".$sp)) {
-                    \Log::info($oristr,['search@'.$where]);//统计
-                    //索引表查询
-                    //DB::connection()->enableQueryLog();
-                    $tmp=DB::table('anchong_goods_keyword')->whereRaw($where)->pluck('cat_id');
-                    //var_dump($tmp,DB::getQueryLog());
-                    if (!$tmp) {
+                //大写
+                $val = strtoupper($val);
+                if (in_array($key,['tags','search'])) {
+                    //分析search
+                    $tmparr = preg_split('#\s#',$val,-1,PREG_SPLIT_NO_EMPTY);
+                    foreach ($tmparr as $k=>$v) {
+                        $kl = strlen($v);
+                        if ($kl < 2 || $kl > 84) {
+                            unset($tmparr[$k]);
+                        }
+                    }
+                    //经过滤后是否仍有关键字
+                    if (!$tmparr) {
                         return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"没有找到相关商品"]]);
                     }
-                    //要查询的字段
-                    $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
-                    //已上架added=1
-                    $res = DB::table('anchong_goods_type')->whereIn('cat_id',$tmp)->where('added',1)->get($goods_data);
-                    //无结果
-                    if (!$res) {
-                        //无结果说明索引已失效，删除之
-                        DB::table("anchong_goods_keyword")->whereIn('cat_id',$tmp)->delete();
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"没有相关商品"]]);
-                    }
-                    uasort($res,function($o1, $o2){
-                        return $o2->gid - $o1->gid;
-                    });
-                    foreach($res as $val) {
-                        $result['list'][]=$val;
-                    }
-                    $result['total']=count($res);
-                    \Log::info($result['total'],['num@'.$where]);//统计
-                    //统计一次该关键字的查询次数
-                    DB::table('anchong_goods_suggestion')->where('str',$oristr)->increment('qnums');
-                    Cache::tags('s')->add("search@".$sp,$result,'60');
+                    $oristr = implode(' ',$tmparr);
+                    $sp = bin2hex($oristr);
+                    $where[]="match(`$key`) against('".str_replace('20',' ',$sp)."')";
                 }
-                $showprice=0;
-                if ($data['guid'] != 0) {
-                    $tmp = DB::table('anchong_users')->where('users_id',$data['guid'])->get(array('certification'));
-                    if ($tmp[0]->certification == 3) {
-                        $showprice=1;
-                    }
+                if ($key=='cid') {
+                    $where[]="$key='$val'";
                 }
-                //将用户权限传过去
-                $result['showprice']=$showprice;
-                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
-            } catch (\Exception $e) {
-                return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'搜索功能维护中，请稍后访问']]);
             }
+            $where=implode(' and ',$where);
+            $where = str_replace('`search`', '`keyword`',$where);
+            //缓存判定
+            if (!$result = Cache::tags('s')->get("search@".$sp)) {
+                \Log::info($oristr,['search@'.$where]);//统计
+                //索引表查询
+                //DB::connection()->enableQueryLog();
+                $tmp=DB::table('anchong_goods_keyword')->whereRaw($where)->pluck('cat_id');
+                //var_dump($tmp,DB::getQueryLog());
+                if (!$tmp) {
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"没有找到相关商品"]]);
+                }
+                //要查询的字段
+                $goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
+                //已上架added=1
+                $res = DB::table('anchong_goods_type')->whereIn('cat_id',$tmp)->where('added',1)->get($goods_data);
+                //无结果
+                if (!$res) {
+                    //无结果说明索引已失效，删除之
+                    DB::table("anchong_goods_keyword")->whereIn('cat_id',$tmp)->delete();
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>"没有相关商品"]]);
+                }
+                uasort($res,function($o1, $o2){
+                    return $o2->gid - $o1->gid;
+                });
+                foreach($res as $val) {
+                    $result['list'][]=$val;
+                }
+                $result['total']=count($res);
+                \Log::info($result['total'],['num@'.$where]);//统计
+                //统计一次该关键字的查询次数
+                DB::table('anchong_goods_suggestion')->where('str',$oristr)->increment('qnums');
+                Cache::tags('s')->add("search@".$sp,$result,'60');
+            }
+            $showprice=0;
+            if ($data['guid'] != 0) {
+                $tmp = DB::table('anchong_users')->where('users_id',$data['guid'])->get(array('certification'));
+                if ($tmp[0]->certification == 3) {
+                    $showprice=1;
+                }
+            }
+            //将用户权限传过去
+            $result['showprice']=$showprice;
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+        } catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'搜索功能维护中，请稍后访问']]);
+        }
     }
 
     /*
