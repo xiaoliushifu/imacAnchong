@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="wwwcctv" content="{{ csrf_token() }}">
     <title>商品详情</title>
     <link rel="stylesheet" href="{{asset('home/css/goodsdetails.css')}}">
     <link rel="stylesheet" href="{{asset('home/css/top.css')}}">
+    <link rel="stylesheet" type="text/css" href="/home/css/suggestion.css">
     <script src="{{asset('home/js/jquery-3.1.0.min.js')}}"></script>
     <script src="{{asset('home/org/layer/layer.js')}}"></script>
 </head>
@@ -20,12 +22,16 @@
                 <img src="{{asset('home/images/logo.jpg')}}"/>
             </a>
         </div>
+        <form action="/equipment/gs">
         <div class="search">
             <div class="searchbar">
-                <input type="text" class="biaodan">
-                <button type="button" class="btn">搜索</button>
+                <input type="text" class="biaodan" name="q" id="gover_search_key">
+                <button type="submit" class="btn">搜索</button>
             </div>
+            {{--提示框--}}
+            <div class="search_suggest"  id="gov_search_suggest"><ul></ul></div>
         </div>
+        </form>
     </div>
 </div>
 <div class="nav">
@@ -211,6 +217,8 @@
 @include('inc.home.footer')
 
 <script src="{{asset('home/js/top.js')}}"></script>
+{{--搜索--}}
+<script src="/home/js/search.js"></script>
 <script src="{{asset('home/js/goodsdetail.js')}}"></script>
 <script>
 $(function () {
