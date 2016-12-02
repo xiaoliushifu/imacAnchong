@@ -328,6 +328,9 @@ class PurseController extends Controller
         $param=json_decode($data['param'],true);
         //获得个人信息的句柄
         $users_handle=$this->users->find($data['guid']);
+        if (!$users_handle) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
+        }
         //获得个人的虫豆数量
         $beans=$users_handle->beans;
         //获得个人可用余额
