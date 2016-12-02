@@ -68,6 +68,7 @@
                         <p>{{$data->desc}}</p>
                     </div>
                     <div class="goodsprice">
+                         {{--是否促销--}}
                         @if($price[0]->promotion_price == 0)
                         <p>价格：￥<i id="price" class="goods-price">{{$price[0]->market_price}}</i></p>
                         @else
@@ -76,12 +77,14 @@
                         {{--认证会员显示会员价格--}}
                         @if(Auth::user()['user_rank']==2)
                             <p><span>会员价：￥<i id="v-price">{{$price[0]->vip_price}}</i></span></p>
+                            {{--没有促销价时，会员价是goods-price--}}
                             @if($price[0]->promotion_price == 0)
                             <script>
                             {{--商品价格类--}}
                                 $('#price').removeAttr('class');
                                 $('#v-price').attr('class','goods-price');
                             </script>
+                            {{--有促销价时，且不小于会员价时，还是会员价为goods-price--}}
                             @elseif($price[0]->promotion_price >= $price[0]->vip_price)
                             <script>
                             {{--商品价格类--}}
@@ -128,6 +131,7 @@
                         </div>
 						{{--按钮操作--}}
                          <div class="submit">
+                         	<input type="hidden" id="whgid" value="{{$price[0]->gid}}" />
                              <a onclick="Buy()">立即购买</a><a onclick="addCart()">加入购物车</a>
                          </div>
                         <p id="tips">请您勾选你要选择的商品规格</p>
@@ -243,8 +247,6 @@ function addCart() {
     $('.ms').each(function(i){
     		goods_type+=$(this).text()+" ";
     });
-    console.log(goods_type);
-    return ;
     //判断是否是会员价加入购物车的
     var promotion;
     if($('.goods-price').attr('id') == 'pro-price'){
@@ -258,8 +260,10 @@ function addCart() {
     var goods_img = $('#tail').attr('src');
     var sid = {{$shop[0]->sid}};
     var sname =$('.shopname').text();
+    {{--goods_id商品--}}
     var goods_id = {{$price[0]->goods_id}} ;
-    var gid = {{$price[0]->gid}};
+    {{--gid货品--}}
+    var gid = $('#whgid').val();
     //判断oem是否存在并赋值
     if($('#oem').attr('id') == undefined){
         var oem = null;
@@ -269,6 +273,7 @@ function addCart() {
     var data = {
         'goods_name' :goods_name,
         'goods_num'  :goods_num,
+        {{--最终价格(也许是会员价，也许是促销价)--}}
         'goods_price':goods_price,
         'img':goods_img,
         'sid':sid,
@@ -276,6 +281,7 @@ function addCart() {
         'goods_id':goods_id,
         'promotion':promotion,
         'gid':gid,
+        {{--商品属性(规格)--}}
         'goods_type':goods_type,
         '_token':'{{csrf_token()}}',
         'oem': oem

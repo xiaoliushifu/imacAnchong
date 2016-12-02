@@ -148,6 +148,7 @@ class goodController extends Controller
             [
                 'cat_id'=>$catid,
                 'goods_id'=>$request->name,
+                //商品规格（属性)
                 'goods_name'=>trim($spetag),
                 'model' => $request->model,
                 'market_price'=>$request->marketprice,

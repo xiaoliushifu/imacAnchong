@@ -91,7 +91,7 @@ class EquipmentController extends CommonController
     }
 
     /**
-     * 搜索处理
+     * PC搜索处理
      *关键处理 {para}
      */
     public function getGs(Request $req)
@@ -195,6 +195,11 @@ class EquipmentController extends CommonController
         });
         return view('home.equipment.goodsdetals',compact('data','img','shop','price','related','hot','nav','adress','attrs','type','goodsauth','oemvalue'));
     }
+    
+    /**
+     * 
+     * @param unknown $sid
+     */
     public function getThirdshop($sid)
     {
         //住导航
@@ -206,6 +211,36 @@ class EquipmentController extends CommonController
          return  Goods_type::where('sid',$sid)->orderBy('updated_at','desc')->paginate(16);
        });
         return view('home.equipment.thirdparty',compact('thirdlist','navthird','sid'));
+    }
+    
+    /**
+     * 用于切换商品属性时，实时更新详情页数据
+     * @param Request $req
+     */
+    public function getGoodspe(Request $req)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return ['msg'=>'请登录后再添加购物车'];
+        }
+        if(!$req::ajax()){
+            return ['msg'=>'请登录后再添加购物车'];
+        }
+        $param = $req::all();
+        $goods_specifications=new \App\Goods_specifications();
+        $goods_specifications_data=['gid','goods_img','goods_name','market_price','vip_price','promotion_price','title'];
+        //该商品下的所有货品
+        $results=$goods_specifications->quer($goods_specifications_data,'goods_id = '.$param['goodid'])->toArray();
+        //规格匹配
+        foreach ($results as $value) {
+            if(strstr($value['goods_name'],trim($param['gn']))){
+                //thumb暂不
+                //是否认证
+                $value['ur']=$user['user_rank'];
+                return $value;
+            }
+        }
+        return ['msg'=>'商品无库存，请选择其他规格商品'];
     }
     
 }
