@@ -103,7 +103,8 @@ class PromotionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 用于把实际的货品加入到促销列表
+     * 将来促销计划启动时，促销列表生效
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -134,7 +135,8 @@ class PromotionController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 用于获得促销时间段（未来）
+     * 促销中，或过期的不可再操作
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -164,7 +166,7 @@ class PromotionController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 添加或更新一个促销时间段
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -201,6 +203,7 @@ class PromotionController extends Controller
     }
 
     /**
+     * 清除促销时间段
      * Remove the specified resource from storage.
      *
      * @param  int  $id

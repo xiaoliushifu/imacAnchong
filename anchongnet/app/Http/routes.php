@@ -169,6 +169,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/order/orderoperation','Api\Order\OrderController@orderoperation');
         //订单付款
         Route::post('/order/orderpay','Api\Order\OrderController@orderpay');
+        //查看订单及物流状态
+        Route::post('/order/orderstate','Api\Order\OrderController@orderstate');
 
         /*
         *   商铺模块

@@ -508,4 +508,38 @@ class OrderController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
+    
+    /*
+     * 对于使用物流发货的订单
+     *   该方法用来查看订单的物流状态
+     */
+    public function orderstate(Request $request)
+    {
+        try{
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            if (!$param['order_num']) {
+                return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'订单编号有误']]);
+            }
+            $ret = ['order'=>'','logis'=>''];
+            $odata = ['logisticsnum','order_id','company','order_no','status','content','time'];
+            $ldata = ['logisticsnum','company','bill_code','status','data'];
+            $ostatus = DB::table('anchong_ostatus')->where('logisticsnum',$param['order_num'])->get($odata);
+            $lstatus = DB::table('anchong_lstatus')->where('logisticsnum',$param['order_num'])->get($ldata);
+            //订单状态
+            foreach ($ostatus as $o) {
+                $ret['order'][] =$o;
+            }
+            //物流状态(物流公司发货后有物流状态)
+            foreach ($lstatus as $o) {
+                $o->data = unserialize($o->data);
+                    $ret['logis'][]=$o;
+            }
+            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>$ret]);
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
+    
+    
 }
