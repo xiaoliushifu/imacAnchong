@@ -111,6 +111,9 @@ class PromotionController extends Controller
      */
     public function store(Request $request)
     {
+        if (!isset($request->promotion_id) || empty($request->promotion_id)) {
+            return response()->json(['serverTime'=>1,'ServerNo'=>1,'ResultData'=>['Message'=>'暂无促销计划']]);
+        }
         $num=DB::table('anchong_promotion_goods')->where('promotion_id', $request->promotion_id)->count();
         //判断是否达到该次促销数量的上限
         if($num > 19){

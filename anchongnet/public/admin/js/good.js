@@ -74,11 +74,30 @@ $(function(){
 
 	//促销保存
 	$("#promotionsave").click(function(){
+		var that = $(this);
 		$("#promotionForm").ajaxSubmit({
+			//真正提交前来个表单验证
+			beforeSubmit:function(a,form,option){
+				var flag=false;
+				for(var i=0; i<a.length; i++) {
+					if (!a[i]['value']) {
+						alert(a[i]['name']+'不能为空');
+						return false;
+					}
+					if(a[i]['name']=='promotion_id') {
+						flag=true;
+					}
+				}
+				if(!flag) {
+					alert('暂无促销计划');
+					return false;
+				}
+				return true;
+			},
 			success: function (data) {
 				if(data.ServerNo == 0){
 					alert(data.ResultData.Message);
-					location.reload();
+					that.parents('.modal-content').find('button.close').click();
 				}else{
 					alert(data.ResultData.Message);
 				}
