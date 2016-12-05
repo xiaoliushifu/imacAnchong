@@ -88,7 +88,7 @@
 									<th>商铺名称</th>
 									<th>订单编号</th>
 									<th>订单状态</th>
-									<th>订单生成时间</th>
+									<th>订单更新时间</th>
 									<th>收货人</th>
 									<th>收货人电话</th>
 									<th>收货地址</th>
@@ -125,7 +125,7 @@
 												}
 											?>
 										</td>
-										<td align="center">{{$data['created_at']}}</td>
+										<td align="center">{{$data['updated_at']}}</td>
 										<td align="center">{{$data['name']}}</td>
 										<td align="center">{{$data['phone']}}</td>
 										<td align="center">{{$data['address']}}</td>

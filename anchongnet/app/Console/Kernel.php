@@ -41,12 +41,24 @@ class Kernel extends ConsoleKernel
                     //删除缓存
                     Cache::forget('anchong_promotion_goods');
                 }
+
+                //判断是否有时间缓存
+                if (Cache::has('anchong_promotion_time'))
+                {
+                    //删除缓存
+                    Cache::forget('anchong_promotion_time');
+                }
             }
             //查出当前促销时间段
             $promotion_id=DB::table('anchong_promotion')->where('start_time','<',$nowtime)->where('end_time','>',$nowtime)->pluck('promotion_id');
             if($promotion_id){
                 $result=\App\Http\Controllers\admin\PromotionController::promotion($promotion_id[0]);
             }
-     })->daily();
+            $order_id_arr=DB::table('anchong_goods_order')->select('order_id')->where('state',3)->where('updated_at','<',date('Y-m-d H:i:s',($nowtime-864000)))->get();
+            //订单修改
+            if($order_id_arr){
+                $result=\App\Http\Controllers\admin\orderController::confirm($order_id_arr);
+            }
+     })->everyMinute();
     }
 }
