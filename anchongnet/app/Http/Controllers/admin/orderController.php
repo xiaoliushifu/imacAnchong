@@ -298,6 +298,52 @@ class orderController extends Controller
         $data=DB::table('anchong_goods_order')->where('order_id',$req->id)->pluck('paycode');
         return $data;
     }
+
+    /*
+    * 确认收货
+    */
+    public static function confirm($order_id_arr)
+    {
+        //$order_id_arr=DB::table('anchong_goods_order')->select('order_id')->where('state',3)->where('updated_at','<',date('Y-m-d H:i:s',($nowtime-864000)))->get();
+        $order=new \App\Order();
+        //进行订单编号遍历
+        foreach ($order_id_arr as $order_id) {
+            //开启事务处理
+            DB::beginTransaction();
+            //获取订单句柄
+            $order_handle=$order->find($order_id->order_id);
+            //更改订单状态
+            $order_handle->state=7;
+            //将商户冻结资金转移到可用资金
+            DB::table('anchong_users')->where('sid','=',$order_handle->sid)->decrement('disable_money',$order_handle->total_price);
+            $resultss=DB::table('anchong_users')->where('sid','=',$order_handle->sid)->increment('usable_money',$order_handle->total_price);
+            //假如资金转成功则保存数据
+            if($resultss){
+                $results=$order_handle->save();
+            }else{
+                //假如失败就回滚
+                DB::rollback();
+                \Log::info('OrderMessage',['确认收货操作资金修改失败,订单号'.$order_handle->order_num]);//统计
+            }
+            if($results){
+                //创建ORM模型
+                $orderinfo=new \App\Orderinfo();
+                $order_gid=$orderinfo->quer(['gid','goods_num'],'order_num ='.$order_handle->order_num)->toArray();
+                foreach ($order_gid as $gid) {
+                    DB::table('anchong_goods_specifications')->where('gid','=',$gid['gid'])->increment('sales',$gid['goods_num']);
+                    DB::table('anchong_goods_type')->where('gid','=',$gid['gid'])->increment('sales',$gid['goods_num']);
+                }
+                //假如成功就提交
+                DB::commit();
+                \Log::info('OrderMessage',['确认收货成功,订单号'.$order_handle->order_num]);//统计
+            }else{
+                //假如失败就回滚
+                DB::rollback();
+                \Log::info('OrderMessage',['确认收货操作资金保存失败,订单号'.$order_handle->order_num]);//统计
+            }
+        }
+    }
+
     /**
     *    该方法提供了订单的推送服务
     *

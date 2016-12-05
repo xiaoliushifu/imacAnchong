@@ -27,6 +27,13 @@ class PromotionController extends Controller
     */
     public static function promotion($id)
     {
+        //判断是否有时间缓存
+        if (Cache::has('anchong_promotion_time'))
+        {
+            //删除缓存
+            Cache::forget('anchong_promotion_time');
+        }
+        
         //判断是否有促销缓存
         if (Cache::has('anchong_promotion_goods'))
         {

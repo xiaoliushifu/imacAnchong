@@ -388,15 +388,10 @@ class OrderController extends Controller
                     $orderinfo=new \App\Orderinfo();
                     $order_gid=$orderinfo->quer(['gid','goods_num'],'order_num ='.$param['order_num'])->toArray();
                     foreach ($order_gid as $gid) {
-                        $resulta=DB::table('anchong_goods_specifications')->where('gid','=',$gid['gid'])->increment('goods_num',$gid['goods_num']);
-                        if($resulta){
-                            $result=DB::table('anchong_goods_stock')->where('gid','=',$gid['gid'])->increment('region_num',$gid['goods_num']);
-                        }else{
-                            //假如失败就回滚
-                            DB::rollback();
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'操作失败']]);
-                        }
+                        DB::table('anchong_goods_specifications')->where('gid','=',$gid['gid'])->increment('goods_num',$gid['goods_num']);
+                        DB::table('anchong_goods_stock')->where('gid','=',$gid['gid'])->increment('region_num',$gid['goods_num']);
                     }
+                    $result=true;
                 }else{
                     //假如失败就回滚
                     DB::rollback();
@@ -431,14 +426,9 @@ class OrderController extends Controller
                     $orderinfo=new \App\Orderinfo();
                     $order_gid=$orderinfo->quer(['gid','goods_num'],'order_num ='.$param['order_num'])->toArray();
                     foreach ($order_gid as $gid) {
-                        $resulta=DB::table('anchong_goods_specifications')->where('gid','=',$gid['gid'])->increment('sales',$gid['goods_num']);
-                        if($resulta){
-                            $result=DB::table('anchong_goods_type')->where('gid','=',$gid['gid'])->increment('sales',$gid['goods_num']);
-                        }else{
-                            //假如失败就回滚
-                            DB::rollback();
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'操作失败']]);
-                        }
+                        DB::table('anchong_goods_specifications')->where('gid','=',$gid['gid'])->increment('sales',$gid['goods_num']);
+                        DB::table('anchong_goods_type')->where('gid','=',$gid['gid'])->increment('sales',$gid['goods_num']);
+                        $result=true;
                     }
                 }else{
                     //假如失败就回滚
