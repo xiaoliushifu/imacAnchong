@@ -516,14 +516,14 @@ class OrderController extends Controller
             $ldata = ['logisticsnum','company','bill_code','status','data'];
             $ostatus = DB::table('anchong_ostatus')->where('logisticsnum',$param['order_num'])->get($odata);
             $lstatus = DB::table('anchong_lstatus')->where('logisticsnum',$param['order_num'])->get($ldata);
-            //订单状态
-            foreach ($ostatus as $o) {
-                $ret['order'][] =$o;
-            }
+            $ret['order'] =end($ostatus);
             //物流状态(物流公司发货后有物流状态)
+            $tmp = array();
+            //每次的data都拼接起来
             foreach ($lstatus as $o) {
-                $o->data = unserialize($o->data);
-                    $ret['logis'][]=$o;
+                $tmp = array_merge($tmp,unserialize($o->data));
+                $o->data=$tmp;
+                $ret['logis']=$o;
             }
             return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>$ret]);
         }catch (\Exception $e) {
