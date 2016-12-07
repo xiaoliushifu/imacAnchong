@@ -28,6 +28,9 @@ class orderController extends Controller
     public function __construct()
     {
         $user = Auth::user();
+        if (!$user) {
+            return null;
+        }
         $this->uid = $user->users_id;
         if ($user->user_rank == 3) {
             $this->sid = 1;
