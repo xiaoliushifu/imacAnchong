@@ -8,6 +8,7 @@ use App\Community_reply;
 use App\Http\Controllers\Home\CommonController;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
+use Auth;
 
 /*
  * 社区前端控制器
@@ -114,18 +115,20 @@ class CommunityController extends CommonController
      */
     public function store()
     {
-        //$input = Input::except('_token');//去掉token值
-        $re = Community_comment::create($input);
-        if($re){
-            $msg =[
-                'status' => 0,
-                'msg' => '发表评论成功'
-            ];
-        }else{
-            $msg =[
-                'status' => 1,
-                'msg' => '发表评论失败，请稍后再试'
-            ];
+        $user = Auth::user();
+        if (!$user) {
+            return $msg =['status' => 1,'msg' => '先登录再说'];
+        }
+        if (!Input::get('content')) {
+            return $msg =['status' => 1,'msg' => '评论为空'];
+        }
+        //ubb处理,因手持端不支持，故注释之
+        //Input::offsetSet('content',$this->ubb(Input::get('content')));
+        $re = Community_comment::create(Input::all());
+        if ($re) {
+            $msg =['status' => $re->getAttribute('comid'),'msg' => '发表评论成功'];
+        } else {
+            $msg =['status' => 1,'msg' => '今日发布过多哦'];
         }
         return $msg;
     }
@@ -134,20 +137,32 @@ class CommunityController extends CommonController
      */
     public function replay()
     {
-        $input = Input::except('_token');//去掉token值
-        $re = Community_reply::create($input);
-        if($re){
-            $data =[
-                'status' => 0,
-                'msg' => '发表评论成功'
-            ];
-
-        }else{
-            $data =[
-                'status' => 1,
-                'msg' => '发表评论失败，请稍后再试'
-            ];
+        $user = Auth::user();
+        if (!$user) {
+            return $msg =['status' => 1,'msg' => '先登录再说'];
         }
-        return $data;
+        if (!Input::get('content')) {
+            return $msg =['status' => 1,'msg' => '不能为空!'];
+        }
+        //ubb处理,因手持端不支持，故注释之
+        //Input::offsetSet('content',$this->ubb(Input::get('content')));
+        $re = Community_reply::create(Input::all());
+        if ($re) {
+            $msg =['status' => 0,'msg' => '发表评论成功'];
+        } else {
+            $msg =['status' => 1,'msg' => '今日发布过多哦'];
+        }
+        return $msg;
+    }
+    /**
+     * Ubb码服务端替换
+     * @param unknown $str
+     */
+    private function ubb($str)
+    {
+        //$str = str_replace( ">", '<；', $str );
+        //$str = str_replace( "\n", '>；br/>；', $str );
+        $str = preg_replace ( "#\[em_([0-9]*)\]#", "<img src=\"/home/org/qqface/face/$1.gif\" />", $str );
+        return $str;
     }
 }
