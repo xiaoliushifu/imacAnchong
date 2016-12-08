@@ -58,7 +58,7 @@ class CommunityController extends CommonController
     }
 
    /*
-    * 闲聊页面
+    * 闲聊列表页面
     */
     public function talk()
     {
@@ -75,7 +75,7 @@ class CommunityController extends CommonController
         return view('home/community/talk',compact('talk','tnum'));
     }
     /*
-     * 问答页面
+     * 问问列表页面
      */
     public function question()
     {
@@ -83,6 +83,7 @@ class CommunityController extends CommonController
         $question = Cache::tags('question')->remember('question'.$page,'600',function (){
             return Community_release::where('tags','问问')->orderBy('created_at','desc')->paginate(12);
         });
+        //评论
         foreach ($question as $value){
             $id = $value -> chat_id;
             $qnum[$id] =Cache::tags('qnum')->remember('qnum'.$id,'600',function () use($id){
@@ -92,7 +93,7 @@ class CommunityController extends CommonController
         return view('home/community/question',compact('question','qnum'));
     }
     /*
-     * 活动页面
+     * 活动列表页面
      */
     public function activity()
     {
@@ -113,7 +114,7 @@ class CommunityController extends CommonController
      */
     public function store()
     {
-        $input = Input::except('_token');//去掉token值
+        //$input = Input::except('_token');//去掉token值
         $re = Community_comment::create($input);
         if($re){
             $msg =[
