@@ -32,7 +32,8 @@ class Exp
         ['carrier_code'=>'shunfeng','carrier_phone'=>'11183','carrier_name'=>'顺丰速运'],
     ];
     //下单接口
-    private $sendUrl = 'http://v.juhe.cn/expressonline/test/expressSend.php';
+    //private $sendUrl = 'http://v.juhe.cn/expressonline/test/expressSend.php';//测试接口
+    private $sendUrl = 'http://v.juhe.cn/expressonline/expressSend.php';//正式接口
     //取消已经发出的订单接口
     private $cancelUrl = 'http://v.juhe.cn/expressonline/test/cancleSend.php';
     
