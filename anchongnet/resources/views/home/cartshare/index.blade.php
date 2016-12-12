@@ -135,12 +135,13 @@
                     </div> -->
                    <div class="cart-product-cell-3">
                     <span class="shp-cart-item-price goods_price">￥{{$goods['goods_price']}}</span>
+					<span class="goods_num" style="display:none">.{{$goods['goods_num']}}</span>
                         <div class="quantity-wrapper customize-qua">
                            <!-- <input type="hidden" id="limitSukNum1895082" value="200">
                            <input type="hidden" id="remainNumInt1895082" value="-1">
                            <input type="hidden" id="atLeastNum1895082" value="-1"> -->
                            <a class="quantity-decrease disabled" href="javascript:subWareBybutton('8888','1895082');" onclick="checkLimitNum();"><span class="glyphicon glyphicon-minus"></span></a>
-                           <input type="tel" size="4" value="{{$goods['goods_num']}}" name="num[]" class="quantity" readonly="true">
+                           <input type="tel" size="4" value=" {{$goods['goods_num']}}" name="num[]" class="quantity" readonly="true">
                            <a class="quantity-increase" href="javascript:addWareBybutton('8888','1895082');"></a>
                        </div>
                    </div>
@@ -204,8 +205,9 @@
     //定义总价
     var total_price=0;
     var price=$(".goods_price").text().split("￥");
+    var num=$(".goods_num").text().split(".");
     for($i=0;$i<price.length;$i++){
-        total_price+=Number(price[$i]);
+        total_price+=Number(price[$i])*Number(num[$i]);
     }
     $("#cart_realPrice").text("￥"+total_price);
     $("#cart_oriPrice").text(total_price);

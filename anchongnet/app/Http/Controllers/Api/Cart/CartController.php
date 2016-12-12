@@ -34,7 +34,9 @@ class CartController extends Controller
                 //商品数量
                 $goodsnum=[
                     'goods_num' => $param['goods_num']+$gid_num[0]['goods_num'],
-                    'oem' => $param['oem']
+                    'oem' => $param['oem'],
+                    'goods_price' => $param['goods_price'],
+                    'promotion' => $param['promotion'],
                 ];
                 //更新商品数量
                 $result=$cart->cartupdate($gid_num[0]['cart_id'],$goodsnum);
