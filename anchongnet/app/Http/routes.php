@@ -25,7 +25,7 @@
 
 //接口路由组
 
-Route::group(['domain' => 'api.myanchong.net'], function () {
+Route::group(['domain' => 'api.anchong.net'], function () {
     //网易云信注册机
     Route::post('/live/regnetease','Api\Live\LiveController@regnetease');
     //商品检索
@@ -402,7 +402,7 @@ Route::group(['domain'=>'courier.anchong.net'],function(){
     Route::any('/osscall','Home\Info\InfoController@osscall');
 });
 //后台路由
-Route::group(['domain' => 'admin.myanchong.net','middleware'=>'defper'], function () {
+Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function () {
         //商品搜索
         Route::controller('/search','Api\SearchController');
         //支付宝
@@ -471,7 +471,7 @@ Route::group(['domain' => 'admin.myanchong.net','middleware'=>'defper'], functio
                 Route::get('/startpromotion/{num}','admin\PromotionController@promotion');
                 //结束促销
                 Route::get('/endpromotion/{num}','admin\PromotionController@endpromotion');
-                //结束促销
+                //促销详情
                 Route::resource('/promotioninfo','admin\PromotioninfoController');
             });
                 //后台登出
@@ -591,7 +591,7 @@ Route::group(['domain' => 'admin.myanchong.net','middleware'=>'defper'], functio
     });
             //前台路由
 
-Route::group(['domain' => 'www.myanchong.net','middleware'=>['csrf']], function () {
+Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {
             Route::controller('/search','Api\SearchController');
             //订单内支付宝支付
             Route::post('/pay/aliweborderpay', 'Api\Pay\PayController@aliweborderpay');

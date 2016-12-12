@@ -140,7 +140,7 @@
 		<!-- /.content -->
 	</div>
 	<!-- /.content-wrapper -->
-
+		
 	<input type="hidden" id="activeFlag" value="treepromotion">
 	@include('inc.admin.footer')
 </div>

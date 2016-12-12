@@ -221,6 +221,7 @@ class UsermessagesController extends Controller
 			if (count($message_data)==0) {
 				$this->usermessages->account=$account[0];
 				$this->usermessages->users_id = $id;
+                $this->usermessages->headpic="http://anchongres.oss-cn-hangzhou.aliyuncs.com/headpic/anchong.png";
 				if ($param['nickname']!=null) {
 					$this->usermessages->nickname = $param['nickname'];
 				}

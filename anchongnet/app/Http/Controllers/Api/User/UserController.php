@@ -107,6 +107,7 @@ class UserController extends Controller
                             'username' => $param['phone'],
                             'token' => md5($param['phone']),
                             'netease_token' => '3c374b5bc7a7d5235cde6426487d8a3c',
+                            'headpic'=>"http://anchongres.oss-cn-hangzhou.aliyuncs.com/headpic/anchong.png",
                             'user_rank'=>1
                         ];
 
