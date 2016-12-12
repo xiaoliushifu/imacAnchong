@@ -56,7 +56,7 @@ class ServerController extends CommonController
         //人才招聘的列表内容
         $page = Input::get(['page']);
         $join = Cache::remember('talenjoindetail'.$page,10,function(){
-           return  Business::where('type', 4)->orderBy('created_at', 'desc')->paginate(12);
+           return  Business::where('type', 4)->orderBy('bid', 'desc')->paginate(12);
         });
         $sercate =Cache::remember('talentjoin',10,function(){
             return Tag::where('type_id',4)->orderBy('id','asc')->get();
