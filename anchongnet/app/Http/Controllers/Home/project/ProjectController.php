@@ -32,7 +32,7 @@ class ProjectController extends CommonController
         //发包工程列表数据
         $page = Input::get(['page']);
         $projectlist =Cache::remember('protypedetail'.$page,10,function(){
-           return  Business::where('type', 1)->orderBy('id','desc')->paginate(15);
+           return  Business::where('type', 1)->orderBy('bid','desc')->paginate(15);
         });
 
         return view('home.project.projectlist', compact('projectlist','serprocate','serpro','lastserpro','lastadpro'));
