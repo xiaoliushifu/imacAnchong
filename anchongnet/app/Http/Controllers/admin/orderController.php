@@ -163,9 +163,12 @@ class orderController extends Controller
         if (Gate::denies('order-ship')) {
             return back();
         }
+        DB::beginTransaction();
         $this->order=new Order();
         $carrier=['0','hand'];
-        $orderpa = $data = $this->order->find($req['orderid']);
+        
+        $data = $this->order->find($req['orderid']);
+        $orderpa = clone $data;
         //物流发货方式,否则手动发货
         if ($req['ship'] == "wl") {
            //获得订单数据，准备聚合接口的请求参数
@@ -175,6 +178,7 @@ class orderController extends Controller
            if(count($tmp)<2){
                $tmp[2]=$tmp[1]=$tmp[0];
            }
+           //拆出来省市区
            $orderpa['receiver_province_name'] = $tmp[0];
            $orderpa['receiver_city_name'] = $tmp[1];
            $orderpa['receiver_district_name'] = $tmp[2];
@@ -182,6 +186,9 @@ class orderController extends Controller
            $orderpa['send_start_time'] = date('Y-m-d H:i:s',time()+3600);//通知快递员X分钟后取件
            $orderpa['send_end_time'] = date('Y-m-d H:i:s',time()+7200);
            //$orderpa['phone'] = '18600818638';
+           //去掉空格字符，否则下单不成功
+           $orderpa['address'] = str_replace(' ','',$orderpa['address']);
+           
            $exp = new Exp();
            //向指定物流公司下单
            $carrier = explode('|',$req['logistics']);

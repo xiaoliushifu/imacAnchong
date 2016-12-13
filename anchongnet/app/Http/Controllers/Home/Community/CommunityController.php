@@ -51,6 +51,7 @@ class CommunityController extends CommonController
         });
         //评论数
         $cmnum = count($cmcomment);
+        //对评论的回复
         foreach ($cmcomment as $value){
             $comid = $value -> comid;
             $cmreplay[$comid]  =  Community_reply::where('comid',$comid)->orderBy('reid','desc')->get();
@@ -111,7 +112,7 @@ class CommunityController extends CommonController
         return view('home/community/activity',compact('activity','anum'));
     }
     /*
-     * 提交主题评论
+     * 提交一条评论
      */
     public function store()
     {
@@ -127,6 +128,8 @@ class CommunityController extends CommonController
         $re = Community_comment::create(Input::all());
         if ($re) {
             $msg =['status' => $re->getAttribute('comid'),'msg' => '发表评论成功'];
+            //删除有关缓存
+          Cache::tags('cmcomment')->forget('cmcomment'.Input::get('chat_id'));
         } else {
             $msg =['status' => 1,'msg' => '今日发布过多哦'];
         }
@@ -149,6 +152,8 @@ class CommunityController extends CommonController
         $re = Community_reply::create(Input::all());
         if ($re) {
             $msg =['status' => 0,'msg' => '发表评论成功'];
+            //删除有关缓存
+            Cache::tags('cmcomment')->forget('cmcomment'.Input::get('chat_id'));
         } else {
             $msg =['status' => 1,'msg' => '今日发布过多哦'];
         }
