@@ -516,6 +516,8 @@ class OrderController extends Controller
             $ldata = ['logisticsnum','company','bill_code','status','data'];
             $ostatus = DB::table('anchong_ostatus')->where('logisticsnum',$param['order_num'])->get($odata);
             $lstatus = DB::table('anchong_lstatus')->where('logisticsnum',$param['order_num'])->get($ldata);
+            //最新的物流信息应该在最上面显示，故倒序之
+            $lstatus = array_reverse($lstatus);
             $ret['order'] =end($ostatus);
             //物流状态(物流公司发货后有物流状态)
             $tmp = array();

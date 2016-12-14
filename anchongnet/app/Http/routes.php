@@ -585,12 +585,10 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             //后台意见状态修改
             Route::post('/feedback/feedbackview','admin\Feedback\FeedbackController@feedbackview');
 
-
-
         });
-    });
-            //前台路由
+});
 
+//前台路由
 Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {
             Route::controller('/search','Api\SearchController');
             //订单内支付宝支付
