@@ -73,6 +73,7 @@
 									<th>邮箱</th>
 									<th>注册时间</th>
 									<th>用户等级</th>
+									<th>操作</th>
 								</tr>
 								@foreach ($datacol['datas'] as $data)
 								<tr>
@@ -94,6 +95,9 @@
         									  break;
 								  }?>
 								  </td>
+								  <td align="center"><button type="button" class="fpasswd f-ib btn btn-primary btn-xs" data-id="{{$data['users_id']}}"  data-toggle="modal"
+								  data-target="#myModal"
+								  >修改密码</button></td>
 								</tr>
 								@endforeach
 								<tr>
@@ -112,6 +116,54 @@
 			<!-- /.row -->
 		</section>
 		<!-- /.content -->
+	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel"></h4>
+				</div>
+				<div class="modal-body">
+					<!-- Content Header (Page header) -->
+					<section class="content-header">
+						<h1>修改密码</h1>
+					</section>
+					<!-- Main content -->
+					<section class="content">
+						<div class="row">
+							<div class="col-xs-18">
+								<div class="box">
+									<div class="box-body">
+									    <form  method="post" class="form-horizontal  f-ib" id="myform">
+			                                <div class="form-group">
+			                                    <label class="col-sm-4 control-label" for="clabel" title="密码">密码</label>
+												<input type="hidden" name="users_id" id="users_id" value=""/>
+			                                    <div class="col-sm-8">
+			                                        <input type="text" name="password" id="password" placeholder="不超过20位" class="form-control" value="" required   />
+			                                    </div>
+			                                </div>
+			                                <div class="form-group" style="text-align: center;">
+									            <button  type="submit" style="align:center;" class="btn btn-primary btn-info">修改密码</button>
+			                                </div>
+									    </form>
+									</div>
+									<!-- /.box-body -->
+								</div>
+								<!-- /.box -->
+							</div>
+							<!-- /.col -->
+						</div>
+						<!-- /.row -->
+					</section>
+					<!-- /.content -->
+				</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<!-- /.content-wrapper -->
 	<input type="hidden" id="activeFlag" value="treeuser">
@@ -138,5 +190,49 @@ if(isset($datacol['args']['users_rank'])){
 	}
 }
 ?>
+<script src="/admin/plugins/form/jquery.validate.min.js"></script>
+<script type="text/javascript">
+/**
+ * jquery 加载事件
+ */
+$(function(){
+	//当点击修改密码时执行
+	$(".fpasswd").click(function(){
+        $('#users_id').val($(this).attr("data-id"));
+	});
+	/**
+	*jquery插件jquery.validate.min.js
+	*用于验证表单
+	*/
+	 $("#myform").validate({
+		   //绑定规则
+		   rules:{
+
+		   },
+		   //绑定ajax提交
+		   submitHandler: function(form) {
+			   $.ajax({
+					  type: "POST",
+					  url: "/user/fpasswd",
+					  data:{                                     //提交参数
+						  password:$('#password').val(),
+						  users_id:$('#users_id').val()
+					  },
+					  success:function(data,status){
+							if(data=='密码修改成功'){
+								alert(data);
+								location.reload();
+							}else{
+								alert(data);
+							}
+					  },
+					  error:function(xhr,error,exception){
+						  alert(error);
+					  }
+				})
+		   }
+	 });
+})
+</script>
 </body>
 </html>

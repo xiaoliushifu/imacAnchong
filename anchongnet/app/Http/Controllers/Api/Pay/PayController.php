@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use DB;
 use Omnipay;
 use Input;
-use Log;
 use EasyWeChat\Payment\Order;
 use QrCode;
 use Cache;
@@ -565,7 +564,7 @@ class PayController extends Controller
                     //通过订单查出价格和ID
                     $result=$purse_order->quer(['purse_oid','price'],'order_num ='.$notify->out_trade_no)->toArray();
                     //判断总价，防止app改包攻击
-                    if($result[0]['price'] >= ($notify->total_fee/100)){
+                    if($result[0]['price'] > ($notify->total_fee/100)){
                         return true;
                     }
                     //更新订单状态
@@ -751,6 +750,7 @@ class PayController extends Controller
    */
   public function mobilenotify(Request $request)
   {
+      //\Log::info('OrderMessage',["进来了"]);//统计
       //获得app传过来的参数
       $data=$request::all();
       // 验证请求。
@@ -758,7 +758,7 @@ class PayController extends Controller
 
          return 'fail';
      }
-
+     //\Log::info('OrderMessage',["过验证了"]);//统计
       // 判断通知类型。
       switch ($data['trade_status']) {
           case 'TRADE_SUCCESS':
@@ -823,14 +823,16 @@ class PayController extends Controller
                 }
             //个人钱袋订单处理
             }elseif(strlen($paynum) == 15){
+                //\Log::info('OrderMessage',["订单处理"]);//统计
                 //创建orm
                 $purse_order=new \App\Purse_order();
                 //通过订单查出价格和ID
                 $result=$purse_order->quer(['purse_oid','price'],'order_num ='.$paynum)->toArray();
                 //判断总价，防止app改包攻击
-                if($result[0]['price'] >= $data['total_fee']){
+                if($result[0]['price'] > $data['total_fee']){
                     return 'fail';
                 }
+                //\Log::info('OrderMessage',["金额确认"]);//统计
                 //更新订单状态
                 $purse_order_handle=$purse_order->find($result[0]['purse_oid']);
                 //订单已经修改过，无需再修改
@@ -840,19 +842,20 @@ class PayController extends Controller
                 //将订单改为2
                 $purse_order_handle->state = 2;
                 $purse_order_handle->pay_num="alipay:".$data['trade_no'];
+                //\Log::info('OrderMessage',["订单操作成功"]);//统计
                 //将钱增加到商户冻结资金
                 $results=DB::table('anchong_users')->where('users_id','=',$purse_order_handle->users_id)->increment('usable_money',$result[0]['price']);
                 //判断是否操作成功
                 if($results){
+                    //\Log::info('OrderMessage',["成功"]);//统计
                     $purse_order_handle->remainder=$this->users->find($purse_order_handle->users_id)->usable_money;
                     //保存订单
                     $purse_order_handle->save();
                     DB::commit();
-                    //进行推送通知
-                    $this->propleinfo($sid,$users_id);
                     // 返回处理完成
                     return 'success';
                 }else{
+                    //\Log::info('OrderMessage',["失败"]);//统计
                     //假如失败就回滚
                     DB::rollback();
                     return 'fail';
@@ -929,7 +932,7 @@ class PayController extends Controller
                //通过订单查出价格和ID
                $result=$purse_order->quer(['purse_oid','price'],'order_num ='.$paynum)->toArray();
                //判断总价，防止app改包攻击
-               if($result[0]['price'] >= $data['total_fee']){
+               if($result[0]['price'] > $data['total_fee']){
                    return 'fail';
                }
                //更新订单状态

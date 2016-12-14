@@ -217,4 +217,34 @@ class userController extends Controller
 			}
 		}
     }
+
+	/*
+	*   修改密码
+	*/
+	public function postFpasswd(Request $request)
+	{
+		//获得app端传过来的json格式的数据转换成数组格式
+		$param=$request->all();
+		$validator = Validator::make($param,
+			[
+				'password' => 'required|min:6',
+			]
+		);
+		//返回错误信息
+		if ($validator->fails())
+		{
+			return '密码小于六位';
+		}
+		$password_data=[
+			'password' => Hash::make($param['password'])
+		];
+		//进行修改密码操作
+		$result=DB::table("anchong_users_login")->where("users_id",$param['users_id'])->update($password_data);
+		//判断是否更改成功
+		if($result){
+			return '密码修改成功';
+		}else{
+			return '密码修改失败';
+		}
+	}
 }
