@@ -59,11 +59,12 @@
     			</a>
     			<ul class="treeview-menu">
     				<li><a href="/purse"><i class="fa fa-circle-o"></i>用户提现</a></li>
+					<li><a href="/purse/create"><i class="fa fa-circle-o"></i>余额充值</a></li>
     				<li><a href="/signin"><i class="fa fa-circle-o"></i>签到管理</a></li>
     				<li><a href="/beans"><i class="fa fa-circle-o"></i>虫豆充值</a></li>
     			</ul>
     		</li>
-			
+
     		<li class="treeview" id="treelive">
 			<a href="#">
 				<i class="fa fa-laptop"></i>
