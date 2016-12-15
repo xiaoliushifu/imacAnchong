@@ -31,25 +31,12 @@
 <div class="nav">
     <div class="navc">
         <div class="navcontent">
-
             <ul>
                 <li><a href="{{url('/')}}">首页</a></li>
-                <li id="change"><a href="{{url('/business')}}">商机</a><img src="home/images/shangji/9.jpg" alt=" " class="buslist" >
-                    <div class="cart">
-                        <p><a href="{{url('/project')}}">工程</a></p>
-                        <p><a href="{{url('/sergoods')}}">找货</a></p>
-                        <p><a href="{{url('/talent')}}">人才</a></p>
-                    </div>
-                </li>
-
-                <li id="change1"><a href="{{url('/community')}}">社区</a>
-
-                </li>
-
-                <li id="change2"><a href="{{url('/equipment')}}">设备选购</a>
-
-                </li>
-
+                <li id="change1"><a href="{{url('/project')}}">工程</a></li>
+                <li id="change1"><a href="{{url('/sergoods')}}">找货</a></li>
+                <li id="change1"><a href="{{url('/talent')}}">人才</a></li>
+                <li id="change1"><a href="{{url('/community')}}">社区</a></li>
                 <li><a href="{{url('/info')}}">资讯</a></li>
             </ul>
         </div>
