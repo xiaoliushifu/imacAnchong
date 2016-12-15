@@ -47,15 +47,15 @@ class OrderController extends Controller
                 if(!$name){
                     return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请先填写个人资料里面的联系人']]);
                 }
-                //查出该店铺客服联系方式
-                $customer=new \App\Shop();
-                $customers=$customer->quer('customer',"sid =".$orderarr['sid'])->toArray();
-                //如果店铺客服为空，则指定一个值不能让他报错
-                if(empty($customers)){
-                    //假如失败就回滚
-                    DB::rollback();
-                    return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
-                }
+                // //查出该店铺客服联系方式
+                // $customer=new \App\Shop();
+                // $customers=$customer->quer('customer',"sid =".$orderarr['sid'])->toArray();
+                // //如果店铺客服为空，则指定一个值不能让他报错
+                // if(empty($customers)){
+                //     //假如失败就回滚
+                //     DB::rollback();
+                //     return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
+                // }
                 $order_num=rand(10000,99999).substr($data['guid'],0,1).time();
                 $orderprice=$orderarr['total_price'];
                 $total_price += $orderprice;
@@ -113,7 +113,7 @@ class OrderController extends Controller
                     'freight' => $orderarr['freight'],
                     'invoice_type' => $invoicetype,
                     'invoice' => $param['invoice'],
-                    'customer' => $customers[0]['customer'],
+                    'customer' => "",
                     'tname' => $name[0]['contact']
                 ];
                 //判断是否使用优惠券
@@ -149,7 +149,7 @@ class OrderController extends Controller
                 if(!$payresult){
                     //假如失败就回滚
                     DB::rollback();
-                    return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单支付生成失败']]);
                 }
                 foreach ($orderarr['goods'] as $goodsinfo) {
                     //创建货品表的ORM模型来查询货品数量
@@ -202,7 +202,7 @@ class OrderController extends Controller
                     if(!$goodsnum_result){
                         //假如失败就回滚
                         DB::rollback();
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败，库存未更新']]);
                     }
                     $orderinfo_data=[
                         'order_num' =>$order_num,
@@ -224,7 +224,7 @@ class OrderController extends Controller
                     if(!$order_result){
                         //假如失败就回滚
                         DB::rollback();
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败，订单详细信息未生成']]);
                     }
                     $true=true;
                      //同时删除购物车
@@ -262,7 +262,7 @@ class OrderController extends Controller
             }else{
                 //假如失败就回滚
                 DB::rollback();
-                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败，购物车商品未删除']]);
             }
         }catch (\Exception $e) {
            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'请将APP更新到最新版本安虫，体验订单新功能！']]);
@@ -498,7 +498,7 @@ class OrderController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
-    
+
     /*
      * 对于使用物流发货的订单
      *   该方法用来查看订单的物流状态
@@ -532,6 +532,6 @@ class OrderController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
-    
-    
+
+
 }
