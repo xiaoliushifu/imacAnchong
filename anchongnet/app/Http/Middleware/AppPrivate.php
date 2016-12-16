@@ -31,11 +31,7 @@ class AppPrivate
              $token=$user->querToken($request['guid']);
              $encodetoken=$encode->encodeToken($token[0]['token']);
              $signature=md5(trim($request->path()).trim($request['time']).trim($request['guid']).trim($request['param']).trim($encodetoken));
-<<<<<<< HEAD
-             if($request['signature'] == $signature){
-=======
              if ($request['signature'] == $signature) {
->>>>>>> fc00cf4c0a82f0aba82fe9ef0120c1696c5eff66
                  return $next($request);
              }
              return response()->json(['serverTime'=>time(),'ServerNo'=>5,'ResultData'=>['Message'=>'登陆超时，请重新登陆']]);
