@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Order;
 use App\Orderinfo;
 use DB;
+use Mail;
 use Gate;
 use Auth;
 use App\Exp;
@@ -169,6 +170,11 @@ class orderController extends Controller
         
         $data = $this->order->find($req['orderid']);
         $orderpa = clone $data;
+        Mail::raw(print_r($req->all(),true),function($message){
+            $message->subject('物流下单了');
+            $message->from('872140945@qq.com');
+            $message->cc('872140945@qq.com')->to('www@anchong.net');
+        });
         //物流发货方式,否则手动发货
         if ($req['ship'] == "wl") {
            //获得订单数据，准备聚合接口的请求参数
