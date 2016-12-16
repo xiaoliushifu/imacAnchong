@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Home\Cart;
 
 use App\Cart;
+use App\Goods_specifications;
 use App\Goods_type;
 use App\Http\Controllers\Home\CommonController;
 use Illuminate\Support\Facades\Cache;
@@ -24,18 +25,11 @@ class CartController extends CommonController
      */
     public function show($users_id)
     {
-        try{
-            if(Auth::user()->users_id != $users_id){
-                abort(404);
-            }
-        }catch (\Exception $e) {
+        $user = Auth::user();
+        if (!$user) {
             return Redirect::to('/user/login');
         }
-        // $date = date('H:i:s');
-        // $cart = Cache::tags('cart')->remember('cart'.$users_id.$date,600,function ()use($users_id){
-        //     return Cart::where('users_id',$users_id)->orderBy('cart_id','desc')->get();
-        // });
-        // return view('home/cart/cart',compact('cart'));
+        $users_id = $user->users_id;
         $cartarr=[];
         $share_cache=Cache::get('cart_'.$users_id);
         if($share_cache){
@@ -44,29 +38,25 @@ class CartController extends CommonController
         }else{
             //创建购物车的ORM模型
             $cart=new \App\Cart();
-            $cartdata=$cart->Cart()->select('cart_id','goods_name','goods_price','img','goods_type','gid','sid','sname','goods_id','oem','goods_num','promotion')->where('users_id',$users_id)->get()->toArray();
-            //创建购物车和商铺的ORM模型
+            $data = ['cart_id','goods_name','goods_price','img','goods_type','gid','sid','sname','goods_id','oem','goods_num','promotion'];
+            $cartdata=$cart->select($data)->where('users_id',$users_id)->get()->toArray();
             $shop=new \App\Shop();
-            //var_dump($share_cache);
-            //下面装商铺的数组
             $shoparr=[];
-            //下面装商品的数组
             $goodsarr=null;
-            //通过下列一系列的方法将数据格式转换成特定的格式
+            //数据格式转换
             foreach ($cartdata as $result) {
                 $shoparr[$result['sname']]=$result['sid'];
             }
             foreach ($shoparr as $sname => $sid) {
                 foreach ($cartdata as $goods) {
-                    if($goods['sid'] == $sid){
-                        $goods['goodsinfo']=json_encode($goods);
+                    if ($goods['sid'] == $sid) {
+                        $goods['goodsinfo'] = json_encode($goods);
                         $goodsarr[]=$goods;
                     }
                 }
-                //查出运费和需要运费的价格
-                $freight=$shop->quer(['free_price','freight'],'sid ='.$sid)->toArray();
-                //将数据拼装到一个数组中
-                $cartarr[]=['sid'=>$sid,'free_price'=>$freight[0]['free_price'],'freight'=>$freight[0]['freight'],'sname' => $sname,'goods'=>$goodsarr];
+                //查出运费和起运价
+                $freight=$shop->quer(['free_price','freight'],'sid ='.$sid)->first();
+                $cartarr[]=['sid'=>$sid,'free_price'=>$freight['free_price'],'freight'=>$freight['freight'],'sname' => $sname,'goods'=>$goodsarr];
                 $goodsarr=null;
             }
             Cache::tags('cart_users_'.$users_id)->add('cart_'.$users_id,$cartarr,60);
@@ -80,22 +70,50 @@ class CartController extends CommonController
     {
         $input = Input::all();
         $user = Auth::user();
+//         if(!Input::ajax()) {
+//            return ['status' => 0,'msg' => '请登录后再添加购物车'];
+//         }
         //未登录
         if(!$user) {
             return ['status' => 0,'msg' => '请登录后再添加购物车'];
         }
         $input['users_id'] = $user->users_id;
-        //找到该货品
-        $info = Goods_type::where('goods_id', $input['goods_id'])->where('gid', $input['gid'])->where('sid', $input['sid'])->first();
+        //type表看看
+        $info = Goods_type::where('goods_id', $input['goods_id'])->where('gid', $input['gid'])->where('sid', $input['sid'])->where('added',1)->first();
         if (!$info) {
+            \Log::info('goods_type无',['into_cart']);
             return ['status' => 0,'msg'=>'您查找的商品不存在，或者下架或者被转移'];
         }
-        // //价格因是否认证而不同
-        // if ($user->user_rank == '2') {
-        //     $input['goods_price'] = $info->vip_price;
-        // } else {
-        //     $input['goods_price'] = $info->price;
-        // }
+        //spe表看看
+        $speinfo = Goods_specifications::where('goods_id', $input['goods_id'])->where('gid', $input['gid'])->where('sid', $input['sid'])->where('added',1)->first();
+        if (!$speinfo) {
+            \Log::info('Goods_specifications无',['into_cart']);
+            return ['status' => 0,'msg'=>'您查找的商品不存在，或者下架或者被转移'];
+        }
+        //规格(属性)判定
+        if(!strstr($speinfo['goods_name'],trim($input['goods_type']))){
+            \Log::info('mismatch'.$speinfo['goods_name'].'--'.$input['goods_type'],['into_cart']);
+            return ['status' => 0,'msg'=>'您查找的商品不存在，或者下架或者被转移'];
+        }
+        //价格因是否认证而不同
+        //又因是否参与促销而不同
+        if ($user->user_rank == '2') {
+            if ($speinfo->promotion_price > 0 && $speinfo->vip_price > $speinfo->promotion_price ) {
+                $input['goods_price'] = $speinfo->promotion_price;
+                $input['promotion'] = 1;
+            } else {
+                $input['goods_price'] = $speinfo->vip_price;
+                $input['promotion'] = 0;
+            }
+        } else {
+            if ($speinfo->promotion_price > 0) {
+                $input['goods_price'] = $speinfo->promotion_price;
+                $input['promotion'] = 1;
+            } else {
+                $input['goods_price'] = $speinfo->market_price;
+                $input['promotion'] = 0;
+            }
+        }
         $cart = Cart::where('gid', $input['gid'])->where('users_id', $user->users_id)->where('sid', $input['sid'])->where('oem', $input['oem'])->first();
         //有则更新数量，无则添加一条购物车的记录
         $res ='';
@@ -104,6 +122,10 @@ class CartController extends CommonController
         //更新数量
         } else {
             $cart->goods_num += $input['goods_num'];
+            //促销活动开始前已经加入购物车的，而促销活动期间恰巧该商品又参与促销，统一下述几项
+            $cart->goods_type = $input['goods_type'];//商品规格
+            $cart->goods_price = $input['goods_price'];//商品价格
+            $cart->promotion = $input['promotion'];//促销标识
             $res = $cart->update();
         }
         if ($res) {
@@ -114,15 +136,19 @@ class CartController extends CommonController
     }
 
     /*
-     * 修改购物车
+     * 修改购物车中商品数量
      */
     public function edit($id)
     {
+        $user = Auth::user();
+        if (!$user) {
+            return back();
+        }
         $num=Input::get('goods_num');
-        $cart=Cart::where('cart_id', $id)->update(['goods_num' => $num]);
-        if($cart){
+        $cart=Cart::where('cart_id', $id)->where('users_id',$user->users_id)->update(['goods_num' => $num]);
+        if ($cart) {
             return $num;
-        }else{
+        } else {
             return '';
         }
     }
@@ -134,16 +160,15 @@ class CartController extends CommonController
 
     }
     /*
-     * 删除购物车
+     * 删除购物车中一种商品
      */
     public function destroy($cart_id)
     {
-        $re = Cart::where('cart_id',$cart_id)->delete();
-        if($re){
-            $data =['status' => 0,'msg'  => '商品删除成功'];
-        }else{
-            $data =['status' => 1,'msg'  => '商品删除失败'];
+        $user = Auth::user();
+        if (!$user) {
+            return back();
         }
-        return $data;
+        $re = Cart::where('cart_id',$cart_id)->where('users_id',$user->users_id)->delete();
+        return ['status' => 0,'msg'  => '商品删除成功'];
     }
 }

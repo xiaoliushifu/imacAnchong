@@ -148,6 +148,7 @@ class goodController extends Controller
             [
                 'cat_id'=>$catid,
                 'goods_id'=>$request->name,
+                //商品规格（属性)
                 'goods_name'=>trim($spetag),
                 'model' => $request->model,
                 'market_price'=>$request->marketprice,
@@ -373,6 +374,10 @@ class goodController extends Controller
             $data = DB::table('anchong_goods_specifications')->where('gid',$aid)->get();
             if (!$data || Gate::denies('shopres',$data)) {
                 return null;
+            }
+            //促销中不可删除
+            if ($data[0]->promotion_price > 0 ) {
+                return '促销中的商品不可删除';
             }
             DB::beginTransaction();
             $res['spe'] = DB::table('anchong_goods_specifications')->where('gid',$aid)->delete();

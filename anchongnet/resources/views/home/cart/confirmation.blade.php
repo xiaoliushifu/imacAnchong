@@ -223,9 +223,9 @@
         total_freight+=Number(freight[$i]);
     }
     //将计算结果显示
-    $("#order-price").text(total_price);
+    $("#order-price").text(total_price-total_freight);
     $("#freight").text(total_freight);
-    $(".amount").text("应付总额(不含发票)："+(total_freight+total_price)+"元");
+    $(".amount").text("应付总额(不含发票)："+(total_price)+"元");
     //收货地址的选择
     function selectd(li){
         $(".default").attr("class","o-add");

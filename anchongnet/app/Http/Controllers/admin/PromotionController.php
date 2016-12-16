@@ -27,6 +27,13 @@ class PromotionController extends Controller
     */
     public static function promotion($id)
     {
+        //判断是否有时间缓存
+        if (Cache::has('anchong_promotion_time'))
+        {
+            //删除缓存
+            Cache::forget('anchong_promotion_time');
+        }
+        
         //判断是否有促销缓存
         if (Cache::has('anchong_promotion_goods'))
         {
@@ -54,7 +61,7 @@ class PromotionController extends Controller
                 $results[]=[
                             "gid" => $goods_handle->gid,
                             "title" => $goods_handle->title,
-                            "price" => $goods_handle->vip_price,
+                            "price" => $goods_handle->market_price,
                             "sname" => $goods_handle->sname,
                             "pic" => $goods_handle->goods_img,
                             "promotion_price" => $goodsinfo->promotion_price,
@@ -103,13 +110,17 @@ class PromotionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 用于把实际的货品加入到促销列表
+     * 将来促销计划启动时，促销列表生效
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
+        if (!isset($request->promotion_id) || empty($request->promotion_id)) {
+            return response()->json(['serverTime'=>1,'ServerNo'=>1,'ResultData'=>['Message'=>'暂无促销计划']]);
+        }
         $num=DB::table('anchong_promotion_goods')->where('promotion_id', $request->promotion_id)->count();
         //判断是否达到该次促销数量的上限
         if($num > 19){
@@ -134,7 +145,8 @@ class PromotionController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 用于获得促销时间段（未来）
+     * 促销中，或过期的不可再操作
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -164,7 +176,7 @@ class PromotionController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 添加或更新一个促销时间段
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -201,6 +213,7 @@ class PromotionController extends Controller
     }
 
     /**
+     * 清除促销时间段
      * Remove the specified resource from storage.
      *
      * @param  int  $id

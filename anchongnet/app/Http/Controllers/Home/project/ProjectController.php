@@ -21,23 +21,23 @@ class ProjectController extends CommonController
         });
         $serpro = $ser->take(7);
         $lastserpro = $ser->slice(7);
-        
+
         //服务类别标签
         $addpro =Cache::remember('protype1',1440,function(){
             return   Tag::where('type_id',1)->get();
         });
         $serprocate = $addpro->take(7);
         $lastadpro = $addpro->slice(7);
-        
+
         //发包工程列表数据
         $page = Input::get(['page']);
         $projectlist =Cache::remember('protypedetail'.$page,10,function(){
-           return  Business::where('type', 1)->paginate(15);
+           return  Business::where('type', 1)->orderBy('bid','desc')->paginate(15);
         });
 
         return view('home.project.projectlist', compact('projectlist','serprocate','serpro','lastserpro','lastadpro'));
     }
-    
+
     public function create()
     {
         if(!Auth::check()){

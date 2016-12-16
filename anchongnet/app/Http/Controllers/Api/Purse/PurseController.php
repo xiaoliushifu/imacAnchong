@@ -92,6 +92,9 @@ class PurseController extends Controller
         $limit=8;
         //查出个人信息
         $users_handle=$this->users->find($data['guid']);
+        if (!$users_handle) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请先登录']]);
+        }
         $beans=$users_handle->beans;
         $usable_money=$users_handle->usable_money;
         $usersmessage=$this->users_message->quer(['headpic','nickname'],['users_id'=>$data['guid']])->toArray();
@@ -328,6 +331,9 @@ class PurseController extends Controller
         $param=json_decode($data['param'],true);
         //获得个人信息的句柄
         $users_handle=$this->users->find($data['guid']);
+        if (!$users_handle) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
+        }
         //获得个人的虫豆数量
         $beans=$users_handle->beans;
         //获得个人可用余额

@@ -83,7 +83,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 在分享页点击"登录"时的跳转
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

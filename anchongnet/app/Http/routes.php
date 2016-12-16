@@ -169,6 +169,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/order/orderoperation','Api\Order\OrderController@orderoperation');
         //订单付款
         Route::post('/order/orderpay','Api\Order\OrderController@orderpay');
+        //查看订单及物流状态
+        Route::post('/order/orderstate','Api\Order\OrderController@orderstate');
 
         /*
         *   商铺模块
@@ -469,7 +471,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
                 Route::get('/startpromotion/{num}','admin\PromotionController@promotion');
                 //结束促销
                 Route::get('/endpromotion/{num}','admin\PromotionController@endpromotion');
-                //结束促销
+                //促销详情
                 Route::resource('/promotioninfo','admin\PromotioninfoController');
             });
                 //后台登出
@@ -583,12 +585,10 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             //后台意见状态修改
             Route::post('/feedback/feedbackview','admin\Feedback\FeedbackController@feedbackview');
 
-
-
         });
-    });
-            //前台路由
+});
 
+//前台路由
 Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {
             Route::controller('/search','Api\SearchController');
             //订单内支付宝支付

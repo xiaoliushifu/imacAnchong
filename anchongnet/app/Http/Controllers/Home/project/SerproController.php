@@ -41,7 +41,7 @@ class SerproController extends CommonController
         //承接工程的全部列表
         $page = Input::get(['page']);
         $lepro = Cache::remember('chengprototle'.$page,10,function(){
-            return  Business::where('type', 2)->orderBy('created_at', 'asc')->paginate(15);
+            return  Business::where('type', 2)->orderBy('bid', 'desc')->paginate(15);
         });
 
         return view('home.project.projectlist2', compact('lepro','serprocate','serpro','lastserpro','lastadpro'));
@@ -74,7 +74,7 @@ class SerproController extends CommonController
         $page =Input::get(['page']);
         $prodetail = Cache::remember('typedetail2'.$id.$page,10,function() use($id){
         $pro=  Tag::where('id',$id)->first();
-           return  Business::where('tag',$pro->tag)->where('type',1)->paginate(10);
+           return  Business::where('tag',$pro->tag)->where('type',1)->orderBy('bid', 'desc')->paginate(10);
         });
 
         return view('home.project.projectlistcate',compact('prodetail','serprocate','serpro','lastserpro','lastadpro','id'));
@@ -107,7 +107,7 @@ class SerproController extends CommonController
         $page = Input::get(['page']);
         $prodetail2 = Cache::remember('listdetaill'.$page.$id,10,function() use($id){
             $pro = Tag::where('id',$id)->first();
-           return Business::where('tag',$pro->tag)->where('type',2)->paginate(10);
+           return Business::where('tag',$pro->tag)->where('type',2)->orderBy('bid', 'desc')->paginate(10);
         });
 
         return view('home.project.projectlist2cate',compact('prodetail2','serprocate','serpro','lastserpro','lastadpro','id'));

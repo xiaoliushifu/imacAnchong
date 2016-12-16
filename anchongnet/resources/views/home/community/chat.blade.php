@@ -96,18 +96,18 @@
             {{--</li>--}}
             <li class="replay-area">
                 <ul>
-                    <li class="replay-icon"><img src="../home/images/chat/p61.jpg"></li>
+                    <li class="replay-icon"><img src="/home/images/chat/p61.jpg"></li>
                     <li class="replay-dist">
                         <div>
                             <form class="publish-comment">
                                 {{csrf_field()}}
                                 <i>我也有话要说……</i>
                                 <textarea  disabled="disabled" id="comments" name="content" class="replay-content" style="text-align: center;font-size: 20px" placeholder="请登录后评论"></textarea>
-                                <a class="send"><img src="../home/images/chat/send.png" ></a>
-                                <a class="emotion"><img src="../home/images/chat/emoticon.png"></a>
+                                <a class="send"><img src="/home/images/chat/send.png" ></a>
+                                <a class="emotion"><img src="/home/images/chat/emoticon.png"></a>
                                 <input type="hidden" name="chat_id" value="{{$cminfo->chat_id}}">
                                 <input type="hidden" name="created_at" value="{{date('Y-m-d H:i:s')}}">
-                                @if(session('user'))
+                                @if(Auth::check())
                                     <script>
                                         $(function () {
                                             $('#comments').removeAttr("disabled");
@@ -133,7 +133,7 @@
                                 <a class="emotions"><img src="../home/images/chat/emoticon.png"></a>
                                 <input type="hidden" name="created_at" value="{{date('Y-m-d H:i:s')}}">
                                 <input type="hidden" name="chat_id" value="{{$cminfo->chat_id}}">
-                                @if(session('user'))
+                                @if(Auth::check())
                                     <input type="hidden" name="users_id" value="{{$msg->users_id}}">
                                     <input type="hidden" name="headpic" value="{{$msg->headpic}}">
                                     <input type="hidden" name="name" value="{{$msg->nickname}}">
@@ -141,21 +141,18 @@
                                     <input id="comid" type="hidden" name="comid">
                                     <script>
                                         $(function () {
-                                            $('.replay').attr({
-                                                'onclick':'Replay(this)',
-                                                'href':'#replay'
-                                            });
+                                            $('.replay').attr({'onclick':'Replay(this)','href':'#replay'});
                                         })
                                     </script>
-                                    @else
-                                    <script>
-                                        $(function () {
-                                            $('.replay').click(function () {
-                                                layer.alert("请您登陆后再进行回复",{offset:['150px','821px']});
-                                            });
-                                        })
-                                    </script>
-                                @endif
+                                @else
+                                <script>
+                                    $(function () {
+                                        $('.replay').click(function () {
+                                            layer.alert("请您登陆后再进行回复",{offset:['150px','821px']});
+                                        });
+                                    })
+                                </script>
+                            @endif
                             </form>
                         </div>
                     </li>
@@ -165,6 +162,20 @@
     </div>
 </div>
 @include('inc.home.site-foot')
+{{--评论模板--}}
+<ul  class="comments-item" id="ulmodel" style="display:none">
+    <li class="comments-icon"><img src="http://anchongres.img-cn-hangzhou.aliyuncs.com/headpic/1476759205.jpg"></li>
+    <li class="comments-replay">
+        <div>
+            <p class="username">fengyun</p>
+            <p class="comments-time">{{date('Y-m-d')}}</p>
+            <p class="comments-info"></p>
+            <p class="comid" style="display: none">1000</p>
+            <a class="replay" onclick="Replay(this)" href="#replay">回复</a>
+        </div>
+        <span class="parting"></span>
+        </li>
+</ul>
 </body>
 <script>
     $(function () {
@@ -180,15 +191,6 @@
                 "bdSize" : 16
             }],
         }
-        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
     })
-    //替换成表情
-    function replace_em(str){
-        str = str.replace(/\</g,'&lt;');
-        str = str.replace(/\>/g,'&gt;');
-        str = str.replace(/\n/g,'<br/>');
-        str = str.replace(/\[em_([0-9]*)\]/g,'<img src="../home/org/qqface/face/$1.gif" border="0" />');
-        return str;
-    }
 </script>
 </html>

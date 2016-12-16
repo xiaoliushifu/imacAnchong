@@ -6,6 +6,8 @@ use Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Auth;
+use DB;
 
 /**
 *   该控制器包含了钱袋模块的操作
@@ -60,7 +62,11 @@ class PurseController extends Controller
      */
     public function create()
     {
-        //
+        //判断是否是admin
+        if(Auth::user()->users_id !=1){
+            return ;
+        }
+        return view('admin/purse/recharge');
     }
 
     /**
@@ -71,7 +77,30 @@ class PurseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //判断是否是admin
+        if(Auth::user()->users_id !=1){
+            return ;
+        }
+        //获得所有的内容
+        $data=$request::all();
+        //取出支付密码
+        $paypassword=DB::table('anchong_users')->where('users_id',1)->pluck('password');
+        //判断用户是否设置支付密码
+        if(!$paypassword[0]){
+            return '请先设置支付密码';
+        }
+        //判断支付密码是否可用(后期做大以后一定记得控制错误次数)
+        if($paypassword[0] != md5($data['password'])){
+            return '支付密码错误';
+        }
+        //得到结果
+        $result=DB::table('anchong_users')->where('phone',$data['username'])->increment('usable_money',$data['money']);
+        //判断结果
+        if($result){
+            return "充值成功";
+        }else{
+            return "充值失败";
+        }
     }
 
     /**
