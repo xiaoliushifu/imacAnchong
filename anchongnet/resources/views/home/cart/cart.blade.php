@@ -67,7 +67,7 @@
                         </li>
                         <li class="total-price">￥{{$value['goods_num'] * $value['goods_price']}}</li>
                         <li class="goods-handle">
-                            <p class="favorite"><a onclick="Favorite({{$value['gid']}})">转为收藏</a></p>
+                            <p class="favorite"><a onclick="Favorite({{$value['gid']}})">加入收藏</a></p>
                             <p class="del"><a onclick="DelCart(this)" cart_id="{{$value['cart_id']}}">删除</a></p>
                         </li>
                     </ul>
@@ -146,7 +146,7 @@ function allsel(){
 {{--删除购物车中一种商品--}}
 function DelCart(obj) {
     layer.confirm('你确定要删除这个商品么？',{btn:['确定','取消']},function () {
-        $.post("{{url('/cart')}}/"+$(obj).attr('cart_id'),{'_method':'delete','_token':'{{csrf_token()}}'},function (data) {
+        $.post("{{url('/cart')}}/"+obj.getAttribute('cart_id'),{'_method':'delete','_token':'{{csrf_token()}}'},function (data) {
             if(data.status == 0){
             		$(obj).parents('li.goods-info').prev().remove();
             		$(obj).parents('li.goods-info').remove();

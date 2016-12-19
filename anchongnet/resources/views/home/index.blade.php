@@ -41,12 +41,12 @@
                 <li class="home nav-item"><a href="{{url('/')}}">首页</a></li>
                 <li class="business nav-item">
                     <a href="{{url('/business')}}">商机</a>
-                    <span class="business-triangle"></span>
-                    <div class="business-list">
-                        <p><a href="{{url('/project')}}">工程</a></p>
-                        <p><a href="{{url('/talent')}}">人才</a></p>
-                        <p><a href="{{url('/sergoods')}}">找货</a></p>
-                    </div>
+<!--                     <span class="business-triangle"></span> -->
+<!--                     <div class="business-list"> -->
+<!--                         <p><a href="{{url('/project')}}">工程</a></p> -->
+<!--                         <p><a href="{{url('/talent')}}">人才</a></p> -->
+<!--                         <p><a href="{{url('/sergoods')}}">找货</a></p> -->
+<!--                     </div> -->
                 </li>
                 <li class="community nav-item"><a href="{{url('/community')}}">社区</a></li>
                 <li class="equipment nav-item"><a href="{{url('/equipment ')}}">设备选购</a></li>
@@ -61,7 +61,7 @@
         <ul class="middle-top">
             <li class="banner">
                 <div>
-                    <img src="home/images/shouye2.jpg">
+                    <img src="home/images/shouyel.png">
                 </div>
             </li>
             <li class="tips">
