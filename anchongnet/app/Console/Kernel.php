@@ -27,38 +27,28 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
-            //定义当前时间
+            \Log::info('promotion_schedule_action');
+            //取得当前时间
             $nowtime=time()+10;
-            //查出当前促销时间段
+            //判定有无要结束的旧促销
             $endpromotion_id=DB::table('anchong_promotion')->where('end_time','<',$nowtime)->pluck('promotion_id');
-            //判断有没有过期的促销时段
-            if($endpromotion_id){
+            if ($endpromotion_id) {
+                //结束促销
                 $result=\App\Http\Controllers\admin\PromotionController::endpromotion($endpromotion_id[0]);
                 DB::table('anchong_promotion')->where('end_time','<',$nowtime)->delete();
-                //判断是否有促销缓存
-                if (Cache::has('anchong_promotion_goods'))
-                {
-                    //删除缓存
-                    Cache::forget('anchong_promotion_goods');
-                }
-
-                //判断是否有时间缓存
-                if (Cache::has('anchong_promotion_time'))
-                {
-                    //删除缓存
-                    Cache::forget('anchong_promotion_time');
-                }
+                Cache::forget('anchong_promotion_goods');
+                Cache::forget('anchong_promotion_time');
             }
-            //查出当前促销时间段
+            //查看是否有要开启的新促销
             $promotion_id=DB::table('anchong_promotion')->where('start_time','<',$nowtime)->where('end_time','>',$nowtime)->pluck('promotion_id');
-            if($promotion_id){
+            if ($promotion_id) {
                 $result=\App\Http\Controllers\admin\PromotionController::promotion($promotion_id[0]);
             }
+            //顺便把订单确认收货的也办了
             $order_id_arr=DB::table('anchong_goods_order')->select('order_id')->where('state',3)->where('updated_at','<',date('Y-m-d H:i:s',($nowtime-864000)))->get();
-            //订单修改
-            if($order_id_arr){
+            if ($order_id_arr) {
                 $result=\App\Http\Controllers\admin\orderController::confirm($order_id_arr);
             }
-     })->everyMinute();
+        })->daily();
     }
 }
