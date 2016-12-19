@@ -18,14 +18,11 @@
           <div class="searchbar">
               <input type="text" class="biaodan">
               <button type="button" class="btn">搜索</button>
-
           </div>
             <div class="searchbar-list">
                 <span>热门搜索:</span><a href="#">探测监控</a><a href="#">防护保障</a><a href="#">探测监控</a><a href="#">探测报警</a><a href="#">弱电工程</a>
-
             </div>
         </div>
-
     </div>
 </div>
 <div class="nav">
@@ -44,7 +41,6 @@
             <a href="#"><img src="home/images/shangji/8.jpg" alt=""></a>
         </div>
     </div>
-
 </div>
 <div style="clear: both;"></div>
 <hr class="nav-underline">
@@ -53,14 +49,7 @@
         <li><a href="#"><img src="home/images/shangji/11.jpg"></a></li>
         <li><a href="#"><img src="home/images/shangji/12.jpg"></a></li>
         <li><a href="#"><img src="home/images/shangji/13.jpg"></a></li>
-
     </ul>
-    <script type="text/javascript">
-
-
-
-    </script>
-
 </div>
 <div class="content">
     <div class="subcontent">
@@ -137,7 +126,6 @@
                     <p>{{$r->nickname}}</p></a>
                 </li>
                 @endforeach
-
             </ul>
         </div>
 
@@ -165,15 +153,12 @@
                     @foreach($bustalent as $t)
                     <li>
                         <h4><a href="{{url('project/'.$t->bid)}}">服务类别：{{$t->tag}} <span></span>服务区域：{{$t->tags}}</a></h4>
-
                     </li>
                     <hr>
                     @endforeach
-
                 </ul>
             </div>
         </div>
-
     </div>
 </div>
 

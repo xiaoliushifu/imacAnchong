@@ -130,8 +130,12 @@ class PayController extends Controller
             }
             //进行提交
             DB::commit();
-            //进行推送通知
-            $this->propleinfo($sid,$users_id);
+            try{
+                //进行推送通知
+                $this->propleinfo($sid,$users_id);
+            }catch (\Exception $e) {
+                \Log::info('ORDER_ID-SID',[$param['outTradeNo'],$pay_datas]);//统计
+            }
             // 返回处理完成
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'支付成功']]);
         }else{
