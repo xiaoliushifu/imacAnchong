@@ -311,52 +311,43 @@ class AdvertController extends Controller
     {
         try{
 
-            //取到结束时间的缓存
+            //促销结束时间的处理
             $promotion_time_cache=Cache::get('anchong_promotion_time');
-            //判断是否有结束时间的缓存
-            if($promotion_time_cache){
+            if ($promotion_time_cache) {
                 $times=$promotion_time_cache;
-            }else{
-                //取到当前时间，为了避免时间不准时加十秒
+            } else {
                 $nowtime=time()+10;
                 $promotion=DB::table('anchong_promotion')->where('start_time','<',$nowtime)->where('end_time','>',$nowtime)->first();
                 $times=[];
-                if($promotion){
+                if ($promotion) {
                     //将开始结束时间给取到
                     $times['start_time']=$promotion->start_time;
                     $times['end_time']=$promotion->end_time;
                     Cache::forever('anchong_promotion_time',$times);
                 }
             }
-            //取到促销商品缓存
+            //具体促销商品的处理
             $promotion_cache=Cache::get('anchong_promotion_goods');
-            //判断缓存是否为空
-            if($promotion_cache){
-                //将缓存取出来赋值给变量
+            if ($promotion_cache) {
                 $results=$promotion_cache;
-            }else{
-                //取到当前时间，为了避免时间不准时加十秒
+            } else {
                 $nowtime=time()+10;
-                //查出当前促销时间段
+                //查出当前促销时间段 start_time < now < end_time
                 $promotion_id=DB::table('anchong_promotion')->where('start_time','<',$nowtime)->where('end_time','>',$nowtime)->pluck('promotion_id');
-                //定义结果数组
                 $results=[];
                 if($promotion_id){
                     //查出促销时间段的商品
                     $goods_data=DB::table('anchong_promotion_goods')->where('promotion_id',$promotion_id[0])->select('gid','promotion_price')->orderBy('sort','DESC')->get();
-                    //定义ORM模型
                     $goods_specifications=new \App\Goods_specifications();
 
-                    //遍历数据并组合成新数据
+                    //为每个货品增加促销价
                     foreach ($goods_data as $goodsinfo) {
-                        //获得该货物信息的句柄
                         $goods_handle=$goods_specifications->find($goodsinfo->gid);
                         //修改其促销价
                         $goods_handle->promotion_price=$goodsinfo->promotion_price;
                         $save=$goods_handle->save();
                         //如果修改成功就促销该货品
-                        if($save){
-                            //将内容装入结果数组
+                        if ($save) {
                             $results[]=[
                                         "gid" => $goods_handle->gid,
                                         "title" => $goods_handle->title,
