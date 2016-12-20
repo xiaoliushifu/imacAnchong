@@ -283,6 +283,7 @@ class OrderController extends Controller
             //创建ORM模型
             $order=new \App\Order();
             $orderinfo=new \App\Orderinfo();
+            $shop=new \App\Shop();
             //判断用户行为
             switch ($param['state']) {
                 //0为全部订单
@@ -324,12 +325,16 @@ class OrderController extends Controller
             foreach ($order_result['list'] as $order_results) {
                 //根据订单号查到该订单的详细数据
                 $orderinfo_result=$orderinfo->quer($orderinfo_data,'order_num ='.$order_results['order_num'])->toArray();
+                //获取商铺logo,供客服聊天时使用
+                $shopimg=$shop->select('img')->find($order_results['sid'])->toArray();
+                
                 //为取支付宝订单名
                 foreach ($orderinfo_result as $orderinfo_goodsname) {
                     $body .=$orderinfo_goodsname['goods_name'];
                 }
                 //将查询结果组成数组
                 $order_results['body']=$body;
+                $order_results['img']=$shopimg['img'];//商铺logo
                 $order_results['goods']=$orderinfo_result;
                 $result[]=$order_results;
                 $order_results=null;

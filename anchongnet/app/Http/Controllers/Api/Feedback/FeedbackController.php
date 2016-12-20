@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\Feedback;
 
 //use Illuminate\Http\Request;
 use Request;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Validator;
 use DB;

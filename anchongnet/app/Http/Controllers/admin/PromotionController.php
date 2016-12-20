@@ -4,7 +4,6 @@ namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Cache;
 use DB;
@@ -23,41 +22,26 @@ class PromotionController extends Controller
     }
 
     /*
-    *   到点促销开启
+    *   根据$id开启指定促销
+    *   由Kernel定时器调用
     */
     public static function promotion($id)
     {
-        //判断是否有时间缓存
-        if (Cache::has('anchong_promotion_time'))
-        {
-            //删除缓存
-            Cache::forget('anchong_promotion_time');
-        }
-        
-        //判断是否有促销缓存
-        if (Cache::has('anchong_promotion_goods'))
-        {
-            //删除缓存
-            Cache::forget('anchong_promotion_goods');
-        }
-        //取到当前时间，为了避免时间不准时加十秒
-        $nowtime=time()+10;
-        //查出促销时间段的商品
+        //确认无缓存旧数据
+        Cache::forget('anchong_promotion_time');
+        Cache::forget('anchong_promotion_goods');
+        //查出该促销时间段的商品
         $goods_data=DB::table('anchong_promotion_goods')->where('promotion_id',$id)->select('gid','promotion_price')->orderBy('sort','DESC')->get();
-        //定义ORM模型
         $goods_specifications=new \App\Goods_specifications();
-        //定义结果数组
         $results=[];
-        //遍历数据并组合成新数据
+        //遍历货品增加其促销价
         foreach ($goods_data as $goodsinfo) {
-            //获得该货物信息的句柄
             $goods_handle=$goods_specifications->find($goodsinfo->gid);
             //修改其促销价
             $goods_handle->promotion_price=$goodsinfo->promotion_price;
             $save=$goods_handle->save();
             //如果修改成功就促销该货品
-            if($save){
-                //将内容装入结果数组
+            if ($save) {
                 $results[]=[
                             "gid" => $goods_handle->gid,
                             "title" => $goods_handle->title,
@@ -76,25 +60,20 @@ class PromotionController extends Controller
     }
 
     /*
-    *   过点关闭上一波促销
+    *   根据$id结束指定促销
+    *   由Kernel定时器调用
     */
     public static function endpromotion($id)
     {
-        //取到当前时间，为了避免时间不准时加十秒
-        $nowtime=time()+10;
-        //查出促销时间段的商品
+        //查出该促销时间段的商品
         $goods_data=DB::table('anchong_promotion_goods')->where('promotion_id',$id)->select('pg_id','gid')->orderBy('sort','DESC')->get();
-        //定义ORM模型
         $goods_specifications=new \App\Goods_specifications();
-        //遍历数据并组合成新数据
+        //撤销货品表的促销价，且促销表中的记录也删除
         foreach ($goods_data as $goodsinfo) {
-            //获得该货物信息的句柄
             $goods_handle=$goods_specifications->find($goodsinfo->gid);
-            //修改其促销价
             $goods_handle->promotion_price=0;
             $save=$goods_handle->save();
-            //如果修改成功就促销该货品
-            if($save){
+            if ($save) {
                 DB::table('anchong_promotion_goods')->where('pg_id',$goodsinfo->pg_id)->delete();
             }
         }
