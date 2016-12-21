@@ -210,8 +210,6 @@ class goodController extends Controller
            DB::insert("insert into anchong_goods_suggestion (`str`) values ('$k') on duplicate key update snums=snums+1");
        }
 
-       /**清除关键字缓存操作*/
-
         /**
          * 向仓库表中插入
          * 因为采购无仓储权限，只插入一条记录，留待后续仓储更改

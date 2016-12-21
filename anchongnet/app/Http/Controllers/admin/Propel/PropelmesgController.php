@@ -4,7 +4,6 @@ namespace App\Http\Controllers\admin\Propel;
 
 use Request;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use JPush\Client;
 

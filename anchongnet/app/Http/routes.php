@@ -594,9 +594,6 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
             //前台路由
 
 Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {
-			Route::get('/404',function(){
-				abort(404);
-			});
             Route::controller('/search','Api\SearchController');
             //订单内支付宝支付
             Route::post('/pay/aliweborderpay', 'Api\Pay\PayController@aliweborderpay');
