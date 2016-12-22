@@ -404,7 +404,7 @@ Route::group(['domain'=>'courier.anchong.net'],function(){
     Route::any('/osscall','Home\Info\InfoController@osscall');
 });
 //后台路由
-Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function () {
+Route::group(['domain' => 'admin.myanchong.net','middleware'=>'defper'], function () {
         //商品搜索
         Route::controller('/search','Api\SearchController');
         //支付宝
@@ -593,7 +593,7 @@ Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function 
     });
             //前台路由
 
-Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function () {
+Route::group(['domain' => 'www.myanchong.net','middleware'=>['csrf']], function () {
             Route::controller('/search','Api\SearchController');
             //订单内支付宝支付
             Route::post('/pay/aliweborderpay', 'Api\Pay\PayController@aliweborderpay');
@@ -643,7 +643,7 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
                 //申请商铺
                 Route::get('/applysp', 'IndexController@applysp');
                 //申请商铺提交
-                Route::any('/applysp/store', 'IndexController@apstore');
+                Route::post('/applysp/store', 'IndexController@apstore');
                 //会员认证提交
                 Route::any('/honor/store', 'IndexController@quas');
                 //会员认证
