@@ -664,6 +664,15 @@ class PurseController extends Controller
             try{
                 //推送消息
                 $propel->apppropel('13013221114','提现申请','有人进行提现申请了，快去看看吧');
+                $propel->apppropel('13013221114','提现申请','有人进行提现申请了，快去看看吧');
+        				DB::table('anchong_feedback_reply')->insert(
+        					[
+        						'feed_id' =>0,
+        						'title'=>"提现通知",
+        						'content' => '有人提现了，快去后台查看吧',
+        						'users_id' => 2499,
+        					]
+        				);
             }catch (\Exception $e) {
                 //返回给客户端数据
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'申请成功，请等待审核']]);

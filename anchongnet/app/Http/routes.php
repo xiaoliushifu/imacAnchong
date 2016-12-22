@@ -404,7 +404,7 @@ Route::group(['domain'=>'courier.anchong.net'],function(){
     Route::any('/osscall','Home\Info\InfoController@osscall');
 });
 //后台路由
-Route::group(['domain' => 'admin.anchong.com','middleware'=>'defper'], function () {
+Route::group(['domain' => 'admin.anchong.net','middleware'=>'defper'], function () {
         //商品搜索
         Route::controller('/search','Api\SearchController');
         //支付宝
