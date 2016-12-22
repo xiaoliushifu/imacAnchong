@@ -68,9 +68,12 @@ class PromotionController extends Controller
         //查出该促销时间段的商品
         $goods_data=DB::table('anchong_promotion_goods')->where('promotion_id',$id)->select('pg_id','gid')->orderBy('sort','DESC')->get();
         $goods_specifications=new \App\Goods_specifications();
-        //撤销货品表的促销价，且促销表中的记录也删除
+        $goods_cart=new \App\Cart();
+        //撤销货品表及购物车的促销价，且促销表中的记录也删除
         foreach ($goods_data as $goodsinfo) {
             $goods_handle=$goods_specifications->find($goodsinfo->gid);
+            //购物车里促销价修改回来
+            $aff_rows = $goods_cart->where('gid',$goods_handle->gid)->where('promotion',1)->update(['goods_price'=>$goods_handle->vip_price,'promotion'=>0]);
             $goods_handle->promotion_price=0;
             $save=$goods_handle->save();
             if ($save) {

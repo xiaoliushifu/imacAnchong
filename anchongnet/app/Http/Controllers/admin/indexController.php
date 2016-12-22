@@ -66,47 +66,34 @@ class indexController extends Controller
     */
     public function checklogin(Request $request)
     {
-
         $data=$request::all();
         //判断验证码是否正确
         if ($data['captchapic'] == Session::get($data['captchanum'].'adminmilkcaptcha')) {
             //判断用户名密码是否正确
             if (Auth::attempt(['username' => $data['username'], 'password' => $data['password']])) {
-                //查询有没有商铺
-                $res = DB::table('anchong_shops')->where('users_id',Auth::user()['users_id'])->where('audit',2)->first();
-                if (!$res) {
+                $users=new \App\Users();
+                $rank=$users->quer('users_rank',['users_id'=>Auth::user()['users_id']])->toArray();
+                //判断会员的权限是否是管理员
+                if ($rank[0]['users_rank'] == 3) {
+                    $users_login=new \App\Users_login();
+                    $users_login->addToken(['last_login'=>Auth::user()['new_login']],Auth::user()['users_id']);
+                    $users_login->addToken(['new_login'=>time()],Auth::user()['users_id']);
+                    return Redirect::intended('/');
+                //会员认证通过users_rank是2，但认证通过不代表开通商铺,仍拒绝。
+                } elseif ($rank[0]['users_rank'] == 2) {
+                    $res = DB::table('anchong_shops')->where('users_id',Auth::user()['users_id'])->where('audit',2)->first();
+                    if (!$res) {
+                        Auth::logout();
+                        return Redirect::back();
+                    }
+                    $users_login=new \App\Users_login();
+                    $users_login->addToken(['last_login'=>Auth::user()['new_login']],Auth::user()['users_id']);
+                    $users_login->addToken(['new_login'=>time()],Auth::user()['users_id']);
+                    return Redirect::intended('/');
+                } else {
                     Auth::logout();
                     return Redirect::back();
                 }
-                //创建orm
-                $users_login=new \App\Users_login();
-                $users_login->addToken(['last_login'=>Auth::user()['new_login']],Auth::user()['users_id']);
-                $users_login->addToken(['new_login'=>time()],Auth::user()['users_id']);
-                return Redirect::intended('/');
-                // $users=new \App\Users();
-                // $rank=$users->quer('users_rank',['users_id'=>Auth::user()['users_id']])->toArray();
-                // //判断会员的权限是否是管理员
-                // if ($rank[0]['users_rank'] == 3) {
-                    //创建orm
-                    // $users_login=new \App\Users_login();
-                    // $users_login->addToken(['last_login'=>Auth::user()['new_login']],Auth::user()['users_id']);
-                    // $users_login->addToken(['new_login'=>time()],Auth::user()['users_id']);
-                    // return Redirect::intended('/');
-                // //会员认证通过users_rank是2，但认证通过不代表开通商铺,仍拒绝。
-                // } elseif ($rank[0]['users_rank'] == 2) {
-                //     $res = DB::table('anchong_shops')->where('users_id',Auth::user()['users_id'])->where('audit',2)->first();
-                    // if (!$res) {
-                    //     Auth::logout();
-                    //     return Redirect::back();
-                    // }
-                //     $users_login=new \App\Users_login();
-                //     $users_login->addToken(['last_login'=>Auth::user()['new_login']],Auth::user()['users_id']);
-                //     $users_login->addToken(['new_login'=>time()],Auth::user()['users_id']);
-                //     return Redirect::intended('/');
-                // } else {
-                //     Auth::logout();
-                //     return Redirect::back();
-                // }
             } else {
                 return Redirect::back()->withInput()->with('loginmes','账号或密码错误!');
             }
