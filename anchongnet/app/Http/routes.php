@@ -643,7 +643,7 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
                 //申请商铺
                 Route::get('/applysp', 'IndexController@applysp');
                 //申请商铺提交
-                Route::any('/applysp/store', 'IndexController@apstore');
+                Route::post('/applysp/store', 'IndexController@apstore');
                 //会员认证提交
                 Route::any('/honor/store', 'IndexController@quas');
                 //会员认证
