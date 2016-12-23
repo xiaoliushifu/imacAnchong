@@ -27,7 +27,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
-            \Log::info('promotion_schedule_action');
             //取得当前时间
             $nowtime=time()+10;
             //判定有无要结束的旧促销
@@ -49,6 +48,8 @@ class Kernel extends ConsoleKernel
             if ($order_id_arr) {
                 $result=\App\Http\Controllers\admin\orderController::confirm($order_id_arr);
             }
+            //打个标记
+            DB::table('anchong_promotion')->update(['tag'=>date('Y-m-d H:i:s')]);
         })->daily();
     }
 }

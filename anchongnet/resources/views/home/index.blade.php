@@ -61,7 +61,7 @@
         <ul class="middle-top">
             <li class="banner">
                 <div>
-                    <img src="home/images/shouyel.png">
+                    <img src="home/images/shouye3.jpg">
                 </div>
             </li>
             <li class="tips">
