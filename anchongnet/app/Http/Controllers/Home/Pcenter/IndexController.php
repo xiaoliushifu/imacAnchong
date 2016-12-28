@@ -87,7 +87,7 @@ class IndexController extends CommonController
             \Auth::logout();
             return Redirect::to('/');
         }
-        $one = Shop::where('users_id',$user->users_id);
+        $one = Shop::where('users_id',$user->users_id)->get()->toArray();
         if ($one) {
             return back()->with('sucsses','商铺已申请，请等待审核！！');
         }
