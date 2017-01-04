@@ -149,7 +149,7 @@ class ShopController extends Controller
             //进行推送
             try{
                 //推送消息
-                $propel->apppropel('13013221114','商铺开通审核','有人提交商铺申请了，快去审核吧');
+                $propel->apppropel('18631767471','商铺开通审核','有人提交商铺申请了，快去审核吧');
             }catch (\Exception $e) {
                 //返回给客户端数据
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'申请成功，请等待审核']]);

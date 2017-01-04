@@ -77,15 +77,15 @@
 														<input type="text" class="endtime form-control" value=""/>
 													</td>
 													<td>
-														<button type="button" class="addcuspro btn-sm btn-link" title="添加" data-id="1">
+														<button type="button" class="addcuspro btn-sm btn-link" title="添加" data-id="0">
 															<span class="glyphicon glyphicon-plus">
 															</span>
 														</button>
-														<button type="button" class="savepromotion btn-sm btn-link" title="保存" data-id="1">
+														<button type="button" class="savepromotion btn-sm btn-link" title="保存" data-id="0">
 															<span class="glyphicon glyphicon-save">
 															</span>
 														</button>
-														<button type="button" class="delcuspro btn-sm btn-link" title="删除" data-id="1">
+														<button type="button" class="delcuspro btn-sm btn-link" title="删除" data-id="0">
 															<span class="glyphicon glyphicon-minus">
 															</span>
 														 </button>
@@ -140,7 +140,7 @@
 		<!-- /.content -->
 	</div>
 	<!-- /.content-wrapper -->
-
+		
 	<input type="hidden" id="activeFlag" value="treepromotion">
 	@include('inc.admin.footer')
 </div>

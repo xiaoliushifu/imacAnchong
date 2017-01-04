@@ -126,8 +126,8 @@ class stockController extends Controller
         $data->region_num=$request->regionum;
         $result=$data->save();
 
-        //更新商品的总库存
-        $this->total($request->gid);
+        //更新库存到goods_spe
+        $this->total($data->gid);
 
         if($result){
             $message="更新成功";
@@ -177,7 +177,7 @@ class stockController extends Controller
     {
         $total=0;
         $datas=$this->stock->Good($gid)->get();
-        for($i=0;$i<count($datas);$i++){
+        for ($i=0;$i<count($datas);$i++) {
             $total=$total+$datas[$i]->region_num;
         }
         $good=$this->Goods_specifications->find($gid);

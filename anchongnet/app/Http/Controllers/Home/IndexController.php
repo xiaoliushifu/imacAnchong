@@ -9,7 +9,6 @@ use App\Goods_type;
 use App\Information;
 use App\Usermessages;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Redirect;
 use DB;
 
 /*

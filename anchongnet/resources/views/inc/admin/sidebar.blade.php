@@ -9,6 +9,7 @@
 			</a>
 			<ul class="treeview-menu">
 				<li><a href="/user"><i class="fa fa-circle-o"></i> 用户浏览</a></li>
+				<li><a href="/user/register"><i class="fa fa-circle-o"></i> 用户注册</a></li>
 				<li><a href="/user/list"><i class="fa fa-circle-o"></i> 会员认证</a></li>
 			</ul>
 		</li>
@@ -27,6 +28,16 @@
     				<li><a href="/permission/cr"><i class="fa fa-circle-o"></i> 角色添加</a></li>
     				<li><a href="/search/page"><i class="fa fa-circle-o"></i> 商品搜索</a></li>
     				<li><a href="/upfile/index"><i class="fa fa-circle-o"></i> 干货管理</a></li>
+    			</ul>
+    		</li>
+    		<li class="treeview" id="treepromotion">
+    			<a href="#">
+    				<i class="fa fa-laptop"></i>
+    				<span>促销管理</span>
+    				<i class="fa fa-angle-left pull-right"></i>
+    			</a>
+    			<ul class="treeview-menu">
+    				<li><a href="/promotion"><i class="fa fa-circle-o"></i>促销查看</a></li>
     			</ul>
     		</li>
     		<li class="treeview" id="treecoupon">
@@ -48,20 +59,12 @@
     			</a>
     			<ul class="treeview-menu">
     				<li><a href="/purse"><i class="fa fa-circle-o"></i>用户提现</a></li>
+					<li><a href="/purse/create"><i class="fa fa-circle-o"></i>余额充值</a></li>
     				<li><a href="/signin"><i class="fa fa-circle-o"></i>签到管理</a></li>
     				<li><a href="/beans"><i class="fa fa-circle-o"></i>虫豆充值</a></li>
     			</ul>
     		</li>
-			<li class="treeview" id="treepromotion">
-    			<a href="#">
-    				<i class="fa fa-laptop"></i>
-    				<span>促销管理</span>
-    				<i class="fa fa-angle-left pull-right"></i>
-    			</a>
-    			<ul class="treeview-menu">
-    				<li><a href="/promotion"><i class="fa fa-circle-o"></i>促销查看</a></li>
-    			</ul>
-    		</li>
+
     		<li class="treeview" id="treelive">
 			<a href="#">
 				<i class="fa fa-laptop"></i>

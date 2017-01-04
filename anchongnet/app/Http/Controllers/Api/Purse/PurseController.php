@@ -92,6 +92,9 @@ class PurseController extends Controller
         $limit=8;
         //查出个人信息
         $users_handle=$this->users->find($data['guid']);
+        if (!$users_handle) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请先登录']]);
+        }
         $beans=$users_handle->beans;
         $usable_money=$users_handle->usable_money;
         $usersmessage=$this->users_message->quer(['headpic','nickname'],['users_id'=>$data['guid']])->toArray();
@@ -328,6 +331,9 @@ class PurseController extends Controller
         $param=json_decode($data['param'],true);
         //获得个人信息的句柄
         $users_handle=$this->users->find($data['guid']);
+        if (!$users_handle) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请完善个人信息中的昵称']]);
+        }
         //获得个人的虫豆数量
         $beans=$users_handle->beans;
         //获得个人可用余额
@@ -580,30 +586,23 @@ class PurseController extends Controller
         $data=$request::all();
         $param=json_decode($data['param'],true);
         //验证用户传过来的数据是否合法
-        $validator = Validator::make($param,
-        [
-            'name' => 'required',
-            'account' => 'required',
-            'phonecode' => 'required',
-        ]
-        );
+        $validator = Validator::make($param, ['name' => 'required','account' => 'required','phonecode' => 'required']);
         //如果出错返回出错信息，如果正确执行下面的操作
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             $messages = $validator->errors();
             if ($messages->has('name')) {
                 //如果验证失败,返回验证失败的信息
                 return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'收款人姓名不能为空']]);
-            }else if($messages->has('account')){
+            } elseif ($messages->has('account')) {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'收款人账号不能为空']]);
-            }else if($messages->has('phonecode')){
+            } elseif ($messages->has('phonecode')) {
                 return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'验证码不能为空']]);
             }
         }
         //得到用户信息的句柄
         $users_handle=$this->users->find($data['guid']);
         //判断手机验证码是否正确
-        if(Cache::get($users_handle->phone.'身份验证') != $param['phonecode']){
+        if (Cache::get($users_handle->phone.'身份验证') != $param['phonecode']) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'手机验证码不正确']]);
         }
         //删除验证码
@@ -612,7 +611,7 @@ class PurseController extends Controller
         $users_handle=$this->users->find($data['guid']);
         $usable_money=$users_handle->usable_money;
         //判断防止app恶意改包攻击
-        if($param['price']>$usable_money){
+        if ($param['price']>$usable_money) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'非法操作']]);
         }
         //将提现的钱从余额扣除
@@ -651,13 +650,22 @@ class PurseController extends Controller
         //生成订单
         $result=$this->purse_order->add($order_data);
         //判断是否成功
-        if($result){
+        if ($result) {
             //创建推送的ORM
             $propel=new \App\Http\Controllers\admin\Propel\PropelmesgController();
             //进行推送
             try{
                 //推送消息
                 $propel->apppropel('13013221114','提现申请','有人进行提现申请了，快去看看吧');
+                $propel->apppropel('13013221114','提现申请','有人进行提现申请了，快去看看吧');
+        				DB::table('anchong_feedback_reply')->insert(
+        					[
+        						'feed_id' =>0,
+        						'title'=>"提现通知",
+        						'content' => '有人提现了，快去后台查看吧',
+        						'users_id' => 2499,
+        					]
+        				);
             }catch (\Exception $e) {
                 //返回给客户端数据
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData' => ['Message'=>'申请成功，请等待审核']]);

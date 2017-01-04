@@ -61,38 +61,52 @@ class EquipmentController extends CommonController
             'nav1','nav2','two','nav3','three','nav4','four','nav5','five','nav6','six','nav7','seven','nav8','eight','test','all'));
    }
 
+   /**
+    * 排序s
+    * 分页p
+    * 查询q(略)
+    * @param unknown $cat_id
+    */
    public function getList($cat_id)
    {
         //所在位置
         $eqlistaddress = Cache::remember('eqlistaddress'.$cat_id,10,function() use($cat_id){
             return   Category::find($cat_id);
         });
-        if(!$eqlistaddress) {
+        if (!$eqlistaddress) {
             abort(404);
         }
         //8大类导航
-        $navll = Cache::remember('nav',1440,function(){
+        $navll = Cache::remember('nav',1440,function() {
             return  Category::orderBy('cat_id','asc')->take(8)->get();
         });
-        $eqlist = Input::get(['page']);
-       //8大类，有直接等量，使用other_id
+        $p = Input::get(['page']);
+        $s = Input::get(['s']);
+        $orderby=['a'=>['cat_id','desc'],'s'=>['sales','desc'],'pu'=>['price','asc'],'pd'=>['price','desc']];
+        if (!in_array($s,array_keys($orderby))) {
+            $s='a';
+        }
+        $eqlistaddress->s=$s;
+       //8大类
       if ($cat_id<9) {
-         $eqlistmain = Cache::remember('eqlistmain'.$cat_id.$eqlist,10,function() use($cat_id){
-            return  Goods_type::where('other_id',$cat_id)->orderBy('cat_id','desc')->paginate(16);
-         });
-      //非8大类，模糊选择,用match
+          $eqlistmain = Cache::remember('eqlistmain'.$cat_id.$p.$s,10,function() use($cat_id, $orderby,$s) {
+              return  Goods_type::where('other_id',$cat_id)->orderBy($orderby[$s][0],$orderby[$s][1])->paginate(16);
+          });
+      //非8大类
       } else {
-          $aa = bin2hex($cat_id);
-          $eqlistmain = Cache::remember('det'.$cat_id.$eqlist,10,function() use($aa){
-              return Goods_type::whereRaw("match(`cid`) against(?)",[$aa])->paginate(16);
+          $eqlistmain = Cache::remember('det'.$cat_id.$p.$s,10,function() use($cat_id,  $orderby,$s) {
+              return Goods_type::whereRaw("match(`cid`) against(?)",[bin2hex($cat_id)])->orderBy($orderby[$s][0],$orderby[$s][1])->paginate(16);
           });
       }
      return view('home.equipment.goodslist',compact('eqlistmain','navll','eqlistaddress','cat_id'));
     }
 
     /**
-     * 搜索处理
+     * PC搜索处理
      *关键处理 {para}
+     *page分页
+     *q 查询字符串
+     *s 排序
      */
     public function getGs(Request $req)
     {
@@ -111,35 +125,44 @@ class EquipmentController extends CommonController
         $oristr = implode(' ',$at);
         $sp = bin2hex($oristr);
         $eqlistaddress->cat_name=$oristr;
-        if (!$eqlistmain = Cache::tags('s')->get("PCsearch@$page".$sp)) {//页+搜索词
+        
+        //排序处理
+        $s = Input::get(['s']);
+        $orderby=['a'=>['cat_id','desc'],'s'=>['sales','desc'],'pu'=>['price','asc'],'pd'=>['price','desc']];
+        if (!in_array($s,array_keys($orderby))) {
+            $s='a';
+        }
+        $eqlistaddress->s=$s;
+        //缓存失效否？
+        if (!$eqlistmain = Cache::tags('s')->get("PCsearch@$page".$sp.$s)) {//页+搜索词+排序
             \Log::info($oristr,["PCsearch@$page".$sp]);//统计
             $where="match(`keyword`) against('".str_replace('20',' ',$sp)."')";
             $tmp=DB::table('anchong_goods_keyword')->whereRaw($where)->pluck('cat_id');
             //var_dump($tmp,DB::getQueryLog());
             if (!$tmp) {
-                //for no
-                $eqlistmain = Cache::remember('eqlistmain'.$cat_id,10,function()  use($cat_id){
-                    return  Goods_type::where('other_id',$cat_id)->orderBy('cat_id','desc')->paginate(16);
+                //for no，using random cat_id search
+                $eqlistmain = Cache::remember('eqlistmain'.$cat_id,10,function()  use($cat_id, $orderby,$s){
+                    return  Goods_type::where('other_id',$cat_id)->orderBy($orderby[$s][0],$orderby[$s][1])->paginate(16);
                 });
                 return view('home.equipment.goodslist',compact('eqlistmain','navll','eqlistaddress','cat_id'));
             }
             //要查询的字段
             //$goods_data=['gid','title','price','sname','pic','vip_price','goods_id'];
             //已上架added=1
-            $eqlistmain = DB::table('anchong_goods_type')->whereIn('cat_id',$tmp)->where('added',1)->orderBy('gid','desc')->paginate(16);
+            $eqlistmain = DB::table('anchong_goods_type')->whereIn('cat_id',$tmp)->where('added',1)->orderBy($orderby[$s][0],$orderby[$s][1])->orderBy('gid','desc')->paginate(16);
             //无结果
             if (!$eqlistmain) {
                 //无结果说明索引已失效，删除之
                 DB::table("anchong_goods_keyword")->whereIn('cat_id',$tmp)->delete();
-                //for no
-                $eqlistmain = Cache::remember('eqlistmain'.$cat_id,10,function()  use($cat_id){
-                    return  Goods_type::where('other_id',$cat_id)->orderBy('cat_id','desc')->paginate(16);
+                //for no2，using random cat_id search
+                $eqlistmain = Cache::remember('eqlistmain'.$cat_id,10,function()  use($cat_id, $orderby, $s){
+                    return  Goods_type::where('other_id',$cat_id)->orderBy($orderby[$s][0],$orderby[$s][1])->paginate(16);
                 });
                 return view('home.equipment.goodslist',compact('eqlistmain','navll','eqlistaddress','cat_id'));
             }
-            \Log::info($eqlistmain->total(),["PCsearch@$page".$oristr]);//统计
+            \Log::info($eqlistmain->total(),["PCsearch@$page".$oristr.$s]);//统计
             //有结果，缓存之
-            Cache::tags('s')->add("PCsearch@$page".$sp,$eqlistmain,'60');
+            Cache::tags('s')->add("PCsearch@$page".$sp.$s,$eqlistmain,'60');
         }
         return view('home.equipment.goodslist',compact('eqlistmain','navll','eqlistaddress','cat_id'));
     }
@@ -163,17 +186,9 @@ class EquipmentController extends CommonController
             $oemvalue = explode(' ',$oem->value);
         }
         //商品属性
-        $type = Cache::remember('goodstp'.$goods_id,10,function() use($goods_id){
+        $attrs = Cache::remember('goodstp'.$goods_id,10,function() use($goods_id){
             return  Goods_attribute::where('goods_id',$goods_id)->get();
         });
-        //属性1
-        if(isset($type[0])){
-            $name = preg_split('#\s#', $type[0]->value,-1,PREG_SPLIT_NO_EMPTY);
-        }
-        //属性2
-        if(isset($type[1])){
-            $size = preg_split('#\s#', $type[1]->value,-1,PREG_SPLIT_NO_EMPTY);
-        }
         //通过$gid找到缩略图
         $img = Cache::remember('goodsimg'.$gid,10,function() use($gid){
             return  Goods_thumb::where('gid',$gid)->get();
@@ -201,8 +216,13 @@ class EquipmentController extends CommonController
         $hot = Cache::remember('goodshot'.$gid.$goods_id,10,function() use($price){
            return   Goods_type::where('cid',$price[0]->cid)->take(2)->orderBy('updated_at','asc')->get();
         });
-        return view('home.equipment.goodsdetals',compact('data','img','shop','price','related','hot','nav','adress','name','size','type','goodsauth','oemvalue'));
+        return view('home.equipment.goodsdetals',compact('data','img','shop','price','related','hot','nav','adress','attrs','type','goodsauth','oemvalue'));
     }
+    
+    /**
+     * 
+     * @param unknown $sid
+     */
     public function getThirdshop($sid)
     {
         //住导航
@@ -214,6 +234,36 @@ class EquipmentController extends CommonController
          return  Goods_type::where('sid',$sid)->orderBy('updated_at','desc')->paginate(16);
        });
         return view('home.equipment.thirdparty',compact('thirdlist','navthird','sid'));
+    }
+    
+    /**
+     * 用于切换商品属性时，实时更新详情页数据
+     * @param Request $req
+     */
+    public function getGoodspe(Request $req)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return ['msg'=>'请登录后再添加购物车'];
+        }
+        if(!$req::ajax()){
+            return ['msg'=>'请登录后再添加购物车'];
+        }
+        $param = $req::all();
+        $goods_specifications=new \App\Goods_specifications();
+        $goods_specifications_data=['gid','goods_img','goods_name','market_price','vip_price','promotion_price','title'];
+        //该商品下的所有货品
+        $results=$goods_specifications->quer($goods_specifications_data,'goods_id = '.$param['goodid'])->toArray();
+        //规格匹配
+        foreach ($results as $value) {
+            if(strstr($value['goods_name'],trim($param['gn']))){
+                //thumb暂不
+                //是否认证
+                $value['ur']=$user['user_rank'];
+                return $value;
+            }
+        }
+        return ['msg'=>'商品无库存，请选择其他规格商品'];
     }
     
 }

@@ -96,7 +96,7 @@ var uploader = new plupload.Uploader({
     	    { title : "Zip files", extensions : "zip" },
     	    { title : "Text files", extensions : "doc,docx,ppt,ppts,xls,xlsx,wps,pdf" }
     	  ],
-    	  max_file_size : '20Mb', //最大只能上传400kb的文件
+    	  max_file_size : '20Mb',//上传文件的大小限制
     	  prevent_duplicates : true //不允许选取重复文件
     	},
 
@@ -129,7 +129,7 @@ var uploader = new plupload.Uploader({
 		},
 
 		FileUploaded: function(up, file, info) {
-            console.log(info.status)
+            console.log(info.status);
             set_upload_param(up);
             if (info.status == 200) {
                 document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '上传成功!';

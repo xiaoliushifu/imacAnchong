@@ -26,6 +26,8 @@
 //接口路由组
 
 Route::group(['domain' => 'api.anchong.net'], function () {
+//提供商品检索
+        Route::post('/goods/goodsfilter','Api\Goods\GoodsController@goodsfilter');
     //网易云信注册机
     Route::post('/live/regnetease','Api\Live\LiveController@regnetease');
     //商品检索
@@ -125,8 +127,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/goods/goodsall','Api\Goods\GoodsController@goodsall');
         //提供商品标签的检索
         Route::post('/goods/tag','Api\Goods\GoodsController@tag');
-        //提供商品检索
-        Route::post('/goods/goodsfilter','Api\Goods\GoodsController@goodsfilter');
+
         //商品详情
         Route::post('/goods/goodsinfo','Api\Goods\GoodsController@goodsinfo');
         //商品推荐
@@ -169,6 +170,8 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/order/orderoperation','Api\Order\OrderController@orderoperation');
         //订单付款
         Route::post('/order/orderpay','Api\Order\OrderController@orderpay');
+        //查看订单及物流状态
+        Route::post('/order/orderstate','Api\Order\OrderController@orderstate');
 
         /*
         *   商铺模块
@@ -376,6 +379,7 @@ Route::group(['domain' => 'api.anchong.net'], function () {
 
     });
 });
+
 
 //支付宝路由
 Route::group(['domain' => 'pay.anchong.net'], function () {
@@ -639,7 +643,7 @@ Route::group(['domain' => 'www.anchong.net','middleware'=>['csrf']], function ()
                 //申请商铺
                 Route::get('/applysp', 'IndexController@applysp');
                 //申请商铺提交
-                Route::any('/applysp/store', 'IndexController@apstore');
+                Route::post('/applysp/store', 'IndexController@apstore');
                 //会员认证提交
                 Route::any('/honor/store', 'IndexController@quas');
                 //会员认证

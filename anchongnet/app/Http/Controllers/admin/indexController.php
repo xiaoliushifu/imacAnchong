@@ -66,7 +66,6 @@ class indexController extends Controller
     */
     public function checklogin(Request $request)
     {
-        
         $data=$request::all();
         //判断验证码是否正确
         if ($data['captchapic'] == Session::get($data['captchanum'].'adminmilkcaptcha')) {
@@ -76,7 +75,6 @@ class indexController extends Controller
                 $rank=$users->quer('users_rank',['users_id'=>Auth::user()['users_id']])->toArray();
                 //判断会员的权限是否是管理员
                 if ($rank[0]['users_rank'] == 3) {
-                    //创建orm
                     $users_login=new \App\Users_login();
                     $users_login->addToken(['last_login'=>Auth::user()['new_login']],Auth::user()['users_id']);
                     $users_login->addToken(['new_login'=>time()],Auth::user()['users_id']);

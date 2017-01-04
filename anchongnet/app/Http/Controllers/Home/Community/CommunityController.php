@@ -8,6 +8,7 @@ use App\Community_reply;
 use App\Http\Controllers\Home\CommonController;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
+use Auth;
 
 /*
  * 社区前端控制器
@@ -50,6 +51,7 @@ class CommunityController extends CommonController
         });
         //评论数
         $cmnum = count($cmcomment);
+        //对评论的回复
         foreach ($cmcomment as $value){
             $comid = $value -> comid;
             $cmreplay[$comid]  =  Community_reply::where('comid',$comid)->orderBy('reid','desc')->get();
@@ -58,7 +60,7 @@ class CommunityController extends CommonController
     }
 
    /*
-    * 闲聊页面
+    * 闲聊列表页面
     */
     public function talk()
     {
@@ -75,7 +77,7 @@ class CommunityController extends CommonController
         return view('home/community/talk',compact('talk','tnum'));
     }
     /*
-     * 问答页面
+     * 问问列表页面
      */
     public function question()
     {
@@ -83,6 +85,7 @@ class CommunityController extends CommonController
         $question = Cache::tags('question')->remember('question'.$page,'600',function (){
             return Community_release::where('tags','问问')->orderBy('created_at','desc')->paginate(12);
         });
+        //评论
         foreach ($question as $value){
             $id = $value -> chat_id;
             $qnum[$id] =Cache::tags('qnum')->remember('qnum'.$id,'600',function () use($id){
@@ -92,7 +95,7 @@ class CommunityController extends CommonController
         return view('home/community/question',compact('question','qnum'));
     }
     /*
-     * 活动页面
+     * 活动列表页面
      */
     public function activity()
     {
@@ -109,22 +112,26 @@ class CommunityController extends CommonController
         return view('home/community/activity',compact('activity','anum'));
     }
     /*
-     * 提交主题评论
+     * 提交一条评论
      */
     public function store()
     {
-        $input = Input::except('_token');//去掉token值
-        $re = Community_comment::create($input);
-        if($re){
-            $msg =[
-                'status' => 0,
-                'msg' => '发表评论成功'
-            ];
-        }else{
-            $msg =[
-                'status' => 1,
-                'msg' => '发表评论失败，请稍后再试'
-            ];
+        $user = Auth::user();
+        if (!$user) {
+            return $msg =['status' => 1,'msg' => '先登录再说'];
+        }
+        if (!Input::get('content')) {
+            return $msg =['status' => 1,'msg' => '评论为空'];
+        }
+        //ubb处理,因手持端不支持，故注释之
+        //Input::offsetSet('content',$this->ubb(Input::get('content')));
+        $re = Community_comment::create(Input::all());
+        if ($re) {
+            $msg =['status' => $re->getAttribute('comid'),'msg' => '发表评论成功'];
+            //删除有关缓存
+          Cache::tags('cmcomment')->forget('cmcomment'.Input::get('chat_id'));
+        } else {
+            $msg =['status' => 1,'msg' => '今日发布过多哦'];
         }
         return $msg;
     }
@@ -133,20 +140,34 @@ class CommunityController extends CommonController
      */
     public function replay()
     {
-        $input = Input::except('_token');//去掉token值
-        $re = Community_reply::create($input);
-        if($re){
-            $data =[
-                'status' => 0,
-                'msg' => '发表评论成功'
-            ];
-
-        }else{
-            $data =[
-                'status' => 1,
-                'msg' => '发表评论失败，请稍后再试'
-            ];
+        $user = Auth::user();
+        if (!$user) {
+            return $msg =['status' => 1,'msg' => '先登录再说'];
         }
-        return $data;
+        if (!Input::get('content')) {
+            return $msg =['status' => 1,'msg' => '不能为空!'];
+        }
+        //ubb处理,因手持端不支持，故注释之
+        //Input::offsetSet('content',$this->ubb(Input::get('content')));
+        $re = Community_reply::create(Input::all());
+        if ($re) {
+            $msg =['status' => 0,'msg' => '发表评论成功'];
+            //删除有关缓存
+            Cache::tags('cmcomment')->forget('cmcomment'.Input::get('chat_id'));
+        } else {
+            $msg =['status' => 1,'msg' => '今日发布过多哦'];
+        }
+        return $msg;
+    }
+    /**
+     * Ubb码服务端替换
+     * @param unknown $str
+     */
+    private function ubb($str)
+    {
+        //$str = str_replace( ">", '<；', $str );
+        //$str = str_replace( "\n", '>；br/>；', $str );
+        $str = preg_replace ( "#\[em_([0-9]*)\]#", "<img src=\"/home/org/qqface/face/$1.gif\" />", $str );
+        return $str;
     }
 }

@@ -9,9 +9,8 @@
     <link rel="stylesheet" type="text/css" href="home/css/suggestion.css">
 </head>
 <body>
-@include('inc.home.top',['page'=>' <li><div class="shop-ioc">
-            <a href="">购物车</a>
-            <a href=""><img src="home/images/shebei/10.jpg" alt=""  style="width: 16px;height: 40px;margin-top: 0px;margin-left: 2px;"></a>
+@include('inc.home.top',['page'=>'<li><div class="shop-ioc"><a href="/cart/55210">购物车</a>
+            <a href="/cart/55210"><img src="home/images/shebei/10.jpg" alt=""  style="width: 16px;height: 40px;margin-top: 0px;margin-left: 2px;"></a>
         </div></li>'])
 
 <div class="header-center">
@@ -20,7 +19,6 @@
             <a href="{{url('/')}}">
                 <img src="home/images/logo.jpg"/>
             </a>
-
         </div>
         <form action="/equipment/gs">
         <div class="search">
@@ -421,6 +419,7 @@
 @include('inc.home.footer')
 <script src="home/js/jquery-3.1.0.min.js"></script>
 <script src="home/js/top.js"></script>
+{{--搜索--}}
 <script src="home/js/search.js"></script>
 </body>
 </html>

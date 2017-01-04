@@ -18,38 +18,22 @@
           <div class="searchbar">
               <input type="text" class="biaodan">
               <button type="button" class="btn">搜索</button>
-
           </div>
             <div class="searchbar-list">
                 <span>热门搜索:</span><a href="#">探测监控</a><a href="#">防护保障</a><a href="#">探测监控</a><a href="#">探测报警</a><a href="#">弱电工程</a>
-
             </div>
         </div>
-
     </div>
 </div>
 <div class="nav">
     <div class="navc">
         <div class="navcontent">
-
             <ul>
                 <li><a href="{{url('/')}}">首页</a></li>
-                <li id="change"><a href="{{url('/business')}}">商机</a><img src="home/images/shangji/9.jpg" alt=" " class="buslist" >
-                    <div class="cart">
-                        <p><a href="{{url('/project')}}">工程</a></p>
-                        <p><a href="{{url('/sergoods')}}">找货</a></p>
-                        <p><a href="{{url('/talent')}}">人才</a></p>
-                    </div>
-                </li>
-
-                <li id="change1"><a href="{{url('/community')}}">社区</a>
-
-                </li>
-
-                <li id="change2"><a href="{{url('/equipment')}}">设备选购</a>
-
-                </li>
-
+                <li id="change1"><a href="{{url('/project')}}">工程</a></li>
+                <li id="change1"><a href="{{url('/sergoods')}}">找货</a></li>
+                <li id="change1"><a href="{{url('/talent')}}">人才</a></li>
+                <li id="change1"><a href="{{url('/community')}}">社区</a></li>
                 <li><a href="{{url('/info')}}">资讯</a></li>
             </ul>
         </div>
@@ -57,7 +41,6 @@
             <a href="#"><img src="home/images/shangji/8.jpg" alt=""></a>
         </div>
     </div>
-
 </div>
 <div style="clear: both;"></div>
 <hr class="nav-underline">
@@ -66,14 +49,7 @@
         <li><a href="#"><img src="home/images/shangji/11.jpg"></a></li>
         <li><a href="#"><img src="home/images/shangji/12.jpg"></a></li>
         <li><a href="#"><img src="home/images/shangji/13.jpg"></a></li>
-
     </ul>
-    <script type="text/javascript">
-
-
-
-    </script>
-
 </div>
 <div class="content">
     <div class="subcontent">
@@ -150,7 +126,6 @@
                     <p>{{$r->nickname}}</p></a>
                 </li>
                 @endforeach
-
             </ul>
         </div>
 
@@ -178,15 +153,12 @@
                     @foreach($bustalent as $t)
                     <li>
                         <h4><a href="{{url('project/'.$t->bid)}}">服务类别：{{$t->tag}} <span></span>服务区域：{{$t->tags}}</a></h4>
-
                     </li>
                     <hr>
                     @endforeach
-
                 </ul>
             </div>
         </div>
-
     </div>
 </div>
 

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\Feedback;
 
 //use Illuminate\Http\Request;
 use Request;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Validator;
 use DB;
@@ -180,11 +179,10 @@ class FeedbackController extends Controller
     */
     public function androidupdate(Request $request)
     {
-        return response()->json(['varsionName'=>"3.0.7",'varsionCode'=>37,'Description'=>"更新介绍:
-1.新增钱袋模块-余额、签到、虫豆、优惠券
-2.优化了加入购物车界面
-3.加入了清除缓存功能
-4.新增了支付设置的功能
-5.还有其他功能等着您来发现",'downloadUrl'=>"http://anchongres.oss-cn-hangzhou.aliyuncs.com/android/app-anchong-new-2.0.1.encrypted_signed_Aligned.apk"]);
+        return response()->json(['varsionName'=>"3.2.2",'varsionCode'=>52,'Description'=>"更新介绍:
+1.优化余额模块体现说明
+2.优化支付模块安虫收银台帮助中心
+3.优化产品详情规格模块
+4.优化代码，速度更快更安全",'downloadUrl'=>"http://anchongres.oss-cn-hangzhou.aliyuncs.com/android/app-anchong-3.2.2.encrypted_signed_Aligned.apk"]);
     }
 }

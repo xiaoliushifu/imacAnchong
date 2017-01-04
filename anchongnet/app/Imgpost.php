@@ -92,7 +92,7 @@ class imgpost
         }
         try {
             //实例化一个ossClient对象
-            //访问密钥和域名（endpoint）
+            //域名（endpoint）
             $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
             //上传文件
             $ossClient->uploadFile($this->bucket, $object, $filePath);

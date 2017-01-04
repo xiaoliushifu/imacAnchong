@@ -39,7 +39,7 @@ class OrderController extends Controller
             $total_price=0;
             //支付详细信息描述
             $body="";
-            //遍历传过来的订单数据
+            //遍历传过来的订单数据,orderarr是单个店铺的
             foreach ($param['list'] as $orderarr) {
                 //查出该订单生成的联系人姓名
                 $usermessages=new \App\Usermessages();
@@ -47,17 +47,18 @@ class OrderController extends Controller
                 if(!$name){
                     return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'请先填写个人资料里面的联系人']]);
                 }
-                //查出该店铺客服联系方式
-                $customer=new \App\Shop();
-                $customers=$customer->quer('customer',"sid =".$orderarr['sid'])->toArray();
-                //如果店铺客服为空，则指定一个值不能让他报错
-                if(empty($customers)){
-                    //假如失败就回滚
-                    DB::rollback();
-                    return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
-                }
+                // //查出该店铺客服联系方式
+                // $customer=new \App\Shop();
+                // $customers=$customer->quer('customer',"sid =".$orderarr['sid'])->toArray();
+                // //如果店铺客服为空，则指定一个值不能让他报错
+                // if(empty($customers)){
+                //     //假如失败就回滚
+                //     DB::rollback();
+                //     return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
+                // }
                 $order_num=rand(10000,99999).substr($data['guid'],0,1).time();
                 $orderprice=$orderarr['total_price'];
+                //加单个商铺的总价到所有总价中
                 $total_price += $orderprice;
                 //判断是否使用优惠券
                 if($coupon_cvalue){
@@ -113,7 +114,7 @@ class OrderController extends Controller
                     'freight' => $orderarr['freight'],
                     'invoice_type' => $invoicetype,
                     'invoice' => $param['invoice'],
-                    'customer' => $customers[0]['customer'],
+                    'customer' => "",
                     'tname' => $name[0]['contact']
                 ];
                 //判断是否使用优惠券
@@ -134,7 +135,8 @@ class OrderController extends Controller
                 $order=new \App\Order();
                 $cart=new \App\Cart();
                 $pay=new \App\Pay();
-                //插入数据
+                //拆分：每一个商铺对应：一个订单，一个支付单，一个订单详情
+                //订单表
                 $result=$order->add($order_data);
                 //如果失败
                 if(!$result){
@@ -142,15 +144,16 @@ class OrderController extends Controller
                     DB::rollback();
                     return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
                 }
-                //定义初始商铺总价
-                $goods_total_price=0;
+                //支付单表
                 $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$result,'total_price'=>$orderprice]);
                 //假如生成失败
                 if(!$payresult){
                     //假如失败就回滚
                     DB::rollback();
-                    return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单支付生成失败']]);
                 }
+                //定义初始商铺总价
+                $goods_total_price=0;
                 foreach ($orderarr['goods'] as $goodsinfo) {
                     //创建货品表的ORM模型来查询货品数量
                     $goods_specifications=new \App\Goods_specifications();
@@ -163,7 +166,7 @@ class OrderController extends Controller
                     }catch (\Exception $e) {
                         $goods_datas=['title','vip_price','goods_num','model','added','goods_numbering'];
                     }
-                    $goods_num=$goods_specifications->quer($goods_datas,'gid ='.$goodsinfo['gid'])->toArray();
+                    $goods_num=$goods_specifications->select($goods_datas)->find($goodsinfo['gid'])->toArray();
                     //判断商品是否以删除
                     if(empty($goods_num)){
                         //假如失败就回滚
@@ -172,29 +175,37 @@ class OrderController extends Controller
                     }
                     //查出最低价格
                     try{
-                        if($goodsinfo['promotion']){
-                            $minpric=$goods_num[0]['promotion_price']*$goodsinfo['goods_num'];
-                        }else {
-                            $minpric=$goods_num[0]['vip_price']*$goodsinfo['goods_num'];
+                        if ($goodsinfo['promotion']) {
+                            //促销活动时加入购物车，促销过后再提交订单
+                            //此时货品的促销价已是0 [START]
+                            if (!$goods_num['promotion_price']) {
+                                //把这个货品从购物车删除吧
+                                $cart->cartdel($goodsinfo['cart_id']);
+                                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'促销活动已过期']]);
+                            }
+                            //[END]
+                            $minpric=$goods_num['promotion_price']*$goodsinfo['goods_num'];
+                        } else {
+                            $minpric=$goods_num['vip_price']*$goodsinfo['goods_num'];
                         }
                     }catch (\Exception $e) {
-                        $minpric=$goods_num[0]['vip_price']*$goodsinfo['goods_num'];
+                        $minpric=$goods_num['vip_price']*$goodsinfo['goods_num'];
                     }
                     $goods_total_price+=$minpric;
                     //判断商品是否下架
-                    if($goods_num[0]['added'] != 1){
+                    if($goods_num['added'] != 1){
                         //假如失败就回滚
                         DB::rollback();
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>$goods_num[0]['title'].'已下架']]);
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>$goods_num['title'].'已下架']]);
                     }
                     //判断总库存是否足够
-                    if($goods_num[0]['goods_num'] < $goodsinfo['goods_num']){
+                    if($goods_num['goods_num'] < $goodsinfo['goods_num']){
                         //假如失败就回滚
                         DB::rollback();
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>$goods_num[0]['title'].'库存不足，剩余库存'.$goods_num[0]['goods_num']]]);
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>$goods_num['title'].'库存不足，剩余库存'.$goods_num['goods_num']]]);
                     }
                     //如果数量足够就减去购买的数量
-                    $goodsnum=$goods_num[0]['goods_num']-$goodsinfo['goods_num'];
+                    $goodsnum=$goods_num['goods_num']-$goodsinfo['goods_num'];
                     //订单生产时更新库存
                     $goodsnum_result=$goods_specifications->specupdate($goodsinfo['gid'],['goods_num' => $goodsnum]);
                     DB::table('anchong_goods_stock')->where('gid','=',$goodsinfo['gid'])->decrement('region_num',$goodsinfo['goods_num']);
@@ -202,7 +213,7 @@ class OrderController extends Controller
                     if(!$goodsnum_result){
                         //假如失败就回滚
                         DB::rollback();
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败，库存未更新']]);
                     }
                     $orderinfo_data=[
                         'order_num' =>$order_num,
@@ -211,20 +222,20 @@ class OrderController extends Controller
                         'goods_price' => $goodsinfo['goods_price'],
                         'goods_type' => $goodsinfo['goods_type'],
                         'img' => $goodsinfo['img'],
-                        'goods_numbering' =>$goods_num[0]['goods_numbering'],
-                        'model' => $goods_num[0]['model'],
+                        'goods_numbering' =>$goods_num['goods_numbering'],
+                        'model' => $goods_num['model'],
                         'gid' => $goodsinfo['gid'],
                         'oem' => $goodsinfo['oem'],
                     ];
                     $body .=$goodsinfo['goods_name'].",";
                     //创建购物车的ORM模型
                     $orderinfo=new \App\Orderinfo();
-                    //插入数据
+                    //订单详情表
                     $order_result=$orderinfo->add($orderinfo_data);
                     if(!$order_result){
                         //假如失败就回滚
                         DB::rollback();
-                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
+                        return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败，订单详细信息未生成']]);
                     }
                     $true=true;
                      //同时删除购物车
@@ -234,14 +245,16 @@ class OrderController extends Controller
                      }else{
                          $true=false;
                      }
-                }
+                }//单个商铺的处理结束
                 //判断传输过程中价格有没有被篡改
-                if($orderarr['total_price'] < $goods_total_price){
+                //整个总订单的价格和各个商铺叠加的总和判定
+                //如果$goods_total_price为0呢？
+                if ($orderarr['total_price'] < $goods_total_price) {
                     //假如失败就回滚
                     DB::rollback();
                     return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单内有物品的价格已改变，订单生成失败']]);
                 }
-            }
+            }//所有商铺的处理结束
             if($true && $total_price>0){
                 //假如成功就提交
                 DB::commit();
@@ -262,7 +275,7 @@ class OrderController extends Controller
             }else{
                 //假如失败就回滚
                 DB::rollback();
-                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败']]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'订单生成失败，购物车商品未删除']]);
             }
         }catch (\Exception $e) {
            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'请将APP更新到最新版本安虫，体验订单新功能！']]);
@@ -283,6 +296,7 @@ class OrderController extends Controller
             //创建ORM模型
             $order=new \App\Order();
             $orderinfo=new \App\Orderinfo();
+            $shop=new \App\Shop();
             //判断用户行为
             switch ($param['state']) {
                 //0为全部订单
@@ -324,12 +338,16 @@ class OrderController extends Controller
             foreach ($order_result['list'] as $order_results) {
                 //根据订单号查到该订单的详细数据
                 $orderinfo_result=$orderinfo->quer($orderinfo_data,'order_num ='.$order_results['order_num'])->toArray();
+                //获取商铺logo,供客服聊天时使用
+                $shopimg=$shop->select('img')->find($order_results['sid'])->toArray();
+                
                 //为取支付宝订单名
                 foreach ($orderinfo_result as $orderinfo_goodsname) {
                     $body .=$orderinfo_goodsname['goods_name'];
                 }
                 //将查询结果组成数组
                 $order_results['body']=$body;
+                $order_results['img']=$shopimg['img'];//商铺logo
                 $order_results['goods']=$orderinfo_result;
                 $result[]=$order_results;
                 $order_results=null;
@@ -388,15 +406,10 @@ class OrderController extends Controller
                     $orderinfo=new \App\Orderinfo();
                     $order_gid=$orderinfo->quer(['gid','goods_num'],'order_num ='.$param['order_num'])->toArray();
                     foreach ($order_gid as $gid) {
-                        $resulta=DB::table('anchong_goods_specifications')->where('gid','=',$gid['gid'])->increment('goods_num',$gid['goods_num']);
-                        if($resulta){
-                            $result=DB::table('anchong_goods_stock')->where('gid','=',$gid['gid'])->increment('region_num',$gid['goods_num']);
-                        }else{
-                            //假如失败就回滚
-                            DB::rollback();
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'操作失败']]);
-                        }
+                        DB::table('anchong_goods_specifications')->where('gid','=',$gid['gid'])->increment('goods_num',$gid['goods_num']);
+                        DB::table('anchong_goods_stock')->where('gid','=',$gid['gid'])->increment('region_num',$gid['goods_num']);
                     }
+                    $result=true;
                 }else{
                     //假如失败就回滚
                     DB::rollback();
@@ -431,14 +444,9 @@ class OrderController extends Controller
                     $orderinfo=new \App\Orderinfo();
                     $order_gid=$orderinfo->quer(['gid','goods_num'],'order_num ='.$param['order_num'])->toArray();
                     foreach ($order_gid as $gid) {
-                        $resulta=DB::table('anchong_goods_specifications')->where('gid','=',$gid['gid'])->increment('sales',$gid['goods_num']);
-                        if($resulta){
-                            $result=DB::table('anchong_goods_type')->where('gid','=',$gid['gid'])->increment('sales',$gid['goods_num']);
-                        }else{
-                            //假如失败就回滚
-                            DB::rollback();
-                            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'操作失败']]);
-                        }
+                        DB::table('anchong_goods_specifications')->where('gid','=',$gid['gid'])->increment('sales',$gid['goods_num']);
+                        DB::table('anchong_goods_type')->where('gid','=',$gid['gid'])->increment('sales',$gid['goods_num']);
+                        $result=true;
                     }
                 }else{
                     //假如失败就回滚
@@ -508,4 +516,40 @@ class OrderController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
+
+    /*
+     * 对于使用物流发货的订单
+     *   该方法用来查看订单的物流状态
+     */
+    public function orderstate(Request $request)
+    {
+        try{
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            if (!$param['order_num']) {
+                return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'订单编号有误']]);
+            }
+            $ret = ['order'=>'','logis'=>''];
+            $odata = ['logisticsnum','order_id','company','order_no','status','content','time'];
+            $ldata = ['logisticsnum','company','bill_code','status','data'];
+            $ostatus = DB::table('anchong_ostatus')->where('logisticsnum',$param['order_num'])->get($odata);
+            $lstatus = DB::table('anchong_lstatus')->where('logisticsnum',$param['order_num'])->get($ldata);
+            //最新的物流信息应该在最上面显示，故倒序之
+            $lstatus = array_reverse($lstatus);
+            $ret['order'] =end($ostatus);
+            //物流状态(物流公司发货后有物流状态)
+            $tmp = array();
+            //每次的data都拼接起来
+            foreach ($lstatus as $o) {
+                $tmp = array_merge($tmp,unserialize($o->data));
+                $o->data=$tmp;
+                $ret['logis']=$o;
+            }
+            return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>$ret]);
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
+
+
 }

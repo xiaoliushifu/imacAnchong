@@ -11,7 +11,7 @@ use DB;
 class PromotioninfoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * 列出指定促销计划内的商品（货品）
      *
      * @return \Illuminate\Http\Response
      */
