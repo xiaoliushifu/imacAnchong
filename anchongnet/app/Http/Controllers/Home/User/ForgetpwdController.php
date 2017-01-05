@@ -4,12 +4,9 @@ namespace App\Http\Controllers\Home\User;
 
 use Request;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Validator;
 use Hash;
-use Auth;
-use DB;
 use Redirect;
 use Redis;
 
