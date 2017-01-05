@@ -18,12 +18,12 @@
                 <i>安虫社区</i>
             </a>
         </div>
-        <div class="search">
-            <form class="search-form">
-                <input type="text" name="search" class="search-text" placeholder="找工程&nbsp;找人才&nbsp;聊生活" />
-                <input value="搜索" class="search-btn"/>
-            </form>
-        </div>
+<!--         <div class="search"> -->
+<!--             <form class="search-form"> -->
+<!--                 <input type="text" name="search" class="search-text" placeholder="找工程&nbsp;找人才&nbsp;聊生活" /> -->
+<!--                 <input value="搜索" class="search-btn"/> -->
+<!--             </form> -->
+<!--         </div> -->
         <div class="cl"></div>
         <div class="site-nav">
             <ul class="navigation">

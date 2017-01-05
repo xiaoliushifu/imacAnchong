@@ -61,11 +61,34 @@ h1{
     margin-left: 10px;
     margin-top: 20px;
 }
-.search{
+/*搜索框START*/
+.search {
+    width: 830px;
+    height: 100px;
     float: right;
-    margin-right: 10px;
-    margin-top: 40px;
+    text-align: right;
 }
+.searchbar {
+    margin-top: 25px;
+}
+.biaodan {
+    width: 425px;
+    height: 39px;
+    border: 1px #1DABD8 solid;
+    border-radius: 5px;
+    outline: none;
+}
+.btn {
+    background: #1DABD8;
+    width: 80px;
+    height: 41px;
+    border: none;
+    border-radius: 5px;
+    margin-left: -20px;
+    font-size: 14px;
+    color: #fff;
+}
+/*搜索框END*/
 .area{
     border: none;
     width: 60px;
