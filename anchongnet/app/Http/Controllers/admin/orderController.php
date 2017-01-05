@@ -167,7 +167,7 @@ class orderController extends Controller
         DB::beginTransaction();
         $this->order=new Order();
         $carrier=['0','hand'];
-        
+
         $data = $this->order->find($req['orderid']);
         $orderpa = clone $data;
         Mail::raw(print_r($req->all(),true),function($message){
@@ -194,7 +194,7 @@ class orderController extends Controller
            //$orderpa['phone'] = '18600818638';
            //去掉空格字符，否则下单不成功
            $orderpa['address'] = str_replace(' ','',$orderpa['address']);
-           
+
            $exp = new Exp();
            //向指定物流公司下单
            $carrier = explode('|',$req['logistics']);
@@ -357,6 +357,27 @@ class orderController extends Controller
                 DB::rollback();
                 \Log::info('OrderMessage',['确认收货操作资金保存失败,订单号'.$order_handle->order_num]);//统计
             }
+        }
+    }
+
+    /**
+    *   该方法提供了订单修改服务
+    */
+    public function postOrderedit(Request $req)
+    {
+        $data=$req->all();
+        //查出该商铺的ID
+        $sid=DB::table('anchong_goods_order')->where('order_id',$data['orderid'])->pluck('sid');
+        //判断是否是该商铺在改自己的价格
+        if($sid && $sid[0] == $this->sid){
+            $results=DB::table('anchong_goods_order')->where('order_id',$data['orderid'])->update(['total_price'=>$data['price'],'freight'=>$data['freight']]);
+            if($results){
+                return "修改成功";
+            }else{
+                return "修改失败";
+            }
+        }else{
+            return "非法操作";
         }
     }
 

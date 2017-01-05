@@ -42,6 +42,10 @@
 		li{
 			list-style:none;
 		}
+		.eprice{
+			margin-bottom: 20px;
+			padding-bottom: 15px;
+		}
 	</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -130,6 +134,11 @@
 										<td align="center">{{$data['phone']}}</td>
 										<td align="center">{{$data['address']}}</td>
 										<td align="center">
+											@if($data['state']==1)
+													<button type="button" class="edit f-ib btn btn-info btn-xs" data-id="{{$data['order_id']}}"
+													data-num="{{$data['order_num']}}" data-name="{{$data['name']}}" data-phone="{{$data['phone']}}" data-address="{{$data['address']}}" data-price="{{$data['total_price']}}" data-freight="{{$data['freight']}}" data-toggle="modal" data-target="#myOrder">改价</button>
+
+										@endif
 											<button type="button" class="view f-ib btn btn-default btn-xs" data-id="{{$data['order_id']}}"
 											data-num="{{$data['order_num']}}" data-name="{{$data['name']}}" data-phone="{{$data['phone']}}" data-address="{{$data['address']}}" data-price="{{$data['total_price']}}" data-freight="{{$data['freight']}}"
 											data-time="{{$data['created_at']}}" data-sname="{{$data['sname']}}" data-tname="{{$data['tname']}}" data-invoice="{{$data['invoice']}}" data-acpid="{{$data['acpid']}}" data-invoicetype="{{$data['invoice_type']}}" data-toggle="modal" data-target="#myView">打印</button>
@@ -162,7 +171,53 @@
 		</section>
 		<!-- /.content -->
 	</div>
-
+	{{--改价格--}}
+	<div class="modal fade" id="myOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header" style="margin-top:50px">	</div>
+				<div class="modal-body">
+					<form action="/order/orderedit" method="post" class="form-group form-inline" id="editorderform">
+						<input type="hidden" name="orderid" id="orderid" class="form-control" readonly />
+						<div class="eprice">
+							<label class="col-sm-5 control-label" for="ordernum">订单编号</label>
+							<label class="col-sm-6 control-label" id="editordernum" for="name"></label>
+						</div>
+						<div class="eprice">
+							<label class="col-sm-5 control-label" for="name">收货人姓名</label>
+							<label class="col-sm-6 control-label" id="editname" for="name"></label>
+						</div>
+						<div class="eprice">
+							<label class="col-sm-5 control-label" for="phone">收货人电话</label>
+							<label class="col-sm-6 control-label" id="editphone" for="name"></label>
+						</div>
+						<div class="eprice">
+							<label class="col-sm-5 control-label" for="address">收货人地址</label>
+							<label class="col-sm-6 control-label" id="editaddress" for="name"></label>
+						</div>
+						<div class="eprice">
+							<label class="col-sm-5 control-label" for="total_price">订单总价</label>
+							<div class="col-sm-6">
+								<input type="text" name="price" id="editprice" class="form-control"/>
+							</div>
+						</div>
+						<div class="eprice">
+							<label class="col-sm-5 control-label" for="freight">运费</label>
+							<div class="col-sm-6">
+								<input type="text" name="freight" id="editfreight" class="form-control"/>
+							</div>
+						</div>
+						<div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-success" id="pass">修改</button>
+								<button type="button" class="btn btn-danger" data-dismiss="modal" id="fail">返回</button>
+							</div>
+						</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 	{{--打印订单，弹框--}}
 	<div class="modal fade" id="myView" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
@@ -309,6 +364,8 @@
 <script src="/admin/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
 <script src="/admin/plugins/fastclick/fastclick.js"></script>
+{{--引入jquery插件验证表单--}}
+<script src="/admin/plugins/form/jquery.validate.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/admin/dist/js/app.min.js"></script>
 <script src="/admin/js/jquery.form.js"></script>

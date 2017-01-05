@@ -4,6 +4,56 @@
 $(function(){
 
 	var GlobalObj=[];
+	/*
+	*	改价按钮
+	*/
+	$(".edit").click(function(){
+		$('#orderid').val($(this).attr('data-id'));
+		$('#editordernum').text($(this).attr('data-num'));
+		$('#editname').text($(this).attr('data-name'));
+		$('#editphone').text($(this).attr('data-phone'));
+		$('#editaddress').text($(this).attr('data-address'));
+		$('#editprice').val($(this).attr('data-price'));
+		$('#editfreight').val($(this).attr('data-freight'));
+	});
+
+	//为表单，绑定jquery插件，来应用js验证功能
+    $('#editorderform').validate({
+    		//绑定submit回调
+    		submitHandler:function(){
+    			//执行ajax提交
+    			$("#editorderform").ajaxSubmit({
+                type: 'post',
+                success: function (data) {
+                    if(data.ServerNo == 0){
+                        alert(data);
+                        location.reload();
+                    }else{
+                        alert(data);
+                    }
+                },
+            })
+            //阻止浏览器默认动作
+            return false;
+		},
+		rules:{
+			price:{
+				required:true
+			},
+			freight:{
+				 required:true
+			 },
+		},
+		messages:{
+			price:{
+				 required:"价格不能为空",
+			},
+			freight:{
+				required:"运费可以为0但不能为空",
+			},
+		}
+	});
+
 	/**
 	 * '打印'按钮
 	 */

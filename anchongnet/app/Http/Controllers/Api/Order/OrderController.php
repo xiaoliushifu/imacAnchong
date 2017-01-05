@@ -60,6 +60,7 @@ class OrderController extends Controller
                 $orderprice=$orderarr['total_price'];
                 //加单个商铺的总价到所有总价中
                 $total_price += $orderprice;
+                $total_price += $orderarr['freight'];
                 //判断是否使用优惠券
                 if($coupon_cvalue){
                     if($orderprice > $coupon_cvalue){
@@ -340,7 +341,7 @@ class OrderController extends Controller
                 $orderinfo_result=$orderinfo->quer($orderinfo_data,'order_num ='.$order_results['order_num'])->toArray();
                 //获取商铺logo,供客服聊天时使用
                 $shopimg=$shop->select('img')->find($order_results['sid'])->toArray();
-                
+
                 //为取支付宝订单名
                 foreach ($orderinfo_result as $orderinfo_goodsname) {
                     $body .=$orderinfo_goodsname['goods_name'];

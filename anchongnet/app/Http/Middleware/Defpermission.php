@@ -21,7 +21,7 @@ class Defpermission
     {
         //绑定 “权限验证回调”
         $gate = app(\Illuminate\Contracts\Auth\Access\Gate::class);
-        
+
         $permissions = \Cache::remember('pcall','360',function(){
             return  Permission::with('roles')->get();
         });
@@ -48,7 +48,7 @@ class Defpermission
             $u = Users::where('users_id', $user->users_id)->first();
             return $u->sid == $resource->sid;
         });
-        
+
         //商机,社区资源权限定义
         $gate->define('comres', function($user, $resource) {
             return $user->users_id == $resource->users_id;
@@ -74,7 +74,7 @@ class Defpermission
 //             }
 //             return true;
         });
-        
+
         return $next($request);
     }
 }
