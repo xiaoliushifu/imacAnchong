@@ -215,9 +215,6 @@ h1{
 .notice,.information{
     outline: 1px solid #c5c4c5 ;
 }
-.notice{
-    height: 260px;
-}
 .notice-title img{
     margin-top: 20px;
     margin-left: 10px;

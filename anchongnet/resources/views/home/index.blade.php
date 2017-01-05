@@ -61,7 +61,7 @@
                 <div class="notice">
                     <p class="notice-title"><a><img src="home/images/notice.png"></a></p>
                     <div class="notice-info">
-                        <marquee behavior="scroll" direction="up" loop="-1" scrolldelay="1" contenteditable="true" onstart="this.firstChild.innerHTML+=this.firstChild.innerHTML;" scrollamount="2" onmouseover="this.stop();" onmouseout="this.start();">
+                        <marquee behavior="scroll" direction="up" loop="-1" scrolldelay="1"  height="240" width="240" contenteditable="true" onstart="this.firstChild.innerHTML+=this.firstChild.innerHTML;" scrollamount="2" onmouseover="this.stop();" onmouseout="this.start();">
                             @foreach($notice as $value)
 	                           <p>
 	                               {{$value->content}}
