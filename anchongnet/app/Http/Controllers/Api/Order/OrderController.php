@@ -552,5 +552,72 @@ class OrderController extends Controller
         }
     }
 
+    /*
+     *  单个订单查看
+     */
+    public function orderdetail(Request $request)
+    {
+        try{
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            $result=DB::table('anchong_goods_order')->where('order_id',$param['order_id'])->select('order_id','order_num','total_price','freight')->get();
+            return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
 
+    /*
+     *  单个订单修改
+     */
+    public function orderedit(Request $request)
+    {
+        try{
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            $users_sid=DB::table('anchong_shops')->where('users_id',$data['guid'])->pluck('sid');
+            //查出该商铺的ID
+            $sid=DB::table('anchong_goods_order')->where('order_id',$param['order_id'])->pluck('sid');
+            //判断是否是该商铺在改自己的价格
+            if($sid && $users_sid && $sid[0] == $users_sid[0]){
+                $results=DB::table('anchong_goods_order')->where('order_id',$param['order_id'])->update(['total_price'=>$param['total_price'],'freight'=>$param['freight']]);
+                if($results){
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'修改成功']]);
+                }else{
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'修改失败']]);
+                }
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'非法操作']]);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
+
+    /*
+     *  单个订单免运费
+     */
+    public function freefreight(Request $request)
+    {
+        try{
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            $users_sid=DB::table('anchong_shops')->where('users_id',$data['guid'])->pluck('sid');
+            //查出该商铺的ID
+            $sid=DB::table('anchong_goods_order')->where('order_id',$param['order_id'])->pluck('sid');
+            //判断是否是该商铺在改自己的价格
+            if($sid && $users_sid && $sid[0] == $users_sid[0]){
+                $result=DB::table('anchong_goods_order')->where('order_id',$param['order_id'])->update(['freight'=>0]);
+                if($result){
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'免运费成功']]);
+                }else{
+                    return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'免运费失败']]);
+                }
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>10,'ResultData'=>['Message'=>'非法操作']]);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
+        }
+    }
 }

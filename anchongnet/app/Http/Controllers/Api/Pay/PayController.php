@@ -168,14 +168,13 @@ class PayController extends Controller
         DB::beginTransaction();
         //创建ORM模型
         $pay=new \App\Pay();
-        //支付单号
-        $paynum=rand(100000,999999).time();
-        $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$param['order_id'],'total_price'=>$param['totalFee']]);
-        //创建ORM模型
         $orders=new \App\Order();
         // 使用通知里的 "商户订单号" 去自己的数据库找到订单
         $order = $orders->find($param['order_id']);
         $pay_total_price=$order->total_price+$order->freight;
+        //支付单号
+        $paynum=rand(100000,999999).time();
+        $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$param['order_id'],'total_price'=>$pay_total_price]);
         // 如果订单不存在
         if (!$order) {
             //假如失败就回滚

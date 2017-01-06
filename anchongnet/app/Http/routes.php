@@ -26,6 +26,7 @@
 //接口路由组
 
 Route::group(['domain' => 'api.anchong.net'], function () {
+
 //提供商品检索
         Route::post('/goods/goodsfilter','Api\Goods\GoodsController@goodsfilter');
     //网易云信注册机
@@ -172,6 +173,12 @@ Route::group(['domain' => 'api.anchong.net'], function () {
         Route::post('/order/orderpay','Api\Order\OrderController@orderpay');
         //查看订单及物流状态
         Route::post('/order/orderstate','Api\Order\OrderController@orderstate');
+        //单个订单详情查看
+        Route::post('/order/orderdetail','Api\Order\OrderController@orderdetail');
+        //订单修改
+        Route::post('/order/orderedit','Api\Order\OrderController@orderedit');
+        //订单免运费
+        Route::post('/order/freefreight','Api\Order\OrderController@freefreight');
 
         /*
         *   商铺模块
