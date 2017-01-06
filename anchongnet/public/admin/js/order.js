@@ -184,7 +184,9 @@ $(function(){
      * 点击'发货'按钮，弹出发货方式选择页
      */
     $(".shipbtn").click(function(){
-        $("#orderid").val($(this).attr("data-id"));
+    		//避免命名冲突 最好使用由上到下的方式获取元素
+    		//$('#mySend input[name="orderid"]').val($(this).attr("data-id"));
+    		$('#shiporderid').val($(this).attr("data-id"));
         $("#onum").val($(this).attr("data-num"));
         $("#wlist input:first").val($(this).attr("data-num"));
     });
@@ -242,8 +244,8 @@ $(function(){
             	  		alert(data);
             	  	} else {
             	  		alert('发货成功');
-            	  		$('#example1  button[data-id="'+$('#orderid').val()+'"].shipbtn').toggleClass('hidden');
-            	  		$('#example1  button[data-id="'+$('#orderid').val()+'"].status').toggleClass('hidden');
+            	  		$('#example1  button[data-id="'+$('#shiporderid').val()+'"].shipbtn').toggleClass('hidden');
+            	  		$('#example1  button[data-id="'+$('#shiporderid').val()+'"].status').toggleClass('hidden');
             	  		$('#mySend').modal('hide');
             	  	}
               },

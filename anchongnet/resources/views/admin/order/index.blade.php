@@ -243,7 +243,7 @@
 				<div class="modal-header" style="margin-top:50px">	</div>
 				<div class="modal-body">
 					<form action="/order/ordership" method="post" class="form-group form-inline" id="goform">
-						<input type="hidden" name="orderid"  id="orderid">
+						<input type="hidden" name="orderid"  id="shiporderid">
 						<input type="hidden" name="onum" id="onum">
 						<p>
 							<label>发货方式：</label>
