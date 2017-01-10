@@ -29,6 +29,7 @@ $(function(){
             $("#vip").text(data.vip_price);
             $("#desc").text(data.goods_desc);//暂无
             $("#viewmodel").text(data.model);
+			$("#viewweight").text(data.weight);
             $("#goodpic").attr("href",data.goods_img);
             $("#goodpic img").attr("src",data.goods_img);
             $("#added").text(data.goods_create_time);
@@ -166,7 +167,8 @@ $(function(){
 	    //货品的其他信息
         $.get("/good/"+id+"/edit",function(data,status){
             $("#spetag").val(data.goods_name);
-            $("#model").val(data.model);
+            $("#weight").val(data.weight);
+			$("#model").val(data.model);
             $("#marketprice").val(data.market_price);
             $("#costprice").val(data.goods_price);
             $("#viprice").val(data.vip_price);

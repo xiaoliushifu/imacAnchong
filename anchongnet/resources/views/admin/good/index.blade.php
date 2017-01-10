@@ -150,7 +150,11 @@
                         </tr>
                         <tr>
                             <td align="right">型号</td>
-                            <td align="left" id="viewmodel"></td>
+                            <td align="left" id="viewmodel">kg</td>
+                        </tr>
+                        <tr>
+                            <td align="right">重量</td>
+                            <td align="left" id="viewweight"></td>
                         </tr>
                         <tr>
                             <td align="right">市场价格</td>
@@ -241,6 +245,12 @@
                             <label class="col-sm-2 control-label" for="marketprice">型号</label>
                             <div class="col-sm-6">
                                 <input type="text" name="model" id="model" class="form-control" required value="{{ old('model') }}" />
+                            </div>
+                        </div><!--end form-group-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="marketprice">重量</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="weight" id="weight" class="form-control" placeholder="单位是kg(千克)" required value="{{ old('weight') }}" />
                             </div>
                         </div><!--end form-group-->
                         <div class="form-group">
