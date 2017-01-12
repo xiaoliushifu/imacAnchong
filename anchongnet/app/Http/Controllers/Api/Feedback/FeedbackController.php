@@ -112,7 +112,7 @@ class FeedbackController extends Controller
     }
 
     /*
-    *   该方法提供了意见反馈回复的功能
+    *   该方法提供了意见反馈查看的功能
     */
     public function reply(Request $request)
     {
@@ -122,7 +122,7 @@ class FeedbackController extends Controller
         //创建ORM模型
         $feedback_reply=new \App\Feedback_reply();
         //查出数据
-        $result=$feedback_reply->quer(['freply_id','title','content','state'],$data['guid']);
+        $result=$feedback_reply->quer(['freply_id','title','content','state'],['0',$data['guid']]);
         if(empty($result)){
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>[]]);
         }else{
