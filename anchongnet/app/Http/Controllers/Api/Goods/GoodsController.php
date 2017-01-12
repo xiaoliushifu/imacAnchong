@@ -534,7 +534,7 @@ class GoodsController extends Controller
             $goods=new \App\Goods();
             $goods_thumb=new \App\Goods_thumb();
             //需要查的字段
-            $goods_data=['goods_id','promotion_price','market_price','vip_price','goods_name','sid','title'];
+            $goods_data=['goods_id','promotion_price','market_price','vip_price','goods_name','sid','title','weight'];
             //查询商品列表的信息
             $goodsresult=$goods->quer('images','goods_id ='.$param['goods_id'])->toArray();
             $picresult=$goods_thumb->quer('img_url','gid = '.$param['gid'])->toArray();
@@ -551,7 +551,7 @@ class GoodsController extends Controller
                 $shopid=$results[0]['sid'];
                 $shop=new \App\Shop();
                 //查询商铺图片和名字
-                $shopresult=$shop->quer(['name','img','customer','acself'],'sid = '.$shopid)->toArray();
+                $shopresult=$shop->quer(['name','img','customer','acself','additional','first'],'sid = '.$shopid)->toArray();
                 foreach ($results as $goods1) {
                     foreach ($goods1 as $key=>$goods2) {
                         $result[$key]=$goods2;
