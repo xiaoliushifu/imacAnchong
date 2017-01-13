@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Home\project;
 
 use App\Business;
 use App\Http\Controllers\Home\CommonController;
-use App\Http\Requests;
 use App\Tag;
 use Cache;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
 class SerproController extends CommonController
@@ -49,8 +49,11 @@ class SerproController extends CommonController
         /*
          * 发包工程的二级分类
          */
-    public function getListcate($id)
+    public function getListcate($id=null)
     {
+        if (is_null($id)) {
+           abort(404); 
+        }
         //区域和服务类型的筛选
         $ser = Cache::remember('typedetail',10,function(){
            return  Tag::where('type_id',0)->orderBy('id','asc')->get();
@@ -74,6 +77,9 @@ class SerproController extends CommonController
         $page =Input::get(['page']);
         $prodetail = Cache::remember('typedetail2'.$id.$page,10,function() use($id){
         $pro=  Tag::where('id',$id)->first();
+        if (is_null($pro)) {
+            abort(404);
+        }
            return  Business::where('tag',$pro->tag)->where('type',1)->orderBy('bid', 'desc')->paginate(10);
         });
 
@@ -82,8 +88,11 @@ class SerproController extends CommonController
         /*
          * 承接工程的二级分类
          */
-    public function getListcate2($id)
+    public function getListcate2($id=null)
     {
+        if (is_null($id)) {
+            abort(404);
+        }
         //区域，服务类型 筛选
         $ser = Cache::remember('listype',10,function(){
            return  Tag::where('type_id',0)->orderBy('id','asc')->get();
@@ -107,9 +116,11 @@ class SerproController extends CommonController
         $page = Input::get(['page']);
         $prodetail2 = Cache::remember('listdetaill'.$page.$id,10,function() use($id){
             $pro = Tag::where('id',$id)->first();
+            if (is_null($pro)) {
+                abort(404);
+            }
            return Business::where('tag',$pro->tag)->where('type',2)->orderBy('bid', 'desc')->paginate(10);
         });
-
         return view('home.project.projectlist2cate',compact('prodetail2','serprocate','serpro','lastserpro','lastadpro','id'));
     }
 }

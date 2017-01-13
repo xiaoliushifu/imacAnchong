@@ -121,7 +121,7 @@ class EquipmentController extends CommonController
             return  Category::orderBy('cat_id','asc')->take(8)->get();
         });
         //整理查询参数
-        $at = preg_split('#\s#',$req::input('q'),-1,PREG_SPLIT_NO_EMPTY);
+        $at = preg_split('#\s#',strtoupper($req::input('q')),-1,PREG_SPLIT_NO_EMPTY);
         $oristr = implode(' ',$at);
         $sp = bin2hex($oristr);
         $eqlistaddress->cat_name=$oristr;
