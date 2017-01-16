@@ -82,12 +82,9 @@
                 <p>金牌店铺</p>
            </div>
         <div class="goldshoplist">
-            @foreach($brand as $b)
-            <li><a href=""><img src="{{$b->brand_logo}}" alt=""></a></li>
+            @foreach($goldshops as $b)
+            <li><a href="/equipment/thirdshop/{{$b->ad_link}}"><img src="{{$b->ad_code}}" alt=""></a></li>
             @endforeach
-            {{--<li><a href=""><img src="home/images/shebei/48.jpg" alt=""></a></li>--}}
-            {{--<li><a href=""><img src="home/images/shebei/49.jpg" alt=""></a></li>--}}
-            {{--<li style="border-right: 1px #9b9b9b solid;"><a href=""><img src="home/images/shebei/50.jpg" alt=""></a></li>--}}
         </div>
         <div style="clear:both;"></div>
         <div class="hotgoods">
@@ -95,19 +92,11 @@
         </div>
           <div class="hotlist">
               <ul class="hotlist0">
-                  <li class="hotlist1"><a href=""><img src="home/images/shebei/51.jpg" alt=""></a></li>
-                  <li class="hotlist2">
-                      <a href=""><img src="home/images/shebei/53.jpg" alt=""></a>
-                      <a href=""><img src="home/images/shebei/53.jpg" alt="" style="margin-top: 10px;"></a>
-                  </li>
-                  <li class="hotlist3"><a href=""><img src="home/images/shebei/52.jpg" alt=""></a></li>
-                  <li class="hotlist4">
-                      <a href=""><img src="home/images/shebei/53.jpg" alt=""></a>
-                      <a href=""><img src="home/images/shebei/53.jpg" alt=""  style="margin-top: 10px;"></a>
-                  </li>
+              	  @foreach($hotlist as $v)
+                  <li class="hotlist1"><a href="/equipment/show/{{$v->ad_name}}/{{$v->ad_link}}"><img src="{{$v->ad_code}}" height="100%" width="100%"></a></li>
+                  @endforeach
               </ul>
           </div>
-
         <div class="adcenter">
             <a href=""><img src="home/images/shebei/54.jpg" alt=""></a>
         </div>
@@ -115,10 +104,9 @@
             <p>最新上架</p>
         </div>
         <div class="newpic">
-            <li><a href=""><img src="home/images/shebei/55.jpg" alt=""></a></li>
-            <li><a href=""><img src="home/images/shebei/56.jpg" alt=""></a></li>
-            <li><a href=""><img src="home/images/shebei/57.jpg" alt=""></a></li>
-            <li><a href=""><img src="home/images/shebei/58.jpg" alt=""></a></li>
+        		@foreach($newgoods as $v)
+            <li><a href="/equipment/show/{{$v->ad_name}}/{{$v->ad_link}}"><img src="{{$v->ad_code}}" ></a></li>
+            @endforeach
         </div>
         <div class="maingoods">
             <div class="submaingoods">

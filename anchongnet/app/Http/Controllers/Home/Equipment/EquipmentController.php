@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Home\Equipment;
 use Auth;
-use App\Brand;
+use App\Ad;
 use App\Category;
 use App\Goods;
 use App\Goods_attribute;
@@ -21,8 +21,16 @@ class EquipmentController extends CommonController
     public function getIndex()
     {
         //金牌店铺
-        $brand = Cache::remember('brand',10,function(){
-            return Brand::orderBy('brand_id','asc')->take(4)->get();
+        $goldshops = Cache::remember('goldshops',1440,function(){
+            return Ad::whereIn('ad_id',[17,18,19,26])->get(['ad_code','ad_link']);
+        });
+        //热卖单品
+        $hotlist = Cache::remember('hotlist',1440,function(){
+            return Ad::whereIn('ad_id',[22,23,24,25])->get(['ad_code','ad_link','ad_name']);
+        });
+        //最新上架
+        $newgoods = Cache::remember('newgoods',1440,function(){
+            return Ad::whereIn('ad_id',[13,14,15,16])->get(['ad_code','ad_link','ad_name']);
         });
         //住导航
         $nav = Cache::remember('nav',10,function(){
@@ -57,7 +65,7 @@ class EquipmentController extends CommonController
         //8f 导航
         $eight =  $all->where('parent_id',8);
         $nav8 = $eight->take(7);
-        return view('home.equipment.equipshopping',compact('brand','nav','one',
+        return view('home.equipment.equipshopping',compact('goldshops','hotlist','newgoods','nav','one',
             'nav1','nav2','two','nav3','three','nav4','four','nav5','five','nav6','six','nav7','seven','nav8','eight','test','all'));
    }
 
@@ -169,8 +177,11 @@ class EquipmentController extends CommonController
     
     
     //商品详情查看
-    public function getShow($goods_id,$gid)
+    public function getShow($goods_id=null,$gid=null)
     {
+        if (is_null($goods_id) || is_null($gid)) {
+            abort(404);
+        }
         //通过goods_id商品详情
         $data = Cache::remember('goodsdetail'.$goods_id,10,function() use($goods_id){
             return Goods::find($goods_id);
@@ -223,14 +234,17 @@ class EquipmentController extends CommonController
      * 
      * @param unknown $sid
      */
-    public function getThirdshop($sid)
+    public function getThirdshop($sid=null)
     {
+        if (is_null($sid)) {
+            abort(404);
+        }
         //住导航
-        $navthird = Cache::remember('navthird',10,function(){
+        $navthird = Cache::remember('navthird',10,function() {
            return Category::orderBy('cat_id','asc')->take(8)->get();
         });
         $page = Input::get(['page']);
-          $thirdlist = Cache::remember('thirdlist'.$page,10,function() use ($sid){
+          $thirdlist = Cache::remember('thirdlist'.$sid.$page,10,function() use ($sid){
          return  Goods_type::where('sid',$sid)->orderBy('updated_at','desc')->paginate(16);
        });
         return view('home.equipment.thirdparty',compact('thirdlist','navthird','sid'));
