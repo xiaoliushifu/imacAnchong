@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             //取得当前时间
             $nowtime=time()+10;
+            error_log(date('Y-m-d H:i:s')." schedule start\r\n",3,storage_path().'/logs/schedule.log');
             //判定有无要结束的旧促销
             $endpromotion_id=DB::table('anchong_promotion')->where('end_time','<',$nowtime)->pluck('promotion_id');
             if ($endpromotion_id) {
@@ -48,8 +49,7 @@ class Kernel extends ConsoleKernel
             if ($order_id_arr) {
                 $result=\App\Http\Controllers\admin\orderController::confirm($order_id_arr);
             }
-            //打个标记
-            DB::table('anchong_promotion')->update(['tag'=>date('Y-m-d H:i:s')]);
+            error_log(date('Y-m-d H:i:s')." schedule end\r\n",3,storage_path().'/logs/schedule.log');
         })->daily();
     }
 }

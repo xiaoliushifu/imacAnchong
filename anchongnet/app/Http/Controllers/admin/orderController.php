@@ -339,7 +339,8 @@ class orderController extends Controller
             }else{
                 //假如失败就回滚
                 DB::rollback();
-                \Log::info('OrderMessage',['确认收货操作资金修改失败,订单号'.$order_handle->order_num]);//统计
+                //\Log::info('OrderMessage',['确认收货操作资金修改失败,订单号'.$order_handle->order_num]);//统计
+                error_log(date('Y-m-d H:i:s').": 确认收货操作资金修改失败,订单号".$order_handle->order_num."\r\n",3,storage_path().'/logs/schedule.log');
             }
             if($results){
                 //创建ORM模型
@@ -351,11 +352,13 @@ class orderController extends Controller
                 }
                 //假如成功就提交
                 DB::commit();
-                \Log::info('OrderMessage',['确认收货成功,订单号'.$order_handle->order_num]);//统计
+                //\Log::info('OrderMessage',['确认收货成功,订单号'.$order_handle->order_num]);//统计
+                error_log(date('Y-m-d H:i:s').": 确认收货成功,订单号".$order_handle->order_num."\r\n",3,storage_path().'/logs/schedule.log');
             }else{
                 //假如失败就回滚
                 DB::rollback();
-                \Log::info('OrderMessage',['确认收货操作资金保存失败,订单号'.$order_handle->order_num]);//统计
+                //\Log::info('OrderMessage',['确认收货操作资金保存失败,订单号'.$order_handle->order_num]);//统计
+                error_log(date('Y-m-d H:i:s').": 确认收货操作资金保存失败,订单号".$order_handle->order_num."\r\n",3,storage_path().'/logs/schedule.log');
             }
         }
     }
