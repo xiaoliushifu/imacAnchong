@@ -74,6 +74,7 @@
                                     <th>市场价</th>
                                     <th>会员价</th>
                                     <th>货品编号</th>
+                                    <th>库存数量</th>
                                     <th>所属商铺</th>
                                     <th>操作</th>
                                 </tr>
@@ -84,6 +85,7 @@
                                         <td align="center">{{$data['market_price']}}</td>
                                         <td align="center">{{$data['vip_price']}}</td>
                                         <td align="center">{{$data['goods_numbering']}}</td>
+                                        <td align="center">{{$data['goods_num']}}</td>
                                         <td align="center">{{$data['sname']}}</td>
                                         <td align="center">
                                             <button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['gid']}}" data-cid="{{$data['cat_id']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myView" data-name="{{$data['goods_name']}}">查看详情</button>
