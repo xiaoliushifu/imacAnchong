@@ -51,6 +51,9 @@ class Kernel extends ConsoleKernel
             //打个标记
             DB::table('anchong_promotion')->update(['tag'=>date('Y-m-d H:i:s')]);
         })->daily();
+<<<<<<< HEAD
 		//})->everyMinute();
+=======
+>>>>>>> a271849f8a3b24b30fe096df2299cd0c5d29d44b
     }
 }

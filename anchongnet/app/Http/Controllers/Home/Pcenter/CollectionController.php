@@ -9,7 +9,6 @@ use App\Goods_type;
 use App\Shop;
 use App\Users;
 use App\Http\Controllers\Home\CommonController;
-use App\Http\Requests;
 class CollectionController extends CommonController
 {
     /*

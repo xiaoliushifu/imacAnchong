@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="wwwcctv" content="{{ csrf_token() }}">
     <title>安虫首页</title>
     <link rel="stylesheet" type="text/css" href="home/css/index.css">
     <script src="home/js/jquery-3.1.0.js"></script>
     <script src="home/js/indexjs.js"></script>
     <link rel="stylesheet" href="home/css/top.css">
+    <link rel="stylesheet" type="text/css" href="home/css/suggestion.css">
     <script src="home/js/top.js"></script>
 </head>
 <body>
@@ -16,25 +18,16 @@
         <div class="logo">
             <img src="home/images/7.jpg"/>
         </div>
-
+		<form action="/equipment/gs">
         <div class="search">
-            <form class="search-form" method="get">
-                <select class="area">
-                    <option value="北京">北京</option>
-                </select>
-                <span class="upright"></span>
-                <input type="text" name="search" class="search-text" placeholder="找工程&nbsp;找人才&nbsp;聊生活" />
-                <input value="搜索" class="search-btn"/>
-            </form>
-            <ul class="hot-words">
-                <li class="hot-word-title">热门搜索：</li>
-                <li class="words-item"><a href="">探测监控</a></li>
-                <li class="words-item"><a href="">防护保障</a></li>
-                <li class="words-item"><a href="">探测警报</a></li>
-                <li class="words-item"><a href="">探测监控</a></li>
-                <li class="words-item"><a href="">弱电工程</a></li>
-            </ul>
+            <div class="searchbar">
+                <input type="text" class="biaodan" name="q" id="gover_search_key">
+                <button type="submit" class="btn">搜索</button>
+            </div>
+            {{--提示框--}}
+            <div class="search_suggest"  id="gov_search_suggest"><ul></ul></div>
         </div>
+        </form>
         <div class="cl"></div>
         <div class="site-nav">
             <ul class="navigation">
@@ -68,7 +61,7 @@
                 <div class="notice">
                     <p class="notice-title"><a><img src="home/images/notice.png"></a></p>
                     <div class="notice-info">
-                        <marquee behavior="scroll" direction="up" loop="-1" scrolldelay="1" contenteditable="true" onstart="this.firstChild.innerHTML+=this.firstChild.innerHTML;" scrollamount="2" onmouseover="this.stop();" onmouseout="this.start();">
+                        <marquee behavior="scroll" direction="up" loop="-1" scrolldelay="1"  height="240" width="240" contenteditable="true" onstart="this.firstChild.innerHTML+=this.firstChild.innerHTML;" scrollamount="2" onmouseover="this.stop();" onmouseout="this.start();">
                             @foreach($notice as $value)
 	                           <p>
 	                               {{$value->content}}
@@ -322,4 +315,6 @@
 </div>
 @include('inc.home.site-foot')
 </body>
+{{--搜索--}}
+<script src="home/js/search.js"></script>
 </html>

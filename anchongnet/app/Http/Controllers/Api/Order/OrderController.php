@@ -341,7 +341,11 @@ class OrderController extends Controller
                 $orderinfo_result=$orderinfo->quer($orderinfo_data,'order_num ='.$order_results['order_num'])->toArray();
                 //获取商铺logo,供客服聊天时使用
                 $shopimg=$shop->select('img')->find($order_results['sid'])->toArray();
+<<<<<<< HEAD
 
+=======
+                
+>>>>>>> a271849f8a3b24b30fe096df2299cd0c5d29d44b
                 //为取支付宝订单名
                 foreach ($orderinfo_result as $orderinfo_goodsname) {
                     $body .=$orderinfo_goodsname['goods_name'];
@@ -552,6 +556,7 @@ class OrderController extends Controller
         }
     }
 
+<<<<<<< HEAD
     /*
      *  单个订单查看
      */
@@ -620,4 +625,7 @@ class OrderController extends Controller
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'该模块维护中']]);
         }
     }
+=======
+
+>>>>>>> a271849f8a3b24b30fe096df2299cd0c5d29d44b
 }

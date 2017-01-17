@@ -21,15 +21,15 @@
         <div class="logo">
             <a href="{{url('/')}}"><img src="home/images/zhaohuo/7.jpg" alt=""></a>
         </div>
-        <div class="search">
-            <div class="searchbar">
-                <input type="text" class="biaodan">
-                <button type="button" class="btn">搜索</button>
-            </div>
-            <div class="searchbar-list">
-                <span>热门搜索:</span><a href="#">探测监控</a><a href="#">防护保障</a><a href="#">探测监控</a><a href="#">探测报警</a><a href="#">弱电工程</a>
-            </div>
-        </div>
+<!--         <div class="search"> -->
+<!--             <div class="searchbar"> -->
+<!--                 <input type="text" class="biaodan"> -->
+<!--                 <button type="button" class="btn">搜索</button> -->
+<!--             </div> -->
+<!--             <div class="searchbar-list"> -->
+<!--                 <span>热门搜索:</span><a href="#">探测监控</a><a href="#">防护保障</a><a href="#">探测监控</a><a href="#">探测报警</a><a href="#">弱电工程</a> -->
+<!--             </div> -->
+<!--         </div> -->
     </div>
 </div>
 <div class="nav">

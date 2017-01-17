@@ -69,7 +69,7 @@ class ConfirmationController extends CommonController
                 $shop_freight=$freight[0]['freight'];
             }
             //将数据拼装到一个数组中
-            $cartarr[]=['sid'=>$sid,'total_price'=>$shop_price,'freight'=>$shop_freight,'sname' => $sname,'goods'=>$goodsarr];
+            $cartarr[]=['sid'=>$sid,'total_price'=>$shop_price+$shop_freight,'freight'=>$shop_freight,'sname' => $sname,'goods'=>$goodsarr];
             $goodsarr=null;
         }
         $cartjson=json_encode($cartarr);

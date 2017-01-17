@@ -167,7 +167,11 @@ class orderController extends Controller
         DB::beginTransaction();
         $this->order=new Order();
         $carrier=['0','hand'];
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> a271849f8a3b24b30fe096df2299cd0c5d29d44b
         $data = $this->order->find($req['orderid']);
         $orderpa = clone $data;
         Mail::raw(print_r($req->all(),true),function($message){
@@ -194,7 +198,11 @@ class orderController extends Controller
            //$orderpa['phone'] = '18600818638';
            //去掉空格字符，否则下单不成功
            $orderpa['address'] = str_replace(' ','',$orderpa['address']);
+<<<<<<< HEAD
 
+=======
+           
+>>>>>>> a271849f8a3b24b30fe096df2299cd0c5d29d44b
            $exp = new Exp();
            //向指定物流公司下单
            $carrier = explode('|',$req['logistics']);
@@ -360,6 +368,7 @@ class orderController extends Controller
         }
     }
 
+<<<<<<< HEAD
     /**
     *   该方法提供了订单修改服务
     */
@@ -381,6 +390,8 @@ class orderController extends Controller
         }
     }
 
+=======
+>>>>>>> a271849f8a3b24b30fe096df2299cd0c5d29d44b
     /**
     *    该方法提供了订单的推送服务
     *
