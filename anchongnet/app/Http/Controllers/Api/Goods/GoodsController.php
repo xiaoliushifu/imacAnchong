@@ -439,11 +439,7 @@ class GoodsController extends Controller
     */
     static public function goodssearch(Request $request)
     {
-<<<<<<< HEAD
-        //try{
-=======
         try{
->>>>>>> a271849f8a3b24b30fe096df2299cd0c5d29d44b
             $data=$request::all();
             $param=json_decode($data['param'],true);
             $where=array();
@@ -519,15 +515,9 @@ class GoodsController extends Controller
             //将用户权限传过去
             $result['showprice']=$showprice;
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
-<<<<<<< HEAD
-        // } catch (\Exception $e) {
-        //     return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'搜索功能维护中，请稍后访问']]);
-        // }
-=======
         } catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'搜索功能维护中，请稍后访问']]);
         }
->>>>>>> a271849f8a3b24b30fe096df2299cd0c5d29d44b
     }
 
     /*

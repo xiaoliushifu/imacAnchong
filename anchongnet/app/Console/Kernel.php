@@ -51,9 +51,5 @@ class Kernel extends ConsoleKernel
             }
             error_log(date('Y-m-d H:i:s')." schedule end\r\n",3,storage_path().'/logs/schedule.log');
         })->daily();
-<<<<<<< HEAD
-		//})->everyMinute();
-=======
->>>>>>> a271849f8a3b24b30fe096df2299cd0c5d29d44b
     }
 }
