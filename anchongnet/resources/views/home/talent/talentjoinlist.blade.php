@@ -66,8 +66,8 @@
     <div class="submain">
         <div class="publish-title">
             <div class="publish-left">
-                <a href="{{url('/talent')}}"><img src="{{asset('home/images/business/发布人才1.png')}}" alt=""></a><a href="{{url('server/talentjoin')}}"><img
-                            src="{{asset('home/images/business/人才招聘.png')}}" alt=""></a>
+                <a href="{{url('/talent')}}"><img src="{{asset('home/images/business/rencaifabu1.png')}}" alt=""></a><a href="{{url('server/talentjoin')}}"><img
+                            src="{{asset('home/images/business/rencaizhaopin.png')}}" alt=""></a>
             </div>
             <div class="publish-right">
                 <a href="
