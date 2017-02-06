@@ -151,6 +151,7 @@ class goodController extends Controller
                 //商品规格（属性)
                 'goods_name'=>trim($spetag),
                 'model' => $request->model,
+                'weight' => $request->weight,
                 'market_price'=>$request->marketprice,
                 'goods_price'=>$request->costpirce,
                 'vip_price'=>$request->viprice,
@@ -306,6 +307,7 @@ class goodController extends Controller
         //$data->cat_id=$request->midselect;
         $data->goods_name=$request->spetag;
         $data->model=$request->model;
+        $data->weight=$request->weight;
         $data->market_price=$request->marketprice;
         $data->goods_price=$request->costpirce;
         $data->vip_price=$request->viprice;

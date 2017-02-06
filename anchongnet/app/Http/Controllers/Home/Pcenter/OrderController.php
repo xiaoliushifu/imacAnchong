@@ -100,6 +100,7 @@ class OrderController extends CommonController
                 $order_num=rand(10000,99999).substr($users_id,0,1).time();
                 $orderprice=$orderarr['total_price'];
                 $total_price += $orderprice;
+                $total_price += $orderarr['freight'];
                 //判断是否使用优惠券
                 if($coupon_cvalue){
                     if($orderprice > $coupon_cvalue){

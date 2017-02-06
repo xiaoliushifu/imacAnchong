@@ -168,21 +168,13 @@ class PayController extends Controller
         DB::beginTransaction();
         //创建ORM模型
         $pay=new \App\Pay();
-        //支付单号
-        $paynum=rand(100000,999999).time();
-        $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$param['order_id'],'total_price'=>$param['totalFee']]);
-        //创建ORM模型
         $orders=new \App\Order();
         // 使用通知里的 "商户订单号" 去自己的数据库找到订单
         $order = $orders->find($param['order_id']);
-        $pay_total_price=$order->total_price;
-        //判断再付款的时候订单是否被恶意
-        if($param['totalFee'] < $pay_total_price){
-            //假如失败就回滚
-            DB::rollback();
-            // 返回处理完成
-            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败，您的交易金额不合法']]);
-        }
+        $pay_total_price=$order->total_price+$order->freight;
+        //支付单号
+        $paynum=rand(100000,999999).time();
+        $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$param['order_id'],'total_price'=>$pay_total_price]);
         // 如果订单不存在
         if (!$order) {
             //假如失败就回滚
@@ -196,22 +188,6 @@ class PayController extends Controller
             // 已经支付成功了就不再更新了
             return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'有商品已付款']]);
         }
-        // 不是已经支付状态则修改为已经支付状态
-        // 更新支付ID
-        $order->state = 2;
-        $order->paycode="moneypay:".$paynum;
-        //将钱增加到商户冻结资金
-        $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$order->total_price);
-        //判断是否加钱成功
-        if($result){
-            // 保存订单
-            $order->save();
-        }else{
-            //假如失败就回滚
-            DB::rollback();
-            // 返回处理完成
-            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败']]);
-        }
         //获取用户句柄
         $users_handle=$this->users->find($data['guid']);
         //如果余额不够付款
@@ -224,6 +200,22 @@ class PayController extends Controller
         $surplus=$users_handle->usable_money-$pay_total_price;
         $users_handle->usable_money=$surplus;
         $users_handle->save();
+        // 不是已经支付状态则修改为已经支付状态
+        // 更新支付ID
+        $order->state = 2;
+        $order->paycode="moneypay:".$paynum;
+        //将钱增加到商户冻结资金
+        $result=DB::table('anchong_users')->where('sid','=',$order->sid)->increment('disable_money',$pay_total_price);
+        //判断是否加钱成功
+        if($result){
+            // 保存订单
+            $order->save();
+        }else{
+            //假如失败就回滚
+            DB::rollback();
+            // 返回处理完成
+            return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败']]);
+        }
         //生成钱袋订单编号
         $order_num=rand(1000,9999).substr($data['guid'],0,1).time();
         //将消费记录插入个人钱袋的消费表
@@ -363,14 +355,18 @@ class PayController extends Controller
             $param=json_decode($data['param'],true);
             //创建ORM模型
             $pay=new \App\Pay();
+            $orders=new \App\Order();
+            // 使用通知里的 "商户订单号" 去自己的数据库找到订单
+            $order = $orders->find($param['order_id']);
+            $pay_total_price=$order->total_price+$order->freight;
             //支付单号
             $paynum=rand(100000,999999).time();
-            $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$param['order_id'],'total_price'=>$param['totalFee']]);
+            $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$param['order_id'],'total_price'=>$pay_total_price]);
             if($payresult){
                 // 创建支付单。
                 $alipay = app('alipay.mobile');
                 $alipay->setOutTradeNo($paynum);
-                $alipay->setTotalFee($param['totalFee']);
+                $alipay->setTotalFee($pay_total_price);
                 $alipay->setSubject('安虫商城订单支付');
                 $alipay->setBody($param['body']);
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$alipay->getPayPara()]);
@@ -391,17 +387,17 @@ class PayController extends Controller
             //获得app端传过来的json格式的数据转换成数组格式
             $data=$request::all();
             //定义订单的句柄
-            $order_handle=new \App\Order();
-            if($order_handle->find($data['order_id'])->total_price > $data['totalFee']){
-                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败,付款金额有误！']]);
-            }
+            $orders=new \App\Order();
+            // 使用通知里的 "商户订单号" 去自己的数据库找到订单
+            $order = $orders->find($data['order_id']);
+            $pay_total_price=$order->total_price+$order->freight;
             //创建ORM模型
             $pay=new \App\Pay();
             //支付单号
             $paynum=rand(100000,999999).time();
-            $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$data['order_id'],'total_price'=>$data['totalFee']]);
+            $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$data['order_id'],'total_price'=>$pay_total_price]);
             if($payresult){
-                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['payurl'=>'http://pay.anchong.net/pay/alipay','outTradeNo'=>$paynum,'totalFee'=>$data['totalFee'],'body'=>$data['body'],'subject'=>"安虫商城订单支付"]]);
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['payurl'=>'http://pay.anchong.net/pay/alipay','outTradeNo'=>$paynum,'totalFee'=>$pay_total_price,'body'=>$data['body'],'subject'=>"安虫商城订单支付"]]);
             }else{
                 return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败']]);
             }
@@ -419,17 +415,17 @@ class PayController extends Controller
             //获得app端传过来的json格式的数据转换成数组格式
             $data=$request::all();
             //定义订单的句柄
-            $order_handle=new \App\Order();
-            if($order_handle->find($data['order_id'])->total_price > $data['totalFee']){
-                return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败,付款金额有误！']]);
-            }
+            $orders=new \App\Order();
+            // 使用通知里的 "商户订单号" 去自己的数据库找到订单
+            $order = $orders->find($data['order_id']);
+            $pay_total_price=$order->total_price+$order->freight;
             //创建ORM模型
             $pay=new \App\Pay();
             //支付单号
             $paynum=rand(100000,999999).time();
-            $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$data['order_id'],'total_price'=>$data['totalFee']]);
+            $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$data['order_id'],'total_price'=>$pay_total_price]);
             if($payresult){
-                $total_fee=$data['totalFee'];
+                $total_fee=$pay_total_price;
                 return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['payurl'=>'http://pay.anchong.net/pay/wxpay','outTradeNo'=>$paynum,'totalFee'=>$total_fee,'body'=>$data['body'],'subject'=>"安虫商城订单支付"]]);
             }else{
                 return response()->json(['serverTime'=>time(),'ServerNo'=>12,'ResultData'=>['Message'=>'付款失败']]);
@@ -450,11 +446,15 @@ class PayController extends Controller
             $param=json_decode($data['param'],true);
             //创建ORM模型
             $pay=new \App\Pay();
+            $orders=new \App\Order();
+            // 使用通知里的 "商户订单号" 去自己的数据库找到订单
+            $order = $orders->find($param['order_id']);
+            $pay_total_price=$order->total_price+$order->freight;
             //支付单号
             $paynum=rand(100000,999999).time();
-            $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$param['order_id'],'total_price'=>$param['totalFee']]);
+            $payresult=$pay->add(['paynum'=>$paynum,'order_id'=>$param['order_id'],'total_price'=>$pay_total_price]);
             if($payresult){
-                $total_fee=$param['totalFee']*100;
+                $total_fee=$pay_total_price*100;
                 //总价转换
                 $wechat = app('wechat');
                 $attributes = [

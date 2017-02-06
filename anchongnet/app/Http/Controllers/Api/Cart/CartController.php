@@ -55,6 +55,7 @@ class CartController extends Controller
                         'sid' => $param['sid'],
                         'sname' => $param['sname'],
                         'goods_id' => $param['goods_id'],
+                        'weight' => $param['weight'],
                         'oem' => $param['oem'],
                         'promotion' => $param['promotion']
                     ];
@@ -72,7 +73,8 @@ class CartController extends Controller
                         'sid' => $param['sid'],
                         'sname' => $param['sname'],
                         'goods_id' => $param['goods_id'],
-                        'oem' => $param['oem']
+                        'oem' => $param['oem'],
+                        'promotion' => $param['promotion']
                     ];
                 }
                 $result=$cart->add($cart_data);
@@ -103,7 +105,7 @@ class CartController extends Controller
             $shop=new \App\Shop();
             $cart=new \App\Cart();
             //定义查询的数组
-            $cart_data=['cart_id','goods_name','goods_num','goods_price','img','goods_type','gid','sid','sname','goods_id','oem','promotion'];
+            $cart_data=['cart_id','goods_name','goods_num','goods_price','img','goods_type','gid','sid','sname','goods_id','weight','oem','promotion'];
             //得到结果
             $results=$cart->quer($cart_data,'users_id = '.$data['guid'])->toArray();
             //假如购物车无数据
@@ -127,7 +129,7 @@ class CartController extends Controller
                     }
                 }
                 //查出运费和需要运费的价格
-                $freight=$shop->quer(['free_price','freight'],'sid ='.$sid)->toArray();
+                $freight=$shop->quer(['free_price','freight','first','additional'],'sid ='.$sid)->toArray();
                 //将数据拼装到一个数组中
                 $cartarr[]=['sid'=>$sid,'free_price'=>$freight[0]['free_price'],'freight'=>$freight[0]['freight'],'sname' => $sname,'goods'=>$goodsarr];
                 $goodsarr=null;

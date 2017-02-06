@@ -138,7 +138,7 @@ class PropelmesgController extends Controller
         $options = array(
             'sendno' => 101,
             'time_to_live' => 86400,
-            'apns_production' => false,
+            'apns_production' => true,
             'big_push_duration' => 0
         );
         $response = $push->setPlatform($platform)

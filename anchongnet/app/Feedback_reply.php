@@ -39,7 +39,7 @@ class Feedback_reply extends Model
      */
      public function quer($field,$type)
      {
-         return $this->select($field)->where('users_id',$type)->orderBy('freply_id','DESC')->get();
+         return $this->select($field)->whereIn('users_id',$type)->orderBy('freply_id','DESC')->get();
      }
 
     /*

@@ -439,7 +439,11 @@ class GoodsController extends Controller
     */
     static public function goodssearch(Request $request)
     {
+<<<<<<< HEAD
+        //try{
+=======
         try{
+>>>>>>> a271849f8a3b24b30fe096df2299cd0c5d29d44b
             $data=$request::all();
             $param=json_decode($data['param'],true);
             $where=array();
@@ -515,9 +519,15 @@ class GoodsController extends Controller
             //将用户权限传过去
             $result['showprice']=$showprice;
             return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>$result]);
+<<<<<<< HEAD
+        // } catch (\Exception $e) {
+        //     return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'搜索功能维护中，请稍后访问']]);
+        // }
+=======
         } catch (\Exception $e) {
             return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'搜索功能维护中，请稍后访问']]);
         }
+>>>>>>> a271849f8a3b24b30fe096df2299cd0c5d29d44b
     }
 
     /*
@@ -534,7 +544,7 @@ class GoodsController extends Controller
             $goods=new \App\Goods();
             $goods_thumb=new \App\Goods_thumb();
             //需要查的字段
-            $goods_data=['goods_id','promotion_price','market_price','vip_price','goods_name','sid','title'];
+            $goods_data=['goods_id','promotion_price','market_price','vip_price','goods_name','sid','title','weight'];
             //查询商品列表的信息
             $goodsresult=$goods->quer('images','goods_id ='.$param['goods_id'])->toArray();
             $picresult=$goods_thumb->quer('img_url','gid = '.$param['gid'])->toArray();
@@ -551,7 +561,7 @@ class GoodsController extends Controller
                 $shopid=$results[0]['sid'];
                 $shop=new \App\Shop();
                 //查询商铺图片和名字
-                $shopresult=$shop->quer(['name','img','customer','acself'],'sid = '.$shopid)->toArray();
+                $shopresult=$shop->quer(['name','img','customer','acself','additional','first'],'sid = '.$shopid)->toArray();
                 foreach ($results as $goods1) {
                     foreach ($goods1 as $key=>$goods2) {
                         $result[$key]=$goods2;

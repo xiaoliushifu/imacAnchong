@@ -134,6 +134,12 @@
                                         <input type="text" name="model" id="model" class="form-control"/>
                                     </div>
                                 </div><!--end form-group-->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="desc">重量</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" name="weight" id="weight" placeholder="单位是kg(千克)" class="form-control"/>
+                                    </div>
+                                </div><!--end form-group-->
                                 <ul class="form-group" id="attrs">
                                 </ul>
                                 <div class="form-group">

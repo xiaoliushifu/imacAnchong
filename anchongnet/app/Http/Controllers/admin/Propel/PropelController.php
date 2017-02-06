@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use JPush\Client;
 use Redirect;
+use DB;
 
 /**
 *   该控制器包含了消息推送模块的操作
@@ -108,6 +109,15 @@ class PropelController extends Controller
                 ->message($content, $message)
                 ->options($options)
                 ->send();
+                //向数据库插入回复
+                DB::table('anchong_feedback_reply')->insertGetId(
+                    [
+                        'feed_id' => 0,
+                        'users_id' => 0,
+                        'title' => $data['title'],
+                        'content' => $data['content'],
+                    ]
+                );
                 return Redirect::back()->withInput()->with('errormessage','广播推送成功');
                 break;
             //2 为个人
@@ -121,6 +131,16 @@ class PropelController extends Controller
                         ->message($content, $message)
                         ->options($options)
                         ->send();
+                        $account=DB::table('anchong_users_login')->where('username', $alias)->pluck('users_id');
+                        //向数据库插入回复
+                        DB::table('anchong_feedback_reply')->insertGetId(
+                            [
+                                'feed_id' => 0,
+                                'users_id' => $account[0],
+                                'title' => $data['title'],
+                                'content' => $data['content'],
+                            ]
+                        );
                         return Redirect::back()->withInput()->with('errormessage','个人推送成功');
                 }catch (\Exception $e) {
                     return Redirect::back()->withInput()->with('errormessage','该用户未登陆');

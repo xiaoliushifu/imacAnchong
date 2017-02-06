@@ -67,7 +67,7 @@
 	                               {{$value->content}}
 	                           </p>
                             @endforeach
-                            &nbsp;安虫平台欢迎您，敬请关注安虫平台最新公告和最新动向，我们在第一时间给您提供最专业的服务。
+                            &nbsp;
                         </marquee>
                     </div>
                 </div>
@@ -83,12 +83,12 @@
         <div class="flow">
             <h1>工程流程</h1>
             <ul class="chart">
-                <li><a><img src="home/images/66.jpg"></a></li>
-                <li><a><img src="home/images/67.jpg"></a></li>
-                <li><a><img src="home/images/68.jpg"></a></li>
-                <li><a><img src="home/images/69.jpg"></a></li>
-                <li><a><img src="home/images/70.jpg"></a></li>
-                <li><a><img src="home/images/71.jpg"></a></li>
+                <li><a href="/business"><img src="home/images/66.jpg"></a></li>
+                <li><a href="/activity"><img src="home/images/67.jpg"></a></li>
+                <li><a href="/serproject/lepro"><img src="home/images/68.jpg"></a></li>
+                <li><a href="/project"><img src="home/images/69.jpg"></a></li>
+                <li><a href="/equipment"><img src="home/images/70.jpg"></a></li>
+                <li><a href="/equipment"><img src="home/images/71.jpg"></a></li>
             </ul>
         </div>
         <div class="recommended">
@@ -199,16 +199,16 @@
             <h1>安防百货</h1>
             <div class="goods-nav">
                 <ul class="good-nav">
-                    <li><a href="">门禁控制器</a></li>
-                    <li><a href="">视频监控</a></li>
-                    <li><a href="">探测报警</a></li>
-                    <li><a href="">巡更巡警</a></li>
-                    <li><a href="">门禁锁</a></li>
-                    <li><a href="">智能消费</a></li>
-                    <li><a href="">快速通道</a></li>
-                    <li><a href="">更多</a></li>
+                    <li><a href="/equipment/gs?q=门禁控制器">门禁控制器</a></li>
+                    <li><a href="/equipment/list/2">视频监控</a></li>
+                    <li><a href="/equipment/list/3">探测报警</a></li>
+                    <li><a href="/equipment/list/4">巡更巡警</a></li>
+                    <li><a href="/equipment/gs?q=门禁锁">门禁锁</a></li>
+                    <li><a href="/equipment/list/7">智能消费</a></li>
+                    <li><a href="/equipment/gs?q=快速通道">快速通道</a></li>
+                    <li><a href="/equipment">更多</a></li>
                 </ul>
-            </div>
+            </div>            </div>
             <ul class="goods-cont">
                 <li class="goods-left">
                     <ul>
@@ -223,21 +223,18 @@
                         <li class="top-search">
                             <h3>热搜榜<i class="icon1"></i></h3>
                             <ul>
-                                <li><a href="">门禁</a></li>
-                                <li><a href="">摩仕龙</a></li>
-                                <li><a href="">摩仕龙</a></li>
-                                <li><a href="">摄像头</a></li>
-                                <li><a href="">停车管理</a></li>
-                                <li><a href="">停车管理</a></li>
-                                <li><a href="">监控器</a></li>
-                                <li><a href="">安防配套</a></li>
-                                <li><a href="">安防配套</a></li>
+                                <li><a href="/equipment/gs?q=门禁">门禁</a></li>
+                                <li><a href="/equipment/gs?q=摩仕龙">摩仕龙</a></li>
+                                <li><a href="/equipment/gs?q=摄像头">摄像头</a></li>
+                                <li><a href="/equipment/gs?q=停车管理">停车管理</a></li>
+                                <li><a href="/equipment/gs?q=监控器">监控器</a></li>
+                                <li><a href="/equipment/gs?q=安防配套">安防配套</a></li>
                             </ul>
                         </li>
                     </ul>
                 </li>
                 <li class="goods-center">
-                    <div><img src="home/images/91.jpg"></div>
+                    <div><a href="/equipment/show/1411/3033"><img src="home/images/91.jpg"></a></div>
                 </li>
                 <li class="goods-right">
                     <ul>

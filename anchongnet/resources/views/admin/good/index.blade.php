@@ -74,6 +74,7 @@
                                     <th>市场价</th>
                                     <th>会员价</th>
                                     <th>货品编号</th>
+                                    <th>库存数量</th>
                                     <th>所属商铺</th>
                                     <th>操作</th>
                                 </tr>
@@ -84,6 +85,7 @@
                                         <td align="center">{{$data['market_price']}}</td>
                                         <td align="center">{{$data['vip_price']}}</td>
                                         <td align="center">{{$data['goods_numbering']}}</td>
+                                        <td align="center">{{$data['goods_num']}}</td>
                                         <td align="center">{{$data['sname']}}</td>
                                         <td align="center">
                                             <button type="button" class="view f-ib btn btn-primary btn-xs" data-id="{{$data['gid']}}" data-cid="{{$data['cat_id']}}" data-gid="{{$data['goods_id']}}" data-toggle="modal" data-target="#myView" data-name="{{$data['goods_name']}}">查看详情</button>
@@ -150,7 +152,11 @@
                         </tr>
                         <tr>
                             <td align="right">型号</td>
-                            <td align="left" id="viewmodel"></td>
+                            <td align="left" id="viewmodel">kg</td>
+                        </tr>
+                        <tr>
+                            <td align="right">重量</td>
+                            <td align="left" id="viewweight"></td>
                         </tr>
                         <tr>
                             <td align="right">市场价格</td>
@@ -241,6 +247,12 @@
                             <label class="col-sm-2 control-label" for="marketprice">型号</label>
                             <div class="col-sm-6">
                                 <input type="text" name="model" id="model" class="form-control" required value="{{ old('model') }}" />
+                            </div>
+                        </div><!--end form-group-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="marketprice">重量</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="weight" id="weight" class="form-control" placeholder="单位是kg(千克)" required value="{{ old('weight') }}" />
                             </div>
                         </div><!--end form-group-->
                         <div class="form-group">

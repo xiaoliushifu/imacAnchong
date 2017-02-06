@@ -405,7 +405,7 @@ class ShopsController extends Controller
            $shop=new \App\Shop();
            $collection=new \App\Collection();
            //商铺内容
-           $result=$shop->quer(['name','img','banner','introduction','freight','free_price','customer','collect'],'sid ='.$param['sid'])->toArray();
+           $result=$shop->quer(['name','img','banner','introduction','freight','free_price','first','additional','customer','collect'],'sid ='.$param['sid'])->toArray();
            foreach ($result as $value) {
                $results['shops']=$value;
            }
@@ -472,6 +472,14 @@ class ShopsController extends Controller
                 //修改运费价格
                 $true=$shop->shopsupdate($param['sid'],['freight'=>$param['freight']]);
             }
+            if($param['first']){
+                //修改运费价格
+                $true=$shop->shopsupdate($param['sid'],['first'=>$param['first']]);
+            }
+            if($param['additional']){
+                //修改运费价格
+                $true=$shop->shopsupdate($param['sid'],['additional'=>$param['additional']]);
+            }
             if($param['customer']){
                 //修改客服电话
                 $true=$shop->shopsupdate($param['sid'],['customer'=>$param['customer']]);
@@ -482,7 +490,57 @@ class ShopsController extends Controller
                 return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'修改失败']]);
             }
         }catch (\Exception $e) {
-            return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'暂不可修改商铺信息']]);
+            //获得app端传过来的json格式的数据转换成数组格式
+            $data=$request::all();
+            $param=json_decode($data['param'],true);
+            $validator = Validator::make($param,
+                [
+                    'name' => 'max:126',
+                ]
+            );
+            //如果出错返回出错信息，如果正确执行下面的操作
+            if ($validator->fails())
+            {
+                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'商铺名字过长']]);
+            }
+            //创建订单的ORM模型
+            $shop=new \App\Shop();
+            $true=false;
+            //判断用户要修改的内容
+            if($param['name']){
+                //修改商铺名称
+                $true=$shop->shopsupdate($param['sid'],['name'=>$param['name']]);
+            }
+            if($param['img']){
+                //修改商铺图片
+                $true=$shop->shopsupdate($param['sid'],['img'=>$param['img']]);
+            }
+            if($param['introduction']){
+                //修改商铺描述
+                $true=$shop->shopsupdate($param['sid'],['introduction'=>$param['introduction']]);
+            }
+            if($param['banner']){
+                //修改商铺背景图片
+                $true=$shop->shopsupdate($param['sid'],['banner'=>$param['banner']]);
+            }
+            if($param['free_price']){
+                //修改多少需要运费
+                $true=$shop->shopsupdate($param['sid'],['free_price'=>$param['free_price']]);
+            }
+            if($param['freight']){
+                //修改运费价格
+                $true=$shop->shopsupdate($param['sid'],['freight'=>$param['freight']]);
+            }
+            if($param['customer']){
+                //修改客服电话
+                $true=$shop->shopsupdate($param['sid'],['customer'=>$param['customer']]);
+            }
+            if($true){
+                return response()->json(['serverTime'=>time(),'ServerNo'=>0,'ResultData'=>['Message'=>'修改成功']]);
+            }else{
+                return response()->json(['serverTime'=>time(),'ServerNo'=>14,'ResultData'=>['Message'=>'修改失败']]);
+            }
+            // return response()->json(['serverTime'=>time(),'ServerNo'=>20,'ResultData'=>['Message'=>'暂不可修改商铺信息']]);
         }
     }
 
