@@ -4,7 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 use DB;
-use App\imgpost;
+use App\Imgpost;
 use App\Http\Controllers\Controller;
 
 /**

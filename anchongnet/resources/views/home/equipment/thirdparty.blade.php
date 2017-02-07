@@ -136,8 +136,8 @@
                 <li class="price"><a href="">价格</a><img src="{{asset('../home/images/shebei/upp.png')}}" alt=""><img src="{{asset('../home/images/shebei/don.png')}}" alt=""></li>
 
                 <li style="width: 400px; float: right ;text-align: right;" class="pagmm">
-                    <a href="{{$thirdlist->nextPageUrl()}}"><img src="{{asset('../home/images/shebei/下一页.png')}}" alt=""></a>
-                    <a href="{{$thirdlist->previousPageUrl()}}"><img src="{{asset('../home/images/shebei/上一页.png')}}" alt=""></a>
+                    <a href="{{$thirdlist->nextPageUrl()}}"><img src="{{asset('../home/images/shebei/xiayiye.png')}}" alt=""></a>
+                    <a href="{{$thirdlist->previousPageUrl()}}"><img src="{{asset('../home/images/shebei/shangyiye.png')}}" alt=""></a>
                 </li>
             </ul>
 

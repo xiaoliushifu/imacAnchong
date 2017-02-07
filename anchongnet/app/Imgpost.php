@@ -10,7 +10,7 @@ use Log;
 /**
 *   该控制器包含了商机图片模块的操作
 */
-class imgpost
+class Imgpost
 {
     private $bimg;
     private $accessKeyId;

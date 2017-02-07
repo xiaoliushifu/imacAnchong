@@ -32,7 +32,7 @@ $(function(){
         		}else{
         			$('#whgid').val(data.gid);
         			if (data.ur != 1) {//认证
-        				if (data.promotion_price && data.promotion_price < data.vip_price) {
+        				if (data.promotion_price > 0 && data.promotion_price < data.vip_price) {
         					$('.goodsprice p:first').replaceWith('<p><span>促销价：￥<i id="pro-price" class="goods-price">'+data.promotion_price+'</i></span></p>');
         					$('.goodsprice p:eq(1)').replaceWith('<p><span>会员价：￥<i id="v-price">'+data.vip_price+'</i></span></p>');
         					$('#v-price').removeClass('goods-price');
@@ -43,7 +43,7 @@ $(function(){
         				}
         			//未认证
         			} else {
-        				if (data.promotion_price) {
+        				if (data.promotion_price > 0) {
         					$('.goodsprice p:first').replaceWith('<p><span>促销价：￥<i id="pro-price" class="goods-price">'+data.promotion_price+'</i></span></p>');
         				} else {
         					$('.goodsprice p:first').replaceWith('<p>价格：￥<i id="price" class="goods-price">'+data.market_price+'</i></p>');
