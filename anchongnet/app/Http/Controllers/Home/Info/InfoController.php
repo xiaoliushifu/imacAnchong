@@ -39,11 +39,14 @@ class InfoController extends CommonController
     /*
      * 资讯详情页
      */
-    public function show($infor_id)
+    public function show($infor_id=null)
     {
         $information = Cache::tags('information')->remember('information'.$infor_id,600,function () use($infor_id){
             return Information::find($infor_id);
         });
+        if (is_null($information)) {
+            abort(404);
+        }
         return view('home.info.info',compact('information'));
     }
     /**

@@ -15,12 +15,12 @@
         <div class="logo">
             <a href="{{url('/')}}"><img src="{{url('/home/images/logo.jpg')}}"/></a>
         </div>
-        <div class="search">
-            <form class="search-form">
-                <input type="text" name="search" class="search-text"/>
-                <input value="搜索" class="search-btn"/>
-            </form>
-        </div>
+<!--         <div class="search"> -->
+<!--             <form class="search-form"> -->
+<!--                 <input type="text" name="search" class="search-text"/> -->
+<!--                 <input value="搜索" class="search-btn"/> -->
+<!--             </form> -->
+<!--         </div> -->
         <div class="cl"></div>
         <div class="site-nav">
             <ul class="navigation">
