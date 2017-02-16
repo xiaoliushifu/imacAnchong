@@ -40,41 +40,41 @@
             <div class="cl"></div>
         </ul>
         <ul class="order">
-            @if(count($cartarr) == 0)
-                <li style="text-align: center;color:#f53745;font-size: 22px">购物车暂无商品</li>
+            @if( !isset($cartarr) )
+                <li style="text-align: center; color:#f53745; font-size: 22px">购物车暂无商品</li>
             @else
-            <form action="/cartconfirm" method="post">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            @foreach($cartarr as $shop)
-            <li class="shop">
-                <i class="store">店铺：</i>
-                <a class="shop-name" href="">{{$shop['sname']}}</a>
-            </li>
-                @foreach($shop['goods'] as $value)
-                <li class="goods-info">
-                    <ul>
-                        <li><input type="checkbox" name="goodsinfo[]" class="select" value="{{$value['goodsinfo']}}" onclick="totalcheck()" checked></li>
-                        <li class="goods-img"><img src="{{$value['img']}}"></li>
-                        <li class="goods-desc">
-                            <p class="goods-name"><a href="">{{$value['goods_name']}}</a></p>
-                            <p class="goods-type">规格：{{$value['goods_type']}}&nbsp;&nbsp;{{$value['oem']?"oem:".$value['oem']:""}}</p>
-                        </li>
-                        <li class="goods-price">￥{{$value['goods_price']}}</li>
-                        <li class="goods-number">
-                            <a class="minus" data-id={{$value['cart_id']}}></a>
-                            <input class="count" type="text" value="{{$value['goods_num']}}">
-                            <a class="add" data-id={{$value['cart_id']}}></a>
-                        </li>
-                        <li class="total-price">￥{{$value['goods_num'] * $value['goods_price']}}</li>
-                        <li class="goods-handle">
-                            <p class="favorite"><a onclick="Favorite({{$value['gid']}})">加入收藏</a></p>
-                            <p class="del"><a onclick="DelCart(this)" cart_id="{{$value['cart_id']}}">删除</a></p>
-                        </li>
-                    </ul>
+                <form action="/cartconfirm" method="post">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                @foreach($cartarr as $shop)
+                <li class="shop">
+                    <i class="store">店铺：</i>
+                    <a class="shop-name" href="">{{$shop['sname']}}</a>
                 </li>
+                    @foreach($shop['goods'] as $value)
+                    <li class="goods-info">
+                        <ul>
+                            <li><input type="checkbox" name="goodsinfo[]" class="select" value="{{$value['goodsinfo']}}" onclick="totalcheck()" checked></li>
+                            <li class="goods-img"><img src="{{$value['img']}}"></li>
+                            <li class="goods-desc">
+                                <p class="goods-name"><a href="">{{$value['goods_name']}}</a></p>
+                                <p class="goods-type">规格：{{$value['goods_type']}}&nbsp;&nbsp;{{$value['oem']?"oem:".$value['oem']:""}}</p>
+                            </li>
+                            <li class="goods-price">￥{{$value['goods_price']}}</li>
+                            <li class="goods-number">
+                                <a class="minus" data-id={{$value['cart_id']}}></a>
+                                <input class="count" type="text" value="{{$value['goods_num']}}">
+                                <a class="add" data-id={{$value['cart_id']}}></a>
+                            </li>
+                            <li class="total-price">￥{{$value['goods_num'] * $value['goods_price']}}</li>
+                            <li class="goods-handle">
+                                <p class="favorite"><a onclick="Favorite({{$value['gid']}})">加入收藏</a></p>
+                                <p class="del"><a onclick="DelCart(this)" cart_id="{{$value['cart_id']}}">删除</a></p>
+                            </li>
+                        </ul>
+                    </li>
+                    @endforeach
                 @endforeach
-            @endforeach
-        @endif
+        	@endif
         </ul>
         <ul class="settlement">
             <li class="all">
