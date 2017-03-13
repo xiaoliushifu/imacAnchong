@@ -77,8 +77,16 @@
                 <ul>
                     @foreach($businvit as $b)
                     <li>
+                    @if(mb_strlen($b->title,'utf-8') > 24 )
+                        <h4><a href="{{url('project/'.$b->bid)}}">{{mb_substr($b->title,0,24,'utf-8')}}</a></h4>
+                    @else
                         <h4><a href="{{url('project/'.$b->bid)}}">{{$b->title}}</a></h4>
-                        <p><nobr>{{$b->content}}</nobr></p>
+                     @endif
+                    @if(mb_strlen($b->content,'utf-8') > 25 )
+                    			<p><nobr>{{mb_substr($b->content,0,25,'utf-8')}}</nobr></p>
+                    	@else
+                    			<p><nobr>{{$b->content}}</nobr></p>
+                    	@endif
                     </li>
                     <hr>
                     @endforeach
