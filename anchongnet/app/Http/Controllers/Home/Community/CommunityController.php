@@ -36,7 +36,7 @@ class CommunityController extends CommonController
     /*
      * 社区详情页面
      */
-    public function show($chat_id)
+    public function show($chat_id=null)
     {
         //获取主题
         $cminfo = Cache::tags('cminfo')->remember('cminfo'.$chat_id,600,function () use($chat_id){

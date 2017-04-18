@@ -75,7 +75,7 @@
                             <div>
                                 <p class="username">{{$value -> name}}</p>
                                 <p class="comments-time">{{date("Y-m-d",strtotime($value -> created_at))}}</p>
-                                <p class="comments-info">{!! $value -> content !!}</p>
+                                <p class="comments-info">{!! str_limit($value -> content,132) !!}</p>
                                 <p class="comid" style="display: none">{{$value -> comid}}</p>
                                 <a  class="replay">回复</a>
                             </div>

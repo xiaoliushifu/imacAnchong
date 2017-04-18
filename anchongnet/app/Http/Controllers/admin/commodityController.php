@@ -94,6 +94,8 @@ class commodityController extends Controller
      */
     public function store(\App\Http\Requests\CommodityRequest $request)
     {
+        var_dump($request->all());
+        exit;
         if (Gate::denies('create-comm')) {
             return back();
         }

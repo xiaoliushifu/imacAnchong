@@ -51,9 +51,9 @@
 		<div class="site-middle">
 			<div class="middle-container">
 				<div class="work">
-					<a class="contract-work" href="{{url('project')}}"><img src="/home/images/gongchengxq/发包工程.png"/></a>
-					<a class="package" href="{{url('serproject/lepro')}}"><img src="/home/images/gongchengxq/承接工程.png"/></a>
-					<a class="release" href="{{url('project/create')}}"><img src="/home/images/gongchengxq/发布工程.png"/></a>
+					<a class="contract-work" href="{{url('project')}}"><img src="/home/images/gongchengxq/2.png"/></a>
+					<a class="package" href="{{url('serproject/lepro')}}"><img src="/home/images/gongchengxq/3.png"/></a>
+					<a class="release" href="{{url('project/create')}}"><img src="/home/images/gongchengxq/1.png"/></a>
 				</div>
 				<div class="nav">
 					<div class="server">

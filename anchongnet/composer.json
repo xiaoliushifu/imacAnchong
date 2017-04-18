@@ -18,7 +18,8 @@
         "overtrue/laravel-wechat":"~3.0",
         "simplesoftwareio/simple-qrcode": "~1",
         "jpush/jpush": "v3.5.*",
-        "pili-engineering/pili-sdk-php": "dev-master"
+        "pili-engineering/pili-sdk-php": "dev-master",
+        "endroid/qrcode": "^1.9"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
