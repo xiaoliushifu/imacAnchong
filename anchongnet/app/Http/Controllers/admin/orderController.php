@@ -171,8 +171,8 @@ class orderController extends Controller
         $orderpa = clone $data;
         Mail::raw(print_r($req->all(),true),function($message){
             $message->subject('物流下单了');
-            $message->from('872140945@qq.com');
-            $message->cc('872140945@qq.com')->to('www@anchong.net');
+            $message->from('xxxxx@qq.com');
+            $message->cc('xxxxx@qq.com')->to('xxx@xxxxx.net');
         });
         //物流发货方式,否则手动发货
         if ($req['ship'] == "wl") {
